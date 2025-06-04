@@ -106,14 +106,26 @@
     <Phrase key="Appearance">ВНЕШНИЙ ВИД</Phrase>
     <Phrase key="Behavior">ПОВЕДЕНИЕ</Phrase>
     <Phrase key="Data">ДАННЫЕ</Phrase>
-    <Phrase key="Design">ДИЗАЙН</Phrase>
+    <Phrase key="Design">ПРОЕКТИРОВАНИЕ</Phrase>
     <Phrase key="Layout">МАКЕТ</Phrase>
     <Phrase key="Misc">РАЗНОЕ</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Mimic">
+    <Phrase key="BackColor">Цвет фона</Phrase>
+    <Phrase key="ForeColor">Цвет текста</Phrase>
+    <Phrase key="Stylesheet">Таблица стилей</Phrase>
+    <Phrase key="Script">Скрипт</Phrase>
     <Phrase key="Size">Размер</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Component">
+    <Phrase key="BackColor">Цвет фона</Phrase>
+    <Phrase key="Border">Граница</Phrase>
+    <Phrase key="CornerRadius">Радиус углов</Phrase>
+    <Phrase key="CssClass">CSS-класс</Phrase>
+    <Phrase key="CssStyle">CSS-стиль</Phrase>
+    <Phrase key="ForeColor">Цвет текста</Phrase>
+    <Phrase key="Script">Скрипт</Phrase>
+    <Phrase key="Tooltip">Подсказка</Phrase>
     <Phrase key="ID">Идентификатор</Phrase>
     <Phrase key="Name">Наименование</Phrase>
     <Phrase key="TypeName">Имя типа</Phrase>

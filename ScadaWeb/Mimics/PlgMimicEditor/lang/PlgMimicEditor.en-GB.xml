@@ -111,9 +111,21 @@
     <Phrase key="Misc">MISC</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Mimic">
+    <Phrase key="BackColor">Background color</Phrase>
+    <Phrase key="ForeColor">Foreground color</Phrase>
+    <Phrase key="Stylesheet">Stylesheet</Phrase>
+    <Phrase key="Script">Script</Phrase>
     <Phrase key="Size">Size</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Component">
+    <Phrase key="BackColor">Background color</Phrase>
+    <Phrase key="Border">Border</Phrase>
+    <Phrase key="CornerRadius">Corner radius</Phrase>
+    <Phrase key="CssClass">CSS class</Phrase>
+    <Phrase key="CssStyle">CSS style</Phrase>
+    <Phrase key="ForeColor">Foreground color</Phrase>
+    <Phrase key="Script">Script</Phrase>
+    <Phrase key="Tooltip">Tooltip</Phrase>
     <Phrase key="ID">ID</Phrase>
     <Phrase key="Name">Name</Phrase>
     <Phrase key="TypeName">Type name</Phrase>

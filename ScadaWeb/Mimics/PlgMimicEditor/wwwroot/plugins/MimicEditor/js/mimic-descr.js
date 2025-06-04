@@ -1,5 +1,5 @@
 ﻿// Contains classes: BasicType, KnownCategory, PropertyDescriptor, ObjectDescriptor, MimicDescriptor,
-//     ComponentDescriptor, TextDescriptor, PictureDescriptor, PanelDescriptor, DescriptorSet, TranslationSet
+//     ComponentDescriptor, TextDescriptor, PictureDescriptor, PanelDescriptor, DescriptorSet
 // Depends on mimic-common.js
 
 // Specifies the basic types.
@@ -10,6 +10,7 @@ rs.mimic.BasicType = class BasicType {
     static ENUM = "enum";
     static FLOAT = "float";
     static INT = "int";
+    static OBJECT = "object";
     static POINT = "point";
     static SIZE = "size";
     static STRING = "string";
@@ -30,6 +31,9 @@ rs.mimic.BasicType = class BasicType {
 
             case BasicType.INT:
                 return 0;
+
+            case BasicType.OBJECT:
+                return {};
 
             case BasicType.POINT:
                 return { x: "0", y: "0" };
@@ -70,6 +74,15 @@ rs.mimic.PropertyDescriptor = class {
 
     constructor(source) {
         Object.assign(this, source);
+    }
+
+    // Adds the missing property to the properties.
+    repair(properties) {
+        if (!this.isKnown && !properties.hasOwnProperty(this.name)) {
+            properties[this.name] = this.defaultValue === undefined
+                ? rs.mimic.BasicType.getDefaultValue(this.type)
+                : this.defaultValue;
+        }
     }
 }
 
@@ -114,6 +127,21 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             type: BasicType.COLOR
         }));
 
+        this.add(new PropertyDescriptor({
+            name: "stylesheet",
+            displayName: "Stylesheet",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRING
+        }));
+
+        // behavior
+        this.add(new PropertyDescriptor({
+            name: "script",
+            displayName: "Script",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.STRING
+        }));
+
         // layout
         this.add(new PropertyDescriptor({
             name: "size",
@@ -128,11 +156,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
         mimic.document ??= {};
 
         for (let propertyDescriptor of this.propertyDescriptors.values()) {
-            if (!propertyDescriptor.isKnown && !mimic.document.hasOwnProperty(propertyDescriptor.name)) {
-                mimic.document[propertyDescriptor.name] = propertyDescriptor.defaultValue === undefined
-                    ? rs.mimic.BasicType.getDefaultValue(propertyDescriptor.type)
-                    : propertyDescriptor.defaultValue;
-            }
+            propertyDescriptor.repair(mimic.document);
         }
 
         if (Array.isArray(mimic.components)) {
@@ -164,6 +188,34 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
         }));
 
         this.add(new PropertyDescriptor({
+            name: "border",
+            displayName: "Border",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.OBJECT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "cornerRadius",
+            displayName: "Corner radius",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.OBJECT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "cssClass",
+            displayName: "CSS class",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "cssStyle",
+            displayName: "CSS style",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "foreColor",
             displayName: "Foreground color",
             category: KnownCategory.APPEARANCE,
@@ -171,6 +223,13 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
         }));
 
         // behavior
+        this.add(new PropertyDescriptor({
+            name: "script",
+            displayName: "Script",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.STRING
+        }));
+
         this.add(new PropertyDescriptor({
             name: "tooltip",
             displayName: "Tooltip",
@@ -226,11 +285,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
         component.properties ??= {};
 
         for (let propertyDescriptor of this.propertyDescriptors.values()) {
-            if (!propertyDescriptor.isKnown && !component.properties.hasOwnProperty(propertyDescriptor.name)) {
-                component.properties[propertyDescriptor.name] = propertyDescriptor.defaultValue === undefined
-                    ? rs.mimic.BasicType.getDefaultValue(propertyDescriptor.type)
-                    : propertyDescriptor.defaultValue;
-            }
+            propertyDescriptor.repair(component.properties);
         }
     }
 }
