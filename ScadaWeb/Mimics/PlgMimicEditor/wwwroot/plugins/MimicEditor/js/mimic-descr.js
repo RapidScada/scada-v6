@@ -1,6 +1,60 @@
-﻿// Contains classes: PropertyDescriptor, BasicType, Descriptor, MimicDescriptor, ComponentDescriptor,
-//     TextDescriptor, PictureDescriptor, PanelDescriptor, DescriptorSet, TranslationSet
+﻿// Contains classes: BasicType, KnownCategory, PropertyDescriptor, ObjectDescriptor, MimicDescriptor,
+//     ComponentDescriptor, TextDescriptor, PictureDescriptor, PanelDescriptor, DescriptorSet, TranslationSet
 // Depends on mimic-common.js
+
+// Specifies the basic types.
+rs.mimic.BasicType = class BasicType {
+    static UNDEFINED = "undefined";
+    static BOOL = "bool";
+    static COLOR = "color";
+    static ENUM = "enum";
+    static FLOAT = "float";
+    static INT = "int";
+    static POINT = "point";
+    static SIZE = "size";
+    static STRING = "string";
+
+    static getDefaultValue(basicType) {
+        switch (basicType) {
+            case BasicType.BOOL:
+                return false;
+
+            case BasicType.COLOR:
+                return "";
+
+            case BasicType.ENUM:
+                return 0;
+
+            case BasicType.FLOAT:
+                return 0;
+
+            case BasicType.INT:
+                return 0;
+
+            case BasicType.POINT:
+                return { x: "0", y: "0" };
+
+            case BasicType.SIZE:
+                return { width: "0", height: "0" };
+
+            case BasicType.STRING:
+                return "";
+
+            default:
+                return undefined;
+        }
+    }
+}
+
+// Specifies the known categories.
+rs.mimic.KnownCategory = class {
+    static APPEARANCE = "appearance";
+    static BEHAVIOR = "behavior";
+    static DATA = "data";
+    static DESIGN = "design";
+    static LAYOUT = "layout";
+    static MISC = "misc";
+}
 
 // Provides meta information about a property of a mimic or component.
 rs.mimic.PropertyDescriptor = class {
@@ -17,29 +71,6 @@ rs.mimic.PropertyDescriptor = class {
     constructor(source) {
         Object.assign(this, source);
     }
-}
-
-// Specifies the known categories.
-rs.mimic.KnownCategory = class {
-    static APPEARANCE = "appearance";
-    static BEHAVIOR = "behavior";
-    static DATA = "data";
-    static DESIGN = "design";
-    static LAYOUT = "layout";
-    static MISC = "misc";
-}
-
-// Specifies the basic types.
-rs.mimic.BasicType = class {
-    static UNDEFINED = 0;
-    static BOOL = 1;
-    static COLOR = 2;
-    static ENUM = 3;
-    static FLOAT = 4;
-    static INT = 5;
-    static POINT = 6;
-    static SIZE = 7;
-    static STRING = 8;
 }
 
 // Represents a descriptor of a mimic or component.
@@ -63,11 +94,27 @@ rs.mimic.ObjectDescriptor = class {
 // Represents a mimic descriptor.
 rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
     constructor() {
-        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
-        const KnownCategory = rs.mimic.KnownCategory;
         const BasicType = rs.mimic.BasicType;
+        const KnownCategory = rs.mimic.KnownCategory;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
         super();
 
+        // appearance
+        this.add(new PropertyDescriptor({
+            name: "backColor",
+            displayName: "Background color",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.COLOR
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "foreColor",
+            displayName: "Foreground color",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.COLOR
+        }));
+
+        // layout
         this.add(new PropertyDescriptor({
             name: "size",
             displayName: "Size",
@@ -82,7 +129,9 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
 
         for (let propertyDescriptor of this.propertyDescriptors.values()) {
             if (!propertyDescriptor.isKnown && !mimic.document.hasOwnProperty(propertyDescriptor.name)) {
-                mimic.document[propertyDescriptor.name] = propertyDescriptor.defaultValue;
+                mimic.document[propertyDescriptor.name] = propertyDescriptor.defaultValue === undefined
+                    ? rs.mimic.BasicType.getDefaultValue(propertyDescriptor.type)
+                    : propertyDescriptor.defaultValue;
             }
         }
 
@@ -101,11 +150,35 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
 // Represents a component descriptor.
 rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
     constructor() {
-        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
-        const KnownCategory = rs.mimic.KnownCategory;
         const BasicType = rs.mimic.BasicType;
+        const KnownCategory = rs.mimic.KnownCategory;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
         super();
 
+        // appearance
+        this.add(new PropertyDescriptor({
+            name: "backColor",
+            displayName: "Background color",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.COLOR
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "foreColor",
+            displayName: "Foreground color",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.COLOR
+        }));
+
+        // behavior
+        this.add(new PropertyDescriptor({
+            name: "tooltip",
+            displayName: "Tooltip",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.STRING
+        }));
+
+        // design
         this.add(new PropertyDescriptor({
             name: "id",
             displayName: "ID",
@@ -132,20 +205,19 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             type: BasicType.STRING
         }));
 
+        // layout
         this.add(new PropertyDescriptor({
             name: "location",
             displayName: "Location",
             category: KnownCategory.LAYOUT,
-            type: BasicType.POINT,
-            defaultValue: { x: "0", y: "0"}
+            type: BasicType.POINT
         }));
 
         this.add(new PropertyDescriptor({
             name: "size",
             displayName: "Size",
             category: KnownCategory.LAYOUT,
-            type: BasicType.SIZE,
-            defaultValue: { width: "0", height: "0" }
+            type: BasicType.SIZE
         }));
     }
 
@@ -155,7 +227,9 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
 
         for (let propertyDescriptor of this.propertyDescriptors.values()) {
             if (!propertyDescriptor.isKnown && !component.properties.hasOwnProperty(propertyDescriptor.name)) {
-                component.properties[propertyDescriptor.name] = propertyDescriptor.defaultValue;
+                component.properties[propertyDescriptor.name] = propertyDescriptor.defaultValue === undefined
+                    ? rs.mimic.BasicType.getDefaultValue(propertyDescriptor.type)
+                    : propertyDescriptor.defaultValue;
             }
         }
     }
@@ -164,9 +238,9 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
 // Represents a text component descriptor.
 rs.mimic.TextDescriptor = class extends rs.mimic.ComponentDescriptor {
     constructor() {
-        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
-        const KnownCategory = rs.mimic.KnownCategory;
         const BasicType = rs.mimic.BasicType;
+        const KnownCategory = rs.mimic.KnownCategory;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
         super();
 
         this.add(new PropertyDescriptor({
@@ -182,9 +256,9 @@ rs.mimic.TextDescriptor = class extends rs.mimic.ComponentDescriptor {
 // Represents a picture component descriptor.
 rs.mimic.PictureDescriptor = class extends rs.mimic.ComponentDescriptor {
     constructor() {
-        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
-        const KnownCategory = rs.mimic.KnownCategory;
         const BasicType = rs.mimic.BasicType;
+        const KnownCategory = rs.mimic.KnownCategory;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
         super();
 
         this.add(new PropertyDescriptor({
