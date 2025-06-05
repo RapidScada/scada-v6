@@ -316,6 +316,20 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ComponentDescriptorBase {
 
         // behavior
         this.add(new PropertyDescriptor({
+            name: "disabledState",
+            displayName: "On disabled",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.OBJECT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "hoverState",
+            displayName: "On hover",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.OBJECT
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "script",
             displayName: "Script",
             category: KnownCategory.BEHAVIOR,

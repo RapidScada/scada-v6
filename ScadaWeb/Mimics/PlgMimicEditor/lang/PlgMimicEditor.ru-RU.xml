@@ -133,6 +133,8 @@
     <Phrase key="CornerRadius">Радиус углов</Phrase>
     <Phrase key="CssClass">CSS-класс</Phrase>
     <Phrase key="ForeColor">Цвет текста</Phrase>
+    <Phrase key="DisabledState">При отключении</Phrase>
+    <Phrase key="HoverState">При наведении</Phrase>
     <Phrase key="Script">Скрипт</Phrase>
     <Phrase key="Tooltip">Подсказка</Phrase>
   </Dictionary>

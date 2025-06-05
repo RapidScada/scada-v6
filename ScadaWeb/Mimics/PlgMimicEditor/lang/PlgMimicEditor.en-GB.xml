@@ -133,6 +133,8 @@
     <Phrase key="CornerRadius">Corner radius</Phrase>
     <Phrase key="CssClass">CSS class</Phrase>
     <Phrase key="ForeColor">Foreground color</Phrase>
+    <Phrase key="DisabledState">On disabled</Phrase>
+    <Phrase key="HoverState">On hover</Phrase>
     <Phrase key="Script">Script</Phrase>
     <Phrase key="Tooltip">Tooltip</Phrase>
   </Dictionary>
