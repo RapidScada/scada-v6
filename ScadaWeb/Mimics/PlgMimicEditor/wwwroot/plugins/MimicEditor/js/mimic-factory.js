@@ -7,6 +7,8 @@ rs.mimic.ComponentFactory = class {
         let component = new rs.mimic.Component();
         component.typeName = typeName;
         component.properties = {
+            enabled: true,
+            visible: true,
             location: { x: "0", y: "0" },
             size: { width: "100", height: "100" }
         };

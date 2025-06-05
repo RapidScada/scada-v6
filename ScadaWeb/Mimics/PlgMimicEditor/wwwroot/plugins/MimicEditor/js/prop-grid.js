@@ -91,7 +91,8 @@ class PropGrid {
         let container = this._selectContainer(folderMap, propertyDescriptor);
 
         if (typeof propertyValue === "number" ||
-            typeof propertyValue === "string") {
+            typeof propertyValue === "string" ||
+            typeof propertyValue === "boolean") {
             // simple property is editable in row
             container
                 .addBinding(target, propertyName, this._getBindingOptions(propertyDescriptor))

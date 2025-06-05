@@ -112,31 +112,43 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Mimic">
     <Phrase key="BackColor">Background color</Phrase>
+    <Phrase key="BackgroundImage">Background image</Phrase>
+    <Phrase key="Font">Font</Phrase>
     <Phrase key="ForeColor">Foreground color</Phrase>
     <Phrase key="Stylesheet">Stylesheet</Phrase>
     <Phrase key="Script">Script</Phrase>
+    <Phrase key="Tooltip">Tooltip</Phrase>
     <Phrase key="Size">Size</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Component">
-    <Phrase key="BackColor">Background color</Phrase>
-    <Phrase key="Border">Border</Phrase>
-    <Phrase key="CornerRadius">Corner radius</Phrase>
-    <Phrase key="CssClass">CSS class</Phrase>
-    <Phrase key="CssStyle">CSS style</Phrase>
-    <Phrase key="ForeColor">Foreground color</Phrase>
-    <Phrase key="Script">Script</Phrase>
-    <Phrase key="Tooltip">Tooltip</Phrase>
+    <Phrase key="Enabled">Enabled</Phrase>
+    <Phrase key="Visible">Visible</Phrase>
     <Phrase key="ID">ID</Phrase>
     <Phrase key="Name">Name</Phrase>
     <Phrase key="TypeName">Type name</Phrase>
     <Phrase key="Location">Location</Phrase>
     <Phrase key="Size">Size</Phrase>
+    <Phrase key="BackColor">Background color</Phrase>
+    <Phrase key="Border">Border</Phrase>
+    <Phrase key="CornerRadius">Corner radius</Phrase>
+    <Phrase key="CssClass">CSS class</Phrase>
+    <Phrase key="ForeColor">Foreground color</Phrase>
+    <Phrase key="Script">Script</Phrase>
+    <Phrase key="Tooltip">Tooltip</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Text">
+    <Phrase key="Font">Font</Phrase>
     <Phrase key="Text">Text</Phrase>
+    <Phrase key="TextAlign">Text alignment</Phrase>
+    <Phrase key="WordWrap">Word wrap</Phrase>
+    <Phrase key="AutoSize">Auto size</Phrase>
+    <Phrase key="Padding">Padding</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Picture">
     <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="Conditions">Conditions</Phrase>
+    <Phrase key="SizeMode">Size mode</Phrase>
+    <Phrase key="Padding">Padding</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Panel">
   </Dictionary>
