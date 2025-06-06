@@ -10,10 +10,11 @@ rs.mimic.BasicType = class BasicType {
     static ENUM = "enum";
     static FLOAT = "float";
     static INT = "int";
-    static OBJECT = "object";
+    static LIST = "list";
     static POINT = "point";
     static SIZE = "size";
     static STRING = "string";
+    static STRUCT = "struct";
 
     static getDefaultValue(basicType) {
         switch (basicType) {
@@ -32,7 +33,7 @@ rs.mimic.BasicType = class BasicType {
             case BasicType.INT:
                 return 0;
 
-            case BasicType.OBJECT:
+            case BasicType.STRUCT:
                 return {};
 
             case BasicType.POINT:
@@ -75,15 +76,6 @@ rs.mimic.PropertyDescriptor = class {
     constructor(source) {
         Object.assign(this, source);
     }
-
-    // Adds the missing property to the properties.
-    repair(properties) {
-        if (!this.isKnown && !properties.hasOwnProperty(this.name)) {
-            properties[this.name] = this.defaultValue === undefined
-                ? rs.mimic.BasicType.getDefaultValue(this.type)
-                : this.defaultValue;
-        }
-    }
 }
 
 // Represents an object descriptor.
@@ -101,6 +93,17 @@ rs.mimic.ObjectDescriptor = class {
 
     delete(propertyName) {
         this.propertyDescriptors.delete(propertyName);
+    }
+
+    // Adds missing properties to the object.
+    repair(object) {
+        for (let propertyDescriptor of this.propertyDescriptors.values()) {
+            if (!propertyDescriptor.isKnown && !object.hasOwnProperty(propertyDescriptor.name)) {
+                object[propertyDescriptor.name] = propertyDescriptor.defaultValue === undefined
+                    ? rs.mimic.BasicType.getDefaultValue(propertyDescriptor.type)
+                    : propertyDescriptor.defaultValue;
+            }
+        }
     }
 }
 
@@ -124,14 +127,14 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "backgroundImage",
             displayName: "Background image",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.OBJECT
+            type: BasicType.STRUCT
         }));
 
         this.add(new PropertyDescriptor({
             name: "font",
             displayName: "Font",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.OBJECT
+            type: BasicType.STRUCT
         }));
 
         this.add(new PropertyDescriptor({
@@ -175,19 +178,16 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
     // Adds missing properties to the mimic document and components.
     repair(mimic) {
         mimic.document ??= {};
-
-        for (let propertyDescriptor of this.propertyDescriptors.values()) {
-            propertyDescriptor.repair(mimic.document);
-        }
+        super.repair(mimic.document);
 
         if (mimic.components) {
             for (let component of mimic.components) {
-                let descriptor = component.isFaceplate
+                let componentDescriptor = component.isFaceplate
                     ? rs.mimic.DescriptorSet.faceplateDescriptor
                     : rs.mimic.DescriptorSet.componentDescriptors.get(component.typeName);
 
-                if (descriptor) {
-                    descriptor.repair(component);
+                if (componentDescriptor) {
+                    componentDescriptor.repair(component);
                 }
             }
         }
@@ -257,7 +257,7 @@ rs.mimic.ComponentDescriptorBase = class extends rs.mimic.ObjectDescriptor {
             name: "propertyBindings",
             displayName: "Property bindings",
             category: KnownCategory.DATA,
-            type: BasicType.OBJECT
+            type: BasicType.LIST
         }));
 
         // design
@@ -306,10 +306,7 @@ rs.mimic.ComponentDescriptorBase = class extends rs.mimic.ObjectDescriptor {
     // Adds missing properties to the component.
     repair(component) {
         component.properties ??= {};
-
-        for (let propertyDescriptor of this.propertyDescriptors.values()) {
-            propertyDescriptor.repair(component.properties);
-        }
+        super.repair(component.properties);
     }
 }
 
@@ -333,14 +330,14 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ComponentDescriptorBase {
             name: "border",
             displayName: "Border",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.OBJECT
+            type: BasicType.STRUCT
         }));
 
         this.add(new PropertyDescriptor({
             name: "cornerRadius",
             displayName: "Corner radius",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.OBJECT
+            type: BasicType.STRUCT
         }));
 
         this.add(new PropertyDescriptor({
@@ -362,28 +359,28 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ComponentDescriptorBase {
             name: "blinkingState",
             displayName: "When blinking",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.OBJECT
+            type: BasicType.STRUCT
         }));
 
         this.add(new PropertyDescriptor({
             name: "clickAction",
             displayName: "On click",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.OBJECT
+            type: BasicType.STRUCT
         }));
 
         this.add(new PropertyDescriptor({
             name: "disabledState",
             displayName: "On disabled",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.OBJECT
+            type: BasicType.STRUCT
         }));
 
         this.add(new PropertyDescriptor({
             name: "hoverState",
             displayName: "On hover",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.OBJECT
+            type: BasicType.STRUCT
         }));
 
         this.add(new PropertyDescriptor({
@@ -400,15 +397,6 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ComponentDescriptorBase {
             type: BasicType.STRING
         }));
     }
-
-    // Adds missing properties to the component.
-    repair(component) {
-        component.properties ??= {};
-
-        for (let propertyDescriptor of this.propertyDescriptors.values()) {
-            propertyDescriptor.repair(component.properties);
-        }
-    }
 }
 
 // Represents a text component descriptor.
@@ -424,7 +412,7 @@ rs.mimic.TextDescriptor = class extends rs.mimic.ComponentDescriptor {
             name: "font",
             displayName: "Font",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.OBJECT
+            type: BasicType.STRUCT
         }));
 
         this.add(new PropertyDescriptor({
@@ -460,7 +448,7 @@ rs.mimic.TextDescriptor = class extends rs.mimic.ComponentDescriptor {
             name: "padding",
             displayName: "Padding",
             category: KnownCategory.LAYOUT,
-            type: BasicType.OBJECT
+            type: BasicType.STRUCT
         }));
     }
 }
@@ -486,7 +474,7 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.ComponentDescriptor {
             name: "conditions",
             displayName: "Conditions",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.OBJECT
+            type: BasicType.LIST
         }));
 
         this.add(new PropertyDescriptor({
@@ -501,7 +489,7 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.ComponentDescriptor {
             name: "padding",
             displayName: "Padding",
             category: KnownCategory.LAYOUT,
-            type: BasicType.OBJECT
+            type: BasicType.STRUCT
         }));
     }
 }
