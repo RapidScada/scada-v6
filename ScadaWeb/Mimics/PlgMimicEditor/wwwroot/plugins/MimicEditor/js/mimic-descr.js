@@ -1,6 +1,7 @@
-﻿// Contains classes: BasicType, KnownCategory, PropertyDescriptor, ObjectDescriptor, MimicDescriptor,
-//     ComponentDescriptorBase, ComponentDescriptor, TextDescriptor, PictureDescriptor, PanelDescriptor, DescriptorSet
-// Depends on mimic-common.js
+﻿// Contains classes: BasicType, KnownCategory, CornerRadiusStruct, BorderStruct, PaddingStruct, VisualStateStruct,
+//     PropertyDescriptor, ObjectDescriptor, MimicDescriptor, ComponentDescriptorBase, ComponentDescriptor,
+//     TextDescriptor, PictureDescriptor, PanelDescriptor, DescriptorSet
+// Depends on scada-common.js, mimic-common.js
 
 // Specifies the basic types.
 rs.mimic.BasicType = class BasicType {
@@ -33,8 +34,8 @@ rs.mimic.BasicType = class BasicType {
             case BasicType.INT:
                 return 0;
 
-            case BasicType.STRUCT:
-                return {};
+            case BasicType.LIST:
+                return [];
 
             case BasicType.POINT:
                 return { x: "0", y: "0" };
@@ -44,6 +45,9 @@ rs.mimic.BasicType = class BasicType {
 
             case BasicType.STRING:
                 return "";
+
+            case BasicType.STRUCT:
+                return {};
 
             default:
                 return undefined;
@@ -61,6 +65,35 @@ rs.mimic.KnownCategory = class {
     static MISC = "misc";
 }
 
+// Represents a corner radius structure.
+rs.mimic.CornerRadiusStruct = class {
+    topLeft = 0;
+    topRight = 0;
+    bottomRight = 0;
+    bottomLeft = 0;
+}
+
+// Represents a border structure.
+rs.mimic.BorderStruct = class {
+    width = 0;
+    color = ""
+}
+
+// Represents a padding structure.
+rs.mimic.PaddingStruct = class {
+    top = 0;
+    right = 0;
+    bottom = 0;
+    left = 0;
+}
+
+// Represents a visual state structure.
+rs.mimic.VisualStateStruct = class {
+    backColor = "";
+    foreColor = "";
+    borderColor = "";
+}
+
 // Provides meta information about a property of a mimic or component.
 rs.mimic.PropertyDescriptor = class {
     name = "";
@@ -75,6 +108,12 @@ rs.mimic.PropertyDescriptor = class {
 
     constructor(source) {
         Object.assign(this, source);
+    }
+
+    getDefaultValue() {
+        return this.defaultValue === undefined
+            ? rs.mimic.BasicType.getDefaultValue(this.type)
+            : ScadaUtils.deepClone(this.defaultValue);
     }
 }
 
@@ -96,12 +135,10 @@ rs.mimic.ObjectDescriptor = class {
     }
 
     // Adds missing properties to the object.
-    repair(object) {
+    repair(obj) {
         for (let propertyDescriptor of this.propertyDescriptors.values()) {
-            if (!propertyDescriptor.isKnown && !object.hasOwnProperty(propertyDescriptor.name)) {
-                object[propertyDescriptor.name] = propertyDescriptor.defaultValue === undefined
-                    ? rs.mimic.BasicType.getDefaultValue(propertyDescriptor.type)
-                    : propertyDescriptor.defaultValue;
+            if (!propertyDescriptor.isKnown && !obj.hasOwnProperty(propertyDescriptor.name)) {
+                obj[propertyDescriptor.name] = propertyDescriptor.getDefaultValue();
             }
         }
     }
@@ -330,14 +367,16 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ComponentDescriptorBase {
             name: "border",
             displayName: "Border",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            defaultValue: new rs.mimic.BorderStruct()
         }));
 
         this.add(new PropertyDescriptor({
             name: "cornerRadius",
             displayName: "Corner radius",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            defaultValue: new rs.mimic.CornerRadiusStruct()
         }));
 
         this.add(new PropertyDescriptor({
@@ -359,7 +398,8 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ComponentDescriptorBase {
             name: "blinkingState",
             displayName: "When blinking",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            defaultValue: new rs.mimic.VisualStateStruct()
         }));
 
         this.add(new PropertyDescriptor({
@@ -373,14 +413,16 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ComponentDescriptorBase {
             name: "disabledState",
             displayName: "On disabled",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            defaultValue: new rs.mimic.VisualStateStruct()
         }));
 
         this.add(new PropertyDescriptor({
             name: "hoverState",
             displayName: "On hover",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            defaultValue: new rs.mimic.VisualStateStruct()
         }));
 
         this.add(new PropertyDescriptor({
@@ -448,7 +490,8 @@ rs.mimic.TextDescriptor = class extends rs.mimic.ComponentDescriptor {
             name: "padding",
             displayName: "Padding",
             category: KnownCategory.LAYOUT,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            defaultValue: new rs.mimic.PaddingStruct()
         }));
     }
 }
@@ -489,7 +532,8 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.ComponentDescriptor {
             name: "padding",
             displayName: "Padding",
             category: KnownCategory.LAYOUT,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            defaultValue: new rs.mimic.PaddingStruct()
         }));
     }
 }
