@@ -204,6 +204,13 @@ rs.mimic.ComponentDescriptorBase = class extends rs.mimic.ObjectDescriptor {
 
         // behavior
         this.add(new PropertyDescriptor({
+            name: "blinking",
+            displayName: "Blinking",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.BOOL
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "enabled",
             displayName: "Enabled",
             category: KnownCategory.BEHAVIOR,
@@ -215,6 +222,42 @@ rs.mimic.ComponentDescriptorBase = class extends rs.mimic.ObjectDescriptor {
             displayName: "Visible",
             category: KnownCategory.BEHAVIOR,
             type: BasicType.BOOL
+        }));
+
+        // data
+        this.add(new PropertyDescriptor({
+            name: "deviceNum",
+            displayName: "Device number",
+            category: KnownCategory.DATA,
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "inCnlNum",
+            displayName: "Input channel",
+            category: KnownCategory.DATA,
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "objNum",
+            displayName: "Object number",
+            category: KnownCategory.DATA,
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "outCnlNum",
+            displayName: "Output channel",
+            category: KnownCategory.DATA,
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "propertyBindings",
+            displayName: "Property bindings",
+            category: KnownCategory.DATA,
+            type: BasicType.OBJECT
         }));
 
         // design
@@ -315,6 +358,20 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ComponentDescriptorBase {
         }));
 
         // behavior
+        this.add(new PropertyDescriptor({
+            name: "blinkingState",
+            displayName: "When blinking",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.OBJECT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "clickAction",
+            displayName: "On click",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.OBJECT
+        }));
+
         this.add(new PropertyDescriptor({
             name: "disabledState",
             displayName: "On disabled",

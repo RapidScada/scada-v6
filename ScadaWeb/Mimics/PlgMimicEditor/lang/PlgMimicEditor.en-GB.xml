@@ -121,18 +121,28 @@
     <Phrase key="Size">Size</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Component">
+    <!-- ComponentDescriptorBase -->
+    <Phrase key="Blinking">Blinking</Phrase>
     <Phrase key="Enabled">Enabled</Phrase>
     <Phrase key="Visible">Visible</Phrase>
+    <Phrase key="DeviceNum">Device number</Phrase>
+    <Phrase key="InCnlNum">Input channel</Phrase>
+    <Phrase key="ObjNum">Object number</Phrase>
+    <Phrase key="OutCnlNum">Output channel</Phrase>
+    <Phrase key="PropertyBindings">Property bindings</Phrase>
     <Phrase key="ID">ID</Phrase>
     <Phrase key="Name">Name</Phrase>
     <Phrase key="TypeName">Type name</Phrase>
     <Phrase key="Location">Location</Phrase>
     <Phrase key="Size">Size</Phrase>
+    <!-- ComponentDescriptor -->
     <Phrase key="BackColor">Background color</Phrase>
     <Phrase key="Border">Border</Phrase>
     <Phrase key="CornerRadius">Corner radius</Phrase>
     <Phrase key="CssClass">CSS class</Phrase>
     <Phrase key="ForeColor">Foreground color</Phrase>
+    <Phrase key="BlinkingState">When blinking</Phrase>
+    <Phrase key="ClickAction">On click</Phrase>
     <Phrase key="DisabledState">On disabled</Phrase>
     <Phrase key="HoverState">On hover</Phrase>
     <Phrase key="Script">Script</Phrase>

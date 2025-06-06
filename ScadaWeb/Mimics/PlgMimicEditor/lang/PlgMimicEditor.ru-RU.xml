@@ -121,18 +121,28 @@
     <Phrase key="Size">Размер</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Component">
+    <!-- ComponentDescriptorBase -->
+    <Phrase key="Blinking">Мигает</Phrase>
     <Phrase key="Enabled">Включен</Phrase>
     <Phrase key="Visible">Видимый</Phrase>
+    <Phrase key="DeviceNum">Номер устройства</Phrase>
+    <Phrase key="InCnlNum">Входной канал</Phrase>
+    <Phrase key="ObjNum">Номер объекта</Phrase>
+    <Phrase key="OutCnlNum">Выходной канал</Phrase>
+    <Phrase key="PropertyBindings">Привязки свойств</Phrase>
     <Phrase key="ID">Идентификатор</Phrase>
     <Phrase key="Name">Наименование</Phrase>
     <Phrase key="TypeName">Имя типа</Phrase>
     <Phrase key="Location">Положение</Phrase>
     <Phrase key="Size">Размер</Phrase>
+    <!-- ComponentDescriptor -->
     <Phrase key="BackColor">Цвет фона</Phrase>
     <Phrase key="Border">Граница</Phrase>
     <Phrase key="CornerRadius">Радиус углов</Phrase>
     <Phrase key="CssClass">CSS-класс</Phrase>
     <Phrase key="ForeColor">Цвет текста</Phrase>
+    <Phrase key="BlinkingState">При мигании</Phrase>
+    <Phrase key="ClickAction">По щелчку</Phrase>
     <Phrase key="DisabledState">При отключении</Phrase>
     <Phrase key="HoverState">При наведении</Phrase>
     <Phrase key="Script">Скрипт</Phrase>
