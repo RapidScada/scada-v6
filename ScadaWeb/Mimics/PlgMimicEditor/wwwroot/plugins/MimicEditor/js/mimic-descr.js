@@ -1,4 +1,5 @@
-﻿// Contains classes: BasicType, KnownCategory, CornerRadiusStruct, BorderStruct, PaddingStruct, VisualStateStruct,
+﻿// Contains classes: BasicType, KnownCategory, ActionStruct, BorderStruct, CornerRadiusStruct, FontStruct,
+//     ImageConditionStruct, PaddingStruct, PropertyAliasStruct, PropertyBindingStruct, VisualStateStruct,
 //     PropertyDescriptor, ObjectDescriptor, MimicDescriptor, ComponentDescriptorBase, ComponentDescriptor,
 //     TextDescriptor, PictureDescriptor, PanelDescriptor, DescriptorSet
 // Depends on scada-common.js, mimic-common.js
@@ -65,12 +66,8 @@ rs.mimic.KnownCategory = class {
     static MISC = "misc";
 }
 
-// Represents a corner radius structure.
-rs.mimic.CornerRadiusStruct = class {
-    topLeft = 0;
-    topRight = 0;
-    bottomRight = 0;
-    bottomLeft = 0;
+// Represents an action structure.
+rs.mimic.ActionStruct = class {
 }
 
 // Represents a border structure.
@@ -79,12 +76,36 @@ rs.mimic.BorderStruct = class {
     color = ""
 }
 
+// Represents a corner radius structure.
+rs.mimic.CornerRadiusStruct = class {
+    topLeft = 0;
+    topRight = 0;
+    bottomRight = 0;
+    bottomLeft = 0;
+}
+
+// Represents a font structure.
+rs.mimic.FontStruct = class {
+}
+
+// Represents an image condition structure.
+rs.mimic.ImageConditionStruct = class {
+}
+
 // Represents a padding structure.
 rs.mimic.PaddingStruct = class {
     top = 0;
     right = 0;
     bottom = 0;
     left = 0;
+}
+
+// Represents a property alias structure.
+rs.mimic.PropertyAliasStruct = class {
+}
+
+// Represents a property binding structure.
+rs.mimic.PropertyBindingStruct = class {
 }
 
 // Represents a visual state structure.
