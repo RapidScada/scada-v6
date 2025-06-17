@@ -13,13 +13,13 @@ rs.mimic.LoadStep = class {
     static IMAGES = 3;
     static FACEPLATES = 4;
     static COMPLETE = 5;
-}
+};
 
 // Represents a result of loading a mimic.
 rs.mimic.LoadResult = class {
     ok = false;
     msg = "";
-}
+};
 
 // Represents a context of a loading operation.
 rs.mimic.LoadContext = class {
@@ -39,4 +39,4 @@ rs.mimic.LoadContext = class {
         this.controllerUrl = controllerUrl;
         this.mimicKey = mimicKey.toString();
     }
-}
+};

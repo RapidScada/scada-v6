@@ -238,7 +238,7 @@ rs.mimic.MimicHelper = class MimicHelper {
             y: minY
         };
     }
-}
+};
 
 // A base class for mimic diagrams and faceplates.
 rs.mimic.MimicBase = class {
@@ -284,7 +284,7 @@ rs.mimic.MimicBase = class {
 
         return this.createComponent(ScadaUtils.deepClone(source));
     }
-}
+};
 
 // Represents a mimic diagram.
 rs.mimic.Mimic = class extends rs.mimic.MimicBase {
@@ -664,7 +664,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     toString() {
         return "Mimic";
     }
-}
+};
 
 // Represents a component of a mimic diagram.
 rs.mimic.Component = class {
@@ -792,7 +792,7 @@ rs.mimic.Component = class {
     toString() {
         return this.displayName;
     }
-}
+};
 
 // Represents an image of a mimic diagram.
 rs.mimic.Image = class {
@@ -816,7 +816,7 @@ rs.mimic.Image = class {
                 this.mediaType = value.substring(5, index);
                 this.data = value.substring(index + 8);
                 return;
-            } 
+            }
         }
 
         this.data = null;
@@ -826,7 +826,7 @@ rs.mimic.Image = class {
         // required for sorting
         return this.name;
     }
-}
+};
 
 // Represents information about a faceplate.
 rs.mimic.FaceplateMeta = class {
@@ -843,7 +843,7 @@ rs.mimic.FaceplateMeta = class {
         // required for sorting
         return this.typeName;
     }
-}
+};
 
 // Represents a faceplate, i.e. a user component.
 rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
@@ -879,7 +879,7 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
             }
         }
     }
-}
+};
 
 // Represents a faceplate instance.
 rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
@@ -917,4 +917,4 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
             rs.mimic.MimicHelper.defineNesting(this, this.components);
         }
     }
-}
+};

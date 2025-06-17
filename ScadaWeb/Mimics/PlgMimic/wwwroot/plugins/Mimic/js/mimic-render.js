@@ -130,7 +130,7 @@ rs.mimic.Renderer = class {
             }
         }
     }
-}
+};
 
 // Represents a mimic renderer.
 rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
@@ -199,7 +199,7 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
             this._setSize(mimicElem, mimic.document.size);
         }
     }
-}
+};
 
 // Represents a component renderer.
 rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
@@ -237,7 +237,7 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
     allowResizing(component) {
         return true;
     }
-}
+};
 
 // Represents a text component renderer.
 rs.mimic.TextRenderer = class extends rs.mimic.ComponentRenderer {
@@ -249,7 +249,7 @@ rs.mimic.TextRenderer = class extends rs.mimic.ComponentRenderer {
         this._setSize(textElem, props.size);
         return textElem;
     }
-}
+};
 
 // Represents a picture component renderer.
 rs.mimic.PictureRenderer = class extends rs.mimic.ComponentRenderer {
@@ -262,7 +262,7 @@ rs.mimic.PictureRenderer = class extends rs.mimic.ComponentRenderer {
         this._setBackgroundImage(pictureElem, renderContext.getImage(props.imageName));
         return pictureElem;
     }
-}
+};
 
 // Represents a panel component renderer.
 rs.mimic.PanelRenderer = class extends rs.mimic.ComponentRenderer {
@@ -285,7 +285,7 @@ rs.mimic.PanelRenderer = class extends rs.mimic.ComponentRenderer {
             this._setSize(panelElem, props.size);
         }
     }
-}
+};
 
 // Represents a faceplate renderer.
 rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
@@ -308,7 +308,7 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
             this._setSize(faceplateElem, props.size);
         }
     }
-}
+};
 
 // Encapsulates information about a rendering operation.
 rs.mimic.RenderContext = class {
@@ -325,7 +325,7 @@ rs.mimic.RenderContext = class {
     getImage(imageName) {
         return this.imageMap instanceof Map ? this.imageMap.get(imageName) : null;
     }
-}
+};
 
 // Contains renderers for a mimic and its components.
 rs.mimic.RendererSet = class {
@@ -336,7 +336,7 @@ rs.mimic.RendererSet = class {
         ["Picture", new rs.mimic.PictureRenderer()],
         ["Panel", new rs.mimic.PanelRenderer()]
     ]);
-}
+};
 
 // Renders a mimic using appropriate renderers.
 rs.mimic.UnitedRenderer = class {
@@ -485,4 +485,4 @@ rs.mimic.UnitedRenderer = class {
             }
         }
     }
-}
+};

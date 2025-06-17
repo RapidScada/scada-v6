@@ -14,7 +14,7 @@ rs.mimic.ComponentFactory = class {
         };
         return component;
     }
-}
+};
 
 // Creates components of the Text type.
 rs.mimic.TextFactory = class extends rs.mimic.ComponentFactory {
@@ -23,14 +23,14 @@ rs.mimic.TextFactory = class extends rs.mimic.ComponentFactory {
         component.properties.text = "Text";
         return component;
     }
-}
+};
 
 // Creates components of the Picture type.
 rs.mimic.PictureFactory = class extends rs.mimic.ComponentFactory {
     createComponent() {
         return super.createComponent("Picture");
     }
-}
+};
 
 // Creates components of the Panel type.
 rs.mimic.PanelFactory = class extends rs.mimic.ComponentFactory {
@@ -39,7 +39,7 @@ rs.mimic.PanelFactory = class extends rs.mimic.ComponentFactory {
         component.children = [];
         return component;
     }
-}
+};
 
 // Creates faceplates.
 rs.mimic.FaceplateFactory = class {
@@ -52,7 +52,7 @@ rs.mimic.FaceplateFactory = class {
         faceplateInstance.applyModel(faceplate);
         return faceplateInstance;
     }
-}
+};
 
 // Contains factories for mimic components.
 rs.mimic.FactorySet = class {
@@ -69,4 +69,4 @@ rs.mimic.FactorySet = class {
             }
         };
     }
-}
+};

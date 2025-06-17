@@ -13,13 +13,13 @@ rs.mimic.LoadStep = class {
     static IMAGES = 3;
     static FACEPLATES = 4;
     static COMPLETE = 5;
-}
+};
 
 // Represents a result of loading a mimic.
 rs.mimic.LoadResult = class {
     ok = false;
     msg = "";
-}
+};
 
 // Represents a context of a loading operation.
 rs.mimic.LoadContext = class {
@@ -39,7 +39,7 @@ rs.mimic.LoadContext = class {
         this.controllerUrl = controllerUrl;
         this.mimicKey = mimicKey.toString();
     }
-}
+};
 
 // Contains classes: ComponentFactory, TextFactory, PictureFactory, PanelFactory, FaceplateFactory, FactorySet
 // Depends on mimic-model.js
@@ -57,7 +57,7 @@ rs.mimic.ComponentFactory = class {
         };
         return component;
     }
-}
+};
 
 // Creates components of the Text type.
 rs.mimic.TextFactory = class extends rs.mimic.ComponentFactory {
@@ -66,14 +66,14 @@ rs.mimic.TextFactory = class extends rs.mimic.ComponentFactory {
         component.properties.text = "Text";
         return component;
     }
-}
+};
 
 // Creates components of the Picture type.
 rs.mimic.PictureFactory = class extends rs.mimic.ComponentFactory {
     createComponent() {
         return super.createComponent("Picture");
     }
-}
+};
 
 // Creates components of the Panel type.
 rs.mimic.PanelFactory = class extends rs.mimic.ComponentFactory {
@@ -82,7 +82,7 @@ rs.mimic.PanelFactory = class extends rs.mimic.ComponentFactory {
         component.children = [];
         return component;
     }
-}
+};
 
 // Creates faceplates.
 rs.mimic.FaceplateFactory = class {
@@ -95,7 +95,7 @@ rs.mimic.FaceplateFactory = class {
         faceplateInstance.applyModel(faceplate);
         return faceplateInstance;
     }
-}
+};
 
 // Contains factories for mimic components.
 rs.mimic.FactorySet = class {
@@ -112,7 +112,7 @@ rs.mimic.FactorySet = class {
             }
         };
     }
-}
+};
 
 // Contains classes: MimicHelper, MimicBase, Mimic, Component, Panel, Image, 
 //     FaceplateMeta, Faceplate, FaceplateInstance
@@ -354,7 +354,7 @@ rs.mimic.MimicHelper = class MimicHelper {
             y: minY
         };
     }
-}
+};
 
 // A base class for mimic diagrams and faceplates.
 rs.mimic.MimicBase = class {
@@ -400,7 +400,7 @@ rs.mimic.MimicBase = class {
 
         return this.createComponent(ScadaUtils.deepClone(source));
     }
-}
+};
 
 // Represents a mimic diagram.
 rs.mimic.Mimic = class extends rs.mimic.MimicBase {
@@ -780,7 +780,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     toString() {
         return "Mimic";
     }
-}
+};
 
 // Represents a component of a mimic diagram.
 rs.mimic.Component = class {
@@ -908,7 +908,7 @@ rs.mimic.Component = class {
     toString() {
         return this.displayName;
     }
-}
+};
 
 // Represents an image of a mimic diagram.
 rs.mimic.Image = class {
@@ -932,7 +932,7 @@ rs.mimic.Image = class {
                 this.mediaType = value.substring(5, index);
                 this.data = value.substring(index + 8);
                 return;
-            } 
+            }
         }
 
         this.data = null;
@@ -942,7 +942,7 @@ rs.mimic.Image = class {
         // required for sorting
         return this.name;
     }
-}
+};
 
 // Represents information about a faceplate.
 rs.mimic.FaceplateMeta = class {
@@ -959,7 +959,7 @@ rs.mimic.FaceplateMeta = class {
         // required for sorting
         return this.typeName;
     }
-}
+};
 
 // Represents a faceplate, i.e. a user component.
 rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
@@ -995,7 +995,7 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
             }
         }
     }
-}
+};
 
 // Represents a faceplate instance.
 rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
@@ -1033,7 +1033,7 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
             rs.mimic.MimicHelper.defineNesting(this, this.components);
         }
     }
-}
+};
 
 // Contains classes: ActionType, CompareOperator, LogicalOperator, LinkTarget, ModalWidth,
 //    Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, 
@@ -1305,7 +1305,7 @@ rs.mimic.Renderer = class {
             }
         }
     }
-}
+};
 
 // Represents a mimic renderer.
 rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
@@ -1374,7 +1374,7 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
             this._setSize(mimicElem, mimic.document.size);
         }
     }
-}
+};
 
 // Represents a component renderer.
 rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
@@ -1412,7 +1412,7 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
     allowResizing(component) {
         return true;
     }
-}
+};
 
 // Represents a text component renderer.
 rs.mimic.TextRenderer = class extends rs.mimic.ComponentRenderer {
@@ -1424,7 +1424,7 @@ rs.mimic.TextRenderer = class extends rs.mimic.ComponentRenderer {
         this._setSize(textElem, props.size);
         return textElem;
     }
-}
+};
 
 // Represents a picture component renderer.
 rs.mimic.PictureRenderer = class extends rs.mimic.ComponentRenderer {
@@ -1437,7 +1437,7 @@ rs.mimic.PictureRenderer = class extends rs.mimic.ComponentRenderer {
         this._setBackgroundImage(pictureElem, renderContext.getImage(props.imageName));
         return pictureElem;
     }
-}
+};
 
 // Represents a panel component renderer.
 rs.mimic.PanelRenderer = class extends rs.mimic.ComponentRenderer {
@@ -1460,7 +1460,7 @@ rs.mimic.PanelRenderer = class extends rs.mimic.ComponentRenderer {
             this._setSize(panelElem, props.size);
         }
     }
-}
+};
 
 // Represents a faceplate renderer.
 rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
@@ -1483,7 +1483,7 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
             this._setSize(faceplateElem, props.size);
         }
     }
-}
+};
 
 // Encapsulates information about a rendering operation.
 rs.mimic.RenderContext = class {
@@ -1500,7 +1500,7 @@ rs.mimic.RenderContext = class {
     getImage(imageName) {
         return this.imageMap instanceof Map ? this.imageMap.get(imageName) : null;
     }
-}
+};
 
 // Contains renderers for a mimic and its components.
 rs.mimic.RendererSet = class {
@@ -1511,7 +1511,7 @@ rs.mimic.RendererSet = class {
         ["Picture", new rs.mimic.PictureRenderer()],
         ["Panel", new rs.mimic.PanelRenderer()]
     ]);
-}
+};
 
 // Renders a mimic using appropriate renderers.
 rs.mimic.UnitedRenderer = class {
@@ -1660,4 +1660,4 @@ rs.mimic.UnitedRenderer = class {
             }
         }
     }
-}
+};
