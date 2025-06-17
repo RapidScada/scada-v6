@@ -1,5 +1,5 @@
-﻿// Contains classes: BasicType, KnownCategory, ActionStruct, BorderStruct, CornerRadiusStruct, FontStruct,
-//     ImageConditionStruct, PaddingStruct, PropertyAliasStruct, PropertyBindingStruct, VisualStateStruct,
+﻿// Contains classes: BasicType, KnownCategory, ActionStruct, BorderStruct, ConditionStruct, CornerRadiusStruct,
+//     FontStruct, ImageConditionStruct, PaddingStruct, PropertyAliasStruct, PropertyBindingStruct, VisualStateStruct,
 //     PropertyDescriptor, ObjectDescriptor, MimicDescriptor, ComponentDescriptorBase, ComponentDescriptor,
 //     TextDescriptor, PictureDescriptor, PanelDescriptor, DescriptorSet
 // Depends on scada-common.js, mimic-common.js
@@ -68,12 +68,26 @@ rs.mimic.KnownCategory = class {
 
 // Represents an action structure.
 rs.mimic.ActionStruct = class {
+    actionType = "";
+    chartArgs = null;
+    commandArgs = null;
+    linkArgs = null;
+    script = "";
 }
 
 // Represents a border structure.
 rs.mimic.BorderStruct = class {
     width = 0;
     color = ""
+}
+
+// Represents a condition structure.
+rs.mimic.ConditionStruct = class {
+    compareOperator1 = "";
+    compareArgument1 = 0.0;
+    logicalOperator = "";
+    compareOperator2 = "";
+    compareArgument2 = 0.0;
 }
 
 // Represents a corner radius structure.
@@ -86,10 +100,16 @@ rs.mimic.CornerRadiusStruct = class {
 
 // Represents a font structure.
 rs.mimic.FontStruct = class {
+    name = "";
+    size = 16;
+    bold = false;
+    italic = false;
+    underline = false;
 }
 
 // Represents an image condition structure.
-rs.mimic.ImageConditionStruct = class {
+rs.mimic.ImageConditionStruct = class extends rs.mimic.ConditionStruct {
+    imageName = "";
 }
 
 // Represents a padding structure.
@@ -102,10 +122,16 @@ rs.mimic.PaddingStruct = class {
 
 // Represents a property alias structure.
 rs.mimic.PropertyAliasStruct = class {
+    name = "";
+    path = "";
 }
 
 // Represents a property binding structure.
 rs.mimic.PropertyBindingStruct = class {
+    propertyName = "";
+    dataSource = "";
+    dataMember = "";
+    format = "";
 }
 
 // Represents a visual state structure.
