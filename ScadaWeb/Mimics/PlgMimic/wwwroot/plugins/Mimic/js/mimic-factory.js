@@ -1,4 +1,4 @@
-﻿// Contains classes: ComponentFactory
+﻿// Contains classes: ComponentFactory, TextFactory, PictureFactory, PanelFactory, FaceplateFactory, FactorySet
 // Depends on mimic-model.js
 
 // Represents an abstract component factory.

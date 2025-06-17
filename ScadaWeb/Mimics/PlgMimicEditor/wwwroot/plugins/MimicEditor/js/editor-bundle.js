@@ -1,0 +1,2411 @@
+// Contains classes: AlingActionType, ArrangeActionType, ChangeType, DragType, EnabledDependsOn, LongActionType,
+//     MessageType, ToolbarButton, Change, UpdateDto, LongAction, MimicClipboard, 
+//     HistoryChange, HistoryPoint, MimicHistory
+// Depends on mimic-model.js
+
+// Specifies the action types for component alignment.
+// Readable values are used in data-* attributes.
+class AlingActionType {
+    static ALIGN_LEFTS = "align-lefts";
+    static ALIGN_CENTERS = "align-centers";
+    static ALIGN_RIGHTS = "align-rights";
+    static ALIGN_TOPS = "align-tops";
+    static ALIGN_MIDDLES = "align-middles";
+    static ALIGN_BOTTOMS = "align-bottoms";
+    static SAME_WIDTH = "same-width";
+    static SAME_HEIGHT = "same-height";
+    static SAME_SIZE = "same-size";
+    static HOR_SPACING = "hor-spacing";
+    static VERT_SPACING = "vert-spacing";
+
+    static sameParentRequired(actionType) {
+        return actionType === AlingActionType.ALIGN_LEFTS ||
+            actionType === AlingActionType.ALIGN_CENTERS ||
+            actionType === AlingActionType.ALIGN_RIGHTS ||
+            actionType === AlingActionType.ALIGN_TOPS ||
+            actionType === AlingActionType.ALIGN_MIDDLES ||
+            actionType === AlingActionType.ALIGN_BOTTOMS ||
+            actionType === AlingActionType.HOR_SPACING ||
+            actionType === AlingActionType.VERT_SPACING;
+    }
+}
+
+// Specifies the action types for component arrangement.
+// Readable values are used in data-* attributes.
+class ArrangeActionType {
+    static SEND_TO_BACK = "send-to-back";
+    static SEND_BACKWARD = "send-backward";
+    static BRING_FORWARD = "bring-forward";
+    static BRING_TO_FRONT = "bring-to-front";
+    static PLACE_BEFORE = "place-before";
+    static PLACE_AFTER = "place-after";
+    static SELECT_PARENT = "select-parent";
+
+    static longActionRequired(actionType) {
+        return actionType === ArrangeActionType.PLACE_BEFORE ||
+            actionType === ArrangeActionType.PLACE_AFTER ||
+            actionType === ArrangeActionType.SELECT_PARENT;
+    }
+}
+
+// Specifies the change types.
+// Readable values are sent in HTTP requests.
+class ChangeType {
+    // Dependencies
+    static ADD_DEPENDENCY = "add-dependency";
+    static REMOVE_DEPENDENCY = "remove-dependency";
+
+    // Document
+    static UPDATE_DOCUMENT = "update-document";
+
+    // Components
+    static ADD_COMPONENT = "add-component";
+    static UPDATE_COMPONENT = "update-component";
+    static UPDATE_PARENT = "update-parent";
+    static ARRANGE_COMPONENT = "arrange-component";
+    static REMOVE_COMPONENT = "remove-component";
+
+    // Images
+    static ADD_IMAGE = "add-image";
+    static REMOVE_IMAGE = "remove-image";
+}
+
+// Specifies the drag types.
+class DragType {
+    static NONE = 0;
+    static MOVE = 1;
+    static RESIZE_LEFT = 2;
+    static RESIZE_RIGHT = 3;
+    static RESIZE_TOP = 4;
+    static RESIZE_BOT = 5;
+    static RESIZE_TOP_LEFT = 6;
+    static RESIZE_TOP_RIGHT = 7;
+    static RESIZE_BOT_LEFT = 8;
+    static RESIZE_BOT_RIGHT = 9;
+
+    static getCursor(dragType) {
+        if (dragType) {
+            switch (dragType) {
+                case DragType.MOVE:
+                    return "move";
+
+                case DragType.RESIZE_LEFT:
+                case DragType.RESIZE_RIGHT:
+                    return "ew-resize";
+
+                case DragType.RESIZE_TOP:
+                case DragType.RESIZE_BOT:
+                    return "ns-resize";
+
+                case DragType.RESIZE_TOP_LEFT:
+                case DragType.RESIZE_BOT_RIGHT:
+                    return "nwse-resize";
+
+                case DragType.RESIZE_TOP_RIGHT:
+                case DragType.RESIZE_BOT_LEFT:
+                    return "nesw-resize";
+            }
+        }
+
+        return "";
+    }
+
+    static isResizeLeft(dragType) {
+        return dragType === DragType.RESIZE_LEFT ||
+            dragType === DragType.RESIZE_TOP_LEFT ||
+            dragType === DragType.RESIZE_BOT_LEFT;
+    }
+
+    static isResizeRight(dragType) {
+        return dragType === DragType.RESIZE_RIGHT ||
+            dragType === DragType.RESIZE_TOP_RIGHT ||
+            dragType === DragType.RESIZE_BOT_RIGHT;
+    }
+
+    static isResizeTop(dragType) {
+        return dragType === DragType.RESIZE_TOP ||
+            dragType === DragType.RESIZE_TOP_LEFT ||
+            dragType === DragType.RESIZE_TOP_RIGHT;
+    }
+
+    static isResizeBot(dragType) {
+        return dragType === DragType.RESIZE_BOT ||
+            dragType === DragType.RESIZE_BOT_LEFT ||
+            dragType === DragType.RESIZE_BOT_RIGHT;
+    }
+}
+
+// Specifies the categories on which the availability of the toolbar buttons depends.
+class EnabledDependsOn {
+    static NOT_SPECIFIED = 0;
+    static SELECTION = 1;
+    static HISTORY = 2;
+}
+
+// Specifies the long action types.
+class LongActionType {
+    static NONE = 0;
+    static ADD = 1;
+    static PASTE = 2;
+    static DRAG = 3;
+    static ARRANGE = 4;
+
+    static isPointing(actionType) {
+        return actionType == LongActionType.ADD ||
+            actionType == LongActionType.PASTE ||
+            actionType == LongActionType.ARRANGE;
+    }
+}
+
+// Specifies the message types for toasts.
+class MessageType {
+    static INFO = 0;
+    static SUCCESS = 1;
+    static WARNING = 2;
+    static ERROR = 3;
+}
+
+// Specifies the toolbar button selectors.
+class ToolbarButton {
+    static SAVE = "#btnSave";
+    static UNDO = "#btnUndo";
+    static REDO = "#btnRedo";
+    static CUT = "#btnCut";
+    static COPY = "#btnCopy";
+    static PASTE = "#btnPaste";
+    static REMOVE = "#btnRemove";
+    static POINTER = "#btnPointer";
+    static ALIGN = "button.rs-btn-align";
+    static ARRANGE = "button.rs-btn-arrange";
+}
+
+// Represents a change in a mimic for data transfer.
+class Change {
+    static MAX_SHIFT = 1000000;
+
+    changeType = "";
+    objectID = 0;
+    objectIDs = null;
+    objectName = "";
+    properties = null;
+    parentID = 0;
+    shift = 0;
+    siblingID = 0;
+    indexes = null;
+
+    constructor(changeType) {
+        this.changeType = changeType;
+    }
+
+    _setObjectID(objectID) {
+        if (Array.isArray(objectID)) {
+            if (objectID.length === 1) {
+                this.objectID = objectID[0];
+            } else {
+                this.objectIDs = objectID;
+            }
+        } else {
+            this.objectID = objectID;
+        }
+    }
+
+    getObjectIDs() {
+        return this.objectID > 0
+            ? [this.objectID]
+            : (this.objectIDs ?? []);
+    }
+
+    setProperty(propertyName, value) {
+        this.properties ??= {};
+        this.properties[propertyName] = value;
+        return this;
+    }
+
+    static addDependency(dependency) {
+        let change = new Change(ChangeType.ADD_DEPENDENCY);
+        change.objectName = dependency.typeName;
+        change.properties = Object.assign({}, dependency);
+        return change;
+    }
+
+    static removeDependency(typeName) {
+        let change = new Change(ChangeType.REMOVE_DEPENDENCY);
+        change.objectName = typeName;
+        return change;
+    }
+
+    static updateDocument(opt_properties) {
+        let change = new Change(ChangeType.UPDATE_DOCUMENT);
+
+        if (opt_properties) {
+            change.properties = Object.assign({}, opt_properties);
+        }
+
+        return change;
+    }
+
+    static addComponent(component) {
+        let change = new Change(ChangeType.ADD_COMPONENT);
+        change.objectID = component.id;
+        change.properties = Object.assign({}, component.properties);
+        change.properties.name = component.name;
+        change.properties.typeName = component.typeName;
+        change.parentID = component.parentID;
+        change.index = component.index;
+        return change;
+    }
+
+    static updateComponent(componentID, opt_properties) {
+        let change = new Change(ChangeType.UPDATE_COMPONENT);
+        change._setObjectID(componentID);
+
+        if (opt_properties) {
+            change.properties = Object.assign({}, opt_properties);
+        }
+
+        return change;
+    }
+
+    static updateLocation(component) {
+        return Change.updateComponent(component.id, {
+            location: component.properties.location
+        });
+    }
+
+    static updateSize(component) {
+        return Change.updateComponent(component.id, {
+            size: component.properties.size
+        });
+    }
+
+    static updateParent(component) {
+        let change = new Change(ChangeType.UPDATE_PARENT);
+        change.objectID = component.id;
+        change.properties = {
+            location: component.properties.location
+        };
+        change.parentID = component.parentID;
+        change.index = component.index;
+        return change;
+    }
+
+    static arrangeComponent(parentID, componentID, shift, opt_siblingID) {
+        let change = new Change(ChangeType.ARRANGE_COMPONENT);
+        change._setObjectID(componentID);
+        change.parentID = parentID;
+        change.shift = shift;
+        change.siblingID = opt_siblingID;
+        return change;
+    }
+
+    static arrangeByIndexes(parentID, componentIDs, indexes) {
+        let change = new Change(ChangeType.ARRANGE_COMPONENT);
+        change.objectIDs = componentIDs;
+        change.parentID = parentID;
+        change.indexes = indexes;
+        return change;
+    }
+
+    static removeComponent(componentID) {
+        let change = new Change(ChangeType.REMOVE_COMPONENT);
+        change._setObjectID(componentID);
+        return change;
+    }
+
+    static addImage(image) {
+        let change = new Change(ChangeType.ADD_IMAGE);
+        change.objectName = image.name;
+        change.properties = Object.assign({}, image);
+        return change;
+    }
+
+    static removeImage(imageName) {
+        let change = new Change(ChangeType.REMOVE_IMAGE);
+        change.objectName = imageName;
+        return change;
+    }
+}
+
+// Represents a data transfer object containing mimic changes.
+class UpdateDto {
+    mimicKey;
+    changes;
+    json;
+
+    constructor(mimicKey, opt_changes) {
+        this.mimicKey = mimicKey;
+        this.changes = opt_changes ?? [];
+        this.json = JSON.stringify({
+            mimicKey: this.mimicKey,
+            changes: this.changes
+        });
+    }
+}
+
+// Represents a continuous user action based on multiple mouse events.
+class LongAction {
+    actionType;        // action type
+    componentTypeName; // component to add
+    dragType;          // drag type: move or resize
+    startPoint;        // start point of drag
+    moved;             // components were moved during drag operation
+    resized;           // components were resized during drag operation
+    arrangeType;       // arrange type: before, after or parent
+
+    constructor(actionType) {
+        this.actionType = actionType ?? LongActionType.NONE;
+    }
+
+    getCursor() {
+        if (this.actionType === LongActionType.ADD ||
+            this.actionType === LongActionType.PASTE) {
+            return "crosshair";
+        } else if (this.actionType === LongActionType.DRAG) {
+            return DragType.getCursor(this.dragType);
+        } else if (this.actionType === LongActionType.ARRANGE) {
+            return "pointer";
+        } else {
+            return "";
+        }
+    }
+
+    static add(componentTypeName) {
+        let action = new LongAction(LongActionType.ADD);
+        action.componentTypeName = componentTypeName;
+        return action;
+    }
+
+    static paste() {
+        return new LongAction(LongActionType.PASTE);
+    }
+
+    static drag(dragType, startPoint) {
+        let action = new LongAction(LongActionType.DRAG);
+        action.dragType = dragType;
+        action.startPoint = startPoint;
+        action.moved = false;
+        action.resized = false;
+        return action;
+    }
+
+    static arrange(arrangeType) {
+        let action = new LongAction(LongActionType.ARRANGE);
+        action.arrangeType = arrangeType;
+        return action;
+    }
+}
+
+// Represents a clipboard for copying and pasting components.
+class MimicClipboard {
+    static MARKER = "MimicEditor";
+
+    _isEmpty;
+    _clipboardData;
+    _componentJsons;
+    _rootID;
+    _offset;
+
+    constructor() {
+        this._clear();
+    }
+
+    get rootID() {
+        return this._clipboardData ? this._clipboardData.rootID : this._rootID;
+    }
+
+    get offset() {
+        return this._clipboardData ? this._clipboardData.offset : this._offset;
+    }
+
+    get isEmpty() {
+        return this._isEmpty;
+    }
+
+    _clear() {
+        this._isEmpty = true;
+        this._clipboardData = null;
+        this._componentJsons = [];
+        this._rootID = 0;
+        this._offset = { x: 0, y: 0 };
+    }
+
+    static _validate(clipboardData) {
+        return clipboardData &&
+            clipboardData.marker === MimicClipboard.MARKER &&
+            Array.isArray(clipboardData.components) &&
+            Number.isInteger(clipboardData.rootID) &&
+            clipboardData.offset instanceof Object;
+    }
+
+    async defineEmptiness() {
+        if (this._componentJsons.length > 0) {
+            this._isEmpty = false;
+        } else {
+            try { this._isEmpty = !await navigator.clipboard.readText(); }
+            catch { this._isEmpty = true; }
+        }
+    }
+
+    async writeComponents(components) {
+        // extract information from components
+        let plainObjects = [];
+        this._clear();
+
+        if (Array.isArray(components) && components.length > 0) {
+            this._isEmpty = false;
+            this._rootID = components[0].parentID; // assuming that parents are the same
+            this._offset = rs.mimic.MimicHelper.getMinLocation(components);
+
+            for (let component of components) {
+                plainObjects.push(component.toPlainObject())
+
+                if (component.isContainer) {
+                    plainObjects.push(...component.getAllChildren().map(c => c.toPlainObject()));
+                }
+            }
+
+            this._componentJsons = plainObjects.map(o => JSON.stringify(o));
+        }
+
+        // write to system buffer
+        try {
+            await navigator.clipboard.writeText(JSON.stringify({
+                marker: MimicClipboard.MARKER,
+                components: plainObjects,
+                rootID: this._rootID,
+                offset: this._offset
+            }));
+        } catch (ex) {
+            console.error("Error writing to clipboard: " + ex.message);
+        }
+    }
+
+    async readComponents() {
+        // read from system buffer first
+        try {
+            let text = await navigator.clipboard.readText();
+            let data;
+            try { data = JSON.parse(text); }
+            catch { data = null; }
+
+            if (MimicClipboard._validate(data)) {
+                this._clipboardData = data;
+                return data.components;
+            }
+        } catch (ex) {
+            console.error("Error reading from clipboard: " + ex.message);
+        }
+
+        // return plain objects that are not instances of Component
+        return this._componentJsons.map(j => JSON.parse(j));
+    }
+}
+
+// Represents a change in history.
+class HistoryChange {
+    changeType = "";
+    objectID = null;
+    oldObjectJson = null;
+    newObjectJson = null;
+    oldIndex = null;
+    newIndex = null;
+
+    constructor(source) {
+        Object.assign(this, source);
+    }
+
+    getOldObject() {
+        return this.oldObjectJson ? JSON.parse(this.oldObjectJson) : null;
+    }
+
+    getNewObject() {
+        return this.newObjectJson ? JSON.parse(this.newObjectJson) : null;
+    }
+}
+
+// Represents a single point in history.
+class HistoryPoint {
+    changes; // instances of HistoryChange class
+
+    constructor(changes) {
+        this.changes = changes ?? [];
+    }
+
+    toReversed() {
+        let reversedChanges = [];
+
+        for (let change of this.changes.toReversed()) {
+            switch (change.changeType) {
+                case ChangeType.UPDATE_DOCUMENT:
+                    reversedChanges.push(new HistoryChange({
+                        changeType: ChangeType.UPDATE_DOCUMENT,
+                        oldObjectJson: change.newObjectJson,
+                        newObjectJson: change.oldObjectJson
+                    }));
+                    break;
+
+                case ChangeType.ADD_COMPONENT:
+                    reversedChanges.push(new HistoryChange({
+                        changeType: ChangeType.REMOVE_COMPONENT,
+                        objectID: change.objectID,
+                        oldObjectJson: change.newObjectJson
+                    }));
+                    break;
+
+                case ChangeType.UPDATE_COMPONENT:
+                    reversedChanges.push(new HistoryChange({
+                        changeType: ChangeType.UPDATE_COMPONENT,
+                        objectID: change.objectID,
+                        oldObjectJson: change.newObjectJson,
+                        newObjectJson: change.oldObjectJson
+                    }));
+                    break;
+
+                case ChangeType.REMOVE_COMPONENT:
+                    reversedChanges.push(new HistoryChange({
+                        changeType: ChangeType.ADD_COMPONENT,
+                        objectID: change.objectID,
+                        newObjectJson: change.oldObjectJson
+                    }));
+                    break;
+
+                case ChangeType.UPDATE_PARENT:
+                    reversedChanges.push(new HistoryChange({
+                        changeType: ChangeType.UPDATE_PARENT,
+                        objectID: change.objectID,
+                        oldObjectJson: change.newObjectJson,
+                        newObjectJson: change.oldObjectJson
+                    }));
+                    break;
+
+                case ChangeType.ARRANGE_COMPONENT:
+                    reversedChanges.push(new HistoryChange({
+                        changeType: ChangeType.ARRANGE_COMPONENT,
+                        objectID: change.objectID,
+                        oldIndex: change.newIndex,
+                        newIndex: change.oldIndex
+                    }));
+                    break;
+            }
+        }
+
+        return reversedChanges.length > 0
+            ? new HistoryPoint(reversedChanges)
+            : null;
+    }
+}
+
+// Contains the history of mimic changes.
+class MimicHistory {
+    static MAX_SIZE = 20; // maximum number of history points
+
+    _points;           // history points
+    _headIndex;        // index to add new points
+    _documentJson;     // chached mimic document as a JSON string
+    _componentJsonMap; // cached components as JSON strings accessible by ID
+
+    constructor() {
+        this.clear();
+    }
+
+    get canUndo() {
+        return this._headIndex > 0;
+    }
+
+    get canRedo() {
+        return this._headIndex < this._points.length;
+    }
+
+    _createHistoryChanges(mimicChange, mimic) {
+        let historyChanges = [];
+
+        switch (mimicChange.changeType) {
+            case ChangeType.UPDATE_DOCUMENT: {
+                let oldDocumentJson = this._documentJson;
+                let newDocumentJson = JSON.stringify(mimic.document);
+                this._documentJson = newDocumentJson;
+
+                historyChanges.push(new HistoryChange({
+                    changeType: ChangeType.UPDATE_DOCUMENT,
+                    oldObjectJson: oldDocumentJson,
+                    newObjectJson: newDocumentJson
+                }));
+
+                break;
+            }
+            case ChangeType.ADD_COMPONENT: {
+                let componentID = mimicChange.objectID;
+                let componentJson = this._getComponentJsonFromMimic(componentID, mimic);
+                this._componentJsonMap.set(componentID, componentJson);
+
+                historyChanges.push(new HistoryChange({
+                    changeType: ChangeType.ADD_COMPONENT,
+                    objectID: componentID,
+                    newObjectJson: componentJson
+                }));
+
+                break;
+            }
+            case ChangeType.UPDATE_COMPONENT: {
+                for (let componentID of mimicChange.getObjectIDs()) {
+                    let oldComponentJson = this._getComponentJsonFromCache(componentID);
+                    let newComponentJson = this._getComponentJsonFromMimic(componentID, mimic);
+                    this._componentJsonMap.set(componentID, newComponentJson);
+
+                    historyChanges.push(new HistoryChange({
+                        changeType: ChangeType.UPDATE_COMPONENT,
+                        objectID: componentID,
+                        oldObjectJson: oldComponentJson,
+                        newObjectJson: newComponentJson
+                    }));
+                }
+
+                break;
+            }
+            case ChangeType.REMOVE_COMPONENT: {
+                for (let componentID of mimicChange.getObjectIDs()) {
+                    historyChanges.push(new HistoryChange({
+                        changeType: ChangeType.REMOVE_COMPONENT,
+                        objectID: componentID,
+                        oldObjectJson: this._getComponentJsonFromCache(componentID)
+                    }));
+                }
+
+                break;
+            }
+            case ChangeType.UPDATE_PARENT: {
+                let componentID = mimicChange.objectID;
+                let oldComponentJson = this._getComponentJsonFromCache(componentID);
+                let newComponentJson = this._getComponentJsonFromMimic(componentID, mimic);
+                this._componentJsonMap.set(componentID, newComponentJson);
+
+                historyChanges.push(new HistoryChange({
+                    changeType: ChangeType.UPDATE_PARENT,
+                    objectID: componentID,
+                    oldObjectJson: oldComponentJson,
+                    newObjectJson: newComponentJson
+                }));
+
+                break;
+            }
+            case ChangeType.ARRANGE_COMPONENT: {
+                for (let componentID of mimicChange.getObjectIDs()) {
+                    let oldComponentJson = this._getComponentJsonFromCache(componentID);
+                    let newComponent = mimic.componentMap.get(componentID);
+                    this._updateComponentCache(componentID, newComponent);
+
+                    if (oldComponentJson && newComponent) {
+                        let oldComponent = JSON.parse(oldComponentJson);
+                        historyChanges.push(new HistoryChange({
+                            changeType: ChangeType.ARRANGE_COMPONENT,
+                            objectID: componentID,
+                            oldIndex: oldComponent.index,
+                            newIndex: newComponent.index
+                        }));
+                    }
+                }
+
+                break;
+            }
+        }
+
+        return historyChanges;
+    }
+
+    _getComponentJsonFromCache(componentID) {
+        return this._componentJsonMap.get(componentID);
+    }
+
+    _getComponentJsonFromMimic(componentID, mimic) {
+        let component = mimic.componentMap.get(componentID);
+        return component ? JSON.stringify(component.toPlainObject()) : null;
+    }
+
+    _updateComponentCache(componentID, component) {
+        if (component) {
+            this._componentJsonMap.set(componentID, null);
+        } else {
+            this._componentJsonMap.set(componentID, JSON.stringify(newComponent.toPlainObject()));
+        }
+    }
+
+    clear() {
+        this._points = [];
+        this._headIndex = 0;
+        this._documentJson = null;
+        this._componentJsonMap = new Map();
+    }
+
+    rememberDocument(mimic, overwriteExisting) {
+        if (overwriteExisting || !this._documentJson) {
+            this._documentJson = JSON.stringify(mimic.document);
+        }
+    }
+
+    rememberComponent(component, overwriteExisting) {
+        if (overwriteExisting || !this._componentJsonMap.has(component.id)) {
+            this._componentJsonMap.set(component.id, JSON.stringify(component.toPlainObject()));
+        }
+    }
+
+    addPoint(mimic, mimicChanges) {
+        // create history changes
+        let historyChanges = [];
+
+        for (let mimicChange of mimicChanges) {
+            if (mimicChange instanceof Change) {
+                historyChanges.push(...this._createHistoryChanges(mimicChange, mimic));
+            }
+        }
+
+        if (historyChanges.length > 0) {
+            // remove history points after head index
+            if (this._headIndex < this._points.length) {
+                this._points.length = this._headIndex;
+            }
+
+            // add history point
+            let point = new HistoryPoint(historyChanges);
+            this._points.push(point);
+
+            // remove history points if history size exceeded
+            let removeCount = this._points.length - MimicHistory.MAX_SIZE;
+
+            if (removeCount > 0) {
+                this._points.splice(0, removeCount);
+            }
+
+            // update head index
+            this._headIndex = this._points.length;
+        }
+    }
+
+    getUndoPoint() {
+        if (this._headIndex > 0) {
+            this._headIndex--;
+            let point = this._points[this._headIndex];
+            return point.toReversed();
+        } else {
+            return null;
+        }
+    }
+
+    getRedoPoint() {
+        if (this._headIndex < this._points.length) {
+            let point = this._points[this._headIndex];
+            this._headIndex++;
+            return point;
+        } else {
+            return null;
+        }
+    }
+}
+
+// Contains classes: BasicType, KnownCategory, ActionStruct, BorderStruct, ConditionStruct, CornerRadiusStruct,
+//     FontStruct, ImageConditionStruct, PaddingStruct, PropertyAliasStruct, PropertyBindingStruct, VisualStateStruct,
+//     PropertyDescriptor, ObjectDescriptor, MimicDescriptor, ComponentDescriptorBase, ComponentDescriptor,
+//     TextDescriptor, PictureDescriptor, PanelDescriptor, DescriptorSet
+// Depends on scada-common.js, mimic-common.js
+
+// Specifies the basic types.
+rs.mimic.BasicType = class BasicType {
+    static UNDEFINED = "undefined";
+    static BOOL = "bool";
+    static COLOR = "color";
+    static ENUM = "enum";
+    static FLOAT = "float";
+    static INT = "int";
+    static LIST = "list";
+    static POINT = "point";
+    static SIZE = "size";
+    static STRING = "string";
+    static STRUCT = "struct";
+
+    static getDefaultValue(basicType) {
+        switch (basicType) {
+            case BasicType.BOOL:
+                return false;
+
+            case BasicType.COLOR:
+                return "";
+
+            case BasicType.ENUM:
+                return 0;
+
+            case BasicType.FLOAT:
+                return 0;
+
+            case BasicType.INT:
+                return 0;
+
+            case BasicType.LIST:
+                return [];
+
+            case BasicType.POINT:
+                return { x: "0", y: "0" };
+
+            case BasicType.SIZE:
+                return { width: "0", height: "0" };
+
+            case BasicType.STRING:
+                return "";
+
+            case BasicType.STRUCT:
+                return {};
+
+            default:
+                return undefined;
+        }
+    }
+}
+
+// Specifies the known categories.
+rs.mimic.KnownCategory = class {
+    static APPEARANCE = "appearance";
+    static BEHAVIOR = "behavior";
+    static DATA = "data";
+    static DESIGN = "design";
+    static LAYOUT = "layout";
+    static MISC = "misc";
+}
+
+// Represents an action structure.
+rs.mimic.ActionStruct = class {
+    actionType = "";
+    chartArgs = null;
+    commandArgs = null;
+    linkArgs = null;
+    script = "";
+}
+
+// Represents a border structure.
+rs.mimic.BorderStruct = class {
+    width = 0;
+    color = ""
+}
+
+// Represents a condition structure.
+rs.mimic.ConditionStruct = class {
+    compareOperator1 = "";
+    compareArgument1 = 0.0;
+    logicalOperator = "";
+    compareOperator2 = "";
+    compareArgument2 = 0.0;
+}
+
+// Represents a corner radius structure.
+rs.mimic.CornerRadiusStruct = class {
+    topLeft = 0;
+    topRight = 0;
+    bottomRight = 0;
+    bottomLeft = 0;
+}
+
+// Represents a font structure.
+rs.mimic.FontStruct = class {
+    name = "";
+    size = 16;
+    bold = false;
+    italic = false;
+    underline = false;
+}
+
+// Represents an image condition structure.
+rs.mimic.ImageConditionStruct = class extends rs.mimic.ConditionStruct {
+    imageName = "";
+}
+
+// Represents a padding structure.
+rs.mimic.PaddingStruct = class {
+    top = 0;
+    right = 0;
+    bottom = 0;
+    left = 0;
+}
+
+// Represents a property alias structure.
+rs.mimic.PropertyAliasStruct = class {
+    name = "";
+    path = "";
+}
+
+// Represents a property binding structure.
+rs.mimic.PropertyBindingStruct = class {
+    propertyName = "";
+    dataSource = "";
+    dataMember = "";
+    format = "";
+}
+
+// Represents a visual state structure.
+rs.mimic.VisualStateStruct = class {
+    backColor = "";
+    foreColor = "";
+    borderColor = "";
+}
+
+// Provides meta information about a property of a mimic or component.
+rs.mimic.PropertyDescriptor = class {
+    name = "";
+    displayName = "";
+    category = "";
+    isReadOnly = false;
+    isBrowsable = true;
+    isKnown = false;
+    type = rs.mimic.BasicType.UNDEFINED;
+    defaultValue = undefined;
+    format = {}; // Tweakpane binding options
+
+    constructor(source) {
+        Object.assign(this, source);
+    }
+
+    getDefaultValue() {
+        return this.defaultValue === undefined
+            ? rs.mimic.BasicType.getDefaultValue(this.type)
+            : ScadaUtils.deepClone(this.defaultValue);
+    }
+}
+
+// Represents an object descriptor.
+rs.mimic.ObjectDescriptor = class {
+    // Key is a property name. Value is a property descriptor.
+    propertyDescriptors = new Map();
+
+    add(propertyDescriptor) {
+        this.propertyDescriptors.set(propertyDescriptor.name, propertyDescriptor);
+    }
+
+    get(propertyName) {
+        return this.propertyDescriptors.get(propertyName);
+    }
+
+    delete(propertyName) {
+        this.propertyDescriptors.delete(propertyName);
+    }
+
+    // Adds missing properties to the object.
+    repair(obj) {
+        for (let propertyDescriptor of this.propertyDescriptors.values()) {
+            if (!propertyDescriptor.isKnown && !obj.hasOwnProperty(propertyDescriptor.name)) {
+                obj[propertyDescriptor.name] = propertyDescriptor.getDefaultValue();
+            }
+        }
+    }
+}
+
+// Represents a mimic descriptor.
+rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const KnownCategory = rs.mimic.KnownCategory;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        // appearance
+        this.add(new PropertyDescriptor({
+            name: "backColor",
+            displayName: "Background color",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.COLOR
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "backgroundImage",
+            displayName: "Background image",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRUCT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "font",
+            displayName: "Font",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRUCT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "foreColor",
+            displayName: "Foreground color",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.COLOR
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "stylesheet",
+            displayName: "Stylesheet",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRING
+        }));
+
+        // behavior
+        this.add(new PropertyDescriptor({
+            name: "script",
+            displayName: "Script",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "tooltip",
+            displayName: "Tooltip",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.STRING
+        }));
+
+        // layout
+        this.add(new PropertyDescriptor({
+            name: "size",
+            displayName: "Size",
+            category: KnownCategory.LAYOUT,
+            type: BasicType.SIZE
+        }));
+    }
+
+    // Adds missing properties to the mimic document and components.
+    repair(mimic) {
+        mimic.document ??= {};
+        super.repair(mimic.document);
+
+        if (mimic.components) {
+            for (let component of mimic.components) {
+                let componentDescriptor = component.isFaceplate
+                    ? rs.mimic.DescriptorSet.faceplateDescriptor
+                    : rs.mimic.DescriptorSet.componentDescriptors.get(component.typeName);
+
+                if (componentDescriptor) {
+                    componentDescriptor.repair(component);
+                }
+            }
+        }
+    }
+}
+
+// Represents a basic component descriptor that contains common properties for components and faceplates.
+rs.mimic.ComponentDescriptorBase = class extends rs.mimic.ObjectDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const KnownCategory = rs.mimic.KnownCategory;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        // behavior
+        this.add(new PropertyDescriptor({
+            name: "blinking",
+            displayName: "Blinking",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.BOOL
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "enabled",
+            displayName: "Enabled",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.BOOL
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "visible",
+            displayName: "Visible",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.BOOL
+        }));
+
+        // data
+        this.add(new PropertyDescriptor({
+            name: "deviceNum",
+            displayName: "Device number",
+            category: KnownCategory.DATA,
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "inCnlNum",
+            displayName: "Input channel",
+            category: KnownCategory.DATA,
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "objNum",
+            displayName: "Object number",
+            category: KnownCategory.DATA,
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "outCnlNum",
+            displayName: "Output channel",
+            category: KnownCategory.DATA,
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "propertyBindings",
+            displayName: "Property bindings",
+            category: KnownCategory.DATA,
+            type: BasicType.LIST
+        }));
+
+        // design
+        this.add(new PropertyDescriptor({
+            name: "id",
+            displayName: "ID",
+            category: KnownCategory.DESIGN,
+            isReadOnly: true,
+            isKnown: true,
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "name",
+            displayName: "Name",
+            category: KnownCategory.DESIGN,
+            isKnown: true,
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "typeName",
+            displayName: "Type name",
+            category: KnownCategory.DESIGN,
+            isReadOnly: true,
+            isKnown: true,
+            type: BasicType.STRING
+        }));
+
+        // layout
+        this.add(new PropertyDescriptor({
+            name: "location",
+            displayName: "Location",
+            category: KnownCategory.LAYOUT,
+            type: BasicType.POINT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "size",
+            displayName: "Size",
+            category: KnownCategory.LAYOUT,
+            type: BasicType.SIZE
+        }));
+    }
+
+    // Adds missing properties to the component.
+    repair(component) {
+        component.properties ??= {};
+        super.repair(component.properties);
+    }
+}
+
+// Represents a component descriptor.
+rs.mimic.ComponentDescriptor = class extends rs.mimic.ComponentDescriptorBase {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const KnownCategory = rs.mimic.KnownCategory;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        // appearance
+        this.add(new PropertyDescriptor({
+            name: "backColor",
+            displayName: "Background color",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.COLOR
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "border",
+            displayName: "Border",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRUCT,
+            defaultValue: new rs.mimic.BorderStruct()
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "cornerRadius",
+            displayName: "Corner radius",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRUCT,
+            defaultValue: new rs.mimic.CornerRadiusStruct()
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "cssClass",
+            displayName: "CSS class",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "foreColor",
+            displayName: "Foreground color",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.COLOR
+        }));
+
+        // behavior
+        this.add(new PropertyDescriptor({
+            name: "blinkingState",
+            displayName: "When blinking",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.STRUCT,
+            defaultValue: new rs.mimic.VisualStateStruct()
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "clickAction",
+            displayName: "On click",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.STRUCT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "disabledState",
+            displayName: "On disabled",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.STRUCT,
+            defaultValue: new rs.mimic.VisualStateStruct()
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "hoverState",
+            displayName: "On hover",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.STRUCT,
+            defaultValue: new rs.mimic.VisualStateStruct()
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "script",
+            displayName: "Script",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "tooltip",
+            displayName: "Tooltip",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.STRING
+        }));
+    }
+}
+
+// Represents a text component descriptor.
+rs.mimic.TextDescriptor = class extends rs.mimic.ComponentDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const KnownCategory = rs.mimic.KnownCategory;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        // appearance
+        this.add(new PropertyDescriptor({
+            name: "font",
+            displayName: "Font",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRUCT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "text",
+            displayName: "Text",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "textAlign",
+            displayName: "Text alignment",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.ENUM
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "wordWrap",
+            displayName: "Word wrap",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.BOOL
+        }));
+
+        // layout
+        this.add(new PropertyDescriptor({
+            name: "autoSize",
+            displayName: "Auto size",
+            category: KnownCategory.LAYOUT,
+            type: BasicType.BOOL
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "padding",
+            displayName: "Padding",
+            category: KnownCategory.LAYOUT,
+            type: BasicType.STRUCT,
+            defaultValue: new rs.mimic.PaddingStruct()
+        }));
+    }
+}
+
+// Represents a picture component descriptor.
+rs.mimic.PictureDescriptor = class extends rs.mimic.ComponentDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const KnownCategory = rs.mimic.KnownCategory;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        // appearance
+        this.add(new PropertyDescriptor({
+            name: "imageName",
+            displayName: "Image",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRING
+        }));
+
+        // behavior
+        this.add(new PropertyDescriptor({
+            name: "conditions",
+            displayName: "Conditions",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.LIST
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "sizeMode",
+            displayName: "Size mode",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.ENUM
+        }));
+
+        // layout
+        this.add(new PropertyDescriptor({
+            name: "padding",
+            displayName: "Padding",
+            category: KnownCategory.LAYOUT,
+            type: BasicType.STRUCT,
+            defaultValue: new rs.mimic.PaddingStruct()
+        }));
+    }
+}
+
+// Represents a panel component descriptor.
+rs.mimic.PanelDescriptor = class extends rs.mimic.ComponentDescriptor {
+    repair(component) {
+        super.repair(component);
+        component.children ??= []; // accept child components
+    }
+}
+
+// Represents a faceplate descriptor.
+rs.mimic.FaceplateDescriptor = class extends rs.mimic.ComponentDescriptorBase {
+}
+
+// Contains descriptors for a mimic and its components.
+rs.mimic.DescriptorSet = class {
+    static mimicDescriptor = new rs.mimic.MimicDescriptor();
+    static faceplateDescriptor = new rs.mimic.FaceplateDescriptor();
+    static componentDescriptors = new Map([
+        ["Text", new rs.mimic.TextDescriptor()],
+        ["Picture", new rs.mimic.PictureDescriptor()],
+        ["Panel", new rs.mimic.PanelDescriptor()]
+    ]);
+}
+
+// Contains classes: ModalContext, ModalBase, FaceplateModal, ImageModal
+// Depends on jquery, bootstrap, mimic-model.js
+
+// Represents a context of a modal dialog.
+class ModalContext {
+    oldObject = null;
+    newObject = null;
+    result = false;
+    callback = null;
+
+    constructor(source) {
+        Object.assign(this, source);
+    }
+}
+
+// A base class for modal dialogs.
+class ModalBase {
+    _elem;
+    _modal;
+    _context;
+
+    constructor(elemID) {
+        this._elem = $("#" + elemID);
+        this._modal = new bootstrap.Modal(this._elem[0]);
+        this._context = new ModalContext();
+    }
+}
+
+// Represents a modal dialog for editing a faceplate meta.
+class FaceplateModal extends ModalBase {
+    constructor(elemID) {
+        super(elemID);
+        this._bindEvents();
+    }
+
+    _bindEvents() {
+        $("#frmFaceplateModal").on("submit", () => {
+            $("#faceplateModal_btnOK").trigger("click");
+            return false;
+        });
+
+        $("#faceplateModal_btnOK").on("click", () => {
+            let formElem = $("#frmFaceplateModal");
+
+            if (formElem[0].checkValidity()) {
+                this._readFields();
+                this._context.result = true;
+                this._modal.hide();
+            }
+
+            formElem.addClass("was-validated");
+        });
+
+        this._elem
+            .on("shown.bs.modal", () => {
+                $("#faceplateModal_txtTypeName").focus();
+            })
+            .on("hidden.bs.modal", () => {
+                if (this._context.result && this._context.callback instanceof Function) {
+                    this._context.callback.call(this, this._context);
+                }
+            });
+    }
+
+    _readFields() {
+        let obj = this._context.newObject;
+
+        if (obj) {
+            obj.typeName = $("#faceplateModal_txtTypeName").val();
+            obj.path = $("#faceplateModal_txtPath").val();
+        }
+    }
+
+    show(faceplateMeta, callback) {
+        let obj = new rs.mimic.FaceplateMeta();
+        Object.assign(obj, faceplateMeta);
+
+        this._context = new ModalContext({
+            oldObject: faceplateMeta,
+            newObject: obj,
+            callback: callback
+        });
+
+        $("#frmFaceplateModal").removeClass("was-validated")
+        $("#faceplateModal_txtTypeName").val(obj.typeName);
+        $("#faceplateModal_txtPath").val(obj.path);
+        this._modal.show();
+    }
+}
+
+// Represents a modal dialog for editing an image.
+class ImageModal extends ModalBase {
+    constructor(elemID) {
+        super(elemID);
+        this._bindEvents();
+    }
+
+    _bindEvents() {
+        $("#frmImageModal").on("submit", () => {
+            $("#imageModal_btnOK").trigger("click");
+            return false;
+        });
+
+        $("#imageModal_btnOK").on("click", () => {
+            let formElem = $("#frmImageModal");
+
+            if (formElem[0].checkValidity()) {
+                this._readFields();
+                this._context.result = true;
+                this._modal.hide();
+            }
+
+            formElem.addClass("was-validated");
+        });
+
+        $("#imageModal_btnUpload").on("click", () => {
+            $("#imageModal_file").trigger("click");
+        });
+
+        $("#imageModal_btnDownload").on("click", (event) => {
+            let linkElem = $(event.target);
+            this._downloadImage(linkElem);
+        });
+
+        $("#imageModal_file").on("change", (event) => {
+            let file = event.target.files[0];
+
+            if (file) {
+                this._uploadImage(file);
+            }
+        });
+
+        this._elem
+            .on("shown.bs.modal", () => {
+                $("#imageModal_txtName").focus();
+            })
+            .on("hidden.bs.modal", () => {
+                if (this._context.result && this._context.callback instanceof Function) {
+                    this._context.callback.call(this, this._context);
+                }
+            });
+    }
+
+    _readFields() {
+        let obj = this._context.newObject;
+
+        if (obj) {
+            obj.name = $("#imageModal_txtName").val();
+            obj.dataUrl = $("#imageModal_imgPreview").attr("src");
+        }
+    }
+
+    _showFileSize(size) {
+        $("#imageModal_spnFileSize").text(size ? "(" + Math.round(size / 1024) + " KB)" : "");
+    }
+
+    _getFileSize(imageData) {
+        return imageData ? atob(imageData).length : 0;
+    }
+
+    _showImage(dataUrl) {
+        if (dataUrl) {
+            $("#imageModal_imgPreview").attr("src", dataUrl).removeClass("d-none");
+            $("#imageModal_divNoImage").addClass("d-none");
+            $("#imageModal_btnDownload").prop("disabled", false);
+        } else {
+            $("#imageModal_imgPreview").attr("src", "").addClass("d-none");
+            $("#imageModal_divNoImage").removeClass("d-none");
+            $("#imageModal_btnDownload").prop("disabled", true);
+        }
+    }
+
+    _uploadImage(file) {
+        let reader = new FileReader();
+
+        reader.onload = () => {
+            let txtName = $("#imageModal_txtName");
+
+            if (!txtName.val()) {
+                txtName.val(file.name);
+            }
+
+            this._showFileSize(file.size);
+            this._showImage(reader.result);
+        };
+
+        reader.onerror = () => {
+            console.error("Error reading file.");
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+    _downloadImage(linkElem) {
+        let name = $("#imageModal_txtName").val();
+        let dataUrl = $("#imageModal_imgPreview").attr("src");
+        linkElem
+            .attr("download", name)
+            .attr("href", dataUrl);
+    }
+
+    show(image, callback) {
+        let obj = new rs.mimic.Image();
+        Object.assign(obj, image);
+
+        this._context = new ModalContext({
+            oldObject: image,
+            newObject: obj,
+            callback: callback
+        });
+
+        $("#frmImageModal").removeClass("was-validated")
+        $("#imageModal_txtName").val(obj.name);
+        $("#imageModal_file").val("");
+        this._showFileSize(this._getFileSize(obj.data));
+        this._showImage(obj.dataUrl);
+        this._modal.show();
+    }
+}
+
+// Contains classes: PropGrid, PropGridEventType, PropGridHelper, ProxyObject, PointProxy, SizeProxy, UnionObject
+// Depends on jquery, tweakpane, scada-common.js, mimic-model.js, mimic-descr.js
+
+// Interacts with Tweakpane to provide property grid functionality.
+class PropGrid {
+    _pane; // Tweakpane
+    _eventSource = document.createElement("propgrid");
+    _selectedObject = null;
+    _parentStack = [];
+
+    constructor(elemID) {
+        let containerElem = $("#" + elemID);
+        this._pane = new Pane({
+            container: containerElem[0]
+        });
+    }
+
+    _selectObject(obj) {
+        this._selectedObject = obj;
+        this._parentStack = [];
+        this._showObjectProperties(obj, null);
+    }
+
+    _selectChildObject(obj, parent) {
+        this._selectedObject = obj;
+        this._parentStack.push(parent);
+        this._showObjectProperties(obj, parent);
+    }
+
+    _selectParentObject() {
+        let parent = this._parentStack.pop();
+        let grandParent = this._parentStack.at(-1); // last
+        this._selectedObject = parent;
+        this._showObjectProperties(parent, grandParent);
+    }
+
+    _showObjectProperties(obj, parent) {
+        this._clearPane();
+        let descriptor = PropGridHelper.getObjectDescriptor(obj);
+        let folderMap = this._addFolders(descriptor);
+
+        if (obj instanceof rs.mimic.Mimic) {
+            this._addBlades(folderMap, obj.document, parent, descriptor);
+        } else if (obj instanceof rs.mimic.Component) {
+            this._addBlade(folderMap, obj, "id", obj.id, descriptor);
+            this._addBlade(folderMap, obj, "name", obj.name, descriptor);
+            this._addBlade(folderMap, obj, "typeName", obj.typeName, descriptor);
+            this._addBlades(folderMap, obj.properties, parent, descriptor);
+        } else if (obj instanceof UnionObject) {
+            this._addBlades(folderMap, obj.properties, parent, descriptor);
+        } else if (obj instanceof Object) {
+            this._addBlades(folderMap, obj, parent, descriptor);
+        }
+    }
+
+    _clearPane() {
+        for (let child of this._pane.children) {
+            child.dispose();
+        }
+    }
+
+    _addBlades(folderMap, target, parent, objectDescriptor) {
+        const thisObj = this;
+
+        if (target) {
+            for (let [name, value] of Object.entries(target)) {
+                this._addBlade(folderMap, target, name, value, objectDescriptor);
+            }
+        }
+
+        if (parent) {
+            this._pane
+                .addButton({
+                    title: "Return to Parent"
+                })
+                .on("click", function () {
+                    thisObj._selectParentObject();
+                });
+        }
+    }
+
+    _addBlade(folderMap, target, propertyName, propertyValue, objectDescriptor) {
+        let propertyDescriptor = objectDescriptor?.get(propertyName);
+
+        if (propertyDescriptor && !propertyDescriptor.isBrowsable) {
+            return;
+        }
+
+        const thisObj = this;
+        const selObj = this._selectedObject;
+        let container = this._selectContainer(folderMap, propertyDescriptor);
+
+        if (typeof propertyValue === "number" ||
+            typeof propertyValue === "string" ||
+            typeof propertyValue === "boolean") {
+            // simple property is editable in row
+            container
+                .addBinding(target, propertyName, this._getBindingOptions(propertyDescriptor))
+                .on("change", function (event) {
+                    if (event.last) {
+                        thisObj._handleBindingChange(selObj, target, propertyName, event.value);
+                    }
+                });
+        } else if (propertyValue instanceof Object) {
+            let proxyObject = this._createProxyObject(propertyValue, propertyDescriptor);
+
+            if (proxyObject) {
+                // use proxy object
+                container
+                    .addBinding({ [propertyName]: proxyObject }, propertyName,
+                        this._getBindingOptions(propertyDescriptor))
+                    .on("change", function (event) {
+                        if (event.last) {
+                            thisObj._handleBindingChange(selObj, target, propertyName, event.value);
+                        }
+                    });
+            } else {
+                // complex property requires braking into simple properties
+                container
+                    .addButton({
+                        label: propertyDescriptor?.displayName ?? propertyName,
+                        title: "Edit"
+                    })
+                    .on("click", function () {
+                        thisObj._selectChildObject(propertyValue, selObj);
+                    });
+            }
+        }
+    }
+
+    _addFolders(objectDescriptor) {
+        let folderMap = new Map();
+
+        if (objectDescriptor) {
+            // get distinct categories
+            let categorySet = new Set();
+
+            for (let propertyDescriptor of objectDescriptor.propertyDescriptors.values()) {
+                if (propertyDescriptor.isBrowsable && propertyDescriptor.category) {
+                    categorySet.add(propertyDescriptor.category);
+                }
+            }
+
+            // create folders
+            for (let category of Array.from(categorySet).sort()) {
+                folderMap.set(category, this._pane.addFolder({
+                    title: category
+                }));
+            }
+        }
+
+        return folderMap;
+    }
+
+    _selectContainer(folderMap, propertyDescriptor) {
+        return propertyDescriptor && propertyDescriptor.category
+            ? folderMap.get(propertyDescriptor.category) ?? this._pane
+            : this._pane;
+    }
+
+    _createProxyObject(target, propertyDescriptor) {
+        const BasicType = rs.mimic.BasicType;
+        let proxy = null;
+
+        if (propertyDescriptor) {
+            switch (propertyDescriptor.type) {
+                case BasicType.POINT:
+                    proxy = new PointProxy(target);
+                    break;
+
+                case BasicType.SIZE:
+                    proxy = new SizeProxy(target);
+                    break;
+            }
+        }
+
+        return proxy;
+    }
+
+    _getBindingOptions(propertyDescriptor) {
+        const BasicType = rs.mimic.BasicType;
+        let bindingOptions = null;
+
+        if (propertyDescriptor) {
+            bindingOptions = {
+                label: propertyDescriptor.displayName
+            };
+
+            if (propertyDescriptor.isReadOnly) {
+                bindingOptions.readonly = true;
+                bindingOptions.interval = ScadaUtils.MS_PER_DAY;
+            }
+
+            switch (propertyDescriptor.type) {
+                case BasicType.INT:
+                    bindingOptions.format = (v) => v.toFixed();
+                    break;
+
+                case BasicType.POINT:
+                case BasicType.SIZE:
+                    bindingOptions.x = { step: 1 };
+                    bindingOptions.y = { step: 1 };
+                    break;
+            }
+
+            if (propertyDescriptor.format instanceof Object) {
+                Object.assign(bindingOptions, propertyDescriptor.format);
+            }
+        }
+
+        return bindingOptions;
+    }
+
+    _handleBindingChange(selectedObject, changedObject, propertyName, value) {
+        let targetValue = value instanceof ProxyObject ? value.target : value;
+
+        if (selectedObject instanceof UnionObject) {
+            selectedObject.setProperty(propertyName, targetValue);
+        }
+
+        this._eventSource.dispatchEvent(new CustomEvent(PropGridEventType.PROPERTY_CHANGED, {
+            detail: {
+                selectedObject: selectedObject,
+                changedObject: changedObject,
+                propertyName: propertyName,
+                value: targetValue
+            }
+        }));
+    }
+
+    get selectedObject() {
+        return this._selectedObject;
+    }
+
+    set selectedObject(value) {
+        if (this._selectedObject !== value) {
+            this._selectObject(value);
+        }
+    }
+
+    get selectedObjects() {
+        return this._selectedObject instanceof UnionObject
+            ? this._selectedObject.targets
+            : [this._selectedObject];
+    }
+
+    set selectedObjects(value) {
+        if (Array.isArray(value)) {
+            if (value.length === 0) {
+                this.selectedObject = null;
+            } else if (value.length === 1) {
+                this.selectedObject = value[0];
+            } else {
+                this.selectedObject = new UnionObject(value);
+            }
+        }
+    }
+
+    addEventListener(type, listener) {
+        this._eventSource.addEventListener(type, listener);
+    }
+
+    refreshProperty(propertyName) {
+        for (let folder of this._pane.children) {
+            for (let binding of folder.children) {
+                if (binding.key === propertyName) {
+                    binding.refresh();
+                    return;
+                }
+            }
+        }
+    }
+
+    refresh() {
+        if (this._selectedObject instanceof UnionObject) {
+            let newUnion = new UnionObject(this._selectedObject.targets);
+            this._selectObject(newUnion);
+        } else {
+            this._selectObject(this._selectedObject);
+        }
+    }
+}
+
+// Specifies the event types for property grid.
+class PropGridEventType {
+    static PROPERTY_CHANGED = "propertyChanged";
+}
+
+// Provides helper methods for property grid.
+class PropGridHelper {
+    static getObjectDescriptor(obj) {
+        const DescriptorSet = rs.mimic.DescriptorSet;
+
+        if (obj instanceof rs.mimic.FaceplateInstance) {
+            return DescriptorSet.faceplateDescriptor;
+        } else if (obj instanceof rs.mimic.Component) {
+            return DescriptorSet.componentDescriptors.get(obj.typeName);
+        } else if (obj instanceof rs.mimic.Mimic) {
+            return DescriptorSet.mimicDescriptor;
+        } else if (obj instanceof UnionObject) {
+            return obj.descriptor;
+        } else {
+            return null;
+        }
+    }
+}
+
+// Represents an intermediate object intended for editing.
+class ProxyObject {
+    target;
+
+    constructor(target) {
+        if (target) {
+            this.target = target;
+        } else {
+            throw new Error("Target must not be null.");
+        }
+    }
+}
+
+// Represents a proxy object for editing point as a Point2d.
+class PointProxy extends ProxyObject {
+    get x() {
+        return parseInt(this.target.x) || 0;
+    }
+
+    set x(value) {
+        this.target.x = value.toString();
+    }
+
+    get y() {
+        return parseInt(this.target.y) || 0;
+    }
+
+    set y(value) {
+        this.target.y = value.toString();
+    }
+}
+
+// Represents a proxy object for editing size as a Point2d.
+class SizeProxy extends ProxyObject {
+    get x() {
+        return parseInt(this.target.width) || 0;
+    }
+
+    set x(value) {
+        this.target.width = value.toString();
+    }
+
+    get y() {
+        return parseInt(this.target.height) || 0;
+    }
+
+    set y(value) {
+        this.target.height = value.toString();
+    }
+}
+
+// Represents an intermediate object for editing multiple objects.
+class UnionObject {
+    targets;    // objects included in the union
+    properties; // common properties
+    descriptor; // describes the union properties
+
+    constructor(targets) {
+        if (Array.isArray(targets)) {
+            this.targets = targets;
+        } else {
+            throw new Error("Targets must be an array.");
+        }
+
+        this._buildProperties();
+    }
+
+    _buildProperties() {
+        this.properties = {};
+        this.descriptor = new rs.mimic.ObjectDescriptor();
+        let index = 0;
+
+        for (let target of this.targets) {
+            let targetDescriptor = PropGridHelper.getObjectDescriptor(target);
+            let editableObj = this._getEditableObject(target);
+
+            if (index === 0) {
+                // add properties of the 1st object
+                for (let [name, value] of Object.entries(editableObj)) {
+                    this.properties[name] = ScadaUtils.deepClone(value);
+                    let propertyDescriptor = targetDescriptor.get(name);
+
+                    if (propertyDescriptor) {
+                        this.descriptor.add(propertyDescriptor);
+                    }
+                }
+            } else {
+                // intersect with properties of other objects
+                for (let [name, value] of Object.entries(this.properties)) {
+                    let descriptor1 = this.descriptor.get(name);
+                    let descriptor2 = targetDescriptor.get(name);
+
+                    if (editableObj.hasOwnProperty(name) && this._sameProperties(descriptor1, descriptor2)) {
+                        let value2 = editableObj[name];
+
+                        if (!this._sameValues(value, value2)) {
+                            // objects have the same property with different values
+                            this.properties[name] = this._mergeValues(value, value2);
+                        }
+                    } else {
+                        delete this.properties[name];
+                        this.descriptor.delete(name);
+                    }
+                }
+            }
+
+            index++;
+        }
+    }
+
+    _getEditableObject(target) {
+        if (target instanceof rs.mimic.Component) {
+            return target.properties;
+        } else if (target instanceof rs.mimic.Mimic) {
+            return target.document;
+        } else if (target instanceof Object) {
+            return target;
+        } else {
+            return null;
+        }
+    }
+
+    _sameProperties(descriptor1, descriptor2) {
+        return descriptor1 === descriptor2 ||
+            descriptor1 && descriptor2 && descriptor1.type === descriptor2.type;
+    }
+
+    _sameValues(value1, value2) {
+        let json1 = JSON.stringify(value1);
+        let json2 = JSON.stringify(value2);
+        return json1 === json2;
+    }
+
+    _mergeValues(value1, value2) {
+        if (typeof value1 === "number") {
+            return value1 === value2 ? value1 : 0;
+        } else if (typeof value1 === "string") {
+            return value1 === value2 ? value1 : "";
+        } else if (value1 instanceof Object) {
+            let result = {};
+
+            for (let [name, value] of Object.entries(value1)) {
+                result[name] = this._mergeValues(value, value2[name]);
+            }
+
+            return result;
+        } else {
+            return null; // property is not displayed
+        }
+    }
+
+    setProperty(name, value) {
+        for (let target of this.targets) {
+            let editableObj = this._getEditableObject(target);
+            editableObj[name] = ScadaUtils.deepClone(value);
+        }
+    }
+
+    toString() {
+        return "Union";
+    }
+}
+
+// Contains classes: StructTree, StructTreeEventType
+// Depends on jquery, bootstrap, mimic-model.js
+
+// Represents a component for displaying mimic structure.
+class StructTree {
+    _eventSource = document.createElement("structtree");
+
+    structElem;
+    mimic;
+    phrases;
+
+    constructor(elemID, mimic, phrases) {
+        this.structElem = $("#" + elemID);
+        this.mimic = mimic;
+        this.phrases = phrases;
+    }
+
+    _prepareDependencies(listElem) {
+        let dependenciesNode = $("<span class='node node-dependencies'></span>");
+        $("<span class='node-text'></span>").text(this.phrases.dependenciesNode).appendTo(dependenciesNode);
+        $("<span class='node-btn add-btn'><i class='fa-solid fa-plus'></i></span>").appendTo(dependenciesNode);
+
+        let dependenciesItem = $("<li class='item-dependencies'></li>").append(dependenciesNode).appendTo(listElem);
+        let dependenciesList = $("<ul class='list-dependencies'></ul>").appendTo(dependenciesItem);
+        this._appendDependencies(dependenciesList);
+    }
+
+    _appendDependencies(listElem) {
+        for (let dependency of this.mimic.dependencies) {
+            if (!dependency.isTransitive) {
+                let dependencyNode = $("<span class='node node-dependency'></span>");
+                $("<span class='node-text'></span>").text(dependency.typeName)
+                    .appendTo(dependencyNode);
+                $("<span class='node-btn edit-btn'><i class='fa-solid fa-pen-to-square'></i></span>")
+                    .appendTo(dependencyNode);
+                $("<span class='node-btn remove-btn'><i class='fa-regular fa-trash-can'></i></span>")
+                    .appendTo(dependencyNode);
+                $("<li class='item-dependency'></li>")
+                    .attr("data-name", dependency.typeName)
+                    .addClass(dependency.hasError ? "has-error" : "")
+                    .append(dependencyNode).appendTo(listElem);
+            }
+        }
+    }
+
+    _prepareImages(listElem) {
+        let imagesNode = $("<span class='node node-images'></span>");
+        $("<span class='node-text'></span>").text(this.phrases.imagesNode).appendTo(imagesNode);
+        $("<span class='node-btn add-btn'><i class='fa-solid fa-plus'></i></span>").appendTo(imagesNode);
+
+        let imagesItem = $("<li class='item-images'></li>").append(imagesNode).appendTo(listElem);
+        let imagesList = $("<ul class='list-images'></ul>").appendTo(imagesItem);
+        this._appendImages(imagesList);
+    }
+
+    _appendImages(listElem) {
+        for (let image of this.mimic.images) {
+            let imageNode = $("<span class='node node-image'></span>");
+            $("<span class='node-text'></span>").text(image.name)
+                .appendTo(imageNode);
+            let viewBtn = $("<span class='node-btn view-btn'><i class='fa-regular fa-eye'></i></span>")
+                .appendTo(imageNode);
+            $("<span class='node-btn edit-btn'><i class='fa-solid fa-pen-to-square'></i></span>")
+                .appendTo(imageNode);
+            $("<span class='node-btn remove-btn'><i class='fa-regular fa-trash-can'></i></span>")
+                .appendTo(imageNode);
+            $("<li class='item-image'></li>").attr("data-name", image.name)
+                .append(imageNode).appendTo(listElem);
+            this._initImagePopover(viewBtn, image.name);
+        }
+    }
+
+    _initImagePopover(buttonElem, imageName) {
+        const thisObj = this;
+
+        bootstrap.Popover.getOrCreateInstance(buttonElem[0], {
+            html: true,
+            placement: "bottom",
+            content: function () {
+                // called twice by Bootstrap on each show
+                let popoverContent = buttonElem.data("popoverContent");
+
+                if (!popoverContent) {
+                    let dataUrl = thisObj.mimic.imageMap.get(imageName)?.dataUrl;
+                    popoverContent = dataUrl
+                        ? `<img class="image-preview" src="${dataUrl}" />`
+                        : thisObj.phrases.noImagePreview;
+                    buttonElem.data("popoverContent", popoverContent);
+                }
+
+                return popoverContent;
+            }
+        });
+    }
+
+    _prepareComponents(listElem) {
+        let mimicNode = $("<span class='node node-mimic'></span>").text(this.phrases.mimicNode);
+        let mimicItem = $("<li class='item-mimic'></li>").append(mimicNode).appendTo(listElem);
+        let componentsList = $("<ul class='list-components'></ul>").appendTo(mimicItem);
+        this._appendComponents(componentsList);
+    }
+
+    _appendComponents(listElem) {
+        for (let component of this.mimic.children) {
+            this._appendComponent(listElem, component);
+        }
+    }
+
+    _appendComponent(listElem, component) {
+        let componentNode = $("<span class='node node-comp'></span>").text(component.displayName);
+        let componentItem = $("<li class='item-comp'></li>")
+            .attr("id", "struct-comp-item" + component.id)
+            .attr("data-id", component.id)
+            .append(componentNode).appendTo(listElem);
+
+        if (component.isContainer) {
+            let childList = $("<ul></ul>").appendTo(componentItem);
+
+            for (let childComponent of component.children) {
+                this._appendComponent(childList, childComponent);
+            }
+        }
+
+        if (component.isSelected) {
+            componentNode.addClass("selected");
+        }
+    }
+
+    _bindEvents(listElem) {
+        const thisObj = this;
+
+        // dependencies
+        listElem.find(".item-dependencies")
+            .on("click", ".add-btn", function () {
+                thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.ADD_DEPENDENCY_CLICK));
+            })
+            .on("click", ".edit-btn", function () {
+                thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.EDIT_DEPENDENCY_CLICK, {
+                    detail: { name: $(this).closest(".item-dependency").data("name") }
+                }));
+            })
+            .on("click", ".remove-btn", function () {
+                thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.REMOVE_DEPENDENCY_CLICK, {
+                    detail: { name: $(this).closest(".item-dependency").data("name") }
+                }));
+            });
+
+        // images
+        listElem.find(".item-images")
+            .on("click", ".add-btn", function () {
+                thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.ADD_IMAGE_CLICK));
+            })
+            .on("click", ".edit-btn", function () {
+                thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.EDIT_IMAGE_CLICK, {
+                    detail: { name: $(this).closest(".item-image").data("name") }
+                }));
+            })
+            .on("click", ".remove-btn", function () {
+                thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.REMOVE_IMAGE_CLICK, {
+                    detail: { name: $(this).closest(".item-image").data("name") }
+                }));
+            });
+
+        // mimic and components
+        listElem.find(".item-mimic")
+            .on("click", ".node-mimic", function () {
+                thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.MIMIC_CLICK));
+            })
+            .on("click", ".node-comp", function (event) {
+                thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.COMPONENT_CLICK, {
+                    detail: {
+                        componentID: $(this).parent().data("id"),
+                        isSelected: $(this).hasClass("selected"),
+                        ctrlKey: event.ctrlKey
+                    }
+                }));
+            });
+    }
+
+    _findMimicItem() {
+        return this.structElem.find(".item-mimic");
+    }
+
+    _findComponentItem(component) {
+        return this.structElem.find("#struct-comp-item" + component.id);
+    }
+
+    _findComponentNode(component) {
+        return this._findComponentItem(component).children(".node");
+    }
+
+    build() {
+        let listElem = $("<ul class='list-top'></ul>");
+        this._prepareDependencies(listElem);
+        this._prepareImages(listElem);
+        this._prepareComponents(listElem);
+        this._bindEvents(listElem);
+
+        // add new or replace existing element
+        let oldListElem = this.structElem.find(".list-top:first");
+
+        if (oldListElem.length > 0) {
+            oldListElem.replaceWith(listElem);
+        } else {
+            this.structElem.append(listElem);
+        }
+    }
+
+    refreshDependencies() {
+        let oldDependenciesList = this.structElem.find(".list-dependencies:first");
+        let newDependenciesList = $("<ul class='list-dependencies'></ul>");
+        this._appendDependencies(newDependenciesList);
+        oldDependenciesList.replaceWith(newDependenciesList);
+    }
+
+    refreshImages() {
+        let oldImagesList = this.structElem.find(".list-images:first");
+        let newImagesList = $("<ul class='list-images'></ul>");
+        this._appendImages(newImagesList);
+        oldImagesList.replaceWith(newImagesList);
+    }
+
+    refreshComponents(parent) {
+        if (parent instanceof rs.mimic.Mimic) {
+            // refresh all components
+            let oldListElem = this.structElem.find(".list-components:first");
+            let newListElem = $("<ul class='list-components'></ul>");
+            this._appendComponents(newListElem)
+            oldListElem.replaceWith(newListElem);
+        } else if (parent instanceof rs.mimic.Component) {
+            // refresh components belongs to the parent
+            let parentItem = this._findComponentItem(parent);
+            let oldListElem = parentItem.children("ul:first");
+            let newListElem = $("<ul></ul>");
+
+            for (let childComponent of parent.children) {
+                this._appendComponent(newListElem, childComponent);
+            }
+
+            oldListElem.replaceWith(newListElem);
+        }
+    }
+
+    addComponent(component) {
+        let listElem = component.parentID > 0
+            ? this.structElem.find(`#struct-comp-item${component.parentID}>ul`) 
+            : this.structElem.find(".item-mimic>ul");
+
+        if (listElem.length > 0) {
+            this._appendComponent(listElem, component);
+        }
+    }
+
+    updateComponent(component) {
+        this._findComponentNode(component).text(component.displayName);
+    }
+
+    removeComponent(componentID) {
+        this.structElem.find("#struct-comp-item" + componentID).remove();
+    }
+
+    selectMimic() {
+        let mimicItem = this._findMimicItem();
+        mimicItem.children(".node").addClass("selected");
+        mimicItem.children("ul").find(".node").removeClass("selected");
+    }
+
+    selectNone() {
+        this._findMimicItem().find(".node").removeClass("selected");
+    }
+
+    selectComponents(components) {
+        this.selectNone();
+
+        if (Array.isArray(components)) {
+            for (let component of components) {
+                this._findComponentNode(component).addClass("selected");
+            }
+        }
+    }
+
+    addToSelection(component) {
+        this._findMimicItem().children(".node").removeClass("selected");
+        this._findComponentNode(component).addClass("selected");
+    }
+
+    removeFromSelection(component) {
+        this._findComponentNode(component).removeClass("selected");
+    }
+
+    addEventListener(type, listener) {
+        this._eventSource.addEventListener(type, listener);
+    }
+}
+
+// Specifies the event types for a mimic structure component.
+class StructTreeEventType {
+    static ADD_DEPENDENCY_CLICK = "addDependencyClick";
+    static EDIT_DEPENDENCY_CLICK = "editDependencyClick";
+    static REMOVE_DEPENDENCY_CLICK = "removeDependencyClick";
+
+    static ADD_IMAGE_CLICK = "addImageClick";
+    static EDIT_IMAGE_CLICK = "editImageClick";
+    static REMOVE_IMAGE_CLICK = "removeImageClick";
+
+    static MIMIC_CLICK = "mimicClick";
+    static COMPONENT_CLICK = "componentClick";
+}

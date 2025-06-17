@@ -41,6 +41,79 @@ rs.mimic.LoadContext = class {
     }
 }
 
+// Contains classes: ComponentFactory, TextFactory, PictureFactory, PanelFactory, FaceplateFactory, FactorySet
+// Depends on mimic-model.js
+
+// Represents an abstract component factory.
+rs.mimic.ComponentFactory = class {
+    createComponent(typeName) {
+        let component = new rs.mimic.Component();
+        component.typeName = typeName;
+        component.properties = {
+            enabled: true,
+            visible: true,
+            location: { x: "0", y: "0" },
+            size: { width: "100", height: "100" }
+        };
+        return component;
+    }
+}
+
+// Creates components of the Text type.
+rs.mimic.TextFactory = class extends rs.mimic.ComponentFactory {
+    createComponent() {
+        let component = super.createComponent("Text");
+        component.properties.text = "Text";
+        return component;
+    }
+}
+
+// Creates components of the Picture type.
+rs.mimic.PictureFactory = class extends rs.mimic.ComponentFactory {
+    createComponent() {
+        return super.createComponent("Picture");
+    }
+}
+
+// Creates components of the Panel type.
+rs.mimic.PanelFactory = class extends rs.mimic.ComponentFactory {
+    createComponent() {
+        let component = super.createComponent("Panel");
+        component.children = [];
+        return component;
+    }
+}
+
+// Creates faceplates.
+rs.mimic.FaceplateFactory = class {
+    static createComponent(faceplate) {
+        let faceplateInstance = new rs.mimic.FaceplateInstance();
+        faceplateInstance.typeName = faceplate.typeName;
+        faceplateInstance.properties = {
+            location: { x: "0", y: "0" }
+        };
+        faceplateInstance.applyModel(faceplate);
+        return faceplateInstance;
+    }
+}
+
+// Contains factories for mimic components.
+rs.mimic.FactorySet = class {
+    static componentFactories = new Map([
+        ["Text", new rs.mimic.TextFactory()],
+        ["Picture", new rs.mimic.PictureFactory()],
+        ["Panel", new rs.mimic.PanelFactory()]
+    ]);
+
+    static getFaceplateFactory(faceplate) {
+        return {
+            createComponent: function () {
+                return rs.mimic.FaceplateFactory.createComponent(faceplate);
+            }
+        };
+    }
+}
+
 // Contains classes: MimicHelper, MimicBase, Mimic, Component, Panel, Image, 
 //     FaceplateMeta, Faceplate, FaceplateInstance
 // Depends on scada-common.js, mimic-common.js
@@ -1450,43 +1523,3 @@ rs.mimic.UnitedRenderer = class {
         }
     }
 }
-
-// Depends on jquery, scada-common.js, view-hub.js, main-api.js, mimic-common.js, mimic-model.js, mimic-render.js
-
-const viewHub = ViewHub.getInstance();
-const mainApi = new MainApi({ rootPath: viewHub.appEnv.rootPath });
-const mimic = new rs.mimic.Mimic();
-const unitedRenderer = new rs.mimic.UnitedRenderer(mimic, false);
-
-var viewID = 0;
-
-function bindEvents() {
-    $(window).on("resize", function () {
-        updateLayout();
-    });
-}
-
-function updateLayout() {
-    let h = $(window).height();
-    $("#divMimicWrapper").outerHeight(h);
-}
-
-async function loadMimic() {
-    let result = await mimic.load(getLoaderUrl(), viewID);
-
-    if (result.ok) {
-        $("#divMimicWrapper").append(unitedRenderer.createMimicDom());
-    } else {
-        // show error
-    }
-}
-
-function getLoaderUrl() {
-    return viewHub.appEnv.rootPath + "Api/Mimic/";
-}
-
-$(async function () {
-    bindEvents();
-    updateLayout();
-    await loadMimic();
-});

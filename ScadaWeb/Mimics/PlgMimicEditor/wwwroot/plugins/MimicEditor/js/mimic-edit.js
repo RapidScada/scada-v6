@@ -1,6 +1,6 @@
 ﻿// Depends on jquery, tweakpane, scada-common.js,
-//     mimic-common.js, mimic-model.js, mimic-render.js,
-//     editor-common.js, mimic-descr.js, mimic-factory.js, prop-grid.js, struct-tree.js
+//     mimic-common.js, mimic-factory.js, mimic-model.js, mimic-render.js,
+//     editor-common.js, mimic-descr.js, modals.js, prop-grid.js, struct-tree.js
 
 const UPDATE_RATE = 1000; // ms
 const KEEP_ALIVE_INTERVAL = 10000; // ms
