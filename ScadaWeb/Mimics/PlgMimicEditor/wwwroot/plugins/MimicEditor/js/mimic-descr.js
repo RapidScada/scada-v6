@@ -54,7 +54,7 @@ rs.mimic.BasicType = class BasicType {
                 return undefined;
         }
     }
-}
+};
 
 // Specifies the known categories.
 rs.mimic.KnownCategory = class {
@@ -64,7 +64,7 @@ rs.mimic.KnownCategory = class {
     static DESIGN = "design";
     static LAYOUT = "layout";
     static MISC = "misc";
-}
+};
 
 // Represents an action structure.
 rs.mimic.ActionStruct = class {
@@ -73,13 +73,13 @@ rs.mimic.ActionStruct = class {
     commandArgs = null;
     linkArgs = null;
     script = "";
-}
+};
 
 // Represents a border structure.
 rs.mimic.BorderStruct = class {
     width = 0;
     color = ""
-}
+};
 
 // Represents a condition structure.
 rs.mimic.ConditionStruct = class {
@@ -88,7 +88,7 @@ rs.mimic.ConditionStruct = class {
     logicalOperator = "";
     compareOperator2 = "";
     compareArgument2 = 0.0;
-}
+};
 
 // Represents a corner radius structure.
 rs.mimic.CornerRadiusStruct = class {
@@ -96,7 +96,7 @@ rs.mimic.CornerRadiusStruct = class {
     topRight = 0;
     bottomRight = 0;
     bottomLeft = 0;
-}
+};
 
 // Represents a font structure.
 rs.mimic.FontStruct = class {
@@ -105,12 +105,12 @@ rs.mimic.FontStruct = class {
     bold = false;
     italic = false;
     underline = false;
-}
+};
 
 // Represents an image condition structure.
 rs.mimic.ImageConditionStruct = class extends rs.mimic.ConditionStruct {
     imageName = "";
-}
+};
 
 // Represents a padding structure.
 rs.mimic.PaddingStruct = class {
@@ -118,13 +118,13 @@ rs.mimic.PaddingStruct = class {
     right = 0;
     bottom = 0;
     left = 0;
-}
+};
 
 // Represents a property alias structure.
 rs.mimic.PropertyAliasStruct = class {
     name = "";
     path = "";
-}
+};
 
 // Represents a property binding structure.
 rs.mimic.PropertyBindingStruct = class {
@@ -132,14 +132,14 @@ rs.mimic.PropertyBindingStruct = class {
     dataSource = "";
     dataMember = "";
     format = "";
-}
+};
 
 // Represents a visual state structure.
 rs.mimic.VisualStateStruct = class {
     backColor = "";
     foreColor = "";
     borderColor = "";
-}
+};
 
 // Provides meta information about a property of a mimic or component.
 rs.mimic.PropertyDescriptor = class {
@@ -162,7 +162,7 @@ rs.mimic.PropertyDescriptor = class {
             ? rs.mimic.BasicType.getDefaultValue(this.type)
             : ScadaUtils.deepClone(this.defaultValue);
     }
-}
+};
 
 // Represents an object descriptor.
 rs.mimic.ObjectDescriptor = class {
@@ -189,7 +189,7 @@ rs.mimic.ObjectDescriptor = class {
             }
         }
     }
-}
+};
 
 // Represents a mimic descriptor.
 rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
@@ -276,7 +276,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             }
         }
     }
-}
+};
 
 // Represents a basic component descriptor that contains common properties for components and faceplates.
 rs.mimic.ComponentDescriptorBase = class extends rs.mimic.ObjectDescriptor {
@@ -392,7 +392,7 @@ rs.mimic.ComponentDescriptorBase = class extends rs.mimic.ObjectDescriptor {
         component.properties ??= {};
         super.repair(component.properties);
     }
-}
+};
 
 // Represents a component descriptor.
 rs.mimic.ComponentDescriptor = class extends rs.mimic.ComponentDescriptorBase {
@@ -486,7 +486,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ComponentDescriptorBase {
             type: BasicType.STRING
         }));
     }
-}
+};
 
 // Represents a text component descriptor.
 rs.mimic.TextDescriptor = class extends rs.mimic.ComponentDescriptor {
@@ -541,7 +541,7 @@ rs.mimic.TextDescriptor = class extends rs.mimic.ComponentDescriptor {
             defaultValue: new rs.mimic.PaddingStruct()
         }));
     }
-}
+};
 
 // Represents a picture component descriptor.
 rs.mimic.PictureDescriptor = class extends rs.mimic.ComponentDescriptor {
@@ -583,7 +583,7 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.ComponentDescriptor {
             defaultValue: new rs.mimic.PaddingStruct()
         }));
     }
-}
+};
 
 // Represents a panel component descriptor.
 rs.mimic.PanelDescriptor = class extends rs.mimic.ComponentDescriptor {
@@ -591,11 +591,11 @@ rs.mimic.PanelDescriptor = class extends rs.mimic.ComponentDescriptor {
         super.repair(component);
         component.children ??= []; // accept child components
     }
-}
+};
 
 // Represents a faceplate descriptor.
 rs.mimic.FaceplateDescriptor = class extends rs.mimic.ComponentDescriptorBase {
-}
+};
 
 // Contains descriptors for a mimic and its components.
 rs.mimic.DescriptorSet = class {
@@ -606,4 +606,4 @@ rs.mimic.DescriptorSet = class {
         ["Picture", new rs.mimic.PictureDescriptor()],
         ["Panel", new rs.mimic.PanelDescriptor()]
     ]);
-}
+};

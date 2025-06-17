@@ -1,8 +1,12 @@
-﻿// Contains classes: ActionType, CompareOperator, LogicalOperator, LinkTarget, ModalWidth,
+﻿// Contains classes:
+//    ActionType, CompareOperator, LogicalOperator, LinkTarget, ModalWidth, ContentAlignment,
 //    Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs,
 //    Location, Padding, PropertyAlias, PropertyBinding, Size, VisualState
 // No dependencies
 
+// --- Enumerations ---
+
+// Specifies the action types.
 rs.mimic.ActionType = class {
     static NONE = "None";
     static DRAW_CHART = "DrawChart";
@@ -43,6 +47,21 @@ rs.mimic.ModalWidth = class {
     static LARGE = "Large";
     static EXTRA_LARGE = "ExtraLarge";
 };
+
+// Specifies the alignments of component content.
+rs.mimic.ContentAlignment = class {
+    static TOP_LEFT = "TopLeft";
+    static TOP_CENTER = "TopCenter";
+    static TOP_RIGHT = "TopRight";
+    static MIDDLE_LEFT = "MiddleLeft";
+    static MIDDLE_CENTER = "MiddleCenter";
+    static MIDDLE_RIGHT = "MiddleRight";
+    static BOTTOM_LEFT = "BottomLeft";
+    static BOTTOM_CENTER = "BottomCenter";
+    static BOTTOM_RIGHT = "BottomRight";
+};
+
+// --- Structures ---
 
 // Represents an action.
 rs.mimic.Action = class {
