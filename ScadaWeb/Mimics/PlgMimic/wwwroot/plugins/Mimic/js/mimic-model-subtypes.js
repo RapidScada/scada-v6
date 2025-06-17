@@ -1,6 +1,6 @@
 ﻿// Contains classes: ActionType, CompareOperator, LogicalOperator, LinkTarget, ModalWidth,
-//    Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, 
-//    Padding, PropertyAlias, PropertyBinding, VisualState
+//    Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs,
+//    Location, Padding, PropertyAlias, PropertyBinding, Size, VisualState
 // No dependencies
 
 rs.mimic.ActionType = class {
@@ -48,8 +48,8 @@ rs.mimic.ModalWidth = class {
 rs.mimic.Action = class {
     actionType = rs.mimic.ActionType.NONE;
     chartArgs = "";
-    commandArgs = null;
-    linkArgs = null;
+    commandArgs = new rs.mimic.CommandArgs();
+    linkArgs = new rs.mimic.LinkArgs();
     script = "";
 };
 
@@ -107,6 +107,12 @@ rs.mimic.LinkArgs = class {
     modalHeight = 0;
 };
 
+// Represents a location.
+rs.mimic.Location = class {
+    x = 0;
+    y = 0;
+}
+
 // Represents paddings.
 rs.mimic.Padding = class {
     top = 0;
@@ -128,6 +134,12 @@ rs.mimic.PropertyBinding = class {
     dataMember = "";
     format = "";
 };
+
+// Represents a size.
+rs.mimic.Size = class {
+    width = 100;
+    height = 100;
+}
 
 // Represents a visual state.
 rs.mimic.VisualState = class {
