@@ -1,37 +1,10 @@
-﻿// Contains classes: ComponentFactory, TextFactory, PictureFactory, PanelFactory, FaceplateFactory, FactorySet
-// Depends on mimic-model.js
-
-// Parses property values ​​from strings.
-rs.mimic.PropertyParser = class {
-
-}
+﻿// Contains classes: ComponentFactory, RegularComponentFactory, TextFactory, PictureFactory, PanelFactory,
+//     FaceplateFactory, FactorySet
+// Depends on mimic-model.js, mimic-model-subtypes.js
 
 // Represents an abstract component factory.
 rs.mimic.ComponentFactory = class ComponentFactory {
-    static _parseBool(string, defaultValue = false) {
-        return !string
-            ? defaultValue
-            : string === "true" || string === "True";
-    }
-
-    static _parseInt(string, defaultValue = 0) {
-        let number = Number.parseInt(string);
-        return Number.isFinite(number) ? number : defaultValue;
-    }
-
     createComponent(typeName) {
-        let component = new rs.mimic.Component();
-        component.typeName = typeName;
-        component.properties = {
-            enabled: true,
-            visible: true,
-            location: { x: "0", y: "0" },
-            size: { width: "100", height: "100" }
-        };
-        return component;
-    }
-
-    createComponent2(typeName) {
         let component = new rs.mimic.Component();
         component.typeName = typeName;
         component.properties = {
@@ -55,25 +28,26 @@ rs.mimic.ComponentFactory = class ComponentFactory {
     }
 
     createComponentFromSource(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
         let component = new rs.mimic.Component();
         let sourceProps = source.properties ?? {};
         component.typeName = source.typeName;
         component.properties = {
             // behavior
-            blinking: ComponentFactory._parseBool(sourceProps.blinking),
-            enabled: ComponentFactory._parseBool(sourceProps.enabled),
-            visible: ComponentFactory._parseBool(sourceProps.visible),
+            blinking: PropertyParser.parseBool(sourceProps.blinking),
+            enabled: PropertyParser.parseBool(sourceProps.enabled),
+            visible: PropertyParser.parseBool(sourceProps.visible),
 
             // data
-            deviceNum: ComponentFactory._parseInt(sourceProps.deviceNum),
-            inCnlNum: ComponentFactory._parseInt(sourceProps.inCnlNum),
-            objNum: ComponentFactory._parseInt(sourceProps.objNum),
-            outCnlNum: ComponentFactory._parseInt(sourceProps.outCnlNum),
-            propertyBindings: [],
+            deviceNum: PropertyParser.parseInt(sourceProps.deviceNum),
+            inCnlNum: PropertyParser.parseInt(sourceProps.inCnlNum),
+            objNum: PropertyParser.parseInt(sourceProps.objNum),
+            outCnlNum: PropertyParser.parseInt(sourceProps.outCnlNum),
+            propertyBindings: PropertyParser.parsePropertyBindings(sourceProps.propertyBindings),
 
             // layout
-            location: new rs.mimic.Location(),
-            size: new rs.mimic.Size()
+            location: rs.mimic.Location.parse(sourceProps.location),
+            size: rs.mimic.Size.parse(sourceProps.size)
         };
         return component;
     }
@@ -81,18 +55,62 @@ rs.mimic.ComponentFactory = class ComponentFactory {
 
 // Represents an abstract factory for regular non-faceplate components.
 rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
+    createComponent(typeName) {
+        let component = super.createComponent(typeName);
 
-};
+        // appearance
+        Object.assign(component.properties, {
+            backColor: "",
+            border: new rs.mimic.Border(),
+            cornerRadius: new rs.mimic.CornerRadius(),
+            cssClass: "",
+            foreColor: ""
+        });
 
-// Creates components of the Text type.
-rs.mimic.TextFactory = class extends rs.mimic.ComponentFactory {
-    createComponent() {
-        let component = super.createComponent("Text");
-        component.properties.text = "Text";
+        // behavior
+        Object.assign(component.properties, {
+            blinkingState: new rs.mimic.VisualState(),
+            clickAction: new rs.mimic.Action(),
+            disabledState: new rs.mimic.VisualState(),
+            hoverState: new rs.mimic.VisualState(),
+            script: "",
+            tooltip: ""
+        });
+
         return component;
     }
 
-    createComponent2() {
+    createComponentFromSource(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let component = super.createComponentFromSource(source);
+        let sourceProps = source.properties ?? {};
+
+        // appearance
+        Object.assign(component.properties, {
+            backColor: PropertyParser.parseString(sourceProps.backColor),
+            border: rs.mimic.Border.parse(sourceProps.border),
+            cornerRadius: rs.mimic.CornerRadius.parse(sourceProps.cornerRadius),
+            cssClass: PropertyParser.parseString(sourceProps.cssClass),
+            foreColor: PropertyParser.parseString(sourceProps.foreColor)
+        });
+
+        // behavior
+        Object.assign(component.properties, {
+            blinkingState: rs.mimic.VisualState.parse(sourceProps.blinkingState),
+            clickAction: rs.mimic.Action.parse(sourceProps.clickAction),
+            disabledState: rs.mimic.VisualState.parse(sourceProps.disabledState),
+            hoverState: rs.mimic.VisualState.parse(sourceProps.hoverState),
+            script: PropertyParser.parseString(sourceProps.script),
+            tooltip: PropertyParser.parseString(sourceProps.tooltip)
+        });
+
+        return component;
+    }
+};
+
+// Creates components of the Text type.
+rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
+    createComponent() {
         let component = super.createComponent("Text");
 
         // appearance
@@ -106,7 +124,29 @@ rs.mimic.TextFactory = class extends rs.mimic.ComponentFactory {
         // layout
         Object.assign(component.properties, {
             autoSize: false,
-            padding: rs.mimic.Padding()
+            padding: new rs.mimic.Padding()
+        });
+
+        return component;
+    }
+
+    createComponentFromSource(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let component = super.createComponentFromSource(source);
+        let sourceProps = source.properties ?? {};
+
+        // appearance
+        Object.assign(component.properties, {
+            font: rs.mimic.Font.parse(sourceProps.font),
+            text: PropertyParser.parseString(sourceProps.text, "Text"),
+            textAlign: PropertyParser.parseString(sourceProps.textAlign, rs.mimic.ContentAlignment.TOP_LEFT),
+            wordWrap: PropertyParser.parseBool(sourceProps.wordWrap)
+        });
+
+        // layout
+        Object.assign(component.properties, {
+            autoSize: PropertyParser.parseBool(sourceProps.autoSize),
+            padding: rs.mimic.Padding.parse(sourceProps.padding)
         });
 
         return component;
@@ -114,14 +154,14 @@ rs.mimic.TextFactory = class extends rs.mimic.ComponentFactory {
 };
 
 // Creates components of the Picture type.
-rs.mimic.PictureFactory = class extends rs.mimic.ComponentFactory {
+rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
     createComponent() {
         return super.createComponent("Picture");
     }
 };
 
 // Creates components of the Panel type.
-rs.mimic.PanelFactory = class extends rs.mimic.ComponentFactory {
+rs.mimic.PanelFactory = class extends rs.mimic.RegularComponentFactory {
     createComponent() {
         let component = super.createComponent("Panel");
         component.children = [];

@@ -41,40 +41,13 @@ rs.mimic.LoadContext = class {
     }
 };
 
-// Contains classes: ComponentFactory, TextFactory, PictureFactory, PanelFactory, FaceplateFactory, FactorySet
-// Depends on mimic-model.js
-
-// Parses property values ​​from strings.
-rs.mimic.PropertyParser = class {
-
-}
+// Contains classes: ComponentFactory, RegularComponentFactory, TextFactory, PictureFactory, PanelFactory,
+//     FaceplateFactory, FactorySet
+// Depends on mimic-model.js, mimic-model-subtypes.js
 
 // Represents an abstract component factory.
 rs.mimic.ComponentFactory = class ComponentFactory {
-    static _parseBool(string, defaultValue = false) {
-        return !string
-            ? defaultValue
-            : string === "true" || string === "True";
-    }
-
-    static _parseInt(string, defaultValue = 0) {
-        let number = Number.parseInt(string);
-        return Number.isFinite(number) ? number : defaultValue;
-    }
-
     createComponent(typeName) {
-        let component = new rs.mimic.Component();
-        component.typeName = typeName;
-        component.properties = {
-            enabled: true,
-            visible: true,
-            location: { x: "0", y: "0" },
-            size: { width: "100", height: "100" }
-        };
-        return component;
-    }
-
-    createComponent2(typeName) {
         let component = new rs.mimic.Component();
         component.typeName = typeName;
         component.properties = {
@@ -98,25 +71,26 @@ rs.mimic.ComponentFactory = class ComponentFactory {
     }
 
     createComponentFromSource(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
         let component = new rs.mimic.Component();
         let sourceProps = source.properties ?? {};
         component.typeName = source.typeName;
         component.properties = {
             // behavior
-            blinking: ComponentFactory._parseBool(sourceProps.blinking),
-            enabled: ComponentFactory._parseBool(sourceProps.enabled),
-            visible: ComponentFactory._parseBool(sourceProps.visible),
+            blinking: PropertyParser.parseBool(sourceProps.blinking),
+            enabled: PropertyParser.parseBool(sourceProps.enabled),
+            visible: PropertyParser.parseBool(sourceProps.visible),
 
             // data
-            deviceNum: ComponentFactory._parseInt(sourceProps.deviceNum),
-            inCnlNum: ComponentFactory._parseInt(sourceProps.inCnlNum),
-            objNum: ComponentFactory._parseInt(sourceProps.objNum),
-            outCnlNum: ComponentFactory._parseInt(sourceProps.outCnlNum),
-            propertyBindings: [],
+            deviceNum: PropertyParser.parseInt(sourceProps.deviceNum),
+            inCnlNum: PropertyParser.parseInt(sourceProps.inCnlNum),
+            objNum: PropertyParser.parseInt(sourceProps.objNum),
+            outCnlNum: PropertyParser.parseInt(sourceProps.outCnlNum),
+            propertyBindings: PropertyParser.parsePropertyBindings(sourceProps.propertyBindings),
 
             // layout
-            location: new rs.mimic.Location(),
-            size: new rs.mimic.Size()
+            location: rs.mimic.Location.parse(sourceProps.location),
+            size: rs.mimic.Size.parse(sourceProps.size)
         };
         return component;
     }
@@ -124,18 +98,62 @@ rs.mimic.ComponentFactory = class ComponentFactory {
 
 // Represents an abstract factory for regular non-faceplate components.
 rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
+    createComponent(typeName) {
+        let component = super.createComponent(typeName);
 
-};
+        // appearance
+        Object.assign(component.properties, {
+            backColor: "",
+            border: new rs.mimic.Border(),
+            cornerRadius: new rs.mimic.CornerRadius(),
+            cssClass: "",
+            foreColor: ""
+        });
 
-// Creates components of the Text type.
-rs.mimic.TextFactory = class extends rs.mimic.ComponentFactory {
-    createComponent() {
-        let component = super.createComponent("Text");
-        component.properties.text = "Text";
+        // behavior
+        Object.assign(component.properties, {
+            blinkingState: new rs.mimic.VisualState(),
+            clickAction: new rs.mimic.Action(),
+            disabledState: new rs.mimic.VisualState(),
+            hoverState: new rs.mimic.VisualState(),
+            script: "",
+            tooltip: ""
+        });
+
         return component;
     }
 
-    createComponent2() {
+    createComponentFromSource(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let component = super.createComponentFromSource(source);
+        let sourceProps = source.properties ?? {};
+
+        // appearance
+        Object.assign(component.properties, {
+            backColor: PropertyParser.parseString(sourceProps.backColor),
+            border: rs.mimic.Border.parse(sourceProps.border),
+            cornerRadius: rs.mimic.CornerRadius.parse(sourceProps.cornerRadius),
+            cssClass: PropertyParser.parseString(sourceProps.cssClass),
+            foreColor: PropertyParser.parseString(sourceProps.foreColor)
+        });
+
+        // behavior
+        Object.assign(component.properties, {
+            blinkingState: rs.mimic.VisualState.parse(sourceProps.blinkingState),
+            clickAction: rs.mimic.Action.parse(sourceProps.clickAction),
+            disabledState: rs.mimic.VisualState.parse(sourceProps.disabledState),
+            hoverState: rs.mimic.VisualState.parse(sourceProps.hoverState),
+            script: PropertyParser.parseString(sourceProps.script),
+            tooltip: PropertyParser.parseString(sourceProps.tooltip)
+        });
+
+        return component;
+    }
+};
+
+// Creates components of the Text type.
+rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
+    createComponent() {
         let component = super.createComponent("Text");
 
         // appearance
@@ -149,7 +167,29 @@ rs.mimic.TextFactory = class extends rs.mimic.ComponentFactory {
         // layout
         Object.assign(component.properties, {
             autoSize: false,
-            padding: rs.mimic.Padding()
+            padding: new rs.mimic.Padding()
+        });
+
+        return component;
+    }
+
+    createComponentFromSource(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let component = super.createComponentFromSource(source);
+        let sourceProps = source.properties ?? {};
+
+        // appearance
+        Object.assign(component.properties, {
+            font: rs.mimic.Font.parse(sourceProps.font),
+            text: PropertyParser.parseString(sourceProps.text, "Text"),
+            textAlign: PropertyParser.parseString(sourceProps.textAlign, rs.mimic.ContentAlignment.TOP_LEFT),
+            wordWrap: PropertyParser.parseBool(sourceProps.wordWrap)
+        });
+
+        // layout
+        Object.assign(component.properties, {
+            autoSize: PropertyParser.parseBool(sourceProps.autoSize),
+            padding: rs.mimic.Padding.parse(sourceProps.padding)
         });
 
         return component;
@@ -157,14 +197,14 @@ rs.mimic.TextFactory = class extends rs.mimic.ComponentFactory {
 };
 
 // Creates components of the Picture type.
-rs.mimic.PictureFactory = class extends rs.mimic.ComponentFactory {
+rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
     createComponent() {
         return super.createComponent("Picture");
     }
 };
 
 // Creates components of the Panel type.
-rs.mimic.PanelFactory = class extends rs.mimic.ComponentFactory {
+rs.mimic.PanelFactory = class extends rs.mimic.RegularComponentFactory {
     createComponent() {
         let component = super.createComponent("Panel");
         component.children = [];
@@ -1124,9 +1164,9 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 };
 
 // Contains classes:
-//    ActionType, CompareOperator, LogicalOperator, LinkTarget, ModalWidth, ContentAlignment,
-//    Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs,
-//    Location, Padding, PropertyAlias, PropertyBinding, Size, VisualState
+//     ActionType, CompareOperator, LogicalOperator, LinkTarget, ModalWidth, ContentAlignment,
+//     Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs,
+//     Location, Padding, PropertyAlias, PropertyBinding, Size, VisualState
 // No dependencies
 
 // --- Enumerations ---
@@ -1189,26 +1229,67 @@ rs.mimic.ContentAlignment = class {
 // --- Structures ---
 
 // Represents an action.
-rs.mimic.Action = class {
+rs.mimic.Action = class Action {
     actionType = rs.mimic.ActionType.NONE;
     chartArgs = "";
     commandArgs = new rs.mimic.CommandArgs();
     linkArgs = new rs.mimic.LinkArgs();
     script = "";
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let action = new Action();
+
+        if (source) {
+            action.actionType = PropertyParser.parseString(source.actionType, action.actionType);
+            action.chartArgs = PropertyParser.parseString(source.chartArgs);
+            action.commandArgs = rs.mimic.CommandArgs.parse(source.commandArgs);
+            action.linkArgs = rs.mimic.LinkArgs.parse(source.linkArgs);
+            action.script = PropertyParser.parseString(source.script);
+        }
+
+        return action;
+    }
 };
 
 // Represents a border.
-rs.mimic.Border = class {
+rs.mimic.Border = class Border {
     width = 0;
     color = ""
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let border = new Border();
+
+        if (source) {
+            border.width = PropertyParser.parseInt(source.width);
+            border.color = PropertyParser.parseString(source.color);
+        }
+
+        return border;
+    }
 };
 
 // Represents arguments of the SEND_COMMAND action.
-rs.mimic.CommandArgs = class {
+rs.mimic.CommandArgs = class CommandArgs {
     showDialog = true;
     cmdVal = 0.0;
     cmdDataHex = "";
     cmdDataStr = "";
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let commandArgs = new CommandArgs();
+
+        if (source) {
+            commandArgs.showDialog = PropertyParser.parseBool(source.showDialog, true);
+            commandArgs.cmdVal = PropertyParser.parseFloat(source.commandArgs);
+            commandArgs.cmdDataHex = PropertyParser.parseString(source.cmdDataHex);
+            commandArgs.cmdDataStr = PropertyParser.parseString(source.cmdDataStr);
+        }
+
+        return commandArgs;
+    }
 };
 
 // Represents a condition.
@@ -1221,20 +1302,49 @@ rs.mimic.Condition = class {
 };
 
 // Represents a corner radius.
-rs.mimic.CornerRadius = class {
+rs.mimic.CornerRadius = class CornerRadius {
     topLeft = 0;
     topRight = 0;
     bottomRight = 0;
     bottomLeft = 0;
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let cornerRadius = new CornerRadius();
+
+        if (source) {
+            cornerRadius.topLeft = PropertyParser.parseInt(source.topLeft);
+            cornerRadius.topRight = PropertyParser.parseInt(source.topRight);
+            cornerRadius.bottomRight = PropertyParser.parseInt(source.bottomRight);
+            cornerRadius.bottomLeft = PropertyParser.parseInt(source.bottomLeft);
+        }
+
+        return cornerRadius;
+    }
 };
 
 // Represents a font.
-rs.mimic.Font = class {
+rs.mimic.Font = class Font {
     name = "";
     size = 16;
     bold = false;
     italic = false;
     underline = false;
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let font = new Font();
+
+        if (source) {
+            font.name = PropertyParser.parseString(source.name);
+            font.size = PropertyParser.parseInt(source.size, font.size);
+            font.bold = PropertyParser.parseBool(source.bold);
+            font.italic = PropertyParser.parseBool(source.italic);
+            font.underline = PropertyParser.parseBool(source.underline);
+        }
+
+        return font;
+    }
 };
 
 // Represents an image condition.
@@ -1243,26 +1353,67 @@ rs.mimic.ImageCondition = class extends rs.mimic.Condition {
 };
 
 // Represents arguments of the OPEN_LINK action.
-rs.mimic.LinkArgs = class {
+rs.mimic.LinkArgs = class LinkArgs {
     url = "";
     target = rs.mimic.LinkTarget.SELF;
     viewID = 0;
     modalWidth = rs.mimic.ModalWidth.NORMAL;
     modalHeight = 0;
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let linkArgs = new LinkArgs();
+
+        if (source) {
+            linkArgs.url = PropertyParser.parseString(source.url);
+            linkArgs.target = PropertyParser.parseString(source.target, linkArgs.target);
+            linkArgs.viewID = PropertyParser.parseInt(source.viewID);
+            linkArgs.modalWidth = PropertyParser.parseString(source.modalWidth, linkArgs.modalWidth);
+            linkArgs.modalHeight = PropertyParser.parseInt(source.modalHeight);
+        }
+
+        return linkArgs;
+    }
 };
 
 // Represents a location.
-rs.mimic.Location = class {
+rs.mimic.Location = class Location {
     x = 0;
     y = 0;
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let location = new Location();
+
+        if (source) {
+            location.x = PropertyParser.parseInt(source.x);
+            location.y = PropertyParser.parseInt(source.y);
+        }
+
+        return location;
+    }
 }
 
 // Represents paddings.
-rs.mimic.Padding = class {
+rs.mimic.Padding = class Padding {
     top = 0;
     right = 0;
     bottom = 0;
     left = 0;
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let padding = new Padding();
+
+        if (source) {
+            padding.top = PropertyParser.parseInt(source.top);
+            padding.right = PropertyParser.parseInt(source.right);
+            padding.bottom = PropertyParser.parseInt(source.bottom);
+            padding.left = PropertyParser.parseInt(source.left);
+        }
+
+        return padding;
+    }
 };
 
 // Represents a property alias.
@@ -1272,25 +1423,108 @@ rs.mimic.PropertyAlias = class {
 };
 
 // Represents a property binding.
-rs.mimic.PropertyBinding = class {
+rs.mimic.PropertyBinding = class PropertyBinding {
     propertyName = "";
     dataSource = "";
     dataMember = "";
     format = "";
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let propertyBinding = new PropertyBinding();
+
+        if (source) {
+            propertyBinding.propertyName = PropertyParser.parseString(source.propertyName);
+            propertyBinding.dataSource = PropertyParser.parseString(source.dataSource);
+            propertyBinding.dataMember = PropertyParser.parseString(source.dataMember);
+            propertyBinding.format = PropertyParser.parseString(source.format);
+        }
+
+        return propertyBinding;
+    }
 };
 
 // Represents a size.
-rs.mimic.Size = class {
+rs.mimic.Size = class Size {
     width = 100;
     height = 100;
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let size = new Size();
+
+        if (source) {
+            size.width = PropertyParser.parseInt(source.width);
+            size.height = PropertyParser.parseInt(source.height);
+        }
+
+        return size;
+    }
 }
 
 // Represents a visual state.
-rs.mimic.VisualState = class {
+rs.mimic.VisualState = class VisualState {
     backColor = "";
     foreColor = "";
     borderColor = "";
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let visualState = new VisualState();
+
+        if (source) {
+            visualState.backColor = PropertyParser.parseString(source.backColor);
+            visualState.foreColor = PropertyParser.parseString(source.foreColor);
+            visualState.borderColor = PropertyParser.parseString(source.borderColor);
+        }
+
+        return visualState;
+    }
 };
+
+// --- Misc ---
+
+// Parses property values ​​from strings and objects.
+rs.mimic.PropertyParser = class {
+    static parseBool(string, defaultValue = false) {
+        return !string
+            ? defaultValue
+            : string === "true" || string === "True";
+    }
+
+    static parseInt(string, defaultValue = 0) {
+        let number = Number.parseInt(string);
+        return Number.isFinite(number) ? number : defaultValue;
+    }
+
+    static parseFloat(string, defaultValue = 0.0) {
+        let number = Number.parseFloat(string);
+        return Number.isFinite(number) ? number : defaultValue;
+    }
+
+    static parseString(source, defaultValue = "") {
+        if (source instanceof String) {
+            return source;
+        } else if (source && source.toString instanceof Function) {
+            return source.toString();
+        } else {
+            return defaultValue;
+        }
+    }
+
+    static parsePropertyBindings(source) {
+        const PropertyBinding = rs.mimic.PropertyBinding;
+        let propertyBindings = [];
+
+        if (Array.isArray(source)) {
+            for (let sourceItem of source) {
+                propertyBindings.push(PropertyBinding.parse(sourceItem));
+            }
+        }
+
+        return propertyBindings;
+    }
+}
 
 // Contains classes: Renderer, MimicRenderer, ComponentRenderer,
 //     TextRenderer, PictureRenderer, PanelRenderer, RenderContext, RendererSet, UnitedRenderer
