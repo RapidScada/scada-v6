@@ -264,16 +264,24 @@ rs.mimic.PanelFactory = class extends rs.mimic.RegularComponentFactory {
 rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
     createComponent(faceplate) {
         let component = new rs.mimic.FaceplateInstance();
-        component.typeName = faceplate?.typeName;
         component.properties = this._createProperties();
-        component.applyModel(faceplate);
+
+        if (faceplate) {
+            component.typeName = faceplate.typeName;
+            component.applyModel(faceplate);
+        }
+
         return component;
     }
 
     createComponentFromSource(source, faceplate) {
         let component = new rs.mimic.FaceplateInstance();
         rs.mimic.ComponentFactory._copyProperties(component, source);
-        component.applyModel(faceplate);
+
+        if (faceplate) {
+            component.applyModel(faceplate);
+        }
+
         return component;
     }
 };
