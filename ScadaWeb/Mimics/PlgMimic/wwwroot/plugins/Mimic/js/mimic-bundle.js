@@ -199,7 +199,49 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
 // Creates components of the Picture type.
 rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
     createComponent() {
-        return super.createComponent("Picture");
+        let component = super.createComponent("Picture");
+
+        // appearance
+        Object.assign(component.properties, {
+            imageName: ""
+        });
+
+        // behavior
+        Object.assign(component.properties, {
+            conditions: [],
+            sizeMode: rs.mimic.ImageSizeMode.NORMAL
+        });
+
+        // layout
+        Object.assign(component.properties, {
+            padding: new rs.mimic.Padding()
+        });
+
+        return component;
+    }
+
+    createComponentFromSource(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let component = super.createComponentFromSource(source);
+        let sourceProps = source.properties ?? {};
+
+        // appearance
+        Object.assign(component.properties, {
+            imageName: PropertyParser.parseString(sourceProps.imageName)
+        });
+
+        // behavior
+        Object.assign(component.properties, {
+            conditions: PropertyParser.parseImageConditions(sourceProps.conditions),
+            sizeMode: PropertyParser.parseString(sourceProps.sizeMode, rs.mimic.ImageSizeMode.NORMAL)
+        });
+
+        // layout
+        Object.assign(component.properties, {
+            padding: rs.mimic.Padding.parse(sourceProps.padding)
+        });
+
+        return component;
     }
 };
 
@@ -1164,7 +1206,7 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 };
 
 // Contains classes:
-//     ActionType, CompareOperator, LogicalOperator, LinkTarget, ModalWidth, ContentAlignment,
+//     ActionType, CompareOperator, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth, ContentAlignment,
 //     Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs,
 //     Location, Padding, PropertyAlias, PropertyBinding, Size, VisualState
 // No dependencies
@@ -1181,7 +1223,7 @@ rs.mimic.ActionType = class {
 };
 
 // Specifies the comparison operators.
-rs.mimic.CompareOperator = class {
+rs.mimic.ComparisonOperator = class {
     static NONE = "None";
     static EQUAL = "Equal";
     static NOT_EQUAL = "NotEqual";
@@ -1190,6 +1232,14 @@ rs.mimic.CompareOperator = class {
     static GREATER_THAN = "GreaterThan";
     static GREATER_THAN_EQUAL = "GreaterThanEqual";
 };
+
+// Specifies how an image is positioned within a component.
+rs.mimic.ImageSizeMode = class {
+    static NORMAL = "Normal";
+    static STRETCH = "Stretch";
+    static CENTER = "Center";
+    static ZOOM = "Zoom";
+}
 
 // Specifies the logical operators.
 rs.mimic.LogicalOperator = class {
@@ -1293,12 +1343,31 @@ rs.mimic.CommandArgs = class CommandArgs {
 };
 
 // Represents a condition.
-rs.mimic.Condition = class {
-    compareOperator1 = rs.mimic.CompareOperator.NONE;
-    compareArgument1 = 0.0;
-    logicalOperator = rs.mimic.LogicalOperator.NONE;
-    compareOperator2 = rs.mimic.CompareOperator.NONE;
-    compareArgument2 = 0.0;
+rs.mimic.Condition = class Condition {
+    comparisonOper1 = rs.mimic.ComparisonOperator.NONE;
+    comparisonArg1 = 0.0;
+    logicalOper = rs.mimic.LogicalOperator.NONE;
+    comparisonOper2 = rs.mimic.ComparisonOperator.NONE;
+    comparisonArg2 = 0.0;
+
+    _copyFrom(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        this.comparisonOper1 = PropertyParser.parseString(source.comparisonOper1, this.comparisonOper1);
+        this.comparisonArg1 = PropertyParser.parseFloat(source.comparisonArg1);
+        this.logicalOper = PropertyParser.parseString(source.logicalOper, this.logicalOper);
+        this.comparisonOper2 = PropertyParser.parseString(source.comparisonOper2, this.comparisonOper2);
+        this.comparisonArg2 = PropertyParser.parseFloat(source.comparisonArg2);
+    }
+
+    static parse(source) {
+        let condition = new Condition();
+
+        if (source) {
+            condition._copyFrom(source);
+        }
+
+        return condition;
+    }
 };
 
 // Represents a corner radius.
@@ -1348,8 +1417,20 @@ rs.mimic.Font = class Font {
 };
 
 // Represents an image condition.
-rs.mimic.ImageCondition = class extends rs.mimic.Condition {
+rs.mimic.ImageCondition = class ImageCondition extends rs.mimic.Condition {
     imageName = "";
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let imageCondition = new ImageCondition();
+
+        if (source) {
+            imageCondition.imageName = PropertyParser.parseString(source.imageName);
+            imageCondition._copyFrom(source);
+        }
+
+        return imageCondition;
+    }
 };
 
 // Represents arguments of the OPEN_LINK action.
@@ -1492,13 +1573,13 @@ rs.mimic.PropertyParser = class {
             : string === "true" || string === "True";
     }
 
-    static parseInt(string, defaultValue = 0) {
-        let number = Number.parseInt(string);
+    static parseFloat(string, defaultValue = 0.0) {
+        let number = Number.parseFloat(string);
         return Number.isFinite(number) ? number : defaultValue;
     }
 
-    static parseFloat(string, defaultValue = 0.0) {
-        let number = Number.parseFloat(string);
+    static parseInt(string, defaultValue = 0) {
+        let number = Number.parseInt(string);
         return Number.isFinite(number) ? number : defaultValue;
     }
 
@@ -1510,6 +1591,19 @@ rs.mimic.PropertyParser = class {
         } else {
             return defaultValue;
         }
+    }
+
+    static parseImageConditions(source) {
+        const ImageCondition = rs.mimic.ImageCondition;
+        let imageConditions = [];
+
+        if (Array.isArray(source)) {
+            for (let sourceItem of source) {
+                imageConditions.push(ImageCondition.parse(sourceItem));
+            }
+        }
+
+        return imageConditions;
     }
 
     static parsePropertyBindings(source) {

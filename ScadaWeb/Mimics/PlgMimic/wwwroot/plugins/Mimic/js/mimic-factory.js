@@ -156,7 +156,49 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
 // Creates components of the Picture type.
 rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
     createComponent() {
-        return super.createComponent("Picture");
+        let component = super.createComponent("Picture");
+
+        // appearance
+        Object.assign(component.properties, {
+            imageName: ""
+        });
+
+        // behavior
+        Object.assign(component.properties, {
+            conditions: [],
+            sizeMode: rs.mimic.ImageSizeMode.NORMAL
+        });
+
+        // layout
+        Object.assign(component.properties, {
+            padding: new rs.mimic.Padding()
+        });
+
+        return component;
+    }
+
+    createComponentFromSource(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let component = super.createComponentFromSource(source);
+        let sourceProps = source.properties ?? {};
+
+        // appearance
+        Object.assign(component.properties, {
+            imageName: PropertyParser.parseString(sourceProps.imageName)
+        });
+
+        // behavior
+        Object.assign(component.properties, {
+            conditions: PropertyParser.parseImageConditions(sourceProps.conditions),
+            sizeMode: PropertyParser.parseString(sourceProps.sizeMode, rs.mimic.ImageSizeMode.NORMAL)
+        });
+
+        // layout
+        Object.assign(component.properties, {
+            padding: rs.mimic.Padding.parse(sourceProps.padding)
+        });
+
+        return component;
     }
 };
 
