@@ -63,6 +63,9 @@ rs.mimic.MimicFactory = class {
             script: PropertyParser.parseString(sourceProps.script),
             tooltip: PropertyParser.parseString(sourceProps.tooltip),
 
+            // data
+            propertyExports: PropertyParser.parsePropertyExports(sourceProps.propertyExports),
+
             // layout
             size: rs.mimic.Size.parse(sourceProps.size)
         };
@@ -70,8 +73,8 @@ rs.mimic.MimicFactory = class {
 }
 
 // Represents an abstract component factory.
-rs.mimic.ComponentFactory = class {
-    _createProperties() {
+rs.mimic.ComponentFactory = class ComponentFactory {
+    static _createProperties() {
         return {
             // behavior
             blinking: false,
@@ -91,7 +94,7 @@ rs.mimic.ComponentFactory = class {
         };
     }
 
-    _parseProperties(sourceProps) {
+    static _parseProperties(sourceProps) {
         const PropertyParser = rs.mimic.PropertyParser;
         sourceProps ??= {};
         return {
@@ -113,19 +116,26 @@ rs.mimic.ComponentFactory = class {
         };
     }
 
+    static _copyProperties(component, source) {
+        component.id = source.id;
+        component.name = source.name;
+        component.typeName = source.typeName;
+        component.properties = ComponentFactory._parseProperties(source.properties);
+        component.parentID = source.parentID;
+    }
+
     // Creates a new component with the given type name.
     createComponent(typeName) {
         let component = new rs.mimic.Component();
         component.typeName = typeName;
-        component.properties = this._createProperties();
+        component.properties = ComponentFactory._createProperties();
         return component;
     }
 
     // Creates a new component with the specified properties, making deep copies of the source properties.
     createComponentFromSource(source) {
         let component = new rs.mimic.Component();
-        component.typeName = source.typeName;
-        component.properties = this._parseProperties(source.properties);
+        ComponentFactory._copyProperties(component, source);
         return component;
     }
 };
@@ -297,19 +307,18 @@ rs.mimic.PanelFactory = class extends rs.mimic.RegularComponentFactory {
 // Creates faceplate instances.
 rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
     createComponent(faceplate) {
-        let faceplateInstance = new rs.mimic.FaceplateInstance();
-        faceplateInstance.typeName = faceplate.typeName;
-        faceplateInstance.properties = this._createProperties();
-        faceplateInstance.applyModel(faceplate);
-        return faceplateInstance;
+        let component = new rs.mimic.FaceplateInstance();
+        component.typeName = faceplate?.typeName;
+        component.properties = this._createProperties();
+        component.applyModel(faceplate);
+        return component;
     }
 
     createComponentFromSource(source, faceplate) {
-        let faceplateInstance = new rs.mimic.FaceplateInstance();
-        faceplateInstance.typeName = faceplate.typeName;
-        faceplateInstance.properties = this._parseProperties(source.properties);
-        faceplateInstance.applyModel(faceplate);
-        return faceplateInstance;
+        let component = new rs.mimic.FaceplateInstance();
+        rs.mimic.ComponentFactory._copyProperties(component, source);
+        component.applyModel(faceplate);
+        return component;
     }
 };
 
@@ -1271,7 +1280,7 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 // Contains classes:
 //     ActionType, CompareOperator, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth, ContentAlignment,
 //     Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Location, Padding,
-//     PropertyAlias, PropertyBinding, Size, VisualState,
+//     PropertyBinding, PropertyExport, Size, VisualState,
 //     PropertyParser
 // No dependencies
 
@@ -1388,8 +1397,6 @@ rs.mimic.Border = class Border {
 rs.mimic.CommandArgs = class CommandArgs {
     showDialog = true;
     cmdVal = 0.0;
-    cmdDataHex = "";
-    cmdDataStr = "";
 
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -1398,8 +1405,6 @@ rs.mimic.CommandArgs = class CommandArgs {
         if (source) {
             commandArgs.showDialog = PropertyParser.parseBool(source.showDialog, true);
             commandArgs.cmdVal = PropertyParser.parseFloat(source.commandArgs);
-            commandArgs.cmdDataHex = PropertyParser.parseString(source.cmdDataHex);
-            commandArgs.cmdDataStr = PropertyParser.parseString(source.cmdDataStr);
         }
 
         return commandArgs;
@@ -1561,12 +1566,6 @@ rs.mimic.Padding = class Padding {
     }
 };
 
-// Represents a property alias.
-rs.mimic.PropertyAlias = class {
-    name = "";
-    path = "";
-};
-
 // Represents a property binding.
 rs.mimic.PropertyBinding = class PropertyBinding {
     propertyName = "";
@@ -1586,6 +1585,24 @@ rs.mimic.PropertyBinding = class PropertyBinding {
         }
 
         return propertyBinding;
+    }
+};
+
+// Represents an exported property.
+rs.mimic.PropertyExport = class PropertyExport {
+    name = "";
+    path = "";
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let propertyExport = new PropertyExport();
+
+        if (source) {
+            propertyExport.name = PropertyParser.parseString(source.name);
+            propertyExport.path = PropertyParser.parseString(source.path);
+        }
+
+        return propertyExport;
     }
 };
 
@@ -1681,6 +1698,19 @@ rs.mimic.PropertyParser = class {
         }
 
         return propertyBindings;
+    }
+
+    static parsePropertyExports(source) {
+        const PropertyExport = rs.mimic.PropertyExport;
+        let propertyExports = [];
+
+        if (Array.isArray(source)) {
+            for (let sourceItem of source) {
+                propertyExports.push(PropertyExport.parse(sourceItem));
+            }
+        }
+
+        return propertyExports;
     }
 }
 
@@ -2094,7 +2124,7 @@ rs.mimic.UnitedRenderer = class {
             editMode: this.editMode,
             editorOptions: this.editorOptions,
             imageMap: this.mimic.imageMap,
-            unknownTypes = new Set()
+            unknownTypes: new Set()
         });
         let renderer = rs.mimic.RendererSet.mimicRenderer;
         this.mimic.renderer = renderer;

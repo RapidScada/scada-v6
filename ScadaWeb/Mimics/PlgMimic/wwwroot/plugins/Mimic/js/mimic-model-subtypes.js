@@ -1,7 +1,7 @@
 ﻿// Contains classes:
 //     ActionType, CompareOperator, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth, ContentAlignment,
 //     Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Location, Padding,
-//     PropertyAlias, PropertyBinding, Size, VisualState,
+//     PropertyBinding, PropertyExport, Size, VisualState,
 //     PropertyParser
 // No dependencies
 
@@ -118,8 +118,6 @@ rs.mimic.Border = class Border {
 rs.mimic.CommandArgs = class CommandArgs {
     showDialog = true;
     cmdVal = 0.0;
-    cmdDataHex = "";
-    cmdDataStr = "";
 
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -128,8 +126,6 @@ rs.mimic.CommandArgs = class CommandArgs {
         if (source) {
             commandArgs.showDialog = PropertyParser.parseBool(source.showDialog, true);
             commandArgs.cmdVal = PropertyParser.parseFloat(source.commandArgs);
-            commandArgs.cmdDataHex = PropertyParser.parseString(source.cmdDataHex);
-            commandArgs.cmdDataStr = PropertyParser.parseString(source.cmdDataStr);
         }
 
         return commandArgs;
@@ -291,12 +287,6 @@ rs.mimic.Padding = class Padding {
     }
 };
 
-// Represents a property alias.
-rs.mimic.PropertyAlias = class {
-    name = "";
-    path = "";
-};
-
 // Represents a property binding.
 rs.mimic.PropertyBinding = class PropertyBinding {
     propertyName = "";
@@ -316,6 +306,24 @@ rs.mimic.PropertyBinding = class PropertyBinding {
         }
 
         return propertyBinding;
+    }
+};
+
+// Represents an exported property.
+rs.mimic.PropertyExport = class PropertyExport {
+    name = "";
+    path = "";
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let propertyExport = new PropertyExport();
+
+        if (source) {
+            propertyExport.name = PropertyParser.parseString(source.name);
+            propertyExport.path = PropertyParser.parseString(source.path);
+        }
+
+        return propertyExport;
     }
 };
 
@@ -411,5 +419,18 @@ rs.mimic.PropertyParser = class {
         }
 
         return propertyBindings;
+    }
+
+    static parsePropertyExports(source) {
+        const PropertyExport = rs.mimic.PropertyExport;
+        let propertyExports = [];
+
+        if (Array.isArray(source)) {
+            for (let sourceItem of source) {
+                propertyExports.push(PropertyExport.parse(sourceItem));
+            }
+        }
+
+        return propertyExports;
     }
 }

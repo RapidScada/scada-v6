@@ -19,6 +19,9 @@ rs.mimic.MimicFactory = class {
             script: PropertyParser.parseString(sourceProps.script),
             tooltip: PropertyParser.parseString(sourceProps.tooltip),
 
+            // data
+            propertyExports: PropertyParser.parsePropertyExports(sourceProps.propertyExports),
+
             // layout
             size: rs.mimic.Size.parse(sourceProps.size)
         };
@@ -26,8 +29,8 @@ rs.mimic.MimicFactory = class {
 }
 
 // Represents an abstract component factory.
-rs.mimic.ComponentFactory = class {
-    _createProperties() {
+rs.mimic.ComponentFactory = class ComponentFactory {
+    static _createProperties() {
         return {
             // behavior
             blinking: false,
@@ -47,7 +50,7 @@ rs.mimic.ComponentFactory = class {
         };
     }
 
-    _parseProperties(sourceProps) {
+    static _parseProperties(sourceProps) {
         const PropertyParser = rs.mimic.PropertyParser;
         sourceProps ??= {};
         return {
@@ -69,19 +72,26 @@ rs.mimic.ComponentFactory = class {
         };
     }
 
+    static _copyProperties(component, source) {
+        component.id = source.id;
+        component.name = source.name;
+        component.typeName = source.typeName;
+        component.properties = ComponentFactory._parseProperties(source.properties);
+        component.parentID = source.parentID;
+    }
+
     // Creates a new component with the given type name.
     createComponent(typeName) {
         let component = new rs.mimic.Component();
         component.typeName = typeName;
-        component.properties = this._createProperties();
+        component.properties = ComponentFactory._createProperties();
         return component;
     }
 
     // Creates a new component with the specified properties, making deep copies of the source properties.
     createComponentFromSource(source) {
         let component = new rs.mimic.Component();
-        component.typeName = source.typeName;
-        component.properties = this._parseProperties(source.properties);
+        ComponentFactory._copyProperties(component, source);
         return component;
     }
 };
@@ -253,19 +263,18 @@ rs.mimic.PanelFactory = class extends rs.mimic.RegularComponentFactory {
 // Creates faceplate instances.
 rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
     createComponent(faceplate) {
-        let faceplateInstance = new rs.mimic.FaceplateInstance();
-        faceplateInstance.typeName = faceplate.typeName;
-        faceplateInstance.properties = this._createProperties();
-        faceplateInstance.applyModel(faceplate);
-        return faceplateInstance;
+        let component = new rs.mimic.FaceplateInstance();
+        component.typeName = faceplate?.typeName;
+        component.properties = this._createProperties();
+        component.applyModel(faceplate);
+        return component;
     }
 
     createComponentFromSource(source, faceplate) {
-        let faceplateInstance = new rs.mimic.FaceplateInstance();
-        faceplateInstance.typeName = faceplate.typeName;
-        faceplateInstance.properties = this._parseProperties(source.properties);
-        faceplateInstance.applyModel(faceplate);
-        return faceplateInstance;
+        let component = new rs.mimic.FaceplateInstance();
+        rs.mimic.ComponentFactory._copyProperties(component, source);
+        component.applyModel(faceplate);
+        return component;
     }
 };
 

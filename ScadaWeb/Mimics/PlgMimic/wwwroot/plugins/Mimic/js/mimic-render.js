@@ -408,7 +408,7 @@ rs.mimic.UnitedRenderer = class {
             editMode: this.editMode,
             editorOptions: this.editorOptions,
             imageMap: this.mimic.imageMap,
-            unknownTypes = new Set()
+            unknownTypes: new Set()
         });
         let renderer = rs.mimic.RendererSet.mimicRenderer;
         this.mimic.renderer = renderer;
