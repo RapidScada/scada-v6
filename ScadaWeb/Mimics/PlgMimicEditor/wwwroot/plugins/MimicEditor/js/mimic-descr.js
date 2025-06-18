@@ -134,7 +134,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "backgroundImage",
             displayName: "Background image",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.STRUCT
+            type: BasicType.STRING
         }));
 
         this.add(new PropertyDescriptor({

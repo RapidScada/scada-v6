@@ -1,7 +1,8 @@
 ﻿// Contains classes:
 //     ActionType, CompareOperator, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth, ContentAlignment,
-//     Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs,
-//     Location, Padding, PropertyAlias, PropertyBinding, Size, VisualState
+//     Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Location, Padding,
+//     PropertyAlias, PropertyBinding, Size, VisualState,
+//     PropertyParser
 // No dependencies
 
 // --- Enumerations ---

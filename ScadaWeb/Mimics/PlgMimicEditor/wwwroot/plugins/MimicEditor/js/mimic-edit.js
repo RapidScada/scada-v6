@@ -326,7 +326,6 @@ async function loadMimic() {
     let result = await mimic.load(getLoaderUrl(), mimicKey);
 
     if (result.ok) {
-        rs.mimic.DescriptorSet.mimicDescriptor.repair(mimic);
         setButtonsEnabled();
         showFaceplates();
         showStructure();
@@ -807,22 +806,17 @@ function restoreHistoryPoint(historyPoint) {
             }
             case ChangeType.ADD_COMPONENT: {
                 let componentSource = historyChange.getNewObject();
+                let component = componentSource ? mimic.createComponent(componentSource) : null;
+                let parent = component ? mimic.getComponentParent(component.parentID) : null;
 
-                if (componentSource) {
-                    let component = mimic.createComponent(componentSource);
-                    let parent = mimic.getComponentParent(component.parentID);
+                if (mimic.addComponent(component, parent)) {
+                    componentsToArrange.push(component);
+                    componentIDs.push(component.id);
+                    componentIndexes.push(component.index);
 
-                    if (mimic.addComponent(component, parent)) {
-                        componentsToArrange.push(component);
-                        componentIDs.push(component.id);
-                        componentIndexes.push(component.index);
-
-                        unitedRenderer.createComponentDom(component);
-                        structTree.addComponent(component);
-                        changes.push(Change.addComponent(component));
-                    } else {
-                        hasError = true;
-                    }
+                    unitedRenderer.createComponentDom(component);
+                    structTree.addComponent(component);
+                    changes.push(Change.addComponent(component));
                 } else {
                     hasError = true;
                 }
@@ -1123,9 +1117,9 @@ function addComponent(typeName, parentID, point) {
     let factory;
     let descriptor;
     let renderer;
-    let faceplate = mimic.faceplateMap.get(typeName);
 
-    if (faceplate) {
+    if (mimic.isFaceplate(typeName)) {
+        let faceplate = mimic.faceplateMap.get(typeName);
         factory = rs.mimic.FactorySet.getFaceplateFactory(faceplate);
         descriptor = rs.mimic.DescriptorSet.faceplateDescriptor;
         renderer = rs.mimic.RendererSet.faceplateRenderer;
@@ -1193,12 +1187,16 @@ async function pasteComponents(parentID, point) {
     for (let sourceComponent of sourceComponents) {
         let componentCopy = mimic.createComponent(sourceComponent);
 
-        if (componentCopy.parentID === mimicClipboard.rootID) {
-            componentCopy.x -= mimicClipboard.offset.x;
-            componentCopy.y -= mimicClipboard.offset.y;
-            topComponents.push(componentCopy);
+        if (componentCopy) {
+            if (componentCopy.parentID === mimicClipboard.rootID) {
+                componentCopy.x -= mimicClipboard.offset.x;
+                componentCopy.y -= mimicClipboard.offset.y;
+                topComponents.push(componentCopy);
+            } else {
+                childComponents.push(componentCopy);
+            }
         } else {
-            childComponents.push(componentCopy);
+            console.error("Unable to create component of type " + sourceComponent.typeName);
         }
     }
 

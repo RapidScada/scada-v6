@@ -937,7 +937,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "backgroundImage",
             displayName: "Background image",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.STRUCT
+            type: BasicType.STRING
         }));
 
         this.add(new PropertyDescriptor({
@@ -1874,7 +1874,7 @@ class PointProxy extends ProxyObject {
     }
 
     set x(value) {
-        this.target.x = value.toString();
+        this.target.x = value;
     }
 
     get y() {
@@ -1882,7 +1882,7 @@ class PointProxy extends ProxyObject {
     }
 
     set y(value) {
-        this.target.y = value.toString();
+        this.target.y = value;
     }
 }
 
@@ -1893,7 +1893,7 @@ class SizeProxy extends ProxyObject {
     }
 
     set x(value) {
-        this.target.width = value.toString();
+        this.target.width = value;
     }
 
     get y() {
@@ -1901,7 +1901,7 @@ class SizeProxy extends ProxyObject {
     }
 
     set y(value) {
-        this.target.height = value.toString();
+        this.target.height = value;
     }
 }
 

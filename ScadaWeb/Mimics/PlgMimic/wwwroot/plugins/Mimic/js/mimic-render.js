@@ -52,8 +52,8 @@ rs.mimic.Renderer = class {
     setLocation(component, x, y) {
         if (component.dom) {
             this._setLocation(component.dom, {
-                x: x.toString(),
-                y: y.toString()
+                x: x,
+                y: y
             });
         }
     }
@@ -63,13 +63,13 @@ rs.mimic.Renderer = class {
         if (component.dom) {
             let position = component.dom.position();
             return {
-                x: position.left.toString(),
-                y: position.top.toString()
+                x: parseInt(position.left),
+                y: parseInt(position.top)
             };
         } else {
             return {
-                x: "0",
-                y: "0"
+                x: 0,
+                y: 0
             };
         }
     }
@@ -78,8 +78,8 @@ rs.mimic.Renderer = class {
     setSize(component, width, height) {
         if (component.dom) {
             this._setSize(component.dom, {
-                width: width.toString(),
-                height: height.toString()
+                width: width,
+                height: height
             });
         }
     }
@@ -88,13 +88,13 @@ rs.mimic.Renderer = class {
     getSize(component) {
         if (component.dom) {
             return {
-                width: component.dom.outerWidth().toString(),
-                height: component.dom.outerHeight().toString()
+                width: parseInt(component.dom.outerWidth()),
+                height: parseInt(component.dom.outerHeight())
             };
         } else {
             return {
-                width: "0",
-                height: "0"
+                width: 0,
+                height: 0
             };
         }
     }
@@ -317,6 +317,7 @@ rs.mimic.RenderContext = class {
     faceplateMode = false;
     imageMap = null;
     idPrefix = "";
+    unknownTypes = null;
 
     constructor(source) {
         Object.assign(this, source);
@@ -358,9 +359,9 @@ rs.mimic.UnitedRenderer = class {
     }
 
     // Creates a component DOM.
-    _createComponentDom(component, renderContext, opt_unknownTypes) {
+    _createComponentDom(component, renderContext) {
         if (component.isFaceplate) {
-            this._createFaceplateDom(component, renderContext, opt_unknownTypes);
+            this._createFaceplateDom(component, renderContext);
         } else {
             let renderer = rs.mimic.RendererSet.componentRenderers.get(component.typeName);
 
@@ -369,15 +370,15 @@ rs.mimic.UnitedRenderer = class {
                 renderer.createDom(component, renderContext);
                 this._appendToParent(component);
             } else {
-                opt_unknownTypes?.add(component.typeName);
+                renderContext.unknownTypes?.add(component.typeName);
             }
         }
     }
 
     // Creates a faceplate DOM.
-    _createFaceplateDom(faceplateInstance, renderContext, opt_unknownTypes) {
+    _createFaceplateDom(faceplateInstance, renderContext) {
         if (!faceplateInstance.model) {
-            opt_unknownTypes?.add(faceplateInstance.typeName);
+            renderContext.unknownTypes?.add(faceplateInstance.typeName);
             return;
         }
 
@@ -386,7 +387,8 @@ rs.mimic.UnitedRenderer = class {
             editorOptions: this.editorOptions,
             faceplateMode: true,
             imageMap: faceplateInstance.model.imageMap,
-            idPrefix: renderContext.idPrefix
+            idPrefix: renderContext.idPrefix,
+            unknownTypes: renderContext.unknownTypes
         });
         let renderer = rs.mimic.RendererSet.faceplateRenderer;
         faceplateInstance.renderer = renderer;
@@ -395,29 +397,30 @@ rs.mimic.UnitedRenderer = class {
         faceplateContext.idPrefix += faceplateInstance.id + "-";
 
         for (let component of faceplateInstance.components) {
-            this._createComponentDom(component, faceplateContext, opt_unknownTypes);
+            this._createComponentDom(component, faceplateContext);
         }
     }
 
     // Creates a mimic DOM according to the mimic model. Returns a jQuery object.
     createMimicDom() {
         let startTime = Date.now();
-        let unknownTypes = new Set();
         let renderContext = new rs.mimic.RenderContext({
             editMode: this.editMode,
             editorOptions: this.editorOptions,
-            imageMap: this.mimic.imageMap
+            imageMap: this.mimic.imageMap,
+            unknownTypes = new Set()
         });
         let renderer = rs.mimic.RendererSet.mimicRenderer;
         this.mimic.renderer = renderer;
         renderer.createDom(this.mimic, renderContext);
 
         for (let component of this.mimic.components) {
-            this._createComponentDom(component, renderContext, unknownTypes);
+            this._createComponentDom(component, renderContext);
         }
 
-        if (unknownTypes.size > 0) {
-            console.warn("Unknown component types: " + Array.from(unknownTypes).sort().join(", "));
+        if (renderContext.unknownTypes.size > 0) {
+            console.warn("Unable to render components of types: " +
+                Array.from(renderContext.unknownTypes).sort().join(", "));
         }
 
         if (this.mimic.dom) {

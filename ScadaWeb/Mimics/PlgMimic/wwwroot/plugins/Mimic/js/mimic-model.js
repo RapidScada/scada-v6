@@ -1,6 +1,6 @@
 ﻿// Contains classes: MimicHelper, MimicBase, Mimic, Component, Panel, Image, 
 //     FaceplateMeta, Faceplate, FaceplateInstance
-// Depends on scada-common.js, mimic-common.js
+// Depends on scada-common.js, mimic-common.js, mimic-factory.js
 
 // Provides helper methods for mimics and components.
 rs.mimic.MimicHelper = class MimicHelper {
@@ -269,20 +269,29 @@ rs.mimic.MimicBase = class {
         this.children = [];
     }
 
-    // Creates a component instance based on the source object.
+    // Checks whether the specified type name represents a faceplate.
+    isFaceplate(typeName) {
+        return this.dependencyMap?.has(typeName);
+    }
+
+    // Creates a component instance based on the source object. Returns null if the component factory is not found.
     createComponent(source) {
-        return this.dependencyMap?.has(source.typeName)
-            ? new rs.mimic.FaceplateInstance(source)
-            : new rs.mimic.Component(source);
+        const FactorySet = rs.mimic.FactorySet;
+
+        if (this.isFaceplate(source.typeName)) {
+            let faceplate = this.faceplateMap.get(source.typeName); // can be null
+            return FactorySet.faceplateFactory.createComponentFromSource(source, faceplate);
+        } else {
+            let factory = FactorySet.componentFactories.get(source.typeName);
+            return factory ? factory.createComponentFromSource(source) : null;
+        }
     }
 
     // Creates a copy of the component containing only the main properties.
     copyComponent(source) {
-        if (source instanceof rs.mimic.Component) {
-            source = source.toPlainObject();
-        }
-
-        return this.createComponent(ScadaUtils.deepClone(source));
+        return source instanceof rs.mimic.Component
+            ? this.createComponent(source.toPlainObject())
+            : this.createComponent(source);
     }
 };
 
@@ -393,7 +402,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                     }
                 }
 
-                this.document = dto.data.document || {};
+                this.document = rs.mimic.MimicFactory.parseProperties(dto.data.document);
             }
 
             return dto;
@@ -418,8 +427,13 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
                 for (let sourceComponent of dto.data.components) {
                     let component = this.createComponent(sourceComponent);
-                    this.components.push(component);
-                    this.componentMap.set(component.id, component);
+
+                    if (component) {
+                        this.components.push(component);
+                        this.componentMap.set(component.id, component);
+                    } else if (sourceComponent.typeName) {
+                        loadContext.unknownTypes.add(sourceComponent.typeName);
+                    }
                 }
             }
 
@@ -523,7 +537,6 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         let startTime = Date.now();
         console.log(ScadaUtils.getCurrentTime() + " Load mimic with key " + mimicKey)
         this.clear();
-
         let loadContext = new rs.mimic.LoadContext(controllerUrl, mimicKey);
 
         while (await this._loadPart(loadContext)) {
@@ -534,8 +547,16 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
             this._defineNesting();
             this._prepareFaceplates();
             this._prepareFaceplateInstances();
-            console.info(ScadaUtils.getCurrentTime() + " Mimic loading completed successfully in " +
-                (Date.now() - startTime) + " ms");
+
+            let endTime = Date.now();
+            let endTimeStr = ScadaUtils.getCurrentTime();
+
+            if (loadContext.unknownTypes.size > 0) {
+                console.warn(endTimeStr + " Unable to create components of types: " +
+                    Array.from(loadContext.unknownTypes).sort().join(", "));
+            }
+
+            console.info(endTimeStr + " Mimic loading completed successfully in " + (endTime - startTime) + " ms");
         } else {
             console.error(ScadaUtils.getCurrentTime() + " Mimic loading failed: " + loadContext.result.msg);
         }
@@ -702,60 +723,56 @@ rs.mimic.Component = class {
     }
 
     get x() {
-        return parseInt(this.properties?.location?.x) || 0;
+        return this.properties ? this.properties.location.x : 0;
     }
 
     set x(value) {
-        if (this.properties?.location) {
-            this.properties.location.x = value.toString();
+        if (this.properties) {
+            this.properties.location.x = parseInt(value) || 0;
         }
     }
 
     get y() {
-        return parseInt(this.properties?.location?.y) || 0;
+        return this.properties ? this.properties.location.y : 0;
     }
 
     set y(value) {
-        if (this.properties?.location) {
-            this.properties.location.y = value.toString();
+        if (this.properties) {
+            this.properties.location.y = parseInt(value) || 0;
         }
     }
 
     get width() {
-        return parseInt(this.properties?.size?.width) || 0;
+        return this.properties ? this.properties.size.width : 0;
     }
 
     set width(value) {
-        if (this.properties?.size) {
-            this.properties.size.width = value.toString();
+        if (this.properties) {
+            this.properties.size.width = parseInt(value) || 0;
         }
     }
 
     get height() {
-        return parseInt(this.properties?.size?.height) || 0;
+        return this.properties ? this.properties.size.height : 0;
     }
 
     set height(value) {
-        if (this.properties?.size) {
-            this.properties.size.height = value.toString();
+        if (this.properties) {
+            this.properties.size.height = parseInt(value) || 0;
         }
     }
 
     setLocation(x, y) {
         if (this.properties) {
-            this.properties.location = {
-                x: x.toString(),
-                y: y.toString()
-            };
+            this.properties.location.x = parseInt(x) || 0;
+            this.properties.location.y = parseInt(y) || 0;
         }
     }
 
     setSize(width, height) {
         if (this.properties) {
-            this.properties.size = {
-                width: width.toString(),
-                height: height.toString()
-            };
+            this.properties.size.width = parseInt(width) || 0;
+            this.properties.size.height = parseInt(height) || 0;
         }
     }
 
@@ -865,9 +882,8 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
 
         if (Array.isArray(source.components)) {
             for (let sourceComponent of source.components) {
-                let component = this.createComponent(sourceComponent);
-                this.components.push(component);
-                this.componentMap.set(component.id, component);
+                this.components.push(sourceComponent);
+                this.componentMap.set(sourceComponent.id, sourceComponent);
             }
         }
 

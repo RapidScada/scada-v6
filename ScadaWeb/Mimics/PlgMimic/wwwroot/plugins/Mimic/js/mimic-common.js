@@ -34,6 +34,7 @@ rs.mimic.LoadContext = class {
     componentIndex = 0;
     imageIndex = 0;
     faceplateIndex = 0;
+    unknownTypes = new Set();
 
     constructor(controllerUrl, mimicKey) {
         this.controllerUrl = controllerUrl;

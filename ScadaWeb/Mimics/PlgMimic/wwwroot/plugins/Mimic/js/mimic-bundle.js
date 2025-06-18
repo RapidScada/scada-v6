@@ -34,6 +34,7 @@ rs.mimic.LoadContext = class {
     componentIndex = 0;
     imageIndex = 0;
     faceplateIndex = 0;
+    unknownTypes = new Set();
 
     constructor(controllerUrl, mimicKey) {
         this.controllerUrl = controllerUrl;
@@ -41,16 +42,37 @@ rs.mimic.LoadContext = class {
     }
 };
 
-// Contains classes: ComponentFactory, RegularComponentFactory, TextFactory, PictureFactory, PanelFactory,
-//     FaceplateFactory, FactorySet
+// Contains classes: MimicFactory, ComponentFactory, RegularComponentFactory,
+//     TextFactory, PictureFactory, PanelFactory, FaceplateFactory, FactorySet
 // Depends on mimic-model.js, mimic-model-subtypes.js
 
+// Create mimic properties.
+rs.mimic.MimicFactory = class {
+    static parseProperties(sourceProps) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        sourceProps ??= {};
+        return {
+            // appearance
+            backColor: PropertyParser.parseString(sourceProps.backColor),
+            backgroundImage: PropertyParser.parseString(sourceProps.backgroundImage),
+            font: rs.mimic.Font.parse(sourceProps.font),
+            foreColor: PropertyParser.parseString(sourceProps.foreColor),
+            stylesheet: PropertyParser.parseString(sourceProps.stylesheet),
+
+            // behavior
+            script: PropertyParser.parseString(sourceProps.script),
+            tooltip: PropertyParser.parseString(sourceProps.tooltip),
+
+            // layout
+            size: rs.mimic.Size.parse(sourceProps.size)
+        };
+    }
+}
+
 // Represents an abstract component factory.
-rs.mimic.ComponentFactory = class ComponentFactory {
-    createComponent(typeName) {
-        let component = new rs.mimic.Component();
-        component.typeName = typeName;
-        component.properties = {
+rs.mimic.ComponentFactory = class {
+    _createProperties() {
+        return {
             // behavior
             blinking: false,
             enabled: true,
@@ -67,15 +89,12 @@ rs.mimic.ComponentFactory = class ComponentFactory {
             location: new rs.mimic.Location(),
             size: new rs.mimic.Size()
         };
-        return component;
     }
 
-    createComponentFromSource(source) {
+    _parseProperties(sourceProps) {
         const PropertyParser = rs.mimic.PropertyParser;
-        let component = new rs.mimic.Component();
-        let sourceProps = source.properties ?? {};
-        component.typeName = source.typeName;
-        component.properties = {
+        sourceProps ??= {};
+        return {
             // behavior
             blinking: PropertyParser.parseBool(sourceProps.blinking),
             enabled: PropertyParser.parseBool(sourceProps.enabled),
@@ -92,6 +111,21 @@ rs.mimic.ComponentFactory = class ComponentFactory {
             location: rs.mimic.Location.parse(sourceProps.location),
             size: rs.mimic.Size.parse(sourceProps.size)
         };
+    }
+
+    // Creates a new component with the given type name.
+    createComponent(typeName) {
+        let component = new rs.mimic.Component();
+        component.typeName = typeName;
+        component.properties = this._createProperties();
+        return component;
+    }
+
+    // Creates a new component with the specified properties, making deep copies of the source properties.
+    createComponentFromSource(source) {
+        let component = new rs.mimic.Component();
+        component.typeName = source.typeName;
+        component.properties = this._parseProperties(source.properties);
         return component;
     }
 };
@@ -249,44 +283,57 @@ rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
 rs.mimic.PanelFactory = class extends rs.mimic.RegularComponentFactory {
     createComponent() {
         let component = super.createComponent("Panel");
+        component.children = []; // accept child components
+        return component;
+    }
+
+    createComponentFromSource(source) {
+        let component = super.createComponentFromSource(source);
         component.children = [];
         return component;
     }
 };
 
 // Creates faceplate instances.
-rs.mimic.FaceplateFactory = class {
-    static createComponent(faceplate) {
+rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
+    createComponent(faceplate) {
         let faceplateInstance = new rs.mimic.FaceplateInstance();
         faceplateInstance.typeName = faceplate.typeName;
-        faceplateInstance.properties = {
-            location: { x: "0", y: "0" }
-        };
+        faceplateInstance.properties = this._createProperties();
+        faceplateInstance.applyModel(faceplate);
+        return faceplateInstance;
+    }
+
+    createComponentFromSource(source, faceplate) {
+        let faceplateInstance = new rs.mimic.FaceplateInstance();
+        faceplateInstance.typeName = faceplate.typeName;
+        faceplateInstance.properties = this._parseProperties(source.properties);
         faceplateInstance.applyModel(faceplate);
         return faceplateInstance;
     }
 };
 
 // Contains factories for mimic components.
-rs.mimic.FactorySet = class {
+rs.mimic.FactorySet = class FactorySet {
+    static faceplateFactory = new rs.mimic.FaceplateFactory();
     static componentFactories = new Map([
         ["Text", new rs.mimic.TextFactory()],
         ["Picture", new rs.mimic.PictureFactory()],
         ["Panel", new rs.mimic.PanelFactory()]
     ]);
-
     static getFaceplateFactory(faceplate) {
         return {
-            createComponent: function () {
-                return rs.mimic.FaceplateFactory.createComponent(faceplate);
-            }
+            createComponent: () =>
+                FactorySet.faceplateFactory.createComponent(faceplate),
+            createComponentFromSource: (source) =>
+                FactorySet.faceplateFactory.createComponentFromSource(source, faceplate)
         };
     }
 };
 
 // Contains classes: MimicHelper, MimicBase, Mimic, Component, Panel, Image, 
 //     FaceplateMeta, Faceplate, FaceplateInstance
-// Depends on scada-common.js, mimic-common.js
+// Depends on scada-common.js, mimic-common.js, mimic-factory.js
 
 // Provides helper methods for mimics and components.
 rs.mimic.MimicHelper = class MimicHelper {
@@ -555,20 +602,29 @@ rs.mimic.MimicBase = class {
         this.children = [];
     }
 
-    // Creates a component instance based on the source object.
+    // Checks whether the specified type name represents a faceplate.
+    isFaceplate(typeName) {
+        return this.dependencyMap?.has(typeName);
+    }
+
+    // Creates a component instance based on the source object. Returns null if the component factory is not found.
     createComponent(source) {
-        return this.dependencyMap?.has(source.typeName)
-            ? new rs.mimic.FaceplateInstance(source)
-            : new rs.mimic.Component(source);
+        const FactorySet = rs.mimic.FactorySet;
+
+        if (this.isFaceplate(source.typeName)) {
+            let faceplate = this.faceplateMap.get(source.typeName); // can be null
+            return FactorySet.faceplateFactory.createComponentFromSource(source, faceplate);
+        } else {
+            let factory = FactorySet.componentFactories.get(source.typeName);
+            return factory ? factory.createComponentFromSource(source) : null;
+        }
     }
 
     // Creates a copy of the component containing only the main properties.
     copyComponent(source) {
-        if (source instanceof rs.mimic.Component) {
-            source = source.toPlainObject();
-        }
-
-        return this.createComponent(ScadaUtils.deepClone(source));
+        return source instanceof rs.mimic.Component
+            ? this.createComponent(source.toPlainObject())
+            : this.createComponent(source);
     }
 };
 
@@ -679,7 +735,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                     }
                 }
 
-                this.document = dto.data.document || {};
+                this.document = rs.mimic.MimicFactory.parseProperties(dto.data.document);
             }
 
             return dto;
@@ -704,8 +760,13 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
                 for (let sourceComponent of dto.data.components) {
                     let component = this.createComponent(sourceComponent);
-                    this.components.push(component);
-                    this.componentMap.set(component.id, component);
+
+                    if (component) {
+                        this.components.push(component);
+                        this.componentMap.set(component.id, component);
+                    } else if (sourceComponent.typeName) {
+                        loadContext.unknownTypes.add(sourceComponent.typeName);
+                    }
                 }
             }
 
@@ -809,7 +870,6 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         let startTime = Date.now();
         console.log(ScadaUtils.getCurrentTime() + " Load mimic with key " + mimicKey)
         this.clear();
-
         let loadContext = new rs.mimic.LoadContext(controllerUrl, mimicKey);
 
         while (await this._loadPart(loadContext)) {
@@ -820,8 +880,16 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
             this._defineNesting();
             this._prepareFaceplates();
             this._prepareFaceplateInstances();
-            console.info(ScadaUtils.getCurrentTime() + " Mimic loading completed successfully in " +
-                (Date.now() - startTime) + " ms");
+
+            let endTime = Date.now();
+            let endTimeStr = ScadaUtils.getCurrentTime();
+
+            if (loadContext.unknownTypes.size > 0) {
+                console.warn(endTimeStr + " Unable to create components of types: " +
+                    Array.from(loadContext.unknownTypes).sort().join(", "));
+            }
+
+            console.info(endTimeStr + " Mimic loading completed successfully in " + (endTime - startTime) + " ms");
         } else {
             console.error(ScadaUtils.getCurrentTime() + " Mimic loading failed: " + loadContext.result.msg);
         }
@@ -988,60 +1056,56 @@ rs.mimic.Component = class {
     }
 
     get x() {
-        return parseInt(this.properties?.location?.x) || 0;
+        return this.properties ? this.properties.location.x : 0;
     }
 
     set x(value) {
-        if (this.properties?.location) {
-            this.properties.location.x = value.toString();
+        if (this.properties) {
+            this.properties.location.x = parseInt(value) || 0;
         }
     }
 
     get y() {
-        return parseInt(this.properties?.location?.y) || 0;
+        return this.properties ? this.properties.location.y : 0;
     }
 
     set y(value) {
-        if (this.properties?.location) {
-            this.properties.location.y = value.toString();
+        if (this.properties) {
+            this.properties.location.y = parseInt(value) || 0;
         }
     }
 
     get width() {
-        return parseInt(this.properties?.size?.width) || 0;
+        return this.properties ? this.properties.size.width : 0;
     }
 
     set width(value) {
-        if (this.properties?.size) {
-            this.properties.size.width = value.toString();
+        if (this.properties) {
+            this.properties.size.width = parseInt(value) || 0;
         }
     }
 
     get height() {
-        return parseInt(this.properties?.size?.height) || 0;
+        return this.properties ? this.properties.size.height : 0;
     }
 
     set height(value) {
-        if (this.properties?.size) {
-            this.properties.size.height = value.toString();
+        if (this.properties) {
+            this.properties.size.height = parseInt(value) || 0;
         }
     }
 
     setLocation(x, y) {
         if (this.properties) {
-            this.properties.location = {
-                x: x.toString(),
-                y: y.toString()
-            };
+            this.properties.location.x = parseInt(x) || 0;
+            this.properties.location.y = parseInt(y) || 0;
         }
     }
 
     setSize(width, height) {
         if (this.properties) {
-            this.properties.size = {
-                width: width.toString(),
-                height: height.toString()
-            };
+            this.properties.size.width = parseInt(width) || 0;
+            this.properties.size.height = parseInt(height) || 0;
         }
     }
 
@@ -1151,9 +1215,8 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
 
         if (Array.isArray(source.components)) {
             for (let sourceComponent of source.components) {
-                let component = this.createComponent(sourceComponent);
-                this.components.push(component);
-                this.componentMap.set(component.id, component);
+                this.components.push(sourceComponent);
+                this.componentMap.set(sourceComponent.id, sourceComponent);
             }
         }
 
@@ -1207,8 +1270,9 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 
 // Contains classes:
 //     ActionType, CompareOperator, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth, ContentAlignment,
-//     Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs,
-//     Location, Padding, PropertyAlias, PropertyBinding, Size, VisualState
+//     Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Location, Padding,
+//     PropertyAlias, PropertyBinding, Size, VisualState,
+//     PropertyParser
 // No dependencies
 
 // --- Enumerations ---
@@ -1674,8 +1738,8 @@ rs.mimic.Renderer = class {
     setLocation(component, x, y) {
         if (component.dom) {
             this._setLocation(component.dom, {
-                x: x.toString(),
-                y: y.toString()
+                x: x,
+                y: y
             });
         }
     }
@@ -1685,13 +1749,13 @@ rs.mimic.Renderer = class {
         if (component.dom) {
             let position = component.dom.position();
             return {
-                x: position.left.toString(),
-                y: position.top.toString()
+                x: parseInt(position.left),
+                y: parseInt(position.top)
             };
         } else {
             return {
-                x: "0",
-                y: "0"
+                x: 0,
+                y: 0
             };
         }
     }
@@ -1700,8 +1764,8 @@ rs.mimic.Renderer = class {
     setSize(component, width, height) {
         if (component.dom) {
             this._setSize(component.dom, {
-                width: width.toString(),
-                height: height.toString()
+                width: width,
+                height: height
             });
         }
     }
@@ -1710,13 +1774,13 @@ rs.mimic.Renderer = class {
     getSize(component) {
         if (component.dom) {
             return {
-                width: component.dom.outerWidth().toString(),
-                height: component.dom.outerHeight().toString()
+                width: parseInt(component.dom.outerWidth()),
+                height: parseInt(component.dom.outerHeight())
             };
         } else {
             return {
-                width: "0",
-                height: "0"
+                width: 0,
+                height: 0
             };
         }
     }
@@ -1939,6 +2003,7 @@ rs.mimic.RenderContext = class {
     faceplateMode = false;
     imageMap = null;
     idPrefix = "";
+    unknownTypes = null;
 
     constructor(source) {
         Object.assign(this, source);
@@ -1980,9 +2045,9 @@ rs.mimic.UnitedRenderer = class {
     }
 
     // Creates a component DOM.
-    _createComponentDom(component, renderContext, opt_unknownTypes) {
+    _createComponentDom(component, renderContext) {
         if (component.isFaceplate) {
-            this._createFaceplateDom(component, renderContext, opt_unknownTypes);
+            this._createFaceplateDom(component, renderContext);
         } else {
             let renderer = rs.mimic.RendererSet.componentRenderers.get(component.typeName);
 
@@ -1991,15 +2056,15 @@ rs.mimic.UnitedRenderer = class {
                 renderer.createDom(component, renderContext);
                 this._appendToParent(component);
             } else {
-                opt_unknownTypes?.add(component.typeName);
+                renderContext.unknownTypes?.add(component.typeName);
             }
         }
     }
 
     // Creates a faceplate DOM.
-    _createFaceplateDom(faceplateInstance, renderContext, opt_unknownTypes) {
+    _createFaceplateDom(faceplateInstance, renderContext) {
         if (!faceplateInstance.model) {
-            opt_unknownTypes?.add(faceplateInstance.typeName);
+            renderContext.unknownTypes?.add(faceplateInstance.typeName);
             return;
         }
 
@@ -2008,7 +2073,8 @@ rs.mimic.UnitedRenderer = class {
             editorOptions: this.editorOptions,
             faceplateMode: true,
             imageMap: faceplateInstance.model.imageMap,
-            idPrefix: renderContext.idPrefix
+            idPrefix: renderContext.idPrefix,
+            unknownTypes: renderContext.unknownTypes
         });
         let renderer = rs.mimic.RendererSet.faceplateRenderer;
         faceplateInstance.renderer = renderer;
@@ -2017,29 +2083,30 @@ rs.mimic.UnitedRenderer = class {
         faceplateContext.idPrefix += faceplateInstance.id + "-";
 
         for (let component of faceplateInstance.components) {
-            this._createComponentDom(component, faceplateContext, opt_unknownTypes);
+            this._createComponentDom(component, faceplateContext);
         }
     }
 
     // Creates a mimic DOM according to the mimic model. Returns a jQuery object.
     createMimicDom() {
         let startTime = Date.now();
-        let unknownTypes = new Set();
         let renderContext = new rs.mimic.RenderContext({
             editMode: this.editMode,
             editorOptions: this.editorOptions,
-            imageMap: this.mimic.imageMap
+            imageMap: this.mimic.imageMap,
+            unknownTypes = new Set()
         });
         let renderer = rs.mimic.RendererSet.mimicRenderer;
         this.mimic.renderer = renderer;
         renderer.createDom(this.mimic, renderContext);
 
         for (let component of this.mimic.components) {
-            this._createComponentDom(component, renderContext, unknownTypes);
+            this._createComponentDom(component, renderContext);
         }
 
-        if (unknownTypes.size > 0) {
-            console.warn("Unknown component types: " + Array.from(unknownTypes).sort().join(", "));
+        if (renderContext.unknownTypes.size > 0) {
+            console.warn("Unable to render components of types: " +
+                Array.from(renderContext.unknownTypes).sort().join(", "));
         }
 
         if (this.mimic.dom) {
