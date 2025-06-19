@@ -1,9 +1,80 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <PlgMimicDictionaries>
+  <!-- PlgMimic -->
   <Dictionary key="Scada.Web.Plugins.PlgMimic.Areas.Mimic.Pages.MimicViewModel">
     <Phrase key="btnFitScreen_ToolTip">Fit to Screen</Phrase>
     <Phrase key="btnFitWidth_ToolTip">Fit to Width</Phrase>
     <Phrase key="btnZoomOut_ToolTip">Zoom Out</Phrase>
     <Phrase key="btnZoomIn_ToolTip">Zoom In</Phrase>
+  </Dictionary>
+  <!-- PlgMimic.Common -->
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.Components.StandardComponentGroup">
+    <Phrase key="StandardGroup">STANDARD</Phrase>
+    <Phrase key="TextComponent">Text</Phrase>
+    <Phrase key="PictureComponent">Picture</Phrase>
+    <Phrase key="PanelComponent">Panel</Phrase>
+  </Dictionary>
+  <!-- Mimic Model -->
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Category">
+    <Phrase key="Appearance">APPEARANCE</Phrase>
+    <Phrase key="Behavior">BEHAVIOR</Phrase>
+    <Phrase key="Data">DATA</Phrase>
+    <Phrase key="Design">DESIGN</Phrase>
+    <Phrase key="Layout">LAYOUT</Phrase>
+    <Phrase key="Misc">MISC</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Mimic">
+    <Phrase key="BackColor">Background color</Phrase>
+    <Phrase key="BackgroundImage">Background image</Phrase>
+    <Phrase key="Font">Font</Phrase>
+    <Phrase key="ForeColor">Foreground color</Phrase>
+    <Phrase key="Stylesheet">Stylesheet</Phrase>
+    <Phrase key="Script">Script</Phrase>
+    <Phrase key="Tooltip">Tooltip</Phrase>
+    <Phrase key="Size">Size</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Component">
+    <!-- ComponentDescriptor -->
+    <Phrase key="Blinking">Blinking</Phrase>
+    <Phrase key="Enabled">Enabled</Phrase>
+    <Phrase key="Visible">Visible</Phrase>
+    <Phrase key="DeviceNum">Device number</Phrase>
+    <Phrase key="InCnlNum">Input channel</Phrase>
+    <Phrase key="ObjNum">Object number</Phrase>
+    <Phrase key="OutCnlNum">Output channel</Phrase>
+    <Phrase key="PropertyBindings">Property bindings</Phrase>
+    <Phrase key="ID">ID</Phrase>
+    <Phrase key="Name">Name</Phrase>
+    <Phrase key="TypeName">Type name</Phrase>
+    <Phrase key="Location">Location</Phrase>
+    <Phrase key="Size">Size</Phrase>
+    <!-- RegularComponentDescriptor -->
+    <Phrase key="BackColor">Background color</Phrase>
+    <Phrase key="Border">Border</Phrase>
+    <Phrase key="CornerRadius">Corner radius</Phrase>
+    <Phrase key="CssClass">CSS class</Phrase>
+    <Phrase key="ForeColor">Foreground color</Phrase>
+    <Phrase key="BlinkingState">When blinking</Phrase>
+    <Phrase key="ClickAction">On click</Phrase>
+    <Phrase key="DisabledState">On disabled</Phrase>
+    <Phrase key="HoverState">On hover</Phrase>
+    <Phrase key="Script">Script</Phrase>
+    <Phrase key="Tooltip">Tooltip</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Text">
+    <Phrase key="Font">Font</Phrase>
+    <Phrase key="Text">Text</Phrase>
+    <Phrase key="TextAlign">Text alignment</Phrase>
+    <Phrase key="WordWrap">Word wrap</Phrase>
+    <Phrase key="AutoSize">Auto size</Phrase>
+    <Phrase key="Padding">Padding</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Picture">
+    <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="Conditions">Conditions</Phrase>
+    <Phrase key="SizeMode">Size mode</Phrase>
+    <Phrase key="Padding">Padding</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Panel">
   </Dictionary>
 </PlgMimicDictionaries>

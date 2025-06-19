@@ -3,7 +3,6 @@
     "outputFileName": "wwwroot/plugins/MimicEditor/js/editor-bundle.js",
     "inputFiles": [
       "wwwroot/plugins/MimicEditor/js/editor-common.js",
-      "wwwroot/plugins/MimicEditor/js/mimic-descr.js",
       "wwwroot/plugins/MimicEditor/js/modals.js",
       "wwwroot/plugins/MimicEditor/js/prop-grid.js",
       "wwwroot/plugins/MimicEditor/js/struct-tree.js"
