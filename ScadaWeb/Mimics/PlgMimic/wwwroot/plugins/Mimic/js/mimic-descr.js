@@ -15,43 +15,6 @@ rs.mimic.BasicType = class BasicType {
     static SIZE = "size";
     static STRING = "string";
     static STRUCT = "struct";
-
-    static getDefaultValue(basicType) {
-        switch (basicType) {
-            case BasicType.BOOL:
-                return false;
-
-            case BasicType.COLOR:
-                return "";
-
-            case BasicType.ENUM:
-                return 0;
-
-            case BasicType.FLOAT:
-                return 0;
-
-            case BasicType.INT:
-                return 0;
-
-            case BasicType.LIST:
-                return [];
-
-            case BasicType.POINT:
-                return { x: "0", y: "0" };
-
-            case BasicType.SIZE:
-                return { width: "0", height: "0" };
-
-            case BasicType.STRING:
-                return "";
-
-            case BasicType.STRUCT:
-                return {};
-
-            default:
-                return undefined;
-        }
-    }
 };
 
 // Specifies the known categories.
@@ -73,17 +36,10 @@ rs.mimic.PropertyDescriptor = class {
     isBrowsable = true;
     isKnown = false;
     type = rs.mimic.BasicType.UNDEFINED;
-    defaultValue = undefined;
     format = {}; // Tweakpane binding options
 
     constructor(source) {
         Object.assign(this, source);
-    }
-
-    getDefaultValue() {
-        return this.defaultValue === undefined
-            ? rs.mimic.BasicType.getDefaultValue(this.type)
-            : ScadaUtils.deepClone(this.defaultValue);
     }
 };
 
@@ -102,15 +58,6 @@ rs.mimic.ObjectDescriptor = class {
 
     delete(propertyName) {
         this.propertyDescriptors.delete(propertyName);
-    }
-
-    // Adds missing properties to the object.
-    repair(obj) {
-        for (let propertyDescriptor of this.propertyDescriptors.values()) {
-            if (!propertyDescriptor.isKnown && !obj.hasOwnProperty(propertyDescriptor.name)) {
-                obj[propertyDescriptor.name] = propertyDescriptor.getDefaultValue();
-            }
-        }
     }
 };
 
@@ -180,24 +127,6 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             category: KnownCategory.LAYOUT,
             type: BasicType.SIZE
         }));
-    }
-
-    // Adds missing properties to the mimic document and components.
-    repair(mimic) {
-        mimic.document ??= {};
-        super.repair(mimic.document);
-
-        if (mimic.components) {
-            for (let component of mimic.components) {
-                let componentDescriptor = component.isFaceplate
-                    ? rs.mimic.DescriptorSet.faceplateDescriptor
-                    : rs.mimic.DescriptorSet.componentDescriptors.get(component.typeName);
-
-                if (componentDescriptor) {
-                    componentDescriptor.repair(component);
-                }
-            }
-        }
     }
 };
 
@@ -308,12 +237,6 @@ rs.mimic.ComponentDescriptorBase = class extends rs.mimic.ObjectDescriptor {
             category: KnownCategory.LAYOUT,
             type: BasicType.SIZE
         }));
-    }
-
-    // Adds missing properties to the component.
-    repair(component) {
-        component.properties ??= {};
-        super.repair(component.properties);
     }
 };
 
@@ -503,10 +426,6 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.ComponentDescriptor {
 
 // Represents a panel component descriptor.
 rs.mimic.PanelDescriptor = class extends rs.mimic.ComponentDescriptor {
-    repair(component) {
-        super.repair(component);
-        component.children ??= []; // accept child components
-    }
 };
 
 // Represents a faceplate descriptor.

@@ -1115,26 +1115,22 @@ function addComponent(typeName, parentID, point) {
         (parentID > 0 ? ` inside component ${parentID}` : ""));
 
     let factory;
-    let descriptor;
     let renderer;
 
     if (mimic.isFaceplate(typeName)) {
         let faceplate = mimic.faceplateMap.get(typeName);
         factory = rs.mimic.FactorySet.getFaceplateFactory(faceplate);
-        descriptor = rs.mimic.DescriptorSet.faceplateDescriptor;
         renderer = rs.mimic.RendererSet.faceplateRenderer;
     } else {
         factory = rs.mimic.FactorySet.componentFactories.get(typeName);
-        descriptor = rs.mimic.DescriptorSet.componentDescriptors.get(typeName);
         renderer = rs.mimic.RendererSet.componentRenderers.get(typeName);
     }
 
-    if (factory && descriptor && renderer) {
+    if (factory && renderer) {
         // create and render component
         let component = factory.createComponent();
         let parent = mimic.getComponentParent(parentID);
         component.id = getNextComponentID();
-        descriptor.repair(component);
 
         if (mimic.addComponent(component, parent, null, point.x, point.y)) {
             unitedRenderer.createComponentDom(component);
@@ -1148,10 +1144,6 @@ function addComponent(typeName, parentID, point) {
     } else {
         if (!factory) {
             console.error("Component factory not found.");
-        }
-
-        if (!descriptor) {
-            console.error("Component descriptor not found.");
         }
 
         if (!renderer) {
