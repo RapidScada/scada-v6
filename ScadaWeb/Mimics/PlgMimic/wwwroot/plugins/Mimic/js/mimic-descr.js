@@ -1,10 +1,9 @@
-﻿// Contains classes: BasicType, KnownCategory, PropertyDescriptor, ObjectDescriptor, MimicDescriptor, 
+﻿// Contains classes: BasicType, Subtype, KnownCategory, PropertyDescriptor, ObjectDescriptor, MimicDescriptor,
 //     ComponentDescriptorBase, ComponentDescriptor, TextDescriptor, PictureDescriptor, PanelDescriptor, DescriptorSet
 // Depends on scada-common.js, mimic-common.js
 
 // Specifies the basic types.
-rs.mimic.BasicType = class BasicType {
-    static UNDEFINED = "undefined";
+rs.mimic.BasicType = class {
     static BOOL = "bool";
     static COLOR = "color";
     static ENUM = "enum";
@@ -17,7 +16,36 @@ rs.mimic.BasicType = class BasicType {
     static STRUCT = "struct";
 };
 
+// Specifies the subtypes.
+rs.mimic.Subtype = class {
+    // Enumerations
+    static ACTION_TYPE = "ActionType";
+    static COMPARISON_OPERATOR = "ComparisonOperator";
+    static IMAGE_SIZE_MODE = "ImageSizeMode";
+    static LOGICAL_OPERATOR = "LogicalOperator";
+    static LINK_TARGET = "LinkTarget";
+    static MODAL_WIDTH = "ModalWidth";
+    static CONTENT_ALIGNMENT = "ContentAlignment";
+
+    // Structures
+    static ACTION = "Action";
+    static BORDER = "Border";
+    static COMMANDARGS = "CommandArgs";
+    static CONDITION = "Condition";
+    static CORNER_RADIUS = "CornerRadius";
+    static FONT = "Font";
+    static IMAGE_CONDITION = "ImageCondition";
+    static LINK_ARGS = "LinkArgs";
+    static LOCATION = "Location";
+    static PADDING = "Padding";
+    static PROPERTY_BINDING = "PropertyBinding";
+    static PROPERTY_EXPORT = "PropertyExport";
+    static SIZE = "Size";
+    static VISUAL_STATE = "VisualState";
+}
+
 // Specifies the known categories.
+// Values ​​must be specified in lowercase since they are used as property names.
 rs.mimic.KnownCategory = class {
     static APPEARANCE = "appearance";
     static BEHAVIOR = "behavior";
@@ -35,8 +63,9 @@ rs.mimic.PropertyDescriptor = class {
     isReadOnly = false;
     isBrowsable = true;
     isKnown = false;
-    type = rs.mimic.BasicType.UNDEFINED;
-    format = {}; // Tweakpane binding options
+    type = "";
+    subtype = "";
+    bindingOptions = null; // Tweakpane binding options
 
     constructor(source) {
         Object.assign(this, source);
@@ -120,6 +149,14 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             type: BasicType.STRING
         }));
 
+        // data
+        this.add(new PropertyDescriptor({
+            name: "propertyExports",
+            displayName: "Exported properties",
+            category: KnownCategory.DATA,
+            type: BasicType.LIST
+        }));
+
         // layout
         this.add(new PropertyDescriptor({
             name: "size",
@@ -130,8 +167,8 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
     }
 };
 
-// Represents a basic component descriptor that contains common properties for components and faceplates.
-rs.mimic.ComponentDescriptorBase = class extends rs.mimic.ObjectDescriptor {
+// Represents a basic component descriptor.
+rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
     constructor() {
         super();
         const BasicType = rs.mimic.BasicType;
@@ -240,8 +277,8 @@ rs.mimic.ComponentDescriptorBase = class extends rs.mimic.ObjectDescriptor {
     }
 };
 
-// Represents a component descriptor.
-rs.mimic.ComponentDescriptor = class extends rs.mimic.ComponentDescriptorBase {
+// Represents a descriptor for regular non-faceplate components.
+rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor {
     constructor() {
         super();
         const BasicType = rs.mimic.BasicType;
@@ -330,10 +367,11 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ComponentDescriptorBase {
 };
 
 // Represents a text component descriptor.
-rs.mimic.TextDescriptor = class extends rs.mimic.ComponentDescriptor {
+rs.mimic.TextDescriptor = class extends rs.mimic.RegularComponentDescriptor {
     constructor() {
         super();
         const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
         const KnownCategory = rs.mimic.KnownCategory;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
@@ -356,7 +394,8 @@ rs.mimic.TextDescriptor = class extends rs.mimic.ComponentDescriptor {
             name: "textAlign",
             displayName: "Text alignment",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.ENUM
+            type: BasicType.ENUM,
+            subtype: Subtype.CONTENT_ALIGNMENT
         }));
 
         this.add(new PropertyDescriptor({
@@ -384,7 +423,7 @@ rs.mimic.TextDescriptor = class extends rs.mimic.ComponentDescriptor {
 };
 
 // Represents a picture component descriptor.
-rs.mimic.PictureDescriptor = class extends rs.mimic.ComponentDescriptor {
+rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
     constructor() {
         super();
         const BasicType = rs.mimic.BasicType;
@@ -425,11 +464,11 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.ComponentDescriptor {
 };
 
 // Represents a panel component descriptor.
-rs.mimic.PanelDescriptor = class extends rs.mimic.ComponentDescriptor {
+rs.mimic.PanelDescriptor = class extends rs.mimic.RegularComponentDescriptor {
 };
 
 // Represents a faceplate descriptor.
-rs.mimic.FaceplateDescriptor = class extends rs.mimic.ComponentDescriptorBase {
+rs.mimic.FaceplateDescriptor = class extends rs.mimic.ComponentDescriptor {
 };
 
 // Contains descriptors for a mimic and its components.

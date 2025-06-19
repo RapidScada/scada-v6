@@ -52,22 +52,22 @@ class ArrangeActionType {
 // Readable values are sent in HTTP requests.
 class ChangeType {
     // Dependencies
-    static ADD_DEPENDENCY = "add-dependency";
-    static REMOVE_DEPENDENCY = "remove-dependency";
+    static ADD_DEPENDENCY = "AddDependency";
+    static REMOVE_DEPENDENCY = "RemoveDependency";
 
     // Document
-    static UPDATE_DOCUMENT = "update-document";
+    static UPDATE_DOCUMENT = "UpdateDocument";
 
     // Components
-    static ADD_COMPONENT = "add-component";
-    static UPDATE_COMPONENT = "update-component";
-    static UPDATE_PARENT = "update-parent";
-    static ARRANGE_COMPONENT = "arrange-component";
-    static REMOVE_COMPONENT = "remove-component";
+    static ADD_COMPONENT = "AddComponent";
+    static UPDATE_COMPONENT = "UpdateComponent";
+    static UPDATE_PARENT = "UpdateParent";
+    static ARRANGE_COMPONENT = "ArrangeComponent";
+    static REMOVE_COMPONENT = "RemoveComponent";
 
     // Images
-    static ADD_IMAGE = "add-image";
-    static REMOVE_IMAGE = "remove-image";
+    static ADD_IMAGE = "AddImage";
+    static REMOVE_IMAGE = "RemoveImage";
 }
 
 // Specifies the drag types.

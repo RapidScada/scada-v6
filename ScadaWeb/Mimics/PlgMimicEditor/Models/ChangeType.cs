@@ -10,21 +10,21 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
     public static class ChangeType
     {
         // Dependencies
-        public const string AddDependency = "add-dependency";
-        public const string RemoveDependency = "remove-dependency";
+        public const string AddDependency = nameof(AddDependency);
+        public const string RemoveDependency = nameof(RemoveDependency);
 
         // Document
-        public const string UpdateDocument = "update-document";
+        public const string UpdateDocument = nameof(UpdateDocument);
 
         // Components
-        public const string AddComponent = "add-component";
-        public const string UpdateComponent = "update-component";
-        public const string UpdateParent = "update-parent";
-        public const string ArrangeComponent = "arrange-component";
-        public const string RemoveComponent = "remove-component";
+        public const string AddComponent = nameof(AddComponent);
+        public const string UpdateComponent = nameof(UpdateComponent);
+        public const string UpdateParent = nameof(UpdateParent);
+        public const string ArrangeComponent = nameof(ArrangeComponent);
+        public const string RemoveComponent = nameof(RemoveComponent);
 
         // Images
-        public const string AddImage = "add-image";
-        public const string RemoveImage = "remove-image";
+        public const string AddImage = nameof(AddImage);
+        public const string RemoveImage = nameof(RemoveImage);
     }
 }

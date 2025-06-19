@@ -303,6 +303,10 @@ class PropGridHelper {
             return null;
         }
     }
+
+    static translateDescriptors(translation) {
+
+    }
 }
 
 // Represents an intermediate object intended for editing.
