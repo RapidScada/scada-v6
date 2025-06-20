@@ -1027,15 +1027,17 @@ class ImageModal extends ModalBase {
 // Interacts with Tweakpane to provide property grid functionality.
 class PropGrid {
     _pane; // Tweakpane
-    _eventSource = document.createElement("propgrid");
+    _phrases;
+    _eventSource = document.createElement("prop-grid");
     _selectedObject = null;
     _parentStack = [];
 
-    constructor(elemID) {
+    constructor(elemID, phrases) {
         let containerElem = $("#" + elemID);
         this._pane = new Pane({
             container: containerElem[0]
         });
+        this._phrases = phrases;
     }
 
     _selectObject(obj) {
@@ -1316,7 +1318,7 @@ class PropGridEventType {
 
 // Provides helper methods for property grid.
 class PropGridHelper {
-    static _translateObject(objectDescriptor, translation, objectDict) {
+    static _translateObject(objectDescriptor, translation, objectDict, opt_fallbackDict) {
         if (!objectDict) {
             return;
         }
@@ -1325,7 +1327,8 @@ class PropGridHelper {
 
         for (let propertyDescriptor of objectDescriptor.propertyDescriptors.values()) {
             // translate display name and category
-            let displayName = objectDict[propertyDescriptor.name] ?? translation.component[propertyDescriptor.name];
+            let displayName = objectDict[propertyDescriptor.name] ??
+                (opt_fallbackDict ? opt_fallbackDict[propertyDescriptor.name] : "");
             let category = translation.category[propertyDescriptor.category];
 
             if (displayName) {
@@ -1348,6 +1351,25 @@ class PropGridHelper {
         }
     }
 
+    static translateDescriptors(translation) {
+        const DescriptorSet = rs.mimic.DescriptorSet;
+
+        // translate mimic and faceplates
+        PropGridHelper._translateObject(DescriptorSet.mimicDescriptor, translation, translation.mimic);
+        PropGridHelper._translateObject(DescriptorSet.faceplateDescriptor, translation, translation.component);
+
+        // translate components
+        for (let [typeName, descriptor] of DescriptorSet.componentDescriptors) {
+            PropGridHelper._translateObject(descriptor, translation,
+                translation.components.get(typeName), translation.component);
+        }
+
+        // translate structures
+        for (let [typeName, descriptor] of DescriptorSet.structureDescriptors) {
+            PropGridHelper._translateObject(descriptor, translation, translation.structures.get(typeName));
+        }
+    }
+
     static getObjectDescriptor(obj) {
         const DescriptorSet = rs.mimic.DescriptorSet;
 
@@ -1359,21 +1381,10 @@ class PropGridHelper {
             return DescriptorSet.mimicDescriptor;
         } else if (obj instanceof UnionObject) {
             return obj.descriptor;
+        } else if (obj instanceof Object) {
+            return DescriptorSet.structureDescriptors.get(obj.constructor.name);
         } else {
             return null;
-        }
-    }
-
-    static translateDescriptors(translation) {
-        const DescriptorSet = rs.mimic.DescriptorSet;
-
-        // translate mimic and faceplates
-        PropGridHelper._translateObject(DescriptorSet.mimicDescriptor, translation, translation.mimic);
-        PropGridHelper._translateObject(DescriptorSet.faceplateDescriptor, translation, translation.component);
-
-        // translate regular components
-        for (let [typeName, componentDescriptor] of DescriptorSet.componentDescriptors) {
-            PropGridHelper._translateObject(componentDescriptor, translation, translation.components.get(typeName));
         }
     }
 }
@@ -1546,7 +1557,7 @@ class UnionObject {
 
 // Represents a component for displaying mimic structure.
 class StructTree {
-    _eventSource = document.createElement("structtree");
+    _eventSource = document.createElement("struct-tree");
 
     structElem;
     mimic;

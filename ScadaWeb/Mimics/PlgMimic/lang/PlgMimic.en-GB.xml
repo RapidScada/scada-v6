@@ -78,7 +78,7 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Panel">
   </Dictionary>
-  <!-- Subtypes Enumerations -->
+  <!-- Enumerations -->
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ActionType">
     <Phrase key="None">None</Phrase>
     <Phrase key="DrawChart">Draw chart</Phrase>
@@ -128,7 +128,14 @@
     <Phrase key="BottomCenter">Bottom center</Phrase>
     <Phrase key="BottomRight">Bottom right</Phrase>
   </Dictionary>
-  <!-- Subtypes Structures -->
+  <!-- Structures -->
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Action">
+    <Phrase key="ActionType">Action type</Phrase>
+    <Phrase key="ChartArgs">Chart arguments</Phrase>
+    <Phrase key="CommandArgs">Command arguments</Phrase>
+    <Phrase key="LinkArgs">Link arguments</Phrase>
+    <Phrase key="Script">Script</Phrase>
+  </Dictionary>
   <Dictionary key="">
     <Phrase key=""></Phrase>
   </Dictionary>

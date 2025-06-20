@@ -1,10 +1,13 @@
-﻿// Contains classes: KnownCategory, BasicType, Subtype, PropertyEditor,
+﻿// Contains classes: 
+//     KnownCategory, BasicType, Subtype, PropertyEditor,
 //     PropertyDescriptor, ObjectDescriptor, MimicDescriptor, ComponentDescriptorBase, ComponentDescriptor,
-//     TextDescriptor, PictureDescriptor, PanelDescriptor, DescriptorSet
+//     TextDescriptor, PictureDescriptor, PanelDescriptor,
+//     ActionDescriptor,
+//     DescriptorSet
 // Depends on scada-common.js, mimic-common.js
 
 // Specifies the known categories.
-// Values ​​must be specified in lowercase since they are used as property names.
+// Values ​​must be specified in camel case since they are used as property names.
 rs.mimic.KnownCategory = class {
     static APPEARANCE = "appearance";
     static BEHAVIOR = "behavior";
@@ -39,7 +42,7 @@ rs.mimic.Subtype = class {
     // Structures
     static ACTION = "Action";
     static BORDER = "Border";
-    static COMMANDARGS = "CommandArgs";
+    static COMMAND_ARGS = "CommandArgs";
     static CONDITION = "Condition";
     static CORNER_RADIUS = "CornerRadius";
     static FONT = "Font";
@@ -444,6 +447,7 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
         super();
         const KnownCategory = rs.mimic.KnownCategory;
         const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
         // appearance
@@ -466,7 +470,8 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             name: "sizeMode",
             displayName: "Size mode",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.ENUM
+            type: BasicType.ENUM,
+            subtype: Subtype.IMAGE_SIZE_MODE
         }));
 
         // layout
@@ -487,6 +492,51 @@ rs.mimic.PanelDescriptor = class extends rs.mimic.RegularComponentDescriptor {
 rs.mimic.FaceplateDescriptor = class extends rs.mimic.ComponentDescriptor {
 };
 
+// Represents a descriptor for the Action structure.
+rs.mimic.ActionDescriptor = class extends rs.mimic.ObjectDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
+        const PropertyEditor = rs.mimic.PropertyEditor;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "actionType",
+            displayName: "Action type",
+            type: BasicType.ENUM,
+            subtype: Subtype.ACTION_TYPE
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "chartArgs",
+            displayName: "Chart arguments",
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "commandArgs",
+            displayName: "Command arguments",
+            type: BasicType.STRUCT,
+            subtype: Subtype.COMMAND_ARGS
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "linkArgs",
+            displayName: "Link arguments",
+            type: BasicType.STRUCT,
+            subtype: Subtype.LINK_ARGS
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "script",
+            displayName: "Script",
+            type: BasicType.STRING,
+            editor: PropertyEditor.TEXT
+        }));
+    }
+};
+
 // Contains descriptors for a mimic and its components.
 rs.mimic.DescriptorSet = class {
     static mimicDescriptor = new rs.mimic.MimicDescriptor();
@@ -495,5 +545,8 @@ rs.mimic.DescriptorSet = class {
         ["Text", new rs.mimic.TextDescriptor()],
         ["Picture", new rs.mimic.PictureDescriptor()],
         ["Panel", new rs.mimic.PanelDescriptor()]
+    ]);
+    static structureDescriptors = new Map([
+        ["Action", new rs.mimic.ActionDescriptor()],
     ]);
 };

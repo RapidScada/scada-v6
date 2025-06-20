@@ -78,9 +78,9 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Panel">
   </Dictionary>
-  <!-- Subtypes Enumerations -->
+  <!-- Enumerations -->
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ActionType">
-    <Phrase key="None">Не задан</Phrase>
+    <Phrase key="None">Не задано</Phrase>
     <Phrase key="DrawChart">Построить график</Phrase>
     <Phrase key="SendCommand">Отправить команду</Phrase>
     <Phrase key="OpenLink">Открыть ссылку</Phrase>
@@ -127,5 +127,13 @@
     <Phrase key="BottomLeft">Внизу слева</Phrase>
     <Phrase key="BottomCenter">Внизу по центру</Phrase>
     <Phrase key="BottomRight">Внизу справа</Phrase>
+  </Dictionary>
+  <!-- Structures -->
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Action">
+    <Phrase key="ActionType">Тип действия</Phrase>
+    <Phrase key="ChartArgs">Аргументы графика</Phrase>
+    <Phrase key="CommandArgs">Аргументы команды</Phrase>
+    <Phrase key="LinkArgs">Аргументы ссылки</Phrase>
+    <Phrase key="Script">Скрипт</Phrase>
   </Dictionary>
 </PlgMimicDictionaries>

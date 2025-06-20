@@ -3,7 +3,7 @@
 
 // Represents a component for displaying mimic structure.
 class StructTree {
-    _eventSource = document.createElement("structtree");
+    _eventSource = document.createElement("struct-tree");
 
     structElem;
     mimic;
