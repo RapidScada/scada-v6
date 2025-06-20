@@ -49,7 +49,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor
         public override void LoadConfig()
         {
             editorManager.LoadConfig();
-            editorManager.ObtainComponents();
+            editorManager.FillModelMeta();
         }
 
         /// <summary>

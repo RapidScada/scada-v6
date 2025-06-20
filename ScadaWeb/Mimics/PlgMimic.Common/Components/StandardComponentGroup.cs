@@ -10,17 +10,12 @@ namespace Scada.Web.Plugins.PlgMimic.Components
     public class StandardComponentGroup : ComponentGroup
     {
         /// <summary>
-        /// Gets the dictionary key prefix for translating mimic and component properties.
-        /// </summary>
-        public const string MimicModelPrefix = "Scada.Web.Plugins.PlgMimic.MimicModel.Js.";
-
-        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public StandardComponentGroup()
         {
             Name = MimicPhrases.StandardGroup;
-            DictionaryKeyPrefix = MimicModelPrefix;
+            DictionaryPrefix = MimicConst.MimicModelPrefix;
             const string IconPath = "~/plugins/Mimic/images/";
 
             Items.Add(new ComponentItem

@@ -57,8 +57,8 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 FileName = Path.Combine(webContext.AppDirs.LogDir, EditorUtils.LogFileName),
                 CapacityMB = webContext.AppConfig.GeneralOptions.MaxLogSize
             };
-            ComponentList = new ComponentList();
-            Translation = new PropertyTranslation();
+            ModelMeta = new ModelMeta();
+            ModelTranslation = new ModelTranslation();
         }
 
 
@@ -73,14 +73,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         public ILog PluginLog { get; }
 
         /// <summary>
-        /// Gets the list of available components.
+        /// Gets the information associated with the mimic model.
         /// </summary>
-        public ComponentList ComponentList { get; }
+        public ModelMeta ModelMeta { get; }
 
         /// <summary>
-        /// Gets the translation of mimic and component properties.
+        /// Gets the translation of the mimic model.
         /// </summary>
-        public PropertyTranslation Translation { get; }
+        public ModelTranslation ModelTranslation { get; }
 
         
         /// <summary>
@@ -244,12 +244,13 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         }
 
         /// <summary>
-        /// Obtains components from the active plugins.
+        /// Fills in the information about the available components and subtypes from the active plugins.
         /// </summary>
-        public void ObtainComponents()
+        public void FillModelMeta()
         {
-            ComponentList.Groups.Add(new StandardComponentGroup());
-            Translation.Init(ComponentList);
+            ModelMeta.ComponentGroups.Add(new StandardComponentGroup());
+            ModelMeta.SubtypeGroups.Add(new StandardSubtypeGroup());
+            ModelTranslation.Init(ModelMeta);
         }
 
         /// <summary>
