@@ -15,8 +15,13 @@ namespace Scada.Web.Plugins.PlgMimic.Components
         public string DictionaryPrefix { get; init; } = "";
 
         /// <summary>
-        /// Gets the subtype names.
+        /// Gets the names of enumerations.
         /// </summary>
-        public List<string> Names { get; } = [];
+        public List<string> EnumNames { get; } = [];
+
+        /// <summary>
+        /// Gets the names of structures.
+        /// </summary>
+        public List<string> StructNames { get; } = [];
     }
 }

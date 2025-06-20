@@ -12,8 +12,8 @@ namespace Scada.Web.Plugins.PlgMimic.Components
         public StandardSubtypeGroup()
         {
             DictionaryPrefix = MimicConst.MimicModelPrefix;
-            Names.AddRange([
-                // Enumerations
+
+            EnumNames.AddRange([
                 "ActionType",
                 "ComparisonOperator",
                 "ImageSizeMode",
@@ -21,8 +21,9 @@ namespace Scada.Web.Plugins.PlgMimic.Components
                 "LinkTarget",
                 "ModalWidth",
                 "ContentAlignment",
+            ]);
 
-                // Structures
+            StructNames.AddRange([
                 "Action",
                 "Border",
                 "CommandArgs",

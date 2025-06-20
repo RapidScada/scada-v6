@@ -293,13 +293,16 @@ class PropGridEventType {
 
 // Provides helper methods for property grid.
 class PropGridHelper {
-    static _translateObject(objectDescriptor, translation, dictionary) {
-        if (!dictionary) {
+    static _translateObject(objectDescriptor, translation, objectDict) {
+        if (!objectDict) {
             return;
         }
 
+        const BasicType = rs.mimic.BasicType;
+
         for (let propertyDescriptor of objectDescriptor.propertyDescriptors.values()) {
-            let displayName = dictionary[propertyDescriptor.name] ?? translation.component[propertyDescriptor.name];
+            // translate display name and category
+            let displayName = objectDict[propertyDescriptor.name] ?? translation.component[propertyDescriptor.name];
             let category = translation.category[propertyDescriptor.category];
 
             if (displayName) {
@@ -308,6 +311,16 @@ class PropGridHelper {
 
             if (category) {
                 propertyDescriptor.category = category;
+            }
+
+            // translate enumeration
+            if (propertyDescriptor.type === BasicType.ENUM) {
+                let enumDict = translation.enumerations.get(propertyDescriptor.subtype);
+
+                if (enumDict) {
+                    propertyDescriptor.bindingOptions ??= {};
+                    propertyDescriptor.bindingOptions.options ??= enumDict;
+                }
             }
         }
     }

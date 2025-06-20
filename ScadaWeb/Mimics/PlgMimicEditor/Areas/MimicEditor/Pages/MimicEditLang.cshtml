@@ -4,6 +4,20 @@
     Response.ContentType = "text/javascript";
     Response.Headers.CacheControl = "no-cache, no-store";
     var translation = editorManager.ModelTranslation;
+
+    string EnumDictToJs(LocaleDict dict)
+    {
+        System.Text.StringBuilder sb = new();
+        sb.AppendLine("{");
+
+        foreach (KeyValuePair<string, string> pair in dict.Phrases)
+        {
+            sb.AppendFormat("['{0}']: '{1}',", pair.Value.JsEncode(), pair.Key.JsEncode()).AppendLine();
+        }
+
+        sb.Append('}');
+        return sb.ToString();
+    }
 }
 phrases = @WebUtils.DictionaryToJs(typeof(MimicEditModel).FullName + ".Js");
 
@@ -17,17 +31,27 @@ component: @WebUtils.DictionaryToJs(translation.ComponentDict, true),
 components: new Map([
 @foreach (var (typeName, dict) in translation.ComponentDicts.OrderBy(pair => pair.Key))
 {
-    @string.Format("['{0}',", typeName).ToHtmlString()
+    @string.Format("['{0}', ", typeName).ToHtmlString()
     @WebUtils.DictionaryToJs(dict, true)
     @("],")
     @Environment.NewLine.ToHtmlString()
 }
 ]),
 
-subtypes: new Map([
-@foreach (var (subtypeName, dict) in translation.SubtypeDicts.OrderBy(pair => pair.Key))
+enumerations: new Map([
+@foreach (var (subtypeName, dict) in translation.EnumDicts.OrderBy(pair => pair.Key))
 {
-    @string.Format("['{0}',", subtypeName).ToHtmlString()
+    @string.Format("['{0}', ", subtypeName).ToHtmlString()
+    @EnumDictToJs(dict).ToHtmlString()
+    @("],")
+    @Environment.NewLine.ToHtmlString()
+}
+]),
+
+structures: new Map([
+@foreach (var (subtypeName, dict) in translation.StructDicts.OrderBy(pair => pair.Key))
+{
+    @string.Format("['{0}', ", subtypeName).ToHtmlString()
     @WebUtils.DictionaryToJs(dict, true)
     @("],")
     @Environment.NewLine.ToHtmlString()

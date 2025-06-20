@@ -33,17 +33,23 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// <summary>
         /// Gets the translation of component properties.
         /// Key is a component type name. 
-        /// Value is a dictionary containing property names and their display names.
+        /// Value is a dictionary of property names and their display names.
         /// </summary>
         public Dictionary<string, LocaleDict> ComponentDicts { get; private set; } = [];
 
         /// <summary>
-        /// Gets the translation of subtype fields.
-        /// Key is a subtype name. 
-        /// For enumerations, value is a dictionary containing field values and corresponding display values.
-        /// For structures, value is a dictionary containing field names and corresponding display names.
+        /// Gets the translation of enumerations.
+        /// Key is an enumeration name. 
+        /// Value is a dictionary of property values and corresponding display values.
         /// </summary>
-        public Dictionary<string, LocaleDict> SubtypeDicts { get; private set; } = [];
+        public Dictionary<string, LocaleDict> EnumDicts { get; private set; } = [];
+
+        /// <summary>
+        /// Gets the translation of structures.
+        /// Key is a structure name. 
+        /// Value is a dictionary of field names and their display names.
+        /// </summary>
+        public Dictionary<string, LocaleDict> StructDicts { get; private set; } = [];
 
 
         /// <summary>
@@ -68,9 +74,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
 
             foreach (SubtypeGroup subtypeGroup in modelMeta.SubtypeGroups)
             {
-                foreach (string subtypeName in subtypeGroup.Names)
+                foreach (string enumName in subtypeGroup.EnumNames)
                 {
-                    SubtypeDicts[subtypeName] = Locale.GetDictionary(subtypeGroup.DictionaryPrefix + subtypeName);
+                    EnumDicts[enumName] = Locale.GetDictionary(subtypeGroup.DictionaryPrefix + enumName);
+                }
+
+                foreach (string structName in subtypeGroup.StructNames)
+                {
+                    StructDicts[structName] = Locale.GetDictionary(subtypeGroup.DictionaryPrefix + structName);
                 }
             }
         }
