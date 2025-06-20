@@ -151,9 +151,9 @@ class LongActionType {
     static ARRANGE = 4;
 
     static isPointing(actionType) {
-        return actionType == LongActionType.ADD ||
-            actionType == LongActionType.PASTE ||
-            actionType == LongActionType.ARRANGE;
+        return actionType === LongActionType.ADD ||
+            actionType === LongActionType.PASTE ||
+            actionType === LongActionType.ARRANGE;
     }
 }
 
@@ -1182,16 +1182,21 @@ class PropGrid {
     }
 
     _createProxyObject(target, propertyDescriptor) {
+        if (!propertyDescriptor) {
+            return null;
+        }
+
         const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
         let proxy = null;
 
-        if (propertyDescriptor) {
-            switch (propertyDescriptor.type) {
-                case BasicType.POINT:
+        if (propertyDescriptor.type === BasicType.STRUCT) {
+            switch (propertyDescriptor.subtype) {
+                case Subtype.POINT:
                     proxy = new PointProxy(target);
                     break;
 
-                case BasicType.SIZE:
+                case Subtype.SIZE:
                     proxy = new SizeProxy(target);
                     break;
             }
@@ -1201,36 +1206,36 @@ class PropGrid {
     }
 
     _getBindingOptions(propertyDescriptor) {
-        const BasicType = rs.mimic.BasicType;
-        let bindingOptions = null;
-
-        if (propertyDescriptor) {
-            bindingOptions = {
-                label: propertyDescriptor.displayName
-            };
-
-            if (propertyDescriptor.isReadOnly) {
-                bindingOptions.readonly = true;
-                bindingOptions.interval = ScadaUtils.MS_PER_DAY;
-            }
-
-            switch (propertyDescriptor.type) {
-                case BasicType.INT:
-                    bindingOptions.format = (v) => v.toFixed();
-                    break;
-
-                case BasicType.POINT:
-                case BasicType.SIZE:
-                    bindingOptions.x = { step: 1 };
-                    bindingOptions.y = { step: 1 };
-                    break;
-            }
-
-            if (propertyDescriptor.format instanceof Object) {
-                Object.assign(bindingOptions, propertyDescriptor.format);
-            }
+        if (!propertyDescriptor) {
+            return null;
         }
 
+        const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
+        let bindingOptions = {
+            label: propertyDescriptor.displayName
+        };
+
+        if (propertyDescriptor.isReadOnly) {
+            bindingOptions.readonly = true;
+            bindingOptions.interval = ScadaUtils.MS_PER_DAY;
+        }
+
+        switch (propertyDescriptor.type) {
+            case BasicType.INT:
+                bindingOptions.format = (v) => v.toFixed();
+                break;
+
+            case BasicType.STRUCT:
+                if (propertyDescriptor.subtype === Subtype.POINT ||
+                    propertyDescriptor.subtype === Subtype.SIZE) {
+                    bindingOptions.x = { step: 1 };
+                    bindingOptions.y = { step: 1 };
+                }
+                break;
+        }
+
+        Object.assign(bindingOptions, propertyDescriptor.bindingOptions);
         return bindingOptions;
     }
 
@@ -1311,6 +1316,25 @@ class PropGridEventType {
 
 // Provides helper methods for property grid.
 class PropGridHelper {
+    static _translateObject(objectDescriptor, translation, dictionary) {
+        if (!dictionary) {
+            return;
+        }
+
+        for (let propertyDescriptor of objectDescriptor.propertyDescriptors.values()) {
+            let displayName = dictionary[propertyDescriptor.name] ?? translation.component[propertyDescriptor.name];
+            let category = translation.category[propertyDescriptor.category];
+
+            if (displayName) {
+                propertyDescriptor.displayName = displayName;
+            }
+
+            if (category) {
+                propertyDescriptor.category = category;
+            }
+        }
+    }
+
     static getObjectDescriptor(obj) {
         const DescriptorSet = rs.mimic.DescriptorSet;
 
@@ -1328,7 +1352,16 @@ class PropGridHelper {
     }
 
     static translateDescriptors(translation) {
+        const DescriptorSet = rs.mimic.DescriptorSet;
 
+        // translate mimic and faceplates
+        PropGridHelper._translateObject(DescriptorSet.mimicDescriptor, translation, translation.mimic);
+        PropGridHelper._translateObject(DescriptorSet.faceplateDescriptor, translation, translation.component);
+
+        // translate regular components
+        for (let [typeName, componentDescriptor] of DescriptorSet.componentDescriptors) {
+            PropGridHelper._translateObject(componentDescriptor, translation, translation.components.get(typeName));
+        }
     }
 }
 

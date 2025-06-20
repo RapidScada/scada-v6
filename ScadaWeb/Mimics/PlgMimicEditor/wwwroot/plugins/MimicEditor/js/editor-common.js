@@ -151,9 +151,9 @@ class LongActionType {
     static ARRANGE = 4;
 
     static isPointing(actionType) {
-        return actionType == LongActionType.ADD ||
-            actionType == LongActionType.PASTE ||
-            actionType == LongActionType.ARRANGE;
+        return actionType === LongActionType.ADD ||
+            actionType === LongActionType.PASTE ||
+            actionType === LongActionType.ARRANGE;
     }
 }
 

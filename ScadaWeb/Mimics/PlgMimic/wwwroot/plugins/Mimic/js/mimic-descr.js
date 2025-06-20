@@ -1,17 +1,26 @@
-﻿// Contains classes: BasicType, Subtype, KnownCategory, PropertyDescriptor, ObjectDescriptor, MimicDescriptor,
-//     ComponentDescriptorBase, ComponentDescriptor, TextDescriptor, PictureDescriptor, PanelDescriptor, DescriptorSet
+﻿// Contains classes: KnownCategory, BasicType, Subtype, PropertyEditor,
+//     PropertyDescriptor, ObjectDescriptor, MimicDescriptor, ComponentDescriptorBase, ComponentDescriptor,
+//     TextDescriptor, PictureDescriptor, PanelDescriptor, DescriptorSet
 // Depends on scada-common.js, mimic-common.js
+
+// Specifies the known categories.
+// Values ​​must be specified in lowercase since they are used as property names.
+rs.mimic.KnownCategory = class {
+    static APPEARANCE = "appearance";
+    static BEHAVIOR = "behavior";
+    static DATA = "data";
+    static DESIGN = "design";
+    static LAYOUT = "layout";
+    static MISC = "misc";
+};
 
 // Specifies the basic types.
 rs.mimic.BasicType = class {
     static BOOL = "bool";
-    static COLOR = "color";
     static ENUM = "enum";
     static FLOAT = "float";
     static INT = "int";
     static LIST = "list";
-    static POINT = "point";
-    static SIZE = "size";
     static STRING = "string";
     static STRUCT = "struct";
 };
@@ -36,24 +45,19 @@ rs.mimic.Subtype = class {
     static FONT = "Font";
     static IMAGE_CONDITION = "ImageCondition";
     static LINK_ARGS = "LinkArgs";
-    static LOCATION = "Location";
     static PADDING = "Padding";
+    static POINT = "Point";
     static PROPERTY_BINDING = "PropertyBinding";
     static PROPERTY_EXPORT = "PropertyExport";
     static SIZE = "Size";
     static VISUAL_STATE = "VisualState";
 }
 
-// Specifies the known categories.
-// Values ​​must be specified in lowercase since they are used as property names.
-rs.mimic.KnownCategory = class {
-    static APPEARANCE = "appearance";
-    static BEHAVIOR = "behavior";
-    static DATA = "data";
-    static DESIGN = "design";
-    static LAYOUT = "layout";
-    static MISC = "misc";
-};
+// Specifies the property editors.
+rs.mimic.PropertyEditor = class {
+    static COLOR = "Color";
+    static TEXT = "Text";
+}
 
 // Provides meta information about a property of a mimic or component.
 rs.mimic.PropertyDescriptor = class {
@@ -65,6 +69,7 @@ rs.mimic.PropertyDescriptor = class {
     isKnown = false;
     type = "";
     subtype = "";
+    editor = "";
     bindingOptions = null; // Tweakpane binding options
 
     constructor(source) {
@@ -94,8 +99,10 @@ rs.mimic.ObjectDescriptor = class {
 rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
     constructor() {
         super();
-        const BasicType = rs.mimic.BasicType;
         const KnownCategory = rs.mimic.KnownCategory;
+        const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
+        const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
         // appearance
@@ -103,7 +110,8 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "backColor",
             displayName: "Background color",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.COLOR
+            type: BasicType.STRING,
+            editor: PropertyEditor.COLOR
         }));
 
         this.add(new PropertyDescriptor({
@@ -124,7 +132,8 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "foreColor",
             displayName: "Foreground color",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.COLOR
+            type: BasicType.STRING,
+            editor: PropertyEditor.COLOR
         }));
 
         this.add(new PropertyDescriptor({
@@ -162,7 +171,8 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "size",
             displayName: "Size",
             category: KnownCategory.LAYOUT,
-            type: BasicType.SIZE
+            type: BasicType.STRUCT,
+            subtype: Subtype.SIZE
         }));
     }
 };
@@ -171,8 +181,9 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
 rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
     constructor() {
         super();
-        const BasicType = rs.mimic.BasicType;
         const KnownCategory = rs.mimic.KnownCategory;
+        const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
         // behavior
@@ -265,14 +276,16 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "location",
             displayName: "Location",
             category: KnownCategory.LAYOUT,
-            type: BasicType.POINT
+            type: BasicType.STRUCT,
+            subtype: Subtype.POINT
         }));
 
         this.add(new PropertyDescriptor({
             name: "size",
             displayName: "Size",
             category: KnownCategory.LAYOUT,
-            type: BasicType.SIZE
+            type: BasicType.STRUCT,
+            subtype: Subtype.SIZE
         }));
     }
 };
@@ -281,8 +294,9 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
 rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor {
     constructor() {
         super();
-        const BasicType = rs.mimic.BasicType;
         const KnownCategory = rs.mimic.KnownCategory;
+        const BasicType = rs.mimic.BasicType;
+        const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
         // appearance
@@ -290,7 +304,8 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
             name: "backColor",
             displayName: "Background color",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.COLOR
+            type: BasicType.STRING,
+            editor: PropertyEditor.COLOR
         }));
 
         this.add(new PropertyDescriptor({
@@ -318,7 +333,8 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
             name: "foreColor",
             displayName: "Foreground color",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.COLOR
+            type: BasicType.STRING,
+            editor: PropertyEditor.COLOR
         }));
 
         // behavior
@@ -370,9 +386,9 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
 rs.mimic.TextDescriptor = class extends rs.mimic.RegularComponentDescriptor {
     constructor() {
         super();
+        const KnownCategory = rs.mimic.KnownCategory;
         const BasicType = rs.mimic.BasicType;
         const Subtype = rs.mimic.Subtype;
-        const KnownCategory = rs.mimic.KnownCategory;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
         // appearance
@@ -426,8 +442,8 @@ rs.mimic.TextDescriptor = class extends rs.mimic.RegularComponentDescriptor {
 rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
     constructor() {
         super();
-        const BasicType = rs.mimic.BasicType;
         const KnownCategory = rs.mimic.KnownCategory;
+        const BasicType = rs.mimic.BasicType;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
         // appearance

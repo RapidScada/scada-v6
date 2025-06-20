@@ -173,7 +173,7 @@ function bindEvents() {
         })
         .on("mouseup mouseleave", function () {
             // finish dragging
-            if (longAction?.actionType == LongActionType.DRAG) {
+            if (longAction?.actionType === LongActionType.DRAG) {
                 finishDragging();
                 clearLongAction();
             }
@@ -282,44 +282,12 @@ function initPropGrid() {
     propGrid.addEventListener(PropGridEventType.PROPERTY_CHANGED, function (event) {
         handlePropertyChanged(event.detail);
     });
+    PropGridHelper.translateDescriptors(translation);
 }
 
 function initModals() {
     faceplateModal = new FaceplateModal("divFaceplateModal");
     imageModal = new ImageModal("divImageModal");
-}
-
-function translateProperties() {
-    const DescriptorSet = rs.mimic.DescriptorSet;
-
-    // translate mimic and faceplates
-    translateObject(DescriptorSet.mimicDescriptor, translation.mimic);
-    translateObject(DescriptorSet.faceplateDescriptor, translation.component);
-
-    // translate components
-    for (let [typeName, componentDescriptor] of DescriptorSet.componentDescriptors) {
-        translateObject(componentDescriptor, translation.components.get(typeName));
-    }
-
-    // translate object
-    function translateObject(objectDescriptor, dictionary) {
-        if (!dictionary) {
-            return;
-        }
-
-        for (let propertyDescriptor of objectDescriptor.propertyDescriptors.values()) {
-            let displayName = dictionary[propertyDescriptor.name] ?? translation.component[propertyDescriptor.name];
-            let category = translation.category[propertyDescriptor.category];
-
-            if (displayName) {
-                propertyDescriptor.displayName = displayName;
-            }
-
-            if (category) {
-                propertyDescriptor.category = category;
-            }
-        }
-    }
 }
 
 async function loadMimic() {
@@ -1253,7 +1221,7 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
     console.log("Arrange components");
     let errorMessage = "";
 
-    if (arrangeType == ArrangeActionType.PLACE_BEFORE || arrangeType == ArrangeActionType.PLACE_AFTER) {
+    if (arrangeType === ArrangeActionType.PLACE_BEFORE || arrangeType === ArrangeActionType.PLACE_AFTER) {
         let parent = selectedComponents[0].parent;
         let siblingID = componentID;
         let sibling = siblingID > 0 ? mimic.componentMap.get(siblingID) : null;
@@ -1262,7 +1230,7 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
             if (sibling.parent === parent) {
                 let selectedIDs = selectedComponents.map(c => c.id);
 
-                if (arrangeType == ArrangeActionType.PLACE_BEFORE) {
+                if (arrangeType === ArrangeActionType.PLACE_BEFORE) {
                     MimicHelper.placeBefore(parent, selectedComponents, sibling);
                     pushChanges(Change.arrangeComponent(parent.id, selectedIDs, -1, siblingID));
                 } else {
@@ -1278,7 +1246,7 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
         } else {
             errorMessage = phrases.componentNotSpecified;
         }
-    } else if (arrangeType == ArrangeActionType.SELECT_PARENT) {
+    } else if (arrangeType === ArrangeActionType.SELECT_PARENT) {
         let parentID = componentID;
         let parent = mimic.getComponentParent(parentID);
         let minLocation = MimicHelper.getMinLocation(selectedComponents);
@@ -1720,7 +1688,6 @@ $(async function () {
     initStructTree();
     initPropGrid();
     initModals();
-    translateProperties();
     await mimicClipboard.defineEmptiness();
     await loadMimic();
     await startUpdatingBackend();

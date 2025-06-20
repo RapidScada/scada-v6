@@ -1,6 +1,6 @@
 ﻿// Contains classes:
 //     ActionType, CompareOperator, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth, ContentAlignment,
-//     Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Location, Padding,
+//     Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
 //     PropertyBinding, PropertyExport, Size, VisualState,
 //     PropertyParser
 // No dependencies
@@ -247,24 +247,6 @@ rs.mimic.LinkArgs = class LinkArgs {
     }
 };
 
-// Represents a location.
-rs.mimic.Location = class Location {
-    x = 0;
-    y = 0;
-
-    static parse(source) {
-        const PropertyParser = rs.mimic.PropertyParser;
-        let location = new Location();
-
-        if (source) {
-            location.x = PropertyParser.parseInt(source.x);
-            location.y = PropertyParser.parseInt(source.y);
-        }
-
-        return location;
-    }
-}
-
 // Represents paddings.
 rs.mimic.Padding = class Padding {
     top = 0;
@@ -286,6 +268,24 @@ rs.mimic.Padding = class Padding {
         return padding;
     }
 };
+
+// Represents a point.
+rs.mimic.Point = class Point {
+    x = 0;
+    y = 0;
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let point = new Point();
+
+        if (source) {
+            point.x = PropertyParser.parseInt(source.x);
+            point.y = PropertyParser.parseInt(source.y);
+        }
+
+        return point;
+    }
+}
 
 // Represents a property binding.
 rs.mimic.PropertyBinding = class PropertyBinding {

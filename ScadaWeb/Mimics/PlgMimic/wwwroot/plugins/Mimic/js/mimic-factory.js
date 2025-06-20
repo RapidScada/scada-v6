@@ -45,7 +45,7 @@ rs.mimic.ComponentFactory = class ComponentFactory {
             propertyBindings: [],
 
             // layout
-            location: new rs.mimic.Location(),
+            location: new rs.mimic.Point(),
             size: new rs.mimic.Size()
         };
     }
@@ -67,7 +67,7 @@ rs.mimic.ComponentFactory = class ComponentFactory {
             propertyBindings: PropertyParser.parsePropertyBindings(sourceProps.propertyBindings),
 
             // layout
-            location: rs.mimic.Location.parse(sourceProps.location),
+            location: rs.mimic.Point.parse(sourceProps.location),
             size: rs.mimic.Size.parse(sourceProps.size)
         };
     }
