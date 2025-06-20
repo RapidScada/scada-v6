@@ -43,17 +43,23 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Gets the component bindings.
         /// </summary>
-        public ComponentBindings Bindings { get; } = new();
+        public ComponentBindings Bindings { get; set; } = null;
 
         /// <summary>
         /// Gets the component access options.
         /// </summary>
-        public ComponentAccess Access { get; } = new();
+        public ComponentAccess Access { get; set; } = null;
 
         /// <summary>
         /// Gets or sets the ID of the parent component.
         /// </summary>
         public int ParentID { get; set; } = 0;
+
+        /// <summary>
+        /// Gets the parent container.
+        /// </summary>
+        [JsonIgnore]
+        public IContainer Parent { get; set; } = null;
 
         /// <summary>
         /// Gets the top-level child components.
@@ -93,6 +99,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                         if (component.LoadFromXml(childNode, componentIDs))
                         {
                             component.ParentID = ID;
+                            component.Parent = this;
                             Components.Add(component);
                         }
                     }

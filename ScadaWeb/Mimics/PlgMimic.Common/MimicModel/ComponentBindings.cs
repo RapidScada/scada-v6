@@ -10,13 +10,8 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     public class ComponentBindings
     {
         /// <summary>
-        /// Gets or sets a value indicating whether bindings can be used with the current component.
-        /// </summary>
-        public bool IsSupported { get; set; } = false;
-
-        /// <summary>
         /// Gets or sets the input channel number.
-        /// Provides data for the component by default.
+        /// Specifies the default data source for the component.
         /// </summary>
         public int InCnlNum { get; set; } = 0;
 

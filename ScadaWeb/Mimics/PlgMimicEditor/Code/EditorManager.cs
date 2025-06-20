@@ -4,6 +4,7 @@
 using Scada.Lang;
 using Scada.Log;
 using Scada.Web.Lang;
+using Scada.Web.Plugins.PlgMimic.Components;
 using Scada.Web.Plugins.PlgMimic.Config;
 using Scada.Web.Plugins.PlgMimic.MimicModel;
 using Scada.Web.Plugins.PlgMimicEditor.Models;

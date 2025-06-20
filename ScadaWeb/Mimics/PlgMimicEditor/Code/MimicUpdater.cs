@@ -117,7 +117,8 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             // add component
             if (GetComponentParent(component) is IContainer parent)
             {
-                parent.Components.Insert(change.Index, component);
+                component.Parent = parent;
+                parent.Components.Add(component);
                 mimic.ComponentMap.Add(component.ID, component);
             }
         }
@@ -149,6 +150,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 oldParent?.Components.Remove(component);
 
                 component.ParentID = change.ParentID;
+                component.Parent = newParent;
                 newParent.Components.Add(component);
                 SetComponentProperties(component, change); // set location
             }
@@ -159,23 +161,26 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         private void ApplyArrangeComponent(Change change)
         {
+            if (GetComponentParent(change.ParentID) is not IContainer parent)
+                return;
+
             List<Component> components = change
                 .GetObjectIDs()
                 .Select(id => mimic.ComponentMap.GetValueOrDefault(id))
                 .Where(c => c != null).ToList();
-            List<int> parentIDs = components.Select(c => c.ParentID).Distinct().ToList();
 
-            if (!(parentIDs.Count == 1 && GetComponentParent(parentIDs[0]) is IContainer parent))
-                return;
-
-            if (change.SiblingID > 0)
+            if (change.Indexes != null)
+            {
+                Arrange(parent, components, change.Indexes);
+            }
+            else if (change.SiblingID > 0)
             {
                 if (mimic.ComponentMap.TryGetValue(change.SiblingID, out Component sibling))
                 {
                     if (change.Shift < 0)
-                        PlaceBefore(parent, sibling, components);
+                        PlaceBefore(parent, components, sibling);
                     else if (change.Shift > 0)
-                        PlaceAfter(parent, sibling, components);
+                        PlaceAfter(parent, components, sibling);
                 }
             }
             else
@@ -248,7 +253,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         }
 
         /// <summary>
-        /// Gets the parent of the specified component.
+        /// Gets the parent of the component.
         /// </summary>
         private IContainer GetComponentParent(Component component)
         {
@@ -256,7 +261,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         }
 
         /// <summary>
-        /// Gets the parent by ID.
+        /// Gets the parent of a component by ID.
         /// </summary>
         private IContainer GetComponentParent(int parentID)
         {
@@ -319,6 +324,16 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         private static bool AreRelatives(IContainer parent, IContainer child)
         {
+            IContainer current = child.Parent;
+
+            while (current != null)
+            {
+                if (current == parent)
+                    return true;
+
+                current = current.Parent;
+            }
+
             return false;
         }
 
@@ -389,7 +404,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// <summary>
         /// Moves the components before their sibling.
         /// </summary>
-        private static void PlaceBefore(IContainer parent, Component sibling, List<Component> components)
+        private static void PlaceBefore(IContainer parent, List<Component> components, Component sibling)
         {
             HashSet<int> componentIDs = [.. components.Select(c => c.ID)];
             List<Component> filtered = parent.Components.Where(c => !componentIDs.Contains(c.ID)).ToList();
@@ -406,7 +421,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// <summary>
         /// Moves the components after their sibling.
         /// </summary>
-        private static void PlaceAfter(IContainer parent, Component sibling, List<Component> components)
+        private static void PlaceAfter(IContainer parent, List<Component> components, Component sibling)
         {
             HashSet<int> componentIDs = [.. components.Select(c => c.ID)];
             List<Component> filtered = parent.Components.Where(c => !componentIDs.Contains(c.ID)).ToList();
@@ -418,6 +433,54 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 parent.Components.Clear();
                 parent.Components.AddRange(filtered);
             }
+        }
+
+        /// <summary>
+        /// Arranges the components according to the indexes.
+        /// </summary>
+        private static void Arrange(IContainer parent, List<Component> components, int[] indexes)
+        {
+            if (components.Count != indexes.Length)
+                return;
+
+            // map components
+            Dictionary<int, Component> componentByIndex = [];
+            HashSet<int> componentIDs = [];
+
+            for (int i = 0; i < components.Count; i++)
+            {
+                Component component = components[i];
+                componentByIndex[indexes[i]] = component;
+                componentIDs.Add(component.ID);
+            }
+
+            // copy children to new array
+            List<Component> arranged = [];
+            int arrangedIndex = 0;
+            int sourceIndex = 0;
+            int length = parent.Components.Count;
+
+            while (arrangedIndex < length && sourceIndex < length)
+            {
+                if (componentByIndex.TryGetValue(arrangedIndex, out Component component))
+                {
+                    arranged.Add(component);
+                    arrangedIndex++;
+                }
+                else
+                {
+                    component = parent.Components[sourceIndex++];
+
+                    if (!componentIDs.Contains(component.ID))
+                    {
+                        arranged.Add(component);
+                        arrangedIndex++;
+                    }
+                }
+            }
+
+            parent.Components.Clear();
+            parent.Components.AddRange(arranged);
         }
 
         /// <summary>

@@ -36,7 +36,7 @@ namespace Scada.Web.Plugins.PlgMimic
             if (!Locale.LoadDictionaries(AppDirs.LangDir, Code, out string errMsg))
                 Log.WriteError(WebPhrases.PluginMessage, Code, errMsg);
 
-            //PluginPhrases.Init();
+            MimicPhrases.Init();
         }
     }
 }

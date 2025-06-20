@@ -10,18 +10,24 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     public class PropertyBinding
     {
         /// <summary>
-        /// Gets or sets the name of the component property to which the channel is bound.
+        /// Gets or sets the name of the target property to which the data source is bound.
         /// </summary>
         public string PropertyName { get; set; }
 
         /// <summary>
-        /// Gets or sets the channel number, channel code, or tag code.
+        /// Gets or sets the data source, which is a channel number, channel code, or tag code.
         /// </summary>
-        public string Channel { get; set; }
+        public string DataSource { get; set; }
 
         /// <summary>
-        /// Gets or sets the data member that provindes the property value.
+        /// Gets or sets the data member that provides the property value.
+        /// Possible values: empty string, "Value", "Status".
         /// </summary>
         public string DataMember { get; set; }
+
+        /// <summary>
+        /// Gets or sets the format that determines how a value is to be displayed.
+        /// </summary>
+        public string Format { get; set; }
     }
 }

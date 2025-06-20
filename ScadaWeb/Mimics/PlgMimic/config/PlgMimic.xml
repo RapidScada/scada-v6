@@ -11,6 +11,7 @@
   </RuntimeOptions>
   <EditorOptions>
     <UseGrid>true</UseGrid>
-    <GridSize>10</GridSize>
+    <ShowGrid>true</ShowGrid>
+    <GridStep>10</GridStep>
   </EditorOptions>
 </PlgMimic>

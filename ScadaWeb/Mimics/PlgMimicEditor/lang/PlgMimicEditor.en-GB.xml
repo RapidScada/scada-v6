@@ -18,9 +18,12 @@
     <Phrase key="PostUpdateError">Error posting update.</Phrase>
     <Phrase key="UnableAddComponent">Unable to add component.</Phrase>
     <Phrase key="UnableChangeParent">Unable to change parent.</Phrase>
+    <Phrase key="UnableRestoreHistory">Unable to restore history point.</Phrase>
     <Phrase key="SameParentRequired">Selected components must have the same parent.</Phrase>
     <Phrase key="ComponentNotSpecified">Component not specified.</Phrase>
     <Phrase key="ClipboardEmpty">Clipboard is empty.</Phrase>
+    <Phrase key="ConfirmDeleteDependency">Are you sure you want to delete the dependency?</Phrase>
+    <Phrase key="ConfirmDeleteImage">Are you sure you want to delete the image?</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.FaceplateModal">
     <Phrase key="PageTitle">Faceplate</Phrase>
@@ -88,41 +91,8 @@
     <Phrase key="SaveMimicError">Error saving mimic</Phrase>
     <Phrase key="UpdateMimicError">Error updating mimic</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Code.StandardComponentGroup">
-    <Phrase key="StandardGroup">STANDARD</Phrase>
-    <Phrase key="TextComponent">Text</Phrase>
-    <Phrase key="PictureComponent">Picture</Phrase>
-    <Phrase key="PanelComponent">Panel</Phrase>
-  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.PlgMimicEditorLogic">
     <Phrase key="EditorMenuItem">Mimic Editor</Phrase>
     <Phrase key="MimicsMenuItem">Active Mimics</Phrase>
-  </Dictionary>
-  <!-- Mimic Model -->
-  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Category">
-    <Phrase key="Appearance">APPEARANCE</Phrase>
-    <Phrase key="Behavior">BEHAVIOR</Phrase>
-    <Phrase key="Data">DATA</Phrase>
-    <Phrase key="Design">DESIGN</Phrase>
-    <Phrase key="Layout">LAYOUT</Phrase>
-    <Phrase key="Misc">MISC</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Mimic">
-    <Phrase key="Size">Size</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Component">
-    <Phrase key="ID">ID</Phrase>
-    <Phrase key="Name">Name</Phrase>
-    <Phrase key="TypeName">Type name</Phrase>
-    <Phrase key="Location">Location</Phrase>
-    <Phrase key="Size">Size</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Text">
-    <Phrase key="Text">Text</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Picture">
-    <Phrase key="ImageName">Image</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Panel">
   </Dictionary>
 </PlgMimicEditorDictionaries>

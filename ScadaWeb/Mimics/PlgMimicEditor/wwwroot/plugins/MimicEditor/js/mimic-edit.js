@@ -1,6 +1,6 @@
 ﻿// Depends on jquery, tweakpane, scada-common.js,
-//     mimic-common.js, mimic-model.js, mimic-render.js,
-//     editor.js, mimic-descr.js, mimic-factory.js, prop-grid.js, struct-tree.js
+//     mimic-common.js, mimic-factory.js, mimic-model.js, mimic-render.js,
+//     editor-common.js, mimic-descr.js, modals.js, prop-grid.js, struct-tree.js
 
 const UPDATE_RATE = 1000; // ms
 const KEEP_ALIVE_INTERVAL = 10000; // ms
@@ -28,7 +28,7 @@ let propGrid = null;
 let structTree = null;
 let faceplateModal = null;
 let imageModal = null;
-let mimicWrapperElem = $();
+let mimicElem = $();
 let selectedComponents = [];
 let lastUpdateTime = 0;
 let longAction = null;
@@ -102,12 +102,12 @@ function bindEvents() {
         startLongAction(LongAction.add(typeName));
     });
 
-    mimicWrapperElem
+    $("#divMimicWrapper")
         .on("mousedown", function (event) {
             if (!longAction) {
                 selectMimic();
             } else if (LongActionType.isPointing(longAction.actionType)) {
-                finishPointing(0, getMimicPoint(event, mimicWrapperElem, true))
+                finishPointing(0, getMimicPoint(event, mimicElem, true))
                 clearLongAction();
             }
         })
@@ -130,10 +130,10 @@ function bindEvents() {
                         if (component.isSelected) {
                             startLongAction(LongAction.drag(
                                 getDragType(event, compElem),
-                                getMimicPoint(event, mimicWrapperElem)));
+                                getMimicPoint(event, mimicElem)));
                         } else {
                             selectComponent(component);
-                            startLongAction(LongAction.drag(DragType.MOVE, getMimicPoint(event, mimicWrapperElem)));
+                            startLongAction(LongAction.drag(DragType.MOVE, getMimicPoint(event, mimicElem)));
                         }
                     }
                 }
@@ -157,7 +157,7 @@ function bindEvents() {
         .on("mousemove", function (event) {
             // continue dragging
             if (longAction?.actionType === LongActionType.DRAG) {
-                continueDragging(getMimicPoint(event, mimicWrapperElem));
+                continueDragging(getMimicPoint(event, mimicElem));
             }
         })
         .on("mousemove", ".comp", function (event) {
@@ -221,7 +221,9 @@ function initStructTree() {
     });
 
     structTree.addEventListener(StructTreeEventType.REMOVE_DEPENDENCY_CLICK, function (event) {
-        removeDependency(event.detail.name);
+        if (confirm(phrases.confirmDeleteDependency)) {
+            removeDependency(event.detail.name);
+        }
     });
 
     // images
@@ -244,7 +246,9 @@ function initStructTree() {
     });
 
     structTree.addEventListener(StructTreeEventType.REMOVE_IMAGE_CLICK, function (event) {
-        removeImage(event.detail.name);
+        if (confirm(phrases.confirmDeleteImage)) {
+            removeImage(event.detail.name);
+        }
     });
 
     // mimic
@@ -322,7 +326,6 @@ async function loadMimic() {
     let result = await mimic.load(getLoaderUrl(), mimicKey);
 
     if (result.ok) {
-        rs.mimic.DescriptorSet.mimicDescriptor.repair(mimic);
         setButtonsEnabled();
         showFaceplates();
         showStructure();
@@ -377,7 +380,7 @@ async function copy() {
         return false;
     }
 
-    if (!siblingsSelected()) {
+    if (!rs.mimic.MimicHelper.areSiblings(selectedComponents)) {
         console.error(phrases.sameParentRequired);
         showToast(phrases.sameParentRequired, MessageType.ERROR);
         return false;
@@ -406,9 +409,9 @@ function remove() {
     console.log("Remove components with IDs " + componentIDs.join(", "));
 
     for (let componentID of componentIDs) {
-        // remove component from mimic and DOM
+        // remove component from model and DOM
         let component = mimic.removeComponent(componentID);
-        component?.dom?.remove();
+        rs.mimic.Renderer.remove(component);
 
         // update structure tree
         structTree.removeComponent(componentID);
@@ -430,7 +433,7 @@ function align(actionType) {
         return;
     }
 
-    if (AlingActionType.sameParentRequired(actionType) && !siblingsSelected()) {
+    if (AlingActionType.sameParentRequired(actionType) && !rs.mimic.MimicHelper.areSiblings(selectedComponents)) {
         console.error(phrases.sameParentRequired);
         showToast(phrases.sameParentRequired, MessageType.ERROR);
         return;
@@ -590,11 +593,13 @@ function align(actionType) {
 }
 
 function arrange(actionType) {
+    const MimicHelper = rs.mimic.MimicHelper;
+
     if (selectedComponents.length === 0) {
         return;
     }
 
-    if (!siblingsSelected()) {
+    if (!MimicHelper.areSiblings(selectedComponents)) {
         console.error(phrases.sameParentRequired);
         showToast(phrases.sameParentRequired, MessageType.ERROR);
         return;
@@ -606,7 +611,6 @@ function arrange(actionType) {
     }
 
     console.log("Arrange components");
-    const MimicHelper = rs.mimic.MimicHelper;
     let parent = selectedComponents[0].parent;
     let getComponentIDs = () => selectedComponents.map(c => c.id);
 
@@ -614,29 +618,29 @@ function arrange(actionType) {
         case ArrangeActionType.BRING_TO_FRONT:
             MimicHelper.bringToFront(parent, selectedComponents);
             unitedRenderer.arrangeChildren(parent);
-            structTree.refreshComponents(parent, selectedComponents);
-            pushChanges(Change.arrangeComponent(getComponentIDs(), Change.MAX_SHIFT));
+            structTree.refreshComponents(parent);
+            pushChanges(Change.arrangeComponent(parent.id, getComponentIDs(), Change.MAX_SHIFT));
             break;
 
         case ArrangeActionType.BRING_FORWARD:
             MimicHelper.bringForward(parent, selectedComponents);
             unitedRenderer.arrangeChildren(parent);
-            structTree.refreshComponents(parent, selectedComponents);
-            pushChanges(Change.arrangeComponent(getComponentIDs(), 1));
+            structTree.refreshComponents(parent);
+            pushChanges(Change.arrangeComponent(parent.id, getComponentIDs(), 1));
             break;
 
         case ArrangeActionType.SEND_BACKWARD:
             MimicHelper.sendBackward(parent, selectedComponents);
             unitedRenderer.arrangeChildren(parent);
-            structTree.refreshComponents(parent, selectedComponents);
-            pushChanges(Change.arrangeComponent(getComponentIDs(), -1));
+            structTree.refreshComponents(parent);
+            pushChanges(Change.arrangeComponent(parent.id, getComponentIDs(), -1));
             break;
 
         case ArrangeActionType.SEND_TO_BACK:
             MimicHelper.sendToBack(parent, selectedComponents);
             unitedRenderer.arrangeChildren(parent);
-            structTree.refreshComponents(parent, selectedComponents);
-            pushChanges(Change.arrangeComponent(getComponentIDs(), -Change.MAX_SHIFT));
+            structTree.refreshComponents(parent);
+            pushChanges(Change.arrangeComponent(parent.id, getComponentIDs(), -Change.MAX_SHIFT));
             break;
     }
 }
@@ -707,8 +711,8 @@ function showStructure() {
 }
 
 function showMimic() {
-    mimicWrapperElem.empty();
-    mimicWrapperElem.append(unitedRenderer.createMimicDom());
+    mimicElem = unitedRenderer.createMimicDom();
+    $("#divMimicWrapper").empty().append(mimicElem);
 }
 
 function addDependency(faceplateMeta, opt_oldfaceplateMeta) {
@@ -777,7 +781,13 @@ function restoreHistoryPoint(historyPoint) {
     }
 
     console.log("Restore history point");
+    const MimicHelper = rs.mimic.MimicHelper;
+    const Renderer = rs.mimic.Renderer;
     let changes = [];
+    let componentsToArrange = [];
+    let componentIDs = [];
+    let componentIndexes = [];
+    let hasError = false;
 
     for (let historyChange of historyPoint.changes) {
         switch (historyChange.changeType) {
@@ -788,22 +798,27 @@ function restoreHistoryPoint(historyPoint) {
                     Object.assign(mimic.document, documentSource);
                     unitedRenderer.updateMimicDom();
                     changes.push(Change.updateDocument(mimic.document));
+                } else {
+                    hasError = true;
                 }
 
                 break;
             }
             case ChangeType.ADD_COMPONENT: {
                 let componentSource = historyChange.getNewObject();
+                let component = componentSource ? mimic.createComponent(componentSource) : null;
+                let parent = component ? mimic.getComponentParent(component.parentID) : null;
 
-                if (componentSource) {
-                    let component = mimic.createComponent(componentSource);
-                    let parent = component.parentID > 0 ? mimic.componentMap.get(component.parentID) : mimic;
+                if (mimic.addComponent(component, parent)) {
+                    componentsToArrange.push(component);
+                    componentIDs.push(component.id);
+                    componentIndexes.push(component.index);
 
-                    if (mimic.addComponent(component, parent, component.index)) {
-                        unitedRenderer.createComponentDom(component);
-                        structTree.addComponent(component);
-                        changes.push(Change.addComponent(component));
-                    }
+                    unitedRenderer.createComponentDom(component);
+                    structTree.addComponent(component);
+                    changes.push(Change.addComponent(component));
+                } else {
+                    hasError = true;
                 }
 
                 break;
@@ -824,6 +839,8 @@ function restoreHistoryPoint(historyPoint) {
                     unitedRenderer.updateComponentDom(component);
                     structTree.updateComponent(component);
                     changes.push(change);
+                } else {
+                    hasError = true;
                 }
 
                 break;
@@ -837,23 +854,76 @@ function restoreHistoryPoint(historyPoint) {
                         removeFromSelection(component);
                     }
 
-                    component.dom?.remove();
+                    Renderer.remove(component);
                     structTree.removeComponent(componentID);
                     changes.push(Change.removeComponent(componentID));
+                } else {
+                    hasError = true;
                 }
 
                 break;
             }
-            case ChangeType.UPDATE_PARENT:
-                break;
+            case ChangeType.UPDATE_PARENT: {
+                let component = mimic.componentMap.get(historyChange.objectID);
+                let componentSource = historyChange.getNewObject();
+    
+                if (component && componentSource) {
+                    let parent = mimic.getComponentParent(componentSource.parentID);
+    
+                    if (mimic.updateParent(component, parent)) {
+                        componentsToArrange.push(component);
+                        componentIDs.push(component.id);
+                        componentIndexes.push(componentSource.index);
 
-            case ChangeType.ARRANGE_COMPONENT:
+                        component.properties.location = componentSource.properties.location;
+                        Renderer.detach(component);
+                        component.renderer?.updateLocation(component);
+                        Renderer.appendChild(parent, component);
+
+                        structTree.removeComponent(component.id);
+                        changes.push(Change.updateParent(component));
+                    } else {
+                        hasError = true;
+                    }
+                } else {
+                    hasError = true;
+                }
+
                 break;
+            }
+            case ChangeType.ARRANGE_COMPONENT: {
+                let component = mimic.componentMap.get(historyChange.objectID);
+                let newIndex = historyChange.newIndex;
+    
+                if (component && Number.isInteger(newIndex) && newIndex >= 0) {
+                    componentsToArrange.push(component);
+                    componentIDs.push(component.id);
+                    componentIndexes.push(newIndex);
+                } else {
+                    hasError = true;
+                }
+
+                break;
+            }
         }
+    }
+
+    // arrange components
+    if (componentsToArrange.length > 0 && MimicHelper.areSiblings(componentsToArrange)) {
+        let parent = componentsToArrange[0].parent;
+        MimicHelper.arrange(parent, componentsToArrange, componentIndexes);
+        Renderer.arrangeChildren(parent);
+        structTree.refreshComponents(parent);
+        changes.push(Change.arrangeByIndexes(parent.id, componentIDs, componentIndexes));
     }
 
     propGrid.refresh();
     pushChangesNoHistory(...changes);
+
+    if (hasError) {
+        console.error(phrases.unableRestoreHistory);
+        showToast(phrases.unableRestoreHistory, MessageType.ERROR);
+    }
 }
 
 function selectMimic() {
@@ -929,11 +999,6 @@ function selectComponents(components) {
     console.log(`Components with IDs ${componentIDs.join(", ")} selected`);
 }
 
-function siblingsSelected() {
-    let parentIDs = new Set(selectedComponents.map(c => c.parentID));
-    return parentIDs.size === 1;
-}
-
 function closestCompElem(clickedElem) {
     let faceplateElem = clickedElem.parents(".comp.faceplate").last();
     return faceplateElem.length > 0 ? faceplateElem : clickedElem.closest(".comp");
@@ -956,11 +1021,11 @@ function getMimicPoint(event, elem, opt_alignToGrid) {
     let y = parseInt(event.pageY - offset.top);
 
     if (opt_alignToGrid) {
-        let gridSize = getGridSize();
+        let gridStep = getGridStep();
 
-        if (gridSize > 1) {
-            x = alignValue(x, gridSize);
-            y = alignValue(y, gridSize);
+        if (gridStep > 1) {
+            x = alignValue(x, gridStep);
+            y = alignValue(y, gridStep);
         }
     }
 
@@ -1007,20 +1072,20 @@ function getDragType(event, compElem) {
     return DragType.MOVE;
 }
 
-function getGridSize() {
-    return editorOptions && editorOptions.useGrid && editorOptions.gridSize > 1
-        ? editorOptions.gridSize
+function getGridStep() {
+    return editorOptions && editorOptions.useGrid && editorOptions.gridStep > 1
+        ? editorOptions.gridStep
         : 1;
 }
 
-function alignValue(value, gridSize) {
-    return Math.trunc(Math.round(value / gridSize) * gridSize);
+function alignValue(value, gridStep) {
+    return Math.trunc(Math.round(value / gridStep) * gridStep);
 }
 
 function startLongAction(action) {
     if (action) {
         longAction = action;
-        mimicWrapperElem.css("cursor", longAction.getCursor());
+        mimicElem.css("cursor", longAction.getCursor());
         setEnabled(ToolbarButton.POINTER, LongActionType.isPointing(longAction.actionType));
     }
 }
@@ -1040,7 +1105,7 @@ function finishPointing(componentID, point) {
 function clearLongAction() {
     if (longAction) {
         longAction = null;
-        mimicWrapperElem.css("cursor", "");
+        mimicElem.css("cursor", "");
         setEnabled(ToolbarButton.POINTER, false);
     }
 }
@@ -1050,35 +1115,27 @@ function addComponent(typeName, parentID, point) {
         (parentID > 0 ? ` inside component ${parentID}` : ""));
 
     let factory;
-    let descriptor;
     let renderer;
-    let faceplate = mimic.faceplateMap.get(typeName);
 
-    if (faceplate) {
+    if (mimic.isFaceplate(typeName)) {
+        let faceplate = mimic.faceplateMap.get(typeName);
         factory = rs.mimic.FactorySet.getFaceplateFactory(faceplate);
-        descriptor = rs.mimic.DescriptorSet.faceplateDescriptor;
         renderer = rs.mimic.RendererSet.faceplateRenderer;
     } else {
         factory = rs.mimic.FactorySet.componentFactories.get(typeName);
-        descriptor = rs.mimic.DescriptorSet.componentDescriptors.get(typeName);
         renderer = rs.mimic.RendererSet.componentRenderers.get(typeName);
     }
 
-    if (factory && descriptor && renderer) {
+    if (factory && renderer) {
         // create and render component
         let component = factory.createComponent();
-        let parent = parentID > 0 ? mimic.componentMap.get(parentID) : mimic;
+        let parent = mimic.getComponentParent(parentID);
         component.id = getNextComponentID();
-        descriptor.repair(component);
 
         if (mimic.addComponent(component, parent, null, point.x, point.y)) {
             unitedRenderer.createComponentDom(component);
-
-            // update structure and properties
             structTree.addComponent(component);
             selectComponent(component);
-
-            // update server side
             pushChanges(Change.addComponent(component));
         } else {
             console.error(phrases.unableAddComponent);
@@ -1087,10 +1144,6 @@ function addComponent(typeName, parentID, point) {
     } else {
         if (!factory) {
             console.error("Component factory not found.");
-        }
-
-        if (!descriptor) {
-            console.error("Component descriptor not found.");
         }
 
         if (!renderer) {
@@ -1105,7 +1158,7 @@ async function pasteComponents(parentID, point) {
     console.log(`Paste components at ${point.x}, ${point.y}` +
         (parentID > 0 ? ` inside component ${parentID}` : ""));
 
-    let parent = parentID > 0 ? mimic.componentMap.get(parentID) : mimic;
+    let parent = mimic.getComponentParent(parentID);
     let sourceComponents = await mimicClipboard.readComponents();
 
     if (!parent) {
@@ -1126,12 +1179,16 @@ async function pasteComponents(parentID, point) {
     for (let sourceComponent of sourceComponents) {
         let componentCopy = mimic.createComponent(sourceComponent);
 
-        if (componentCopy.parentID === mimicClipboard.rootID) {
-            componentCopy.x -= mimicClipboard.offset.x;
-            componentCopy.y -= mimicClipboard.offset.y;
-            topComponents.push(componentCopy);
+        if (componentCopy) {
+            if (componentCopy.parentID === mimicClipboard.rootID) {
+                componentCopy.x -= mimicClipboard.offset.x;
+                componentCopy.y -= mimicClipboard.offset.y;
+                topComponents.push(componentCopy);
+            } else {
+                childComponents.push(componentCopy);
+            }
         } else {
-            childComponents.push(componentCopy);
+            console.error("Unable to create component of type " + sourceComponent.typeName);
         }
     }
 
@@ -1186,12 +1243,14 @@ async function pasteComponents(parentID, point) {
 }
 
 function arrangeComponents(arrangeType, componentID, opt_point) {
-    if (!siblingsSelected()) {
+    const MimicHelper = rs.mimic.MimicHelper;
+    const Renderer = rs.mimic.Renderer;
+
+    if (!MimicHelper.areSiblings(selectedComponents)) {
         return;
     }
 
     console.log("Arrange components");
-    const MimicHelper = rs.mimic.MimicHelper;
     let errorMessage = "";
 
     if (arrangeType == ArrangeActionType.PLACE_BEFORE || arrangeType == ArrangeActionType.PLACE_AFTER) {
@@ -1204,15 +1263,15 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
                 let selectedIDs = selectedComponents.map(c => c.id);
 
                 if (arrangeType == ArrangeActionType.PLACE_BEFORE) {
-                    MimicHelper.placeBefore(parent, sibling, selectedComponents);
-                    pushChanges(Change.arrangeComponent(selectedIDs, -1, siblingID));
+                    MimicHelper.placeBefore(parent, selectedComponents, sibling);
+                    pushChanges(Change.arrangeComponent(parent.id, selectedIDs, -1, siblingID));
                 } else {
-                    MimicHelper.placeAfter(parent, sibling, selectedComponents);
-                    pushChanges(Change.arrangeComponent(selectedIDs, 1, siblingID));
+                    MimicHelper.placeAfter(parent, selectedComponents, sibling);
+                    pushChanges(Change.arrangeComponent(parent.id, selectedIDs, 1, siblingID));
                 }
 
                 unitedRenderer.arrangeChildren(parent);
-                structTree.refreshComponents(parent, selectedComponents);
+                structTree.refreshComponents(parent);
             } else {
                 errorMessage = phrases.sameParentRequired;
             }
@@ -1221,7 +1280,7 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
         }
     } else if (arrangeType == ArrangeActionType.SELECT_PARENT) {
         let parentID = componentID;
-        let parent = parentID > 0 ? mimic.componentMap.get(parentID) : mimic;
+        let parent = mimic.getComponentParent(parentID);
         let minLocation = MimicHelper.getMinLocation(selectedComponents);
         let offset = opt_point ?? { x: 0, y: 0 };
         let changes = [];
@@ -1231,9 +1290,9 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
             let y = component.y - minLocation.y + offset.y;
 
             if (mimic.updateParent(component, parent, null, x, y)) {
-                component.dom?.detach();
-                component.renderer?.setLocation(component, x, y);
-                parent.renderer?.appendChild(parent, component);
+                Renderer.detach(component);
+                component.renderer?.updateLocation(component);
+                Renderer.appendChild(parent, component);
                 structTree.removeComponent(component.id);
                 changes.push(Change.updateParent(component));
             } else {
@@ -1243,7 +1302,7 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
         }
 
         if (changes.length > 0) {
-            structTree.refreshComponents(parent, selectedComponents);
+            structTree.refreshComponents(parent);
             propGrid.refresh();
             pushChanges(...changes);
         }
@@ -1270,11 +1329,11 @@ function continueDragging(point) {
     let offsetY = point.y - longAction.startPoint.y;
 
     // align to grid
-    let gridSize = getGridSize();
+    let gridStep = getGridStep();
 
-    if (gridSize > 1) {
-        offsetX = alignValue(offsetX, gridSize);
-        offsetY = alignValue(offsetY, gridSize);
+    if (gridStep > 1) {
+        offsetX = alignValue(offsetX, gridStep);
+        offsetY = alignValue(offsetY, gridStep);
     }
 
     if (longAction.dragType === DragType.MOVE) {
@@ -1497,19 +1556,16 @@ function handlePropertyChanged(eventData) {
         unitedRenderer.updateMimicDom();
         pushChanges(Change.updateDocument().setProperty(propertyName, value));
     } else if (selectedObject instanceof rs.mimic.Component || selectedObject instanceof UnionObject) {
+        // update selected components
         let components = selectedObject instanceof rs.mimic.Component
             ? [selectedObject]
             : selectedObject.targets.filter(t => t instanceof rs.mimic.Component);
 
         for (let component of components) {
-            // update client side
             unitedRenderer.updateComponentDom(component);
-
-            // update structure tree
             structTree.updateComponent(component);
         }
 
-        // update server side
         pushChanges(Change
             .updateComponent(components.map(c => c.id))
             .setProperty(propertyName, value));
@@ -1522,25 +1578,25 @@ function handleKeyDown(code, ctrlKey, shiftKey) {
         if (longAction?.actionType === LongActionType.DRAG) {
             return false; // not handled
         } else {
-            let size = ctrlKey || shiftKey ? 1 : getGridSize();
+            let step = ctrlKey || shiftKey ? 1 : getGridStep();
             let offsetX = 0;
             let offsetY = 0;
 
             switch (code) {
                 case "ArrowLeft":
-                    offsetX = -size;
+                    offsetX = -step;
                     break;
 
                 case "ArrowRight":
-                    offsetX = size;
+                    offsetX = step;
                     break;
 
                 case "ArrowUp":
-                    offsetY = -size;
+                    offsetY = -step;
                     break;
 
                 case "ArrowDown":
-                    offsetY = size;
+                    offsetY = step;
                     break;
             }
 
@@ -1656,8 +1712,8 @@ function showPermanentToast(message, opt_messageType) {
 }
 
 $(async function () {
+    unitedRenderer.editorOptions = editorOptions;
     splitter = new Splitter("divSplitter");
-    mimicWrapperElem = $("#divMimicWrapper");
 
     bindEvents();
     updateLayout();

@@ -91,7 +91,8 @@ class PropGrid {
         let container = this._selectContainer(folderMap, propertyDescriptor);
 
         if (typeof propertyValue === "number" ||
-            typeof propertyValue === "string") {
+            typeof propertyValue === "string" ||
+            typeof propertyValue === "boolean") {
             // simple property is editable in row
             container
                 .addBinding(target, propertyName, this._getBindingOptions(propertyDescriptor))
@@ -302,6 +303,10 @@ class PropGridHelper {
             return null;
         }
     }
+
+    static translateDescriptors(translation) {
+
+    }
 }
 
 // Represents an intermediate object intended for editing.
@@ -324,7 +329,7 @@ class PointProxy extends ProxyObject {
     }
 
     set x(value) {
-        this.target.x = value.toString();
+        this.target.x = value;
     }
 
     get y() {
@@ -332,7 +337,7 @@ class PointProxy extends ProxyObject {
     }
 
     set y(value) {
-        this.target.y = value.toString();
+        this.target.y = value;
     }
 }
 
@@ -343,7 +348,7 @@ class SizeProxy extends ProxyObject {
     }
 
     set x(value) {
-        this.target.width = value.toString();
+        this.target.width = value;
     }
 
     get y() {
@@ -351,7 +356,7 @@ class SizeProxy extends ProxyObject {
     }
 
     set y(value) {
-        this.target.height = value.toString();
+        this.target.height = value;
     }
 }
 

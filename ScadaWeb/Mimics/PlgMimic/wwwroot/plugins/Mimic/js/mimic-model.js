@@ -1,9 +1,17 @@
 ﻿// Contains classes: MimicHelper, MimicBase, Mimic, Component, Panel, Image, 
 //     FaceplateMeta, Faceplate, FaceplateInstance
-// Depends on scada-common.js, mimic-common.js
+// Depends on scada-common.js, mimic-common.js, mimic-factory.js
 
 // Provides helper methods for mimics and components.
-rs.mimic.MimicHelper = class {
+rs.mimic.MimicHelper = class MimicHelper {
+    // Indexes child components.
+    static _indexComponents(parent, opt_start) {
+        for (let index = opt_start ?? 0; index < parent.children.length; index++) {
+            let component = parent.children[index];
+            component.index = index;
+        }
+    }
+
     // Finds a parent and children for each component.
     static defineNesting(root, components, opt_componentMap) {
         let componentMap = opt_componentMap ?? new Map(components.map(c => [c.id, c]));
@@ -27,6 +35,30 @@ rs.mimic.MimicHelper = class {
         }
     }
 
+    // Adds the component to the parent.
+    static addToParent(parent, component, opt_index) {
+        if (parent.children) {
+            component.parentID = parent.id ?? 0;
+            let index = Number.isInteger(opt_index) && 0 <= opt_index && opt_index < parent.children.length
+                ? opt_index
+                : parent.children.length;
+            component.parent = parent;
+            parent.children.splice(index, 0, component); // insert
+            MimicHelper._indexComponents(parent, index);
+        }
+    }
+
+    // Removes the component from its parent.
+    static removeFromParent(component) {
+        let parent = component.parent;
+
+        if (parent.children && component.index >= 0) {
+            parent.children.splice(component.index, 1); // delete
+            MimicHelper._indexComponents(parent, component.index);
+            component.index = -1;
+        }
+    }
+
     // Checks whether the specified objects are a parent and a child.
     static areRelatives(parent, child) {
         let current = child.parent;
@@ -42,26 +74,37 @@ rs.mimic.MimicHelper = class {
         return false;
     }
 
+    // Checks whether the specified components belong to the same parent.
+    static areSiblings(components) {
+        let parentIDs = new Set(components.map(c => c.parentID));
+        return parentIDs.size === 1;
+    }
+
     // Moves the components to the beginning of the parent's children.
     static sendToBack(parent, components) {
         if (parent.children) {
             let componentIDs = new Set(components.map(c => c.id));
             parent.children = parent.children.filter(c => !componentIDs.has(c.id));
             parent.children.unshift(...components);
+            MimicHelper._indexComponents(parent);
         }
     }
 
     // Moves the components one position towards the beginning of the parent's children.
     static sendBackward(parent, components) {
         if (parent.children) {
-            let indexes = components.map(c => parent.children.indexOf(c)).sort();
+            let indexes = components.map(c => c.index).sort();
             let prevIndex = -1;
 
             for (let index of indexes) {
                 if (index >= 0 && prevIndex < index - 1) {
                     prevIndex = index - 1;
-                    [parent.children[index], parent.children[prevIndex]] =
-                        [parent.children[prevIndex], parent.children[index]];
+                    let component = parent.children[index];
+                    let prevComponent = parent.children[prevIndex];
+                    parent.children[index] = prevComponent;
+                    parent.children[prevIndex] = component;
+                    component.index--;
+                    prevComponent.index++;
                 } else {
                     prevIndex = index;
                 }
@@ -72,7 +115,7 @@ rs.mimic.MimicHelper = class {
     // Moves the components one position towards the end of the parent's children.
     static bringForward(parent, components) {
         if (parent.children) {
-            let indexes = components.map(c => parent.children.indexOf(c)).sort();
+            let indexes = components.map(c => c.index).sort();
             let nextIndex = parent.children.length;
 
             for (let i = indexes.length - 1; i >= 0; i--) {
@@ -80,8 +123,12 @@ rs.mimic.MimicHelper = class {
 
                 if (index >= 0 && nextIndex > index + 1) {
                     nextIndex = index + 1;
-                    [parent.children[index], parent.children[nextIndex]] =
-                        [parent.children[nextIndex], parent.children[index]];
+                    let component = parent.children[index];
+                    let nextComponent = parent.children[nextIndex];
+                    parent.children[index] = nextComponent;
+                    parent.children[nextIndex] = component;
+                    component.index++;
+                    nextComponent.index--;
                 } else {
                     nextIndex = index;
                 }
@@ -95,11 +142,12 @@ rs.mimic.MimicHelper = class {
             let componentIDs = new Set(components.map(c => c.id));
             parent.children = parent.children.filter(c => !componentIDs.has(c.id));
             parent.children.push(...components);
+            MimicHelper._indexComponents(parent);
         }
     }
 
     // Moves the components before their sibling.
-    static placeBefore(parent, sibling, components) {
+    static placeBefore(parent, components, sibling) {
         if (parent.children) {
             let componentIDs = new Set(components.map(c => c.id));
             let filtered = parent.children.filter(c => !componentIDs.has(c.id));
@@ -108,12 +156,13 @@ rs.mimic.MimicHelper = class {
             if (index >= 0) {
                 filtered.splice(index, 0, ...components);
                 parent.children = filtered;
+                MimicHelper._indexComponents(parent);
             }
         }
     }
 
     // Moves the components after their sibling.
-    static placeAfter(parent, sibling, components) {
+    static placeAfter(parent, components, sibling) {
         if (parent.children) {
             let componentIDs = new Set(components.map(c => c.id));
             let filtered = parent.children.filter(c => !componentIDs.has(c.id));
@@ -122,7 +171,47 @@ rs.mimic.MimicHelper = class {
             if (index >= 0) {
                 filtered.splice(index + 1, 0, ...components);
                 parent.children = filtered;
+                MimicHelper._indexComponents(parent);
             }
+        }
+    }
+
+    // Arranges the components according to the indexes.
+    static arrange(parent, components, indexes) {
+        if (parent.children && components.length === indexes.length) {
+            // map components
+            let componentByIndex = new Map();
+            let componentIDs = new Set();
+
+            for (let i = 0; i < components.length; i++) {
+                let component = components[i];
+                componentByIndex.set(indexes[i], component);
+                componentIDs.add(component.id);
+            }
+
+            // copy children to new array
+            let arranged = [];
+            let arrangedIndex = 0;
+            let sourceIndex = 0;
+            let length = parent.children.length;
+
+            while (arrangedIndex < length && sourceIndex < length) {
+                let component = componentByIndex.get(arrangedIndex);
+
+                if (component) {
+                    component.index = arrangedIndex++;
+                    arranged.push(component);
+                } else {
+                    component = parent.children[sourceIndex++];
+
+                    if (!componentIDs.has(component.id)) {
+                        component.index = arrangedIndex++;
+                        arranged.push(component);
+                    }
+                }
+            }
+
+            parent.children = arranged;
         }
     }
 
@@ -149,7 +238,7 @@ rs.mimic.MimicHelper = class {
             y: minY
         };
     }
-}
+};
 
 // A base class for mimic diagrams and faceplates.
 rs.mimic.MimicBase = class {
@@ -180,27 +269,41 @@ rs.mimic.MimicBase = class {
         this.children = [];
     }
 
-    // Creates a component instance based on the source object.
+    // Checks whether the specified type name represents a faceplate.
+    isFaceplate(typeName) {
+        return this.dependencyMap?.has(typeName);
+    }
+
+    // Creates a component instance based on the source object. Returns null if the component factory is not found.
     createComponent(source) {
-        return this.dependencyMap?.has(source.typeName)
-            ? new rs.mimic.FaceplateInstance(source)
-            : new rs.mimic.Component(source);
+        const FactorySet = rs.mimic.FactorySet;
+
+        if (this.isFaceplate(source.typeName)) {
+            let faceplate = this.faceplateMap.get(source.typeName); // can be null
+            return FactorySet.faceplateFactory.createComponentFromSource(source, faceplate);
+        } else {
+            let factory = FactorySet.componentFactories.get(source.typeName);
+            return factory ? factory.createComponentFromSource(source) : null;
+        }
     }
 
     // Creates a copy of the component containing only the main properties.
     copyComponent(source) {
-        if (source instanceof rs.mimic.Component) {
-            source = source.toPlainObject();
-        }
-
-        return this.createComponent(ScadaUtils.deepClone(source));
+        return source instanceof rs.mimic.Component
+            ? this.createComponent(source.toPlainObject())
+            : this.createComponent(source);
     }
-}
+};
 
 // Represents a mimic diagram.
 rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     dom;      // mimic DOM as a jQuery object
     renderer; // renders the mimic
+
+    // Imitates a component ID to use as a parent ID.
+    get id() {
+        return 0;
+    }
 
     // Indicates that a mimic can contain child components.
     get isContainer() {
@@ -299,7 +402,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                     }
                 }
 
-                this.document = dto.data.document || {};
+                this.document = rs.mimic.MimicFactory.parseProperties(dto.data.document);
             }
 
             return dto;
@@ -324,8 +427,13 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
                 for (let sourceComponent of dto.data.components) {
                     let component = this.createComponent(sourceComponent);
-                    this.components.push(component);
-                    this.componentMap.set(component.id, component);
+
+                    if (component) {
+                        this.components.push(component);
+                        this.componentMap.set(component.id, component);
+                    } else if (sourceComponent.typeName) {
+                        loadContext.unknownTypes.add(sourceComponent.typeName);
+                    }
                 }
             }
 
@@ -429,7 +537,6 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         let startTime = Date.now();
         console.log(ScadaUtils.getCurrentTime() + " Load mimic with key " + mimicKey)
         this.clear();
-
         let loadContext = new rs.mimic.LoadContext(controllerUrl, mimicKey);
 
         while (await this._loadPart(loadContext)) {
@@ -440,8 +547,16 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
             this._defineNesting();
             this._prepareFaceplates();
             this._prepareFaceplateInstances();
-            console.info(ScadaUtils.getCurrentTime() + " Mimic loading completed successfully in " +
-                (Date.now() - startTime) + " ms");
+
+            let endTime = Date.now();
+            let endTimeStr = ScadaUtils.getCurrentTime();
+
+            if (loadContext.unknownTypes.size > 0) {
+                console.warn(endTimeStr + " Unable to create components of types: " +
+                    Array.from(loadContext.unknownTypes).sort().join(", "));
+            }
+
+            console.info(endTimeStr + " Mimic loading completed successfully in " + (endTime - startTime) + " ms");
         } else {
             console.error(ScadaUtils.getCurrentTime() + " Mimic loading failed: " + loadContext.result.msg);
         }
@@ -512,7 +627,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
             component.setLocation(opt_x, opt_y);
         }
 
-        component.addToParent(parent, opt_index);
+        rs.mimic.MimicHelper.addToParent(parent, component, opt_index);
         this.components.push(component);
         this.componentMap.set(component.id, component);
         return true;
@@ -529,8 +644,8 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
             component.setLocation(opt_x, opt_y);
         }
 
-        component.removeFromParent();
-        component.addToParent(parent, opt_index);
+        rs.mimic.MimicHelper.removeFromParent(component);
+        rs.mimic.MimicHelper.addToParent(parent, component, opt_index);
         return true;
     }
 
@@ -551,7 +666,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
             // remove components
             this.components = this.components.filter(c => !idsToRemove.has(c.id));
-            component.removeFromParent();
+            rs.mimic.MimicHelper.removeFromParent(component);
 
             for (let id of idsToRemove) {
                 this.componentMap.delete(id);
@@ -561,11 +676,16 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         return component;
     }
 
+    // Gets the parent of a compoment by ID.
+    getComponentParent(parentID) {
+        return parentID > 0 ? this.componentMap.get(parentID) : this;
+    }
+
     // Returns a string that represents the current object.
     toString() {
         return "Mimic";
     }
-}
+};
 
 // Represents a component of a mimic diagram.
 rs.mimic.Component = class {
@@ -603,60 +723,56 @@ rs.mimic.Component = class {
     }
 
     get x() {
-        return parseInt(this.properties?.location?.x) || 0;
+        return this.properties ? this.properties.location.x : 0;
     }
 
     set x(value) {
-        if (this.properties?.location) {
-            this.properties.location.x = value.toString();
+        if (this.properties) {
+            this.properties.location.x = parseInt(value) || 0;
         }
     }
 
     get y() {
-        return parseInt(this.properties?.location?.y) || 0;
+        return this.properties ? this.properties.location.y : 0;
     }
 
     set y(value) {
-        if (this.properties?.location) {
-            this.properties.location.y = value.toString();
+        if (this.properties) {
+            this.properties.location.y = parseInt(value) || 0;
         }
     }
 
     get width() {
-        return parseInt(this.properties?.size?.width) || 0;
+        return this.properties ? this.properties.size.width : 0;
     }
 
     set width(value) {
-        if (this.properties?.size) {
-            this.properties.size.width = value.toString();
+        if (this.properties) {
+            this.properties.size.width = parseInt(value) || 0;
         }
     }
 
     get height() {
-        return parseInt(this.properties?.size?.height) || 0;
+        return this.properties ? this.properties.size.height : 0;
     }
 
     set height(value) {
-        if (this.properties?.size) {
-            this.properties.size.height = value.toString();
+        if (this.properties) {
+            this.properties.size.height = parseInt(value) || 0;
         }
     }
 
     setLocation(x, y) {
         if (this.properties) {
-            this.properties.location = {
-                x: x.toString(),
-                y: y.toString()
-            };
+            this.properties.location.x = parseInt(x) || 0;
+            this.properties.location.y = parseInt(y) || 0;
         }
     }
 
     setSize(width, height) {
         if (this.properties) {
-            this.properties.size = {
-                width: width.toString(),
-                height: height.toString()
-            };
+            this.properties.size.width = parseInt(width) || 0;
+            this.properties.size.height = parseInt(height) || 0;
         }
     }
 
@@ -676,24 +792,6 @@ rs.mimic.Component = class {
         return allChildren;
     }
 
-    addToParent(parent, opt_index) {
-        if (parent?.children) {
-            this.parentID = parent.id ?? 0;
-            this.index = Number.isInteger(opt_index) && 0 <= opt_index && opt_index < parent.children.length
-                ? opt_index
-                : parent.children.length;
-            this.parent = parent;
-            parent.children.splice(this.index, 0, this); // insert
-        }
-    }
-
-    removeFromParent() {
-        if (this.index >= 0 && this.parent?.children) {
-            this.parent.children.splice(this.index, 1); // delete
-            this.index = -1;
-        }
-    }
-
     toPlainObject() {
         return {
             id: this.id,
@@ -711,7 +809,7 @@ rs.mimic.Component = class {
     toString() {
         return this.displayName;
     }
-}
+};
 
 // Represents an image of a mimic diagram.
 rs.mimic.Image = class {
@@ -735,7 +833,7 @@ rs.mimic.Image = class {
                 this.mediaType = value.substring(5, index);
                 this.data = value.substring(index + 8);
                 return;
-            } 
+            }
         }
 
         this.data = null;
@@ -745,7 +843,7 @@ rs.mimic.Image = class {
         // required for sorting
         return this.name;
     }
-}
+};
 
 // Represents information about a faceplate.
 rs.mimic.FaceplateMeta = class {
@@ -762,7 +860,7 @@ rs.mimic.FaceplateMeta = class {
         // required for sorting
         return this.typeName;
     }
-}
+};
 
 // Represents a faceplate, i.e. a user component.
 rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
@@ -784,9 +882,8 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
 
         if (Array.isArray(source.components)) {
             for (let sourceComponent of source.components) {
-                let component = this.createComponent(sourceComponent);
-                this.components.push(component);
-                this.componentMap.set(component.id, component);
+                this.components.push(sourceComponent);
+                this.componentMap.set(sourceComponent.id, sourceComponent);
             }
         }
 
@@ -798,7 +895,7 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
             }
         }
     }
-}
+};
 
 // Represents a faceplate instance.
 rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
@@ -836,4 +933,4 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
             rs.mimic.MimicHelper.defineNesting(this, this.components);
         }
     }
-}
+};

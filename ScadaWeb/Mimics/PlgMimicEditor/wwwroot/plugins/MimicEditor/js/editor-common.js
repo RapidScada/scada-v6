@@ -52,22 +52,22 @@ class ArrangeActionType {
 // Readable values are sent in HTTP requests.
 class ChangeType {
     // Dependencies
-    static ADD_DEPENDENCY = "add-dependency";
-    static REMOVE_DEPENDENCY = "remove-dependency";
+    static ADD_DEPENDENCY = "AddDependency";
+    static REMOVE_DEPENDENCY = "RemoveDependency";
 
     // Document
-    static UPDATE_DOCUMENT = "update-document";
+    static UPDATE_DOCUMENT = "UpdateDocument";
 
     // Components
-    static ADD_COMPONENT = "add-component";
-    static UPDATE_COMPONENT = "update-component";
-    static UPDATE_PARENT = "update-parent";
-    static ARRANGE_COMPONENT = "arrange-component";
-    static REMOVE_COMPONENT = "remove-component";
+    static ADD_COMPONENT = "AddComponent";
+    static UPDATE_COMPONENT = "UpdateComponent";
+    static UPDATE_PARENT = "UpdateParent";
+    static ARRANGE_COMPONENT = "ArrangeComponent";
+    static REMOVE_COMPONENT = "RemoveComponent";
 
     // Images
-    static ADD_IMAGE = "add-image";
-    static REMOVE_IMAGE = "remove-image";
+    static ADD_IMAGE = "AddImage";
+    static REMOVE_IMAGE = "RemoveImage";
 }
 
 // Specifies the drag types.
@@ -189,9 +189,9 @@ class Change {
     objectName = "";
     properties = null;
     parentID = 0;
-    index = -1;
     shift = 0;
     siblingID = 0;
+    indexes = null;
 
     constructor(changeType) {
         this.changeType = changeType;
@@ -284,15 +284,25 @@ class Change {
         change.properties = {
             location: component.properties.location
         };
-        change.parentID = component.parent?.id ?? 0;
+        change.parentID = component.parentID;
+        change.index = component.index;
         return change;
     }
 
-    static arrangeComponent(componentID, shift, opt_siblingID) {
+    static arrangeComponent(parentID, componentID, shift, opt_siblingID) {
         let change = new Change(ChangeType.ARRANGE_COMPONENT);
         change._setObjectID(componentID);
+        change.parentID = parentID;
         change.shift = shift;
         change.siblingID = opt_siblingID;
+        return change;
+    }
+
+    static arrangeByIndexes(parentID, componentIDs, indexes) {
+        let change = new Change(ChangeType.ARRANGE_COMPONENT);
+        change.objectIDs = componentIDs;
+        change.parentID = parentID;
+        change.indexes = indexes;
         return change;
     }
 
@@ -497,8 +507,8 @@ class HistoryChange {
     objectID = null;
     oldObjectJson = null;
     newObjectJson = null;
-    oldChildIndex = null;
-    newChildIndex = null;
+    oldIndex = null;
+    newIndex = null;
 
     constructor(source) {
         Object.assign(this, source);
@@ -515,18 +525,16 @@ class HistoryChange {
 
 // Represents a single point in history.
 class HistoryPoint {
-    changes = []; // instances of HistoryChange class
+    changes; // instances of HistoryChange class
 
     constructor(changes) {
-        if (changes) {
-            this.changes.push(...changes);
-        }
+        this.changes = changes ?? [];
     }
 
     toReversed() {
         let reversedChanges = [];
 
-        for (let change of this.changes) {
+        for (let change of this.changes.toReversed()) {
             switch (change.changeType) {
                 case ChangeType.UPDATE_DOCUMENT:
                     reversedChanges.push(new HistoryChange({
@@ -562,9 +570,21 @@ class HistoryPoint {
                     break;
 
                 case ChangeType.UPDATE_PARENT:
+                    reversedChanges.push(new HistoryChange({
+                        changeType: ChangeType.UPDATE_PARENT,
+                        objectID: change.objectID,
+                        oldObjectJson: change.newObjectJson,
+                        newObjectJson: change.oldObjectJson
+                    }));
                     break;
 
                 case ChangeType.ARRANGE_COMPONENT:
+                    reversedChanges.push(new HistoryChange({
+                        changeType: ChangeType.ARRANGE_COMPONENT,
+                        objectID: change.objectID,
+                        oldIndex: change.newIndex,
+                        newIndex: change.oldIndex
+                    }));
                     break;
             }
         }
@@ -654,9 +674,37 @@ class MimicHistory {
                 break;
             }
             case ChangeType.UPDATE_PARENT: {
+                let componentID = mimicChange.objectID;
+                let oldComponentJson = this._getComponentJsonFromCache(componentID);
+                let newComponentJson = this._getComponentJsonFromMimic(componentID, mimic);
+                this._componentJsonMap.set(componentID, newComponentJson);
+
+                historyChanges.push(new HistoryChange({
+                    changeType: ChangeType.UPDATE_PARENT,
+                    objectID: componentID,
+                    oldObjectJson: oldComponentJson,
+                    newObjectJson: newComponentJson
+                }));
+
                 break;
             }
             case ChangeType.ARRANGE_COMPONENT: {
+                for (let componentID of mimicChange.getObjectIDs()) {
+                    let oldComponentJson = this._getComponentJsonFromCache(componentID);
+                    let newComponent = mimic.componentMap.get(componentID);
+                    this._updateComponentCache(componentID, newComponent);
+
+                    if (oldComponentJson && newComponent) {
+                        let oldComponent = JSON.parse(oldComponentJson);
+                        historyChanges.push(new HistoryChange({
+                            changeType: ChangeType.ARRANGE_COMPONENT,
+                            objectID: componentID,
+                            oldIndex: oldComponent.index,
+                            newIndex: newComponent.index
+                        }));
+                    }
+                }
+
                 break;
             }
         }
@@ -669,8 +717,16 @@ class MimicHistory {
     }
 
     _getComponentJsonFromMimic(componentID, mimic) {
-        let plainObject = mimic.componentMap.get(componentID)?.toPlainObject();
-        return plainObject ? JSON.stringify(plainObject) : null;
+        let component = mimic.componentMap.get(componentID);
+        return component ? JSON.stringify(component.toPlainObject()) : null;
+    }
+
+    _updateComponentCache(componentID, component) {
+        if (component) {
+            this._componentJsonMap.set(componentID, null);
+        } else {
+            this._componentJsonMap.set(componentID, JSON.stringify(newComponent.toPlainObject()));
+        }
     }
 
     clear() {

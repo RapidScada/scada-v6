@@ -13,8 +13,13 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     public interface IContainer
     {
         /// <summary>
+        /// Gets the parent container.
+        /// </summary>
+        IContainer Parent { get; }
+
+        /// <summary>
         /// Gets the top-level components in the container.
         /// </summary>
-        public List<Component> Components { get; }
+        List<Component> Components { get; }
     }
 }

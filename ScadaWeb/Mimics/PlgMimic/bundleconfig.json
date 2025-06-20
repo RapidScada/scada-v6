@@ -1,0 +1,13 @@
+[
+  {
+    "outputFileName": "wwwroot/plugins/Mimic/js/mimic-bundle.js",
+    "inputFiles": [
+      "wwwroot/plugins/Mimic/js/mimic-common.js",
+      "wwwroot/plugins/Mimic/js/mimic-descr.js",
+      "wwwroot/plugins/Mimic/js/mimic-factory.js",
+      "wwwroot/plugins/Mimic/js/mimic-model.js",
+      "wwwroot/plugins/Mimic/js/mimic-model-subtypes.js",
+      "wwwroot/plugins/Mimic/js/mimic-render.js"
+    ]
+  }
+]
