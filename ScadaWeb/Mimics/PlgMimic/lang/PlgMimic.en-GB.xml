@@ -88,12 +88,45 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ComparisonOperator">
     <Phrase key="None">None</Phrase>
-    <Phrase key="Equal">Equal</Phrase>
-    <Phrase key="NotEqual">Not equal</Phrase>
-    <Phrase key="LessThan">Less than</Phrase>
-    <Phrase key="LessThanEqual">Less than or equal</Phrase>
-    <Phrase key="GreaterThan">Greater than</Phrase>
-    <Phrase key="GreaterThanEqual">Greater than or equal</Phrase>
+    <Phrase key="Equal">=</Phrase>
+    <Phrase key="NotEqual">&lt;&gt;</Phrase>
+    <Phrase key="LessThan">&lt;</Phrase>
+    <Phrase key="LessThanEqual">&lt;=</Phrase>
+    <Phrase key="GreaterThan">&gt;</Phrase>
+    <Phrase key="GreaterThanEqual">&gt;=</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ImageSizeMode">
+    <Phrase key="Normal">Normal</Phrase>
+    <Phrase key="Center">Center</Phrase>
+    <Phrase key="Stretch">Stretch</Phrase>
+    <Phrase key="Zoom">Zoom</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.LogicalOperator">
+    <Phrase key="None">None</Phrase>
+    <Phrase key="And">And</Phrase>
+    <Phrase key="Or">Or</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.LinkTarget">
+    <Phrase key="Self">Self</Phrase>
+    <Phrase key="NewTab">New tab</Phrase>
+    <Phrase key="NewModal">New modal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ModalWidth">
+    <Phrase key="Normal">Normal</Phrase>
+    <Phrase key="Small">Small</Phrase>
+    <Phrase key="Large">Large</Phrase>
+    <Phrase key="ExtraLarge">Extra large</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ContentAlignment">
+    <Phrase key="TopLeft">Top left</Phrase>
+    <Phrase key="TopCenter">Top center</Phrase>
+    <Phrase key="TopRight">Top right</Phrase>
+    <Phrase key="MiddleLeft">Middle left</Phrase>
+    <Phrase key="MiddleCenter">Middle center</Phrase>
+    <Phrase key="MiddleRight">Middle right</Phrase>
+    <Phrase key="BottomLeft">Bottom left</Phrase>
+    <Phrase key="BottomCenter">Bottom center</Phrase>
+    <Phrase key="BottomRight">Bottom right</Phrase>
   </Dictionary>
   <!-- Subtypes Structures -->
   <Dictionary key="">

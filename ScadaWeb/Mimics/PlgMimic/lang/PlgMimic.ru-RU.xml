@@ -78,4 +78,54 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Panel">
   </Dictionary>
+  <!-- Subtypes Enumerations -->
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ActionType">
+    <Phrase key="None">Не задан</Phrase>
+    <Phrase key="DrawChart">Построить график</Phrase>
+    <Phrase key="SendCommand">Отправить команду</Phrase>
+    <Phrase key="OpenLink">Открыть ссылку</Phrase>
+    <Phrase key="ExecuteScript">Выполнить скрипт</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ComparisonOperator">
+    <Phrase key="None">Не задан</Phrase>
+    <Phrase key="Equal">=</Phrase>
+    <Phrase key="NotEqual">&lt;&gt;</Phrase>
+    <Phrase key="LessThan">&lt;</Phrase>
+    <Phrase key="LessThanEqual">&lt;=</Phrase>
+    <Phrase key="GreaterThan">&gt;</Phrase>
+    <Phrase key="GreaterThanEqual">&gt;=</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ImageSizeMode">
+    <Phrase key="Normal">Обычный</Phrase>
+    <Phrase key="Center">По центру</Phrase>
+    <Phrase key="Stretch">Растянуть</Phrase>
+    <Phrase key="Zoom">Масштабировать</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.LogicalOperator">
+    <Phrase key="None">Не задан</Phrase>
+    <Phrase key="And">И</Phrase>
+    <Phrase key="Or">Или</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.LinkTarget">
+    <Phrase key="Self">То же окно</Phrase>
+    <Phrase key="NewTab">Новая вкладка</Phrase>
+    <Phrase key="NewModal">Модальное окно</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ModalWidth">
+    <Phrase key="Normal">Нормальная</Phrase>
+    <Phrase key="Small">Маленькая</Phrase>
+    <Phrase key="Large">Большая</Phrase>
+    <Phrase key="ExtraLarge">Очень большая</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ContentAlignment">
+    <Phrase key="TopLeft">Вверху слева</Phrase>
+    <Phrase key="TopCenter">Вверху по центру</Phrase>
+    <Phrase key="TopRight">Вверху справа</Phrase>
+    <Phrase key="MiddleLeft">По центру слева</Phrase>
+    <Phrase key="MiddleCenter">По центру</Phrase>
+    <Phrase key="MiddleRight">По центру справа</Phrase>
+    <Phrase key="BottomLeft">Внизу слева</Phrase>
+    <Phrase key="BottomCenter">Внизу по центру</Phrase>
+    <Phrase key="BottomRight">Внизу справа</Phrase>
+  </Dictionary>
 </PlgMimicDictionaries>
