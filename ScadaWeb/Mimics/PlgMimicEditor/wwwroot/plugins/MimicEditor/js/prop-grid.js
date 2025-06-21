@@ -59,6 +59,7 @@ class PropGrid {
         if (obj instanceof rs.mimic.Mimic) {
             this._addBlades(folderMap, obj.document, isChild, descriptor);
         } else if (obj instanceof rs.mimic.Component) {
+            // TODO: put known properties into obj.properties
             this._addBlade(folderMap, obj, "id", obj.id, descriptor);
             this._addBlade(folderMap, obj, "name", obj.name, descriptor);
             this._addBlade(folderMap, obj, "typeName", obj.typeName, descriptor);
@@ -246,15 +247,15 @@ class PropGrid {
         }
 
         let topTargetObject = PropGridHelper.getTargetObject(this._topObject);
-        let topPropertyName;
-        let topPropertyValue;
+        let topPropertyName = "";
+        let topPropertyValue = null;
 
         if (topTargetObject === targetObject) {
             topPropertyName = propertyName;
             topPropertyValue = propertyValue;
-        } else {
+        } else if (topTargetObject) {
             topPropertyName = this._topPropertyName;
-            topPropertyValue = topTargetObject ? topTargetObject[this._topPropertyName] : null;
+            topPropertyValue = topTargetObject[this._topPropertyName];
         }
 
         this._eventSource.dispatchEvent(new CustomEvent(PropGridEventType.PROPERTY_CHANGED, {
