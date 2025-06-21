@@ -125,7 +125,7 @@ rs.mimic.CommandArgs = class CommandArgs {
 
         if (source) {
             commandArgs.showDialog = PropertyParser.parseBool(source.showDialog, true);
-            commandArgs.cmdVal = PropertyParser.parseFloat(source.commandArgs);
+            commandArgs.cmdVal = PropertyParser.parseFloat(source.cmdVal);
         }
 
         return commandArgs;

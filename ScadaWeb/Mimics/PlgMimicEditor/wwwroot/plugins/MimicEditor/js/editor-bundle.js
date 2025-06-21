@@ -1536,10 +1536,10 @@ class UnionObject {
     }
 
     _getEditableObject(target) {
-        if (target instanceof rs.mimic.Component) {
-            return target.properties;
-        } else if (target instanceof rs.mimic.Mimic) {
+        if (target instanceof rs.mimic.Mimic) {
             return target.document;
+        } else if (target instanceof rs.mimic.Component) {
+            return target.properties;
         } else if (target instanceof Object) {
             return target;
         } else {
