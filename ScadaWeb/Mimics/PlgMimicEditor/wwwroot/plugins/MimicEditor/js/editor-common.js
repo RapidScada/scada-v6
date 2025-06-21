@@ -215,9 +215,9 @@ class Change {
             : (this.objectIDs ?? []);
     }
 
-    setProperty(propertyName, value) {
+    setProperty(name, value) {
         this.properties ??= {};
-        this.properties[propertyName] = value;
+        this.properties[name] = value;
         return this;
     }
 

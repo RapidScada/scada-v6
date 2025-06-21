@@ -215,9 +215,9 @@ class Change {
             : (this.objectIDs ?? []);
     }
 
-    setProperty(propertyName, value) {
+    setProperty(name, value) {
         this.properties ??= {};
-        this.properties[propertyName] = value;
+        this.properties[name] = value;
         return this;
     }
 
@@ -1030,6 +1030,8 @@ class PropGrid {
     _phrases;
     _eventSource = document.createElement("prop-grid");
     _selectedObject = null;
+    _topObject = null;
+    _topPropertyName = "";
     _parentStack = [];
 
     constructor(elemID, phrases) {
@@ -1043,38 +1045,51 @@ class PropGrid {
     _selectObject(obj) {
         this._selectedObject = obj;
         this._parentStack = [];
-        this._showObjectProperties(obj, null);
+        this._topObject = obj;
+        this._topPropertyName = "";
+        this._showObjectProperties(obj, false);
     }
 
-    _selectChildObject(obj, parent) {
+    _selectChildObject(propertyName, obj) {
+        let parent = this._selectedObject;
+
+        if (parent === this._topObject) {
+            this._topPropertyName = propertyName;
+        }
+
         this._selectedObject = obj;
         this._parentStack.push(parent);
-        this._showObjectProperties(obj, parent);
+        this._showObjectProperties(obj, true);
     }
 
     _selectParentObject() {
         let parent = this._parentStack.pop();
-        let grandParent = this._parentStack.at(-1); // last
+        let isChild = this._parentStack.length > 0;
+
+        if (!isChild) {
+            this._topPropertyName = "";
+        }
+
         this._selectedObject = parent;
-        this._showObjectProperties(parent, grandParent);
+        this._showObjectProperties(parent, isChild);
     }
 
-    _showObjectProperties(obj, parent) {
+    _showObjectProperties(obj, isChild) {
         this._clearPane();
         let descriptor = PropGridHelper.getObjectDescriptor(obj);
         let folderMap = this._addFolders(descriptor);
 
         if (obj instanceof rs.mimic.Mimic) {
-            this._addBlades(folderMap, obj.document, parent, descriptor);
+            this._addBlades(folderMap, obj.document, isChild, descriptor);
         } else if (obj instanceof rs.mimic.Component) {
             this._addBlade(folderMap, obj, "id", obj.id, descriptor);
             this._addBlade(folderMap, obj, "name", obj.name, descriptor);
             this._addBlade(folderMap, obj, "typeName", obj.typeName, descriptor);
-            this._addBlades(folderMap, obj.properties, parent, descriptor);
+            this._addBlades(folderMap, obj.properties, isChild, descriptor);
         } else if (obj instanceof UnionObject) {
-            this._addBlades(folderMap, obj.properties, parent, descriptor);
+            this._addBlades(folderMap, obj.properties, isChild, descriptor);
         } else if (obj instanceof Object) {
-            this._addBlades(folderMap, obj, parent, descriptor);
+            this._addBlades(folderMap, obj, isChild, descriptor);
         }
     }
 
@@ -1084,16 +1099,16 @@ class PropGrid {
         }
     }
 
-    _addBlades(folderMap, target, parent, objectDescriptor) {
+    _addBlades(folderMap, targetObject, isChild, objectDescriptor) {
         const thisObj = this;
 
-        if (target) {
-            for (let [name, value] of Object.entries(target)) {
-                this._addBlade(folderMap, target, name, value, objectDescriptor);
+        if (targetObject) {
+            for (let [name, value] of Object.entries(targetObject)) {
+                this._addBlade(folderMap, targetObject, name, value, objectDescriptor);
             }
         }
 
-        if (parent) {
+        if (isChild) {
             this._pane
                 .addButton({
                     title: this._phrases.backButton
@@ -1104,15 +1119,13 @@ class PropGrid {
         }
     }
 
-    _addBlade(folderMap, target, propertyName, propertyValue, objectDescriptor) {
+    _addBlade(folderMap, targetObject, propertyName, propertyValue, objectDescriptor) {
         let propertyDescriptor = objectDescriptor?.get(propertyName);
 
         if (propertyDescriptor && !propertyDescriptor.isBrowsable) {
             return;
         }
 
-        const thisObj = this;
-        const selObj = this._selectedObject;
         let container = this._selectContainer(folderMap, propertyDescriptor);
 
         if (typeof propertyValue === "number" ||
@@ -1120,10 +1133,10 @@ class PropGrid {
             typeof propertyValue === "boolean") {
             // simple property is editable in row
             container
-                .addBinding(target, propertyName, this._getBindingOptions(propertyDescriptor))
-                .on("change", function (event) {
+                .addBinding(targetObject, propertyName, this._getBindingOptions(propertyDescriptor))
+                .on("change", (event) => {
                     if (event.last) {
-                        thisObj._handleBindingChange(selObj, target, propertyName, event.value);
+                        this._handleBindingChange(targetObject, propertyName, event.value);
                     }
                 });
         } else if (propertyValue instanceof Object) {
@@ -1134,9 +1147,9 @@ class PropGrid {
                 container
                     .addBinding({ [propertyName]: proxyObject }, propertyName,
                         this._getBindingOptions(propertyDescriptor))
-                    .on("change", function (event) {
+                    .on("change", (event) => {
                         if (event.last) {
-                            thisObj._handleBindingChange(selObj, target, propertyName, event.value);
+                            this._handleBindingChange(targetObject, propertyName, event.value);
                         }
                     });
             } else {
@@ -1146,8 +1159,8 @@ class PropGrid {
                         label: propertyDescriptor?.displayName ?? propertyName,
                         title: this._phrases.editButton
                     })
-                    .on("click", function () {
-                        thisObj._selectChildObject(propertyValue, selObj);
+                    .on("click", () => {
+                        this._selectChildObject(propertyName, propertyValue);
                     });
             }
         }
@@ -1183,7 +1196,7 @@ class PropGrid {
             : this._pane;
     }
 
-    _createProxyObject(target, propertyDescriptor) {
+    _createProxyObject(propertyValue, propertyDescriptor) {
         if (!propertyDescriptor) {
             return null;
         }
@@ -1195,11 +1208,11 @@ class PropGrid {
         if (propertyDescriptor.type === BasicType.STRUCT) {
             switch (propertyDescriptor.subtype) {
                 case Subtype.POINT:
-                    proxy = new PointProxy(target);
+                    proxy = new PointProxy(propertyValue);
                     break;
 
                 case Subtype.SIZE:
-                    proxy = new SizeProxy(target);
+                    proxy = new SizeProxy(propertyValue);
                     break;
             }
         }
@@ -1246,19 +1259,36 @@ class PropGrid {
         return bindingOptions;
     }
 
-    _handleBindingChange(selectedObject, changedObject, propertyName, value) {
-        let targetValue = value instanceof ProxyObject ? value.target : value;
+    _handleBindingChange(targetObject, propertyName, propertyValue) {
+        if (propertyValue instanceof ProxyObject) {
+            propertyValue = propertyValue.target;
+        }
 
-        if (selectedObject instanceof UnionObject) {
-            selectedObject.setProperty(propertyName, targetValue);
+        if (this._selectedObject instanceof UnionObject) {
+            this._selectedObject.setProperty(propertyName, targetValue);
+        }
+
+        let topTargetObject = PropGridHelper.getTargetObject(this._topObject);
+        let topPropertyName;
+        let topPropertyValue;
+
+        if (topTargetObject === targetObject) {
+            topPropertyName = propertyName;
+            topPropertyValue = propertyValue;
+        } else {
+            topPropertyName = this._topPropertyName;
+            topPropertyValue = topTargetObject ? topTargetObject[this._topPropertyName] : null;
         }
 
         this._eventSource.dispatchEvent(new CustomEvent(PropGridEventType.PROPERTY_CHANGED, {
             detail: {
-                selectedObject: selectedObject,
-                changedObject: changedObject,
+                selectedObject: this._selectedObject,
+                topObject: this._topObject,
+                targetObject: targetObject,
                 propertyName: propertyName,
-                value: targetValue
+                propertyValue: propertyValue,
+                topPropertyName: topPropertyName,
+                topPropertyValue: topPropertyValue
             }
         }));
     }
@@ -1372,6 +1402,20 @@ class PropGridHelper {
         // translate structures
         for (let [typeName, descriptor] of DescriptorSet.structureDescriptors) {
             PropGridHelper._translateObject(descriptor, translation, translation.structures.get(typeName));
+        }
+    }
+
+    static getTargetObject(obj) {
+        if (obj instanceof rs.mimic.Mimic) {
+            return obj.document;
+        } else if (obj instanceof rs.mimic.Component) {
+            return obj.properties;
+        } else if (obj instanceof UnionObject) {
+            return obj.properties;
+        } else if (obj instanceof Object) {
+            return obj;
+        } else {
+            return null;
         }
     }
 

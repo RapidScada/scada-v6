@@ -1516,13 +1516,15 @@ async function handleQueueEmpty() {
 function handlePropertyChanged(eventData) {
     let selectedObject = eventData.selectedObject;
     let propertyName = eventData.propertyName;
-    let value = eventData.value;
-    console.log(`Update ${selectedObject.toString()}: ${propertyName} = ${JSON.stringify(value) }`);
+    let propertyValue = eventData.propertyValue;
+    console.log(`Update ${selectedObject.toString()}: ${propertyName} = ${JSON.stringify(propertyValue)}`);
+    // TODO: handle property change
+    console.log(`UPDATE ${eventData.topObject.toString()}: ${eventData.topPropertyName} = ${JSON.stringify(eventData.topPropertyValue)}`);
 
     if (selectedObject instanceof rs.mimic.Mimic) {
         // update mimic
         unitedRenderer.updateMimicDom();
-        pushChanges(Change.updateDocument().setProperty(propertyName, value));
+        pushChanges(Change.updateDocument().setProperty(propertyName, propertyValue));
     } else if (selectedObject instanceof rs.mimic.Component || selectedObject instanceof UnionObject) {
         // update selected components
         let components = selectedObject instanceof rs.mimic.Component
@@ -1536,7 +1538,9 @@ function handlePropertyChanged(eventData) {
 
         pushChanges(Change
             .updateComponent(components.map(c => c.id))
-            .setProperty(propertyName, value));
+            .setProperty(propertyName, propertyValue));
+    } else {
+        console.error("Unable to handle property change.");
     }
 }
 
