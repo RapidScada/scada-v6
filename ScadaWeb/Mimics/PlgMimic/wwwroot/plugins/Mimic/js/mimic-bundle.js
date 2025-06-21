@@ -102,8 +102,10 @@ rs.mimic.Subtype = class {
 
 // Specifies the property editors.
 rs.mimic.PropertyEditor = class {
-    static COLOR = "Color";
-    static TEXT = "Text";
+    static COLOR_PICKER = "ColorPicker";
+    static IMAGE_PICKER = "ImagePicker";
+    static PROPERTY_PICKER = "PropertyPicker";
+    static TEXT_EDITOR = "TextEditor";
 }
 
 // Provides meta information about a property of a mimic or component.
@@ -117,7 +119,7 @@ rs.mimic.PropertyDescriptor = class {
     type = "";
     subtype = "";
     editor = "";
-    bindingOptions = null; // Tweakpane binding options
+    tweakpaneOptions = null;
 
     constructor(source) {
         Object.assign(this, source);
@@ -158,14 +160,15 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "Background color",
             category: KnownCategory.APPEARANCE,
             type: BasicType.STRING,
-            editor: PropertyEditor.COLOR
+            editor: PropertyEditor.COLOR_PICKER
         }));
 
         this.add(new PropertyDescriptor({
             name: "backgroundImage",
             displayName: "Background image",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.STRING
+            type: BasicType.STRING,
+            editor: PropertyEditor.IMAGE_PICKER
         }));
 
         this.add(new PropertyDescriptor({
@@ -180,7 +183,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "Foreground color",
             category: KnownCategory.APPEARANCE,
             type: BasicType.STRING,
-            editor: PropertyEditor.COLOR
+            editor: PropertyEditor.COLOR_PICKER
         }));
 
         this.add(new PropertyDescriptor({
@@ -352,7 +355,7 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
             displayName: "Background color",
             category: KnownCategory.APPEARANCE,
             type: BasicType.STRING,
-            editor: PropertyEditor.COLOR
+            editor: PropertyEditor.COLOR_PICKER
         }));
 
         this.add(new PropertyDescriptor({
@@ -381,7 +384,7 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
             displayName: "Foreground color",
             category: KnownCategory.APPEARANCE,
             type: BasicType.STRING,
-            editor: PropertyEditor.COLOR
+            editor: PropertyEditor.COLOR_PICKER
         }));
 
         // behavior
@@ -492,6 +495,7 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
         const KnownCategory = rs.mimic.KnownCategory;
         const BasicType = rs.mimic.BasicType;
         const Subtype = rs.mimic.Subtype;
+        const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
         // appearance
@@ -499,7 +503,8 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             name: "imageName",
             displayName: "Image",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.STRING
+            type: BasicType.STRING,
+            editor: PropertyEditor.IMAGE_PICKER
         }));
 
         // behavior
@@ -576,7 +581,7 @@ rs.mimic.ActionDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "script",
             displayName: "Script",
             type: BasicType.STRING,
-            editor: PropertyEditor.TEXT
+            editor: PropertyEditor.TEXT_EDITOR
         }));
     }
 };

@@ -278,7 +278,7 @@ function initStructTree() {
 }
 
 function initPropGrid() {
-    propGrid = new PropGrid("tweakpane");
+    propGrid = new PropGrid("tweakpane", translation.propGrid);
     propGrid.addEventListener(PropGridEventType.PROPERTY_CHANGED, function (event) {
         handlePropertyChanged(event.detail);
     });

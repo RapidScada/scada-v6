@@ -73,7 +73,7 @@ class PropGrid {
         if (parent) {
             this._pane
                 .addButton({
-                    title: "Return to Parent"
+                    title: this._phrases.backButton
                 })
                 .on("click", function () {
                     thisObj._selectParentObject();
@@ -121,7 +121,7 @@ class PropGrid {
                 container
                     .addButton({
                         label: propertyDescriptor?.displayName ?? propertyName,
-                        title: "Edit"
+                        title: this._phrases.editButton
                     })
                     .on("click", function () {
                         thisObj._selectChildObject(propertyValue, selObj);
@@ -191,6 +191,7 @@ class PropGrid {
 
         const BasicType = rs.mimic.BasicType;
         const Subtype = rs.mimic.Subtype;
+
         let bindingOptions = {
             label: propertyDescriptor.displayName
         };
@@ -205,6 +206,10 @@ class PropGrid {
                 bindingOptions.format = (v) => v.toFixed();
                 break;
 
+            case BasicType.STRING:
+                bindingOptions.view = "text";
+                break;
+
             case BasicType.STRUCT:
                 if (propertyDescriptor.subtype === Subtype.POINT ||
                     propertyDescriptor.subtype === Subtype.SIZE) {
@@ -214,7 +219,7 @@ class PropGrid {
                 break;
         }
 
-        Object.assign(bindingOptions, propertyDescriptor.bindingOptions);
+        Object.assign(bindingOptions, propertyDescriptor.tweakpaneOptions);
         return bindingOptions;
     }
 
@@ -321,8 +326,8 @@ class PropGridHelper {
                 let enumDict = translation.enumerations.get(propertyDescriptor.subtype);
 
                 if (enumDict) {
-                    propertyDescriptor.bindingOptions ??= {};
-                    propertyDescriptor.bindingOptions.options ??= enumDict;
+                    propertyDescriptor.tweakpaneOptions ??= {};
+                    propertyDescriptor.tweakpaneOptions.options ??= enumDict;
                 }
             }
         }

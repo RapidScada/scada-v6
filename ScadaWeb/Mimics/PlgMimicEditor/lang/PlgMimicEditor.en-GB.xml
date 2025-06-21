@@ -22,6 +22,8 @@
     <Phrase key="ConfirmDeleteImage">Are you sure you want to delete the image?</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js.PropGrid">
+    <Phrase key="EditButton">Edit</Phrase>
+    <Phrase key="BackButton">Back to Parent</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js.StructTree">
     <Phrase key="DependenciesNode">Dependencies</Phrase>
