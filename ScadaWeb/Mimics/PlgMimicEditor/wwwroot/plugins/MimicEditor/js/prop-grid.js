@@ -14,7 +14,7 @@ class PropGrid {
         this._pane = new Pane({
             container: containerElem[0]
         });
-        this._phrases = phrases;
+        this._phrases = phrases ?? {};
     }
 
     _selectObject(obj) {

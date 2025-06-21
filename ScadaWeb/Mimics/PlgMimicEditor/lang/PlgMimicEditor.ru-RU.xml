@@ -7,10 +7,6 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js">
     <Phrase key="FaceplateGroup">ФЕЙСПЛЕЙТЫ</Phrase>
-    <Phrase key="DependenciesNode">Зависимости</Phrase>
-    <Phrase key="MimicNode">Мнемосхема</Phrase>
-    <Phrase key="ImagesNode">Изображения</Phrase>
-    <Phrase key="NoImagePreview">Изображение отсутствует</Phrase>
     <Phrase key="MimicReload">Перезагрузка схемы.</Phrase>
     <Phrase key="MimicSaved">Мнемосхема сохранена успешно.</Phrase>
     <Phrase key="LoadMimicError">Ошибка при загрузке мнемосхемы.</Phrase>
@@ -24,6 +20,14 @@
     <Phrase key="ClipboardEmpty">Буфер обмена пуст.</Phrase>
     <Phrase key="ConfirmDeleteDependency">Вы уверены, что хотите удалить зависимость?</Phrase>
     <Phrase key="ConfirmDeleteImage">Вы уверены, что хотите удалить изображение?</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js.PropGrid">
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js.StructTree">
+    <Phrase key="DependenciesNode">Зависимости</Phrase>
+    <Phrase key="MimicNode">Мнемосхема</Phrase>
+    <Phrase key="ImagesNode">Изображения</Phrase>
+    <Phrase key="NoImagePreview">Изображение отсутствует</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.FaceplateModal">
     <Phrase key="PageTitle">Фейсплейт</Phrase>

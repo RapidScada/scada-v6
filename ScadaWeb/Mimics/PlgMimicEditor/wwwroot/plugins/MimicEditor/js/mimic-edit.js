@@ -20,9 +20,9 @@ const mimicClipboard = new MimicClipboard();
 var rootPath = "/";
 var mimicKey = "0";
 var editorOptions = {};
-var phrases = {};
 var translation = {};
 
+let phrases = null;
 let splitter = null;
 let propGrid = null;
 let structTree = null;
@@ -198,7 +198,7 @@ function updateLayout() {
 }
 
 function initStructTree() {
-    structTree = new StructTree("divStructure", mimic, phrases);
+    structTree = new StructTree("divStructure", mimic, translation.structTree);
 
     // dependencies
     structTree.addEventListener(StructTreeEventType.ADD_DEPENDENCY_CLICK, function () {
@@ -282,7 +282,7 @@ function initPropGrid() {
     propGrid.addEventListener(PropGridEventType.PROPERTY_CHANGED, function (event) {
         handlePropertyChanged(event.detail);
     });
-    PropGridHelper.translateDescriptors(translation);
+    PropGridHelper.translateDescriptors(translation.model);
 }
 
 function initModals() {
@@ -1681,6 +1681,7 @@ function showPermanentToast(message, opt_messageType) {
 
 $(async function () {
     unitedRenderer.editorOptions = editorOptions;
+    phrases = translation.editor;
     splitter = new Splitter("divSplitter");
 
     bindEvents();

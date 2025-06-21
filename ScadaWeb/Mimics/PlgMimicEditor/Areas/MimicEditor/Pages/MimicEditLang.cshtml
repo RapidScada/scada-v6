@@ -3,7 +3,7 @@
 @{
     Response.ContentType = "text/javascript";
     Response.Headers.CacheControl = "no-cache, no-store";
-    var translation = editorManager.ModelTranslation;
+    var editorDictKey = typeof(MimicEditModel).FullName + ".Js";
 
     string EnumDictToJs(LocaleDict dict)
     {
@@ -19,17 +19,22 @@
         return sb.ToString();
     }
 }
-phrases = @WebUtils.DictionaryToJs(typeof(MimicEditModel).FullName + ".Js");
+translation = {};
+translation.editor = @WebUtils.DictionaryToJs(editorDictKey);
 
-translation = {
-category: @WebUtils.DictionaryToJs(translation.CategoryDict, true),
+translation.propGrid = @WebUtils.DictionaryToJs(editorDictKey + ".PropGrid");
 
-mimic: @WebUtils.DictionaryToJs(translation.MimicDict, true),
+translation.structTree = @WebUtils.DictionaryToJs(editorDictKey + ".StructTree");
 
-component: @WebUtils.DictionaryToJs(translation.ComponentDict, true),
+translation.model = {
+category: @WebUtils.DictionaryToJs(editorManager.ModelTranslation.CategoryDict, true),
+
+mimic: @WebUtils.DictionaryToJs(editorManager.ModelTranslation.MimicDict, true),
+
+component: @WebUtils.DictionaryToJs(editorManager.ModelTranslation.ComponentDict, true),
 
 components: new Map([
-@foreach (var (typeName, dict) in translation.ComponentDicts.OrderBy(pair => pair.Key))
+@foreach (var (typeName, dict) in editorManager.ModelTranslation.ComponentDicts.OrderBy(pair => pair.Key))
 {
     @string.Format("['{0}', ", typeName).ToHtmlString()
     @WebUtils.DictionaryToJs(dict, true)
@@ -39,7 +44,7 @@ components: new Map([
 ]),
 
 enumerations: new Map([
-@foreach (var (subtypeName, dict) in translation.EnumDicts.OrderBy(pair => pair.Key))
+@foreach (var (subtypeName, dict) in editorManager.ModelTranslation.EnumDicts.OrderBy(pair => pair.Key))
 {
     @string.Format("['{0}', ", subtypeName).ToHtmlString()
     @EnumDictToJs(dict).ToHtmlString()
@@ -49,7 +54,7 @@ enumerations: new Map([
 ]),
 
 structures: new Map([
-@foreach (var (subtypeName, dict) in translation.StructDicts.OrderBy(pair => pair.Key))
+@foreach (var (subtypeName, dict) in editorManager.ModelTranslation.StructDicts.OrderBy(pair => pair.Key))
 {
     @string.Format("['{0}', ", subtypeName).ToHtmlString()
     @WebUtils.DictionaryToJs(dict, true)

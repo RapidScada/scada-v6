@@ -1037,7 +1037,7 @@ class PropGrid {
         this._pane = new Pane({
             container: containerElem[0]
         });
-        this._phrases = phrases;
+        this._phrases = phrases ?? {};
     }
 
     _selectObject(obj) {
@@ -1566,7 +1566,7 @@ class StructTree {
     constructor(elemID, mimic, phrases) {
         this.structElem = $("#" + elemID);
         this.mimic = mimic;
-        this.phrases = phrases;
+        this.phrases = phrases ?? {};
     }
 
     _prepareDependencies(listElem) {

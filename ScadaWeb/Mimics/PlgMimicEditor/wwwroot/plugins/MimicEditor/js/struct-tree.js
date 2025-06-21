@@ -12,7 +12,7 @@ class StructTree {
     constructor(elemID, mimic, phrases) {
         this.structElem = $("#" + elemID);
         this.mimic = mimic;
-        this.phrases = phrases;
+        this.phrases = phrases ?? {};
     }
 
     _prepareDependencies(listElem) {

@@ -7,10 +7,6 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js">
     <Phrase key="FaceplateGroup">FACEPLATES</Phrase>
-    <Phrase key="DependenciesNode">Dependencies</Phrase>
-    <Phrase key="MimicNode">Mimic</Phrase>
-    <Phrase key="ImagesNode">Images</Phrase>
-    <Phrase key="NoImagePreview">No image</Phrase>
     <Phrase key="MimicReload">Reloading mimic.</Phrase>
     <Phrase key="MimicSaved">Mimic saved successfully.</Phrase>
     <Phrase key="LoadMimicError">Error loading mimic.</Phrase>
@@ -24,6 +20,14 @@
     <Phrase key="ClipboardEmpty">Clipboard is empty.</Phrase>
     <Phrase key="ConfirmDeleteDependency">Are you sure you want to delete the dependency?</Phrase>
     <Phrase key="ConfirmDeleteImage">Are you sure you want to delete the image?</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js.PropGrid">
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js.StructTree">
+    <Phrase key="DependenciesNode">Dependencies</Phrase>
+    <Phrase key="MimicNode">Mimic</Phrase>
+    <Phrase key="ImagesNode">Images</Phrase>
+    <Phrase key="NoImagePreview">No image</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.FaceplateModal">
     <Phrase key="PageTitle">Faceplate</Phrase>
