@@ -90,7 +90,10 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                 }
                 else
                 {
-                    propertyElem.InnerText = propertyValue.ToString();
+                    string s = propertyValue.ToString();
+
+                    if (!string.IsNullOrEmpty(s))
+                        propertyElem.InnerText = s;
                 }
             }
         }

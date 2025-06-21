@@ -71,7 +71,6 @@ rs.mimic.PropertyDescriptor = class {
     category = "";
     isReadOnly = false;
     isBrowsable = true;
-    isKnown = false;
     type = "";
     subtype = "";
     editor = "";
@@ -256,7 +255,6 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "ID",
             category: KnownCategory.DESIGN,
             isReadOnly: true,
-            isKnown: true,
             type: BasicType.INT
         }));
 
@@ -264,7 +262,6 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "name",
             displayName: "Name",
             category: KnownCategory.DESIGN,
-            isKnown: true,
             type: BasicType.STRING
         }));
 
@@ -273,7 +270,6 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "Type name",
             category: KnownCategory.DESIGN,
             isReadOnly: true,
-            isKnown: true,
             type: BasicType.STRING
         }));
 

@@ -44,6 +44,11 @@ rs.mimic.ComponentFactory = class ComponentFactory {
             outCnlNum: 0,
             propertyBindings: [],
 
+            // design
+            id: 0,
+            name: "",
+            typeName: "",
+
             // layout
             location: new rs.mimic.Point(),
             size: new rs.mimic.Size()
@@ -66,6 +71,11 @@ rs.mimic.ComponentFactory = class ComponentFactory {
             outCnlNum: PropertyParser.parseInt(sourceProps.outCnlNum),
             propertyBindings: PropertyParser.parsePropertyBindings(sourceProps.propertyBindings),
 
+            // design
+            id: PropertyParser.parseInt(sourceProps.id),
+            name: PropertyParser.parseString(sourceProps.name),
+            typeName: "",
+
             // layout
             location: rs.mimic.Point.parse(sourceProps.location),
             size: rs.mimic.Size.parse(sourceProps.size)
@@ -74,9 +84,9 @@ rs.mimic.ComponentFactory = class ComponentFactory {
 
     static _copyProperties(component, source) {
         component.id = source.id;
-        component.name = source.name;
         component.typeName = source.typeName;
         component.properties = ComponentFactory._parseProperties(source.properties);
+        component.properties.typeName = source.typeName;
         component.parentID = source.parentID;
     }
 
@@ -84,7 +94,8 @@ rs.mimic.ComponentFactory = class ComponentFactory {
     createComponent(typeName) {
         let component = new rs.mimic.Component();
         component.typeName = typeName;
-        component.properties = ComponentFactory._createProperties();
+        component.properties = ComponentFactory._createProperties(typeName);
+        component.properties.typeName = typeName;
         return component;
     }
 
@@ -267,7 +278,7 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         component.properties = this._createProperties();
 
         if (faceplate) {
-            component.typeName = faceplate.typeName;
+            component.typeName = component.properties.typeName = faceplate.typeName;
             component.applyModel(faceplate);
         }
 

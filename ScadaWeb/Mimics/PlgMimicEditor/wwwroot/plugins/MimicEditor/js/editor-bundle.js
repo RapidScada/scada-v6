@@ -1076,22 +1076,10 @@ class PropGrid {
 
     _showObjectProperties(obj, isChild) {
         this._clearPane();
+        let targetObject = PropGridHelper.getTargetObject(obj);
         let descriptor = PropGridHelper.getObjectDescriptor(obj);
         let folderMap = this._addFolders(descriptor);
-
-        if (obj instanceof rs.mimic.Mimic) {
-            this._addBlades(folderMap, obj.document, isChild, descriptor);
-        } else if (obj instanceof rs.mimic.Component) {
-            // TODO: put known properties into obj.properties
-            this._addBlade(folderMap, obj, "id", obj.id, descriptor);
-            this._addBlade(folderMap, obj, "name", obj.name, descriptor);
-            this._addBlade(folderMap, obj, "typeName", obj.typeName, descriptor);
-            this._addBlades(folderMap, obj.properties, isChild, descriptor);
-        } else if (obj instanceof UnionObject) {
-            this._addBlades(folderMap, obj.properties, isChild, descriptor);
-        } else if (obj instanceof Object) {
-            this._addBlades(folderMap, obj, isChild, descriptor);
-        }
+        this._addBlades(folderMap, targetObject, isChild, descriptor);
     }
 
     _clearPane() {
@@ -1101,8 +1089,6 @@ class PropGrid {
     }
 
     _addBlades(folderMap, targetObject, isChild, objectDescriptor) {
-        const thisObj = this;
-
         if (targetObject) {
             for (let [name, value] of Object.entries(targetObject)) {
                 this._addBlade(folderMap, targetObject, name, value, objectDescriptor);
@@ -1114,8 +1100,8 @@ class PropGrid {
                 .addButton({
                     title: this._phrases.backButton
                 })
-                .on("click", function () {
-                    thisObj._selectParentObject();
+                .on("click", () => {
+                    this._selectParentObject();
                 });
         }
     }
@@ -1266,7 +1252,7 @@ class PropGrid {
         }
 
         if (this._selectedObject instanceof UnionObject) {
-            this._selectedObject.setProperty(propertyName, targetValue);
+            this._selectedObject.setProperty(propertyName, propertyValue);
         }
 
         let topTargetObject = PropGridHelper.getTargetObject(this._topObject);

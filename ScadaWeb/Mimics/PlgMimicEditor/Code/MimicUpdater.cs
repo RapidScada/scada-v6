@@ -107,7 +107,6 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             Component component = new()
             {
                 ID = change.ObjectID,
-                Name = change.GetString("name"),
                 TypeName = change.GetString("typeName"),
                 ParentID = change.ParentID
             };
@@ -280,15 +279,10 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 foreach (KeyValuePair<string, object> kvp in change.Properties)
                 {
                     string propName = kvp.Key.ToPascalCase();
-                    JsonElement propVal = (JsonElement)kvp.Value;
 
-                    if (Component.KnownProperties.Contains(propName))
+                    if (!Component.KnownProperties.Contains(propName))
                     {
-                        if (propName == "Name")
-                            component.Name = propVal.ToString();
-                    }
-                    else
-                    {
+                        JsonElement propVal = (JsonElement)kvp.Value;
                         componentProps[propName] = JsonElementToObject(propVal);
                     }
                 }

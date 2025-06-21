@@ -690,7 +690,6 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 // Represents a component of a mimic diagram.
 rs.mimic.Component = class {
     id = 0;
-    name = "";
     typeName = "";
     properties = null;
     bindings = null;
@@ -714,6 +713,10 @@ rs.mimic.Component = class {
 
     get isFaceplate() {
         return false;
+    }
+
+    get name() {
+        return this.properties?.name ?? "";
     }
 
     get displayName() {

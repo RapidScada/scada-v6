@@ -1514,22 +1514,20 @@ async function handleQueueEmpty() {
 }
 
 function handlePropertyChanged(eventData) {
-    let selectedObject = eventData.selectedObject;
-    let propertyName = eventData.propertyName;
-    let propertyValue = eventData.propertyValue;
-    console.log(`Update ${selectedObject.toString()}: ${propertyName} = ${JSON.stringify(propertyValue)}`);
-    // TODO: handle property change
-    console.log(`UPDATE ${eventData.topObject.toString()}: ${eventData.topPropertyName} = ${JSON.stringify(eventData.topPropertyValue)}`);
+    let changedObject = eventData.topObject;
+    let propertyName = eventData.topPropertyName;
+    let propertyValue = eventData.topPropertyValue;
+    console.log(`Update ${changedObject.toString()}: ${propertyName} = ${JSON.stringify(propertyValue)}`);
 
-    if (selectedObject instanceof rs.mimic.Mimic) {
+    if (changedObject instanceof rs.mimic.Mimic) {
         // update mimic
         unitedRenderer.updateMimicDom();
         pushChanges(Change.updateDocument().setProperty(propertyName, propertyValue));
-    } else if (selectedObject instanceof rs.mimic.Component || selectedObject instanceof UnionObject) {
+    } else if (changedObject instanceof rs.mimic.Component || changedObject instanceof UnionObject) {
         // update selected components
-        let components = selectedObject instanceof rs.mimic.Component
-            ? [selectedObject]
-            : selectedObject.targets.filter(t => t instanceof rs.mimic.Component);
+        let components = changedObject instanceof rs.mimic.Component
+            ? [changedObject]
+            : changedObject.targets.filter(t => t instanceof rs.mimic.Component);
 
         for (let component of components) {
             unitedRenderer.updateComponentDom(component);
