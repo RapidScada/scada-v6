@@ -67,7 +67,17 @@ class PropGrid {
 
     _addBlades(folderMap, targetObject, isChild, objectDescriptor) {
         if (targetObject) {
-            for (let [name, value] of Object.entries(targetObject)) {
+            let entries = Object.entries(targetObject);
+
+            if (objectDescriptor && objectDescriptor.sorted) {
+                entries.sort(([nameA], [nameB]) => {
+                    let displayNameA = objectDescriptor.get(nameA)?.displayName ?? nameA;
+                    let displayNameB = objectDescriptor.get(nameB)?.displayName ?? nameB;
+                    return displayNameA.localeCompare(displayNameB);
+                });
+            }
+
+            for (let [name, value] of entries) {
                 this._addBlade(folderMap, targetObject, name, value, objectDescriptor);
             }
         }

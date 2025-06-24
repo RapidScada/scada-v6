@@ -1090,7 +1090,17 @@ class PropGrid {
 
     _addBlades(folderMap, targetObject, isChild, objectDescriptor) {
         if (targetObject) {
-            for (let [name, value] of Object.entries(targetObject)) {
+            let entries = Object.entries(targetObject);
+
+            if (objectDescriptor && objectDescriptor.sorted) {
+                entries.sort(([nameA], [nameB]) => {
+                    let displayNameA = objectDescriptor.get(nameA)?.displayName ?? nameA;
+                    let displayNameB = objectDescriptor.get(nameB)?.displayName ?? nameB;
+                    return displayNameA.localeCompare(displayNameB);
+                });
+            }
+
+            for (let [name, value] of entries) {
                 this._addBlade(folderMap, targetObject, name, value, objectDescriptor);
             }
         }
@@ -1550,7 +1560,8 @@ class UnionObject {
 
     _sameProperties(descriptor1, descriptor2) {
         return descriptor1 === descriptor2 ||
-            descriptor1 && descriptor2 && descriptor1.type === descriptor2.type;
+            descriptor1 && descriptor2 && descriptor1.type === descriptor2.type &&
+            descriptor1.subtype === descriptor2.subtype;
     }
 
     _sameValues(value1, value2) {

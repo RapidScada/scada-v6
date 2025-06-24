@@ -127,8 +127,8 @@ rs.mimic.PropertyDescriptor = class {
 
 // Represents an object descriptor.
 rs.mimic.ObjectDescriptor = class {
-    // Key is a property name. Value is a property descriptor.
-    propertyDescriptors = new Map();
+    propertyDescriptors = new Map(); // property descriptors accessible by property name
+    sorted = true;
 
     add(propertyDescriptor) {
         this.propertyDescriptors.set(propertyDescriptor.name, propertyDescriptor);
@@ -543,6 +543,7 @@ rs.mimic.StructureDescriptor = class extends rs.mimic.ObjectDescriptor {
         super();
         const BasicType = rs.mimic.BasicType;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+        this.sorted = false;
 
         this.add(new PropertyDescriptor({
             name: "typeName",
