@@ -485,7 +485,7 @@ class UnionObject {
                     this.properties[name] = ScadaUtils.deepClone(value);
                     let propertyDescriptor = targetDescriptor.get(name);
 
-                    if (propertyDescriptor) {
+                    if (propertyDescriptor && propertyDescriptor.type !== rs.mimic.BasicType.LIST) {
                         this.descriptor.add(propertyDescriptor);
                     }
                 }
@@ -537,10 +537,14 @@ class UnionObject {
     }
 
     _mergeValues(value1, value2) {
-        if (typeof value1 === "number") {
+        if (Array.isArray(value1)) {
+            return null; // do not display array properties
+        } else if (typeof value1 === "number") {
             return value1 === value2 ? value1 : 0;
         } else if (typeof value1 === "string") {
             return value1 === value2 ? value1 : "";
+        } else if (typeof value1 === "boolean") {
+            return value1 === value2 ? value1 : false;
         } else if (value1 instanceof Object) {
             let result = {};
 
