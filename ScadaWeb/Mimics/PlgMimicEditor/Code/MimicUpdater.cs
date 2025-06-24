@@ -280,7 +280,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 {
                     string propName = kvp.Key.ToPascalCase();
 
-                    if (!Component.KnownProperties.Contains(propName))
+                    if (!KnownProperty.All.Contains(propName))
                     {
                         JsonElement propVal = (JsonElement)kvp.Value;
                         componentProps[propName] = JsonElementToObject(propVal);
@@ -301,8 +301,12 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 foreach (JsonProperty jsonProperty in jsonElement.EnumerateObject())
                 {
                     string propName = jsonProperty.Name.ToPascalCase();
-                    JsonElement propVal = jsonProperty.Value;
-                    expando.SetValue(propName, JsonElementToObject(propVal));
+
+                    if (propName != KnownProperty.TypeName)
+                    {
+                        JsonElement propVal = jsonProperty.Value;
+                        expando.SetValue(propName, JsonElementToObject(propVal));
+                    }
                 }
 
                 return expando;

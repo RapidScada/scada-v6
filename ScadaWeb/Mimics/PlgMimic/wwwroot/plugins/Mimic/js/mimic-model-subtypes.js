@@ -74,6 +74,7 @@ rs.mimic.ContentAlignment = class {
 
 // Represents an action.
 rs.mimic.Action = class Action {
+    typeName = "Action";
     actionType = rs.mimic.ActionType.NONE;
     chartArgs = "";
     commandArgs = new rs.mimic.CommandArgs();

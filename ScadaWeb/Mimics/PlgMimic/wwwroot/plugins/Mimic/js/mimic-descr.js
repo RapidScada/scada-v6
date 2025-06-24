@@ -493,8 +493,24 @@ rs.mimic.PanelDescriptor = class extends rs.mimic.RegularComponentDescriptor {
 rs.mimic.FaceplateDescriptor = class extends rs.mimic.ComponentDescriptor {
 };
 
+// Represents a structure descriptor.
+rs.mimic.StructureDescriptor = class extends rs.mimic.ObjectDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "typeName",
+            displayName: "Type name",
+            isReadOnly: true,
+            type: BasicType.STRING
+        }));
+    }
+};
+
 // Represents a descriptor for the Action structure.
-rs.mimic.ActionDescriptor = class extends rs.mimic.ObjectDescriptor {
+rs.mimic.ActionDescriptor = class extends rs.mimic.StructureDescriptor {
     constructor() {
         super();
         const BasicType = rs.mimic.BasicType;

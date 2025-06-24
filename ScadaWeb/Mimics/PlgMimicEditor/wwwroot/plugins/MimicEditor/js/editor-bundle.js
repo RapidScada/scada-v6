@@ -1388,7 +1388,8 @@ class PropGridHelper {
 
         // translate structures
         for (let [typeName, descriptor] of DescriptorSet.structureDescriptors) {
-            PropGridHelper._translateObject(descriptor, translation, translation.structures.get(typeName));
+            PropGridHelper._translateObject(descriptor, translation,
+                translation.structures.get(typeName), translation.structure);
         }
     }
 
@@ -1417,8 +1418,8 @@ class PropGridHelper {
             return DescriptorSet.mimicDescriptor;
         } else if (obj instanceof UnionObject) {
             return obj.descriptor;
-        } else if (obj instanceof Object) {
-            return DescriptorSet.structureDescriptors.get(obj.constructor.name);
+        } else if (obj instanceof Object && obj.typeName) {
+            return DescriptorSet.structureDescriptors.get(obj.typeName);
         } else {
             return null;
         }

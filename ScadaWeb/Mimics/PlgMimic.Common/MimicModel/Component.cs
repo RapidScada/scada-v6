@@ -14,13 +14,6 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     public sealed class Component : IContainer
     {
         /// <summary>
-        /// The component properties that are loaded explicitly.
-        /// </summary>
-        public static readonly HashSet<string> KnownProperties = 
-            ["ID", "TypeName", "ParentID", "Components"];
-
-
-        /// <summary>
         /// Gets or sets the component ID that is unique within the mimic.
         /// </summary>
         public int ID { get; set; } = 0;
@@ -71,7 +64,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
             ArgumentNullException.ThrowIfNull(componentIDs, nameof(componentIDs));
 
-            ID = xmlNode.GetChildAsInt("ID");
+            ID = xmlNode.GetChildAsInt(KnownProperty.ID);
             TypeName = xmlNode.Name;
 
             if (ID > 0 && componentIDs.Add(ID))
@@ -79,12 +72,12 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                 // load properties
                 foreach (XmlNode childNode in xmlNode.ChildNodes)
                 {
-                    if (childNode.Name != "Components")
+                    if (childNode.Name != KnownProperty.Components)
                         Properties.LoadProperty(childNode);
                 }
 
                 // load child components
-                if (xmlNode.SelectSingleNode("Components") is XmlNode componentsNode)
+                if (xmlNode.SelectSingleNode(KnownProperty.Components) is XmlNode componentsNode)
                 {
                     foreach (XmlNode childNode in componentsNode.ChildNodes)
                     {
@@ -113,17 +106,17 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         public void SaveToXml(XmlNode xmlNode)
         {
             ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
-            xmlNode.AppendElem("ID", ID);
+            xmlNode.AppendElem(KnownProperty.ID, ID);
 
             foreach (KeyValuePair<string, object> kvp in Properties)
             {
-                if (!KnownProperties.Contains(kvp.Key))
+                if (!KnownProperty.All.Contains(kvp.Key))
                     ExpandoExtensions.SaveProperty(xmlNode, kvp.Key, kvp.Value);
             }
 
             if (Components.Count > 0)
             {
-                XmlElement componentsElem = xmlNode.AppendElem("Components");
+                XmlElement componentsElem = xmlNode.AppendElem(KnownProperty.Components);
 
                 foreach (Component component in Components)
                 {

@@ -129,6 +129,9 @@
     <Phrase key="BottomRight">Внизу справа</Phrase>
   </Dictionary>
   <!-- Structures -->
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Structure">
+    <Phrase key="TypeName">Имя типа</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Action">
     <Phrase key="ActionType">Тип действия</Phrase>
     <Phrase key="ChartArgs">Аргументы графика</Phrase>
