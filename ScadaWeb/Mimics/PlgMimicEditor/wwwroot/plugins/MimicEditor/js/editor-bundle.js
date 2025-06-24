@@ -1022,11 +1022,11 @@ class ImageModal extends ModalBase {
 }
 
 // Contains classes: PropGrid, PropGridEventType, PropGridHelper, ProxyObject, PointProxy, SizeProxy, UnionObject
-// Depends on jquery, tweakpane, scada-common.js, mimic-model.js, mimic-descr.js
+// Depends on jquery, tweakpane, tweakpane-plugin-essentials, scada-common.js, mimic-model.js, mimic-descr.js
 
 // Interacts with Tweakpane to provide property grid functionality.
 class PropGrid {
-    _pane; // Tweakpane
+    _tweakpane;
     _phrases;
     _eventSource = document.createElement("prop-grid");
     _selectedObject = null;
@@ -1036,9 +1036,10 @@ class PropGrid {
 
     constructor(elemID, phrases) {
         let containerElem = $("#" + elemID);
-        this._pane = new Pane({
+        this._tweakpane = new Tweakpane({
             container: containerElem[0]
         });
+        this._tweakpane.registerPlugin(TweakpaneEssentialsPlugin);
         this._phrases = phrases ?? {};
     }
 
@@ -1083,30 +1084,45 @@ class PropGrid {
     }
 
     _clearPane() {
-        for (let child of this._pane.children) {
+        for (let child of this._tweakpane.children) {
             child.dispose();
         }
     }
 
     _addBlades(folderMap, targetObject, isChild, objectDescriptor) {
         if (targetObject) {
-            let entries = Object.entries(targetObject);
+            if (Array.isArray(targetObject)) {
+                // show array elements
+                this._addArrayToolbar();
 
-            if (objectDescriptor && objectDescriptor.sorted) {
-                entries.sort(([nameA], [nameB]) => {
-                    let displayNameA = objectDescriptor.get(nameA)?.displayName ?? nameA;
-                    let displayNameB = objectDescriptor.get(nameB)?.displayName ?? nameB;
-                    return displayNameA.localeCompare(displayNameB);
-                });
-            }
+                for (let [name, value] of Object.entries(targetObject)) {
+                    this._addBlade(folderMap, targetObject, name, value, objectDescriptor);
+                }
 
-            for (let [name, value] of entries) {
-                this._addBlade(folderMap, targetObject, name, value, objectDescriptor);
+                //Object.entries(targetObject).forEach(([name, value], index) => {
+                //    this._addBlade(folderMap, targetObject, name, value, objectDescriptor);
+                //});
+            } else {
+                // show object properties
+                let entries = Object.entries(targetObject);
+
+                if (objectDescriptor && objectDescriptor.sorted) {
+                    entries.sort(([nameA], [nameB]) => {
+                        let displayNameA = objectDescriptor.get(nameA)?.displayName ?? nameA;
+                        let displayNameB = objectDescriptor.get(nameB)?.displayName ?? nameB;
+                        return displayNameA.localeCompare(displayNameB);
+                    });
+                }
+
+                for (let [name, value] of entries) {
+                    this._addBlade(folderMap, targetObject, name, value, objectDescriptor);
+                }
             }
         }
 
+        // add the Back button
         if (isChild) {
-            this._pane
+            this._tweakpane
                 .addButton({
                     title: this._phrases.backButton
                 })
@@ -1178,7 +1194,7 @@ class PropGrid {
 
             // create folders
             for (let category of Array.from(categorySet).sort()) {
-                folderMap.set(category, this._pane.addFolder({
+                folderMap.set(category, this._tweakpane.addFolder({
                     title: category
                 }));
             }
@@ -1187,10 +1203,25 @@ class PropGrid {
         return folderMap;
     }
 
+    _addArrayToolbar() {
+        this._tweakpane.addBlade({
+            view: 'buttongrid',
+            size: [4, 1],
+            cells: (x, y) => ({
+                title: [
+                    ['+', '^', 'v', 'X']
+                ][y][x],
+            }),
+            //label: 'buttongrid',
+        }).on('click', (ev) => {
+            console.log(ev);
+        });
+    }
+
     _selectContainer(folderMap, propertyDescriptor) {
         return propertyDescriptor && propertyDescriptor.category
-            ? folderMap.get(propertyDescriptor.category) ?? this._pane
-            : this._pane;
+            ? folderMap.get(propertyDescriptor.category) ?? this._tweakpane
+            : this._tweakpane;
     }
 
     _createProxyObject(propertyValue, propertyDescriptor) {
@@ -1323,7 +1354,7 @@ class PropGrid {
     }
 
     refreshProperty(propertyName) {
-        for (let folder of this._pane.children) {
+        for (let folder of this._tweakpane.children) {
             for (let binding of folder.children) {
                 if (binding.key === propertyName) {
                     binding.refresh();
@@ -1554,7 +1585,7 @@ class UnionObject {
         } else if (target instanceof Object) {
             return target;
         } else {
-            return null;
+            return {};
         }
     }
 
