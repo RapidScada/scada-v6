@@ -527,7 +527,8 @@ class UnionObject {
 
     _sameProperties(descriptor1, descriptor2) {
         return descriptor1 === descriptor2 ||
-            descriptor1 && descriptor2 && descriptor1.type === descriptor2.type;
+            descriptor1 && descriptor2 && descriptor1.type === descriptor2.type &&
+            descriptor1.subtype === descriptor2.subtype;
     }
 
     _sameValues(value1, value2) {
