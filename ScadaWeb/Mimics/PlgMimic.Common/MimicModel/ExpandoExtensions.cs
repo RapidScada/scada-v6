@@ -89,15 +89,15 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                         SaveProperty(propertyElem, kvp.Key, kvp.Value);
                     }
                 }
-                else if (propertyValue is IEnumerable collection)
+                /*else if (propertyValue is IEnumerable array)
                 {
                     propertyElem.SetAttribute("isArray", true);
 
-                    /*foreach (object item in collection)
+                    foreach (object elem in array)
                     {
-                        SaveProperty(propertyElem, item.GetType().Name, item);
-                    }*/
-                }
+                        SaveProperty(propertyElem, "Element", elem);
+                    }
+                }*/
                 else
                 {
                     string s = propertyValue.ToString();
