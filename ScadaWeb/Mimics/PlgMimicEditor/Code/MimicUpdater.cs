@@ -311,6 +311,17 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
 
                 return expando;
             }
+            else if (jsonElement.ValueKind == JsonValueKind.Array)
+            {
+                List<object> list = [];
+
+                foreach (JsonElement arrayElement in jsonElement.EnumerateArray())
+                {
+                    list.Add(JsonElementToObject(arrayElement));
+                }
+
+                return list;
+            }
             else
             {
                 return jsonElement.ToString();
