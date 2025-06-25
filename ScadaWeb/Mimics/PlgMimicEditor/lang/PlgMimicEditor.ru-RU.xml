@@ -24,6 +24,10 @@
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js.PropGrid">
     <Phrase key="EditButton">Редактировать</Phrase>
     <Phrase key="BackButton">Назад к родителю</Phrase>
+    <Phrase key="AddButton">Добавить</Phrase>
+    <Phrase key="UpButton">Вверх</Phrase>
+    <Phrase key="DownButton">Вниз</Phrase>
+    <Phrase key="DeleteButton">Удалить</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js.StructTree">
     <Phrase key="DependenciesNode">Зависимости</Phrase>

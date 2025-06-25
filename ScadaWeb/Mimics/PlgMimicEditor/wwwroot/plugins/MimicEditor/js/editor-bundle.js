@@ -1093,7 +1093,7 @@ class PropGrid {
         if (targetObject) {
             if (Array.isArray(targetObject)) {
                 // show array elements
-                this._addArrayToolbar();
+                this._addArrayToolbar(targetObject);
 
                 for (let [name, value] of Object.entries(targetObject)) {
                     this._addBlade(folderMap, targetObject, name, value, objectDescriptor);
@@ -1203,18 +1203,35 @@ class PropGrid {
         return folderMap;
     }
 
-    _addArrayToolbar() {
+    _addArrayToolbar(array) {
         this._tweakpane.addBlade({
-            view: 'buttongrid',
+            view: "buttongrid",
             size: [4, 1],
             cells: (x, y) => ({
-                title: [
-                    ['+', '^', 'v', 'X']
-                ][y][x],
-            }),
-            //label: 'buttongrid',
-        }).on('click', (ev) => {
-            console.log(ev);
+                title: [[
+                    this._phrases.addButton,
+                    this._phrases.upButton,
+                    this._phrases.downButton,
+                    this._phrases.deleteButton
+                ]][y][x]
+            })
+        }).on("click", (event) => {
+            switch (event.index[0]) {
+                case 0:
+                    this._addElement(array);
+                    break;
+                case 0:
+                    this._moveUpElement(array);
+                    break;
+                case 0:
+                    this._moveDownElement(array);
+                    break;
+                case 0:
+                    this.deleteElement(array);
+                    break;
+            }
+
+            this.refresh();
         });
     }
 
@@ -1321,6 +1338,28 @@ class PropGrid {
         }));
     }
 
+    _addElement(array) {
+        if (array.createItem instanceof Function) {
+            let item = array.createItem();
+
+            if (item !== undefined && item !== null) {
+                array.push(item);
+            }
+        }
+    }
+
+    _moveUpElement(array) {
+
+    }
+
+    _moveDownElement(array) {
+
+    }
+
+    _deleteElement(array) {
+
+    }
+
     get selectedObject() {
         return this._selectedObject;
     }
@@ -1369,7 +1408,8 @@ class PropGrid {
             let newUnion = new UnionObject(this._selectedObject.targets);
             this._selectObject(newUnion);
         } else {
-            this._selectObject(this._selectedObject);
+            let isChild = parent !== this._topObject;
+            this._showObjectProperties(this._selectedObject, isChild);
         }
     }
 }

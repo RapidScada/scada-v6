@@ -2240,6 +2240,19 @@ rs.mimic.VisualState = class VisualState {
 
 // --- Misc ---
 
+// Represents a list that can create new items.
+rs.mimic.List = class List extends Array {
+    constructor(createItemFn) {
+        super();
+
+        if (createItemFn instanceof Function) {
+            List.prototype.createItem = function () {
+                return createItemFn.call(this);
+            };
+        }
+    }
+}
+
 // Parses property values ​​from strings and objects.
 rs.mimic.PropertyParser = class {
     static parseBool(string, defaultValue = false) {
@@ -2283,7 +2296,9 @@ rs.mimic.PropertyParser = class {
 
     static parsePropertyBindings(source) {
         const PropertyBinding = rs.mimic.PropertyBinding;
-        let propertyBindings = [];
+        let propertyBindings = new rs.mimic.List(() => {
+            return new PropertyBinding();
+        });
 
         if (Array.isArray(source)) {
             for (let sourceItem of source) {

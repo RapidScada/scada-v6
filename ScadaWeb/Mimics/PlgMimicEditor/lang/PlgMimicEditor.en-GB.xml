@@ -24,6 +24,10 @@
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js.PropGrid">
     <Phrase key="EditButton">Edit</Phrase>
     <Phrase key="BackButton">Back to Parent</Phrase>
+    <Phrase key="AddButton">Add</Phrase>
+    <Phrase key="UpButton">Up</Phrase>
+    <Phrase key="DownButton">Down</Phrase>
+    <Phrase key="DeleteButton">Delete</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js.StructTree">
     <Phrase key="DependenciesNode">Dependencies</Phrase>
