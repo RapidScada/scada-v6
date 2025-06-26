@@ -70,10 +70,10 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             if (ID > 0 && componentIDs.Add(ID))
             {
                 // load properties
-                foreach (XmlNode childNode in xmlNode.ChildNodes)
+                foreach (XmlElement childElem in xmlNode.ChildNodes.OfType<XmlElement>())
                 {
-                    if (childNode.Name != KnownProperty.Components)
-                        Properties.LoadProperty(childNode);
+                    if (childElem.Name != KnownProperty.Components)
+                        Properties.LoadProperty(childElem);
                 }
 
                 // load child components

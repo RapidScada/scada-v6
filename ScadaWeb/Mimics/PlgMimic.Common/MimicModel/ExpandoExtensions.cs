@@ -42,29 +42,45 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Loads the object property from the XML node.
         /// </summary>
-        public static void LoadProperty(this ExpandoObject obj, XmlNode propertyNode)
+        public static void LoadProperty(this ExpandoObject obj, XmlElement propertyElem)
         {
             ArgumentNullException.ThrowIfNull(obj, nameof(obj));
-            ArgumentNullException.ThrowIfNull(propertyNode, nameof(propertyNode));
+            ArgumentNullException.ThrowIfNull(propertyElem, nameof(propertyElem));
 
-            if (propertyNode.NodeType == XmlNodeType.Element)
+            if (propertyElem.NodeType == XmlNodeType.Element)
             {
                 IDictionary<string, object> dict = obj;
-                List<XmlElement> childElements = propertyNode.ChildNodes.OfType<XmlElement>().ToList();
 
-                if (childElements.Count > 0)
+                if (propertyElem.GetAttrAsBool("isArray"))
                 {
-                    ExpandoObject childObj = new();
-                    dict.Add(propertyNode.Name, childObj);
+                    List<object> list = [];
+                    dict.Add(propertyElem.Name, list);
 
-                    foreach (XmlElement childElement in childElements)
+                    foreach (XmlElement itemElem in propertyElem.SelectNodes("Item"))
                     {
-                        LoadProperty(childObj, childElement);
+                        ExpandoObject itemObj = new();
+                        itemObj.LoadProperty(itemElem);
+                        list.Add(itemObj.GetValue("Item"));
                     }
                 }
                 else
                 {
-                    dict.Add(propertyNode.Name, propertyNode.InnerText);
+                    List<XmlElement> childElements = propertyElem.ChildNodes.OfType<XmlElement>().ToList();
+
+                    if (childElements.Count > 0)
+                    {
+                        ExpandoObject childObj = new();
+                        dict.Add(propertyElem.Name, childObj);
+
+                        foreach (XmlElement childElement in childElements)
+                        {
+                            childObj.LoadProperty(childElement);
+                        }
+                    }
+                    else
+                    {
+                        dict.Add(propertyElem.Name, propertyElem.InnerText);
+                    }
                 }
             }
         }
@@ -89,17 +105,18 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                         SaveProperty(propertyElem, kvp.Key, kvp.Value);
                     }
                 }
-                /*else if (propertyValue is IEnumerable array)
+                else if (propertyValue is ICollection collection)
                 {
                     propertyElem.SetAttribute("isArray", true);
 
-                    foreach (object elem in array)
+                    foreach (object item in collection)
                     {
-                        SaveProperty(propertyElem, "Element", elem);
+                        SaveProperty(propertyElem, "Item", item);
                     }
-                }*/
+                }
                 else
                 {
+                    // note that string implements IEnumeration
                     string s = propertyValue.ToString();
 
                     if (!string.IsNullOrEmpty(s))

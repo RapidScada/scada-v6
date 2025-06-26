@@ -62,9 +62,9 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 
             if (rootElem.SelectSingleNode("Document") is XmlNode documentNode)
             {
-                foreach (XmlNode childNode in documentNode.ChildNodes)
+                foreach (XmlElement childElem in documentNode.ChildNodes.OfType<XmlElement>())
                 {
-                    Document.LoadProperty(childNode);
+                    Document.LoadProperty(childElem);
                 }
             }
 
