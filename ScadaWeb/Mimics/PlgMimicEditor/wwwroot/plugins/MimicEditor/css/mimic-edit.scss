@@ -196,6 +196,20 @@ $tool-window-font-weight: 500;
     .tp-rotv {
         font-size: $tool-window-font-size;
     }
+
+    .rs-array-item {
+        cursor: pointer;
+
+        &.rs-selected {
+            background-color: var(--bs-primary);
+            padding-bottom: 2px;
+            padding-top: 2px;
+
+            .tp-lblv_l {
+                color: var(--bs-white);
+            }
+        }
+    }
 }
 
 /* Popovers */

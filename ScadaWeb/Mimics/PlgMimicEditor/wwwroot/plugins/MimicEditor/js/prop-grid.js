@@ -3,6 +3,7 @@
 
 // Interacts with Tweakpane to provide property grid functionality.
 class PropGrid {
+    _tweakpaneElem;
     _tweakpane;
     _phrases;
     _eventSource = document.createElement("prop-grid");
@@ -12,12 +13,21 @@ class PropGrid {
     _parentStack = [];
 
     constructor(elemID, phrases) {
-        let containerElem = $("#" + elemID);
+        this._tweakpaneElem = $("#" + elemID);
         this._tweakpane = new Tweakpane({
-            container: containerElem[0]
+            container: this._tweakpaneElem[0]
         });
         this._tweakpane.registerPlugin(TweakpaneEssentialsPlugin);
         this._phrases = phrases ?? {};
+        this._bindEvents();
+    }
+
+    _bindEvents() {
+        this._tweakpaneElem.on("click", ".rs-array-item", (event) => {
+            // select the clicked array item
+            this._tweakpaneElem.find(".rs-array-item").removeClass("rs-selected");
+            $(event.currentTarget).addClass("rs-selected");
+        });
     }
 
     _selectObject(obj) {
@@ -71,14 +81,13 @@ class PropGrid {
             if (Array.isArray(targetObject)) {
                 // show array elements
                 this._addArrayToolbar(targetObject);
+                let index = 0;
 
                 for (let [name, value] of Object.entries(targetObject)) {
-                    this._addBlade(folderMap, targetObject, name, value, objectDescriptor);
+                    let blade = this._addBlade(folderMap, targetObject, name, value, objectDescriptor);
+                    this._prepareArrayBlade(blade, index);
+                    index++;
                 }
-
-                //Object.entries(targetObject).forEach(([name, value], index) => {
-                //    this._addBlade(folderMap, targetObject, name, value, objectDescriptor);
-                //});
             } else {
                 // show object properties
                 let entries = Object.entries(targetObject);
@@ -116,13 +125,14 @@ class PropGrid {
             return;
         }
 
+        let blade = null;
         let container = this._selectContainer(folderMap, propertyDescriptor);
 
         if (typeof propertyValue === "number" ||
             typeof propertyValue === "string" ||
             typeof propertyValue === "boolean") {
             // simple property is editable in row
-            container
+            blade = container
                 .addBinding(targetObject, propertyName, this._getBindingOptions(propertyDescriptor))
                 .on("change", (event) => {
                     if (event.last) {
@@ -134,7 +144,7 @@ class PropGrid {
 
             if (proxyObject) {
                 // use proxy object
-                container
+                blade = container
                     .addBinding({ [propertyName]: proxyObject }, propertyName,
                         this._getBindingOptions(propertyDescriptor))
                     .on("change", (event) => {
@@ -144,7 +154,7 @@ class PropGrid {
                     });
             } else {
                 // complex property requires braking into simple properties
-                container
+                blade = container
                     .addButton({
                         label: propertyDescriptor?.displayName ?? propertyName,
                         title: this._phrases.editButton
@@ -154,6 +164,8 @@ class PropGrid {
                     });
             }
         }
+
+        return blade;
     }
 
     _addFolders(objectDescriptor) {
@@ -195,20 +207,18 @@ class PropGrid {
         }).on("click", (event) => {
             switch (event.index[0]) {
                 case 0:
-                    this._addElement(array);
+                    this._addArrayItem(array);
                     break;
                 case 0:
-                    this._moveUpElement(array);
+                    this._moveUpArrayItem(array);
                     break;
                 case 0:
-                    this._moveDownElement(array);
+                    this._moveDownArrayItem(array);
                     break;
                 case 0:
-                    this.deleteElement(array);
+                    this._deleteArrayItem(array);
                     break;
             }
-
-            this.refresh();
         });
     }
 
@@ -315,25 +325,52 @@ class PropGrid {
         }));
     }
 
-    _addElement(array) {
+    _prepareArrayBlade(blade, index) {
+        $(blade.element).addClass("rs-array-item").attr("data-rs-index", index);
+    }
+
+    _getSelectedIndex() {
+        let index = this._tweakpaneElem.find(".rs-array-item.rs-selected").data("rs-index");
+        return index >= 0 ? index : -1;
+    }
+
+    _selectArrayItem(index) {
+        let itemElems = this._tweakpaneElem.find(".rs-array-item");
+        itemElems.removeClass("rs-selected");
+        itemElems.eq(index).addClass("rs-selected");
+    }
+
+    _addArrayItem(array) {
         if (array.createItem instanceof Function) {
             let item = array.createItem();
 
             if (item !== undefined && item !== null) {
-                array.push(item);
+                let index = this._getSelectedIndex();
+
+                if (index < 0) {
+                    index = array.length;
+                    array.push(item);
+                } else {
+                    index++;
+                    array.splice(index, 0, item);
+                }
+
+                this._handleBindingChange(array, index.toString(), item);
+                this.refresh();
+                this._selectArrayItem(index);
             }
         }
     }
 
-    _moveUpElement(array) {
+    _moveUpArrayItem(array) {
 
     }
 
-    _moveDownElement(array) {
+    _moveDownArrayItem(array) {
 
     }
 
-    _deleteElement(array) {
+    _deleteArrayItem(array) {
 
     }
 

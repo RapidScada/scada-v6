@@ -197,6 +197,17 @@
 #tweakpane .tp-rotv {
   font-size: 12px;
 }
+#tweakpane .rs-array-item {
+  cursor: pointer;
+}
+#tweakpane .rs-array-item.rs-selected {
+  background-color: var(--bs-primary);
+  padding-bottom: 2px;
+  padding-top: 2px;
+}
+#tweakpane .rs-array-item.rs-selected .tp-lblv_l {
+  color: var(--bs-white);
+}
 
 /* Popovers */
 .image-preview {
