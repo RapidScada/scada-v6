@@ -50,23 +50,22 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             if (propertyElem.NodeType == XmlNodeType.Element)
             {
                 IDictionary<string, object> dict = obj;
+                List<XmlElement> childElements = propertyElem.ChildNodes.OfType<XmlElement>().ToList();
 
                 if (propertyElem.GetAttrAsBool("isArray"))
                 {
                     List<object> list = [];
                     dict.Add(propertyElem.Name, list);
 
-                    foreach (XmlElement itemElem in propertyElem.SelectNodes("Item"))
+                    foreach (XmlElement childElement in childElements)
                     {
-                        ExpandoObject itemObj = new();
-                        itemObj.LoadProperty(itemElem);
-                        list.Add(itemObj.GetValue("Item"));
+                        ExpandoObject childObj = new();
+                        childObj.LoadProperty(childElement);
+                        list.Add(childObj.GetValue(childElement.Name));
                     }
                 }
                 else
                 {
-                    List<XmlElement> childElements = propertyElem.ChildNodes.OfType<XmlElement>().ToList();
-
                     if (childElements.Count > 0)
                     {
                         ExpandoObject childObj = new();
