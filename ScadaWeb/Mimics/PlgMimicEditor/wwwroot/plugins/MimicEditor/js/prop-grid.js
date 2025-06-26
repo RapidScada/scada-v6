@@ -192,36 +192,6 @@ class PropGrid {
         return folderMap;
     }
 
-    _addArrayToolbar(array) {
-        this._tweakpane.addBlade({
-            view: "buttongrid",
-            size: [4, 1],
-            cells: (x, y) => ({
-                title: [[
-                    this._phrases.addButton,
-                    this._phrases.upButton,
-                    this._phrases.downButton,
-                    this._phrases.deleteButton
-                ]][y][x]
-            })
-        }).on("click", (event) => {
-            switch (event.index[0]) {
-                case 0:
-                    this._addArrayItem(array);
-                    break;
-                case 0:
-                    this._moveUpArrayItem(array);
-                    break;
-                case 0:
-                    this._moveDownArrayItem(array);
-                    break;
-                case 0:
-                    this._deleteArrayItem(array);
-                    break;
-            }
-        });
-    }
-
     _selectContainer(folderMap, propertyDescriptor) {
         return propertyDescriptor && propertyDescriptor.category
             ? folderMap.get(propertyDescriptor.category) ?? this._tweakpane
@@ -325,22 +295,66 @@ class PropGrid {
         }));
     }
 
+    _handleError(message) {
+        console.error(message);
+
+        this._eventSource.dispatchEvent(new CustomEvent(PropGridEventType.ERROR, {
+            detail: {
+                message: message
+            }
+        }));
+    }
+
+    _addArrayToolbar(array) {
+        this._tweakpane.addBlade({
+            view: "buttongrid",
+            size: [4, 1],
+            cells: (x, y) => ({
+                title: [[
+                    this._phrases.addButton,
+                    this._phrases.upButton,
+                    this._phrases.downButton,
+                    this._phrases.deleteButton
+                ]][y][x]
+            })
+        }).on("click", (event) => {
+            switch (event.index[0]) {
+                case 0:
+                    this._addArrayItem(array);
+                    break;
+                case 1:
+                    this._moveUpArrayItem(array);
+                    break;
+                case 2:
+                    this._moveDownArrayItem(array);
+                    break;
+                case 3:
+                    this._deleteArrayItem(array);
+                    break;
+            }
+        });
+    }
+
     _prepareArrayBlade(blade, index) {
-        $(blade.element).addClass("rs-array-item").attr("data-rs-index", index);
+        if (blade) {
+            $(blade.element).addClass("rs-array-item").attr("data-rs-index", index);
+        }
     }
 
     _getSelectedIndex() {
-        let index = this._tweakpaneElem.find(".rs-array-item.rs-selected").data("rs-index");
+        let index = this._tweakpaneElem.find(".rs-array-item.rs-selected:first").data("rs-index");
         return index >= 0 ? index : -1;
     }
 
-    _selectArrayItem(index) {
+    _setSelectedIndex(index) {
         let itemElems = this._tweakpaneElem.find(".rs-array-item");
         itemElems.removeClass("rs-selected");
-        itemElems.eq(index).addClass("rs-selected");
+        itemElems.filter(`[data-rs-index="${index}"]`).addClass("rs-selected");
     }
 
     _addArrayItem(array) {
+        let itemAdded = false;
+
         if (array.createItem instanceof Function) {
             let item = array.createItem();
 
@@ -355,23 +369,58 @@ class PropGrid {
                     array.splice(index, 0, item);
                 }
 
-                this._handleBindingChange(array, index.toString(), item);
+                this._handleArrayChange(array);
                 this.refresh();
-                this._selectArrayItem(index);
+                this._setSelectedIndex(index);
+                itemAdded = true;
             }
+        }
+
+        if (!itemAdded) {
+            this._handleError(this._phrases.unableAddItem);
         }
     }
 
     _moveUpArrayItem(array) {
+        let index = this._getSelectedIndex();
 
+        if (index > 0) {
+            [array[index - 1], array[index]] = [array[index], array[index - 1]];
+            this._handleArrayChange(array);
+            this.refresh();
+            this._setSelectedIndex(index - 1);
+        } else {
+            this._handleError(this._phrases.unableMoveItem);
+        }
     }
 
     _moveDownArrayItem(array) {
+        let index = this._getSelectedIndex();
 
+        if (0 <= index && index < array.length - 1) {
+            [array[index], array[index + 1]] = [array[index + 1], array[index]];
+            this._handleArrayChange(array);
+            this.refresh();
+            this._setSelectedIndex(index + 1);
+        } else {
+            this._handleError(this._phrases.unableMoveItem);
+        }
     }
 
     _deleteArrayItem(array) {
+        let index = this._getSelectedIndex();
 
+        if (index >= 0) {
+            array.splice(index, 1);
+            this._handleArrayChange(array);
+            this.refresh();
+        } else {
+            this._handleError(this._phrases.unableDeleteItem);
+        }
+    }
+
+    _handleArrayChange(array) {
+        this._handleBindingChange(array, "", null);
     }
 
     get selectedObject() {
@@ -430,6 +479,7 @@ class PropGrid {
 
 // Specifies the event types for property grid.
 class PropGridEventType {
+    static ERROR = "error";
     static PROPERTY_CHANGED = "propertyChanged";
 }
 

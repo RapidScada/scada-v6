@@ -28,6 +28,9 @@
     <Phrase key="UpButton">Вверх</Phrase>
     <Phrase key="DownButton">Вниз</Phrase>
     <Phrase key="DeleteButton">Удалить</Phrase>
+    <Phrase key="UnableAddItem">Невозможно добавить элемент массива.</Phrase>
+    <Phrase key="UnableMoveItem">Невозможно переместить элемент массива.</Phrase>
+    <Phrase key="UnableDeleteItem">Невозможно удалить элемент массива.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js.StructTree">
     <Phrase key="DependenciesNode">Зависимости</Phrase>

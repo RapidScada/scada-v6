@@ -28,6 +28,9 @@
     <Phrase key="UpButton">Up</Phrase>
     <Phrase key="DownButton">Down</Phrase>
     <Phrase key="DeleteButton">Delete</Phrase>
+    <Phrase key="UnableAddItem">Unable to add array element.</Phrase>
+    <Phrase key="UnableMoveItem">Unable to move array element.</Phrase>
+    <Phrase key="UnableDeleteItem">Unable to delete array element.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js.StructTree">
     <Phrase key="DependenciesNode">Dependencies</Phrase>

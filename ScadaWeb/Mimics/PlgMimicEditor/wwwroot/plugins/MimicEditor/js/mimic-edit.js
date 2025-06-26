@@ -279,10 +279,15 @@ function initStructTree() {
 
 function initPropGrid() {
     propGrid = new PropGrid("tweakpane", translation.propGrid);
+    PropGridHelper.translateDescriptors(translation.model);
+
+    propGrid.addEventListener(PropGridEventType.ERROR, function (event) {
+        showToast(event.detail.message, MessageType.ERROR);
+    });
+
     propGrid.addEventListener(PropGridEventType.PROPERTY_CHANGED, function (event) {
         handlePropertyChanged(event.detail);
     });
-    PropGridHelper.translateDescriptors(translation.model);
 }
 
 function initModals() {
