@@ -85,7 +85,7 @@ class PropGrid {
 
                 for (let [name, value] of Object.entries(targetObject)) {
                     let blade = this._addBlade(folderMap, targetObject, name, value, objectDescriptor);
-                    this._prepareArrayBlade(blade, index);
+                    this._prepareArrayBlade(blade, value, index);
                     index++;
                 }
             } else {
@@ -335,8 +335,9 @@ class PropGrid {
         });
     }
 
-    _prepareArrayBlade(blade, index) {
+    _prepareArrayBlade(blade, item, index) {
         if (blade) {
+            blade.label = item.displayName || this._phrases.arrayItem + index;
             $(blade.element).addClass("rs-array-item").attr("data-rs-index", index);
         }
     }

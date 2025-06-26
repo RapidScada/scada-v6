@@ -2167,6 +2167,10 @@ rs.mimic.PropertyBinding = class PropertyBinding {
     dataMember = "";
     format = "";
 
+    get displayName() {
+        return this.propertyName;
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let propertyBinding = new PropertyBinding();

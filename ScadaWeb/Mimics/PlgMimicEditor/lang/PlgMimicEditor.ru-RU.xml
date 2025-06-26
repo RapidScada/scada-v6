@@ -28,6 +28,7 @@
     <Phrase key="UpButton">Вверх</Phrase>
     <Phrase key="DownButton">Вниз</Phrase>
     <Phrase key="DeleteButton">Удалить</Phrase>
+    <Phrase key="ArrayItem">Элемент </Phrase>
     <Phrase key="UnableAddItem">Невозможно добавить элемент массива.</Phrase>
     <Phrase key="UnableMoveItem">Невозможно переместить элемент массива.</Phrase>
     <Phrase key="UnableDeleteItem">Невозможно удалить элемент массива.</Phrase>

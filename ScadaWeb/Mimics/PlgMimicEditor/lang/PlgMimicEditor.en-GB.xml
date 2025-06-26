@@ -28,6 +28,7 @@
     <Phrase key="UpButton">Up</Phrase>
     <Phrase key="DownButton">Down</Phrase>
     <Phrase key="DeleteButton">Delete</Phrase>
+    <Phrase key="ArrayItem">Item </Phrase>
     <Phrase key="UnableAddItem">Unable to add array element.</Phrase>
     <Phrase key="UnableMoveItem">Unable to move array element.</Phrase>
     <Phrase key="UnableDeleteItem">Unable to delete array element.</Phrase>
