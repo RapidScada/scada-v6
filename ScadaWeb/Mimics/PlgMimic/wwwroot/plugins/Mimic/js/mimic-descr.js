@@ -145,7 +145,8 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "stylesheet",
             displayName: "Stylesheet",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.STRING
+            type: BasicType.STRING,
+            editor: PropertyEditor.TEXT_EDITOR
         }));
 
         // behavior
@@ -153,7 +154,8 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "script",
             displayName: "Script",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRING
+            type: BasicType.STRING,
+            editor: PropertyEditor.TEXT_EDITOR
         }));
 
         this.add(new PropertyDescriptor({

@@ -1021,7 +1021,8 @@ class ImageModal extends ModalBase {
     }
 }
 
-// Contains classes: PropGrid, PropGridEventType, PropGridHelper, ProxyObject, PointProxy, SizeProxy, UnionObject
+// Contains classes: PropGrid, PropGridEventType, PropGridHelper, PropGridDialogs,
+//     ProxyObject, PointProxy, SizeProxy, UnionObject
 // Depends on jquery, tweakpane, tweakpane-plugin-essentials, scada-common.js, mimic-model.js, mimic-descr.js
 
 // Interacts with Tweakpane to provide property grid functionality.
@@ -1597,6 +1598,24 @@ class PropGridHelper {
         } else {
             return null;
         }
+    }
+}
+
+// Calls property editors implemented as modal dialogs.
+// Callbacks are function (propertyValue)
+class PropGridDialogs {
+    static imagePickerModal = null;
+    static propertyPickerModal = null;
+    static textEditorModal = null;
+
+    static showImagePicker(callback) {
+    }
+
+    static showPropertyPicker(callback) {
+    }
+
+    static showTextEditor(callback) {
+
     }
 }
 
