@@ -804,7 +804,7 @@ function restoreHistoryPoint(historyPoint) {
 
                 if (component && componentSource) {
                     let temporaryComponent = mimic.createComponent(componentSource);
-                    Object.assign(component.properties, temporaryComponent.properties);
+                    Object.assign(component.properties, temporaryComponent?.properties);
 
                     unitedRenderer.updateComponentDom(component);
                     structTree.updateComponent(component);
