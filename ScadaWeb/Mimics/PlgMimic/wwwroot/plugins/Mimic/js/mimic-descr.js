@@ -1,8 +1,8 @@
-﻿// Contains classes: 
+﻿// Contains classes:
 //     KnownCategory, BasicType, Subtype, PropertyEditor,
-//     PropertyDescriptor, ObjectDescriptor, MimicDescriptor, ComponentDescriptorBase, ComponentDescriptor,
-//     TextDescriptor, PictureDescriptor, PanelDescriptor,
-//     ActionDescriptor,
+//     PropertyDescriptor, ObjectDescriptor, MimicDescriptor, ComponentDescriptor, RegularComponentDescriptor,
+//     TextDescriptor, PictureDescriptor, PanelDescriptor, FaceplateDescriptor,
+//     StructureDescriptor, ActionDescriptor,
 //     DescriptorSet
 // Depends on scada-common.js, mimic-common.js
 
@@ -497,16 +497,7 @@ rs.mimic.FaceplateDescriptor = class extends rs.mimic.ComponentDescriptor {
 rs.mimic.StructureDescriptor = class extends rs.mimic.ObjectDescriptor {
     constructor() {
         super();
-        const BasicType = rs.mimic.BasicType;
-        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
         this.sorted = false;
-
-        this.add(new PropertyDescriptor({
-            name: "typeName",
-            displayName: "Type name",
-            isReadOnly: true,
-            type: BasicType.STRING
-        }));
     }
 };
 

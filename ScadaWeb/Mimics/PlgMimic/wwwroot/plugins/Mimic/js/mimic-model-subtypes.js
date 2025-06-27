@@ -74,12 +74,15 @@ rs.mimic.ContentAlignment = class {
 
 // Represents an action.
 rs.mimic.Action = class Action {
-    typeName = "Action";
     actionType = rs.mimic.ActionType.NONE;
     chartArgs = "";
     commandArgs = new rs.mimic.CommandArgs();
     linkArgs = new rs.mimic.LinkArgs();
     script = "";
+
+    get typeName() {
+        return "Action";
+    }
 
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;

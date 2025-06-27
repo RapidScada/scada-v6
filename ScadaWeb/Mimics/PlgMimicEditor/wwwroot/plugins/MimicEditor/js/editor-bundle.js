@@ -1490,10 +1490,12 @@ class PropGrid {
         }
     }
 
-    refresh() {
+    refresh(opt_backToTop) {
         if (this._selectedObject instanceof UnionObject) {
             let newUnion = new UnionObject(this._selectedObject.targets);
             this._selectObject(newUnion);
+        } else if (opt_backToTop) {
+            this._selectObject(this._topObject);
         } else {
             let isChild = parent !== this._topObject;
             this._showObjectProperties(this._selectedObject, isChild);
@@ -1557,8 +1559,7 @@ class PropGridHelper {
 
         // translate structures
         for (let [typeName, descriptor] of DescriptorSet.structureDescriptors) {
-            PropGridHelper._translateObject(descriptor, translation,
-                translation.structures.get(typeName), translation.structure);
+            PropGridHelper._translateObject(descriptor, translation, translation.structures.get(typeName));
         }
     }
 

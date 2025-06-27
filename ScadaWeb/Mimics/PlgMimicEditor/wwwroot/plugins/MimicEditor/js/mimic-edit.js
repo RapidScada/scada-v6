@@ -754,8 +754,10 @@ function restoreHistoryPoint(historyPoint) {
     }
 
     console.log("Restore history point");
+    const MimicFactory = rs.mimic.MimicFactory;
     const MimicHelper = rs.mimic.MimicHelper;
     const Renderer = rs.mimic.Renderer;
+
     let changes = [];
     let componentsToArrange = [];
     let componentIDs = [];
@@ -768,7 +770,7 @@ function restoreHistoryPoint(historyPoint) {
                 let documentSource = historyChange.getNewObject();
 
                 if (documentSource) {
-                    Object.assign(mimic.document, documentSource);
+                    Object.assign(mimic.document, MimicFactory.parseProperties(documentSource));
                     unitedRenderer.updateMimicDom();
                     changes.push(Change.updateDocument(mimic.document));
                 } else {
@@ -801,17 +803,12 @@ function restoreHistoryPoint(historyPoint) {
                 let componentSource = historyChange.getNewObject();
 
                 if (component && componentSource) {
-                    Object.assign(component.properties, componentSource.properties);
-                    let change = Change.updateComponent(component.id, component.properties);
-
-                    if (component.name !== componentSource.name) {
-                        component.name = componentSource.name;
-                        change.properties.name = component.name;
-                    }
+                    let temporaryComponent = mimic.createComponent(componentSource);
+                    Object.assign(component.properties, temporaryComponent.properties);
 
                     unitedRenderer.updateComponentDom(component);
                     structTree.updateComponent(component);
-                    changes.push(change);
+                    changes.push(Change.updateComponent(component.id, component.properties));
                 } else {
                     hasError = true;
                 }
@@ -890,7 +887,7 @@ function restoreHistoryPoint(historyPoint) {
         changes.push(Change.arrangeByIndexes(parent.id, componentIDs, componentIndexes));
     }
 
-    propGrid.refresh();
+    propGrid.refresh(true);
     pushChangesNoHistory(...changes);
 
     if (hasError) {

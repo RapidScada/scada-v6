@@ -33,8 +33,6 @@ mimic: @WebUtils.DictionaryToJs(editorManager.ModelTranslation.MimicDict, true),
 
 component: @WebUtils.DictionaryToJs(editorManager.ModelTranslation.ComponentDict, true),
 
-structure: @WebUtils.DictionaryToJs(editorManager.ModelTranslation.StructureDict, true),
-
 components: new Map([
 @foreach (var (typeName, dict) in editorManager.ModelTranslation.ComponentDicts.OrderBy(pair => pair.Key))
 {

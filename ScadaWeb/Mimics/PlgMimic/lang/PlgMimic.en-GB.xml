@@ -129,9 +129,6 @@
     <Phrase key="BottomRight">Bottom right</Phrase>
   </Dictionary>
   <!-- Structures -->
-  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Structure">
-    <Phrase key="TypeName">Type name</Phrase>
-  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Action">
     <Phrase key="ActionType">Action type</Phrase>
     <Phrase key="ChartArgs">Chart arguments</Phrase>

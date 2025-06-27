@@ -31,12 +31,6 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         public LocaleDict ComponentDict { get; private set; }
 
         /// <summary>
-        /// Gets the translation of the basic structure properties. 
-        /// Key is a property name. Value is a display name.
-        /// </summary>
-        public LocaleDict StructureDict { get; private set; }
-
-        /// <summary>
         /// Gets the translation of component properties.
         /// Key is a component type name. 
         /// Value is a dictionary of property names and their display names.
@@ -67,7 +61,6 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             CategoryDict = Locale.GetDictionary(MimicConst.MimicModelPrefix + "Category");
             MimicDict = Locale.GetDictionary(MimicConst.MimicModelPrefix + "Mimic");
             ComponentDict = Locale.GetDictionary(MimicConst.MimicModelPrefix + "Component");
-            StructureDict = Locale.GetDictionary(MimicConst.MimicModelPrefix + "Structure");
             ComponentDicts = [];
 
             foreach (ComponentGroup componentGroup in modelMeta.ComponentGroups)
