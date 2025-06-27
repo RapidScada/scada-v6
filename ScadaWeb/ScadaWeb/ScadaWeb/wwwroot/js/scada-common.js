@@ -170,9 +170,21 @@ class ScadaUtils {
     }
 
     // Creates a full copy of the specified object.
-    static deepClone(obj) {
+    static deepClone(obj, opt_withPrototype) {
         // alternatively, use structuredClone()
-        return JSON.parse(JSON.stringify(obj));
+        let objClone = JSON.parse(JSON.stringify(obj));
+
+        if (obj instanceof Object && opt_withPrototype) {
+            let proto = Object.getPrototypeOf(obj);
+
+            if (proto) {
+                let newObj = Object.create(proto);
+                Object.assign(newObj, objClone);
+                return newObj;
+            }
+        }
+
+        return objClone;
     }
 
     // Checks if the specified locale is Russian. If no argument is specified, the browser locale is checked.
