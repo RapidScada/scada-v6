@@ -1285,14 +1285,12 @@ class PropGrid {
     }
 
     _handleBindingChange(targetObject, propertyName, propertyValue) {
+        // get value from proxy object
         if (propertyValue instanceof ProxyObject) {
             propertyValue = propertyValue.target;
         }
 
-        if (this._selectedObject instanceof UnionObject) {
-            this._selectedObject.setProperty(propertyName, propertyValue);
-        }
-
+        // get top property name and value
         let topTargetObject = PropGridHelper.getTargetObject(this._topObject);
         let topPropertyName = "";
         let topPropertyValue = null;
@@ -1305,6 +1303,12 @@ class PropGrid {
             topPropertyValue = topTargetObject[this._topPropertyName];
         }
 
+        // update union object
+        if (this._topObject instanceof UnionObject) {
+            this._topObject.setProperty(topPropertyName, topPropertyValue);
+        }
+
+        // call event
         this._eventSource.dispatchEvent(new CustomEvent(PropGridEventType.PROPERTY_CHANGED, {
             detail: {
                 selectedObject: this._selectedObject,
@@ -1675,7 +1679,7 @@ class UnionObject {
             if (index === 0) {
                 // add properties of the 1st object
                 for (let [name, value] of Object.entries(editableObj)) {
-                    this.properties[name] = ScadaUtils.deepClone(value);
+                    this.properties[name] = ScadaUtils.deepClone(value, true);
                     let propertyDescriptor = targetDescriptor.get(name);
 
                     if (propertyDescriptor && propertyDescriptor.type !== rs.mimic.BasicType.LIST) {
@@ -1755,7 +1759,7 @@ class UnionObject {
     setProperty(name, value) {
         for (let target of this.targets) {
             let editableObj = this._getEditableObject(target);
-            editableObj[name] = ScadaUtils.deepClone(value);
+            editableObj[name] = ScadaUtils.deepClone(value, true);
         }
     }
 
