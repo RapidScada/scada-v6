@@ -4,6 +4,7 @@
 
 // Create mimic properties.
 rs.mimic.MimicFactory = class {
+    // Parses the document properties from the specified source object.
     static parseProperties(sourceProps) {
         const PropertyParser = rs.mimic.PropertyParser;
         sourceProps ??= {};
@@ -29,8 +30,9 @@ rs.mimic.MimicFactory = class {
 }
 
 // Represents an abstract component factory.
-rs.mimic.ComponentFactory = class ComponentFactory {
-    static _createProperties() {
+rs.mimic.ComponentFactory = class {
+    // Creates new component properties.
+    createProperties() {
         return {
             // behavior
             blinking: false,
@@ -55,7 +57,8 @@ rs.mimic.ComponentFactory = class ComponentFactory {
         };
     }
 
-    static _parseProperties(sourceProps) {
+    // Parses the component properties from the specified source object.
+    parseProperties(sourceProps) {
         const PropertyParser = rs.mimic.PropertyParser;
         sourceProps ??= {};
         return {
@@ -74,7 +77,7 @@ rs.mimic.ComponentFactory = class ComponentFactory {
             // design
             id: PropertyParser.parseInt(sourceProps.id),
             name: PropertyParser.parseString(sourceProps.name),
-            typeName: "",
+            typeName: PropertyParser.parseString(sourceProps.typeName),
 
             // layout
             location: rs.mimic.Point.parse(sourceProps.location),
@@ -82,19 +85,11 @@ rs.mimic.ComponentFactory = class ComponentFactory {
         };
     }
 
-    static _copyProperties(component, source) {
-        component.id = source.id;
-        component.typeName = source.typeName;
-        component.properties = ComponentFactory._parseProperties(source.properties);
-        component.properties.typeName = source.typeName;
-        component.parentID = source.parentID;
-    }
-
     // Creates a new component with the given type name.
     createComponent(typeName) {
         let component = new rs.mimic.Component();
         component.typeName = typeName;
-        component.properties = ComponentFactory._createProperties(typeName);
+        component.properties = this.createProperties(typeName);
         component.properties.typeName = typeName;
         return component;
     }
@@ -102,18 +97,22 @@ rs.mimic.ComponentFactory = class ComponentFactory {
     // Creates a new component with the specified properties, making deep copies of the source properties.
     createComponentFromSource(source) {
         let component = new rs.mimic.Component();
-        ComponentFactory._copyProperties(component, source);
+        component.id = source.id;
+        component.typeName = source.typeName;
+        component.properties = this.parseProperties(source.properties);
+        component.properties.typeName = source.typeName;
+        component.parentID = source.parentID;
         return component;
     }
 };
 
 // Represents an abstract factory for regular non-faceplate components.
 rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
-    createComponent(typeName) {
-        let component = super.createComponent(typeName);
+    createProperties() {
+        let properties = super.createProperties();
 
         // appearance
-        Object.assign(component.properties, {
+        Object.assign(properties, {
             backColor: "",
             border: new rs.mimic.Border(),
             cornerRadius: new rs.mimic.CornerRadius(),
@@ -122,7 +121,7 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
         });
 
         // behavior
-        Object.assign(component.properties, {
+        Object.assign(properties, {
             blinkingState: new rs.mimic.VisualState(),
             clickAction: new rs.mimic.Action(),
             disabledState: new rs.mimic.VisualState(),
@@ -134,13 +133,13 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
         return component;
     }
 
-    createComponentFromSource(source) {
+    parseProperties(sourceProps) {
         const PropertyParser = rs.mimic.PropertyParser;
-        let component = super.createComponentFromSource(source);
-        let sourceProps = source.properties ?? {};
+        let properties = super.parseProperties(sourceProps);
+        sourceProps ??= {};
 
         // appearance
-        Object.assign(component.properties, {
+        Object.assign(properties, {
             backColor: PropertyParser.parseString(sourceProps.backColor),
             border: rs.mimic.Border.parse(sourceProps.border),
             cornerRadius: rs.mimic.CornerRadius.parse(sourceProps.cornerRadius),
@@ -149,7 +148,7 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
         });
 
         // behavior
-        Object.assign(component.properties, {
+        Object.assign(properties, {
             blinkingState: rs.mimic.VisualState.parse(sourceProps.blinkingState),
             clickAction: rs.mimic.Action.parse(sourceProps.clickAction),
             disabledState: rs.mimic.VisualState.parse(sourceProps.disabledState),
@@ -158,14 +157,14 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
             tooltip: PropertyParser.parseString(sourceProps.tooltip)
         });
 
-        return component;
+        return properties;
     }
 };
 
 // Creates components of the Text type.
 rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
-    createComponent() {
-        let component = super.createComponent("Text");
+    createProperties() {
+        let properties = super.createProperties();
 
         // appearance
         Object.assign(component.properties, {
@@ -181,16 +180,16 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
             padding: new rs.mimic.Padding()
         });
 
-        return component;
+        return properties;
     }
 
-    createComponentFromSource(source) {
+    parseProperties(sourceProps) {
         const PropertyParser = rs.mimic.PropertyParser;
-        let component = super.createComponentFromSource(source);
-        let sourceProps = source.properties ?? {};
+        let properties = super.parseProperties(sourceProps);
+        sourceProps ??= {};
 
         // appearance
-        Object.assign(component.properties, {
+        Object.assign(properties, {
             font: rs.mimic.Font.parse(sourceProps.font),
             text: PropertyParser.parseString(sourceProps.text, "Text"),
             textAlign: PropertyParser.parseString(sourceProps.textAlign, rs.mimic.ContentAlignment.TOP_LEFT),
@@ -198,61 +197,69 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
         });
 
         // layout
-        Object.assign(component.properties, {
+        Object.assign(properties, {
             autoSize: PropertyParser.parseBool(sourceProps.autoSize),
             padding: rs.mimic.Padding.parse(sourceProps.padding)
         });
 
-        return component;
+        return properties;
+    }
+
+    createComponent() {
+        return super.createComponent("Text");
     }
 };
 
 // Creates components of the Picture type.
 rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
-    createComponent() {
-        let component = super.createComponent("Picture");
+    createProperties() {
+        let properties = super.createProperties();
 
         // appearance
-        Object.assign(component.properties, {
+        Object.assign(properties, {
             imageName: ""
         });
 
         // behavior
-        Object.assign(component.properties, {
+        Object.assign(properties, {
             conditions: [],
             sizeMode: rs.mimic.ImageSizeMode.NORMAL
         });
 
         // layout
-        Object.assign(component.properties, {
+        Object.assign(properties, {
             padding: new rs.mimic.Padding()
         });
 
-        return component;
+        return properties;
     }
 
-    createComponentFromSource(source) {
+    parseProperties(sourceProps) {
         const PropertyParser = rs.mimic.PropertyParser;
-        let component = super.createComponentFromSource(source);
-        let sourceProps = source.properties ?? {};
+        let properties = super.parseProperties(sourceProps);
+        sourceProps ??= {};
 
         // appearance
-        Object.assign(component.properties, {
+        Object.assign(properties, {
             imageName: PropertyParser.parseString(sourceProps.imageName)
         });
 
         // behavior
-        Object.assign(component.properties, {
+        Object.assign(properties, {
             conditions: PropertyParser.parseImageConditions(sourceProps.conditions),
             sizeMode: PropertyParser.parseString(sourceProps.sizeMode, rs.mimic.ImageSizeMode.NORMAL)
         });
 
         // layout
-        Object.assign(component.properties, {
+        Object.assign(properties, {
             padding: rs.mimic.Padding.parse(sourceProps.padding)
         });
 
-        return component;
+        return properties;
+    }
+
+    createComponent() {
+        return super.createComponent("Picture");
     }
 };
 
@@ -275,7 +282,7 @@ rs.mimic.PanelFactory = class extends rs.mimic.RegularComponentFactory {
 rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
     createComponent(faceplate) {
         let component = new rs.mimic.FaceplateInstance();
-        component.properties = this._createProperties();
+        component.properties = this.createProperties();
 
         if (faceplate) {
             component.typeName = component.properties.typeName = faceplate.typeName;
@@ -287,9 +294,14 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
 
     createComponentFromSource(source, faceplate) {
         let component = new rs.mimic.FaceplateInstance();
-        rs.mimic.ComponentFactory._copyProperties(component, source);
+        component.id = source.id;
+        component.typeName = source.typeName;
+        component.properties = this.parseProperties(source.properties);
+        component.properties.typeName = source.typeName;
+        component.parentID = source.parentID;
 
         if (faceplate) {
+            component.typeName = component.properties.typeName = faceplate.typeName;
             component.applyModel(faceplate);
         }
 
@@ -307,8 +319,9 @@ rs.mimic.FactorySet = class FactorySet {
     ]);
     static getFaceplateFactory(faceplate) {
         return {
-            createComponent: () =>
-                FactorySet.faceplateFactory.createComponent(faceplate),
+            createProperties: () => FactorySet.faceplateFactory.createProperties(),
+            parseProperties: (sourceProps) => FactorySet.faceplateFactory.parseProperties(sourceProps),
+            createComponent: () => FactorySet.faceplateFactory.createComponent(faceplate),
             createComponentFromSource: (source) =>
                 FactorySet.faceplateFactory.createComponentFromSource(source, faceplate)
         };

@@ -274,17 +274,22 @@ rs.mimic.MimicBase = class {
         return this.dependencyMap?.has(typeName);
     }
 
-    // Creates a component instance based on the source object. Returns null if the component factory is not found.
-    createComponent(source) {
+    // Gets the component factory for the specified type, or null if not found.
+    getComponentFactory(typeName) {
         const FactorySet = rs.mimic.FactorySet;
 
-        if (this.isFaceplate(source.typeName)) {
-            let faceplate = this.faceplateMap.get(source.typeName); // can be null
-            return FactorySet.faceplateFactory.createComponentFromSource(source, faceplate);
+        if (this.isFaceplate(typeName)) {
+            let faceplate = this.faceplateMap.get(typeName); // can be null
+            return FactorySet.getFaceplateFactory(faceplate);
         } else {
-            let factory = FactorySet.componentFactories.get(source.typeName);
-            return factory ? factory.createComponentFromSource(source) : null;
+            return FactorySet.componentFactories.get(typeName);
         }
+    }
+
+    // Creates a component instance based on the source object. Returns null if the component factory is not found.
+    createComponent(source) {
+        let factory = this.getComponentFactory(source.typeName);
+        return factory ? factory.createComponentFromSource(source) : null;
     }
 
     // Creates a copy of the component containing only the main properties.

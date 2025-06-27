@@ -801,11 +801,10 @@ function restoreHistoryPoint(historyPoint) {
             case ChangeType.UPDATE_COMPONENT: {
                 let component = mimic.componentMap.get(historyChange.objectID);
                 let componentSource = historyChange.getNewObject();
+                let factory = mimic.getComponentFactory(componentSource?.typeName);
 
-                if (component && componentSource) {
-                    let temporaryComponent = mimic.createComponent(componentSource);
-                    Object.assign(component.properties, temporaryComponent?.properties);
-
+                if (component && componentSource && factory) {
+                    Object.assign(component.properties, factory.parseProperties(componentSource.properties));
                     unitedRenderer.updateComponentDom(component);
                     structTree.updateComponent(component);
                     changes.push(Change.updateComponent(component.id, component.properties));
