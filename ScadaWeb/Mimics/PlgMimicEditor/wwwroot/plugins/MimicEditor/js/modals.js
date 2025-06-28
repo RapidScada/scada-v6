@@ -3,8 +3,8 @@
 
 // Represents a context of a modal dialog.
 class ModalContext {
-    oldObject = null;
-    newObject = null;
+    oldValue = null;
+    newValue = null;
     result = false;
     callback = null;
 
@@ -63,7 +63,7 @@ class FaceplateModal extends ModalBase {
     }
 
     _readFields() {
-        let obj = this._context.newObject;
+        let obj = this._context.newValue;
 
         if (obj) {
             obj.typeName = $("#faceplateModal_txtTypeName").val();
@@ -76,8 +76,8 @@ class FaceplateModal extends ModalBase {
         Object.assign(obj, faceplateMeta);
 
         this._context = new ModalContext({
-            oldObject: faceplateMeta,
-            newObject: obj,
+            oldValue: faceplateMeta,
+            newValue: obj,
             callback: callback
         });
 
@@ -142,7 +142,7 @@ class ImageModal extends ModalBase {
     }
 
     _readFields() {
-        let obj = this._context.newObject;
+        let obj = this._context.newValue;
 
         if (obj) {
             obj.name = $("#imageModal_txtName").val();
@@ -204,8 +204,8 @@ class ImageModal extends ModalBase {
         Object.assign(obj, image);
 
         this._context = new ModalContext({
-            oldObject: image,
-            newObject: obj,
+            oldValue: image,
+            newValue: obj,
             callback: callback
         });
 
@@ -214,6 +214,17 @@ class ImageModal extends ModalBase {
         $("#imageModal_file").val("");
         this._showFileSize(this._getFileSize(obj.data));
         this._showImage(obj.dataUrl);
+        this._modal.show();
+    }
+}
+
+// Represents a modal dialog for editing text.
+class TextEditorModal extends ModalBase {
+    constructor(elemID) {
+        super(elemID);
+    }
+
+    show(value, options, callback) {
         this._modal.show();
     }
 }

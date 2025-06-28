@@ -1,0 +1,22 @@
+﻿@{
+    dynamic dict = Locale.GetDictionary(typeof(MimicEditModel).FullName + ".TextEditorModal");
+}
+<!-- Text editor modal -->
+<div id="divTextEditorModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 text-truncate">@dict.PageTitle</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="frmTextEditorModal" spellcheck="false">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="textEditorModal_btnOK" class="btn btn-primary">@dict.btnOK</button>
+                <button type="button" id="textEditorModal_btnCancel" class="btn btn-secondary" data-bs-dismiss="modal">@dict.btnCancel</button>
+            </div>
+        </div>
+    </div>
+</div>

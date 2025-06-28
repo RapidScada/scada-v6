@@ -806,8 +806,8 @@ class MimicHistory {
 
 // Represents a context of a modal dialog.
 class ModalContext {
-    oldObject = null;
-    newObject = null;
+    oldValue = null;
+    newValue = null;
     result = false;
     callback = null;
 
@@ -866,7 +866,7 @@ class FaceplateModal extends ModalBase {
     }
 
     _readFields() {
-        let obj = this._context.newObject;
+        let obj = this._context.newValue;
 
         if (obj) {
             obj.typeName = $("#faceplateModal_txtTypeName").val();
@@ -879,8 +879,8 @@ class FaceplateModal extends ModalBase {
         Object.assign(obj, faceplateMeta);
 
         this._context = new ModalContext({
-            oldObject: faceplateMeta,
-            newObject: obj,
+            oldValue: faceplateMeta,
+            newValue: obj,
             callback: callback
         });
 
@@ -945,7 +945,7 @@ class ImageModal extends ModalBase {
     }
 
     _readFields() {
-        let obj = this._context.newObject;
+        let obj = this._context.newValue;
 
         if (obj) {
             obj.name = $("#imageModal_txtName").val();
@@ -1007,8 +1007,8 @@ class ImageModal extends ModalBase {
         Object.assign(obj, image);
 
         this._context = new ModalContext({
-            oldObject: image,
-            newObject: obj,
+            oldValue: image,
+            newValue: obj,
             callback: callback
         });
 
@@ -1017,6 +1017,17 @@ class ImageModal extends ModalBase {
         $("#imageModal_file").val("");
         this._showFileSize(this._getFileSize(obj.data));
         this._showImage(obj.dataUrl);
+        this._modal.show();
+    }
+}
+
+// Represents a modal dialog for editing text.
+class TextEditorModal extends ModalBase {
+    constructor(elemID) {
+        super(elemID);
+    }
+
+    show(value, options, callback) {
         this._modal.show();
     }
 }
@@ -1160,12 +1171,12 @@ class PropGrid {
                     title: this._getEditButtonText(propertyValue)
                 })
                 .on("click", () => {
-                    PropGridDialogs.showEditor(propertyDescriptor, propertyValue, (newPropertyValue) => {
+                    PropGridDialogs.showEditor(propertyValue, propertyDescriptor, (newPropertyValue) => {
                         targetObject[propertyName] = newPropertyValue;
                         this._handleBindingChange(targetObject, propertyName, newPropertyValue);
                     });
                 });
-        } if (typeof propertyValue === "number" ||
+        } else if (typeof propertyValue === "number" ||
             typeof propertyValue === "string" ||
             typeof propertyValue === "boolean") {
             // simple property is editable in row
@@ -1628,22 +1639,34 @@ class PropGridHelper {
 }
 
 // Calls property editors implemented as modal dialogs.
-// Callbacks are function (newPropertyValue)
 class PropGridDialogs {
     static imagePickerModal = null;
     static propertyPickerModal = null;
     static textEditorModal = null;
 
-    static _showImagePicker(options, value, callback) {
+    // Shows the image picker.
+    static _showImagePicker(value, options, callback) {
     }
 
-    static _showPropertyPicker(options, value, callback) {
+    // Shows the property picker.
+    static _showPropertyPicker(value, options, callback) {
     }
 
-    static _showTextEditor(options, value, callback) {
-
+    // Shows the text editor.
+    static _showTextEditor(value, options, callback) {
+        PropGridDialogs.textEditorModal.show(value, options, (modalContext) => {
+            PropGridDialogs._invokeCallback(modalContext, callback);
+        });
     }
 
+    // Invokes the callback function.
+    static _invokeCallback(modalContext, callback) {
+        if (modalContext.result && callback instanceof Function) {
+            callback(modalContext.newValue);
+        }
+    }
+
+    // Checks whether an editor for the specified property is supported.
     static editorSupported(propertyDescriptor) {
         const PropertyEditor = rs.mimic.PropertyEditor;
         let editor = propertyDescriptor?.editor;
@@ -1653,22 +1676,25 @@ class PropGridDialogs {
             editor === PropertyEditor.TEXT_EDITOR && PropGridDialogs.textEditorModal;
     }
 
-    static showEditor(propertyDescriptor, propertyValue, callback) {
+    // Shows an editor as a modal dialog.
+    // callback is a function (newPropertyValue)
+    static showEditor(propertyValue, propertyDescriptor, callback) {
         if (propertyDescriptor) {
+            const PropertyEditor = rs.mimic.PropertyEditor;
             let editor = propertyDescriptor.editor;
             let options = propertyDescriptor.editorOptions;
 
             if (editor === PropertyEditor.IMAGE_PICKER) {
                 if (PropGridDialogs.imagePickerModal) {
-                    PropGridDialogs._showImagePicker(options, propertyValue, callback);
+                    PropGridDialogs._showImagePicker(propertyValue, options, callback);
                 }
             } else if (editor === PropertyEditor.PROPERTY_PICKER) {
                 if (PropGridDialogs.propertyPickerModal) {
-                    PropGridDialogs._showPropertyPicker(options, propertyValue, callback);
+                    PropGridDialogs._showPropertyPicker(propertyValue, options, callback);
                 }
             } else if (editor === PropertyEditor.TEXT_EDITOR) {
                 if (PropGridDialogs.textEditorModal) {
-                    PropGridDialogs._showTextEditor(options, propertyValue, callback);
+                    PropGridDialogs._showTextEditor(propertyValue, options, callback);
                 }
             }
         }

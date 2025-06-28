@@ -58,6 +58,11 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.TextEditorModal">
+    <Phrase key="PageTitle">Text Editor</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ToolbarContents">
     <Phrase key="btnSave">Save (Ctrl + S)</Phrase>
     <Phrase key="btnUndo">Undo (Ctrl + Z)</Phrase>

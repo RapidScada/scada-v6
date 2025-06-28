@@ -203,7 +203,7 @@ function initStructTree() {
     // dependencies
     structTree.addEventListener(StructTreeEventType.ADD_DEPENDENCY_CLICK, function () {
         faceplateModal.show(null, function (context) {
-            addDependency(context.newObject);
+            addDependency(context.newValue);
         });
     });
 
@@ -213,7 +213,7 @@ function initStructTree() {
 
         if (faceplateMeta) {
             faceplateModal.show(faceplateMeta, function (context) {
-                addDependency(context.newObject, context.oldObject);
+                addDependency(context.newValue, context.oldValue);
             });
         } else {
             console.error("Dependency not found.");
@@ -229,7 +229,7 @@ function initStructTree() {
     // images
     structTree.addEventListener(StructTreeEventType.ADD_IMAGE_CLICK, function () {
         imageModal.show(null, function (context) {
-            addImage(context.newObject);
+            addImage(context.newValue);
         });
     });
 
@@ -238,7 +238,7 @@ function initStructTree() {
 
         if (image) {
             imageModal.show(image, function (context) {
-                addImage(context.newObject, context.oldObject);
+                addImage(context.newValue, context.oldValue);
             });
         } else {
             console.error("Image not found.");
@@ -293,6 +293,7 @@ function initPropGrid() {
 function initModals() {
     faceplateModal = new FaceplateModal("divFaceplateModal");
     imageModal = new ImageModal("divImageModal");
+    PropGridDialogs.textEditorModal = new TextEditorModal("divTextEditorModal");
 }
 
 async function loadMimic() {
@@ -695,7 +696,7 @@ function addDependency(faceplateMeta, opt_oldfaceplateMeta) {
 
     if (oldTypeName && oldTypeName !== faceplateMeta.typeName) {
         mimic.removeDependency(oldTypeName);
-        changes.push(Change.removeDependency(typeName));
+        changes.push(Change.removeDependency(oldTypeName));
     }
 
     mimic.addDependency(faceplateMeta);
