@@ -375,7 +375,8 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
             name: "script",
             displayName: "Script",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRING
+            type: BasicType.STRING,
+            editor: PropertyEditor.TEXT_EDITOR
         }));
 
         this.add(new PropertyDescriptor({
