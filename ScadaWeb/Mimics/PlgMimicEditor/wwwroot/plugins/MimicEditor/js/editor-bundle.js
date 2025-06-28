@@ -1152,7 +1152,20 @@ class PropGrid {
         let blade = null;
         let container = this._selectContainer(folderMap, propertyDescriptor);
 
-        if (typeof propertyValue === "number" ||
+        if (PropGridDialogs.editorSupported(propertyDescriptor)) {
+            // property editor called by button click
+            blade = container
+                .addButton({
+                    label: propertyDescriptor.displayName,
+                    title: this._getEditButtonText(propertyValue)
+                })
+                .on("click", () => {
+                    PropGridDialogs.showEditor(propertyDescriptor, propertyValue, (newPropertyValue) => {
+                        targetObject[propertyName] = newPropertyValue;
+                        this._handleBindingChange(targetObject, propertyName, newPropertyValue);
+                    });
+                });
+        } if (typeof propertyValue === "number" ||
             typeof propertyValue === "string" ||
             typeof propertyValue === "boolean") {
             // simple property is editable in row
@@ -1180,7 +1193,7 @@ class PropGrid {
                 // complex property requires braking into simple properties
                 blade = container
                     .addButton({
-                        label: propertyDescriptor?.displayName ?? propertyName,
+                        label: propertyDescriptor ? propertyDescriptor.displayName : propertyName,
                         title: this._phrases.editButton
                     })
                     .on("click", () => {
@@ -1220,6 +1233,19 @@ class PropGrid {
         return propertyDescriptor && propertyDescriptor.category
             ? folderMap.get(propertyDescriptor.category) ?? this._tweakpane
             : this._tweakpane;
+    }
+
+    _getEditButtonText(propertyValue) {
+        const MaxLength = 20;
+        let text = propertyValue ? propertyValue.toString() : "";        
+
+        if (text) {
+            return text.length > MaxLength
+                ? message.substring(0, MaxLength) + "..."
+                : text;
+        }
+
+        return this._phrases.editButton;
     }
 
     _createProxyObject(propertyValue, propertyDescriptor) {
@@ -1602,20 +1628,50 @@ class PropGridHelper {
 }
 
 // Calls property editors implemented as modal dialogs.
-// Callbacks are function (propertyValue)
+// Callbacks are function (newPropertyValue)
 class PropGridDialogs {
     static imagePickerModal = null;
     static propertyPickerModal = null;
     static textEditorModal = null;
 
-    static showImagePicker(callback) {
+    static _showImagePicker(options, value, callback) {
     }
 
-    static showPropertyPicker(callback) {
+    static _showPropertyPicker(options, value, callback) {
     }
 
-    static showTextEditor(callback) {
+    static _showTextEditor(options, value, callback) {
 
+    }
+
+    static editorSupported(propertyDescriptor) {
+        const PropertyEditor = rs.mimic.PropertyEditor;
+        let editor = propertyDescriptor?.editor;
+        return editor &&
+            editor === PropertyEditor.IMAGE_PICKER && PropGridDialogs.imagePickerModal ||
+            editor === PropertyEditor.PROPERTY_PICKER && PropGridDialogs.propertyPickerModal ||
+            editor === PropertyEditor.TEXT_EDITOR && PropGridDialogs.textEditorModal;
+    }
+
+    static showEditor(propertyDescriptor, propertyValue, callback) {
+        if (propertyDescriptor) {
+            let editor = propertyDescriptor.editor;
+            let options = propertyDescriptor.editorOptions;
+
+            if (editor === PropertyEditor.IMAGE_PICKER) {
+                if (PropGridDialogs.imagePickerModal) {
+                    PropGridDialogs._showImagePicker(options, propertyValue, callback);
+                }
+            } else if (editor === PropertyEditor.PROPERTY_PICKER) {
+                if (PropGridDialogs.propertyPickerModal) {
+                    PropGridDialogs._showPropertyPicker(options, propertyValue, callback);
+                }
+            } else if (editor === PropertyEditor.TEXT_EDITOR) {
+                if (PropGridDialogs.textEditorModal) {
+                    PropGridDialogs._showTextEditor(options, propertyValue, callback);
+                }
+            }
+        }
     }
 }
 

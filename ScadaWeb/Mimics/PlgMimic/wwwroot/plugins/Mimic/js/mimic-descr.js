@@ -75,6 +75,7 @@ rs.mimic.PropertyDescriptor = class {
     subtype = "";
     editor = "";
     tweakpaneOptions = null;
+    editorOptions = null;
 
     constructor(source) {
         Object.assign(this, source);
