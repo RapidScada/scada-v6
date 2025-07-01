@@ -20,14 +20,22 @@
 }
 
 @section Scripts {
+    <script type="importmap">
+        {
+            "imports": {
+              "lib/": "./../../../plugins/MimicEditor/lib/"
+            }
+        }
+    </script>
     <script type="module">
-        import { Pane as Tweakpane } from './../../../plugins/MimicEditor/lib/tweakpane/tweakpane-4.0.5.min.js';
-        import * as TweakpaneEssentialsPlugin from './../../../plugins/MimicEditor/lib/tweakpane/tweakpane-plugin-essentials-0.2.1.min.js';
+        import { Pane as Tweakpane } from "lib/tweakpane/tweakpane-4.0.5.min.js";
+        import * as TweakpaneEssentialsPlugin from "lib/tweakpane/tweakpane-plugin-essentials-0.2.1.min.js";
         window.Tweakpane = Tweakpane;
         window.TweakpaneEssentialsPlugin = TweakpaneEssentialsPlugin;
     </script>
     <script src="~/js/components/splitter.js" asp-append-version="true"></script>
     <script src="~/plugins/Mimic/js/mimic-bundle.js" asp-append-version="true"></script>
+    <script src="~/plugins/MimicEditor/lib/codeflask/codeflask.min.js" asp-append-version="true"></script>
     <script src="~/plugins/MimicEditor/js/editor-bundle.js" asp-append-version="true"></script>
     <script src="~/plugins/MimicEditor/js/mimic-edit.js" asp-append-version="true"></script>
     <script src="~/plugins/MimicEditor/js/mimic-edit-lang.js"></script>

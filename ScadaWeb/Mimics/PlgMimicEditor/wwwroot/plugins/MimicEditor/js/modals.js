@@ -220,11 +220,16 @@ class ImageModal extends ModalBase {
 
 // Represents a modal dialog for editing text.
 class TextEditorModal extends ModalBase {
+    _flask;
+
     constructor(elemID) {
         super(elemID);
+        let editorElem = this._elem.find(".editor:first");
+        this._flask = new CodeFlask(editorElem[0], { language: "js" });
     }
 
     show(value, options, callback) {
+        this._flask.updateCode(value);
         this._modal.show();
     }
 }
