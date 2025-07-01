@@ -147,7 +147,8 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "Stylesheet",
             category: KnownCategory.APPEARANCE,
             type: BasicType.STRING,
-            editor: PropertyEditor.TEXT_EDITOR
+            editor: PropertyEditor.TEXT_EDITOR,
+            editorOptions: { language: "css" }
         }));
 
         // behavior
@@ -156,7 +157,8 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "Script",
             category: KnownCategory.BEHAVIOR,
             type: BasicType.STRING,
-            editor: PropertyEditor.TEXT_EDITOR
+            editor: PropertyEditor.TEXT_EDITOR,
+            editorOptions: { language: "js" }
         }));
 
         this.add(new PropertyDescriptor({
@@ -376,7 +378,8 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
             displayName: "Script",
             category: KnownCategory.BEHAVIOR,
             type: BasicType.STRING,
-            editor: PropertyEditor.TEXT_EDITOR
+            editor: PropertyEditor.TEXT_EDITOR,
+            editorOptions: { language: "js" }
         }));
 
         this.add(new PropertyDescriptor({
@@ -545,7 +548,8 @@ rs.mimic.ActionDescriptor = class extends rs.mimic.StructureDescriptor {
             name: "script",
             displayName: "Script",
             type: BasicType.STRING,
-            editor: PropertyEditor.TEXT_EDITOR
+            editor: PropertyEditor.TEXT_EDITOR,
+            editorOptions: { language: "js" }
         }));
     }
 };

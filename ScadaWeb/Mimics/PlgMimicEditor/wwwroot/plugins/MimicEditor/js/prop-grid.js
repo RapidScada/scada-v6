@@ -218,7 +218,7 @@ class PropGrid {
 
         if (text) {
             return text.length > MaxLength
-                ? message.substring(0, MaxLength) + "..."
+                ? text.substring(0, MaxLength) + "..."
                 : text;
         }
 

@@ -24,6 +24,12 @@ class ModalBase {
         this._modal = new bootstrap.Modal(this._elem[0]);
         this._context = new ModalContext();
     }
+
+    _invokeCallback() {
+        if (this._context.result && this._context.callback instanceof Function) {
+            this._context.callback.call(this, this._context);
+        }
+    }
 }
 
 // Represents a modal dialog for editing a faceplate meta.
@@ -56,9 +62,7 @@ class FaceplateModal extends ModalBase {
                 $("#faceplateModal_txtTypeName").focus();
             })
             .on("hidden.bs.modal", () => {
-                if (this._context.result && this._context.callback instanceof Function) {
-                    this._context.callback.call(this, this._context);
-                }
+                this._invokeCallback();
             });
     }
 
@@ -135,9 +139,7 @@ class ImageModal extends ModalBase {
                 $("#imageModal_txtName").focus();
             })
             .on("hidden.bs.modal", () => {
-                if (this._context.result && this._context.callback instanceof Function) {
-                    this._context.callback.call(this, this._context);
-                }
+                this._invokeCallback();
             });
     }
 
@@ -220,15 +222,56 @@ class ImageModal extends ModalBase {
 
 // Represents a modal dialog for editing text.
 class TextEditorModal extends ModalBase {
+    static DEFAULT_OPTIONS = {
+        language: "html" // empty not supported
+    }
+
     _flask;
 
     constructor(elemID) {
         super(elemID);
-        let editorElem = this._elem.find(".editor:first");
-        this._flask = new CodeFlask(editorElem[0], { language: "js" });
+        let editorElem = $("#textEditorModal_divEditor");
+        this._flask = new CodeFlask(editorElem[0], TextEditorModal.DEFAULT_OPTIONS);
+        this._bindEvents();
+    }
+
+    _bindEvents() {
+        $("#textEditorModal_btnOK").on("click", () => {
+            this._context.newValue = this._flask.getCode();
+            this._context.result = true;
+            this._modal.hide();
+        });
+
+        this._elem
+            .on("shown.bs.modal", () => {
+                $("#textEditorModal_divEditor textarea").focus();
+            })
+            .on("hidden.bs.modal", () => {
+                this._invokeCallback();
+            });
+    }
+
+    _showLanguage(language) {
+        let lblLanguage = $("#textEditorModal_lblLanguage");
+
+        if (language === "css") {
+            lblLanguage.text("CSS").removeClass("d-none");
+        } else if (language === "js") {
+            lblLanguage.text("JavaScript").removeClass("d-none");
+        } else {
+            lblLanguage.text("Text").addClass("d-none");
+        }
     }
 
     show(value, options, callback) {
+        this._context = new ModalContext({
+            oldValue: value,
+            callback: callback
+        });
+
+        options ??= TextEditorModal.DEFAULT_OPTIONS;
+        this._showLanguage(options.language);
+        this._flask.updateLanguage(options.language);
         this._flask.updateCode(value);
         this._modal.show();
     }
