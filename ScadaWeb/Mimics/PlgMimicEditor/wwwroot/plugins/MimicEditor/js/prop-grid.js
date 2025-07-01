@@ -138,8 +138,10 @@ class PropGrid {
                 })
                 .on("click", () => {
                     PropGridDialogs.showEditor(propertyValue, propertyDescriptor, (newPropertyValue) => {
-                        targetObject[propertyName] = newPropertyValue;
-                        this._handleBindingChange(targetObject, propertyName, newPropertyValue);
+                        propertyValue = newPropertyValue;
+                        blade.title = this._getEditButtonText(propertyValue);
+                        targetObject[propertyName] = propertyValue;
+                        this._handleBindingChange(targetObject, propertyName, propertyValue);
                     });
                 });
         } else if (typeof propertyValue === "number" ||
@@ -214,7 +216,7 @@ class PropGrid {
 
     _getEditButtonText(propertyValue) {
         const MaxLength = 20;
-        let text = propertyValue ? propertyValue.toString() : "";        
+        let text = propertyValue ? propertyValue.toString().trimStart() : "";
 
         if (text) {
             return text.length > MaxLength
