@@ -1,0 +1,12 @@
+dotnet build ScadaCommon/ScadaCommon.sln -c Release
+dotnet build ScadaAgent/ScadaAgent/ScadaAgent.sln -c Release
+dotnet build ScadaComm/ScadaComm/ScadaComm.sln -c Release
+dotnet build ScadaServer/ScadaServer/ScadaServer.sln -c Release
+dotnet build ScadaWeb/ScadaWeb/ScadaWeb.sln -c Release
+dotnet build ScadaAdmin/ScadaAdmin/ScadaAdmin.sln -c Release
+dotnet build ScadaReport/ScadaReport.sln -c Release
+dotnet build ScadaComm/OpenDrivers/OpenDrivers.sln -c Release
+dotnet build ScadaComm/OpenDrivers2/OpenDrivers2.sln -c Release
+dotnet build ScadaServer/OpenModules/OpenModules.sln -c Release
+dotnet build ScadaWeb/OpenPlugins/OpenPlugins.sln -c Release
+dotnet build ScadaAdmin/OpenExtensions/OpenExtensions.sln -c Release
