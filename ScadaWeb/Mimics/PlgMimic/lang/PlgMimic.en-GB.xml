@@ -73,6 +73,7 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Picture">
     <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="Rotation">Rotation</Phrase>
     <Phrase key="Conditions">Conditions</Phrase>
     <Phrase key="SizeMode">Size mode</Phrase>
     <Phrase key="Padding">Padding</Phrase>

@@ -219,7 +219,8 @@ rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
 
         // appearance
         Object.assign(properties, {
-            imageName: ""
+            imageName: "",
+            rotation: 0
         });
 
         // behavior
@@ -243,7 +244,8 @@ rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
 
         // appearance
         Object.assign(properties, {
-            imageName: PropertyParser.parseString(sourceProps.imageName)
+            imageName: PropertyParser.parseString(sourceProps.imageName),
+            rotation: PropertyParser.parseFloat(sourceProps.rotation)
         });
 
         // behavior

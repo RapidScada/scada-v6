@@ -519,6 +519,13 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             editor: PropertyEditor.IMAGE_PICKER
         }));
 
+        this.add(new PropertyDescriptor({
+            name: "rotation",
+            displayName: "Rotation",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.FLOAT
+        }));
+
         // behavior
         this.add(new PropertyDescriptor({
             name: "conditions",
@@ -842,7 +849,8 @@ rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
 
         // appearance
         Object.assign(properties, {
-            imageName: ""
+            imageName: "",
+            rotation: 0
         });
 
         // behavior
@@ -866,7 +874,8 @@ rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
 
         // appearance
         Object.assign(properties, {
-            imageName: PropertyParser.parseString(sourceProps.imageName)
+            imageName: PropertyParser.parseString(sourceProps.imageName),
+            rotation: PropertyParser.parseFloat(sourceProps.rotation)
         });
 
         // behavior

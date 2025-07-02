@@ -475,6 +475,13 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             editor: PropertyEditor.IMAGE_PICKER
         }));
 
+        this.add(new PropertyDescriptor({
+            name: "rotation",
+            displayName: "Rotation",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.FLOAT
+        }));
+
         // behavior
         this.add(new PropertyDescriptor({
             name: "conditions",
