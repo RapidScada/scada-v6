@@ -271,6 +271,7 @@ class PropGrid {
         switch (propertyDescriptor.type) {
             case BasicType.INT:
                 bindingOptions.format = (v) => v.toFixed();
+                bindingOptions.step = 1;
                 break;
 
             case BasicType.STRING:
