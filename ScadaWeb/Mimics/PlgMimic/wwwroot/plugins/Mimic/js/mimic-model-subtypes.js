@@ -1,8 +1,8 @@
-﻿// Contains classes:
-//     ActionType, CompareOperator, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth, ContentAlignment,
-//     Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
-//     PropertyBinding, PropertyExport, Size, VisualState,
-//     PropertyParser
+﻿// Enumerations: ActionType, CompareOperator, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth, ContentAlignment,
+//     TextDirection
+// Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
+//     PropertyBinding, PropertyExport, Size, VisualState
+// Misc: PropertyParser
 // No dependencies
 
 // --- Enumerations ---
@@ -69,6 +69,13 @@ rs.mimic.ContentAlignment = class {
     static BOTTOM_CENTER = "BottomCenter";
     static BOTTOM_RIGHT = "BottomRight";
 };
+
+// Specifies the text directions.
+rs.mimic.TextDirection = class {
+    static HORIZONTAL = "Horizontal";
+    static VERTICAL90 = "Vertical90";
+    static VERTICAL270 = "Vertical270";
+}
 
 // --- Structures ---
 

@@ -82,6 +82,7 @@ rs.mimic.Subtype = class {
     static LINK_TARGET = "LinkTarget";
     static MODAL_WIDTH = "ModalWidth";
     static CONTENT_ALIGNMENT = "ContentAlignment";
+    static TEXT_DIRECTION = "TextDirection";
 
     // Structures
     static ACTION = "Action";
@@ -468,6 +469,14 @@ rs.mimic.TextDescriptor = class extends rs.mimic.RegularComponentDescriptor {
         }));
 
         this.add(new PropertyDescriptor({
+            name: "textDirection",
+            displayName: "Text direction",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.ENUM,
+            subtype: Subtype.TEXT_DIRECTION
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "wordWrap",
             displayName: "Word wrap",
             category: KnownCategory.APPEARANCE,
@@ -785,6 +794,7 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
             font: new rs.mimic.Font(),
             text: "Text",
             textAlign: rs.mimic.ContentAlignment.TOP_LEFT,
+            textDirection: rs.mimic.TextDirection.HORIZONTAL,
             wordWrap: false
         });
 
@@ -807,6 +817,7 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
             font: rs.mimic.Font.parse(sourceProps.font),
             text: PropertyParser.parseString(sourceProps.text, "Text"),
             textAlign: PropertyParser.parseString(sourceProps.textAlign, rs.mimic.ContentAlignment.TOP_LEFT),
+            textDirection: PropertyParser.parseString(sourceProps.textDirection, rs.mimic.TextDirection.HORIZONTAL),
             wordWrap: PropertyParser.parseBool(sourceProps.wordWrap)
         });
 
@@ -1887,11 +1898,11 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
     }
 };
 
-// Contains classes:
-//     ActionType, CompareOperator, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth, ContentAlignment,
-//     Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
-//     PropertyBinding, PropertyExport, Size, VisualState,
-//     PropertyParser
+// Enumerations: ActionType, CompareOperator, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth, ContentAlignment,
+//     TextDirection
+// Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
+//     PropertyBinding, PropertyExport, Size, VisualState
+// Misc: PropertyParser
 // No dependencies
 
 // --- Enumerations ---
@@ -1958,6 +1969,13 @@ rs.mimic.ContentAlignment = class {
     static BOTTOM_CENTER = "BottomCenter";
     static BOTTOM_RIGHT = "BottomRight";
 };
+
+// Specifies the text directions.
+rs.mimic.TextDirection = class {
+    static HORIZONTAL = "Horizontal";
+    static VERTICAL90 = "Vertical90";
+    static VERTICAL270 = "Vertical270";
+}
 
 // --- Structures ---
 

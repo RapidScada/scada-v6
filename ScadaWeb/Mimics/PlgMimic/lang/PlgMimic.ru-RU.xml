@@ -66,6 +66,7 @@
     <Phrase key="Font">Шрифт</Phrase>
     <Phrase key="Text">Текст</Phrase>
     <Phrase key="TextAlign">Выравнивание текста</Phrase>
+    <Phrase key="TextDirection">Направление текста</Phrase>
     <Phrase key="WordWrap">Перенос по словам</Phrase>
     <Phrase key="AutoSize">Авто размер</Phrase>
     <Phrase key="Padding">Отступ</Phrase>
@@ -127,6 +128,11 @@
     <Phrase key="BottomLeft">Внизу слева</Phrase>
     <Phrase key="BottomCenter">Внизу по центру</Phrase>
     <Phrase key="BottomRight">Внизу справа</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.TextDirection">
+    <Phrase key="Horizontal">Горизонтально</Phrase>
+    <Phrase key="Vertical90">Вертикально 90°</Phrase>
+    <Phrase key="Vertical270">Вертикально 270°</Phrase>
   </Dictionary>
   <!-- Structures -->
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Action">

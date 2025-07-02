@@ -171,6 +171,7 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
             font: new rs.mimic.Font(),
             text: "Text",
             textAlign: rs.mimic.ContentAlignment.TOP_LEFT,
+            textDirection: rs.mimic.TextDirection.HORIZONTAL,
             wordWrap: false
         });
 
@@ -193,6 +194,7 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
             font: rs.mimic.Font.parse(sourceProps.font),
             text: PropertyParser.parseString(sourceProps.text, "Text"),
             textAlign: PropertyParser.parseString(sourceProps.textAlign, rs.mimic.ContentAlignment.TOP_LEFT),
+            textDirection: PropertyParser.parseString(sourceProps.textDirection, rs.mimic.TextDirection.HORIZONTAL),
             wordWrap: PropertyParser.parseBool(sourceProps.wordWrap)
         });
 

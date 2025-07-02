@@ -66,6 +66,7 @@
     <Phrase key="Font">Font</Phrase>
     <Phrase key="Text">Text</Phrase>
     <Phrase key="TextAlign">Text alignment</Phrase>
+    <Phrase key="TextDirection">Text direction</Phrase>
     <Phrase key="WordWrap">Word wrap</Phrase>
     <Phrase key="AutoSize">Auto size</Phrase>
     <Phrase key="Padding">Padding</Phrase>
@@ -127,6 +128,11 @@
     <Phrase key="BottomLeft">Bottom left</Phrase>
     <Phrase key="BottomCenter">Bottom center</Phrase>
     <Phrase key="BottomRight">Bottom right</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.TextDirection">
+    <Phrase key="Horizontal">Horizontal</Phrase>
+    <Phrase key="Vertical90">Vertical 90°</Phrase>
+    <Phrase key="Vertical270">Vertical 270°</Phrase>
   </Dictionary>
   <!-- Structures -->
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Action">

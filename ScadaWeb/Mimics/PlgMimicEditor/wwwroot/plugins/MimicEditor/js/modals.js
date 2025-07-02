@@ -263,16 +263,16 @@ class TextEditorModal extends ModalBase {
         }
     }
 
-    show(value, options, callback) {
+    show(text, options, callback) {
         this._context = new ModalContext({
-            oldValue: value,
+            oldValue: text,
             callback: callback
         });
 
         options ??= TextEditorModal.DEFAULT_OPTIONS;
         this._showLanguage(options.language);
         this._flask.updateLanguage(options.language);
-        this._flask.updateCode(value);
+        this._flask.updateCode(text);
         this._modal.show();
     }
 }

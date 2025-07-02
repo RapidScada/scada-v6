@@ -38,6 +38,7 @@ rs.mimic.Subtype = class {
     static LINK_TARGET = "LinkTarget";
     static MODAL_WIDTH = "ModalWidth";
     static CONTENT_ALIGNMENT = "ContentAlignment";
+    static TEXT_DIRECTION = "TextDirection";
 
     // Structures
     static ACTION = "Action";
@@ -421,6 +422,14 @@ rs.mimic.TextDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             category: KnownCategory.APPEARANCE,
             type: BasicType.ENUM,
             subtype: Subtype.CONTENT_ALIGNMENT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "textDirection",
+            displayName: "Text direction",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.ENUM,
+            subtype: Subtype.TEXT_DIRECTION
         }));
 
         this.add(new PropertyDescriptor({

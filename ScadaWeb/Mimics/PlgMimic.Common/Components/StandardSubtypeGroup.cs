@@ -21,6 +21,7 @@ namespace Scada.Web.Plugins.PlgMimic.Components
                 "LinkTarget",
                 "ModalWidth",
                 "ContentAlignment",
+                "TextDirection"
             ]);
 
             StructNames.AddRange([
