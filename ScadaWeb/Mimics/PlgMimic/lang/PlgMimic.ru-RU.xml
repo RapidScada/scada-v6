@@ -143,4 +143,54 @@
     <Phrase key="LinkArgs">Аргументы ссылки</Phrase>
     <Phrase key="Script">Скрипт</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Border">
+    <Phrase key="Width">Ширина</Phrase>
+    <Phrase key="Color">Цвет</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.CommandArgs">
+    <Phrase key="ShowDialog">Показать диалог</Phrase>
+    <Phrase key="CmdVal">Значение команды</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.CornerRadius">
+    <Phrase key="TopLeft">Верхний левый</Phrase>
+    <Phrase key="TopRight">Верхний правый</Phrase>
+    <Phrase key="BottomRight">Нижний правый</Phrase>
+    <Phrase key="BottomLeft">Нижний левый</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ImageCondition">
+    <Phrase key="ComparisonOper1">Сравнение 1</Phrase>
+    <Phrase key="ComparisonArg1">Аргумент 1</Phrase>
+    <Phrase key="LogicalOper">Логический оператор</Phrase>
+    <Phrase key="ComparisonOper2">Сравнение 2</Phrase>
+    <Phrase key="ComparisonArg2">Аргумент 2</Phrase>
+    <Phrase key="ImageName">Изображение</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.LinkArgs">
+    <Phrase key="Url">Адрес</Phrase>
+    <Phrase key="Target">Цель</Phrase>
+    <Phrase key="ViewID">Представление</Phrase>
+    <Phrase key="ModalWidth">Ширина окна</Phrase>
+    <Phrase key="ModalHeight">Высота окна</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Padding">
+    <Phrase key="Top">Верхний</Phrase>
+    <Phrase key="Right">Правый</Phrase>
+    <Phrase key="Bottom">Нижний</Phrase>
+    <Phrase key="Left">Левый</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.PropertyBinding">
+    <Phrase key="PropertyName">Имя свойства</Phrase>
+    <Phrase key="DataSource">Источник данных</Phrase>
+    <Phrase key="DataMember">Элемент данных</Phrase>
+    <Phrase key="Format">Формат</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.PropertyExport">
+    <Phrase key="Name">Имя свойства</Phrase>
+    <Phrase key="Path">Путь</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.VisualState">
+    <Phrase key="backColor">Цвет фона</Phrase>
+    <Phrase key="foreColor">Цвет текста</Phrase>
+    <Phrase key="borderColor">Цвет границы</Phrase>
+  </Dictionary>
 </PlgMimicDictionaries>

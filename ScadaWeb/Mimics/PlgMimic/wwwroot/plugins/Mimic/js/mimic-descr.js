@@ -834,7 +834,7 @@ rs.mimic.PropertyExportDescriptor = class extends rs.mimic.StructureDescriptor {
 
         this.add(new PropertyDescriptor({
             name: "name",
-            displayName: "Name",
+            displayName: "Property name",
             type: BasicType.STRING
         }));
 
@@ -890,7 +890,6 @@ rs.mimic.DescriptorSet = class {
         ["Action", new rs.mimic.ActionDescriptor()],
         ["Border", new rs.mimic.BorderDescriptor()],
         ["CommandArgs", new rs.mimic.CommandArgsDescriptor()],
-        ["Condition", new rs.mimic.ConditionDescriptor()],
         ["CornerRadius", new rs.mimic.CornerRadiusDescriptor()],
         ["ImageCondition", new rs.mimic.ImageConditionDescriptor()],
         ["LinkArgs", new rs.mimic.LinkArgsDescriptor()],

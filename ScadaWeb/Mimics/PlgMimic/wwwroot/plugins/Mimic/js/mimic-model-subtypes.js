@@ -17,7 +17,7 @@ rs.mimic.ActionType = class {
 };
 
 // Specifies the comparison operators.
-rs.mimic.ComparisonOperator = class {
+rs.mimic.ComparisonOperator = class ComparisonOperator {
     static NONE = "None";
     static EQUAL = "Equal";
     static NOT_EQUAL = "NotEqual";
@@ -25,6 +25,25 @@ rs.mimic.ComparisonOperator = class {
     static LESS_THAN_EQUAL = "LessThanEqual";
     static GREATER_THAN = "GreaterThan";
     static GREATER_THAN_EQUAL = "GreaterThanEqual";
+
+    static getDisplayName(value) {
+        switch (value) {
+            case ComparisonOperator.EQUAL:
+                return "=";
+            case ComparisonOperator.NOT_EQUAL:
+                return "<>";
+            case ComparisonOperator.LESS_THAN:
+                return "<";
+            case ComparisonOperator.LESS_THAN_EQUAL:
+                return "<=";
+            case ComparisonOperator.GREATER_THAN:
+                return ">";
+            case ComparisonOperator.GREATER_THAN_EQUAL:
+                return ">=";
+            default:
+                return "";
+        }
+    }
 };
 
 // Specifies how an image is positioned within a component.
@@ -36,10 +55,21 @@ rs.mimic.ImageSizeMode = class {
 }
 
 // Specifies the logical operators.
-rs.mimic.LogicalOperator = class {
+rs.mimic.LogicalOperator = class LogicalOperator {
     static NONE = "None";
     static AND = "And";
     static OR = "Or";
+
+    static getDisplayName(value) {
+        switch (value) {
+            case LogicalOperator.AND:
+                return "&&";
+            case LogicalOperator.OR:
+                return "||";
+            default:
+                return "";
+        }
+    }
 };
 
 // Specifies the link targets.
@@ -161,6 +191,25 @@ rs.mimic.Condition = class Condition {
 
     get typeName() {
         return "Condition";
+    }
+
+    get displayName() {
+        const ComparisonOperator = rs.mimic.ComparisonOperator;
+        const LogicalOperator = rs.mimic.LogicalOperator;
+        let co1 = ComparisonOperator.getDisplayName(this.comparisonOper1);
+        let co2 = ComparisonOperator.getDisplayName(this.comparisonOper2);
+        let lo = LogicalOperator.getDisplayName(this.logicalOper);
+        let displayName = "";
+
+        if (co1) {
+            displayName += `X ${co1} ${this.comparisonArg1}`;
+
+            if (co2 && lo) {
+                displayName += ` ${lo} X ${co2} ${this.comparisonArg2}`;
+            }
+        }
+
+        return displayName;
     }
 
     _copyFrom(source) {

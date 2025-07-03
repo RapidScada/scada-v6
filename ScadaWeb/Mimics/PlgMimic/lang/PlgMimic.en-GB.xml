@@ -143,7 +143,54 @@
     <Phrase key="LinkArgs">Link arguments</Phrase>
     <Phrase key="Script">Script</Phrase>
   </Dictionary>
-  <Dictionary key="">
-    <Phrase key=""></Phrase>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Border">
+    <Phrase key="Width">Width</Phrase>
+    <Phrase key="Color">Color</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.CommandArgs">
+    <Phrase key="ShowDialog">Show dialog</Phrase>
+    <Phrase key="CmdVal">Command value</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.CornerRadius">
+    <Phrase key="TopLeft">Top-left</Phrase>
+    <Phrase key="TopRight">Top-right</Phrase>
+    <Phrase key="BottomRight">Bottom-right</Phrase>
+    <Phrase key="BottomLeft">Bottom-left</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ImageCondition">
+    <Phrase key="ComparisonOper1">Comparison 1</Phrase>
+    <Phrase key="ComparisonArg1">Argument 1</Phrase>
+    <Phrase key="LogicalOper">Logical operator</Phrase>
+    <Phrase key="ComparisonOper2">Comparison 2</Phrase>
+    <Phrase key="ComparisonArg2">Argument 2</Phrase>
+    <Phrase key="ImageName">Image</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.LinkArgs">
+    <Phrase key="Url">URL</Phrase>
+    <Phrase key="Target">Target</Phrase>
+    <Phrase key="ViewID">View ID</Phrase>
+    <Phrase key="ModalWidth">Modal width</Phrase>
+    <Phrase key="ModalHeight">Modal height</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Padding">
+    <Phrase key="Top">Top</Phrase>
+    <Phrase key="Right">Right</Phrase>
+    <Phrase key="Bottom">Bottom</Phrase>
+    <Phrase key="Left">Left</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.PropertyBinding">
+    <Phrase key="PropertyName">Property name</Phrase>
+    <Phrase key="DataSource">Data source</Phrase>
+    <Phrase key="DataMember">Data member</Phrase>
+    <Phrase key="Format">Format</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.PropertyExport">
+    <Phrase key="Name">Property name</Phrase>
+    <Phrase key="Path">Path</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.VisualState">
+    <Phrase key="backColor">Back color</Phrase>
+    <Phrase key="foreColor">Fore color</Phrase>
+    <Phrase key="borderColor">Border color</Phrase>
   </Dictionary>
 </PlgMimicDictionaries>
