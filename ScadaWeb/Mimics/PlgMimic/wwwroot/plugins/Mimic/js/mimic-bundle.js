@@ -666,7 +666,7 @@ rs.mimic.CommandArgsDescriptor = class extends rs.mimic.StructureDescriptor {
     }
 };
 
-// Represents a descriptor for the Condition structure.
+// Represents an abstract descriptor for the Condition structure.
 rs.mimic.ConditionDescriptor = class extends rs.mimic.StructureDescriptor {
     constructor() {
         super();
@@ -719,25 +719,25 @@ rs.mimic.CornerRadiusDescriptor = class extends rs.mimic.StructureDescriptor {
         this.add(new PropertyDescriptor({
             name: "topLeft",
             displayName: "Top-left",
-            type: BasicType.FLOAT
+            type: BasicType.INT
         }));
 
         this.add(new PropertyDescriptor({
             name: "topRight",
             displayName: "Top-right",
-            type: BasicType.FLOAT
+            type: BasicType.INT
         }));
 
         this.add(new PropertyDescriptor({
             name: "bottomRight",
             displayName: "Bottom-right",
-            type: BasicType.FLOAT
+            type: BasicType.INT
         }));
 
         this.add(new PropertyDescriptor({
             name: "bottomLeft",
             displayName: "Bottom-left",
-            type: BasicType.FLOAT
+            type: BasicType.INT
         }));
     }
 }
