@@ -2,7 +2,7 @@
 //     ContentAlignment, TextDirection
 // Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
 //     PropertyBinding, PropertyExport, Size, VisualState
-// Misc: PropertyParser
+// Misc: List, ImageConditionList, PropertyBindingList, PropertyExportList, PropertyParser
 // No dependencies
 
 // --- Enumerations ---
@@ -440,10 +440,37 @@ rs.mimic.List = class List extends Array {
         super();
 
         if (createItemFn instanceof Function) {
-            List.prototype.createItem = function () {
+            Object.getPrototypeOf(this).createItem = function () {
                 return createItemFn.call(this);
             };
         }
+    }
+}
+
+// Represents a list of ImageCondition items.
+rs.mimic.ImageConditionList = class extends rs.mimic.List {
+    constructor() {
+        super(() => {
+            return new rs.mimic.ImageCondition();
+        });
+    }
+}
+
+// Represents a list of PropertyBinding items.
+rs.mimic.PropertyBindingList = class extends rs.mimic.List {
+    constructor() {
+        super(() => {
+            return new rs.mimic.PropertyBinding();
+        });
+    }
+}
+
+// Represents a list of PropertyExport items.
+rs.mimic.PropertyExportList = class extends rs.mimic.List {
+    constructor() {
+        super(() => {
+            return new rs.mimic.PropertyExport();
+        });
     }
 }
 
@@ -477,9 +504,7 @@ rs.mimic.PropertyParser = class {
 
     static parseImageConditions(source) {
         const ImageCondition = rs.mimic.ImageCondition;
-        let imageConditions = new rs.mimic.List(() => {
-            return new ImageCondition();
-        });
+        let imageConditions = new rs.mimic.ImageConditionList();
 
         if (Array.isArray(source)) {
             for (let sourceItem of source) {
@@ -492,9 +517,7 @@ rs.mimic.PropertyParser = class {
 
     static parsePropertyBindings(source) {
         const PropertyBinding = rs.mimic.PropertyBinding;
-        let propertyBindings = new rs.mimic.List(() => {
-            return new PropertyBinding();
-        });
+        let propertyBindings = new rs.mimic.PropertyBindingList();
 
         if (Array.isArray(source)) {
             for (let sourceItem of source) {
@@ -507,9 +530,7 @@ rs.mimic.PropertyParser = class {
 
     static parsePropertyExports(source) {
         const PropertyExport = rs.mimic.PropertyExport;
-        let propertyExports = new rs.mimic.List(() => {
-            return new PropertyExport();
-        });
+        let propertyExports = new rs.mimic.PropertyExportList();
 
         if (Array.isArray(source)) {
             for (let sourceItem of source) {

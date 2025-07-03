@@ -44,7 +44,7 @@ rs.mimic.ComponentFactory = class {
             inCnlNum: 0,
             objNum: 0,
             outCnlNum: 0,
-            propertyBindings: [],
+            propertyBindings: new rs.mimic.PropertyBindingList(),
 
             // design
             id: 0,
@@ -225,7 +225,7 @@ rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
 
         // behavior
         Object.assign(properties, {
-            conditions: [],
+            conditions: new rs.mimic.ImageConditionList(),
             sizeMode: rs.mimic.ImageSizeMode.NORMAL
         });
 
