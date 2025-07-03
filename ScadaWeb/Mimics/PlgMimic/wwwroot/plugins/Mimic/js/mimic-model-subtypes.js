@@ -151,7 +151,7 @@ rs.mimic.CommandArgs = class CommandArgs {
     }
 };
 
-// Represents a condition.
+// Represents an abstract condition.
 rs.mimic.Condition = class Condition {
     comparisonOper1 = rs.mimic.ComparisonOperator.NONE;
     comparisonArg1 = 0.0;
@@ -371,6 +371,10 @@ rs.mimic.PropertyExport = class PropertyExport {
 
     get typeName() {
         return "PropertyExport";
+    }
+
+    get displayName() {
+        return this.name;
     }
 
     static parse(source) {

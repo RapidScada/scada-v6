@@ -47,7 +47,8 @@ rs.mimic.LoadContext = class {
 //     PropertyDescriptor, ObjectDescriptor, MimicDescriptor, ComponentDescriptor, RegularComponentDescriptor,
 //     TextDescriptor, PictureDescriptor, PanelDescriptor, FaceplateDescriptor,
 //     StructureDescriptor, ActionDescriptor, BorderDescriptor, CommandArgsDescriptor, ConditionDescriptor,
-//     CornerRadiusDescriptor, ImageConditionDescriptor,
+//     CornerRadiusDescriptor, ImageConditionDescriptor, LinkArgsDescriptor, PaddingDescriptor,
+//     PropertyBindingDescriptor, PropertyExportDescriptor, VisualStateDescriptor,
 //     DescriptorSet
 // Depends on scada-common.js, mimic-common.js
 
@@ -758,6 +759,168 @@ rs.mimic.ImageConditionDescriptor = class extends rs.mimic.ConditionDescriptor {
     }
 }
 
+// Represents a descriptor for the LinkArgs structure.
+rs.mimic.LinkArgsDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "url",
+            displayName: "URL",
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "target",
+            displayName: "Target",
+            type: BasicType.ENUM,
+            subtype: Subtype.LINK_TARGET
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "viewID",
+            displayName: "View ID",
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "modalWidth",
+            displayName: "Modal width",
+            type: BasicType.ENUM,
+            subtype: Subtype.MODAL_WIDTH
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "modalHeight",
+            displayName: "Modal height",
+            type: BasicType.INT
+        }));
+    }
+}
+
+// Represents a descriptor for the Padding structure.
+rs.mimic.PaddingDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "top",
+            displayName: "Top",
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "right",
+            displayName: "Right",
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "bottom",
+            displayName: "Bottom",
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "left",
+            displayName: "Left",
+            type: BasicType.INT
+        }));
+    }
+};
+
+// Represents a descriptor for the PropertyBinding structure.
+rs.mimic.PropertyBindingDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyEditor = rs.mimic.PropertyEditor;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "propertyName",
+            displayName: "Property name",
+            type: BasicType.STRING,
+            editor: PropertyEditor.PROPERTY_DIALOG
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "dataSource",
+            displayName: "Data source",
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "dataMember",
+            displayName: "Data member",
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "format",
+            displayName: "Format",
+            type: BasicType.STRING
+        }));
+    }
+};
+
+// Represents a descriptor for the PropertyExport structure.
+rs.mimic.PropertyExportDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "name",
+            displayName: "Name",
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "path",
+            displayName: "Path",
+            type: BasicType.STRING
+        }));
+    }
+};
+
+// Represents a descriptor for the VisualState structure.
+rs.mimic.VisualStateDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyEditor = rs.mimic.PropertyEditor;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "backColor",
+            displayName: "Back color",
+            type: BasicType.STRING,
+            editor: PropertyEditor.COLOR_DIALOG
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "foreColor",
+            displayName: "Fore color",
+            type: BasicType.STRING,
+            editor: PropertyEditor.COLOR_DIALOG
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "borderColor",
+            displayName: "Border color",
+            type: BasicType.STRING,
+            editor: PropertyEditor.COLOR_DIALOG
+        }));
+    }
+};
+
 // Contains descriptors for a mimic and its components.
 rs.mimic.DescriptorSet = class {
     static mimicDescriptor = new rs.mimic.MimicDescriptor();
@@ -774,6 +937,11 @@ rs.mimic.DescriptorSet = class {
         ["Condition", new rs.mimic.ConditionDescriptor()],
         ["CornerRadius", new rs.mimic.CornerRadiusDescriptor()],
         ["ImageCondition", new rs.mimic.ImageConditionDescriptor()],
+        ["LinkArgs", new rs.mimic.LinkArgsDescriptor()],
+        ["Padding", new rs.mimic.PaddingDescriptor()],
+        ["PropertyBinding", new rs.mimic.PropertyBindingDescriptor()],
+        ["PropertyExport", new rs.mimic.PropertyExportDescriptor()],
+        ["VisualState", new rs.mimic.VisualStateDescriptor()]
     ]);
 };
 
@@ -2209,7 +2377,7 @@ rs.mimic.CommandArgs = class CommandArgs {
     }
 };
 
-// Represents a condition.
+// Represents an abstract condition.
 rs.mimic.Condition = class Condition {
     comparisonOper1 = rs.mimic.ComparisonOperator.NONE;
     comparisonArg1 = 0.0;
@@ -2429,6 +2597,10 @@ rs.mimic.PropertyExport = class PropertyExport {
 
     get typeName() {
         return "PropertyExport";
+    }
+
+    get displayName() {
+        return this.name;
     }
 
     static parse(source) {
