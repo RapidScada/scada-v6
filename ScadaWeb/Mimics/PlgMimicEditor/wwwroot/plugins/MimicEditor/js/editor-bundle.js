@@ -801,7 +801,7 @@ class MimicHistory {
     }
 }
 
-// Contains classes: ModalContext, ModalBase, FaceplateModal, ImageModal
+// Contains classes: ModalContext, ModalBase, FaceplateModal, ImageModal, TextEditor
 // Depends on jquery, bootstrap, mimic-model.js
 
 // Represents a context of a modal dialog.
@@ -1024,22 +1024,22 @@ class ImageModal extends ModalBase {
 }
 
 // Represents a modal dialog for editing text.
-class TextEditorModal extends ModalBase {
+class TextEditor extends ModalBase {
     static DEFAULT_OPTIONS = {
-        language: "html" // empty not supported
+        language: "none"
     }
 
     _flask;
 
     constructor(elemID) {
         super(elemID);
-        let editorElem = $("#textEditorModal_divEditor");
-        this._flask = new CodeFlask(editorElem[0], TextEditorModal.DEFAULT_OPTIONS);
+        let editorElem = $("#textEditor_divEditor");
+        this._flask = new CodeFlask(editorElem[0], TextEditor.DEFAULT_OPTIONS);
         this._bindEvents();
     }
 
     _bindEvents() {
-        $("#textEditorModal_btnOK").on("click", () => {
+        $("#textEditor_btnOK").on("click", () => {
             this._context.newValue = this._flask.getCode();
             this._context.result = true;
             this._modal.hide();
@@ -1047,7 +1047,7 @@ class TextEditorModal extends ModalBase {
 
         this._elem
             .on("shown.bs.modal", () => {
-                $("#textEditorModal_divEditor textarea").focus();
+                $("#textEditor_divEditor textarea").focus();
             })
             .on("hidden.bs.modal", () => {
                 this._invokeCallback();
@@ -1055,7 +1055,7 @@ class TextEditorModal extends ModalBase {
     }
 
     _showLanguage(language) {
-        let lblLanguage = $("#textEditorModal_lblLanguage");
+        let lblLanguage = $("#textEditor_lblLanguage");
 
         if (language === "css") {
             lblLanguage.text("CSS").removeClass("d-none");
@@ -1072,7 +1072,7 @@ class TextEditorModal extends ModalBase {
             callback: callback
         });
 
-        options ??= TextEditorModal.DEFAULT_OPTIONS;
+        options ??= TextEditor.DEFAULT_OPTIONS;
         this._showLanguage(options.language);
         this._flask.updateLanguage(options.language);
         this._flask.updateCode(text);
@@ -1691,21 +1691,31 @@ class PropGridHelper {
 
 // Calls property editors implemented as modal dialogs.
 class PropGridDialogs {
-    static imagePickerModal = null;
-    static propertyPickerModal = null;
-    static textEditorModal = null;
+    static colorDialog = null;
+    static fontDialog = null;
+    static imageDialog = null;
+    static propertyDialog = null;
+    static textEditor = null;
 
-    // Shows the image picker.
-    static _showImagePicker(value, options, callback) {
+    // Shows the color dialog.
+    static _showColorDialog(value, options, callback) {
     }
 
-    // Shows the property picker.
-    static _showPropertyPicker(value, options, callback) {
+    // Shows the font dialog.
+    static _showFontDialog(value, options, callback) {
+    }
+
+    // Shows the image dialog.
+    static _showImageDialog(value, options, callback) {
+    }
+
+    // Shows the property dialog.
+    static _showPropertyDialog(value, options, callback) {
     }
 
     // Shows the text editor.
     static _showTextEditor(value, options, callback) {
-        PropGridDialogs.textEditorModal.show(value, options, (modalContext) => {
+        PropGridDialogs.textEditor.show(value, options, (modalContext) => {
             PropGridDialogs._invokeCallback(modalContext, callback);
         });
     }
@@ -1722,9 +1732,11 @@ class PropGridDialogs {
         const PropertyEditor = rs.mimic.PropertyEditor;
         let editor = propertyDescriptor?.editor;
         return editor &&
-            editor === PropertyEditor.IMAGE_PICKER && PropGridDialogs.imagePickerModal ||
-            editor === PropertyEditor.PROPERTY_PICKER && PropGridDialogs.propertyPickerModal ||
-            editor === PropertyEditor.TEXT_EDITOR && PropGridDialogs.textEditorModal;
+            editor === PropertyEditor.COLOR_DIALOG && PropGridDialogs.colorDialog ||
+            editor === PropertyEditor.FONT_DIALOG && PropGridDialogs.fontDialog ||
+            editor === PropertyEditor.IMAGE_DIALOG && PropGridDialogs.imageDialog ||
+            editor === PropertyEditor.PROPERTY_DIALOG && PropGridDialogs.propertyDialog ||
+            editor === PropertyEditor.TEXT_EDITOR && PropGridDialogs.textEditor;
     }
 
     // Shows an editor as a modal dialog.
@@ -1735,16 +1747,24 @@ class PropGridDialogs {
             let editor = propertyDescriptor.editor;
             let options = propertyDescriptor.editorOptions;
 
-            if (editor === PropertyEditor.IMAGE_PICKER) {
-                if (PropGridDialogs.imagePickerModal) {
-                    PropGridDialogs._showImagePicker(propertyValue, options, callback);
+            if (editor === PropertyEditor.COLOR_DIALOG) {
+                if (PropGridDialogs.colorDialog) {
+                    PropGridDialogs._showColorDialog(propertyValue, options, callback);
                 }
-            } else if (editor === PropertyEditor.PROPERTY_PICKER) {
-                if (PropGridDialogs.propertyPickerModal) {
-                    PropGridDialogs._showPropertyPicker(propertyValue, options, callback);
+            } else if (editor === PropertyEditor.FONT_DIALOG) {
+                if (PropGridDialogs.fontDialog) {
+                    PropGridDialogs._showFontDialog(propertyValue, options, callback);
+                }
+            } else if (editor === PropertyEditor.IMAGE_DIALOG) {
+                if (PropGridDialogs.imageDialog) {
+                    PropGridDialogs._showImageDialog(propertyValue, options, callback);
+                }
+            } else if (editor === PropertyEditor.PROPERTY_DIALOG) {
+                if (PropGridDialogs.propertyDialog) {
+                    PropGridDialogs._showPropertyDialog(propertyValue, options, callback);
                 }
             } else if (editor === PropertyEditor.TEXT_EDITOR) {
-                if (PropGridDialogs.textEditorModal) {
+                if (PropGridDialogs.textEditor) {
                     PropGridDialogs._showTextEditor(propertyValue, options, callback);
                 }
             }
