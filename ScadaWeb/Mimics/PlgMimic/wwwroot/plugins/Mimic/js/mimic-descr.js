@@ -2,7 +2,8 @@
 //     KnownCategory, BasicType, Subtype, PropertyEditor,
 //     PropertyDescriptor, ObjectDescriptor, MimicDescriptor, ComponentDescriptor, RegularComponentDescriptor,
 //     TextDescriptor, PictureDescriptor, PanelDescriptor, FaceplateDescriptor,
-//     StructureDescriptor, ActionDescriptor,
+//     StructureDescriptor, ActionDescriptor, BorderDescriptor, CommandArgsDescriptor, ConditionDescriptor,
+//     CornerRadiusDescriptor, ImageConditionDescriptor,
 //     DescriptorSet
 // Depends on scada-common.js, mimic-common.js
 
@@ -55,15 +56,16 @@ rs.mimic.Subtype = class {
     static PROPERTY_EXPORT = "PropertyExport";
     static SIZE = "Size";
     static VISUAL_STATE = "VisualState";
-}
+};
 
 // Specifies the property editors.
 rs.mimic.PropertyEditor = class {
-    static COLOR_PICKER = "ColorPicker";
-    static IMAGE_PICKER = "ImagePicker";
-    static PROPERTY_PICKER = "PropertyPicker";
+    static COLOR_DIALOG = "ColorDialog";
+    static FONT_DIALOG = "FontDialog";
+    static IMAGE_DIALOG = "ImageDialog";
+    static PROPERTY_DIALOG = "PropertyDialog";
     static TEXT_EDITOR = "TextEditor";
-}
+};
 
 // Provides meta information about a property of a mimic or component.
 rs.mimic.PropertyDescriptor = class {
@@ -117,7 +119,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "Background color",
             category: KnownCategory.APPEARANCE,
             type: BasicType.STRING,
-            editor: PropertyEditor.COLOR_PICKER
+            editor: PropertyEditor.COLOR_DIALOG
         }));
 
         this.add(new PropertyDescriptor({
@@ -125,14 +127,16 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "Background image",
             category: KnownCategory.APPEARANCE,
             type: BasicType.STRING,
-            editor: PropertyEditor.IMAGE_PICKER
+            editor: PropertyEditor.IMAGE_DIALOG
         }));
 
         this.add(new PropertyDescriptor({
             name: "font",
             displayName: "Font",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.FONT,
+            editor: PropertyEditor.FONT_DIALOG
         }));
 
         this.add(new PropertyDescriptor({
@@ -140,7 +144,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "Foreground color",
             category: KnownCategory.APPEARANCE,
             type: BasicType.STRING,
-            editor: PropertyEditor.COLOR_PICKER
+            editor: PropertyEditor.COLOR_DIALOG
         }));
 
         this.add(new PropertyDescriptor({
@@ -313,7 +317,7 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
             displayName: "Background color",
             category: KnownCategory.APPEARANCE,
             type: BasicType.STRING,
-            editor: PropertyEditor.COLOR_PICKER
+            editor: PropertyEditor.COLOR_DIALOG
         }));
 
         this.add(new PropertyDescriptor({
@@ -342,7 +346,7 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
             displayName: "Foreground color",
             category: KnownCategory.APPEARANCE,
             type: BasicType.STRING,
-            editor: PropertyEditor.COLOR_PICKER
+            editor: PropertyEditor.COLOR_DIALOG
         }));
 
         // behavior
@@ -399,6 +403,7 @@ rs.mimic.TextDescriptor = class extends rs.mimic.RegularComponentDescriptor {
         const KnownCategory = rs.mimic.KnownCategory;
         const BasicType = rs.mimic.BasicType;
         const Subtype = rs.mimic.Subtype;
+        const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
         // appearance
@@ -406,7 +411,9 @@ rs.mimic.TextDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             name: "font",
             displayName: "Font",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.FONT,
+            editor: PropertyEditor.FONT_DIALOG
         }));
 
         this.add(new PropertyDescriptor({
@@ -472,7 +479,7 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             displayName: "Image",
             category: KnownCategory.APPEARANCE,
             type: BasicType.STRING,
-            editor: PropertyEditor.IMAGE_PICKER
+            editor: PropertyEditor.IMAGE_DIALOG
         }));
 
         this.add(new PropertyDescriptor({
@@ -570,6 +577,143 @@ rs.mimic.ActionDescriptor = class extends rs.mimic.StructureDescriptor {
     }
 };
 
+// Represents a descriptor for the Border structure.
+rs.mimic.BorderDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyEditor = rs.mimic.PropertyEditor;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "width",
+            displayName: "Width",
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "color",
+            displayName: "Color",
+            type: BasicType.STRING,
+            editor: PropertyEditor.COLOR_DIALOG
+        }));
+    }
+};
+
+// Represents a descriptor for the CommandArgs structure.
+rs.mimic.CommandArgsDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "showDialog",
+            displayName: "Show dialog",
+            type: BasicType.BOOL
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "cmdVal",
+            displayName: "Command value",
+            type: BasicType.FLOAT
+        }));
+    }
+};
+
+// Represents a descriptor for the Condition structure.
+rs.mimic.ConditionDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "comparisonOper1",
+            displayName: "Comparison 1",
+            type: BasicType.ENUM,
+            subtype: Subtype.COMPARISON_OPERATOR
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "comparisonArg1",
+            displayName: "Argument 1",
+            type: BasicType.FLOAT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "logicalOper",
+            displayName: "Logical operator",
+            type: BasicType.ENUM,
+            subtype: Subtype.LOGICAL_OPERATOR
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "comparisonOper2",
+            displayName: "Comparison 2",
+            type: BasicType.ENUM,
+            subtype: Subtype.COMPARISON_OPERATOR
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "comparisonArg2",
+            displayName: "Argument 2",
+            type: BasicType.FLOAT
+        }));
+    }
+};
+
+// Represents a descriptor for the CornerRadius structure.
+rs.mimic.CornerRadiusDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "topLeft",
+            displayName: "Top-left",
+            type: BasicType.FLOAT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "topRight",
+            displayName: "Top-right",
+            type: BasicType.FLOAT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "bottomRight",
+            displayName: "Bottom-right",
+            type: BasicType.FLOAT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "bottomLeft",
+            displayName: "Bottom-left",
+            type: BasicType.FLOAT
+        }));
+    }
+}
+
+// Represents a descriptor for the ImageCondition structure.
+rs.mimic.ImageConditionDescriptor = class extends rs.mimic.ConditionDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyEditor = rs.mimic.PropertyEditor;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "imageName",
+            displayName: "Image",
+            type: BasicType.STRING,
+            editor: PropertyEditor.IMAGE_DIALOG
+        }));
+    }
+}
+
 // Contains descriptors for a mimic and its components.
 rs.mimic.DescriptorSet = class {
     static mimicDescriptor = new rs.mimic.MimicDescriptor();
@@ -581,5 +725,10 @@ rs.mimic.DescriptorSet = class {
     ]);
     static structureDescriptors = new Map([
         ["Action", new rs.mimic.ActionDescriptor()],
+        ["Border", new rs.mimic.BorderDescriptor()],
+        ["CommandArgs", new rs.mimic.CommandArgsDescriptor()],
+        ["Condition", new rs.mimic.ConditionDescriptor()],
+        ["CornerRadius", new rs.mimic.CornerRadiusDescriptor()],
+        ["ImageCondition", new rs.mimic.ImageConditionDescriptor()],
     ]);
 };

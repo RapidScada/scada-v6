@@ -1,5 +1,5 @@
-﻿// Enumerations: ActionType, CompareOperator, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth, ContentAlignment,
-//     TextDirection
+﻿// Enumerations: ActionType, ComparisonOperator, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth,
+//     ContentAlignment, TextDirection
 // Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
 //     PropertyBinding, PropertyExport, Size, VisualState
 // Misc: PropertyParser
@@ -112,6 +112,10 @@ rs.mimic.Border = class Border {
     width = 0;
     color = ""
 
+    get typeName() {
+        return "Border";
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let border = new Border();
@@ -129,6 +133,10 @@ rs.mimic.Border = class Border {
 rs.mimic.CommandArgs = class CommandArgs {
     showDialog = true;
     cmdVal = 0.0;
+
+    get typeName() {
+        return "CommandArgs";
+    }
 
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -150,6 +158,10 @@ rs.mimic.Condition = class Condition {
     logicalOper = rs.mimic.LogicalOperator.NONE;
     comparisonOper2 = rs.mimic.ComparisonOperator.NONE;
     comparisonArg2 = 0.0;
+
+    get typeName() {
+        return "Condition";
+    }
 
     _copyFrom(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -178,6 +190,10 @@ rs.mimic.CornerRadius = class CornerRadius {
     bottomRight = 0;
     bottomLeft = 0;
 
+    get typeName() {
+        return "CornerRadius";
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let cornerRadius = new CornerRadius();
@@ -201,6 +217,10 @@ rs.mimic.Font = class Font {
     italic = false;
     underline = false;
 
+    get typeName() {
+        return "Font";
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let font = new Font();
@@ -220,6 +240,10 @@ rs.mimic.Font = class Font {
 // Represents an image condition.
 rs.mimic.ImageCondition = class ImageCondition extends rs.mimic.Condition {
     imageName = "";
+
+    get typeName() {
+        return "ImageCondition";
+    }
 
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -241,6 +265,10 @@ rs.mimic.LinkArgs = class LinkArgs {
     viewID = 0;
     modalWidth = rs.mimic.ModalWidth.NORMAL;
     modalHeight = 0;
+
+    get typeName() {
+        return "LinkArgs";
+    }
 
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -265,6 +293,10 @@ rs.mimic.Padding = class Padding {
     bottom = 0;
     left = 0;
 
+    get typeName() {
+        return "Padding";
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let padding = new Padding();
@@ -285,6 +317,10 @@ rs.mimic.Point = class Point {
     x = 0;
     y = 0;
 
+    get typeName() {
+        return "Point";
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let point = new Point();
@@ -304,6 +340,10 @@ rs.mimic.PropertyBinding = class PropertyBinding {
     dataSource = "";
     dataMember = "";
     format = "";
+
+    get typeName() {
+        return "PropertyBinding";
+    }
 
     get displayName() {
         return this.propertyName;
@@ -329,6 +369,10 @@ rs.mimic.PropertyExport = class PropertyExport {
     name = "";
     path = "";
 
+    get typeName() {
+        return "PropertyExport";
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let propertyExport = new PropertyExport();
@@ -346,6 +390,10 @@ rs.mimic.PropertyExport = class PropertyExport {
 rs.mimic.Size = class Size {
     width = 100;
     height = 100;
+
+    get typeName() {
+        return "Size";
+    }
 
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -365,6 +413,10 @@ rs.mimic.VisualState = class VisualState {
     backColor = "";
     foreColor = "";
     borderColor = "";
+
+    get typeName() {
+        return "VisualState";
+    }
 
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -425,7 +477,9 @@ rs.mimic.PropertyParser = class {
 
     static parseImageConditions(source) {
         const ImageCondition = rs.mimic.ImageCondition;
-        let imageConditions = [];
+        let imageConditions = new rs.mimic.List(() => {
+            return new ImageCondition();
+        });
 
         if (Array.isArray(source)) {
             for (let sourceItem of source) {
@@ -453,7 +507,9 @@ rs.mimic.PropertyParser = class {
 
     static parsePropertyExports(source) {
         const PropertyExport = rs.mimic.PropertyExport;
-        let propertyExports = [];
+        let propertyExports = new rs.mimic.List(() => {
+            return new PropertyExport();
+        });
 
         if (Array.isArray(source)) {
             for (let sourceItem of source) {

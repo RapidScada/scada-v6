@@ -293,7 +293,7 @@ function initPropGrid() {
 function initModals() {
     faceplateModal = new FaceplateModal("divFaceplateModal");
     imageModal = new ImageModal("divImageModal");
-    PropGridDialogs.textEditorModal = new TextEditorModal("divTextEditorModal");
+    PropGridDialogs.textEditor = new TextEditor("divTextEditor");
 }
 
 async function loadMimic() {

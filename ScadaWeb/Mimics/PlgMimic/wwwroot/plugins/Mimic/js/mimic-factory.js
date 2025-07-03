@@ -130,7 +130,7 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
             tooltip: ""
         });
 
-        return component;
+        return properties;
     }
 
     parseProperties(sourceProps) {

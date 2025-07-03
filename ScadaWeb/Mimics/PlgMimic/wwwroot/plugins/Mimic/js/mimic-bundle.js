@@ -46,7 +46,8 @@ rs.mimic.LoadContext = class {
 //     KnownCategory, BasicType, Subtype, PropertyEditor,
 //     PropertyDescriptor, ObjectDescriptor, MimicDescriptor, ComponentDescriptor, RegularComponentDescriptor,
 //     TextDescriptor, PictureDescriptor, PanelDescriptor, FaceplateDescriptor,
-//     StructureDescriptor, ActionDescriptor,
+//     StructureDescriptor, ActionDescriptor, BorderDescriptor, CommandArgsDescriptor, ConditionDescriptor,
+//     CornerRadiusDescriptor, ImageConditionDescriptor,
 //     DescriptorSet
 // Depends on scada-common.js, mimic-common.js
 
@@ -99,15 +100,16 @@ rs.mimic.Subtype = class {
     static PROPERTY_EXPORT = "PropertyExport";
     static SIZE = "Size";
     static VISUAL_STATE = "VisualState";
-}
+};
 
 // Specifies the property editors.
 rs.mimic.PropertyEditor = class {
-    static COLOR_PICKER = "ColorPicker";
-    static IMAGE_PICKER = "ImagePicker";
-    static PROPERTY_PICKER = "PropertyPicker";
+    static COLOR_DIALOG = "ColorDialog";
+    static FONT_DIALOG = "FontDialog";
+    static IMAGE_DIALOG = "ImageDialog";
+    static PROPERTY_DIALOG = "PropertyDialog";
     static TEXT_EDITOR = "TextEditor";
-}
+};
 
 // Provides meta information about a property of a mimic or component.
 rs.mimic.PropertyDescriptor = class {
@@ -161,7 +163,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "Background color",
             category: KnownCategory.APPEARANCE,
             type: BasicType.STRING,
-            editor: PropertyEditor.COLOR_PICKER
+            editor: PropertyEditor.COLOR_DIALOG
         }));
 
         this.add(new PropertyDescriptor({
@@ -169,14 +171,16 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "Background image",
             category: KnownCategory.APPEARANCE,
             type: BasicType.STRING,
-            editor: PropertyEditor.IMAGE_PICKER
+            editor: PropertyEditor.IMAGE_DIALOG
         }));
 
         this.add(new PropertyDescriptor({
             name: "font",
             displayName: "Font",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.FONT,
+            editor: PropertyEditor.FONT_DIALOG
         }));
 
         this.add(new PropertyDescriptor({
@@ -184,7 +188,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "Foreground color",
             category: KnownCategory.APPEARANCE,
             type: BasicType.STRING,
-            editor: PropertyEditor.COLOR_PICKER
+            editor: PropertyEditor.COLOR_DIALOG
         }));
 
         this.add(new PropertyDescriptor({
@@ -357,7 +361,7 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
             displayName: "Background color",
             category: KnownCategory.APPEARANCE,
             type: BasicType.STRING,
-            editor: PropertyEditor.COLOR_PICKER
+            editor: PropertyEditor.COLOR_DIALOG
         }));
 
         this.add(new PropertyDescriptor({
@@ -386,7 +390,7 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
             displayName: "Foreground color",
             category: KnownCategory.APPEARANCE,
             type: BasicType.STRING,
-            editor: PropertyEditor.COLOR_PICKER
+            editor: PropertyEditor.COLOR_DIALOG
         }));
 
         // behavior
@@ -443,6 +447,7 @@ rs.mimic.TextDescriptor = class extends rs.mimic.RegularComponentDescriptor {
         const KnownCategory = rs.mimic.KnownCategory;
         const BasicType = rs.mimic.BasicType;
         const Subtype = rs.mimic.Subtype;
+        const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
         // appearance
@@ -450,7 +455,9 @@ rs.mimic.TextDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             name: "font",
             displayName: "Font",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.FONT,
+            editor: PropertyEditor.FONT_DIALOG
         }));
 
         this.add(new PropertyDescriptor({
@@ -516,7 +523,7 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             displayName: "Image",
             category: KnownCategory.APPEARANCE,
             type: BasicType.STRING,
-            editor: PropertyEditor.IMAGE_PICKER
+            editor: PropertyEditor.IMAGE_DIALOG
         }));
 
         this.add(new PropertyDescriptor({
@@ -614,6 +621,143 @@ rs.mimic.ActionDescriptor = class extends rs.mimic.StructureDescriptor {
     }
 };
 
+// Represents a descriptor for the Border structure.
+rs.mimic.BorderDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyEditor = rs.mimic.PropertyEditor;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "width",
+            displayName: "Width",
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "color",
+            displayName: "Color",
+            type: BasicType.STRING,
+            editor: PropertyEditor.COLOR_DIALOG
+        }));
+    }
+};
+
+// Represents a descriptor for the CommandArgs structure.
+rs.mimic.CommandArgsDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "showDialog",
+            displayName: "Show dialog",
+            type: BasicType.BOOL
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "cmdVal",
+            displayName: "Command value",
+            type: BasicType.FLOAT
+        }));
+    }
+};
+
+// Represents a descriptor for the Condition structure.
+rs.mimic.ConditionDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "comparisonOper1",
+            displayName: "Comparison 1",
+            type: BasicType.ENUM,
+            subtype: Subtype.COMPARISON_OPERATOR
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "comparisonArg1",
+            displayName: "Argument 1",
+            type: BasicType.FLOAT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "logicalOper",
+            displayName: "Logical operator",
+            type: BasicType.ENUM,
+            subtype: Subtype.LOGICAL_OPERATOR
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "comparisonOper2",
+            displayName: "Comparison 2",
+            type: BasicType.ENUM,
+            subtype: Subtype.COMPARISON_OPERATOR
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "comparisonArg2",
+            displayName: "Argument 2",
+            type: BasicType.FLOAT
+        }));
+    }
+};
+
+// Represents a descriptor for the CornerRadius structure.
+rs.mimic.CornerRadiusDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "topLeft",
+            displayName: "Top-left",
+            type: BasicType.FLOAT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "topRight",
+            displayName: "Top-right",
+            type: BasicType.FLOAT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "bottomRight",
+            displayName: "Bottom-right",
+            type: BasicType.FLOAT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "bottomLeft",
+            displayName: "Bottom-left",
+            type: BasicType.FLOAT
+        }));
+    }
+}
+
+// Represents a descriptor for the ImageCondition structure.
+rs.mimic.ImageConditionDescriptor = class extends rs.mimic.ConditionDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyEditor = rs.mimic.PropertyEditor;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "imageName",
+            displayName: "Image",
+            type: BasicType.STRING,
+            editor: PropertyEditor.IMAGE_DIALOG
+        }));
+    }
+}
+
 // Contains descriptors for a mimic and its components.
 rs.mimic.DescriptorSet = class {
     static mimicDescriptor = new rs.mimic.MimicDescriptor();
@@ -625,6 +769,11 @@ rs.mimic.DescriptorSet = class {
     ]);
     static structureDescriptors = new Map([
         ["Action", new rs.mimic.ActionDescriptor()],
+        ["Border", new rs.mimic.BorderDescriptor()],
+        ["CommandArgs", new rs.mimic.CommandArgsDescriptor()],
+        ["Condition", new rs.mimic.ConditionDescriptor()],
+        ["CornerRadius", new rs.mimic.CornerRadiusDescriptor()],
+        ["ImageCondition", new rs.mimic.ImageConditionDescriptor()],
     ]);
 };
 
@@ -760,7 +909,7 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
             tooltip: ""
         });
 
-        return component;
+        return properties;
     }
 
     parseProperties(sourceProps) {
@@ -1907,8 +2056,8 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
     }
 };
 
-// Enumerations: ActionType, CompareOperator, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth, ContentAlignment,
-//     TextDirection
+// Enumerations: ActionType, ComparisonOperator, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth,
+//     ContentAlignment, TextDirection
 // Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
 //     PropertyBinding, PropertyExport, Size, VisualState
 // Misc: PropertyParser
@@ -2021,6 +2170,10 @@ rs.mimic.Border = class Border {
     width = 0;
     color = ""
 
+    get typeName() {
+        return "Border";
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let border = new Border();
@@ -2038,6 +2191,10 @@ rs.mimic.Border = class Border {
 rs.mimic.CommandArgs = class CommandArgs {
     showDialog = true;
     cmdVal = 0.0;
+
+    get typeName() {
+        return "CommandArgs";
+    }
 
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -2059,6 +2216,10 @@ rs.mimic.Condition = class Condition {
     logicalOper = rs.mimic.LogicalOperator.NONE;
     comparisonOper2 = rs.mimic.ComparisonOperator.NONE;
     comparisonArg2 = 0.0;
+
+    get typeName() {
+        return "Condition";
+    }
 
     _copyFrom(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -2087,6 +2248,10 @@ rs.mimic.CornerRadius = class CornerRadius {
     bottomRight = 0;
     bottomLeft = 0;
 
+    get typeName() {
+        return "CornerRadius";
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let cornerRadius = new CornerRadius();
@@ -2110,6 +2275,10 @@ rs.mimic.Font = class Font {
     italic = false;
     underline = false;
 
+    get typeName() {
+        return "Font";
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let font = new Font();
@@ -2129,6 +2298,10 @@ rs.mimic.Font = class Font {
 // Represents an image condition.
 rs.mimic.ImageCondition = class ImageCondition extends rs.mimic.Condition {
     imageName = "";
+
+    get typeName() {
+        return "ImageCondition";
+    }
 
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -2150,6 +2323,10 @@ rs.mimic.LinkArgs = class LinkArgs {
     viewID = 0;
     modalWidth = rs.mimic.ModalWidth.NORMAL;
     modalHeight = 0;
+
+    get typeName() {
+        return "LinkArgs";
+    }
 
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -2174,6 +2351,10 @@ rs.mimic.Padding = class Padding {
     bottom = 0;
     left = 0;
 
+    get typeName() {
+        return "Padding";
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let padding = new Padding();
@@ -2194,6 +2375,10 @@ rs.mimic.Point = class Point {
     x = 0;
     y = 0;
 
+    get typeName() {
+        return "Point";
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let point = new Point();
@@ -2213,6 +2398,10 @@ rs.mimic.PropertyBinding = class PropertyBinding {
     dataSource = "";
     dataMember = "";
     format = "";
+
+    get typeName() {
+        return "PropertyBinding";
+    }
 
     get displayName() {
         return this.propertyName;
@@ -2238,6 +2427,10 @@ rs.mimic.PropertyExport = class PropertyExport {
     name = "";
     path = "";
 
+    get typeName() {
+        return "PropertyExport";
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let propertyExport = new PropertyExport();
@@ -2255,6 +2448,10 @@ rs.mimic.PropertyExport = class PropertyExport {
 rs.mimic.Size = class Size {
     width = 100;
     height = 100;
+
+    get typeName() {
+        return "Size";
+    }
 
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -2274,6 +2471,10 @@ rs.mimic.VisualState = class VisualState {
     backColor = "";
     foreColor = "";
     borderColor = "";
+
+    get typeName() {
+        return "VisualState";
+    }
 
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -2334,7 +2535,9 @@ rs.mimic.PropertyParser = class {
 
     static parseImageConditions(source) {
         const ImageCondition = rs.mimic.ImageCondition;
-        let imageConditions = [];
+        let imageConditions = new rs.mimic.List(() => {
+            return new ImageCondition();
+        });
 
         if (Array.isArray(source)) {
             for (let sourceItem of source) {
@@ -2362,7 +2565,9 @@ rs.mimic.PropertyParser = class {
 
     static parsePropertyExports(source) {
         const PropertyExport = rs.mimic.PropertyExport;
-        let propertyExports = [];
+        let propertyExports = new rs.mimic.List(() => {
+            return new PropertyExport();
+        });
 
         if (Array.isArray(source)) {
             for (let sourceItem of source) {

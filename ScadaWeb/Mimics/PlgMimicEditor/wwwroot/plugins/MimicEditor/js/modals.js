@@ -1,4 +1,4 @@
-﻿// Contains classes: ModalContext, ModalBase, FaceplateModal, ImageModal
+﻿// Contains classes: ModalContext, ModalBase, FaceplateModal, ImageModal, TextEditor
 // Depends on jquery, bootstrap, mimic-model.js
 
 // Represents a context of a modal dialog.
@@ -221,7 +221,7 @@ class ImageModal extends ModalBase {
 }
 
 // Represents a modal dialog for editing text.
-class TextEditorModal extends ModalBase {
+class TextEditor extends ModalBase {
     static DEFAULT_OPTIONS = {
         language: "none"
     }
@@ -230,13 +230,13 @@ class TextEditorModal extends ModalBase {
 
     constructor(elemID) {
         super(elemID);
-        let editorElem = $("#textEditorModal_divEditor");
-        this._flask = new CodeFlask(editorElem[0], TextEditorModal.DEFAULT_OPTIONS);
+        let editorElem = $("#textEditor_divEditor");
+        this._flask = new CodeFlask(editorElem[0], TextEditor.DEFAULT_OPTIONS);
         this._bindEvents();
     }
 
     _bindEvents() {
-        $("#textEditorModal_btnOK").on("click", () => {
+        $("#textEditor_btnOK").on("click", () => {
             this._context.newValue = this._flask.getCode();
             this._context.result = true;
             this._modal.hide();
@@ -244,7 +244,7 @@ class TextEditorModal extends ModalBase {
 
         this._elem
             .on("shown.bs.modal", () => {
-                $("#textEditorModal_divEditor textarea").focus();
+                $("#textEditor_divEditor textarea").focus();
             })
             .on("hidden.bs.modal", () => {
                 this._invokeCallback();
@@ -252,7 +252,7 @@ class TextEditorModal extends ModalBase {
     }
 
     _showLanguage(language) {
-        let lblLanguage = $("#textEditorModal_lblLanguage");
+        let lblLanguage = $("#textEditor_lblLanguage");
 
         if (language === "css") {
             lblLanguage.text("CSS").removeClass("d-none");
@@ -269,7 +269,7 @@ class TextEditorModal extends ModalBase {
             callback: callback
         });
 
-        options ??= TextEditorModal.DEFAULT_OPTIONS;
+        options ??= TextEditor.DEFAULT_OPTIONS;
         this._showLanguage(options.language);
         this._flask.updateLanguage(options.language);
         this._flask.updateCode(text);

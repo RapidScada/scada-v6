@@ -217,7 +217,7 @@
 }
 
 /* Modals */
-#divTextEditorModal .editor {
+#divTextEditor .editor {
   border: 1px solid var(--bs-border-color);
   height: 300px;
   overflow: auto;
