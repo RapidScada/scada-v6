@@ -223,7 +223,7 @@ class ImageModal extends ModalBase {
 // Represents a modal dialog for editing text.
 class TextEditorModal extends ModalBase {
     static DEFAULT_OPTIONS = {
-        language: "html" // empty not supported
+        language: "none"
     }
 
     _flask;
