@@ -26,4 +26,4 @@ We welcome contributions! Many people all over the world have helped make this p
 
 ## License
 
-Rapid SCADA Standard (including this repo) is licensed under the [Apache License 2.0](LICENSE.TXT) license. Additional software modules for Rapid SCADA can be released under various types of licenses, open or proprietary.
+Rapid SCADA Standard (including this repo) is licensed under the [Apache License 2.0](LICENSE.txt) license. Additional software modules for Rapid SCADA can be released under various types of licenses, open or proprietary.
