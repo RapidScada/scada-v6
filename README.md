@@ -15,6 +15,10 @@ The main classes of systems developed using Rapid SCADA are the following:
 
 We welcome contributions! Many people all over the world have helped make this project better.
 
+* Pull requests that contain translations into native languages and bug fixes are preferred into this repo. Pull requests should be merged into the develop branch.
+* If you have an idea for adding new features, let's discuss with the community how best to implement it.
+* Rapid SCADA is extensible via modules, which are usually located in developer repos. We will be glad to publish your modules in the [Module Store](https://rapidscada.net/store/).
+
 ## Useful Links
 * [Rapid SCADA official website](https://rapidscada.org/)
 * [Support forum](https://forum.rapidscada.org/)
