@@ -39,6 +39,7 @@
     <Phrase key="Blinking">Blinking</Phrase>
     <Phrase key="Enabled">Enabled</Phrase>
     <Phrase key="Visible">Visible</Phrase>
+    <Phrase key="CheckRights">Check rights</Phrase>
     <Phrase key="DeviceNum">Device number</Phrase>
     <Phrase key="InCnlNum">Input channel</Phrase>
     <Phrase key="ObjNum">Object number</Phrase>

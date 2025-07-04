@@ -39,6 +39,7 @@
     <Phrase key="Blinking">Мигает</Phrase>
     <Phrase key="Enabled">Включен</Phrase>
     <Phrase key="Visible">Видимый</Phrase>
+    <Phrase key="CheckRights">Проверять права</Phrase>
     <Phrase key="DeviceNum">Номер устройства</Phrase>
     <Phrase key="InCnlNum">Входной канал</Phrase>
     <Phrase key="ObjNum">Номер объекта</Phrase>

@@ -226,6 +226,13 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
 
         // data
         this.add(new PropertyDescriptor({
+            name: "checkRights",
+            displayName: "Check rights",
+            category: KnownCategory.DATA,
+            type: BasicType.BOOL
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "deviceNum",
             displayName: "Device number",
             category: KnownCategory.DATA,

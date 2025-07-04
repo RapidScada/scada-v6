@@ -40,6 +40,7 @@ rs.mimic.ComponentFactory = class {
             visible: true,
 
             // data
+            checkRights: false,
             deviceNum: 0,
             inCnlNum: 0,
             objNum: 0,
@@ -68,6 +69,7 @@ rs.mimic.ComponentFactory = class {
             visible: PropertyParser.parseBool(sourceProps.visible),
 
             // data
+            checkRights: PropertyParser.parseBool(sourceProps.checkRights),
             deviceNum: PropertyParser.parseInt(sourceProps.deviceNum),
             inCnlNum: PropertyParser.parseInt(sourceProps.inCnlNum),
             objNum: PropertyParser.parseInt(sourceProps.objNum),

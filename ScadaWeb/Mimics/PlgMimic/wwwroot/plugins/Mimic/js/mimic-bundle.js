@@ -270,6 +270,13 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
 
         // data
         this.add(new PropertyDescriptor({
+            name: "checkRights",
+            displayName: "Check rights",
+            category: KnownCategory.DATA,
+            type: BasicType.BOOL
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "deviceNum",
             displayName: "Device number",
             category: KnownCategory.DATA,
@@ -986,6 +993,7 @@ rs.mimic.ComponentFactory = class {
             visible: true,
 
             // data
+            checkRights: false,
             deviceNum: 0,
             inCnlNum: 0,
             objNum: 0,
@@ -1014,6 +1022,7 @@ rs.mimic.ComponentFactory = class {
             visible: PropertyParser.parseBool(sourceProps.visible),
 
             // data
+            checkRights: PropertyParser.parseBool(sourceProps.checkRights),
             deviceNum: PropertyParser.parseInt(sourceProps.deviceNum),
             inCnlNum: PropertyParser.parseInt(sourceProps.inCnlNum),
             objNum: PropertyParser.parseInt(sourceProps.objNum),
