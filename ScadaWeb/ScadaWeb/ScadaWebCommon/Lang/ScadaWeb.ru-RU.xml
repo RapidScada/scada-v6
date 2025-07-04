@@ -2,6 +2,7 @@
 <ScadaWebDictionaries>
   <Dictionary key="Scada.Web">
     <Phrase key="CorrectErrors">Пожалуйста исправьте следующие ошибки:</Phrase>
+    <Phrase key="IllegalRole">Недопустимая роль пользователя.</Phrase>
     <Phrase key="ClientError">Ошибка при взаимодействии с сервером</Phrase>
     <Phrase key="UnknownUsername">Неизвестный</Phrase>
     <Phrase key="AccessDenied">Доступ запрещен</Phrase>
