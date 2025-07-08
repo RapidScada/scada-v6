@@ -32,6 +32,17 @@ rs.mimic.Renderer = class {
         });
     }
 
+    // Sets the font of the specified jQuery object.
+    _setFont(jqObj, font) {
+        jqObj.css({
+            //"font-family": font.name,
+            "font-size": font.size,
+            "font-weight": font.bold ? "bold" : "normal",
+            "font-style": font.italic ? "italic" : "normal",
+            "text-decoration": font.underline ? "underline" : "none"
+        });
+    }
+
     // Sets the left and top of the specified jQuery object.
     _setLocation(jqObj, location) {
         jqObj.css({
@@ -205,26 +216,42 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         }
     }
 
+    _setProps(mimicElem, mimic, renderContext) {
+        let props = mimic.document;
+        this._setBackgroundImage(mimicElem, renderContext.getImage(props.backgroundImage));
+        this._setFont(mimicElem, props.font);
+        this._setSize(mimicElem, props.size);
+
+        mimicElem
+            .attr("title", props.tooltip)
+            .css({
+                "background-color": props.backColor,
+                "background-repeat": "no-repeat",
+                "background-size": props.size.width + "px " + props.size.height + "px",
+                "color": props.foreColor
+            });
+    }
+
     createDom(mimic, renderContext) {
         let mimicElem = $("<div class='mimic'></div>");
-        mimic.dom = mimicElem;
 
         if (renderContext.editMode && renderContext.editorOptions &&
             renderContext.editorOptions.showGrid && renderContext.editorOptions.gridStep > 1) {
             mimicElem.append(MimicRenderer._createGrid(renderContext.editorOptions.gridStep, mimic.document.size));
         }
 
-        this.updateDom(mimic, renderContext);
+        this._setProps(mimicElem, mimic, renderContext);
+        mimic.dom = mimicElem;
         return mimicElem;
     }
 
     updateDom(mimic, renderContext) {
-        if (!mimic.dom) {
-            return null;
+        let mimicElem = mimic.dom;
+
+        if (mimicElem) {
+            this._setProps(mimicElem, mimic, renderContext);
         }
 
-        let mimicElem = mimic.dom;
-        this._setSize(mimicElem, mimic.document.size);
         return mimicElem;
     }
 };
@@ -306,6 +333,7 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         let props = component.properties;
         this._setBorder(componentElem, props.border);
         this._setCornerRadius(componentElem, props.cornerRadius);
+        componentElem.attr("title", props.tooltip);
 
         if (props.cssClass) {
             componentElem.addClass(props.cssClass);
@@ -323,8 +351,9 @@ rs.mimic.TextRenderer = class extends rs.mimic.RegularComponentRenderer {
     _setProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
         let props = component.properties;
-        componentElem.text(props.text);
+        this._setFont(componentElem, props.font);
         this._setPadding(componentElem, props.padding);
+        componentElem.text(props.text);
     }
 };
 
@@ -336,6 +365,7 @@ rs.mimic.PictureRenderer = class extends rs.mimic.RegularComponentRenderer {
     }
 
     _setProps(componentElem, component, renderContext) {
+        super._setProps(componentElem, component, renderContext);
         let props = component.properties;
         this._setBackgroundImage(componentElem, renderContext.getImage(props.imageName));
     }
@@ -488,7 +518,11 @@ rs.mimic.UnitedRenderer = class {
 
     // Updates a mimic DOM according to the mimic model.
     updateMimicDom() {
-        rs.mimic.RendererSet.mimicRenderer.updateDom(this.mimic);
+        rs.mimic.RendererSet.mimicRenderer.updateDom(this.mimic, new rs.mimic.RenderContext({
+            editMode: this.editMode,
+            editorOptions: this.editorOptions,
+            imageMap: this.mimic.imageMap,
+        }));
     }
 
     // Creates a component DOM according to the component model. Returns a jQuery object.
