@@ -1,4 +1,4 @@
-﻿// Contains classes: Renderer, MimicRenderer, ComponentRenderer,
+﻿// Contains classes: Renderer, MimicRenderer, ComponentRenderer, RegularComponentRenderer,
 //     TextRenderer, PictureRenderer, PanelRenderer, RenderContext, RendererSet, UnitedRenderer
 // Depends on jquery, scada-common.js, mimic-common.js
 
@@ -7,6 +7,24 @@ rs.mimic.Renderer = class {
     // Gets a value indocating whether the renderer supports DOM update.
     get canUpdateDom() {
         return false;
+    }
+
+    // Sets the background image of the specified jQuery object.
+    _setBackgroundImage(jqObj, image) {
+        jqObj.css("background-image", this._imageToDataUrlCss(image));
+    }
+
+    // Sets the border of the specified jQuery object.
+    _setBorder(jqObj, border) {
+        if (border.width > 0) {
+            jqObj.css({
+                "border-width": border.width,
+                "border-style": "solid",
+                "border-color": border.color
+            });
+        } else {
+            jqObj.css("border", "none");
+        }
     }
 
     // Sets the left and top of the specified jQuery object.
@@ -25,23 +43,19 @@ rs.mimic.Renderer = class {
         });
     }
 
-    // Sets the background image of the specified jQuery object.
-    _setBackgroundImage(jqObj, image) {
-        jqObj.css("background-image", this._imageToDataUrlCss(image));
-    }
-
     // Returns a css property value for the image data URI.
     _imageToDataUrlCss(image) {
         return image ? "url('" + image.dataUrl + "')" : "";
     }
 
-    // Creates a component DOM according to the component model. Returns a jQuery object.
+    // Creates a component DOM according to the component model. Returns a jQuery object or null.
     createDom(component, renderContext) {
         return null;
     }
 
-    // Updates the existing component DOM according to the component model.
+    // Updates the existing component DOM according to the component model. Returns a jQuery object or null.
     updateDom(component, renderContext) {
+        return null;
     }
 
     // Updates the component view according to the current channel data.
@@ -194,10 +208,13 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
     }
 
     updateDom(mimic, renderContext) {
-        if (mimic.dom) {
-            let mimicElem = mimic.dom.first();
-            this._setSize(mimicElem, mimic.document.size);
+        if (!mimic.dom) {
+            return null;
         }
+
+        let mimicElem = mimic.dom.first();
+        this._setSize(mimicElem, mimic.document.size);
+        return mimicElem;
     }
 };
 
@@ -207,6 +224,9 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         let componentElem = $("<div class='comp'></div>")
             .attr("id", "comp" + renderContext.idPrefix + component.id)
             .attr("data-id", component.id);
+        let props = component.properties;
+        this._setLocation(componentElem, props.location);
+        this._setSize(componentElem, props.size);
 
         if (renderContext.editMode) {
             if (!renderContext.faceplateMode && component.isContainer) {
@@ -219,6 +239,18 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         }
 
         component.dom = componentElem;
+        return componentElem;
+    }
+
+    updateDom(component, renderContext) {
+        if (!component.dom) {
+            return null;
+        }
+
+        let componentElem = component.dom.first();
+        let props = component.properties;
+        this._setLocation(componentElem, props.location);
+        this._setSize(componentElem, props.size);
         return componentElem;
     }
 
@@ -239,33 +271,54 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
     }
 };
 
+// Represents a renderer for regular non-faceplate components.
+rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
+    createDom(component, renderContext) {
+        let componentElem = super.createDom(component, renderContext);
+
+        if (componentElem) {
+            let props = component.properties;
+            this._setBorder(componentElem, props.border);
+        }
+
+        return componentElem;
+    }
+
+    updateDom(component, renderContext) {
+        let componentElem = super.updateDom(component, renderContext);
+
+        if (componentElem) {
+            let props = component.properties;
+            this._setBorder(componentElem, props.border);
+        }
+
+        return componentElem;
+    }
+};
+
 // Represents a text component renderer.
-rs.mimic.TextRenderer = class extends rs.mimic.ComponentRenderer {
+rs.mimic.TextRenderer = class extends rs.mimic.RegularComponentRenderer {
     createDom(component, renderContext) {
         let textElem = super.createDom(component, renderContext);
         let props = component.properties;
         textElem.addClass("text").text(props.text);
-        this._setLocation(textElem, props.location);
-        this._setSize(textElem, props.size);
         return textElem;
     }
 };
 
 // Represents a picture component renderer.
-rs.mimic.PictureRenderer = class extends rs.mimic.ComponentRenderer {
+rs.mimic.PictureRenderer = class extends rs.mimic.RegularComponentRenderer {
     createDom(component, renderContext) {
         let pictureElem = super.createDom(component, renderContext);
         let props = component.properties;
         pictureElem.addClass("picture");
-        this._setLocation(pictureElem, props.location);
-        this._setSize(pictureElem, props.size);
         this._setBackgroundImage(pictureElem, renderContext.getImage(props.imageName));
         return pictureElem;
     }
 };
 
 // Represents a panel component renderer.
-rs.mimic.PanelRenderer = class extends rs.mimic.ComponentRenderer {
+rs.mimic.PanelRenderer = class extends rs.mimic.RegularComponentRenderer {
     get canUpdateDom() {
         return true;
     }
@@ -278,11 +331,10 @@ rs.mimic.PanelRenderer = class extends rs.mimic.ComponentRenderer {
     }
 
     updateDom(component, renderContext) {
-        if (component.dom) {
-            let panelElem = component.dom.first();
-            let props = component.properties;
-            this._setLocation(panelElem, props.location);
-            this._setSize(panelElem, props.size);
+        let panelElem = super.updateDom(component, renderContext);
+
+        if (panelElem) {
+            // TODO: update other properties
         }
     }
 };
@@ -301,11 +353,10 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
     }
 
     updateDom(component, renderContext) {
-        if (component.dom) {
-            let faceplateElem = component.dom.first();
-            let props = component.properties;
-            this._setLocation(faceplateElem, props.location);
-            this._setSize(faceplateElem, props.size);
+        let faceplateElem = super.updateDom(component, renderContext);
+
+        if (faceplateElem) {
+            // TODO: update other properties
         }
     }
 };
