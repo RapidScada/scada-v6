@@ -2844,7 +2844,7 @@ rs.mimic.PropertyParser = class {
 }
 
 // Contains classes: Renderer, MimicRenderer, ComponentRenderer, RegularComponentRenderer,
-//     TextRenderer, PictureRenderer, PanelRenderer, RenderContext, RendererSet, UnitedRenderer
+//     TextRenderer, PictureRenderer, PanelRenderer, RenderContext, DataProvider, RendererSet, UnitedRenderer
 // Depends on jquery, scada-common.js, mimic-common.js
 
 // Represents a renderer of a mimic or component.
@@ -3258,6 +3258,7 @@ rs.mimic.RenderContext = class {
     imageMap = null;
     idPrefix = "";
     unknownTypes = null;
+    dataProvider = null;
 
     constructor(source) {
         Object.assign(this, source);
@@ -3265,6 +3266,36 @@ rs.mimic.RenderContext = class {
 
     getImage(imageName) {
         return this.imageMap instanceof Map ? this.imageMap.get(imageName) : null;
+    }
+
+    getDataProvider() {
+        return this.dataProvider ?? rs.mimic.DataProvider.STUB;
+    }
+};
+
+// Represents a provider of channel data and channel properties.
+rs.mimic.DataProvider = class DataProvider {
+    static EMPTY_DATA = {
+        d: { cnlNum: 0, val: 0.0, stat: 0 },
+        df: { dispVal: "", colors: [] }
+    };
+    static EMPTY_CNL_PROPS = { cnlNum: 0, joinLen: 1, unit: "" };
+    static STUB = new DataProvider();
+
+    curCnlDataMap = null;
+    prevCnlDataMap = null;
+    cnlPropsMap = null;
+
+    getCurData(cnlNum, opt_joinLen) {
+        return DataProvider.EMPTY_DATA;
+    }
+
+    getPrevData(cnlNum, opt_joinLen) {
+        return DataProvider.EMPTY_DATA;
+    }
+
+    getCnlProps(cnlNum) {
+        return DataProvider.EMPTY_CNL_PROPS;
     }
 };
 
@@ -3429,6 +3460,20 @@ rs.mimic.UnitedRenderer = class {
             // append components
             for (let component of parent.children) {
                 this._appendToParent(component);
+            }
+        }
+    }
+
+    // Updates the components according to the current channel data.
+    updateData(dataProvider) {
+        let renderContext = new rs.mimic.RenderContext({
+            imageMap: this.mimic.imageMap,
+            dataProvider: dataProvider
+        });
+
+        for (let component of this.mimic.components) {
+            if (component.renderer) {
+                component.renderer.updateData(component, renderContext);
             }
         }
     }
