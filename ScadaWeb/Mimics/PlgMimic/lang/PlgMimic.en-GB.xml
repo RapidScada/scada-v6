@@ -193,5 +193,6 @@
     <Phrase key="backColor">Back color</Phrase>
     <Phrase key="foreColor">Fore color</Phrase>
     <Phrase key="borderColor">Border color</Phrase>
+    <Phrase key="underline">Underline</Phrase>
   </Dictionary>
 </PlgMimicDictionaries>

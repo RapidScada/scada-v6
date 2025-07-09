@@ -193,5 +193,6 @@
     <Phrase key="backColor">Цвет фона</Phrase>
     <Phrase key="foreColor">Цвет текста</Phrase>
     <Phrase key="borderColor">Цвет границы</Phrase>
+    <Phrase key="underline">Подчёркивание</Phrase>
   </Dictionary>
 </PlgMimicDictionaries>

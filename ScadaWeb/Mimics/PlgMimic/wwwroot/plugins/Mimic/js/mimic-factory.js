@@ -169,8 +169,8 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
         let properties = super.createProperties();
 
         // appearance
-        Object.assign(component.properties, {
-            font: new rs.mimic.Font(),
+        Object.assign(properties, {
+            font: new rs.mimic.Font({ inherit: true }),
             text: "Text",
             textAlign: rs.mimic.ContentAlignment.TOP_LEFT,
             textDirection: rs.mimic.TextDirection.HORIZONTAL,
@@ -178,7 +178,7 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
         });
 
         // layout
-        Object.assign(component.properties, {
+        Object.assign(properties, {
             autoSize: false,
             padding: new rs.mimic.Padding()
         });

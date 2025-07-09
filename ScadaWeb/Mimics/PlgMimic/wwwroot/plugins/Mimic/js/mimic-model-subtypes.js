@@ -260,11 +260,16 @@ rs.mimic.CornerRadius = class CornerRadius {
 
 // Represents a font.
 rs.mimic.Font = class Font {
+    inherit = false;
     name = "";
     size = 16;
     bold = false;
     italic = false;
     underline = false;
+
+    constructor(source) {
+        Object.assign(this, source);
+    }
 
     get typeName() {
         return "Font";
@@ -275,6 +280,7 @@ rs.mimic.Font = class Font {
         let font = new Font();
 
         if (source) {
+            font.inherit = PropertyParser.parseBool(source.inherit);
             font.name = PropertyParser.parseString(source.name);
             font.size = PropertyParser.parseInt(source.size, font.size);
             font.bold = PropertyParser.parseBool(source.bold);
@@ -466,6 +472,7 @@ rs.mimic.VisualState = class VisualState {
     backColor = "";
     foreColor = "";
     borderColor = "";
+    underline = false;
 
     get typeName() {
         return "VisualState";
@@ -479,6 +486,7 @@ rs.mimic.VisualState = class VisualState {
             visualState.backColor = PropertyParser.parseString(source.backColor);
             visualState.foreColor = PropertyParser.parseString(source.foreColor);
             visualState.borderColor = PropertyParser.parseString(source.borderColor);
+            visualState.underline = PropertyParser.parseBool(source.underline);
         }
 
         return visualState;

@@ -881,6 +881,12 @@ rs.mimic.VisualStateDescriptor = class extends rs.mimic.StructureDescriptor {
             type: BasicType.STRING,
             editor: PropertyEditor.COLOR_DIALOG
         }));
+
+        this.add(new PropertyDescriptor({
+            name: "underline",
+            displayName: "Underline",
+            type: BasicType.BOOL
+        }));
     }
 };
 

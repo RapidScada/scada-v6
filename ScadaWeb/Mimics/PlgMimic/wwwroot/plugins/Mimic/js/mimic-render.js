@@ -34,13 +34,23 @@ rs.mimic.Renderer = class {
 
     // Sets the font of the specified jQuery object.
     _setFont(jqObj, font) {
-        jqObj.css({
-            //"font-family": font.name,
-            "font-size": font.size,
-            "font-weight": font.bold ? "bold" : "normal",
-            "font-style": font.italic ? "italic" : "normal",
-            "text-decoration": font.underline ? "underline" : "none"
-        });
+        if (font.inherit) {
+            jqObj.css({
+                "font-family": "",
+                "font-size": "",
+                "font-weight": "",
+                "font-style": "",
+                "text-decoration": "" // not inherited
+            });
+        } else {
+            jqObj.css({
+                //"font-family": font.name,
+                "font-size": font.size,
+                "font-weight": font.bold ? "bold" : "normal",
+                "font-style": font.italic ? "italic" : "normal",
+                "text-decoration": font.underline ? "underline" : "none"
+            });
+        }
     }
 
     // Sets the left and top of the specified jQuery object.

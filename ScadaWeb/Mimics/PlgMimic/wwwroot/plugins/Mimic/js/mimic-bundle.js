@@ -925,6 +925,12 @@ rs.mimic.VisualStateDescriptor = class extends rs.mimic.StructureDescriptor {
             type: BasicType.STRING,
             editor: PropertyEditor.COLOR_DIALOG
         }));
+
+        this.add(new PropertyDescriptor({
+            name: "underline",
+            displayName: "Underline",
+            type: BasicType.BOOL
+        }));
     }
 };
 
@@ -1122,8 +1128,8 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
         let properties = super.createProperties();
 
         // appearance
-        Object.assign(component.properties, {
-            font: new rs.mimic.Font(),
+        Object.assign(properties, {
+            font: new rs.mimic.Font({ inherit: true }),
             text: "Text",
             textAlign: rs.mimic.ContentAlignment.TOP_LEFT,
             textDirection: rs.mimic.TextDirection.HORIZONTAL,
@@ -1131,7 +1137,7 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
         });
 
         // layout
-        Object.assign(component.properties, {
+        Object.assign(properties, {
             autoSize: false,
             padding: new rs.mimic.Padding()
         });
@@ -2494,11 +2500,16 @@ rs.mimic.CornerRadius = class CornerRadius {
 
 // Represents a font.
 rs.mimic.Font = class Font {
+    inherit = false;
     name = "";
     size = 16;
     bold = false;
     italic = false;
     underline = false;
+
+    constructor(source) {
+        Object.assign(this, source);
+    }
 
     get typeName() {
         return "Font";
@@ -2509,6 +2520,7 @@ rs.mimic.Font = class Font {
         let font = new Font();
 
         if (source) {
+            font.inherit = PropertyParser.parseBool(source.inherit);
             font.name = PropertyParser.parseString(source.name);
             font.size = PropertyParser.parseInt(source.size, font.size);
             font.bold = PropertyParser.parseBool(source.bold);
@@ -2700,6 +2712,7 @@ rs.mimic.VisualState = class VisualState {
     backColor = "";
     foreColor = "";
     borderColor = "";
+    underline = false;
 
     get typeName() {
         return "VisualState";
@@ -2713,6 +2726,7 @@ rs.mimic.VisualState = class VisualState {
             visualState.backColor = PropertyParser.parseString(source.backColor);
             visualState.foreColor = PropertyParser.parseString(source.foreColor);
             visualState.borderColor = PropertyParser.parseString(source.borderColor);
+            visualState.underline = PropertyParser.parseBool(source.underline);
         }
 
         return visualState;
@@ -2865,13 +2879,23 @@ rs.mimic.Renderer = class {
 
     // Sets the font of the specified jQuery object.
     _setFont(jqObj, font) {
-        jqObj.css({
-            //"font-family": font.name,
-            "font-size": font.size,
-            "font-weight": font.bold ? "bold" : "normal",
-            "font-style": font.italic ? "italic" : "normal",
-            "text-decoration": font.underline ? "underline" : "none"
-        });
+        if (font.inherit) {
+            jqObj.css({
+                "font-family": "",
+                "font-size": "",
+                "font-weight": "",
+                "font-style": "",
+                "text-decoration": "" // not inherited
+            });
+        } else {
+            jqObj.css({
+                //"font-family": font.name,
+                "font-size": font.size,
+                "font-weight": font.bold ? "bold" : "normal",
+                "font-style": font.italic ? "italic" : "normal",
+                "text-decoration": font.underline ? "underline" : "none"
+            });
+        }
     }
 
     // Sets the left and top of the specified jQuery object.
