@@ -48,7 +48,6 @@ rs.mimic.ComparisonOperator = class ComparisonOperator {
 
 // Specifies the data members of a property binding.
 rs.mimic.DataMember = class {
-    static DEFAULT = "Default";
     static VALUE = "Value";
     static STATUS = "Status";
     static DISPLAY_VALUE = "DisplayValue";
@@ -423,7 +422,7 @@ rs.mimic.PropertyBinding = class PropertyBinding {
         if (source) {
             propertyBinding.propertyName = PropertyParser.parseString(source.propertyName);
             propertyBinding.dataSource = PropertyParser.parseString(source.dataSource);
-            propertyBinding.dataMember = PropertyParser.parseString(source.dataMember, rs.mimic.DataMember.DEFAULT);
+            propertyBinding.dataMember = PropertyParser.parseString(source.dataMember, rs.mimic.DataMember.VALUE);
             propertyBinding.format = PropertyParser.parseString(source.format);
         }
 

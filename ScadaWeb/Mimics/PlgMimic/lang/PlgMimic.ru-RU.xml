@@ -99,7 +99,6 @@
     <Phrase key="GreaterThanEqual">&gt;=</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.DataMember">
-    <Phrase key="Default">По умолчанию</Phrase>
     <Phrase key="Value">Значение</Phrase>
     <Phrase key="Status">Статус</Phrase>
     <Phrase key="DisplayValue">Отображаемое значение</Phrase>

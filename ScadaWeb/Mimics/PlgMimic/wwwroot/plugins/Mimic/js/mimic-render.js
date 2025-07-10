@@ -243,8 +243,9 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
 
 // Represents a component renderer.
 rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
+    // Gets a value indicating whether the renderer can update the existing component DOM without recreating it.
     get canUpdateDom() {
-        return false;
+        return true;
     }
 
     // Sets the CSS classes of the component element.
@@ -362,33 +363,69 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         }
     }
 
-    _setPropertyValue(obj, binding, curData) {
+    _setPropertyValue(obj, binding, curData, unit) {
+        const DataProvider = rs.mimic.DataProvider;
 
+        // find the object to update
+        let objectToUpdate = obj;
+
+        for (let i = 0; i < binding.propertyChain.length - 1; i++) {
+            let propertyName = binding.propertyChain[i];
+
+            if (objectToUpdate instanceof Object && objectToUpdate.hasOwnProperty(propertyName)) {
+                objectToUpdate = objectToUpdate[propertyName];
+            } else {
+                objectToUpdate = null;
+                break;
+            }
+        }
+
+        // set property value
+        if (binding.propertyChain.length > 0) {
+            let propertyName = binding.propertyChain.at(-1); // last
+
+            if (objectToUpdate instanceof Object && objectToUpdate.hasOwnProperty(propertyName)) {
+                let fieldValue = DataProvider.getFieldValue(curData, binding.dataMember, unit);
+                let propertyValue = objectToUpdate[propertyName];
+
+                if (typeof propertyValue === "number") {
+                    propertyValue = Number.parseFloat(fieldValue) || 0;
+                } else if (typeof propertyValue === "string") {
+                    propertyValue = String(fieldValue);
+                } else if (typeof propertyValue === "boolean") {
+                    propertyValue = !!fieldValue;
+                }
+
+                objectToUpdate[propertyName] = propertyValue;
+            }
+        }
     }
 
     updateData(component, renderContext) {
         // update properties
+        // binding structure is { propertyName, dataSource, dataMember, format, propertyChain, cnlNum }
+        let dataChanged = false;
+
         if (Array.isArray(component.bindings)) {
             let dataProvider = renderContext.getDataProvider();
 
             for (let binding of component.bindings) {
-                let cnlNum = binding.cnlNum;
-
-                if (binding.propertyName && cnlNum > 0) {
-                    let cnlProps = dataProvider.getCnlProps(cnlNum);
-                    let curData = dataProvider.getCurData(cnlNum, cnlProps.joinLen);
-                    let prevData = dataProvider.getPrevData(cnlNum, cnlProps.joinLen);
+                if (binding.propertyName && binding.cnlNum > 0) {
+                    let cnlProps = dataProvider.getCnlProps(binding.cnlNum);
+                    let curData = dataProvider.getCurData(binding.cnlNum, cnlProps.joinLen);
+                    let prevData = dataProvider.getPrevData(binding.cnlNum, cnlProps.joinLen);
 
                     if (!(curData.d.val === prevData.d.val && curData.d.stat === prevData.d.stat) ||
                         !dataProvider.prevCnlDataMap) {
-                        this._setPropertyValue(component.properties, binding, curData);
+                        this._setPropertyValue(component.properties, binding, curData, cnlProps.unit);
+                        dataChanged = true;
                     }
                 }
             }
         }
 
         // update DOM
-        if (component.dom) {
+        if (dataChanged && component.dom) {
             if (this.canUpdateDom) {
                 this.updateDom(component, renderContext);
             } else {
@@ -432,10 +469,6 @@ rs.mimic.PictureRenderer = class extends rs.mimic.RegularComponentRenderer {
 
 // Represents a panel component renderer.
 rs.mimic.PanelRenderer = class extends rs.mimic.RegularComponentRenderer {
-    get canUpdateDom() {
-        return true;
-    }
-
     _setClasses(componentElem) {
         super._setClasses(componentElem);
         componentElem.addClass("panel");
@@ -444,10 +477,6 @@ rs.mimic.PanelRenderer = class extends rs.mimic.RegularComponentRenderer {
 
 // Represents a faceplate renderer.
 rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
-    get canUpdateDom() {
-        return true;
-    }
-
     _setClasses(componentElem) {
         super._setClasses(componentElem);
         componentElem.addClass("faceplate");
@@ -490,16 +519,48 @@ rs.mimic.DataProvider = class DataProvider {
     prevCnlDataMap = null;
     cnlPropsMap = null;
 
-    getCurData(cnlNum, opt_joinLen) {
+    getCurData(cnlNum, joinLen) {
         return DataProvider.EMPTY_DATA;
     }
 
-    getPrevData(cnlNum, opt_joinLen) {
+    getPrevData(cnlNum, joinLen) {
         return DataProvider.EMPTY_DATA;
     }
 
     getCnlProps(cnlNum) {
         return DataProvider.EMPTY_CNL_PROPS;
+    }
+
+    static getFieldValue(data, dataMember, unit) {
+        const DataMember = rs.mimic.DataMember;
+
+        switch (dataMember) {
+            case DataMember.VALUE:
+                return data.d.val;
+
+            case DataMember.STATUS:
+                return data.d.stat;
+
+            case DataMember.DISPLAY_VALUE:
+                return data.df.dispVal;
+
+            case DataMember.DISPLAY_VALUE_WITH_UNIT:
+                return unit && data.d.stat > 0
+                    ? data.df.dispVal + " " + unit
+                    : data.df.dispVal;
+
+            case DataMember.COLOR0:
+                return data.df.colors.length > 0 ? data.df.colors[0] : "";
+
+            case DataMember.COLOR1:
+                return data.df.colors.length > 1 ? data.df.colors[1] : "";
+
+            case DataMember.COLOR2:
+                return data.df.colors.length > 2 ? data.df.colors[2] : "";
+
+            default:
+                return null;
+        }
     }
 };
 
