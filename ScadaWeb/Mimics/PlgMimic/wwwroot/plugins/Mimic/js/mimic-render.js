@@ -406,7 +406,8 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         // binding structure is { propertyName, dataSource, dataMember, format, propertyChain, cnlNum }
         let dataChanged = false;
 
-        if (Array.isArray(component.bindings)) {
+        if (Array.isArray(component.bindings) && component.bindings.length > 0) {
+            const DataProvider = rs.mimic.DataProvider;
             let dataProvider = renderContext.getDataProvider();
 
             for (let binding of component.bindings) {
@@ -415,8 +416,7 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
                     let curData = dataProvider.getCurData(binding.cnlNum, cnlProps.joinLen);
                     let prevData = dataProvider.getPrevData(binding.cnlNum, cnlProps.joinLen);
 
-                    if (!(curData.d.val === prevData.d.val && curData.d.stat === prevData.d.stat) ||
-                        !dataProvider.prevCnlDataMap) {
+                    if (!DataProvider.dataEqual(curData, prevData) || !dataProvider.prevCnlDataMap) {
                         this._setPropertyValue(component.properties, binding, curData, cnlProps.unit);
                         dataChanged = true;
                     }
@@ -519,11 +519,11 @@ rs.mimic.DataProvider = class DataProvider {
     prevCnlDataMap = null;
     cnlPropsMap = null;
 
-    getCurData(cnlNum, joinLen) {
+    getCurData(cnlNum, opt_joinLen) {
         return DataProvider.EMPTY_DATA;
     }
 
-    getPrevData(cnlNum, joinLen) {
+    getPrevData(cnlNum, opt_joinLen) {
         return DataProvider.EMPTY_DATA;
     }
 
@@ -531,7 +531,11 @@ rs.mimic.DataProvider = class DataProvider {
         return DataProvider.EMPTY_CNL_PROPS;
     }
 
-    static getFieldValue(data, dataMember, unit) {
+    static dataEqual(data1, data2) {
+        return data1.d.val === data2.d.val && data1.d.stat === data2.d.stat;
+    }
+
+    static getFieldValue(data, dataMember, opt_unit) {
         const DataMember = rs.mimic.DataMember;
 
         switch (dataMember) {
@@ -545,8 +549,8 @@ rs.mimic.DataProvider = class DataProvider {
                 return data.df.dispVal;
 
             case DataMember.DISPLAY_VALUE_WITH_UNIT:
-                return unit && data.d.stat > 0
-                    ? data.df.dispVal + " " + unit
+                return opt_unit && data.d.stat > 0
+                    ? data.df.dispVal + " " + opt_unit
                     : data.df.dispVal;
 
             case DataMember.COLOR0:
