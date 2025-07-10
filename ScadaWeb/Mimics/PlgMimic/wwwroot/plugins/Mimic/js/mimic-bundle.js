@@ -1992,12 +1992,12 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
 // Represents a component of a mimic diagram.
 rs.mimic.Component = class {
-    id = 0;
-    typeName = "";
-    properties = null;
-    bindings = null;
-    parentID = 0;
-    index = -1;
+    id = 0;             // component ID
+    typeName = "";      // component type name
+    properties = null;  // factory normalized properties
+    bindings = null;    // server side prepared bindings
+    parentID = 0;       // parent ID
+    index = -1;         // sibling index
 
     parent = null;      // mimic or panel
     children = null;    // top-level child components
