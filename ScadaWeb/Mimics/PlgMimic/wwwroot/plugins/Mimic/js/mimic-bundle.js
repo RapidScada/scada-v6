@@ -79,6 +79,7 @@ rs.mimic.Subtype = class {
     // Enumerations
     static ACTION_TYPE = "ActionType";
     static COMPARISON_OPERATOR = "ComparisonOperator";
+    static DATA_MEMBER = "DataMember";
     static IMAGE_SIZE_MODE = "ImageSizeMode";
     static LOGICAL_OPERATOR = "LogicalOperator";
     static LINK_TARGET = "LinkTarget";
@@ -846,6 +847,7 @@ rs.mimic.PropertyBindingDescriptor = class extends rs.mimic.StructureDescriptor 
     constructor() {
         super();
         const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
         const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
@@ -865,7 +867,8 @@ rs.mimic.PropertyBindingDescriptor = class extends rs.mimic.StructureDescriptor 
         this.add(new PropertyDescriptor({
             name: "dataMember",
             displayName: "Data member",
-            type: BasicType.STRING
+            type: BasicType.ENUM,
+            subtype: Subtype.DATA_MEMBER
         }));
 
         this.add(new PropertyDescriptor({
@@ -1993,7 +1996,6 @@ rs.mimic.Component = class {
     typeName = "";
     properties = null;
     bindings = null;
-    access = null;
     parentID = 0;
     index = -1;
 
@@ -2101,8 +2103,6 @@ rs.mimic.Component = class {
             name: this.name,
             typeName: this.typeName,
             properties: this.properties,
-            bindings: this.bindings,
-            access: this.access,
             parentID: this.parentID,
             index: this.index,
             children: this.children ? [] : null
@@ -2238,7 +2238,7 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
     }
 };
 
-// Enumerations: ActionType, ComparisonOperator, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth,
+// Enumerations: ActionType, ComparisonOperator, DataMember, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth,
 //     ContentAlignment, TextDirection
 // Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
 //     PropertyBinding, PropertyExport, Size, VisualState
@@ -2285,6 +2285,18 @@ rs.mimic.ComparisonOperator = class ComparisonOperator {
         }
     }
 };
+
+// Specifies the data members of a property binding.
+rs.mimic.DataMember = class {
+    static DEFAULT = "Default";
+    static VALUE = "Value";
+    static STATUS = "Status";
+    static DISPLAY_VALUE = "DisplayValue";
+    static DISPLAY_VALUE_WITH_UNIT = "DisplayValueWithUnit";
+    static COLOR0 = "Color0";
+    static COLOR1 = "Color1";
+    static COLOR2 = "Color2";
+}
 
 // Specifies how an image is positioned within a component.
 rs.mimic.ImageSizeMode = class {
@@ -2651,7 +2663,7 @@ rs.mimic.PropertyBinding = class PropertyBinding {
         if (source) {
             propertyBinding.propertyName = PropertyParser.parseString(source.propertyName);
             propertyBinding.dataSource = PropertyParser.parseString(source.dataSource);
-            propertyBinding.dataMember = PropertyParser.parseString(source.dataMember);
+            propertyBinding.dataMember = PropertyParser.parseString(source.dataMember, rs.mimic.DataMember.DEFAULT);
             propertyBinding.format = PropertyParser.parseString(source.format);
         }
 

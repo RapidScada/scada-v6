@@ -698,7 +698,6 @@ rs.mimic.Component = class {
     typeName = "";
     properties = null;
     bindings = null;
-    access = null;
     parentID = 0;
     index = -1;
 
@@ -806,8 +805,6 @@ rs.mimic.Component = class {
             name: this.name,
             typeName: this.typeName,
             properties: this.properties,
-            bindings: this.bindings,
-            access: this.access,
             parentID: this.parentID,
             index: this.index,
             children: this.children ? [] : null

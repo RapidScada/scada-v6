@@ -35,6 +35,7 @@ rs.mimic.Subtype = class {
     // Enumerations
     static ACTION_TYPE = "ActionType";
     static COMPARISON_OPERATOR = "ComparisonOperator";
+    static DATA_MEMBER = "DataMember";
     static IMAGE_SIZE_MODE = "ImageSizeMode";
     static LOGICAL_OPERATOR = "LogicalOperator";
     static LINK_TARGET = "LinkTarget";
@@ -802,6 +803,7 @@ rs.mimic.PropertyBindingDescriptor = class extends rs.mimic.StructureDescriptor 
     constructor() {
         super();
         const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
         const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
@@ -821,7 +823,8 @@ rs.mimic.PropertyBindingDescriptor = class extends rs.mimic.StructureDescriptor 
         this.add(new PropertyDescriptor({
             name: "dataMember",
             displayName: "Data member",
-            type: BasicType.STRING
+            type: BasicType.ENUM,
+            subtype: Subtype.DATA_MEMBER
         }));
 
         this.add(new PropertyDescriptor({

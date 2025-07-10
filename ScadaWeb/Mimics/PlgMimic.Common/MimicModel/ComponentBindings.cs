@@ -32,6 +32,11 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         public int DeviceNum { get; set; } = 0;
 
         /// <summary>
+        /// Gets or sets a value indicating whether to check user rights to display the component.
+        /// </summary>
+        public bool CheckRights { get; set; } = false;
+
+        /// <summary>
         /// Gets the property bindings of the compoment.
         /// </summary>
         public List<PropertyBinding> PropertyBindings { get; } = [];

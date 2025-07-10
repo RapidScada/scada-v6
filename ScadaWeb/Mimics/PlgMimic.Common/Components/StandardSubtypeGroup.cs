@@ -16,6 +16,7 @@ namespace Scada.Web.Plugins.PlgMimic.Components
             EnumNames.AddRange([
                 "ActionType",
                 "ComparisonOperator",
+                "DataMember",
                 "ImageSizeMode",
                 "LogicalOperator",
                 "LinkTarget",

@@ -98,6 +98,16 @@
     <Phrase key="GreaterThan">&gt;</Phrase>
     <Phrase key="GreaterThanEqual">&gt;=</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.DataMember">
+    <Phrase key="Default">Default</Phrase>
+    <Phrase key="Value">Value</Phrase>
+    <Phrase key="Status">Status</Phrase>
+    <Phrase key="DisplayValue">Display value</Phrase>
+    <Phrase key="DisplayValueWithUnit">Value with unit</Phrase>
+    <Phrase key="Color0">Main color</Phrase>
+    <Phrase key="Color1">Second color</Phrase>
+    <Phrase key="Color2">Back color</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ImageSizeMode">
     <Phrase key="Normal">Normal</Phrase>
     <Phrase key="Center">Center</Phrase>

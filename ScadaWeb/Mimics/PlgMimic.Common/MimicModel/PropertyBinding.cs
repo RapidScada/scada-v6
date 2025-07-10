@@ -21,7 +21,6 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 
         /// <summary>
         /// Gets or sets the data member that provides the property value.
-        /// Possible values: empty string, "Value", "Status".
         /// </summary>
         public string DataMember { get; set; }
 
@@ -29,5 +28,10 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// Gets or sets the format that determines how a value is to be displayed.
         /// </summary>
         public string Format { get; set; }
+
+        /// <summary>
+        /// Gets or sets the channel number that corresponds to the data source.
+        /// </summary>
+        public int CnlNum { get; set; }
     }
 }
