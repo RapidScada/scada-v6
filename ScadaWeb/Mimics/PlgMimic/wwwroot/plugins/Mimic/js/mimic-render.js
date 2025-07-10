@@ -94,36 +94,6 @@ rs.mimic.Renderer = class {
         return null;
     }
 
-    // Updates the component view according to the current channel data.
-    updateData(component, renderContext) {
-    }
-
-    // Sets the location of the component DOM.
-    setLocation(component, x, y) {
-        if (component.dom) {
-            this._setLocation(component.dom, {
-                x: x,
-                y: y
-            });
-        }
-    }
-
-    // Gets the component location from its DOM.
-    getLocation(component) {
-        if (component.dom) {
-            let position = component.dom.position();
-            return {
-                x: parseInt(position.left),
-                y: parseInt(position.top)
-            };
-        } else {
-            return {
-                x: 0,
-                y: 0
-            };
-        }
-    }
-
     // Sets the size of the component DOM.
     setSize(component, width, height) {
         if (component.dom) {
@@ -186,6 +156,7 @@ rs.mimic.Renderer = class {
 rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
     static _GRID_COLOR = "#dee2e6"; // gray-300
 
+    // Creates a grid canvas and draws grid cells.
     static _createGrid(gridSize, mimicSize) {
         // create canvas
         let canvasElem = $("<canvas class='grid'></canvas>");
@@ -204,6 +175,7 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         return canvasElem;
     }
 
+    // Draws grid cells.
     static _drawGrid(context, width, height, gridStep, dashSegments = []) {
         const adj = 0.5; // adjustment for sharpness of lines
 
@@ -226,6 +198,7 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         }
     }
 
+    // Sets the CSS properties of the mimic element.
     _setProps(mimicElem, mimic, renderContext) {
         let props = mimic.document;
         this._setBackgroundImage(mimicElem, renderContext.getImage(props.backgroundImage));
@@ -242,6 +215,7 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
             });
     }
 
+    // Creates a mimic DOM according to the mimic model.
     createDom(mimic, renderContext) {
         let mimicElem = $("<div class='mimic'></div>");
 
@@ -255,6 +229,7 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         return mimicElem;
     }
 
+    // Updates the existing mimic DOM according to the mimic model.
     updateDom(mimic, renderContext) {
         let mimicElem = mimic.dom;
 
@@ -272,11 +247,13 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         return false;
     }
 
+    // Sets the CSS classes of the component element.
     _setClasses(componentElem) {
         componentElem.removeClass(); // clear classes
         componentElem.addClass("comp");
     }
 
+    // Sets the CSS properties of the component element.
     _setProps(componentElem, component, renderContext) {
         let props = component.properties;
         this._setLocation(componentElem, props.location);
@@ -298,6 +275,7 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         }
     }
 
+    // Creates a component DOM according to the component model.
     createDom(component, renderContext) {
         let componentElem = $("<div></div>")
             .attr("id", "comp" + renderContext.idPrefix + component.id)
@@ -308,6 +286,7 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         return componentElem;
     }
 
+    // Updates the existing component DOM according to the component model.
     updateDom(component, renderContext) {
         let componentElem = component.dom;
 
@@ -319,18 +298,51 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         return componentElem;
     }
 
+    // Updates the component view according to the current channel data.
+    updateData(component, renderContext) {
+    }
+
+    // Sets the location of the component DOM without changing the component model.
+    setLocation(component, x, y) {
+        if (component.dom) {
+            this._setLocation(component.dom, {
+                x: x,
+                y: y
+            });
+        }
+    }
+
+    // Gets the component location from its DOM.
+    getLocation(component) {
+        if (component.dom) {
+            let position = component.dom.position();
+            return {
+                x: parseInt(position.left),
+                y: parseInt(position.top)
+            };
+        } else {
+            return {
+                x: 0,
+                y: 0
+            };
+        }
+    }
+
+    // Updates the location of the component DOM according to the component model.
     updateLocation(component) {
         if (component.dom) {
             this._setLocation(component.dom, component.properties.location);
         }
     }
 
+    // Visually selects or deselects the component.
     updateSelected(component) {
         if (component.dom) {
             component.dom.toggleClass("selected", component.isSelected);
         }
     }
 
+    // Gets a value indicating whether the component can be resized by a user.
     allowResizing(component) {
         return true;
     }
