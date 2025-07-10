@@ -389,11 +389,13 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
                 let propertyValue = objectToUpdate[propertyName];
 
                 if (typeof propertyValue === "number") {
-                    propertyValue = Number.parseFloat(fieldValue) || 0;
+                    propertyValue = Number(fieldValue) || 0;
                 } else if (typeof propertyValue === "string") {
-                    propertyValue = String(fieldValue);
+                    propertyValue = binding.format
+                        ? binding.format.replace("{0}", String(fieldValue))
+                        : String(fieldValue);
                 } else if (typeof propertyValue === "boolean") {
-                    propertyValue = !!fieldValue;
+                    propertyValue = Boolean(fieldValue);
                 }
 
                 objectToUpdate[propertyName] = propertyValue;

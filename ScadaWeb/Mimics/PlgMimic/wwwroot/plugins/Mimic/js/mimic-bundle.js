@@ -1995,7 +1995,7 @@ rs.mimic.Component = class {
     id = 0;             // component ID
     typeName = "";      // component type name
     properties = null;  // factory normalized properties
-    bindings = null;    // server side prepared bindings
+    bindings = null;    // server side prepared property bindings
     parentID = 0;       // parent ID
     index = -1;         // sibling index
 
@@ -3245,11 +3245,13 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
                 let propertyValue = objectToUpdate[propertyName];
 
                 if (typeof propertyValue === "number") {
-                    propertyValue = Number.parseFloat(fieldValue) || 0;
+                    propertyValue = Number(fieldValue) || 0;
                 } else if (typeof propertyValue === "string") {
-                    propertyValue = String(fieldValue);
+                    propertyValue = binding.format
+                        ? binding.format.replace("{0}", String(fieldValue))
+                        : String(fieldValue);
                 } else if (typeof propertyValue === "boolean") {
-                    propertyValue = !!fieldValue;
+                    propertyValue = Boolean(fieldValue);
                 }
 
                 objectToUpdate[propertyName] = propertyValue;

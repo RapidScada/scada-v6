@@ -697,7 +697,7 @@ rs.mimic.Component = class {
     id = 0;             // component ID
     typeName = "";      // component type name
     properties = null;  // factory normalized properties
-    bindings = null;    // server side prepared bindings
+    bindings = null;    // server side prepared property bindings
     parentID = 0;       // parent ID
     index = -1;         // sibling index
 

@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Xml;
+
 namespace Scada.Web.Plugins.PlgMimic.MimicModel
 {
     /// <summary>
@@ -40,5 +42,29 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// Gets the property bindings of the compoment.
         /// </summary>
         public List<PropertyBinding> PropertyBindings { get; } = [];
+
+
+        /// <summary>
+        /// Loads the object from the XML node.
+        /// </summary>
+        public void LoadFromXml(XmlNode xmlNode)
+        {
+            ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
+            InCnlNum = xmlNode.GetChildAsInt("InCnlNum");
+            OutCnlNum = xmlNode.GetChildAsInt("OutCnlNum");
+            ObjNum = xmlNode.GetChildAsInt("ObjNum");
+            DeviceNum = xmlNode.GetChildAsInt("DeviceNum");
+            CheckRights = xmlNode.GetChildAsBool("CheckRights");
+
+            if (xmlNode.SelectSingleNode("PropertyBindings") is XmlNode propertyBindingsNode)
+            {
+                foreach (XmlNode itemNode in propertyBindingsNode.SelectNodes("Item"))
+                {
+                    PropertyBinding propertyBinding = new();
+                    propertyBinding.LoadFromXml(itemNode);
+                    PropertyBindings.Add(propertyBinding);
+                }
+            }
+        }
     }
 }
