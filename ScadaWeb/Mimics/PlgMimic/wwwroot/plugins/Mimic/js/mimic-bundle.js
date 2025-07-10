@@ -3218,6 +3218,43 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
             componentElem.addClass(props.cssClass);
         }
     }
+
+    _setPropertyValue(obj, binding, curData) {
+
+    }
+
+    updateData(component, renderContext) {
+        // update properties
+        if (Array.isArray(component.bindings)) {
+            let dataProvider = renderContext.getDataProvider();
+
+            for (let binding of component.bindings) {
+                let cnlNum = binding.cnlNum;
+
+                if (binding.propertyName && cnlNum > 0) {
+                    let cnlProps = dataProvider.getCnlProps(cnlNum);
+                    let curData = dataProvider.getCurData(cnlNum, cnlProps.joinLen);
+                    let prevData = dataProvider.getPrevData(cnlNum, cnlProps.joinLen);
+
+                    if (!(curData.d.val === prevData.d.val && curData.d.stat === prevData.d.stat) ||
+                        !dataProvider.prevCnlDataMap) {
+                        this._setPropertyValue(component.properties, binding, curData);
+                    }
+                }
+            }
+        }
+
+        // update DOM
+        if (component.dom) {
+            if (this.canUpdateDom) {
+                this.updateDom(component, renderContext);
+            } else {
+                let oldDom = component.dom;
+                this.createDom(component, renderContext);
+                oldDom.replaceWith(component.dom);
+            }
+        }
+    }
 };
 
 // Represents a text component renderer.

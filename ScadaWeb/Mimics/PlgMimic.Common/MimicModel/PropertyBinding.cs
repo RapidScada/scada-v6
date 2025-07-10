@@ -30,6 +30,11 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         public string Format { get; set; }
 
         /// <summary>
+        /// Gets or sets the chain of property names parsed from the propery name.
+        /// </summary>
+        public string[] PropertyChain { get; set; }
+
+        /// <summary>
         /// Gets or sets the channel number that corresponds to the data source.
         /// </summary>
         public int CnlNum { get; set; }
