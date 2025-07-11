@@ -52,6 +52,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             DataSource = xmlNode.GetChildAsString("DataSource");
             DataMember = xmlNode.GetChildAsString("DataMember");
             Format = xmlNode.GetChildAsString("Format");
+            PropertyChain = PropertyName.Split('.');
         }
     }
 }

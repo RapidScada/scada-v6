@@ -119,7 +119,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                 faceplateMeta.SaveToXml(dependenciesElem.AppendElem("Faceplate"));
             }
 
-            foreach (KeyValuePair<string, object> kvp in Document)
+            foreach (KeyValuePair<string, object> kvp in Document.OrderBy(p => p.Key))
             {
                 ExpandoExtensions.SaveProperty(documentElem, kvp.Key, kvp.Value);
             }

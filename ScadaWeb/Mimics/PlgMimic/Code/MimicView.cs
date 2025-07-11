@@ -76,7 +76,15 @@ namespace Scada.Web.Plugins.PlgMimic.Code
         /// </summary>
         public override void Bind(ConfigDataset configDataset)
         {
-
+            foreach (Component component in Mimic.EnumerateComponents())
+            {
+                if (component.ComponentBindings != null)
+                {
+                    component.ComponentBindings.FillCnlNums(configDataset);
+                    component.ComponentBindings.GetAllCnlNums().ForEach(cnlNum =>
+                        AddCnl(configDataset.CnlTable.GetItem(cnlNum)));
+                }
+            }
         }
     }
 }

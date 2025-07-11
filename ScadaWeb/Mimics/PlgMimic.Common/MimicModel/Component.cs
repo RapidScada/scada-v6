@@ -116,7 +116,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
             xmlNode.AppendElem(KnownProperty.ID, ID);
 
-            foreach (KeyValuePair<string, object> kvp in Properties)
+            foreach (KeyValuePair<string, object> kvp in Properties.OrderBy(p => p.Key))
             {
                 if (!KnownProperty.All.Contains(kvp.Key))
                     ExpandoExtensions.SaveProperty(xmlNode, kvp.Key, kvp.Value);
