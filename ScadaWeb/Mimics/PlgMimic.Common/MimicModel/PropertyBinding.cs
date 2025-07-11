@@ -41,6 +41,11 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// </summary>
         public int CnlNum { get; set; } = 0;
 
+        /// <summary>
+        /// Gets or sets the channel properties.
+        /// </summary>
+        public CnlProps CnlProps { get; set; } = null;
+
 
         /// <summary>
         /// Loads the object from the XML node.

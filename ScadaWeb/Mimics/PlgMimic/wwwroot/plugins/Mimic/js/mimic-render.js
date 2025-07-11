@@ -363,7 +363,7 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         }
     }
 
-    _setPropertyValue(obj, binding, curData, unit) {
+    _setPropertyValue(obj, binding, curData) {
         const DataProvider = rs.mimic.DataProvider;
 
         // find the object to update
@@ -385,7 +385,7 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
             let propertyName = binding.propertyChain.at(-1); // last
 
             if (objectToUpdate instanceof Object && objectToUpdate.hasOwnProperty(propertyName)) {
-                let fieldValue = DataProvider.getFieldValue(curData, binding.dataMember, unit);
+                let fieldValue = DataProvider.getFieldValue(curData, binding.dataMember, binding.cnlProps.unit);
                 let propertyValue = objectToUpdate[propertyName];
 
                 if (typeof propertyValue === "number") {
@@ -405,7 +405,8 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
 
     updateData(component, renderContext) {
         // update properties
-        // binding structure is { propertyName, dataSource, dataMember, format, propertyChain, cnlNum }
+        // binding structure is { propertyName, dataSource, dataMember, format, propertyChain, cnlNum, cnlProps }
+        // channel properties structure is { cnlNum, joinLen, unit }
         let dataChanged = false;
 
         if (Array.isArray(component.bindings) && component.bindings.length > 0) {
@@ -413,13 +414,12 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
             let dataProvider = renderContext.getDataProvider();
 
             for (let binding of component.bindings) {
-                if (binding.propertyName && binding.cnlNum > 0) {
-                    let cnlProps = dataProvider.getCnlProps(binding.cnlNum);
-                    let curData = dataProvider.getCurData(binding.cnlNum, cnlProps.joinLen);
-                    let prevData = dataProvider.getPrevData(binding.cnlNum, cnlProps.joinLen);
+                if (binding.propertyName && binding.cnlNum > 0 && binding.cnlProps) {
+                    let curData = dataProvider.getCurData(binding.cnlNum, binding.cnlProps.joinLen);
+                    let prevData = dataProvider.getPrevData(binding.cnlNum, binding.cnlProps.joinLen);
 
                     if (!DataProvider.dataEqual(curData, prevData) || !dataProvider.prevCnlDataMap) {
-                        this._setPropertyValue(component.properties, binding, curData, cnlProps.unit);
+                        this._setPropertyValue(component.properties, binding, curData);
                         dataChanged = true;
                     }
                 }
@@ -514,12 +514,10 @@ rs.mimic.DataProvider = class DataProvider {
         d: { cnlNum: 0, val: 0.0, stat: 0 },
         df: { dispVal: "", colors: [] }
     };
-    static EMPTY_CNL_PROPS = { cnlNum: 0, joinLen: 1, unit: "" };
     static STUB = new DataProvider();
 
     curCnlDataMap = null;
     prevCnlDataMap = null;
-    cnlPropsMap = null;
 
     getCurData(cnlNum, opt_joinLen) {
         return DataProvider.EMPTY_DATA;
@@ -527,10 +525,6 @@ rs.mimic.DataProvider = class DataProvider {
 
     getPrevData(cnlNum, opt_joinLen) {
         return DataProvider.EMPTY_DATA;
-    }
-
-    getCnlProps(cnlNum) {
-        return this.cnlPropsMap?.get(cnlNum) ?? DataProvider.EMPTY_CNL_PROPS;
     }
 
     static dataEqual(data1, data2) {

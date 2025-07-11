@@ -80,7 +80,7 @@ namespace Scada.Web.Plugins.PlgMimic.Code
             {
                 if (component.ComponentBindings != null)
                 {
-                    component.ComponentBindings.FillCnlNums(configDataset);
+                    component.ComponentBindings.BindChannels(configDataset);
                     component.ComponentBindings.GetAllCnlNums().ForEach(cnlNum =>
                         AddCnl(configDataset.CnlTable.GetItem(cnlNum)));
                 }

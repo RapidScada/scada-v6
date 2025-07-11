@@ -42,15 +42,25 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         public bool CheckRights { get; set; } = false;
 
         /// <summary>
+        /// Gets or sets the properties of the input channel.
+        /// </summary>
+        public CnlProps InCnlProps { get; set; } = null;
+
+        /// <summary>
+        /// Gets or sets the properties of the output channel.
+        /// </summary>
+        public CnlProps OutCnlProps { get; set; } = null;
+
+        /// <summary>
         /// Gets the property bindings of the compoment.
         /// </summary>
         public List<PropertyBinding> PropertyBindings { get; } = [];
 
 
         /// <summary>
-        /// Fills in channel numbers based on the object.
+        /// Binds channels based on the object.
         /// </summary>
-        private void FillCnlNumsByObj(ConfigDataset configDataset)
+        private void BindChannelsByObj(ConfigDataset configDataset)
         {
             if (configDataset.ObjTable.Items.TryGetValue(ObjNum, out Obj obj))
             {
@@ -66,15 +76,18 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                 foreach (PropertyBinding propertyBinding in PropertyBindings)
                 {
                     if (cnlByCode.TryGetValue(obj.Code + propertyBinding.DataSource, out Cnl cnl))
+                    {
                         propertyBinding.CnlNum = cnl.CnlNum;
+                        propertyBinding.CnlProps = new CnlProps(cnl, configDataset);
+                    }
                 }
             }
         }
 
         /// <summary>
-        /// Fills in channel numbers based on the device.
+        /// Binds channels based on the device.
         /// </summary>
-        private void FillCnlNumsByDevice(ConfigDataset configDataset)
+        private void BindChannelsByDevice(ConfigDataset configDataset)
         {
             if (configDataset.DeviceTable.PkExists(DeviceNum))
             {
@@ -90,20 +103,26 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                 foreach (PropertyBinding propertyBinding in PropertyBindings)
                 {
                     if (cnlByTagCode.TryGetValue(propertyBinding.DataSource, out Cnl cnl))
+                    {
                         propertyBinding.CnlNum = cnl.CnlNum;
+                        propertyBinding.CnlProps = new CnlProps(cnl, configDataset);
+                    }
                 }
             }
         }
 
         /// <summary>
-        /// Fills in channel numbers by direct copying.
+        /// Binds channels by direct copying.
         /// </summary>
-        private void FillCnlNumsDirectly()
+        private void BindChannelsDirectly(ConfigDataset configDataset)
         {
             foreach (PropertyBinding propertyBinding in PropertyBindings)
             {
                 if (int.TryParse(propertyBinding.DataSource, out int cnlNum))
+                {
                     propertyBinding.CnlNum = cnlNum;
+                    propertyBinding.CnlProps = new CnlProps(cnlNum, configDataset);
+                }
             }
         }
 
@@ -132,18 +151,24 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         }
 
         /// <summary>
-        /// Fills in channel numbers in the property bindings.
+        /// Binds channels to the component properties and fills in channel information.
         /// </summary>
-        public void FillCnlNums(ConfigDataset configDataset)
+        public void BindChannels(ConfigDataset configDataset)
         {
             ArgumentNullException.ThrowIfNull(configDataset, nameof(configDataset));
 
+            if (InCnlNum > 0)
+                InCnlProps = new CnlProps(InCnlNum, configDataset);
+
+            if (OutCnlNum > 0)
+                OutCnlProps = new CnlProps(OutCnlNum, configDataset);
+
             if (ObjNum > 0)
-                FillCnlNumsByObj(configDataset);
+                BindChannelsByObj(configDataset);
             else if (DeviceNum > 0)
-                FillCnlNumsByDevice(configDataset);
+                BindChannelsByDevice(configDataset);
             else
-                FillCnlNumsDirectly();
+                BindChannelsDirectly(configDataset);
         }
 
         /// <summary>
