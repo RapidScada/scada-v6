@@ -3256,8 +3256,8 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
 
     updateData(component, renderContext) {
         // update properties
-        // binding structure is { propertyName, dataSource, dataMember, format, propertyChain, cnlNum, cnlProps }
-        // channel properties structure is { cnlNum, joinLen, unit }
+        // binding is { propertyName, dataSource, dataMember, format, propertyChain, cnlNum, cnlProps }
+        // cnlProps is { joinLen, unit }
         let dataChanged = false;
 
         if (Array.isArray(component.bindings) && component.bindings.length > 0) {
