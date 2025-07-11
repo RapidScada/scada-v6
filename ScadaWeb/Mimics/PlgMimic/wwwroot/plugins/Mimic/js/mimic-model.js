@@ -291,13 +291,6 @@ rs.mimic.MimicBase = class {
         let factory = this.getComponentFactory(source.typeName);
         return factory ? factory.createComponentFromSource(source) : null;
     }
-
-    // Creates a copy of the component containing only the main properties.
-    copyComponent(source) {
-        return source instanceof rs.mimic.Component
-            ? this.createComponent(source.toPlainObject())
-            : this.createComponent(source);
-    }
 };
 
 // Represents a mimic diagram.
@@ -925,7 +918,7 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
             this.components = [];
 
             for (let sourceComponent of faceplate.components) {
-                let componentCopy = faceplate.copyComponent(sourceComponent);
+                let componentCopy = faceplate.createComponent(sourceComponent);
                 componentCopy.parent = this;
                 this.components.push(componentCopy);
 

@@ -993,6 +993,16 @@ rs.mimic.MimicFactory = class {
 
 // Represents an abstract component factory.
 rs.mimic.ComponentFactory = class {
+    // Copies the properties from the source object.
+    _copyProperties(component, source) {
+        component.id = source.id;
+        component.typeName = source.typeName;
+        component.properties = this.parseProperties(source.properties);
+        component.properties.typeName = source.typeName;
+        component.bindings = source.bindings;
+        component.parentID = source.parentID;
+    }
+
     // Creates new component properties.
     createProperties() {
         return {
@@ -1061,11 +1071,7 @@ rs.mimic.ComponentFactory = class {
     // Creates a new component with the specified properties, making deep copies of the source properties.
     createComponentFromSource(source) {
         let component = new rs.mimic.Component();
-        component.id = source.id;
-        component.typeName = source.typeName;
-        component.properties = this.parseProperties(source.properties);
-        component.properties.typeName = source.typeName;
-        component.parentID = source.parentID;
+        this._copyProperties(component, source);
         return component;
     }
 };
@@ -1262,11 +1268,7 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
 
     createComponentFromSource(source, faceplate) {
         let component = new rs.mimic.FaceplateInstance();
-        component.id = source.id;
-        component.typeName = source.typeName;
-        component.properties = this.parseProperties(source.properties);
-        component.properties.typeName = source.typeName;
-        component.parentID = source.parentID;
+        this._copyProperties(component, source);
 
         if (faceplate) {
             component.typeName = component.properties.typeName = faceplate.typeName;
@@ -1588,13 +1590,6 @@ rs.mimic.MimicBase = class {
     createComponent(source) {
         let factory = this.getComponentFactory(source.typeName);
         return factory ? factory.createComponentFromSource(source) : null;
-    }
-
-    // Creates a copy of the component containing only the main properties.
-    copyComponent(source) {
-        return source instanceof rs.mimic.Component
-            ? this.createComponent(source.toPlainObject())
-            : this.createComponent(source);
     }
 };
 
@@ -2223,7 +2218,7 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
             this.components = [];
 
             for (let sourceComponent of faceplate.components) {
-                let componentCopy = faceplate.copyComponent(sourceComponent);
+                let componentCopy = faceplate.createComponent(sourceComponent);
                 componentCopy.parent = this;
                 this.components.push(componentCopy);
 
@@ -3386,7 +3381,7 @@ rs.mimic.DataProvider = class DataProvider {
     }
 
     getCnlProps(cnlNum) {
-        return DataProvider.EMPTY_CNL_PROPS;
+        return this.cnlPropsMap?.get(cnlNum) ?? DataProvider.EMPTY_CNL_PROPS;
     }
 
     static dataEqual(data1, data2) {
@@ -3599,8 +3594,14 @@ rs.mimic.UnitedRenderer = class {
         });
 
         for (let component of this.mimic.components) {
-            if (component.renderer) {
-                component.renderer.updateData(component, renderContext);
+            try {
+                if (component.renderer) {
+                    component.renderer.updateData(component, renderContext);
+                }
+            } catch (ex) {
+                console.error("Error updating data of the component with ID " + component.id +
+                    " of type " + component.typeName);
+                component.renderer = null; // stop component update
             }
         }
     }

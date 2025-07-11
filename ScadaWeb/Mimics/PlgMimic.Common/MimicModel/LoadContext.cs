@@ -5,6 +5,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 {
     /// <summary>
     /// Encapsulates information about a loading operation.
+    /// <para>Содержит информацию об операции загрузки.</para>
     /// </summary>
     public class LoadContext
     {

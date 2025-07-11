@@ -1,11 +1,21 @@
-﻿// Depends on jquery, scada-common.js, view-hub.js, main-api.js, mimic-common.js, mimic-model.js, mimic-render.js
+﻿// Handles the mimic view page.
+// Depends on jquery, scada-common.js, view-hub.js, main-api.js, mimic-common.js, mimic-model.js, mimic-render.js
+
+class MimicDataProvider extends rs.mimic.DataProvider {
+    getCurData = (cnlNum, opt_joinLen) =>
+        MainApi.getCurDataFromMap(this.curCnlDataMap, cnlNum, opt_joinLen);
+    getPrevData = (cnlNum, opt_joinLen) =>
+        MainApi.getCurDataFromMap(this.prevCnlDataMap, cnlNum, opt_joinLen);
+}
 
 const viewHub = ViewHub.getInstance();
 const mainApi = new MainApi({ rootPath: viewHub.appEnv.rootPath });
 const mimic = new rs.mimic.Mimic();
 const unitedRenderer = new rs.mimic.UnitedRenderer(mimic, false);
+const dataProvider = new MimicDataProvider();
 
 var viewID = 0;
+let cnlListID = 0;
 
 function bindEvents() {
     $(window).on("resize", function () {
@@ -32,8 +42,30 @@ function getLoaderUrl() {
     return viewHub.appEnv.rootPath + "Api/Mimic/";
 }
 
+function startUpdatingCurData() {
+    updateCurData(function () {
+        setTimeout(startUpdatingCurData, 1000 /*pluginOptions.refreshRate*/);
+    });
+}
+
+function updateCurData(callback) {
+    mainApi.getCurDataByView(viewID, cnlListID, function (dto) {
+        if (dto.ok) {
+            cnlListID = dto.data.cnlListID;
+        } else {
+            // show error
+        }
+
+        dataProvider.prevCnlDataMap = dataProvider.curCnlDataMap;
+        dataProvider.curCnlDataMap = MainApi.mapCurData(dto.data);
+        unitedRenderer.updateData(dataProvider);
+        callback();
+    });
+}
+
 $(async function () {
     bindEvents();
     updateLayout();
     await loadMimic();
+    startUpdatingCurData();
 });

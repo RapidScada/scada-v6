@@ -31,6 +31,16 @@ rs.mimic.MimicFactory = class {
 
 // Represents an abstract component factory.
 rs.mimic.ComponentFactory = class {
+    // Copies the properties from the source object.
+    _copyProperties(component, source) {
+        component.id = source.id;
+        component.typeName = source.typeName;
+        component.properties = this.parseProperties(source.properties);
+        component.properties.typeName = source.typeName;
+        component.bindings = source.bindings;
+        component.parentID = source.parentID;
+    }
+
     // Creates new component properties.
     createProperties() {
         return {
@@ -99,11 +109,7 @@ rs.mimic.ComponentFactory = class {
     // Creates a new component with the specified properties, making deep copies of the source properties.
     createComponentFromSource(source) {
         let component = new rs.mimic.Component();
-        component.id = source.id;
-        component.typeName = source.typeName;
-        component.properties = this.parseProperties(source.properties);
-        component.properties.typeName = source.typeName;
-        component.parentID = source.parentID;
+        this._copyProperties(component, source);
         return component;
     }
 };
@@ -300,11 +306,7 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
 
     createComponentFromSource(source, faceplate) {
         let component = new rs.mimic.FaceplateInstance();
-        component.id = source.id;
-        component.typeName = source.typeName;
-        component.properties = this.parseProperties(source.properties);
-        component.properties.typeName = source.typeName;
-        component.parentID = source.parentID;
+        this._copyProperties(component, source);
 
         if (faceplate) {
             component.typeName = component.properties.typeName = faceplate.typeName;

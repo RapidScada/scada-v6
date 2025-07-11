@@ -530,7 +530,7 @@ rs.mimic.DataProvider = class DataProvider {
     }
 
     getCnlProps(cnlNum) {
-        return DataProvider.EMPTY_CNL_PROPS;
+        return this.cnlPropsMap?.get(cnlNum) ?? DataProvider.EMPTY_CNL_PROPS;
     }
 
     static dataEqual(data1, data2) {
@@ -743,8 +743,14 @@ rs.mimic.UnitedRenderer = class {
         });
 
         for (let component of this.mimic.components) {
-            if (component.renderer) {
-                component.renderer.updateData(component, renderContext);
+            try {
+                if (component.renderer) {
+                    component.renderer.updateData(component, renderContext);
+                }
+            } catch (ex) {
+                console.error("Error updating data of the component with ID " + component.id +
+                    " of type " + component.typeName);
+                component.renderer = null; // stop component update
             }
         }
     }

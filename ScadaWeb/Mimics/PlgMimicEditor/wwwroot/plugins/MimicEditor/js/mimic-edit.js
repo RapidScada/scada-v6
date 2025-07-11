@@ -1,4 +1,5 @@
-﻿// Depends on jquery, tweakpane, scada-common.js,
+﻿// Handles the main page of the mimic editor.
+// Depends on jquery, tweakpane, scada-common.js,
 //     mimic-common.js, mimic-factory.js, mimic-model.js, mimic-render.js,
 //     editor-common.js, mimic-descr.js, modals.js, prop-grid.js, struct-tree.js
 
