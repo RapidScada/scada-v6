@@ -151,7 +151,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// </summary>
         public List<int> GetAllCnlNums()
         {
-            List<int> cnlNums = [];
+            HashSet<int> cnlNums = [];
 
             if (InCnlNum > 0)
                 cnlNums.Add(InCnlNum);
@@ -159,8 +159,13 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             if (OutCnlNum > 0)
                 cnlNums.Add(OutCnlNum);
 
-            cnlNums.AddRange(PropertyBindings.Select(b => b.CnlNum).Where(n => n > 0));
-            return cnlNums;
+            foreach (int cnlNum in PropertyBindings.Select(b => b.CnlNum))
+            {
+                if (cnlNum > 0)
+                    cnlNums.Add(cnlNum);
+            }
+
+            return cnlNums.ToList();
         }
     }
 }

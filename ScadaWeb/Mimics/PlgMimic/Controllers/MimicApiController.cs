@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Mvc;
+using Scada.Data.Entities;
 using Scada.Lang;
 using Scada.Web.Api;
 using Scada.Web.Lang;
@@ -21,8 +22,34 @@ namespace Scada.Web.Plugins.PlgMimic.Controllers
     [CamelCaseJsonFormatter]
     public class MimicApiController(
         IWebContext webContext,
+        IUserContext userContext,
         IViewLoader viewLoader) : ControllerBase, IMimicApiController
     {
+        /// <summary>
+        /// Checks the user access rights to the component.
+        /// </summary>
+        private bool CheckRights(Component component)
+        {
+            if (component.ComponentBindings == null)
+                return false;
+
+            if (userContext.Rights.ViewAll || !component.ComponentBindings.CheckRights)
+                return true;
+
+            if (component.ComponentBindings.ObjNum > 0)
+                return userContext.Rights.GetRightByObj(component.ComponentBindings.ObjNum).View;
+
+            foreach (int cnlNum in component.ComponentBindings.GetAllCnlNums())
+            {
+                Cnl cnl = webContext.ConfigDatabase.CnlTable.GetItem(cnlNum);
+
+                if (cnl == null || !userContext.Rights.GetRightByObj(cnl.ObjNum).View)
+                    return false;
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// Gets the mimic properties.
         /// </summary>
@@ -49,7 +76,7 @@ namespace Scada.Web.Plugins.PlgMimic.Controllers
             try
             {
                 return viewLoader.GetView((int)key, false, out MimicView mimicView, out string errMsg)
-                    ? Dto<ComponentPacket>.Success(new ComponentPacket(key, mimicView.Mimic, index, count))
+                    ? Dto<ComponentPacket>.Success(new ComponentPacket(key, mimicView.Mimic, index, count, CheckRights))
                     : Dto<ComponentPacket>.Fail(errMsg);
             }
             catch (Exception ex)
