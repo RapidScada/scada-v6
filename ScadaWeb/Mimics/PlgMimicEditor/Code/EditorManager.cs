@@ -120,14 +120,15 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 "Перезагрузка фейсплейтов для мнемосхемы {0}" :
                 "Reload faceplates for mimic {0}", mimicInstance.FileName);
             string viewDir = EditorUtils.GetViewDir(mimicInstance.ParentGroup.ProjectFileName);
-            mimicInstance.Mimic.ReloadFaceplates(viewDir, out List<string> errors);
+            LoadContext loadContext = new() { EditMode = true };
+            mimicInstance.Mimic.ReloadFaceplates(viewDir, loadContext);
 
-            if (errors.Count > 0)
+            if (loadContext.Errors.Count > 0)
             {
                 PluginLog.WriteError(Locale.IsRussian ?
                     "Ошибка при перезагрузке фейсплейтов:{0}{1}" :
                     "Error reloading faceplates:{0}{1}",
-                    Environment.NewLine, string.Join(Environment.NewLine, errors));
+                    Environment.NewLine, string.Join(Environment.NewLine, loadContext.Errors));
             }
         }
 
@@ -278,11 +279,12 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
 
                 // load mimic
                 Mimic mimic = new();
-                mimic.Load(fileName);
+                LoadContext loadContext = new() { EditMode = true };
+                mimic.Load(fileName, loadContext);
 
                 // load faceplates
                 string viewDir = EditorUtils.GetViewDir(projectFileName);
-                mimic.LoadFaceplates(viewDir, false);
+                mimic.LoadFaceplates(viewDir, false, loadContext);
 
                 // add mimic to the editor
                 StartCleanup();

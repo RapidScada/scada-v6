@@ -39,9 +39,9 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Loads the mimic diagram.
         /// </summary>
-        public override void Load(Stream stream)
+        public override void Load(Stream stream, LoadContext loadContext)
         {
-            base.Load(stream);
+            base.Load(stream, loadContext);
 
             // map dependencies
             foreach (FaceplateMeta faceplateMeta in Dependencies)
@@ -65,17 +65,18 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Loads the mimic diagram from file.
         /// </summary>
-        public void Load(string fileName)
+        public void Load(string fileName, LoadContext loadContext)
         {
             using FileStream mimicStream = new(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            Load(mimicStream);
+            Load(mimicStream, loadContext);
         }
 
         /// <summary>
         /// Loads the faceplates specified in dependencies.
         /// </summary>
-        public void LoadFaceplates(string viewDir, bool continueOnError, List<string> errors = null)
+        public void LoadFaceplates(string viewDir, bool continueOnError, LoadContext loadContext)
         {
+            ArgumentNullException.ThrowIfNull(loadContext, nameof(loadContext));
             int dependencyIndex = 0;
 
             while (dependencyIndex < Dependencies.Count)
@@ -96,7 +97,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                             new(faceplateFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
                         Faceplate faceplate = new();
-                        faceplate.Load(faceplateStream);
+                        faceplate.Load(faceplateStream, loadContext);
                         FaceplateMap.Add(faceplateMeta.TypeName, faceplate);
                         faceplate.Dependencies.ForEach(d => Dependencies.Add(d.Transit()));
                     }
@@ -105,7 +106,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                         if (continueOnError)
                         {
                             faceplateMeta.HasError = true;
-                            errors?.Add(ex.Message);
+                            loadContext.Errors.Add(ex.Message);
                         }
                         else
                         {
@@ -119,8 +120,10 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Reloads faceplates.
         /// </summary>
-        public void ReloadFaceplates(string viewDir, out List<string> errors)
+        public void ReloadFaceplates(string viewDir, LoadContext loadContext)
         {
+            ArgumentNullException.ThrowIfNull(loadContext, nameof(loadContext));
+
             // clean up dependencies
             Dependencies.RemoveAll(d => d.IsTransitive);
             DependencyMap.Clear();
@@ -128,8 +131,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 
             // load faceplates
             FaceplateMap.Clear();
-            errors = [];
-            LoadFaceplates(viewDir, true, errors);
+            LoadFaceplates(viewDir, true, loadContext);
         }
 
         /// <summary>

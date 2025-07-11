@@ -46,7 +46,7 @@ namespace Scada.Web.Plugins.PlgMimic.Code
         /// </summary>
         public override void LoadView(Stream stream)
         {
-            Mimic.Load(stream);
+            Mimic.Load(stream, new LoadContext { EditMode = false });
             Mimic.Dependencies.ForEach(AddToResources);
         }
 
@@ -59,7 +59,7 @@ namespace Scada.Web.Plugins.PlgMimic.Code
                 !Mimic.FaceplateMap.ContainsKey(resource.TypeCode))
             {
                 Faceplate faceplate = new();
-                faceplate.Load(stream);
+                faceplate.Load(stream, new LoadContext { EditMode = false });
                 Mimic.FaceplateMap.Add(resource.TypeCode, faceplate);
 
                 foreach (FaceplateMeta dependency in faceplate.Dependencies)

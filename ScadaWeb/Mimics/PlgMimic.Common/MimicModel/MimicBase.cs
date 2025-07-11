@@ -44,7 +44,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Loads the mimic from the XML node.
         /// </summary>
-        protected void LoadFromXml(XmlElement rootElem)
+        protected void LoadFromXml(XmlElement rootElem, LoadContext loadContext)
         {
             if (rootElem.SelectSingleNode("Dependencies") is XmlNode dependenciesNode)
             {
@@ -70,13 +70,13 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 
             if (rootElem.SelectSingleNode("Components") is XmlNode componentsNode)
             {
-                HashSet<int> componentIDs = [];
+                loadContext.ComponentIDs.Clear();
 
                 foreach (XmlNode childNode in componentsNode.ChildNodes)
                 {
                     Component component = new();
 
-                    if (component.LoadFromXml(childNode, componentIDs))
+                    if (component.LoadFromXml(childNode, loadContext))
                     {
                         component.Parent = this;
                         Components.Add(component);
@@ -142,14 +142,15 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Loads the mimic diagram.
         /// </summary>
-        public virtual void Load(Stream stream)
+        public virtual void Load(Stream stream, LoadContext loadContext)
         {
             ArgumentNullException.ThrowIfNull(stream, nameof(stream));
+            ArgumentNullException.ThrowIfNull(loadContext, nameof(loadContext));
 
             XmlDocument xmlDoc = new();
             xmlDoc.Load(stream);
             rootElemName = xmlDoc.DocumentElement.Name;
-            LoadFromXml(xmlDoc.DocumentElement);
+            LoadFromXml(xmlDoc.DocumentElement, loadContext);
         }
 
         /// <summary>

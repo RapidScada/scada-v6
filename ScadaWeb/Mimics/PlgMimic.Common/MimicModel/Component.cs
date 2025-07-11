@@ -60,21 +60,28 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Loads the component from the XML node. Returns true if the component has been added to the map.
         /// </summary>
-        public bool LoadFromXml(XmlNode xmlNode, HashSet<int> componentIDs)
+        public bool LoadFromXml(XmlNode xmlNode, LoadContext loadContext)
         {
             ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
-            ArgumentNullException.ThrowIfNull(componentIDs, nameof(componentIDs));
+            ArgumentNullException.ThrowIfNull(loadContext, nameof(loadContext));
 
             ID = xmlNode.GetChildAsInt(KnownProperty.ID);
             TypeName = xmlNode.Name;
 
-            if (ID > 0 && componentIDs.Add(ID))
+            if (ID > 0 && loadContext.ComponentIDs.Add(ID))
             {
                 // load properties
                 foreach (XmlElement childElem in xmlNode.ChildNodes.OfType<XmlElement>())
                 {
                     if (childElem.Name != KnownProperty.Components)
                         Properties.LoadProperty(childElem);
+                }
+
+                // load bindings in view mode
+                if (!loadContext.EditMode)
+                {
+                    ComponentBindings = new();
+                    ComponentBindings.LoadFromXml(xmlNode);
                 }
 
                 // load child components
@@ -84,7 +91,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                     {
                         Component component = new();
 
-                        if (component.LoadFromXml(childNode, componentIDs))
+                        if (component.LoadFromXml(childNode, loadContext))
                         {
                             component.ParentID = ID;
                             component.Parent = this;
