@@ -29,20 +29,14 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         public ExpandoObject Properties { get; } = new();
 
         /// <summary>
-        /// Gets the property bindings.
+        /// Gets the component bindings.
         /// </summary>
-        public List<PropertyBinding> Bindings => ComponentBindings?.PropertyBindings;
+        public ComponentBindings Bindings { get; set; } = null;
 
         /// <summary>
         /// Gets or sets the ID of the parent component.
         /// </summary>
         public int ParentID { get; set; } = 0;
-
-        /// <summary>
-        /// Gets the component bindings.
-        /// </summary>
-        [JsonIgnore]
-        public ComponentBindings ComponentBindings { get; set; } = null;
 
         /// <summary>
         /// Gets the parent container.
@@ -80,8 +74,8 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                 // load bindings in view mode
                 if (!loadContext.EditMode)
                 {
-                    ComponentBindings = new();
-                    ComponentBindings.LoadFromXml(xmlNode);
+                    Bindings = new();
+                    Bindings.LoadFromXml(xmlNode);
                 }
 
                 // load child components

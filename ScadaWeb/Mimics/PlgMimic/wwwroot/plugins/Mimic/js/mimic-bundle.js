@@ -1990,7 +1990,7 @@ rs.mimic.Component = class {
     id = 0;             // component ID
     typeName = "";      // component type name
     properties = null;  // factory normalized properties
-    bindings = null;    // server side prepared property bindings
+    bindings = null;    // server side prepared bindings, see ComponentBindings.cs
     parentID = 0;       // parent ID
     index = -1;         // sibling index
 
@@ -3256,21 +3256,24 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
 
     updateData(component, renderContext) {
         // update properties
-        // binding is { propertyName, dataSource, dataMember, format, propertyChain, cnlNum, cnlProps }
-        // cnlProps is { joinLen, unit }
+        // component bindings are 
+        // { inCnlNum, outCnlNum, objNum, deviceNum, checkRights, inCnlProps, outCnlProps, propertyBindings }
+        // property binding is { propertyName, dataSource, dataMember, format, propertyChain, cnlNum, cnlProps }
+        // channel properties are { joinLen, unit }
         let dataChanged = false;
 
-        if (Array.isArray(component.bindings) && component.bindings.length > 0) {
+        if (component.bindings && Array.isArray(component.bindings.propertyBindings) &&
+            component.bindings.propertyBindings.length > 0) {
             const DataProvider = rs.mimic.DataProvider;
             let dataProvider = renderContext.getDataProvider();
 
-            for (let binding of component.bindings) {
-                if (binding.propertyName && binding.cnlNum > 0 && binding.cnlProps) {
-                    let curData = dataProvider.getCurData(binding.cnlNum, binding.cnlProps.joinLen);
-                    let prevData = dataProvider.getPrevData(binding.cnlNum, binding.cnlProps.joinLen);
+            for (let pb of component.bindings.propertyBindings) {
+                if (pb.propertyName && pb.cnlNum > 0 && pb.cnlProps) {
+                    let curData = dataProvider.getCurData(pb.cnlNum, pb.cnlProps.joinLen);
+                    let prevData = dataProvider.getPrevData(pb.cnlNum, pb.cnlProps.joinLen);
 
                     if (!DataProvider.dataEqual(curData, prevData) || !dataProvider.prevCnlDataMap) {
-                        this._setPropertyValue(component.properties, binding, curData);
+                        this._setPropertyValue(component.properties, pb, curData);
                         dataChanged = true;
                     }
                 }

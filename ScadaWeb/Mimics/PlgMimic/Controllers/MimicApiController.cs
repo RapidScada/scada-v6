@@ -30,16 +30,16 @@ namespace Scada.Web.Plugins.PlgMimic.Controllers
         /// </summary>
         private bool CheckRights(Component component)
         {
-            if (component.ComponentBindings == null)
+            if (component.Bindings == null)
                 return false;
 
-            if (userContext.Rights.ViewAll || !component.ComponentBindings.CheckRights)
+            if (userContext.Rights.ViewAll || !component.Bindings.CheckRights)
                 return true;
 
-            if (component.ComponentBindings.ObjNum > 0)
-                return userContext.Rights.GetRightByObj(component.ComponentBindings.ObjNum).View;
+            if (component.Bindings.ObjNum > 0)
+                return userContext.Rights.GetRightByObj(component.Bindings.ObjNum).View;
 
-            foreach (int cnlNum in component.ComponentBindings.GetAllCnlNums())
+            foreach (int cnlNum in component.Bindings.GetAllCnlNums())
             {
                 Cnl cnl = webContext.ConfigDatabase.CnlTable.GetItem(cnlNum);
 

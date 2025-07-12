@@ -78,10 +78,10 @@ namespace Scada.Web.Plugins.PlgMimic.Code
         {
             foreach (Component component in Mimic.EnumerateComponents())
             {
-                if (component.ComponentBindings != null)
+                if (component.Bindings != null)
                 {
-                    component.ComponentBindings.BindChannels(configDataset);
-                    component.ComponentBindings.GetAllCnlNums().ForEach(cnlNum =>
+                    component.Bindings.BindChannels(configDataset);
+                    component.Bindings.GetAllCnlNums().ForEach(cnlNum =>
                         AddCnl(configDataset.CnlTable.GetItem(cnlNum)));
                 }
             }
