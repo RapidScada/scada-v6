@@ -1604,6 +1604,8 @@ class PropGridEventType {
 
 // Provides helper methods for property grid.
 class PropGridHelper {
+    static _translationRef = null;
+
     static _translateObject(objectDescriptor, translation, objectDict, opt_fallbackDict) {
         if (!objectDict) {
             return;
@@ -1639,6 +1641,7 @@ class PropGridHelper {
 
     static translateDescriptors(translation) {
         const DescriptorSet = rs.mimic.DescriptorSet;
+        PropGridHelper._translationRef = translation;
 
         // translate mimic and faceplates
         PropGridHelper._translateObject(DescriptorSet.mimicDescriptor, translation, translation.mimic);
@@ -1674,7 +1677,14 @@ class PropGridHelper {
         const DescriptorSet = rs.mimic.DescriptorSet;
 
         if (obj instanceof rs.mimic.FaceplateInstance) {
-            return DescriptorSet.faceplateDescriptor;
+            let descriptor = DescriptorSet.getFaceplateDescriptor(obj.model);
+            let translation = PropGridHelper._translationRef;
+
+            if (translation) {
+                PropGridHelper._translateObject(descriptor, translation, translation.component);
+            }
+
+            return descriptor;
         } else if (obj instanceof rs.mimic.Component) {
             return DescriptorSet.componentDescriptors.get(obj.typeName);
         } else if (obj instanceof rs.mimic.Mimic) {

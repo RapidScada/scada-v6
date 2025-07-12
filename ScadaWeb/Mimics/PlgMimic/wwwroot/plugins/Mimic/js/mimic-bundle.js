@@ -946,6 +946,25 @@ rs.mimic.DescriptorSet = class {
         ["Picture", new rs.mimic.PictureDescriptor()],
         ["Panel", new rs.mimic.PanelDescriptor()]
     ]);
+    static getFaceplateDescriptor(faceplate) {
+        const KnownCategory = rs.mimic.KnownCategory;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+        let descriptor = new rs.mimic.FaceplateDescriptor();
+
+        if (faceplate) {
+            for (let propertyExport of faceplate.document.propertyExports) {
+                if (propertyExport.name) {
+                    descriptor.add(new PropertyDescriptor({
+                        name: propertyExport.name,
+                        displayName: propertyExport.name,
+                        category: KnownCategory.MISC
+                    }));
+                }
+            }
+        }
+
+        return descriptor;
+    }
     static structureDescriptors = new Map([
         ["Action", new rs.mimic.ActionDescriptor()],
         ["Border", new rs.mimic.BorderDescriptor()],
@@ -2209,26 +2228,39 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
         return true;
     }
 
+    _createProperties(faceplate) {
+        this.properties ??= {};
+        this.properties.size ??= ScadaUtils.deepClone(faceplate.document.size);
+
+        for (let propertyExport of faceplate.document.propertyExports) {
+            if (propertyExport.name) {
+                this.properties[propertyExport.name] = "";
+            }
+        }
+    }
+
+    _createComponents(faceplate) {
+        this.components = [];
+
+        for (let sourceComponent of faceplate.components) {
+            let componentCopy = faceplate.createComponent(sourceComponent);
+            componentCopy.parent = this;
+            this.components.push(componentCopy);
+
+            if (componentCopy.isFaceplate) {
+                let childFaceplate = faceplate.faceplateMap.get(componentCopy.typeName);
+                componentCopy.applyModel(childFaceplate);
+            }
+        }
+
+        rs.mimic.MimicHelper.defineNesting(this, this.components);
+    }
+
     applyModel(faceplate) {
         if (faceplate instanceof rs.mimic.Faceplate) {
-            this.properties ??= {};
-            this.properties.size ??= ScadaUtils.deepClone(faceplate.document.size);
-
             this.model = faceplate;
-            this.components = [];
-
-            for (let sourceComponent of faceplate.components) {
-                let componentCopy = faceplate.createComponent(sourceComponent);
-                componentCopy.parent = this;
-                this.components.push(componentCopy);
-
-                if (componentCopy.isFaceplate) {
-                    let childFaceplate = faceplate.faceplateMap.get(componentCopy.typeName);
-                    componentCopy.applyModel(childFaceplate);
-                }
-            }
-
-            rs.mimic.MimicHelper.defineNesting(this, this.components);
+            this._createProperties(faceplate);
+            this._createComponents(faceplate);
         }
     }
 };

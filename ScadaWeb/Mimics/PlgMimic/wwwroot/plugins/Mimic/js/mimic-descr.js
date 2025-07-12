@@ -902,6 +902,25 @@ rs.mimic.DescriptorSet = class {
         ["Picture", new rs.mimic.PictureDescriptor()],
         ["Panel", new rs.mimic.PanelDescriptor()]
     ]);
+    static getFaceplateDescriptor(faceplate) {
+        const KnownCategory = rs.mimic.KnownCategory;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+        let descriptor = new rs.mimic.FaceplateDescriptor();
+
+        if (faceplate) {
+            for (let propertyExport of faceplate.document.propertyExports) {
+                if (propertyExport.name) {
+                    descriptor.add(new PropertyDescriptor({
+                        name: propertyExport.name,
+                        displayName: propertyExport.name,
+                        category: KnownCategory.MISC
+                    }));
+                }
+            }
+        }
+
+        return descriptor;
+    }
     static structureDescriptors = new Map([
         ["Action", new rs.mimic.ActionDescriptor()],
         ["Border", new rs.mimic.BorderDescriptor()],
