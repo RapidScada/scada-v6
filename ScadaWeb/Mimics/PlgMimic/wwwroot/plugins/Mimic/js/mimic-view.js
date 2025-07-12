@@ -14,7 +14,12 @@ const mimic = new rs.mimic.Mimic();
 const unitedRenderer = new rs.mimic.UnitedRenderer(mimic, false);
 const dataProvider = new MimicDataProvider();
 
+// Set in MimicView.cshtml
 var viewID = 0;
+var refreshRate = 1000;
+var runtimeOptions = {};
+var phrases = {};
+
 let cnlListID = 0;
 
 function bindEvents() {
@@ -33,6 +38,7 @@ async function loadMimic() {
 
     if (result.ok) {
         $("#divMimicWrapper").append(unitedRenderer.createMimicDom());
+        startUpdatingData();
     } else {
         // show error
     }
@@ -42,13 +48,13 @@ function getLoaderUrl() {
     return viewHub.appEnv.rootPath + "Api/Mimic/";
 }
 
-function startUpdatingCurData() {
-    updateCurData(function () {
-        setTimeout(startUpdatingCurData, 1000 /*pluginOptions.refreshRate*/);
+function startUpdatingData() {
+    updateData(function () {
+        setTimeout(startUpdatingData, refreshRate);
     });
 }
 
-function updateCurData(callback) {
+function updateData(callback) {
     mainApi.getCurDataByView(viewID, cnlListID, function (dto) {
         if (dto.ok) {
             cnlListID = dto.data.cnlListID;
@@ -67,5 +73,4 @@ $(async function () {
     bindEvents();
     updateLayout();
     await loadMimic();
-    startUpdatingCurData();
 });
