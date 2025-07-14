@@ -30,11 +30,12 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         private static readonly TimeSpan ReconnectDelay = TimeSpan.FromSeconds(5);
 
-        private readonly IStorage storage;                    // the application storage
-        private readonly List<SubscriptionTag> subscrTags;    // metadata about subscriptions
+        private readonly IStorage storage;                 // the application storage
+        private readonly List<SubscriptionTag> subscrTags; // metadata about subscriptions
 
-        private DateTime connAttemptDT;                       // the timestamp of a connection attempt
-        private SessionReconnectHandler reconnectHandler;     // the object needed to reconnect
+        private DateTime connAttemptDT;                    // the timestamp of a connection attempt
+        private DateTime lastNotifDT;                      // the timestamp when new data was received
+        private SessionReconnectHandler reconnectHandler;  // the object needed to reconnect
 
 
         /// <summary>
@@ -47,6 +48,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             subscrTags = [];
 
             connAttemptDT = DateTime.MinValue;
+            lastNotifDT = DateTime.MinValue;
             reconnectHandler = null;
         }
 
@@ -123,6 +125,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         private void OpcSession_Notification(ISession session, NotificationEventArgs e)
         {
+            lastNotifDT = DateTime.UtcNow;
+
             if (e.Subscription?.Handle is SubscriptionTag subscriptionTag)
             {
                 subscriptionTag.DeviceLogic.ProcessDataChanges(subscriptionTag, e.NotificationMessage);
@@ -344,6 +348,22 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     "Error creating subscriptions"));
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Checks the connection status. If disconnected, reconnects and creates subscriptions.
+        /// </summary>
+        public bool ReconnectIfNeeded()
+        {
+            if (IsConnected && connectionOptions.ReconnectIfIdle > 0 && 
+                (DateTime.UtcNow - lastNotifDT).TotalSeconds > connectionOptions.ReconnectIfIdle)
+            {
+                Disconnect();
+            }
+
+            return OpcSession == null
+                ? Connect() && CreateSubscriptions(true)
+                : OpcSession.Connected;
         }
     }
 }

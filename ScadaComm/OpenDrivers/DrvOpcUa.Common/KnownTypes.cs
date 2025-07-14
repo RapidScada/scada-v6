@@ -15,8 +15,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa
         /// <summary>
         /// The known type names.
         /// </summary>
-        public static readonly string[] TypeNames = new string[]
-        {
+        public static readonly string[] TypeNames =
+        [
             "System.Boolean",
             "System.Byte",
             "System.DateTime",
@@ -31,7 +31,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa
             "System.UInt16",
             "System.UInt32",
             "System.UInt64"
-        };
+        ];
 
         /// <summary>
         /// Converts the string to an object depending on the type name.

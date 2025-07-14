@@ -43,7 +43,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         private readonly OpcDeviceConfig deviceConfig;       // the device configuration
         private readonly object opcLock;                     // synchronizes communication with OPC server
 
-        private bool configError;                            // indicates that that device configuration is not loaded
+        private bool deviceConfigError;                      // indicates that that device configuration is not loaded
         private OpcUaLineData lineData;                      // data common to the communication line
         private Dictionary<int, CommandConfig> cmdByNum;     // the commands accessed by number
         private Dictionary<string, CommandConfig> cmdByCode; // the commands accessed by code
@@ -59,7 +59,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             this.deviceConfig = new OpcDeviceConfig();
             opcLock = new object();
 
-            configError = false;
+            deviceConfigError = false;
             lineData = null;
             cmdByNum = null;
             cmdByCode = null;
@@ -454,7 +454,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             else
             {
                 Log.WriteLine(CommPhrases.DeviceMessage, Title, errMsg);
-                configError = true;
+                deviceConfigError = true;
             }
         }
 
@@ -471,7 +471,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         public override void InitDeviceTags()
         {
-            if (configError)
+            if (deviceConfigError)
                 return;
 
             foreach (SubscriptionConfig subscriptionConfig in deviceConfig.Subscriptions)
@@ -505,19 +505,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         public override void Session()
         {
-            if (lineData.FatalError || configError)
+            if (lineData.FatalError || deviceConfigError)
             {
                 DeviceStatus = DeviceStatus.Error;
             }
-            else if (lineData.ClientHelper.OpcSession == null)
-            {
-                if (!(lineData.ClientHelper.Connect() && lineData.ClientHelper.CreateSubscriptions(true)))
-                {
-                    DeviceStatus = DeviceStatus.Error;
-                    DeviceData.Invalidate();
-                }
-            }
-            else if (!lineData.ClientHelper.IsConnected)
+            else if (!lineData.ClientHelper.ReconnectIfNeeded())
             {
                 DeviceStatus = DeviceStatus.Error;
                 DeviceData.Invalidate();
