@@ -12,36 +12,24 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
     public class SubscriptionConfig
     {
         /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public SubscriptionConfig()
-        {
-            Active = true;
-            DisplayName = "";
-            PublishingInterval = 1000;
-            Items = new List<ItemConfig>();
-        }
-
-
-        /// <summary>
         /// Gets or sets a value indicating that the subscription is active.
         /// </summary>
-        public bool Active { get; set; }
+        public bool Active { get; set; } = true;
 
         /// <summary>
         /// Gets or sets the display name.
         /// </summary>
-        public string DisplayName { get; set; }
+        public string DisplayName { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the publishing interval.
         /// </summary>
-        public int PublishingInterval { get; set; }
+        public int PublishingInterval { get; set; } = 1000;
 
         /// <summary>
         /// Gets the monitored items of the subscription.
         /// </summary>
-        public List<ItemConfig> Items { get; private set; }
+        public List<ItemConfig> Items { get; private set; } = [];
 
 
         /// <summary>
