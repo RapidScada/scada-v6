@@ -8,7 +8,9 @@ using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvOpcUa.Config;
 using Scada.Comm.Lang;
 using Scada.Data.Const;
+using Scada.Data.Entities;
 using Scada.Data.Models;
+using Scada.Data.Tables;
 using Scada.Lang;
 
 namespace Scada.Comm.Drivers.DrvOpcUa.Logic
@@ -24,7 +26,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         private class OpcUaLineData
         {
-            public bool FatalError { get; set; } = false;
+            public bool FatalError { get; init; }
             public OpcClientHelper ClientHelper { get; init; }
             public override string ToString() => CommPhrases.SharedObject;
         }
@@ -37,7 +39,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             public Type ActualDataType { get; set; }
         }
 
-        private readonly OpcDeviceConfig config;             // the device configuration
+        private readonly OpcLineConfig lineConfig;           // the communication line configuration
+        private readonly OpcDeviceConfig deviceConfig;       // the device configuration
         private readonly object opcLock;                     // synchronizes communication with OPC server
 
         private bool configError;                            // indicates that that device configuration is not loaded
@@ -52,7 +55,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         public DevOpcUaLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig)
             : base(commContext, lineContext, deviceConfig)
         {
-            config = new OpcDeviceConfig();
+            lineConfig = new OpcLineConfig();
+            this.deviceConfig = new OpcDeviceConfig();
             opcLock = new object();
 
             configError = false;
@@ -76,7 +80,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             }
             else
             {
-                OpcLineConfig lineConfig = new();
                 bool lineConfigError = false;
 
                 if (!lineConfig.Load(Storage, OpcLineConfig.GetFileName(LineContext.CommLineNum), out string errMsg))
@@ -88,7 +91,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     lineConfigError = true;
                 }
 
-                lineData = new OpcUaLineData()
+                lineData = new OpcUaLineData
                 {
                     FatalError = lineConfigError,
                     ClientHelper = new OpcClientHelper(lineConfig.ConnectionOptions, Log, Storage)
@@ -107,7 +110,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             cmdByCode = [];
 
             // explicit commands
-            foreach (CommandConfig commandConfig in config.Commands)
+            foreach (CommandConfig commandConfig in deviceConfig.Commands)
             {
                 if (commandConfig.CmdNum > 0 && !cmdByNum.ContainsKey(commandConfig.CmdNum))
                     cmdByNum.Add(commandConfig.CmdNum, commandConfig);
@@ -117,7 +120,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             }
 
             // commands from subscriptions
-            foreach (SubscriptionConfig subscriptionConfig in config.Subscriptions)
+            foreach (SubscriptionConfig subscriptionConfig in deviceConfig.Subscriptions)
             {
                 foreach (ItemConfig itemConfig in subscriptionConfig.Items)
                 {
@@ -134,6 +137,55 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                         });
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Initializes a channel-based subscription configuration.
+        /// </summary>
+        private void InitSubscriptionConfig()
+        {
+            deviceConfig.Subscriptions.Clear(); // remove manually created subscriptions
+
+            if (CommContext.ConfigDatabase == null)
+            {
+                Log.WriteError(Locale.IsRussian ?
+                    "Невозможно создать подписки на основе каналов, потому что база конфигурации недоступна" :
+                    "Unable to create channel-based subscriptions because the configuration database is not available");
+            }
+            else
+            {
+                string GetSubscriptionName() => string.Format(Locale.IsRussian ? "Подписка {0}" : "Subscription {0}",
+                    deviceConfig.Subscriptions.Count + 1);
+
+                string nodeIdFormat = lineConfig.SubscriptionOptions.NodeIdFormat;
+                int maxItemCount = lineConfig.SubscriptionOptions.MaxItemCount;
+                SubscriptionConfig subscriptionConfig = new() { DisplayName = GetSubscriptionName() };
+
+                foreach (Cnl cnl in CommContext.ConfigDatabase.CnlTable
+                    .Select(new TableFilter("DeviceNum", DeviceNum), true))
+                {
+                    if (cnl.Active && cnl.IsInput() && !string.IsNullOrEmpty(cnl.TagCode))
+                    {
+                        subscriptionConfig.Items.Add(new ItemConfig
+                        {
+                            NodeID = string.IsNullOrEmpty(nodeIdFormat)
+                                ? cnl.TagCode
+                                : string.Format(nodeIdFormat, cnl.TagCode),
+                            DisplayName = cnl.Name,
+                            TagCode = cnl.TagCode
+                        });
+
+                        if (maxItemCount > 0 && subscriptionConfig.Items.Count >= maxItemCount)
+                        {
+                            deviceConfig.Subscriptions.Add(subscriptionConfig);
+                            subscriptionConfig = new() { DisplayName = GetSubscriptionName() };
+                        }
+                    }
+                }
+
+                if (subscriptionConfig.Items.Count > 0)
+                    deviceConfig.Subscriptions.Add(subscriptionConfig);
             }
         }
 
@@ -390,10 +442,14 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         {
             InitLineData();
 
-            if (config.Load(Storage, OpcDeviceConfig.GetFileName(DeviceNum), out string errMsg))
+            if (deviceConfig.Load(Storage, OpcDeviceConfig.GetFileName(DeviceNum), out string errMsg))
             {
                 InitCommandMaps();
-                lineData.ClientHelper.AddSubscriptions(this, config);
+
+                if (lineConfig.SubscriptionOptions.CreationMode == SubscriptionCreationMode.ChannelBased)
+                    InitSubscriptionConfig();
+
+                lineData.ClientHelper.AddSubscriptions(this, deviceConfig);
             }
             else
             {
@@ -418,7 +474,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             if (configError)
                 return;
 
-            foreach (SubscriptionConfig subscriptionConfig in config.Subscriptions)
+            foreach (SubscriptionConfig subscriptionConfig in deviceConfig.Subscriptions)
             {
                 TagGroup tagGroup = new(subscriptionConfig.DisplayName);
 
