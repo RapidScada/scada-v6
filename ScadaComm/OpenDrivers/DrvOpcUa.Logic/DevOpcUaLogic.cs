@@ -103,8 +103,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         private void InitCommandMaps()
         {
-            cmdByNum = new Dictionary<int, CommandConfig>();
-            cmdByCode = new Dictionary<string, CommandConfig>();
+            cmdByNum = [];
+            cmdByCode = [];
 
             // explicit commands
             foreach (CommandConfig commandConfig in config.Commands)
@@ -280,8 +280,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     Value = new DataValue(new Variant(itemVal))
                 };
 
-                opcSession.Write(null, new WriteValueCollection { valueToWrite },
-                    out StatusCodeCollection results, out _);
+                opcSession.Write(null, [valueToWrite], out StatusCodeCollection results, out _);
 
                 if (StatusCode.IsGood(results[0]))
                 {
@@ -345,11 +344,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         private static object[] GetMethodArgs(string cmdData)
         {
             if (string.IsNullOrEmpty(cmdData))
-                return Array.Empty<object>();
+                return [];
 
             // each line contains argument type and value, for example
             // double: 1.2
-            List<object> args = new();
+            List<object> args = [];
             string[] lines = cmdData.Split('\n');
 
             foreach (string line in lines)

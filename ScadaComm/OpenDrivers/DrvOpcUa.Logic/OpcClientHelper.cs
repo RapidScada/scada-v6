@@ -44,7 +44,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             : base(connectionOptions, log)
         {
             this.storage = storage ?? throw new ArgumentNullException(nameof(storage));
-            subscrTags = new List<SubscriptionTag>();
+            subscrTags = [];
 
             connAttemptDT = DateTime.MinValue;
             reconnectHandler = null;

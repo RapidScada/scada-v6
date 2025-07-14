@@ -568,11 +568,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// </summary>
         private string GetTagCode(ServerNodeTag serverNodeTag)
         {
-            return deviceConfig.EditingOptions.DefaultTagCode switch
-            {
-                DefaultTagCode.NodeID => serverNodeTag.NodeIdStr,
-                _ => serverNodeTag.DisplayName
-            };
+            return lineConfig.SubscriptionOptions.TagNamingMode == TagNamingMode.NodeID
+                ? serverNodeTag.NodeIdStr
+                : serverNodeTag.DisplayName;
         }
 
         /// <summary>
@@ -580,8 +578,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// </summary>
         private bool GetDataType(NodeId nodeId, out string dataTypeName, out bool isArray)
         {
-            if (nodeId == null)
-                throw new ArgumentNullException(nameof(nodeId));
+            ArgumentNullException.ThrowIfNull(nodeId, nameof(nodeId));
+
             if (opcSession == null)
                 throw new InvalidOperationException("OPC session must not be null.");
 
@@ -951,8 +949,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 
         private void btnEditingOptions_Click(object sender, EventArgs e)
         {
-            if (new FrmEditingOptions(deviceConfig.EditingOptions).ShowDialog() == DialogResult.OK)
-                DeviceConfigModified = true;
+            //if (new FrmEditingOptions(deviceConfig.EditingOptions).ShowDialog() == DialogResult.OK)
+            //    DeviceConfigModified = true;
         }
 
         private void btnSave_Click(object sender, EventArgs e)

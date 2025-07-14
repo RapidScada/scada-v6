@@ -8,7 +8,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 {
     public partial class FrmEditingOptions : Form
     {
-        private readonly EditingOptions editingOptions;
+        //private readonly EditingOptions editingOptions;
 
 
         /// <summary>
@@ -22,22 +22,22 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmEditingOptions(EditingOptions editingOptions)
+        /*public FrmEditingOptions(EditingOptions editingOptions)
             : this()
         {
             this.editingOptions = editingOptions ?? throw new ArgumentNullException(nameof(editingOptions));
-        }
+        }*/
 
 
         private void FrmEditingOptions_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
-            cbDefaultTagCode.SelectedIndex = (int)editingOptions.DefaultTagCode;
+            //cbDefaultTagCode.SelectedIndex = (int)editingOptions.DefaultTagCode;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            editingOptions.DefaultTagCode = (DefaultTagCode)cbDefaultTagCode.SelectedIndex;
+            //editingOptions.DefaultTagCode = (DefaultTagCode)cbDefaultTagCode.SelectedIndex;
             DialogResult = DialogResult.OK;
         }
     }
