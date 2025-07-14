@@ -165,7 +165,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 foreach (Cnl cnl in CommContext.ConfigDatabase.CnlTable
                     .Select(new TableFilter("DeviceNum", DeviceNum), true))
                 {
-                    if (cnl.Active && cnl.IsInput() && !string.IsNullOrEmpty(cnl.TagCode))
+                    if (cnl.Active && cnl.IsInput() && !string.IsNullOrEmpty(cnl.TagCode) && 
+                        cnl.TagCode != CommUtils.StatusTagCode)
                     {
                         subscriptionConfig.Items.Add(new ItemConfig
                         {
