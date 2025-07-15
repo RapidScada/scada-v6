@@ -28,42 +28,43 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.gbEmptyItem = new System.Windows.Forms.GroupBox();
-            this.lblNotSelected = new System.Windows.Forms.Label();
-            this.gbEmptyItem.SuspendLayout();
-            this.SuspendLayout();
+            gbEmptyItem = new GroupBox();
+            lblNotSelected = new Label();
+            gbEmptyItem.SuspendLayout();
+            SuspendLayout();
             // 
             // gbEmptyItem
             // 
-            this.gbEmptyItem.Controls.Add(this.lblNotSelected);
-            this.gbEmptyItem.Location = new System.Drawing.Point(0, 0);
-            this.gbEmptyItem.Name = "gbEmptyItem";
-            this.gbEmptyItem.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbEmptyItem.Size = new System.Drawing.Size(250, 500);
-            this.gbEmptyItem.TabIndex = 4;
-            this.gbEmptyItem.TabStop = false;
-            this.gbEmptyItem.Text = "Item Parameters";
+            gbEmptyItem.Controls.Add(lblNotSelected);
+            gbEmptyItem.Dock = DockStyle.Fill;
+            gbEmptyItem.Location = new Point(0, 0);
+            gbEmptyItem.Name = "gbEmptyItem";
+            gbEmptyItem.Padding = new Padding(10, 3, 10, 10);
+            gbEmptyItem.Size = new Size(250, 500);
+            gbEmptyItem.TabIndex = 4;
+            gbEmptyItem.TabStop = false;
+            gbEmptyItem.Text = "Item Parameters";
             // 
             // lblNotSelected
             // 
-            this.lblNotSelected.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblNotSelected.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.lblNotSelected.Location = new System.Drawing.Point(13, 19);
-            this.lblNotSelected.Name = "lblNotSelected";
-            this.lblNotSelected.Size = new System.Drawing.Size(224, 50);
-            this.lblNotSelected.TabIndex = 0;
-            this.lblNotSelected.Text = "Item not selected";
-            this.lblNotSelected.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            lblNotSelected.Font = new Font("Segoe UI", 11.25F);
+            lblNotSelected.ForeColor = SystemColors.GrayText;
+            lblNotSelected.Location = new Point(13, 19);
+            lblNotSelected.Name = "lblNotSelected";
+            lblNotSelected.Size = new Size(224, 50);
+            lblNotSelected.TabIndex = 0;
+            lblNotSelected.Text = "Item not selected";
+            lblNotSelected.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // CtrlEmptyItem
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.gbEmptyItem);
-            this.Name = "CtrlEmptyItem";
-            this.Size = new System.Drawing.Size(250, 500);
-            this.gbEmptyItem.ResumeLayout(false);
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(gbEmptyItem);
+            Name = "CtrlEmptyItem";
+            Size = new Size(250, 500);
+            gbEmptyItem.ResumeLayout(false);
+            ResumeLayout(false);
 
         }
 
