@@ -4,6 +4,7 @@
 using Opc.Ua;
 using Opc.Ua.Client;
 using Scada.Forms;
+using System.ComponentModel;
 
 namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 {
@@ -184,6 +185,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private async void FrmNodeAttr_Shown(object sender, EventArgs e)
         {
             await Task.Run(ReadAttributes);
+        }
+
+        private void cmsAttr_Opening(object sender, CancelEventArgs e)
+        {
+            miCopyName.Enabled = miCopyValue.Enabled = listView.SelectedItems.Count > 0;
         }
 
         private void miCopyName_Click(object sender, EventArgs e)

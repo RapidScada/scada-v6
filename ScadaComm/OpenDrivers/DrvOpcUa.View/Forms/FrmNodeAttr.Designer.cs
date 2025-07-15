@@ -32,10 +32,10 @@
             listView = new ListView();
             colName = new ColumnHeader();
             colValue = new ColumnHeader();
-            btnClose = new Button();
             cmsAttr = new ContextMenuStrip(components);
-            miCopyValue = new ToolStripMenuItem();
             miCopyName = new ToolStripMenuItem();
+            miCopyValue = new ToolStripMenuItem();
+            btnClose = new Button();
             cmsAttr.SuspendLayout();
             SuspendLayout();
             // 
@@ -64,6 +64,27 @@
             colValue.Text = "Value";
             colValue.Width = 160;
             // 
+            // cmsAttr
+            // 
+            cmsAttr.Items.AddRange(new ToolStripItem[] { miCopyName, miCopyValue });
+            cmsAttr.Name = "cmsAttr";
+            cmsAttr.Size = new Size(181, 70);
+            cmsAttr.Opening += cmsAttr_Opening;
+            // 
+            // miCopyName
+            // 
+            miCopyName.Name = "miCopyName";
+            miCopyName.Size = new Size(180, 22);
+            miCopyName.Text = "Copy Name";
+            miCopyName.Click += miCopyName_Click;
+            // 
+            // miCopyValue
+            // 
+            miCopyValue.Name = "miCopyValue";
+            miCopyValue.Size = new Size(180, 22);
+            miCopyValue.Text = "Copy Value";
+            miCopyValue.Click += miCopyValue_Click;
+            // 
             // btnClose
             // 
             btnClose.DialogResult = DialogResult.Cancel;
@@ -73,26 +94,6 @@
             btnClose.TabIndex = 1;
             btnClose.Text = "Close";
             btnClose.UseVisualStyleBackColor = true;
-            // 
-            // cmsAttr
-            // 
-            cmsAttr.Items.AddRange(new ToolStripItem[] { miCopyName, miCopyValue });
-            cmsAttr.Name = "cmsAttr";
-            cmsAttr.Size = new Size(181, 70);
-            // 
-            // miCopyValue
-            // 
-            miCopyValue.Name = "miCopyValue";
-            miCopyValue.Size = new Size(180, 22);
-            miCopyValue.Text = "Copy Value";
-            miCopyValue.Click += miCopyValue_Click;
-            // 
-            // miCopyName
-            // 
-            miCopyName.Name = "miCopyName";
-            miCopyName.Size = new Size(180, 22);
-            miCopyName.Text = "Copy Name";
-            miCopyName.Click += miCopyName_Click;
             // 
             // FrmNodeAttr
             // 
