@@ -10,7 +10,7 @@
     <Phrase key="lblDataType">Data type</Phrase>
     <Phrase key="chkIsMethod">Is method</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEmptyItem">
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlEmptyItem">
     <Phrase key="gbEmptyItem">Item Parameters</Phrase>
     <Phrase key="lblNotSelected">Item not selected</Phrase>
   </Dictionary>
