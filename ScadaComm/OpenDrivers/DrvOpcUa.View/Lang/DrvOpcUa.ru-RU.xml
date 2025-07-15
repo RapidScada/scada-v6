@@ -34,6 +34,8 @@
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmDeviceConfig">
     <Phrase key="this">Свойства устройства {0} - OPC UA</Phrase>
+    <Phrase key="pageLine">Линия</Phrase>
+    <Phrase key="pageDevice">Устройство</Phrase>
     <Phrase key="gbConnectionOptions">Параметры соединения</Phrase>
     <Phrase key="lblServerUrl">Адрес сервера</Phrase>
     <Phrase key="btnSecurityOptions.ToolTip">Настройки безопасности</Phrase>

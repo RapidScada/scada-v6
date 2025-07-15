@@ -45,7 +45,6 @@
             btnViewAttrs = new Button();
             btnConnect = new Button();
             gbConnectionOptions = new GroupBox();
-            lblConnectionInfo = new Label();
             pbConnectionInfo = new PictureBox();
             btnSecurityOptions = new Button();
             txtServerUrl = new TextBox();
@@ -53,13 +52,26 @@
             toolTip = new ToolTip(components);
             ctrlItem = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem();
             ctrlSubscription = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription();
-            btnEditingOptions = new Button();
             ctrlCommand = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCommand();
             ctrlEmptyItem = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlEmptyItem();
             pnlBottom = new Panel();
             tabControl1 = new TabControl();
             pageLine = new TabPage();
             pageDevice = new TabPage();
+            pnlLineInfo = new Panel();
+            lblLineInfo = new Label();
+            gbSubscriptionOptions = new GroupBox();
+            lblCreationMode = new Label();
+            cbCreationMode = new ComboBox();
+            lblNodeIdFormat = new Label();
+            txtNodeIdFormat = new TextBox();
+            lblMaxItemCount = new Label();
+            numMaxItemCount = new NumericUpDown();
+            lblTagNamingMode = new Label();
+            cbTagNamingMode = new ComboBox();
+            lblNodeIdFormatExample = new Label();
+            lblReconnectIfIdle = new Label();
+            numReconnectIfIdle = new NumericUpDown();
             gbDevice.SuspendLayout();
             gbServerBrowse.SuspendLayout();
             gbConnectionOptions.SuspendLayout();
@@ -68,6 +80,10 @@
             tabControl1.SuspendLayout();
             pageLine.SuspendLayout();
             pageDevice.SuspendLayout();
+            pnlLineInfo.SuspendLayout();
+            gbSubscriptionOptions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numMaxItemCount).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numReconnectIfIdle).BeginInit();
             SuspendLayout();
             // 
             // btnClose
@@ -77,7 +93,7 @@
             btnClose.Location = new Point(797, 10);
             btnClose.Name = "btnClose";
             btnClose.Size = new Size(75, 23);
-            btnClose.TabIndex = 2;
+            btnClose.TabIndex = 1;
             btnClose.Text = "Close";
             btnClose.UseVisualStyleBackColor = true;
             // 
@@ -88,7 +104,7 @@
             btnSave.Location = new Point(716, 10);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(75, 23);
-            btnSave.TabIndex = 1;
+            btnSave.TabIndex = 0;
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = true;
             btnSave.Click += btnSave_Click;
@@ -256,33 +272,23 @@
             // 
             // gbConnectionOptions
             // 
-            gbConnectionOptions.Controls.Add(lblConnectionInfo);
-            gbConnectionOptions.Controls.Add(pbConnectionInfo);
+            gbConnectionOptions.Controls.Add(numReconnectIfIdle);
+            gbConnectionOptions.Controls.Add(lblReconnectIfIdle);
             gbConnectionOptions.Controls.Add(btnSecurityOptions);
             gbConnectionOptions.Controls.Add(txtServerUrl);
             gbConnectionOptions.Controls.Add(lblServerUrl);
             gbConnectionOptions.Location = new Point(8, 8);
             gbConnectionOptions.Name = "gbConnectionOptions";
             gbConnectionOptions.Padding = new Padding(10, 3, 10, 10);
-            gbConnectionOptions.Size = new Size(860, 95);
+            gbConnectionOptions.Size = new Size(860, 117);
             gbConnectionOptions.TabIndex = 0;
             gbConnectionOptions.TabStop = false;
             gbConnectionOptions.Text = "Connection Options";
             // 
-            // lblConnectionInfo
-            // 
-            lblConnectionInfo.AutoSize = true;
-            lblConnectionInfo.ForeColor = SystemColors.GrayText;
-            lblConnectionInfo.Location = new Point(35, 67);
-            lblConnectionInfo.Name = "lblConnectionInfo";
-            lblConnectionInfo.Size = new Size(330, 15);
-            lblConnectionInfo.TabIndex = 3;
-            lblConnectionInfo.Text = "Connection options are common to the communication line.";
-            // 
             // pbConnectionInfo
             // 
             pbConnectionInfo.Image = Properties.Resources.info;
-            pbConnectionInfo.Location = new Point(13, 66);
+            pbConnectionInfo.Location = new Point(0, 2);
             pbConnectionInfo.Name = "pbConnectionInfo";
             pbConnectionInfo.Size = new Size(16, 16);
             pbConnectionInfo.TabIndex = 12;
@@ -335,16 +341,6 @@
             ctrlSubscription.TabIndex = 4;
             ctrlSubscription.ObjectChanged += ctrlItem_ObjectChanged;
             // 
-            // btnEditingOptions
-            // 
-            btnEditingOptions.Location = new Point(12, 10);
-            btnEditingOptions.Name = "btnEditingOptions";
-            btnEditingOptions.Size = new Size(100, 23);
-            btnEditingOptions.TabIndex = 0;
-            btnEditingOptions.Text = "Options";
-            btnEditingOptions.UseVisualStyleBackColor = true;
-            btnEditingOptions.Click += btnEditingOptions_Click;
-            // 
             // ctrlCommand
             // 
             ctrlCommand.CommandConfig = null;
@@ -365,12 +361,11 @@
             // 
             pnlBottom.Controls.Add(btnClose);
             pnlBottom.Controls.Add(btnSave);
-            pnlBottom.Controls.Add(btnEditingOptions);
             pnlBottom.Dock = DockStyle.Bottom;
             pnlBottom.Location = new Point(0, 616);
             pnlBottom.Name = "pnlBottom";
             pnlBottom.Size = new Size(884, 45);
-            pnlBottom.TabIndex = 7;
+            pnlBottom.TabIndex = 1;
             // 
             // tabControl1
             // 
@@ -381,10 +376,12 @@
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(884, 616);
-            tabControl1.TabIndex = 8;
+            tabControl1.TabIndex = 0;
             // 
             // pageLine
             // 
+            pageLine.Controls.Add(gbSubscriptionOptions);
+            pageLine.Controls.Add(pnlLineInfo);
             pageLine.Controls.Add(gbConnectionOptions);
             pageLine.Location = new Point(4, 24);
             pageLine.Name = "pageLine";
@@ -409,6 +406,142 @@
             pageDevice.TabIndex = 1;
             pageDevice.Text = "Device";
             pageDevice.UseVisualStyleBackColor = true;
+            // 
+            // pnlLineInfo
+            // 
+            pnlLineInfo.Controls.Add(lblLineInfo);
+            pnlLineInfo.Controls.Add(pbConnectionInfo);
+            pnlLineInfo.Location = new Point(8, 559);
+            pnlLineInfo.Name = "pnlLineInfo";
+            pnlLineInfo.Size = new Size(500, 21);
+            pnlLineInfo.TabIndex = 0;
+            // 
+            // lblLineInfo
+            // 
+            lblLineInfo.AutoSize = true;
+            lblLineInfo.ForeColor = SystemColors.GrayText;
+            lblLineInfo.Location = new Point(22, 3);
+            lblLineInfo.Name = "lblLineInfo";
+            lblLineInfo.Size = new Size(356, 15);
+            lblLineInfo.TabIndex = 0;
+            lblLineInfo.Text = "The options on this page are common to the communication line.";
+            // 
+            // gbSubscriptionOptions
+            // 
+            gbSubscriptionOptions.Controls.Add(cbTagNamingMode);
+            gbSubscriptionOptions.Controls.Add(lblTagNamingMode);
+            gbSubscriptionOptions.Controls.Add(numMaxItemCount);
+            gbSubscriptionOptions.Controls.Add(lblMaxItemCount);
+            gbSubscriptionOptions.Controls.Add(lblNodeIdFormatExample);
+            gbSubscriptionOptions.Controls.Add(txtNodeIdFormat);
+            gbSubscriptionOptions.Controls.Add(lblNodeIdFormat);
+            gbSubscriptionOptions.Controls.Add(cbCreationMode);
+            gbSubscriptionOptions.Controls.Add(lblCreationMode);
+            gbSubscriptionOptions.Location = new Point(8, 131);
+            gbSubscriptionOptions.Name = "gbSubscriptionOptions";
+            gbSubscriptionOptions.Padding = new Padding(10, 3, 10, 10);
+            gbSubscriptionOptions.Size = new Size(860, 205);
+            gbSubscriptionOptions.TabIndex = 1;
+            gbSubscriptionOptions.TabStop = false;
+            gbSubscriptionOptions.Text = "Subscription Options";
+            // 
+            // lblCreationMode
+            // 
+            lblCreationMode.AutoSize = true;
+            lblCreationMode.Location = new Point(10, 19);
+            lblCreationMode.Name = "lblCreationMode";
+            lblCreationMode.Size = new Size(153, 15);
+            lblCreationMode.TabIndex = 0;
+            lblCreationMode.Text = "Subscription creation mode";
+            // 
+            // cbCreationMode
+            // 
+            cbCreationMode.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbCreationMode.FormattingEnabled = true;
+            cbCreationMode.Items.AddRange(new object[] { "Manual", "Channel based" });
+            cbCreationMode.Location = new Point(13, 37);
+            cbCreationMode.Name = "cbCreationMode";
+            cbCreationMode.Size = new Size(200, 23);
+            cbCreationMode.TabIndex = 1;
+            // 
+            // lblNodeIdFormat
+            // 
+            lblNodeIdFormat.AutoSize = true;
+            lblNodeIdFormat.Location = new Point(10, 63);
+            lblNodeIdFormat.Name = "lblNodeIdFormat";
+            lblNodeIdFormat.Size = new Size(89, 15);
+            lblNodeIdFormat.TabIndex = 2;
+            lblNodeIdFormat.Text = "Node ID format";
+            // 
+            // txtNodeIdFormat
+            // 
+            txtNodeIdFormat.Location = new Point(13, 81);
+            txtNodeIdFormat.Name = "txtNodeIdFormat";
+            txtNodeIdFormat.Size = new Size(200, 23);
+            txtNodeIdFormat.TabIndex = 3;
+            // 
+            // lblMaxItemCount
+            // 
+            lblMaxItemCount.AutoSize = true;
+            lblMaxItemCount.Location = new Point(10, 107);
+            lblMaxItemCount.Name = "lblMaxItemCount";
+            lblMaxItemCount.Size = new Size(211, 15);
+            lblMaxItemCount.TabIndex = 5;
+            lblMaxItemCount.Text = "Max. number of items per subscription";
+            // 
+            // numMaxItemCount
+            // 
+            numMaxItemCount.Location = new Point(13, 125);
+            numMaxItemCount.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            numMaxItemCount.Name = "numMaxItemCount";
+            numMaxItemCount.Size = new Size(200, 23);
+            numMaxItemCount.TabIndex = 6;
+            // 
+            // lblTagNamingMode
+            // 
+            lblTagNamingMode.AutoSize = true;
+            lblTagNamingMode.Location = new Point(10, 151);
+            lblTagNamingMode.Name = "lblTagNamingMode";
+            lblTagNamingMode.Size = new Size(70, 15);
+            lblTagNamingMode.TabIndex = 7;
+            lblTagNamingMode.Text = "Tag naming";
+            // 
+            // cbTagNamingMode
+            // 
+            cbTagNamingMode.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbTagNamingMode.FormattingEnabled = true;
+            cbTagNamingMode.Items.AddRange(new object[] { "Node ID", "Display name" });
+            cbTagNamingMode.Location = new Point(13, 169);
+            cbTagNamingMode.Name = "cbTagNamingMode";
+            cbTagNamingMode.Size = new Size(200, 23);
+            cbTagNamingMode.TabIndex = 8;
+            // 
+            // lblNodeIdFormatExample
+            // 
+            lblNodeIdFormatExample.AutoSize = true;
+            lblNodeIdFormatExample.ForeColor = SystemColors.GrayText;
+            lblNodeIdFormatExample.Location = new Point(219, 85);
+            lblNodeIdFormatExample.Name = "lblNodeIdFormatExample";
+            lblNodeIdFormatExample.Size = new Size(133, 15);
+            lblNodeIdFormatExample.TabIndex = 4;
+            lblNodeIdFormatExample.Text = "For example, ns=1;s={0}";
+            // 
+            // lblReconnectIfIdle
+            // 
+            lblReconnectIfIdle.AutoSize = true;
+            lblReconnectIfIdle.Location = new Point(10, 63);
+            lblReconnectIfIdle.Name = "lblReconnectIfIdle";
+            lblReconnectIfIdle.Size = new Size(118, 15);
+            lblReconnectIfIdle.TabIndex = 3;
+            lblReconnectIfIdle.Text = "Reconnect if idle, sec";
+            // 
+            // numReconnectIfIdle
+            // 
+            numReconnectIfIdle.Location = new Point(13, 81);
+            numReconnectIfIdle.Maximum = new decimal(new int[] { 3600, 0, 0, 0 });
+            numReconnectIfIdle.Name = "numReconnectIfIdle";
+            numReconnectIfIdle.Size = new Size(200, 23);
+            numReconnectIfIdle.TabIndex = 4;
             // 
             // FrmDeviceConfig
             // 
@@ -437,6 +570,12 @@
             tabControl1.ResumeLayout(false);
             pageLine.ResumeLayout(false);
             pageDevice.ResumeLayout(false);
+            pnlLineInfo.ResumeLayout(false);
+            pnlLineInfo.PerformLayout();
+            gbSubscriptionOptions.ResumeLayout(false);
+            gbSubscriptionOptions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numMaxItemCount).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numReconnectIfIdle).EndInit();
             ResumeLayout(false);
 
         }
@@ -464,14 +603,26 @@
         private Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription ctrlSubscription;
         private Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem ctrlItem;
         private System.Windows.Forms.Button btnViewAttrs;
-        private Button btnEditingOptions;
         private Controls.CtrlCommand ctrlCommand;
         private Controls.CtrlEmptyItem ctrlEmptyItem;
         private Panel pnlBottom;
-        private Label lblConnectionInfo;
         private PictureBox pbConnectionInfo;
         private TabControl tabControl1;
         private TabPage pageLine;
         private TabPage pageDevice;
+        private Panel pnlLineInfo;
+        private Label lblLineInfo;
+        private GroupBox gbSubscriptionOptions;
+        private Label lblCreationMode;
+        private ComboBox cbTagNamingMode;
+        private Label lblTagNamingMode;
+        private NumericUpDown numMaxItemCount;
+        private Label lblMaxItemCount;
+        private TextBox txtNodeIdFormat;
+        private Label lblNodeIdFormat;
+        private ComboBox cbCreationMode;
+        private Label lblNodeIdFormatExample;
+        private NumericUpDown numReconnectIfIdle;
+        private Label lblReconnectIfIdle;
     }
 }
