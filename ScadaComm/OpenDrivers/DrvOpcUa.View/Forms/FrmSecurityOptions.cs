@@ -40,23 +40,23 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// </summary>
         private void FillComboBoxes()
         {
-            cbSecurityMode.Items.AddRange(new object[] {
+            cbSecurityMode.Items.AddRange([
                 MessageSecurityMode.None,
                 MessageSecurityMode.Sign,
-                MessageSecurityMode.SignAndEncrypt });
+                MessageSecurityMode.SignAndEncrypt ]);
 
-            cbSecurityPolicy.Items.AddRange(new object[] {
+            cbSecurityPolicy.Items.AddRange([
                 SecurityPolicy.None,
                 SecurityPolicy.Basic128Rsa15,
                 SecurityPolicy.Basic256,
                 SecurityPolicy.Basic256Sha256,
                 SecurityPolicy.Aes128_Sha256_RsaOaep,
                 SecurityPolicy.Aes256_Sha256_RsaPss,
-                SecurityPolicy.Https });
+                SecurityPolicy.Https ]);
 
-            cbAuthenticationMode.Items.AddRange(new object[] {
+            cbAuthenticationMode.Items.AddRange([
                 AuthenticationMode.Anonymous,
-                AuthenticationMode.Username });
+                AuthenticationMode.Username ]);
         }
 
         /// <summary>

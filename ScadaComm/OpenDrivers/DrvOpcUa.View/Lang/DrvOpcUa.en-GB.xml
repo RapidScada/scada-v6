@@ -81,6 +81,8 @@
     <Phrase key="this">Node Attributes</Phrase>
     <Phrase key="colName">Name</Phrase>
     <Phrase key="colValue">Value</Phrase>
+    <Phrase key="miCopyName">Copy Name</Phrase>
+    <Phrase key="miCopyValue">Copy Value</Phrase>
     <Phrase key="btnClose">Close</Phrase>
     <Phrase key="ReadAttrError">Error reading attributes from OPC server</Phrase>
   </Dictionary>

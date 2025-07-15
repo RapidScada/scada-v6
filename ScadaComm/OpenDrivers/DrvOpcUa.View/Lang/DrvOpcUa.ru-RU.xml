@@ -82,6 +82,8 @@
     <Phrase key="this">Атрибуты узла</Phrase>
     <Phrase key="colName">Наименование</Phrase>
     <Phrase key="colValue">Значение</Phrase>
+    <Phrase key="miCopyName">Копировать наименование</Phrase>
+    <Phrase key="miCopyValue">Копировать значение</Phrase>
     <Phrase key="btnClose">Закрыть</Phrase>
     <Phrase key="ReadAttrError">Ошибка при чтении атрибутов с OPC-сервера</Phrase>
   </Dictionary>

@@ -28,67 +28,91 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.listView = new System.Windows.Forms.ListView();
-            this.btnClose = new System.Windows.Forms.Button();
-            this.colName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            listView = new ListView();
+            colName = new ColumnHeader();
+            colValue = new ColumnHeader();
+            btnClose = new Button();
+            cmsAttr = new ContextMenuStrip(components);
+            miCopyValue = new ToolStripMenuItem();
+            miCopyName = new ToolStripMenuItem();
+            cmsAttr.SuspendLayout();
+            SuspendLayout();
             // 
             // listView
             // 
-            this.listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colName,
-            this.colValue});
-            this.listView.FullRowSelect = true;
-            this.listView.GridLines = true;
-            this.listView.HideSelection = false;
-            this.listView.Location = new System.Drawing.Point(12, 12);
-            this.listView.MultiSelect = false;
-            this.listView.Name = "listView";
-            this.listView.ShowItemToolTips = true;
-            this.listView.Size = new System.Drawing.Size(310, 308);
-            this.listView.TabIndex = 0;
-            this.listView.UseCompatibleStateImageBehavior = false;
-            this.listView.View = System.Windows.Forms.View.Details;
-            // 
-            // btnClose
-            // 
-            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(247, 326);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(75, 23);
-            this.btnClose.TabIndex = 1;
-            this.btnClose.Text = "Close";
-            this.btnClose.UseVisualStyleBackColor = true;
+            listView.Columns.AddRange(new ColumnHeader[] { colName, colValue });
+            listView.ContextMenuStrip = cmsAttr;
+            listView.FullRowSelect = true;
+            listView.GridLines = true;
+            listView.Location = new Point(12, 12);
+            listView.MultiSelect = false;
+            listView.Name = "listView";
+            listView.ShowItemToolTips = true;
+            listView.Size = new Size(310, 308);
+            listView.TabIndex = 0;
+            listView.UseCompatibleStateImageBehavior = false;
+            listView.View = System.Windows.Forms.View.Details;
             // 
             // colName
             // 
-            this.colName.Text = "Name";
-            this.colName.Width = 120;
+            colName.Text = "Name";
+            colName.Width = 120;
             // 
             // colValue
             // 
-            this.colValue.Text = "Value";
-            this.colValue.Width = 160;
+            colValue.Text = "Value";
+            colValue.Width = 160;
+            // 
+            // btnClose
+            // 
+            btnClose.DialogResult = DialogResult.Cancel;
+            btnClose.Location = new Point(247, 326);
+            btnClose.Name = "btnClose";
+            btnClose.Size = new Size(75, 23);
+            btnClose.TabIndex = 1;
+            btnClose.Text = "Close";
+            btnClose.UseVisualStyleBackColor = true;
+            // 
+            // cmsAttr
+            // 
+            cmsAttr.Items.AddRange(new ToolStripItem[] { miCopyName, miCopyValue });
+            cmsAttr.Name = "cmsAttr";
+            cmsAttr.Size = new Size(181, 70);
+            // 
+            // miCopyValue
+            // 
+            miCopyValue.Name = "miCopyValue";
+            miCopyValue.Size = new Size(180, 22);
+            miCopyValue.Text = "Copy Value";
+            miCopyValue.Click += miCopyValue_Click;
+            // 
+            // miCopyName
+            // 
+            miCopyName.Name = "miCopyName";
+            miCopyName.Size = new Size(180, 22);
+            miCopyName.Text = "Copy Name";
+            miCopyName.Click += miCopyName_Click;
             // 
             // FrmNodeAttr
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(334, 361);
-            this.Controls.Add(this.btnClose);
-            this.Controls.Add(this.listView);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FrmNodeAttr";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Node Attributes";
-            this.Load += new System.EventHandler(this.FrmNodeAttr_Load);
-            this.Shown += new System.EventHandler(this.FrmNodeAttr_Shown);
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = btnClose;
+            ClientSize = new Size(334, 361);
+            Controls.Add(btnClose);
+            Controls.Add(listView);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FrmNodeAttr";
+            ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Node Attributes";
+            Load += FrmNodeAttr_Load;
+            Shown += FrmNodeAttr_Shown;
+            cmsAttr.ResumeLayout(false);
+            ResumeLayout(false);
 
         }
 
@@ -98,5 +122,8 @@
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.ColumnHeader colName;
         private System.Windows.Forms.ColumnHeader colValue;
+        private ContextMenuStrip cmsAttr;
+        private ToolStripMenuItem miCopyValue;
+        private ToolStripMenuItem miCopyName;
     }
 }

@@ -764,6 +764,12 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 lineConfig.SubscriptionOptions.CreationMode = (SubscriptionCreationMode)cbCreationMode.SelectedIndex;
                 LineConfigModified = true;
             }
+
+            // enable/disable controls
+            SubscriptionCreationMode mode = lineConfig.SubscriptionOptions.CreationMode;
+            lblNodeIdFormat.Enabled = lblNodeIdFormatExample.Enabled = txtNodeIdFormat.Enabled =
+                lblMaxItemCount.Enabled = numMaxItemCount.Enabled = mode == SubscriptionCreationMode.ChannelBased;
+            lblTagNamingMode.Enabled = cbTagNamingMode.Enabled = mode == SubscriptionCreationMode.Manual;
         }
 
         private void txtNodeIdFormat_TextChanged(object sender, EventArgs e)
