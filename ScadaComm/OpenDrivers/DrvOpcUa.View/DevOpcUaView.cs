@@ -57,7 +57,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
             }
 
             // create channels for subscriptions
-            List<CnlPrototype> cnlPrototypes = new();
+            List<CnlPrototype> cnlPrototypes = [];
             int tagNum = 1;
             int eventMask = new EventMask { Enabled = true, StatusChange = true, Command = true }.Value;
             int cmdEventMask = new EventMask { Enabled = true, Command = true }.Value;

@@ -168,14 +168,30 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     if (cnl.Active && cnl.IsInput() && !string.IsNullOrEmpty(cnl.TagCode) && 
                         cnl.TagCode != CommUtils.StatusTagCode)
                     {
-                        subscriptionConfig.Items.Add(new ItemConfig
+                        ItemConfig itemConfig = new()
                         {
                             NodeID = string.IsNullOrEmpty(nodeIdFormat)
                                 ? cnl.TagCode
                                 : string.Format(nodeIdFormat, cnl.TagCode),
                             DisplayName = cnl.Name,
                             TagCode = cnl.TagCode
-                        });
+                        };
+
+                        if (cnl.DataLen > 1)
+                        {
+                            if (cnl.IsString())
+                            {
+                                itemConfig.DataTypeName = typeof(string).FullName;
+                                itemConfig.DataLen = DeviceTag.CalcDataLength(cnl.DataLen.Value, TagDataType.Unicode);
+                            }
+                            else
+                            {
+                                itemConfig.IsArray = true;
+                                itemConfig.DataLen = cnl.DataLen.Value;
+                            }
+                        }
+
+                        subscriptionConfig.Items.Add(itemConfig);
 
                         if (maxItemCount > 0 && subscriptionConfig.Items.Count >= maxItemCount)
                         {

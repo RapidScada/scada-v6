@@ -125,10 +125,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         private void OpcSession_Notification(ISession session, NotificationEventArgs e)
         {
-            lastNotifDT = DateTime.UtcNow;
-
             if (e.Subscription?.Handle is SubscriptionTag subscriptionTag)
             {
+                lastNotifDT = DateTime.UtcNow;
                 subscriptionTag.DeviceLogic.ProcessDataChanges(subscriptionTag, e.NotificationMessage);
             }
             else
@@ -220,6 +219,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 ConnectAsync().Wait();
                 OpcSession.KeepAlive += OpcSession_KeepAlive;
                 OpcSession.Notification += OpcSession_Notification;
+                lastNotifDT = DateTime.UtcNow;
                 return true;
             }
             catch (Exception ex)
@@ -249,6 +249,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                             "Disconnect from OPC server");
                         OpcSession.Close();
                     }
+
+                    reconnectHandler?.Dispose();
                 }
                 catch (Exception ex)
                 {
@@ -258,6 +260,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 }
 
                 OpcSession = null;
+                reconnectHandler = null;
             }
         }
 
