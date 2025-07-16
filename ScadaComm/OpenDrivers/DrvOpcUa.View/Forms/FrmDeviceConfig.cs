@@ -767,9 +767,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 
             // enable/disable controls
             SubscriptionCreationMode mode = lineConfig.SubscriptionOptions.CreationMode;
+            lblTagNamingMode.Enabled = cbTagNamingMode.Enabled = mode == SubscriptionCreationMode.Manual;
             lblNodeIdFormat.Enabled = lblNodeIdFormatExample.Enabled = txtNodeIdFormat.Enabled =
                 lblMaxItemCount.Enabled = numMaxItemCount.Enabled = mode == SubscriptionCreationMode.ChannelBased;
-            lblTagNamingMode.Enabled = cbTagNamingMode.Enabled = mode == SubscriptionCreationMode.Manual;
         }
 
         private void txtNodeIdFormat_TextChanged(object sender, EventArgs e)

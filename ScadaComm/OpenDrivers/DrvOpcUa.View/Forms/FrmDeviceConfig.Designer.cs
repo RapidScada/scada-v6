@@ -411,13 +411,13 @@
             // 
             // gbSubscriptionOptions
             // 
-            gbSubscriptionOptions.Controls.Add(cbTagNamingMode);
-            gbSubscriptionOptions.Controls.Add(lblTagNamingMode);
             gbSubscriptionOptions.Controls.Add(numMaxItemCount);
             gbSubscriptionOptions.Controls.Add(lblMaxItemCount);
             gbSubscriptionOptions.Controls.Add(lblNodeIdFormatExample);
             gbSubscriptionOptions.Controls.Add(txtNodeIdFormat);
             gbSubscriptionOptions.Controls.Add(lblNodeIdFormat);
+            gbSubscriptionOptions.Controls.Add(cbTagNamingMode);
+            gbSubscriptionOptions.Controls.Add(lblTagNamingMode);
             gbSubscriptionOptions.Controls.Add(cbCreationMode);
             gbSubscriptionOptions.Controls.Add(lblCreationMode);
             gbSubscriptionOptions.Location = new Point(8, 131);
@@ -433,64 +433,64 @@
             cbTagNamingMode.DropDownStyle = ComboBoxStyle.DropDownList;
             cbTagNamingMode.FormattingEnabled = true;
             cbTagNamingMode.Items.AddRange(new object[] { "Node ID", "Display name" });
-            cbTagNamingMode.Location = new Point(13, 169);
+            cbTagNamingMode.Location = new Point(13, 81);
             cbTagNamingMode.Name = "cbTagNamingMode";
             cbTagNamingMode.Size = new Size(200, 23);
-            cbTagNamingMode.TabIndex = 8;
+            cbTagNamingMode.TabIndex = 3;
             cbTagNamingMode.SelectedIndexChanged += cbTagNamingMode_SelectedIndexChanged;
             // 
             // lblTagNamingMode
             // 
             lblTagNamingMode.AutoSize = true;
-            lblTagNamingMode.Location = new Point(10, 151);
+            lblTagNamingMode.Location = new Point(10, 63);
             lblTagNamingMode.Name = "lblTagNamingMode";
             lblTagNamingMode.Size = new Size(70, 15);
-            lblTagNamingMode.TabIndex = 7;
+            lblTagNamingMode.TabIndex = 2;
             lblTagNamingMode.Text = "Tag naming";
             // 
             // numMaxItemCount
             // 
-            numMaxItemCount.Location = new Point(13, 125);
+            numMaxItemCount.Location = new Point(13, 169);
             numMaxItemCount.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             numMaxItemCount.Name = "numMaxItemCount";
             numMaxItemCount.Size = new Size(200, 23);
-            numMaxItemCount.TabIndex = 6;
+            numMaxItemCount.TabIndex = 8;
             numMaxItemCount.ValueChanged += numMaxItemCount_ValueChanged;
             // 
             // lblMaxItemCount
             // 
             lblMaxItemCount.AutoSize = true;
-            lblMaxItemCount.Location = new Point(10, 107);
+            lblMaxItemCount.Location = new Point(10, 151);
             lblMaxItemCount.Name = "lblMaxItemCount";
             lblMaxItemCount.Size = new Size(211, 15);
-            lblMaxItemCount.TabIndex = 5;
+            lblMaxItemCount.TabIndex = 7;
             lblMaxItemCount.Text = "Max. number of items per subscription";
             // 
             // lblNodeIdFormatExample
             // 
             lblNodeIdFormatExample.AutoSize = true;
             lblNodeIdFormatExample.ForeColor = SystemColors.GrayText;
-            lblNodeIdFormatExample.Location = new Point(219, 85);
+            lblNodeIdFormatExample.Location = new Point(219, 129);
             lblNodeIdFormatExample.Name = "lblNodeIdFormatExample";
             lblNodeIdFormatExample.Size = new Size(133, 15);
-            lblNodeIdFormatExample.TabIndex = 4;
+            lblNodeIdFormatExample.TabIndex = 6;
             lblNodeIdFormatExample.Text = "For example, ns=1;s={0}";
             // 
             // txtNodeIdFormat
             // 
-            txtNodeIdFormat.Location = new Point(13, 81);
+            txtNodeIdFormat.Location = new Point(13, 125);
             txtNodeIdFormat.Name = "txtNodeIdFormat";
             txtNodeIdFormat.Size = new Size(200, 23);
-            txtNodeIdFormat.TabIndex = 3;
+            txtNodeIdFormat.TabIndex = 5;
             txtNodeIdFormat.TextChanged += txtNodeIdFormat_TextChanged;
             // 
             // lblNodeIdFormat
             // 
             lblNodeIdFormat.AutoSize = true;
-            lblNodeIdFormat.Location = new Point(10, 63);
+            lblNodeIdFormat.Location = new Point(10, 107);
             lblNodeIdFormat.Name = "lblNodeIdFormat";
             lblNodeIdFormat.Size = new Size(89, 15);
-            lblNodeIdFormat.TabIndex = 2;
+            lblNodeIdFormat.TabIndex = 4;
             lblNodeIdFormat.Text = "Node ID format";
             // 
             // cbCreationMode

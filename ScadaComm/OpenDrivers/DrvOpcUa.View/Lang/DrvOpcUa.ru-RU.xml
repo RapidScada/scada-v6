@@ -44,12 +44,12 @@
     <Phrase key="lblCreationMode">Режим создания подписок</Phrase>
     <Phrase key="cbCreationMode.Items[0]">Вручную</Phrase>
     <Phrase key="cbCreationMode.Items[1]">На основе каналов</Phrase>
-    <Phrase key="lblNodeIdFormat">Формат идентификаторов узлов</Phrase>
-    <Phrase key="lblNodeIdFormatExample">Например, ns=1;s={0}</Phrase>
-    <Phrase key="lblMaxItemCount">Макс. количество элементов на подписку</Phrase>
     <Phrase key="lblTagNamingMode">Именование тегов</Phrase>
     <Phrase key="cbTagNamingMode.Items[0]">Идентификатор узла</Phrase>
     <Phrase key="cbTagNamingMode.Items[1]">Наименование</Phrase>
+    <Phrase key="lblNodeIdFormat">Формат идентификаторов узлов</Phrase>
+    <Phrase key="lblNodeIdFormatExample">Например, ns=1;s={0}</Phrase>
+    <Phrase key="lblMaxItemCount">Макс. количество элементов на подписку</Phrase>
     <Phrase key="lblLineInfo">Параметры на этой странице являются общими для линии связи.</Phrase>
     <Phrase key="gbServerBrowse">Обзор сервера</Phrase>
     <Phrase key="btnConnect.ToolTip">Соединиться с сервером</Phrase>

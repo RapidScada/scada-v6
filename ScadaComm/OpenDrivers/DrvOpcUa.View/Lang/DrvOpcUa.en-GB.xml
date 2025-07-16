@@ -44,12 +44,12 @@
     <Phrase key="lblCreationMode">Subscription creation mode</Phrase>
     <Phrase key="cbCreationMode.Items[0]">Manual</Phrase>
     <Phrase key="cbCreationMode.Items[1]">Channel based</Phrase>
-    <Phrase key="lblNodeIdFormat">Node ID format</Phrase>
-    <Phrase key="lblNodeIdFormatExample">For example, ns=1;s={0}</Phrase>
-    <Phrase key="lblMaxItemCount">Max. number of items per subscription</Phrase>
     <Phrase key="lblTagNamingMode">Tag naming</Phrase>
     <Phrase key="cbTagNamingMode.Items[0]">Node ID</Phrase>
     <Phrase key="cbTagNamingMode.Items[1]">Display name</Phrase>
+    <Phrase key="lblNodeIdFormat">Node ID format</Phrase>
+    <Phrase key="lblNodeIdFormatExample">For example, ns=1;s={0}</Phrase>
+    <Phrase key="lblMaxItemCount">Max. number of items per subscription</Phrase>
     <Phrase key="lblLineInfo">The options on this page are common to the communication line.</Phrase>
     <Phrase key="gbServerBrowse">Server Browse</Phrase>
     <Phrase key="btnConnect.ToolTip">Connect to Server</Phrase>

@@ -17,6 +17,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         public SubscriptionCreationMode CreationMode { get; set; } = SubscriptionCreationMode.Manual;
 
         /// <summary>
+        /// Gets or sets the tag naming mode.
+        /// </summary>
+        public TagNamingMode TagNamingMode { get; set; } = TagNamingMode.NodeID;
+
+        /// <summary>
         /// Gets or sets the format string for building a node ID based on a channel tag.
         /// </summary>
         public string NodeIdFormat { get; set; } = "";
@@ -26,11 +31,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// </summary>
         public int MaxItemCount { get; set; } = 1000;
 
-        /// <summary>
-        /// Gets or sets the tag naming mode.
-        /// </summary>
-        public TagNamingMode TagNamingMode { get; set; } = TagNamingMode.NodeID;
-
 
         /// <summary>
         /// Loads the options from the XML node.
@@ -39,9 +39,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         {
             ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
             CreationMode = xmlNode.GetChildAsEnum("CreationMode", CreationMode);
+            TagNamingMode = xmlNode.GetChildAsEnum("TagNamingMode", TagNamingMode);
             NodeIdFormat = xmlNode.GetChildAsString("NodeIdFormat", NodeIdFormat);
             MaxItemCount = xmlNode.GetChildAsInt("MaxItemCount", MaxItemCount);
-            TagNamingMode = xmlNode.GetChildAsEnum("TagNamingMode", TagNamingMode);
         }
 
         /// <summary>
@@ -51,9 +51,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         {
             ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
             xmlNode.AppendElem("CreationMode", CreationMode);
+            xmlNode.AppendElem("TagNamingMode", TagNamingMode);
             xmlNode.AppendElem("NodeIdFormat", NodeIdFormat);
             xmlNode.AppendElem("MaxItemCount", MaxItemCount);
-            xmlNode.AppendElem("TagNamingMode", TagNamingMode);
         }
     }
 }

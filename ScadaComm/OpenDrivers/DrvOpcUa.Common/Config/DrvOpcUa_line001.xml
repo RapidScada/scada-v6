@@ -11,8 +11,8 @@
   </ConnectionOptions>
   <SubscriptionOptions>
     <CreationMode>Manual</CreationMode>
+    <TagNamingMode>NodeID</TagNamingMode>
     <NodeIdFormat></NodeIdFormat>
     <MaxItemCount>1000</MaxItemCount>
-    <TagNamingMode>NodeID</TagNamingMode>
   </SubscriptionOptions>
 </OpcLineConfig>
