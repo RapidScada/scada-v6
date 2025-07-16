@@ -906,7 +906,7 @@ rs.mimic.DescriptorSet = class {
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
         let descriptor = new rs.mimic.FaceplateDescriptor();
 
-        if (faceplate) {
+        if (faceplate && Array.isArray(faceplate.document.propertyExports)) {
             for (let propertyExport of faceplate.document.propertyExports) {
                 if (propertyExport.name) {
                     descriptor.add(new PropertyDescriptor({

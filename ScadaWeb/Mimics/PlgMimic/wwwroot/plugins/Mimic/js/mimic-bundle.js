@@ -950,7 +950,7 @@ rs.mimic.DescriptorSet = class {
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
         let descriptor = new rs.mimic.FaceplateDescriptor();
 
-        if (faceplate) {
+        if (faceplate && Array.isArray(faceplate.document.propertyExports)) {
             for (let propertyExport of faceplate.document.propertyExports) {
                 if (propertyExport.name) {
                     descriptor.add(new PropertyDescriptor({
@@ -1279,37 +1279,62 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         this.faceplate = faceplate;
     }
 
+    _createComponents(faceplateInstance) {
+        const FactorySet = rs.mimic.FactorySet;
+        const MimicHelper = rs.mimic.MimicHelper;
+
+        if (Array.isArray(this.faceplate.components)) {
+            for (let sourceComponent of this.faceplate.components) {
+                let factory = FactorySet.getComponentFactory(sourceComponent.typeName, this.faceplate.faceplateMap);
+
+                if (factory) {
+                    let componentCopy = factory.createComponentFromSource(sourceComponent);
+                    faceplateInstance.components.push(componentCopy);
+
+                    if (componentCopy.name) {
+                        faceplateInstance.componentByName.set(componentCopy.name, componentCopy);
+                    }
+                }
+            }
+
+            MimicHelper.defineNesting(faceplateInstance, faceplateInstance.components);
+        }
+    }
+
     _createProperties(faceplateInstance) {
         faceplateInstance.properties ??= {};
         faceplateInstance.properties.size ??= ScadaUtils.deepClone(this.faceplate.document.size);
 
-        for (let propertyExport of this.faceplate.document.propertyExports) {
-            if (propertyExport.name) {
-                faceplateInstance.properties[propertyExport.name] = "";
+        if (Array.isArray(this.faceplate.document.propertyExports)) {
+            for (let propertyExport of this.faceplate.document.propertyExports) {
+                if (propertyExport.name) {
+                    faceplateInstance.properties[propertyExport.name] =
+                        this._getPropertyValue(faceplateInstance, propertyExport.path);
+                }
             }
         }
     }
 
-    _createComponents(faceplateInstance) {
-        const FactorySet = rs.mimic.FactorySet;
-        faceplateInstance.components = [];
-
-        for (let sourceComponent of this.faceplate.components) {
-            let factory = FactorySet.getComponentFactory(sourceComponent.typeName, this.faceplate.faceplateMap);
-            let componentCopy = factory ? factory.createComponentFromSource(sourceComponent) : null;
-
-            if (componentCopy) {
-                componentCopy.parent = faceplateInstance;
-                componentCopy.index = faceplateInstance.components.length;
-                faceplateInstance.components.push(componentCopy);
-            }
+    _getPropertyValue(faceplateInstance, path) {
+        if (!path) {
+            return "";
         }
+
+        let parts = path.split('.');
+        let componentName = parts[0];
+        let component = faceplateInstance.componentByName.get(componentName);
+
+        if (component) {
+
+        }
+
+        return "";
     }
 
     _applyModel(faceplateInstance) {
         faceplateInstance.model = this.faceplate;
-        this._createProperties(faceplateInstance);
         this._createComponents(faceplateInstance);
+        this._createProperties(faceplateInstance);
     }
 
     createComponent() {
@@ -2236,8 +2261,9 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
 
 // Represents a faceplate instance.
 rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
-    model = null;      // model of the Faceplate type
-    components = null; // copy of the model components
+    model = null;                // model of the Faceplate type
+    components = [];             // components created according to the model
+    componentByName = new Map(); // components accessible by name
 
     get isContainer() {
         // child components are essential part of the faceplate, it does not accept additional components

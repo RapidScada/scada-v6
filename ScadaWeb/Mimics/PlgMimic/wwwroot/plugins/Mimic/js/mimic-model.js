@@ -877,8 +877,9 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
 
 // Represents a faceplate instance.
 rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
-    model = null;      // model of the Faceplate type
-    components = null; // copy of the model components
+    model = null;                // model of the Faceplate type
+    components = [];             // components created according to the model
+    componentByName = new Map(); // components accessible by name
 
     get isContainer() {
         // child components are essential part of the faceplate, it does not accept additional components
