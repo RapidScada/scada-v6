@@ -9,9 +9,9 @@ rs.mimic = rs.mimic ?? {};
 rs.mimic.LoadStep = class {
     static UNDEFINED = 0;
     static PROPERTIES = 1;
-    static COMPONENTS = 2;
-    static IMAGES = 3;
-    static FACEPLATES = 4;
+    static FACEPLATES = 2;
+    static COMPONENTS = 3;
+    static IMAGES = 4;
     static COMPLETE = 5;
 };
 

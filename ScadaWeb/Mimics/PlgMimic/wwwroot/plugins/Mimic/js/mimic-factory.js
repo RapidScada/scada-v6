@@ -292,25 +292,65 @@ rs.mimic.PanelFactory = class extends rs.mimic.RegularComponentFactory {
 
 // Creates faceplate instances.
 rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
-    createComponent(faceplate) {
+    faceplate; // can be null
+
+    constructor(faceplate) {
+        super();
+        this.faceplate = faceplate;
+    }
+
+    _createProperties(faceplateInstance) {
+        faceplateInstance.properties ??= {};
+        faceplateInstance.properties.size ??= ScadaUtils.deepClone(this.faceplate.document.size);
+
+        for (let propertyExport of this.faceplate.document.propertyExports) {
+            if (propertyExport.name) {
+                faceplateInstance.properties[propertyExport.name] = "";
+            }
+        }
+    }
+
+    _createComponents(faceplateInstance) {
+        const FactorySet = rs.mimic.FactorySet;
+        faceplateInstance.components = [];
+
+        for (let sourceComponent of this.faceplate.components) {
+            let factory = FactorySet.getComponentFactory(sourceComponent.typeName, this.faceplate.faceplateMap);
+            let componentCopy = factory ? factory.createComponentFromSource(sourceComponent) : null;
+
+            if (componentCopy) {
+                componentCopy.parent = faceplateInstance;
+                componentCopy.index = faceplateInstance.components.length;
+                faceplateInstance.components.push(componentCopy);
+            }
+        }
+    }
+
+    _applyModel(faceplateInstance) {
+        faceplateInstance.model = this.faceplate;
+        this._createProperties(faceplateInstance);
+        this._createComponents(faceplateInstance);
+    }
+
+    createComponent() {
         let component = new rs.mimic.FaceplateInstance();
         component.properties = this.createProperties();
 
-        if (faceplate) {
-            component.typeName = component.properties.typeName = faceplate.typeName;
-            component.applyModel(faceplate);
+        if (this.faceplate) {
+            component.typeName = component.properties.typeName = this.faceplate.typeName;
+            this._applyModel(component);
         }
 
         return component;
     }
 
-    createComponentFromSource(source, faceplate) {
+    createComponentFromSource(source) {
         let component = new rs.mimic.FaceplateInstance();
         this._copyProperties(component, source);
 
-        if (faceplate) {
-            component.typeName = component.properties.typeName = faceplate.typeName;
-            component.applyModel(faceplate);
+        if (this.faceplate) {
+            component.typeName = component.properties.typeName = this.faceplate.typeName;
+            this._applyModel(component);
         }
 
         return component;
@@ -319,19 +359,20 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
 
 // Contains factories for mimic components.
 rs.mimic.FactorySet = class FactorySet {
-    static faceplateFactory = new rs.mimic.FaceplateFactory();
     static componentFactories = new Map([
         ["Text", new rs.mimic.TextFactory()],
         ["Picture", new rs.mimic.PictureFactory()],
         ["Panel", new rs.mimic.PanelFactory()]
     ]);
     static getFaceplateFactory(faceplate) {
-        return {
-            createProperties: () => FactorySet.faceplateFactory.createProperties(),
-            parseProperties: (sourceProps) => FactorySet.faceplateFactory.parseProperties(sourceProps),
-            createComponent: () => FactorySet.faceplateFactory.createComponent(faceplate),
-            createComponentFromSource: (source) =>
-                FactorySet.faceplateFactory.createComponentFromSource(source, faceplate)
-        };
+        return new rs.mimic.FaceplateFactory(faceplate);
+    }
+    static getComponentFactory(typeName, faceplateMap) {
+        if (faceplateMap.has(typeName)) {
+            let faceplate = faceplateMap.get(typeName); // can be null
+            return FactorySet.getFaceplateFactory(faceplate);
+        } else {
+            return FactorySet.componentFactories.get(typeName);
+        }
     }
 };

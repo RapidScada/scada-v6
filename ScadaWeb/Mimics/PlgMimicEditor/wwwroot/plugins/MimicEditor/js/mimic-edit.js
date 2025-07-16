@@ -1085,17 +1085,10 @@ function addComponent(typeName, parentID, point) {
     console.log(`Add ${typeName} component at ${point.x}, ${point.y}` +
         (parentID > 0 ? ` inside component ${parentID}` : ""));
 
-    let factory;
-    let renderer;
-
-    if (mimic.isFaceplate(typeName)) {
-        let faceplate = mimic.faceplateMap.get(typeName);
-        factory = rs.mimic.FactorySet.getFaceplateFactory(faceplate);
-        renderer = rs.mimic.RendererSet.faceplateRenderer;
-    } else {
-        factory = rs.mimic.FactorySet.componentFactories.get(typeName);
-        renderer = rs.mimic.RendererSet.componentRenderers.get(typeName);
-    }
+    let factory = mimic.getComponentFactory(typeName);
+    let renderer = mimic.isFaceplate(typeName)
+        ? rs.mimic.RendererSet.faceplateRenderer
+        : rs.mimic.RendererSet.componentRenderers.get(typeName);
 
     if (factory && renderer) {
         // create and render component
@@ -1172,11 +1165,6 @@ async function pasteComponents(parentID, point) {
         let newID = getNextComponentID();
         idMap.set(component.id, newID);
         component.id = newID;
-
-        if (component.isFaceplate) {
-            component.applyModel(mimic.faceplateMap.get(component.typeName));
-        }
-
         mimic.addComponent(component, parent, null, point.x + component.x, point.y + component.y);
         unitedRenderer.createComponentDom(component);
 

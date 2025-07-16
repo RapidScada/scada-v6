@@ -69,34 +69,6 @@ namespace Scada.Web.Plugins.PlgMimic.Controllers
         }
 
         /// <summary>
-        /// Gets a range of components.
-        /// </summary>
-        public Dto<ComponentPacket> GetComponents(long key, int index, int count)
-        {
-            try
-            {
-                return viewLoader.GetView((int)key, false, out MimicView mimicView, out string errMsg)
-                    ? Dto<ComponentPacket>.Success(new ComponentPacket(key, mimicView.Mimic, index, count, CheckRights))
-                    : Dto<ComponentPacket>.Fail(errMsg);
-            }
-            catch (Exception ex)
-            {
-                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetComponents)));
-                return Dto<ComponentPacket>.Fail(ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Gets a range of images.
-        /// </summary>
-        public Dto<ImagePacket> GetImages(long key, int index, int count, int size)
-        {
-            return viewLoader.GetView((int)key, false, out MimicView mimicView, out string errMsg)
-                ? Dto<ImagePacket>.Success(new ImagePacket(key, mimicView.Mimic, index, count, size))
-                : Dto<ImagePacket>.Fail(errMsg);
-        }
-
-        /// <summary>
         /// Gets the faceplate.
         /// </summary>
         public Dto<FaceplatePacket> GetFaceplate(long key, string typeName)
@@ -126,6 +98,34 @@ namespace Scada.Web.Plugins.PlgMimic.Controllers
                 webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetFaceplate)));
                 return Dto<FaceplatePacket>.Fail(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Gets a range of components.
+        /// </summary>
+        public Dto<ComponentPacket> GetComponents(long key, int index, int count)
+        {
+            try
+            {
+                return viewLoader.GetView((int)key, false, out MimicView mimicView, out string errMsg)
+                    ? Dto<ComponentPacket>.Success(new ComponentPacket(key, mimicView.Mimic, index, count, CheckRights))
+                    : Dto<ComponentPacket>.Fail(errMsg);
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetComponents)));
+                return Dto<ComponentPacket>.Fail(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Gets a range of images.
+        /// </summary>
+        public Dto<ImagePacket> GetImages(long key, int index, int count, int size)
+        {
+            return viewLoader.GetView((int)key, false, out MimicView mimicView, out string errMsg)
+                ? Dto<ImagePacket>.Success(new ImagePacket(key, mimicView.Mimic, index, count, size))
+                : Dto<ImagePacket>.Fail(errMsg);
         }
     }
 }

@@ -271,19 +271,12 @@ rs.mimic.MimicBase = class {
 
     // Checks whether the specified type name represents a faceplate.
     isFaceplate(typeName) {
-        return this.dependencyMap?.has(typeName);
+        return this.faceplateMap?.has(typeName);
     }
 
     // Gets the component factory for the specified type, or null if not found.
     getComponentFactory(typeName) {
-        const FactorySet = rs.mimic.FactorySet;
-
-        if (this.isFaceplate(typeName)) {
-            let faceplate = this.faceplateMap.get(typeName); // can be null
-            return FactorySet.getFaceplateFactory(faceplate);
-        } else {
-            return FactorySet.componentFactories.get(typeName);
-        }
+        return rs.mimic.FactorySet.getComponentFactory(typeName, this.faceplateMap);
     }
 
     // Creates a component instance based on the source object. Returns null if the component factory is not found.
@@ -325,20 +318,6 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                 loadContext.step++;
                 break;
 
-            case LoadStep.COMPONENTS:
-                dto = await this._loadComponents(loadContext);
-                if (dto.ok && dto.data.endOfComponents) {
-                    loadContext.step++;
-                }
-                break;
-
-            case LoadStep.IMAGES:
-                dto = await this._loadImages(loadContext);
-                if (dto.ok && dto.data.endOfImages) {
-                    loadContext.step++;
-                }
-                break;
-
             case LoadStep.FACEPLATES:
                 if (this.dependencies.length > 0) {
                     let faceplateMeta = this.dependencies[loadContext.faceplateIndex];
@@ -350,11 +329,26 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                     }
 
                     if (++loadContext.faceplateIndex >= this.dependencies.length) {
+                        this._prepareFaceplates();
                         loadContext.step++;
                     }
                 } else {
                     loadContext.step++;
                     continueLoading = true;
+                }
+                break;
+
+            case LoadStep.COMPONENTS:
+                dto = await this._loadComponents(loadContext);
+                if (dto.ok && dto.data.endOfComponents) {
+                    loadContext.step++;
+                }
+                break;
+
+            case LoadStep.IMAGES:
+                dto = await this._loadImages(loadContext);
+                if (dto.ok && dto.data.endOfImages) {
+                    loadContext.step++;
                 }
                 break;
 
@@ -401,6 +395,30 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                 }
 
                 this.document = rs.mimic.MimicFactory.parseProperties(dto.data.document);
+            }
+
+            return dto;
+        } else {
+            return Dto.fail(response.statusText);
+        }
+    }
+
+    // Loads a faceplate.
+    async _loadFaceplate(loadContext, typeName) {
+        console.log(ScadaUtils.getCurrentTime() + ` Load '${typeName}' faceplate`);
+        let response = await fetch(loadContext.controllerUrl +
+            "GetFaceplate?key=" + loadContext.mimicKey +
+            "&typeName=" + typeName);
+
+        if (response.ok) {
+            let dto = await response.json();
+
+            if (dto.ok) {
+                let faceplate = new rs.mimic.Faceplate(dto.data, typeName);
+                this.faceplates.push(faceplate);
+                this.faceplateMap.set(typeName, faceplate);
+            } else {
+                this.faceplateMap.set(typeName, null);
             }
 
             return dto;
@@ -469,58 +487,23 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         }
     }
 
-    // Loads a faceplate.
-    async _loadFaceplate(loadContext, typeName) {
-        console.log(ScadaUtils.getCurrentTime() + ` Load '${typeName}' faceplate`);
-        let response = await fetch(loadContext.controllerUrl +
-            "GetFaceplate?key=" + loadContext.mimicKey +
-            "&typeName=" + typeName);
+    // Prepares the faceplates for use.
+    _prepareFaceplates() {
+        for (let faceplate of this.faceplates) {
+            for (let childFaceplateMeta of faceplate.dependencies) {
+                let childFaceplate = this.faceplateMap.get(childFaceplateMeta.typeName);
 
-        if (response.ok) {
-            let dto = await response.json();
-
-            if (dto.ok) {
-                let faceplate = new rs.mimic.Faceplate(dto.data, typeName);
-                this.faceplates.push(faceplate);
-                this.faceplateMap.set(typeName, faceplate);
+                if (childFaceplate) {
+                    faceplate.faceplates.push(childFaceplate);
+                    faceplate.faceplateMap.set(childFaceplateMeta.typeName, childFaceplate);
+                }
             }
-
-            return dto;
-        } else {
-            return Dto.fail(response.statusText);
         }
     }
 
     // Finds a parent and children for each component.
     _defineNesting() {
         rs.mimic.MimicHelper.defineNesting(this, this.components, this.componentMap);
-    }
-
-    // Prepares the faceplates for use.
-    _prepareFaceplates() {
-        for (let faceplate of this.faceplates) {
-            for (let faceplateMeta of faceplate.dependencies) {
-                let childFaceplate = this.faceplateMap.get(faceplateMeta.typeName);
-
-                if (childFaceplate) {
-                    faceplate.faceplates.push(childFaceplate);
-                    faceplate.faceplateMap.set(faceplateMeta.typeName, childFaceplate);
-                }
-            }
-        }
-    }
-
-    // Prepares the faceplates instances for use.
-    _prepareFaceplateInstances() {
-        for (let component of this.components) {
-            if (component.isFaceplate) {
-                let faceplate = mimic.faceplateMap.get(component.typeName);
-
-                if (faceplate) {
-                    component.applyModel(faceplate);
-                }
-            }
-        }
     }
 
     // Clears the mimic.
@@ -543,9 +526,6 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
         if (loadContext.result.ok) {
             this._defineNesting();
-            this._prepareFaceplates();
-            this._prepareFaceplateInstances();
-
             let endTime = Date.now();
             let endTimeStr = ScadaUtils.getCurrentTime();
 
@@ -907,41 +887,5 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 
     get isFaceplate() {
         return true;
-    }
-
-    _createProperties(faceplate) {
-        this.properties ??= {};
-        this.properties.size ??= ScadaUtils.deepClone(faceplate.document.size);
-
-        for (let propertyExport of faceplate.document.propertyExports) {
-            if (propertyExport.name) {
-                this.properties[propertyExport.name] = "";
-            }
-        }
-    }
-
-    _createComponents(faceplate) {
-        this.components = [];
-
-        for (let sourceComponent of faceplate.components) {
-            let componentCopy = faceplate.createComponent(sourceComponent);
-            componentCopy.parent = this;
-            this.components.push(componentCopy);
-
-            if (componentCopy.isFaceplate) {
-                let childFaceplate = faceplate.faceplateMap.get(componentCopy.typeName);
-                componentCopy.applyModel(childFaceplate);
-            }
-        }
-
-        rs.mimic.MimicHelper.defineNesting(this, this.components);
-    }
-
-    applyModel(faceplate) {
-        if (faceplate instanceof rs.mimic.Faceplate) {
-            this.model = faceplate;
-            this._createProperties(faceplate);
-            this._createComponents(faceplate);
-        }
     }
 };

@@ -561,9 +561,8 @@ class PropGridHelper {
         const DescriptorSet = rs.mimic.DescriptorSet;
         PropGridHelper._translationRef = translation;
 
-        // translate mimic and faceplates
+        // translate mimic
         PropGridHelper._translateObject(DescriptorSet.mimicDescriptor, translation, translation.mimic);
-        PropGridHelper._translateObject(DescriptorSet.faceplateDescriptor, translation, translation.component);
 
         // translate components
         for (let [typeName, descriptor] of DescriptorSet.componentDescriptors) {

@@ -896,7 +896,6 @@ rs.mimic.VisualStateDescriptor = class extends rs.mimic.StructureDescriptor {
 // Contains descriptors for a mimic and its components.
 rs.mimic.DescriptorSet = class {
     static mimicDescriptor = new rs.mimic.MimicDescriptor();
-    static faceplateDescriptor = new rs.mimic.FaceplateDescriptor();
     static componentDescriptors = new Map([
         ["Text", new rs.mimic.TextDescriptor()],
         ["Picture", new rs.mimic.PictureDescriptor()],
