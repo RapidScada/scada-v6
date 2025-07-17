@@ -1,6 +1,5 @@
-﻿// Contains classes: MimicHelper, MimicBase, Mimic, Component, Panel, Image, 
-//     FaceplateMeta, Faceplate, FaceplateInstance
-// Depends on scada-common.js, mimic-common.js, mimic-factory.js
+﻿// Contains classes: MimicHelper, MimicBase, Mimic, Component, Image, FaceplateMeta, Faceplate, FaceplateInstance
+// Depends on scada-common.js, mimic-common.js, mimic-model-subtypes.js, mimic-factory.js
 
 // Provides helper methods for mimics and components.
 rs.mimic.MimicHelper = class MimicHelper {
@@ -9,6 +8,23 @@ rs.mimic.MimicHelper = class MimicHelper {
         for (let index = opt_start ?? 0; index < parent.children.length; index++) {
             let component = parent.children[index];
             component.index = index;
+        }
+    }
+
+    // Sets the component property according to the current data.
+    static _setComponentProperty(component, binding, curData) {
+        const DataProvider = rs.mimic.DataProvider;
+        const ObjectHelper = rs.mimic.ObjectHelper;
+        let fieldValue = DataProvider.getFieldValue(curData, binding.dataMember, binding.cnlProps.unit);
+
+        if (binding.format) {
+            fieldValue = binding.format.replace("{0}", String(fieldValue));
+        }
+
+        ObjectHelper.setPropertyValue(component.properties, binding.propertyChain, 0, fieldValue);
+
+        if (component.isFaceplate) {
+            component.handlePropertyChanged(binding.propertyName);
         }
     }
 
@@ -237,6 +253,33 @@ rs.mimic.MimicHelper = class MimicHelper {
             x: minX,
             y: minY
         };
+    }
+
+    // Updates the component properties according to the current data. Returns true if any property has changed.
+    static updateData(component, dataProvider) {
+        // component bindings are 
+        // { inCnlNum, outCnlNum, objNum, deviceNum, checkRights, inCnlProps, outCnlProps, propertyBindings }
+        // property binding is { propertyName, dataSource, dataMember, format, propertyChain, cnlNum, cnlProps }
+        // channel properties are { joinLen, unit }
+        const DataProvider = rs.mimic.DataProvider;
+        let dataChanged = false;
+
+        if (component.bindings && Array.isArray(component.bindings.propertyBindings) &&
+            component.bindings.propertyBindings.length > 0) {
+            for (let binding of component.bindings.propertyBindings) {
+                if (binding.propertyName && binding.cnlNum > 0 && binding.cnlProps) {
+                    let curData = dataProvider.getCurData(binding.cnlNum, binding.cnlProps.joinLen);
+                    let prevData = dataProvider.getPrevData(binding.cnlNum, binding.cnlProps.joinLen);
+
+                    if (!DataProvider.dataEqual(curData, prevData) || !dataProvider.prevCnlDataMap) {
+                        MimicHelper._setComponentProperty(component, binding, curData);
+                        dataChanged = true;
+                    }
+                }
+            }
+        }
+
+        return dataChanged;
     }
 };
 
@@ -843,13 +886,21 @@ rs.mimic.FaceplateMeta = class {
 // Represents a faceplate, i.e. a user component.
 rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
     typeName = "";
+    propertyExports = [];
+    propertyExportMap = new Map();
 
     constructor(source, typeName) {
         super();
         this.clear();
         this.document = source.document ?? {};
         this.typeName = typeName;
+        this._fillDependencies(source);
+        this._fillComponents(source);
+        this._fillImages(source);
+        this._fillPropertyExports();
+    }
 
+    _fillDependencies(source) {
         if (Array.isArray(source.dependencies)) {
             for (let sourceDependency of source.dependencies) {
                 let faceplateMeta = new rs.mimic.FaceplateMeta(sourceDependency);
@@ -857,19 +908,35 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
                 this.dependencyMap.set(faceplateMeta.typeName, faceplateMeta);
             }
         }
+    }
 
+    _fillComponents(source) {
         if (Array.isArray(source.components)) {
             for (let sourceComponent of source.components) {
                 this.components.push(sourceComponent);
                 this.componentMap.set(sourceComponent.id, sourceComponent);
             }
         }
+    }
 
+    _fillImages(source) {
         if (Array.isArray(source.images)) {
             for (let sourceImage of source.images) {
                 let image = new rs.mimic.Image(sourceImage);
                 this.images.push(image);
                 this.imageMap.set(image.name, image);
+            }
+        }
+    }
+
+    _fillPropertyExports() {
+        if (Array.isArray(this.document.propertyExports)) {
+            for (let sourcePropertyExport of this.document.propertyExports) {
+                if (sourcePropertyExport.name) {
+                    let propertyExport = new rs.mimic.PropertyExport(sourcePropertyExport);
+                    propertyExports.push(propertyExport);
+                    propertyExportMap.set(propertyExport.name, propertyExport);
+                }
             }
         }
     }
@@ -888,5 +955,62 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 
     get isFaceplate() {
         return true;
+    }
+
+    // Gets the value of the target property specified by the export path.
+    getTargetPropertyValue(propertyExport) {
+        if (propertyExport.propertyChain.length >= 2) {
+            const ObjectHelper = rs.mimic.ObjectHelper;
+            let componentName = propertyExport.propertyChain[0];
+            let component = this.componentByName.get(componentName);
+
+            if (component) {
+                if (component.isFaceplate) {
+                    let topPropertyName = propertyExport.propertyChain[1];
+                    let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
+                    return childPropertyExport
+                        ? component.getTargetPropertyValue(childPropertyExport)
+                        : ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
+                } else {
+                    return ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
+                }
+            }
+        }
+
+        return undefined;
+    }
+
+    // Sets the value of the target property specified by the export path.
+    setTargetPropertyValue(propertyExport, value) {
+        if (propertyExport.propertyChain.length >= 2) {
+            const ObjectHelper = rs.mimic.ObjectHelper;
+            let componentName = propertyExport.propertyChain[0];
+            let component = faceplateInstance.componentByName.get(componentName);
+
+            if (component) {
+                if (component.isFaceplate) {
+                    let topPropertyName = propertyExport.propertyChain[1];
+                    let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
+
+                    if (childPropertyExport) {
+                        component.setTargetPropertyValue(childPropertyExport, value);
+                    } else {
+                        ObjectHelper.setPropertyValue(component.properties, propertyChain, 1, value);
+                    }
+                } else {
+                    ObjectHelper.setPropertyValue(component.properties, propertyChain, 1, value);
+                }
+            }
+        }
+    }
+
+    // Updates the target property corresponding to the changed property.
+    handlePropertyChanged(propertyName) {
+        let propertyExport = this.model?.propertyExportMap.get(propertyName);
+
+        if (propertyExport) {
+            let value = this.properties[propertyName];
+            this.setTargetPropertyValue(propertyExport, value);
+        }
     }
 };

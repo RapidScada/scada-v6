@@ -2,7 +2,7 @@
 //     ContentAlignment, TextDirection
 // Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
 //     PropertyBinding, PropertyExport, Size, VisualState
-// Misc: List, ImageConditionList, PropertyBindingList, PropertyExportList, PropertyParser
+// Misc: List, ImageConditionList, PropertyBindingList, PropertyExportList, PropertyParser, DataProvider
 // No dependencies
 
 // --- Enumerations ---
@@ -435,12 +435,25 @@ rs.mimic.PropertyExport = class PropertyExport {
     name = "";
     path = "";
 
+    constructor(source) {
+        Object.assign(this, source);
+    }
+
     get typeName() {
         return "PropertyExport";
     }
 
     get displayName() {
         return this.name;
+    }
+
+    get propertyChain() {
+        if (this.propertyChainCache !== undefined) {
+            return this.propertyChainCache;
+        }
+
+        this.propertyChainCache = this.path ? this.path.split('.') : [];
+        return this.propertyChainCache;
     }
 
     static parse(source) {
@@ -613,3 +626,58 @@ rs.mimic.PropertyParser = class {
         return propertyExports;
     }
 }
+
+// Represents an abstract provider of channel data and channel properties.
+rs.mimic.DataProvider = class DataProvider {
+    static EMPTY_DATA = {
+        d: { cnlNum: 0, val: 0.0, stat: 0 },
+        df: { dispVal: "", colors: [] }
+    };
+
+    curDataMap = null;
+    prevDataMap = null;
+
+    getCurData(cnlNum, opt_joinLen) {
+        return DataProvider.EMPTY_DATA;
+    }
+
+    getPrevData(cnlNum, opt_joinLen) {
+        return DataProvider.EMPTY_DATA;
+    }
+
+    static dataEqual(data1, data2) {
+        return data1.d.val === data2.d.val && data1.d.stat === data2.d.stat;
+    }
+
+    static getFieldValue(data, dataMember, opt_unit) {
+        const DataMember = rs.mimic.DataMember;
+
+        switch (dataMember) {
+            case DataMember.VALUE:
+                return data.d.val;
+
+            case DataMember.STATUS:
+                return data.d.stat;
+
+            case DataMember.DISPLAY_VALUE:
+                return data.df.dispVal;
+
+            case DataMember.DISPLAY_VALUE_WITH_UNIT:
+                return opt_unit && data.d.stat > 0
+                    ? data.df.dispVal + " " + opt_unit
+                    : data.df.dispVal;
+
+            case DataMember.COLOR0:
+                return data.df.colors.length > 0 ? data.df.colors[0] : "";
+
+            case DataMember.COLOR1:
+                return data.df.colors.length > 1 ? data.df.colors[1] : "";
+
+            case DataMember.COLOR2:
+                return data.df.colors.length > 2 ? data.df.colors[2] : "";
+
+            default:
+                return null;
+        }
+    }
+};

@@ -1521,6 +1521,10 @@ function handlePropertyChanged(eventData) {
             : changedObject.targets.filter(t => t instanceof rs.mimic.Component);
 
         for (let component of components) {
+            if (component.isFaceplate) {
+                component.handlePropertyChanged(propertyName);
+            }
+
             unitedRenderer.updateComponentDom(component);
             structTree.updateComponent(component);
         }

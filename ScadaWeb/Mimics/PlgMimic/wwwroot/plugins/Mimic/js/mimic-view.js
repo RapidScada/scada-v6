@@ -3,9 +3,9 @@
 
 class MimicDataProvider extends rs.mimic.DataProvider {
     getCurData = (cnlNum, opt_joinLen) =>
-        MainApi.getCurDataFromMap(this.curCnlDataMap, cnlNum, opt_joinLen);
+        MainApi.getCurDataFromMap(this.curDataMap, cnlNum, opt_joinLen);
     getPrevData = (cnlNum, opt_joinLen) =>
-        MainApi.getCurDataFromMap(this.prevCnlDataMap, cnlNum, opt_joinLen);
+        MainApi.getCurDataFromMap(this.prevDataMap, cnlNum, opt_joinLen);
 }
 
 const viewHub = ViewHub.getInstance();
@@ -62,8 +62,8 @@ function updateData(callback) {
             // show error
         }
 
-        dataProvider.prevCnlDataMap = dataProvider.curCnlDataMap;
-        dataProvider.curCnlDataMap = MainApi.mapCurData(dto.data);
+        dataProvider.prevDataMap = dataProvider.curDataMap;
+        dataProvider.curDataMap = MainApi.mapCurData(dto.data);
         unitedRenderer.updateData(dataProvider);
         callback();
     });

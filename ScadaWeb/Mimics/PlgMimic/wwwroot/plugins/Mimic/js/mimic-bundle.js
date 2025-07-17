@@ -1397,32 +1397,18 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         const ObjectHelper = rs.mimic.ObjectHelper;
         sourceProps ??= {};
 
-        if (Array.isArray(this.faceplate.document.propertyExports)) {
-            for (let propertyExport of this.faceplate.document.propertyExports) {
-                if (propertyExport.name) {
-                    let baseValue = this._getPropertyValue(faceplateInstance, propertyExport.path);
-                    let sourceValue = sourceProps[propertyExport.name];
-                    faceplateInstance.properties[propertyExport.name] =
-                        ObjectHelper.mergeValues(baseValue, sourceValue);
-                }
+        for (let propertyExport of this.faceplate.propertyExports) {
+            let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport);
+            let sourceValue = sourceProps[propertyExport.name];
+
+            if (sourceValue === undefined) {
+                faceplateInstance.properties[propertyExport.name] = baseValue;
+            } else {
+                let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);
+                faceplateInstance.properties[propertyExport.name] = mergedValue;
+                faceplateInstance.setTargetPropertyValue(propertyExport, mergedValue);
             }
         }
-    }
-
-    _getPropertyValue(faceplateInstance, path) {
-        const ObjectHelper = rs.mimic.ObjectHelper;
-        let propertyChain = path ? path.split('.') : [];
-
-        if (propertyChain.length >= 2) {
-            let componentName = propertyChain[0];
-            let component = faceplateInstance.componentByName.get(componentName);
-
-            if (component) {
-                return ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
-            }
-        }
-
-        return undefined;
     }
 
     _applyModel(faceplateInstance, source) {
@@ -1476,9 +1462,8 @@ rs.mimic.FactorySet = class FactorySet {
     }
 };
 
-// Contains classes: MimicHelper, MimicBase, Mimic, Component, Panel, Image, 
-//     FaceplateMeta, Faceplate, FaceplateInstance
-// Depends on scada-common.js, mimic-common.js, mimic-factory.js
+// Contains classes: MimicHelper, MimicBase, Mimic, Component, Image, FaceplateMeta, Faceplate, FaceplateInstance
+// Depends on scada-common.js, mimic-common.js, mimic-model-subtypes.js, mimic-factory.js
 
 // Provides helper methods for mimics and components.
 rs.mimic.MimicHelper = class MimicHelper {
@@ -1487,6 +1472,23 @@ rs.mimic.MimicHelper = class MimicHelper {
         for (let index = opt_start ?? 0; index < parent.children.length; index++) {
             let component = parent.children[index];
             component.index = index;
+        }
+    }
+
+    // Sets the component property according to the current data.
+    static _setComponentProperty(component, binding, curData) {
+        const DataProvider = rs.mimic.DataProvider;
+        const ObjectHelper = rs.mimic.ObjectHelper;
+        let fieldValue = DataProvider.getFieldValue(curData, binding.dataMember, binding.cnlProps.unit);
+
+        if (binding.format) {
+            fieldValue = binding.format.replace("{0}", String(fieldValue));
+        }
+
+        ObjectHelper.setPropertyValue(component.properties, binding.propertyChain, 0, fieldValue);
+
+        if (component.isFaceplate) {
+            component.handlePropertyChanged(binding.propertyName);
         }
     }
 
@@ -1715,6 +1717,33 @@ rs.mimic.MimicHelper = class MimicHelper {
             x: minX,
             y: minY
         };
+    }
+
+    // Updates the component properties according to the current data. Returns true if any property has changed.
+    static updateData(component, dataProvider) {
+        // component bindings are 
+        // { inCnlNum, outCnlNum, objNum, deviceNum, checkRights, inCnlProps, outCnlProps, propertyBindings }
+        // property binding is { propertyName, dataSource, dataMember, format, propertyChain, cnlNum, cnlProps }
+        // channel properties are { joinLen, unit }
+        const DataProvider = rs.mimic.DataProvider;
+        let dataChanged = false;
+
+        if (component.bindings && Array.isArray(component.bindings.propertyBindings) &&
+            component.bindings.propertyBindings.length > 0) {
+            for (let binding of component.bindings.propertyBindings) {
+                if (binding.propertyName && binding.cnlNum > 0 && binding.cnlProps) {
+                    let curData = dataProvider.getCurData(binding.cnlNum, binding.cnlProps.joinLen);
+                    let prevData = dataProvider.getPrevData(binding.cnlNum, binding.cnlProps.joinLen);
+
+                    if (!DataProvider.dataEqual(curData, prevData) || !dataProvider.prevCnlDataMap) {
+                        MimicHelper._setComponentProperty(component, binding, curData);
+                        dataChanged = true;
+                    }
+                }
+            }
+        }
+
+        return dataChanged;
     }
 };
 
@@ -2321,13 +2350,21 @@ rs.mimic.FaceplateMeta = class {
 // Represents a faceplate, i.e. a user component.
 rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
     typeName = "";
+    propertyExports = [];
+    propertyExportMap = new Map();
 
     constructor(source, typeName) {
         super();
         this.clear();
         this.document = source.document ?? {};
         this.typeName = typeName;
+        this._fillDependencies(source);
+        this._fillComponents(source);
+        this._fillImages(source);
+        this._fillPropertyExports();
+    }
 
+    _fillDependencies(source) {
         if (Array.isArray(source.dependencies)) {
             for (let sourceDependency of source.dependencies) {
                 let faceplateMeta = new rs.mimic.FaceplateMeta(sourceDependency);
@@ -2335,19 +2372,35 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
                 this.dependencyMap.set(faceplateMeta.typeName, faceplateMeta);
             }
         }
+    }
 
+    _fillComponents(source) {
         if (Array.isArray(source.components)) {
             for (let sourceComponent of source.components) {
                 this.components.push(sourceComponent);
                 this.componentMap.set(sourceComponent.id, sourceComponent);
             }
         }
+    }
 
+    _fillImages(source) {
         if (Array.isArray(source.images)) {
             for (let sourceImage of source.images) {
                 let image = new rs.mimic.Image(sourceImage);
                 this.images.push(image);
                 this.imageMap.set(image.name, image);
+            }
+        }
+    }
+
+    _fillPropertyExports() {
+        if (Array.isArray(this.document.propertyExports)) {
+            for (let sourcePropertyExport of this.document.propertyExports) {
+                if (sourcePropertyExport.name) {
+                    let propertyExport = new rs.mimic.PropertyExport(sourcePropertyExport);
+                    propertyExports.push(propertyExport);
+                    propertyExportMap.set(propertyExport.name, propertyExport);
+                }
             }
         }
     }
@@ -2367,13 +2420,70 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
     get isFaceplate() {
         return true;
     }
+
+    // Gets the value of the target property specified by the export path.
+    getTargetPropertyValue(propertyExport) {
+        if (propertyExport.propertyChain.length >= 2) {
+            const ObjectHelper = rs.mimic.ObjectHelper;
+            let componentName = propertyExport.propertyChain[0];
+            let component = this.componentByName.get(componentName);
+
+            if (component) {
+                if (component.isFaceplate) {
+                    let topPropertyName = propertyExport.propertyChain[1];
+                    let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
+                    return childPropertyExport
+                        ? component.getTargetPropertyValue(childPropertyExport)
+                        : ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
+                } else {
+                    return ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
+                }
+            }
+        }
+
+        return undefined;
+    }
+
+    // Sets the value of the target property specified by the export path.
+    setTargetPropertyValue(propertyExport, value) {
+        if (propertyExport.propertyChain.length >= 2) {
+            const ObjectHelper = rs.mimic.ObjectHelper;
+            let componentName = propertyExport.propertyChain[0];
+            let component = faceplateInstance.componentByName.get(componentName);
+
+            if (component) {
+                if (component.isFaceplate) {
+                    let topPropertyName = propertyExport.propertyChain[1];
+                    let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
+
+                    if (childPropertyExport) {
+                        component.setTargetPropertyValue(childPropertyExport, value);
+                    } else {
+                        ObjectHelper.setPropertyValue(component.properties, propertyChain, 1, value);
+                    }
+                } else {
+                    ObjectHelper.setPropertyValue(component.properties, propertyChain, 1, value);
+                }
+            }
+        }
+    }
+
+    // Updates the target property corresponding to the changed property.
+    handlePropertyChanged(propertyName) {
+        let propertyExport = this.model?.propertyExportMap.get(propertyName);
+
+        if (propertyExport) {
+            let value = this.properties[propertyName];
+            this.setTargetPropertyValue(propertyExport, value);
+        }
+    }
 };
 
 // Enumerations: ActionType, ComparisonOperator, DataMember, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth,
 //     ContentAlignment, TextDirection
 // Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
 //     PropertyBinding, PropertyExport, Size, VisualState
-// Misc: List, ImageConditionList, PropertyBindingList, PropertyExportList, PropertyParser
+// Misc: List, ImageConditionList, PropertyBindingList, PropertyExportList, PropertyParser, DataProvider
 // No dependencies
 
 // --- Enumerations ---
@@ -2806,12 +2916,25 @@ rs.mimic.PropertyExport = class PropertyExport {
     name = "";
     path = "";
 
+    constructor(source) {
+        Object.assign(this, source);
+    }
+
     get typeName() {
         return "PropertyExport";
     }
 
     get displayName() {
         return this.name;
+    }
+
+    get propertyChain() {
+        if (this.propertyChainCache !== undefined) {
+            return this.propertyChainCache;
+        }
+
+        this.propertyChainCache = this.path ? this.path.split('.') : [];
+        return this.propertyChainCache;
     }
 
     static parse(source) {
@@ -2985,8 +3108,63 @@ rs.mimic.PropertyParser = class {
     }
 }
 
+// Represents an abstract provider of channel data and channel properties.
+rs.mimic.DataProvider = class DataProvider {
+    static EMPTY_DATA = {
+        d: { cnlNum: 0, val: 0.0, stat: 0 },
+        df: { dispVal: "", colors: [] }
+    };
+
+    curDataMap = null;
+    prevDataMap = null;
+
+    getCurData(cnlNum, opt_joinLen) {
+        return DataProvider.EMPTY_DATA;
+    }
+
+    getPrevData(cnlNum, opt_joinLen) {
+        return DataProvider.EMPTY_DATA;
+    }
+
+    static dataEqual(data1, data2) {
+        return data1.d.val === data2.d.val && data1.d.stat === data2.d.stat;
+    }
+
+    static getFieldValue(data, dataMember, opt_unit) {
+        const DataMember = rs.mimic.DataMember;
+
+        switch (dataMember) {
+            case DataMember.VALUE:
+                return data.d.val;
+
+            case DataMember.STATUS:
+                return data.d.stat;
+
+            case DataMember.DISPLAY_VALUE:
+                return data.df.dispVal;
+
+            case DataMember.DISPLAY_VALUE_WITH_UNIT:
+                return opt_unit && data.d.stat > 0
+                    ? data.df.dispVal + " " + opt_unit
+                    : data.df.dispVal;
+
+            case DataMember.COLOR0:
+                return data.df.colors.length > 0 ? data.df.colors[0] : "";
+
+            case DataMember.COLOR1:
+                return data.df.colors.length > 1 ? data.df.colors[1] : "";
+
+            case DataMember.COLOR2:
+                return data.df.colors.length > 2 ? data.df.colors[2] : "";
+
+            default:
+                return null;
+        }
+    }
+};
+
 // Contains classes: Renderer, MimicRenderer, ComponentRenderer, RegularComponentRenderer,
-//     TextRenderer, PictureRenderer, PanelRenderer, RenderContext, DataProvider, RendererSet, UnitedRenderer
+//     TextRenderer, PictureRenderer, PanelRenderer, RenderContext, RendererSet, UnitedRenderer
 // Depends on jquery, scada-common.js, mimic-common.js
 
 // Represents a renderer of a mimic or component.
@@ -3286,10 +3464,6 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         return componentElem;
     }
 
-    // Updates the component view according to the current channel data.
-    updateData(component, renderContext) {
-    }
-
     // Sets the location of the component DOM without changing the component model.
     setLocation(component, x, y) {
         if (component.dom) {
@@ -3349,56 +3523,6 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
             componentElem.addClass(props.cssClass);
         }
     }
-
-    _setPropertyValue(component, binding, curData) {
-        const DataProvider = rs.mimic.DataProvider;
-        const ObjectHelper = rs.mimic.ObjectHelper;
-        let fieldValue = DataProvider.getFieldValue(curData, binding.dataMember, binding.cnlProps.unit);
-
-        if (binding.format) {
-            fieldValue = binding.format.replace("{0}", String(fieldValue));
-        }
-
-        ObjectHelper.setPropertyValue(component.properties, binding.propertyChain, 0, fieldValue);
-    }
-
-    updateData(component, renderContext) {
-        // update properties
-        // component bindings are 
-        // { inCnlNum, outCnlNum, objNum, deviceNum, checkRights, inCnlProps, outCnlProps, propertyBindings }
-        // property binding is { propertyName, dataSource, dataMember, format, propertyChain, cnlNum, cnlProps }
-        // channel properties are { joinLen, unit }
-        let dataChanged = false;
-
-        if (component.bindings && Array.isArray(component.bindings.propertyBindings) &&
-            component.bindings.propertyBindings.length > 0) {
-            const DataProvider = rs.mimic.DataProvider;
-            let dataProvider = renderContext.getDataProvider();
-
-            for (let binding of component.bindings.propertyBindings) {
-                if (binding.propertyName && binding.cnlNum > 0 && binding.cnlProps) {
-                    let curData = dataProvider.getCurData(binding.cnlNum, binding.cnlProps.joinLen);
-                    let prevData = dataProvider.getPrevData(binding.cnlNum, binding.cnlProps.joinLen);
-
-                    if (!DataProvider.dataEqual(curData, prevData) || !dataProvider.prevCnlDataMap) {
-                        this._setPropertyValue(component, binding, curData);
-                        dataChanged = true;
-                    }
-                }
-            }
-        }
-
-        // update DOM
-        if (dataChanged && component.dom) {
-            if (this.canUpdateDom) {
-                this.updateDom(component, renderContext);
-            } else {
-                let oldDom = component.dom;
-                this.createDom(component, renderContext);
-                oldDom.replaceWith(component.dom);
-            }
-        }
-    }
 };
 
 // Represents a text component renderer.
@@ -3455,7 +3579,6 @@ rs.mimic.RenderContext = class {
     imageMap = null;
     idPrefix = "";
     unknownTypes = null;
-    dataProvider = null;
 
     constructor(source) {
         Object.assign(this, source);
@@ -3463,66 +3586,6 @@ rs.mimic.RenderContext = class {
 
     getImage(imageName) {
         return this.imageMap instanceof Map ? this.imageMap.get(imageName) : null;
-    }
-
-    getDataProvider() {
-        return this.dataProvider ?? rs.mimic.DataProvider.STUB;
-    }
-};
-
-// Represents a provider of channel data and channel properties.
-rs.mimic.DataProvider = class DataProvider {
-    static EMPTY_DATA = {
-        d: { cnlNum: 0, val: 0.0, stat: 0 },
-        df: { dispVal: "", colors: [] }
-    };
-    static STUB = new DataProvider();
-
-    curCnlDataMap = null;
-    prevCnlDataMap = null;
-
-    getCurData(cnlNum, opt_joinLen) {
-        return DataProvider.EMPTY_DATA;
-    }
-
-    getPrevData(cnlNum, opt_joinLen) {
-        return DataProvider.EMPTY_DATA;
-    }
-
-    static dataEqual(data1, data2) {
-        return data1.d.val === data2.d.val && data1.d.stat === data2.d.stat;
-    }
-
-    static getFieldValue(data, dataMember, opt_unit) {
-        const DataMember = rs.mimic.DataMember;
-
-        switch (dataMember) {
-            case DataMember.VALUE:
-                return data.d.val;
-
-            case DataMember.STATUS:
-                return data.d.stat;
-
-            case DataMember.DISPLAY_VALUE:
-                return data.df.dispVal;
-
-            case DataMember.DISPLAY_VALUE_WITH_UNIT:
-                return opt_unit && data.d.stat > 0
-                    ? data.df.dispVal + " " + opt_unit
-                    : data.df.dispVal;
-
-            case DataMember.COLOR0:
-                return data.df.colors.length > 0 ? data.df.colors[0] : "";
-
-            case DataMember.COLOR1:
-                return data.df.colors.length > 1 ? data.df.colors[1] : "";
-
-            case DataMember.COLOR2:
-                return data.df.colors.length > 2 ? data.df.colors[2] : "";
-
-            default:
-                return null;
-        }
     }
 };
 
@@ -3649,9 +3712,9 @@ rs.mimic.UnitedRenderer = class {
     }
 
     // Updates the component DOM according to the component model.
-    updateComponentDom(component) {
+    updateComponentDom(component, opt_renderContext) {
         if (component.dom && component.renderer) {
-            let renderContext = new rs.mimic.RenderContext({
+            let renderContext = opt_renderContext ?? new rs.mimic.RenderContext({
                 editMode: this.editMode,
                 editorOptions: this.editorOptions
             });
@@ -3691,22 +3754,21 @@ rs.mimic.UnitedRenderer = class {
         }
     }
 
-    // Updates the components according to the current channel data.
+    // Updates the components according to the current data.
     updateData(dataProvider) {
         let renderContext = new rs.mimic.RenderContext({
-            imageMap: this.mimic.imageMap,
-            dataProvider: dataProvider
+            editMode: this.editMode,
+            editorOptions: this.editorOptions
         });
 
         for (let component of this.mimic.components) {
             try {
-                if (component.renderer) {
-                    component.renderer.updateData(component, renderContext);
+                if (rs.mimic.MimicHelper.updateData(component, dataProvider)) {
+                    updateComponentDom(component, renderContext);
                 }
             } catch (ex) {
                 console.error("Error updating data of the component with ID " + component.id +
                     " of type " + component.typeName);
-                component.renderer = null; // stop component update
             }
         }
     }

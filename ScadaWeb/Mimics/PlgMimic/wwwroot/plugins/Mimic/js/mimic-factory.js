@@ -329,32 +329,18 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         const ObjectHelper = rs.mimic.ObjectHelper;
         sourceProps ??= {};
 
-        if (Array.isArray(this.faceplate.document.propertyExports)) {
-            for (let propertyExport of this.faceplate.document.propertyExports) {
-                if (propertyExport.name) {
-                    let baseValue = this._getPropertyValue(faceplateInstance, propertyExport.path);
-                    let sourceValue = sourceProps[propertyExport.name];
-                    faceplateInstance.properties[propertyExport.name] =
-                        ObjectHelper.mergeValues(baseValue, sourceValue);
-                }
+        for (let propertyExport of this.faceplate.propertyExports) {
+            let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport);
+            let sourceValue = sourceProps[propertyExport.name];
+
+            if (sourceValue === undefined) {
+                faceplateInstance.properties[propertyExport.name] = baseValue;
+            } else {
+                let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);
+                faceplateInstance.properties[propertyExport.name] = mergedValue;
+                faceplateInstance.setTargetPropertyValue(propertyExport, mergedValue);
             }
         }
-    }
-
-    _getPropertyValue(faceplateInstance, path) {
-        const ObjectHelper = rs.mimic.ObjectHelper;
-        let propertyChain = path ? path.split('.') : [];
-
-        if (propertyChain.length >= 2) {
-            let componentName = propertyChain[0];
-            let component = faceplateInstance.componentByName.get(componentName);
-
-            if (component) {
-                return ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
-            }
-        }
-
-        return undefined;
     }
 
     _applyModel(faceplateInstance, source) {
