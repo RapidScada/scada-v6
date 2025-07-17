@@ -1,6 +1,6 @@
 ﻿// Contains classes: MimicFactory, ComponentFactory, RegularComponentFactory,
 //     TextFactory, PictureFactory, PanelFactory, FaceplateFactory, FactorySet
-// Depends on mimic-model.js, mimic-model-subtypes.js
+// Depends on mimic-common.js, mimic-model.js, mimic-model-subtypes.js
 
 // Create mimic properties.
 rs.mimic.MimicFactory = class {
@@ -299,6 +299,10 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         this.faceplate = faceplate;
     }
 
+    _updateSize(faceplateInstance) {
+        faceplateInstance.properties.size = rs.mimic.Size.parse(this.faceplate.document.size);
+    }
+
     _createComponents(faceplateInstance) {
         const FactorySet = rs.mimic.FactorySet;
         const MimicHelper = rs.mimic.MimicHelper;
@@ -321,64 +325,66 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         }
     }
 
-    _createProperties(faceplateInstance) {
-        faceplateInstance.properties ??= {};
-        faceplateInstance.properties.size ??= ScadaUtils.deepClone(this.faceplate.document.size);
+    _createCustomProperties(faceplateInstance, sourceProps) {
+        const ObjectHelper = rs.mimic.ObjectHelper;
+        sourceProps ??= {};
 
         if (Array.isArray(this.faceplate.document.propertyExports)) {
             for (let propertyExport of this.faceplate.document.propertyExports) {
                 if (propertyExport.name) {
+                    let baseValue = this._getPropertyValue(faceplateInstance, propertyExport.path);
+                    let sourceValue = sourceProps[propertyExport.name];
                     faceplateInstance.properties[propertyExport.name] =
-                        this._getPropertyValue(faceplateInstance, propertyExport.path);
+                        ObjectHelper.mergeValues(baseValue, sourceValue);
                 }
             }
         }
     }
 
     _getPropertyValue(faceplateInstance, path) {
-        if (!path) {
-            return "";
+        const ObjectHelper = rs.mimic.ObjectHelper;
+        let propertyChain = path ? path.split('.') : [];
+
+        if (propertyChain.length >= 2) {
+            let componentName = propertyChain[0];
+            let component = faceplateInstance.componentByName.get(componentName);
+
+            if (component) {
+                return ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
+            }
         }
 
-        let parts = path.split('.');
-        let componentName = parts[0];
-        let component = faceplateInstance.componentByName.get(componentName);
-
-        if (component) {
-
-        }
-
-        return "";
+        return undefined;
     }
 
-    _applyModel(faceplateInstance) {
+    _applyModel(faceplateInstance, source) {
+        faceplateInstance.typeName = faceplateInstance.properties.typeName = this.faceplate.typeName;
         faceplateInstance.model = this.faceplate;
         this._createComponents(faceplateInstance);
-        this._createProperties(faceplateInstance);
+        this._createCustomProperties(faceplateInstance, source?.properties);
     }
 
     createComponent() {
-        let component = new rs.mimic.FaceplateInstance();
-        component.properties = this.createProperties();
+        let faceplateInstance = new rs.mimic.FaceplateInstance();
+        faceplateInstance.properties = this.createProperties();
 
         if (this.faceplate) {
-            component.typeName = component.properties.typeName = this.faceplate.typeName;
-            this._applyModel(component);
+            this._updateSize(faceplateInstance);
+            this._applyModel(faceplateInstance, null);
         }
 
-        return component;
+        return faceplateInstance;
     }
 
     createComponentFromSource(source) {
-        let component = new rs.mimic.FaceplateInstance();
-        this._copyProperties(component, source);
+        let faceplateInstance = new rs.mimic.FaceplateInstance();
+        this._copyProperties(faceplateInstance, source);
 
         if (this.faceplate) {
-            component.typeName = component.properties.typeName = this.faceplate.typeName;
-            this._applyModel(component);
+            this._applyModel(faceplateInstance, source);
         }
 
-        return component;
+        return faceplateInstance;
     }
 };
 

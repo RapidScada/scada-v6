@@ -1,5 +1,5 @@
-// Contains classes: LoadStep, LoadResult, LoadContext
-// No dependencies
+// Contains classes: LoadStep, LoadResult, LoadContext, ObjectHelper
+// Depends on scada-common.js
 
 // Namespaces
 var rs = rs ?? {};
@@ -41,6 +41,94 @@ rs.mimic.LoadContext = class {
         this.mimicKey = mimicKey.toString();
     }
 };
+
+// Provides access to the object properties.
+rs.mimic.ObjectHelper = class ObjectHelper {
+    // Gets the child object specified by the property chain.
+    static _getObjectToUpdate(obj, propertyChain, chainIndex) {
+        let objectToUpdate = obj;
+
+        for (let i = chainIndex; i < propertyChain.length - 1; i++) {
+            let propertyName = propertyChain[i];
+
+            if (objectToUpdate instanceof Object && objectToUpdate.hasOwnProperty(propertyName)) {
+                objectToUpdate = objectToUpdate[propertyName];
+            } else {
+                objectToUpdate = null;
+                break;
+            }
+        }
+
+        return objectToUpdate;
+    }
+
+    // Updates the value of the object property.
+    static _updateValue(objectToUpdate, propertyName, newValue) {
+        let curValue = objectToUpdate[propertyName];
+
+        if (typeof curValue === "number") {
+            objectToUpdate[propertyName] = Number(newValue) || 0;
+        } else if (typeof curValue === "string") {
+            objectToUpdate[propertyName] = String(newValue);
+        } else if (typeof curValue === "boolean") {
+            objectToUpdate[propertyName] = Boolean(newValue);
+        } else if (curValue instanceof Object) {
+            let newValueIsObject = newValue instanceof Object;
+
+            for (let childPropertyName of Object.keys(curValue)) {
+                ObjectHelper._updateValue(curValue, childPropertyName,
+                    newValueIsObject ? newValue[childPropertyName] : null);
+            }
+        }
+    }
+
+    // Gets the value of the object property. Property chain is an array of property names.
+    static getPropertyValue(obj, propertyChain, chainIndex) {
+        let objectToUpdate = ObjectHelper._getObjectToUpdate(obj, propertyChain, chainIndex);
+
+        if (objectToUpdate instanceof Object && propertyChain.length > chainIndex) {
+            let propertyName = propertyChain.at(-1); // last
+            return objectToUpdate[propertyName];
+        }
+    }
+
+    // Sets the object property to the specified value keeping the data type unchanged.
+    static setPropertyValue(obj, propertyChain, chainIndex, value) {
+        let objectToUpdate = ObjectHelper._getObjectToUpdate(obj, propertyChain, chainIndex);
+
+        if (objectToUpdate instanceof Object && propertyChain.length > chainIndex) {
+            let propertyName = propertyChain.at(-1); // last
+            ObjectHelper._updateValue(objectToUpdate, propertyName, value);
+        }
+    }
+
+    // Creates a new value by merging the source value to the base value.
+    static mergeValues(baseValue, sourceValue) {
+        if (baseValue === null || baseValue === undefined ||
+            sourceValue === null || sourceValue === undefined) {
+            return baseValue;
+        }
+
+        if (typeof baseValue === "number") {
+            return Number(sourceValue) || 0;
+        } else if (typeof baseValue === "string") {
+            return String(sourceValue);
+        } else if (typeof baseValue === "boolean") {
+            return Boolean(sourceValue);
+        } else if (baseValue instanceof Object) {
+            let mergedObject = ScadaUtils.deepClone(baseValue);
+            let sourceIsObject = sourceValue instanceof Object;
+
+            for (let [name, value] of Object.entries(baseValue)) {
+                mergedObject[name] = ObjectHelper.mergeValues(value, sourceIsObject ? sourceValue[name] : null);
+            }
+
+            return mergedObject;
+        } else {
+            return baseValue;
+        }
+    }
+}
 
 // Contains classes:
 //     KnownCategory, BasicType, Subtype, PropertyEditor,
@@ -980,7 +1068,7 @@ rs.mimic.DescriptorSet = class {
 
 // Contains classes: MimicFactory, ComponentFactory, RegularComponentFactory,
 //     TextFactory, PictureFactory, PanelFactory, FaceplateFactory, FactorySet
-// Depends on mimic-model.js, mimic-model-subtypes.js
+// Depends on mimic-common.js, mimic-model.js, mimic-model-subtypes.js
 
 // Create mimic properties.
 rs.mimic.MimicFactory = class {
@@ -1279,6 +1367,10 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         this.faceplate = faceplate;
     }
 
+    _updateSize(faceplateInstance) {
+        faceplateInstance.properties.size = rs.mimic.Size.parse(this.faceplate.document.size);
+    }
+
     _createComponents(faceplateInstance) {
         const FactorySet = rs.mimic.FactorySet;
         const MimicHelper = rs.mimic.MimicHelper;
@@ -1301,64 +1393,66 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         }
     }
 
-    _createProperties(faceplateInstance) {
-        faceplateInstance.properties ??= {};
-        faceplateInstance.properties.size ??= ScadaUtils.deepClone(this.faceplate.document.size);
+    _createCustomProperties(faceplateInstance, sourceProps) {
+        const ObjectHelper = rs.mimic.ObjectHelper;
+        sourceProps ??= {};
 
         if (Array.isArray(this.faceplate.document.propertyExports)) {
             for (let propertyExport of this.faceplate.document.propertyExports) {
                 if (propertyExport.name) {
+                    let baseValue = this._getPropertyValue(faceplateInstance, propertyExport.path);
+                    let sourceValue = sourceProps[propertyExport.name];
                     faceplateInstance.properties[propertyExport.name] =
-                        this._getPropertyValue(faceplateInstance, propertyExport.path);
+                        ObjectHelper.mergeValues(baseValue, sourceValue);
                 }
             }
         }
     }
 
     _getPropertyValue(faceplateInstance, path) {
-        if (!path) {
-            return "";
+        const ObjectHelper = rs.mimic.ObjectHelper;
+        let propertyChain = path ? path.split('.') : [];
+
+        if (propertyChain.length >= 2) {
+            let componentName = propertyChain[0];
+            let component = faceplateInstance.componentByName.get(componentName);
+
+            if (component) {
+                return ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
+            }
         }
 
-        let parts = path.split('.');
-        let componentName = parts[0];
-        let component = faceplateInstance.componentByName.get(componentName);
-
-        if (component) {
-
-        }
-
-        return "";
+        return undefined;
     }
 
-    _applyModel(faceplateInstance) {
+    _applyModel(faceplateInstance, source) {
+        faceplateInstance.typeName = faceplateInstance.properties.typeName = this.faceplate.typeName;
         faceplateInstance.model = this.faceplate;
         this._createComponents(faceplateInstance);
-        this._createProperties(faceplateInstance);
+        this._createCustomProperties(faceplateInstance, source?.properties);
     }
 
     createComponent() {
-        let component = new rs.mimic.FaceplateInstance();
-        component.properties = this.createProperties();
+        let faceplateInstance = new rs.mimic.FaceplateInstance();
+        faceplateInstance.properties = this.createProperties();
 
         if (this.faceplate) {
-            component.typeName = component.properties.typeName = this.faceplate.typeName;
-            this._applyModel(component);
+            this._updateSize(faceplateInstance);
+            this._applyModel(faceplateInstance, null);
         }
 
-        return component;
+        return faceplateInstance;
     }
 
     createComponentFromSource(source) {
-        let component = new rs.mimic.FaceplateInstance();
-        this._copyProperties(component, source);
+        let faceplateInstance = new rs.mimic.FaceplateInstance();
+        this._copyProperties(faceplateInstance, source);
 
         if (this.faceplate) {
-            component.typeName = component.properties.typeName = this.faceplate.typeName;
-            this._applyModel(component);
+            this._applyModel(faceplateInstance, source);
         }
 
-        return component;
+        return faceplateInstance;
     }
 };
 
@@ -3256,44 +3350,16 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         }
     }
 
-    _setPropertyValue(obj, binding, curData) {
+    _setPropertyValue(component, binding, curData) {
         const DataProvider = rs.mimic.DataProvider;
+        const ObjectHelper = rs.mimic.ObjectHelper;
+        let fieldValue = DataProvider.getFieldValue(curData, binding.dataMember, binding.cnlProps.unit);
 
-        // find the object to update
-        let objectToUpdate = obj;
-
-        for (let i = 0; i < binding.propertyChain.length - 1; i++) {
-            let propertyName = binding.propertyChain[i];
-
-            if (objectToUpdate instanceof Object && objectToUpdate.hasOwnProperty(propertyName)) {
-                objectToUpdate = objectToUpdate[propertyName];
-            } else {
-                objectToUpdate = null;
-                break;
-            }
+        if (binding.format) {
+            fieldValue = binding.format.replace("{0}", String(fieldValue));
         }
 
-        // set property value
-        if (binding.propertyChain.length > 0) {
-            let propertyName = binding.propertyChain.at(-1); // last
-
-            if (objectToUpdate instanceof Object && objectToUpdate.hasOwnProperty(propertyName)) {
-                let fieldValue = DataProvider.getFieldValue(curData, binding.dataMember, binding.cnlProps.unit);
-                let propertyValue = objectToUpdate[propertyName];
-
-                if (typeof propertyValue === "number") {
-                    propertyValue = Number(fieldValue) || 0;
-                } else if (typeof propertyValue === "string") {
-                    propertyValue = binding.format
-                        ? binding.format.replace("{0}", String(fieldValue))
-                        : String(fieldValue);
-                } else if (typeof propertyValue === "boolean") {
-                    propertyValue = Boolean(fieldValue);
-                }
-
-                objectToUpdate[propertyName] = propertyValue;
-            }
-        }
+        ObjectHelper.setPropertyValue(component.properties, binding.propertyChain, 0, fieldValue);
     }
 
     updateData(component, renderContext) {
@@ -3309,13 +3375,13 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
             const DataProvider = rs.mimic.DataProvider;
             let dataProvider = renderContext.getDataProvider();
 
-            for (let pb of component.bindings.propertyBindings) {
-                if (pb.propertyName && pb.cnlNum > 0 && pb.cnlProps) {
-                    let curData = dataProvider.getCurData(pb.cnlNum, pb.cnlProps.joinLen);
-                    let prevData = dataProvider.getPrevData(pb.cnlNum, pb.cnlProps.joinLen);
+            for (let binding of component.bindings.propertyBindings) {
+                if (binding.propertyName && binding.cnlNum > 0 && binding.cnlProps) {
+                    let curData = dataProvider.getCurData(binding.cnlNum, binding.cnlProps.joinLen);
+                    let prevData = dataProvider.getPrevData(binding.cnlNum, binding.cnlProps.joinLen);
 
                     if (!DataProvider.dataEqual(curData, prevData) || !dataProvider.prevCnlDataMap) {
-                        this._setPropertyValue(component.properties, pb, curData);
+                        this._setPropertyValue(component, binding, curData);
                         dataChanged = true;
                     }
                 }

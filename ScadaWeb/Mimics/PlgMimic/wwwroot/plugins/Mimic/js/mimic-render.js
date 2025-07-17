@@ -363,44 +363,16 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         }
     }
 
-    _setPropertyValue(obj, binding, curData) {
+    _setPropertyValue(component, binding, curData) {
         const DataProvider = rs.mimic.DataProvider;
+        const ObjectHelper = rs.mimic.ObjectHelper;
+        let fieldValue = DataProvider.getFieldValue(curData, binding.dataMember, binding.cnlProps.unit);
 
-        // find the object to update
-        let objectToUpdate = obj;
-
-        for (let i = 0; i < binding.propertyChain.length - 1; i++) {
-            let propertyName = binding.propertyChain[i];
-
-            if (objectToUpdate instanceof Object && objectToUpdate.hasOwnProperty(propertyName)) {
-                objectToUpdate = objectToUpdate[propertyName];
-            } else {
-                objectToUpdate = null;
-                break;
-            }
+        if (binding.format) {
+            fieldValue = binding.format.replace("{0}", String(fieldValue));
         }
 
-        // set property value
-        if (binding.propertyChain.length > 0) {
-            let propertyName = binding.propertyChain.at(-1); // last
-
-            if (objectToUpdate instanceof Object && objectToUpdate.hasOwnProperty(propertyName)) {
-                let fieldValue = DataProvider.getFieldValue(curData, binding.dataMember, binding.cnlProps.unit);
-                let propertyValue = objectToUpdate[propertyName];
-
-                if (typeof propertyValue === "number") {
-                    propertyValue = Number(fieldValue) || 0;
-                } else if (typeof propertyValue === "string") {
-                    propertyValue = binding.format
-                        ? binding.format.replace("{0}", String(fieldValue))
-                        : String(fieldValue);
-                } else if (typeof propertyValue === "boolean") {
-                    propertyValue = Boolean(fieldValue);
-                }
-
-                objectToUpdate[propertyName] = propertyValue;
-            }
-        }
+        ObjectHelper.setPropertyValue(component.properties, binding.propertyChain, 0, fieldValue);
     }
 
     updateData(component, renderContext) {
@@ -416,13 +388,13 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
             const DataProvider = rs.mimic.DataProvider;
             let dataProvider = renderContext.getDataProvider();
 
-            for (let pb of component.bindings.propertyBindings) {
-                if (pb.propertyName && pb.cnlNum > 0 && pb.cnlProps) {
-                    let curData = dataProvider.getCurData(pb.cnlNum, pb.cnlProps.joinLen);
-                    let prevData = dataProvider.getPrevData(pb.cnlNum, pb.cnlProps.joinLen);
+            for (let binding of component.bindings.propertyBindings) {
+                if (binding.propertyName && binding.cnlNum > 0 && binding.cnlProps) {
+                    let curData = dataProvider.getCurData(binding.cnlNum, binding.cnlProps.joinLen);
+                    let prevData = dataProvider.getPrevData(binding.cnlNum, binding.cnlProps.joinLen);
 
                     if (!DataProvider.dataEqual(curData, prevData) || !dataProvider.prevCnlDataMap) {
-                        this._setPropertyValue(component.properties, pb, curData);
+                        this._setPropertyValue(component, binding, curData);
                         dataChanged = true;
                     }
                 }
