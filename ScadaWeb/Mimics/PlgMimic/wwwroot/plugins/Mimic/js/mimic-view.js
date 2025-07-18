@@ -21,10 +21,38 @@ var runtimeOptions = {};
 var phrases = {};
 
 let cnlListID = 0;
+let scale = new rs.mimic.Scale();
 
 function bindEvents() {
     $(window).on("resize", function () {
         updateLayout();
+
+        if (scale.type !== rs.mimic.ScaleType.NUMERIC) {
+            updateScale();
+        }
+    });
+
+    $(document).on("keydown", function (event) {
+    });
+
+    $("#btnFitScreen").on("click", function () {
+        scale = new rs.mimic.Scale(rs.mimic.ScaleType.FIT_SCREEN, 0);
+        updateScale();
+    });
+
+    $("#btnFitWidthBtn").on("click", function () {
+        scale = new rs.mimic.Scale(rs.mimic.ScaleType.FIT_WIDTH, 0);
+        updateScale();
+    });
+
+    $("#btnZoomOutBtn").on("click", function () {
+        scale = scale.getPrev();
+        updateScale();
+    });
+
+    $("#btnZoomInBtn").on("click", function () {
+        scale = scale.getNext();
+        updateScale();
     });
 }
 
@@ -38,6 +66,7 @@ async function loadMimic() {
 
     if (result.ok) {
         $("#divMimicWrapper").append(unitedRenderer.createMimicDom());
+        initScale();
         startUpdatingData();
     } else {
         // show error
@@ -67,6 +96,26 @@ function updateData(callback) {
         unitedRenderer.updateData(dataProvider);
         callback();
     });
+}
+
+function initScale() {
+    if (runtimeOptions.rememberScale) {
+        scale.load(localStorage);
+    } else {
+        scale.type = runtimeOptions.scaleType;
+        scale.value = runtimeOptions.scaleValue;
+    }
+
+    updateScale(false);
+}
+
+function updateScale(saveScale = true) {
+    mimic.renderer?.setScale(scale);
+    $("#spanScale").text(Math.round(scale.value * 100) + "%");
+
+    if (saveScale) {
+        scale.save(localStorage);
+    }
 }
 
 $(async function () {

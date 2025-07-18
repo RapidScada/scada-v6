@@ -1,4 +1,4 @@
-// Contains classes: LoadStep, LoadResult, LoadContext, ObjectHelper
+// Contains classes: LoadStep, LoadResult, LoadContext, ScaleType, Scale, ObjectHelper
 // Depends on scada-common.js
 
 // Namespaces
@@ -27,8 +27,8 @@ rs.mimic.LoadContext = class {
     static IMAGES_TO_REQUEST = 100;
     static IMAGE_TOTAL_SIZE = 1048576;
 
-    controllerUrl = "";
-    mimicKey = "";
+    controllerUrl;
+    mimicKey;
     result = new rs.mimic.LoadResult();
     step = rs.mimic.LoadStep.UNDEFINED;
     componentIndex = 0;
@@ -41,6 +41,58 @@ rs.mimic.LoadContext = class {
         this.mimicKey = mimicKey.toString();
     }
 };
+
+// Specifies the scale types. Corresponds to ScaleType.cs
+rs.mimic.ScaleType = class {
+    static NUMERIC = 0;
+    static FIT_SCREEN = 1;
+    static FIT_WIDTH = 2;
+};
+
+// Represents a scale.
+rs.mimic.Scale = class Scale {
+    static VALUES = [0.1, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 4, 5];
+
+    type;
+    value;
+
+    constructor(type, value) {
+        this.type = type ?? rs.mimic.ScaleType.NUMERIC;
+        this.value = value ?? 1;
+    }
+
+    save(storage) {
+
+    }
+
+    load(storage) {
+
+    }
+
+    getPrev() {
+        for (let i = Scale.VALUES.length - 1; i >= 0; i--) {
+            let prevVal = Scale.VALUES[i];
+
+            if (scale.value > prevVal) {
+                return new Scale(this.type, prevVal);
+            }
+        }
+
+        return this;
+    }
+
+    getNext() {
+        for (let i = 0, len = Scale.VALUES.length; i < len; i++) {
+            let nextVal = Scale.VALUES[i];
+
+            if (scale.value < nextVal) {
+                return new Scale(this.type, nextVal);
+            }
+        }
+
+        return this;
+    }
+}
 
 // Provides access to the object properties.
 rs.mimic.ObjectHelper = class ObjectHelper {
@@ -3407,6 +3459,11 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         }
 
         return mimicElem;
+    }
+
+    // Sets the scale of the mimic DOM.
+    setScale(scale) {
+
     }
 };
 

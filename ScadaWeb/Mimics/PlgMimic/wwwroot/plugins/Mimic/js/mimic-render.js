@@ -239,6 +239,11 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
 
         return mimicElem;
     }
+
+    // Sets the scale of the mimic DOM.
+    setScale(scale) {
+
+    }
 };
 
 // Represents a component renderer.

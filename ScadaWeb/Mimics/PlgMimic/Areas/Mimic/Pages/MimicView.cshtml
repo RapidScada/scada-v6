@@ -1,5 +1,7 @@
 ﻿@page "{id:int?}"
 @model MimicViewModel
+@inject IWebContext webContext
+@inject PluginContext pluginContext
 @{
     Layout = "_BasicLayout";
     dynamic dict = Locale.GetDictionary(Model.GetType().FullName);
@@ -17,6 +19,9 @@
     <script src="~/plugins/Mimic/js/mimic-view.js" asp-append-version="true"></script>
     <script>
         viewID = @Model.ViewID;
+        refreshRate = @webContext.AppConfig.DisplayOptions.RefreshRate;
+        runtimeOptions = @pluginContext.PluginConfig.RuntimeOptions.ToJs();
+        phrases = @WebUtils.DictionaryToJs(Model.GetType().FullName + ".Js");
     </script>
 }
 
