@@ -2398,8 +2398,8 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
             for (let sourcePropertyExport of this.document.propertyExports) {
                 if (sourcePropertyExport.name) {
                     let propertyExport = new rs.mimic.PropertyExport(sourcePropertyExport);
-                    propertyExports.push(propertyExport);
-                    propertyExportMap.set(propertyExport.name, propertyExport);
+                    this.propertyExports.push(propertyExport);
+                    this.propertyExportMap.set(propertyExport.name, propertyExport);
                 }
             }
         }
@@ -2423,14 +2423,16 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 
     // Gets the value of the target property specified by the export path.
     getTargetPropertyValue(propertyExport) {
-        if (propertyExport.propertyChain.length >= 2) {
-            const ObjectHelper = rs.mimic.ObjectHelper;
-            let componentName = propertyExport.propertyChain[0];
+        const ObjectHelper = rs.mimic.ObjectHelper;
+        let propertyChain = propertyExport.propertyChain;
+
+        if (propertyChain.length >= 2) {
+            let componentName = propertyChain[0];
             let component = this.componentByName.get(componentName);
 
             if (component) {
                 if (component.isFaceplate) {
-                    let topPropertyName = propertyExport.propertyChain[1];
+                    let topPropertyName = propertyChain[1];
                     let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
                     return childPropertyExport
                         ? component.getTargetPropertyValue(childPropertyExport)
@@ -2446,14 +2448,16 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 
     // Sets the value of the target property specified by the export path.
     setTargetPropertyValue(propertyExport, value) {
-        if (propertyExport.propertyChain.length >= 2) {
-            const ObjectHelper = rs.mimic.ObjectHelper;
-            let componentName = propertyExport.propertyChain[0];
-            let component = faceplateInstance.componentByName.get(componentName);
+        const ObjectHelper = rs.mimic.ObjectHelper;
+        let propertyChain = propertyExport.propertyChain;
+
+        if (propertyChain.length >= 2) {
+            let componentName = propertyChain[0];
+            let component = this.componentByName.get(componentName);
 
             if (component) {
                 if (component.isFaceplate) {
-                    let topPropertyName = propertyExport.propertyChain[1];
+                    let topPropertyName = propertyChain[1];
                     let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
 
                     if (childPropertyExport) {
@@ -3612,6 +3616,28 @@ rs.mimic.UnitedRenderer = class {
         this.editorOptions = null;
     }
 
+    // Creates a render context for regular components.
+    _createRenderContext(opt_withUnknownTypes) {
+        return new rs.mimic.RenderContext({
+            editMode: this.editMode,
+            editorOptions: this.editorOptions,
+            imageMap: this.mimic.imageMap,
+            unknownTypes: opt_withUnknownTypes ? new Set() : null
+        });
+    }
+
+    // Creates a render context for the faceplate.
+    _createFaceplateContext(faceplateInstance, renderContext) {
+        return new rs.mimic.RenderContext({
+            editMode: this.editMode,
+            editorOptions: this.editorOptions,
+            faceplateMode: true,
+            imageMap: faceplateInstance.model?.imageMap,
+            idPrefix: renderContext.idPrefix,
+            unknownTypes: renderContext.unknownTypes
+        });
+    }
+
     // Appends the component DOM to its parent.
     _appendToParent(component) {
         if (component.parent) {
@@ -3643,14 +3669,7 @@ rs.mimic.UnitedRenderer = class {
             return;
         }
 
-        let faceplateContext = new rs.mimic.RenderContext({
-            editMode: this.editMode,
-            editorOptions: this.editorOptions,
-            faceplateMode: true,
-            imageMap: faceplateInstance.model.imageMap,
-            idPrefix: renderContext.idPrefix,
-            unknownTypes: renderContext.unknownTypes
-        });
+        let faceplateContext = this._createFaceplateContext(faceplateInstance, renderContext);
         let renderer = rs.mimic.RendererSet.faceplateRenderer;
         faceplateInstance.renderer = renderer;
         renderer.createDom(faceplateInstance, faceplateContext);
@@ -3662,15 +3681,40 @@ rs.mimic.UnitedRenderer = class {
         }
     }
 
+    // Updates the component DOM.
+    _updateComponentDom(component, renderContext) {
+        if (component.dom && component.renderer) {
+            if (component.isFaceplate) {
+                this._updateFaceplateDom(component, renderContext);
+            } else {
+                if (component.renderer.canUpdateDom) {
+                    component.renderer.updateDom(component, renderContext);
+                } else {
+                    let oldDom = component.dom;
+                    component.renderer.createDom(component, renderContext);
+                    oldDom.replaceWith(component.dom);
+                }
+            }
+        }
+    }
+
+    // Updates the faceplate DOM.
+    _updateFaceplateDom(faceplateInstance, renderContext) {
+        if (faceplateInstance.model && faceplateInstance.dom && faceplateInstance.renderer) {
+            let faceplateContext = this._createFaceplateContext(faceplateInstance, renderContext);
+            faceplateInstance.renderer.updateDom(faceplateInstance, faceplateContext);
+            faceplateContext.idPrefix += faceplateInstance.id + "-";
+
+            for (let component of faceplateInstance.components) {
+                this._updateComponentDom(component, faceplateContext);
+            }
+        }
+    }
+
     // Creates a mimic DOM according to the mimic model. Returns a jQuery object.
     createMimicDom() {
         let startTime = Date.now();
-        let renderContext = new rs.mimic.RenderContext({
-            editMode: this.editMode,
-            editorOptions: this.editorOptions,
-            imageMap: this.mimic.imageMap,
-            unknownTypes: new Set()
-        });
+        let renderContext = this._createRenderContext(true);
         let renderer = rs.mimic.RendererSet.mimicRenderer;
         this.mimic.renderer = renderer;
         renderer.createDom(this.mimic, renderContext);
@@ -3694,47 +3738,18 @@ rs.mimic.UnitedRenderer = class {
 
     // Updates a mimic DOM according to the mimic model.
     updateMimicDom() {
-        rs.mimic.RendererSet.mimicRenderer.updateDom(this.mimic, new rs.mimic.RenderContext({
-            editMode: this.editMode,
-            editorOptions: this.editorOptions,
-            imageMap: this.mimic.imageMap,
-        }));
+        rs.mimic.RendererSet.mimicRenderer.updateDom(this.mimic, this._createRenderContext());
     }
 
     // Creates a component DOM according to the component model. Returns a jQuery object.
     createComponentDom(component) {
-        this._createComponentDom(component, new rs.mimic.RenderContext({
-            editMode: this.editMode,
-            editorOptions: this.editorOptions,
-            imageMap: this.mimic.imageMap
-        }));
+        this._createComponentDom(component, this._createRenderContext());
         return component.dom ?? $();
     }
 
     // Updates the component DOM according to the component model.
-    updateComponentDom(component, opt_renderContext) {
-        if (component.dom && component.renderer) {
-            let renderContext = opt_renderContext ?? new rs.mimic.RenderContext({
-                editMode: this.editMode,
-                editorOptions: this.editorOptions
-            });
-
-            if (component.isFaceplate) {
-                renderContext.faceplateMode = true;
-                renderContext.imageMap = component.model.imageMap;
-                component.renderer.updateDom(component, renderContext);
-            } else {
-                renderContext.imageMap = mimic.imageMap;
-
-                if (component.renderer.canUpdateDom) {
-                    component.renderer.updateDom(component, renderContext);
-                } else {
-                    let oldDom = component.dom;
-                    component.renderer.createDom(component, renderContext);
-                    oldDom.replaceWith(component.dom);
-                }
-            }
-        }
+    updateComponentDom(component) {
+        this._updateComponentDom(component, this._createRenderContext());
     }
 
     // Arranges the child component DOMs according to the parent's model.
@@ -3756,15 +3771,12 @@ rs.mimic.UnitedRenderer = class {
 
     // Updates the components according to the current data.
     updateData(dataProvider) {
-        let renderContext = new rs.mimic.RenderContext({
-            editMode: this.editMode,
-            editorOptions: this.editorOptions
-        });
+        let renderContext = this._createRenderContext();
 
         for (let component of this.mimic.components) {
             try {
                 if (rs.mimic.MimicHelper.updateData(component, dataProvider)) {
-                    updateComponentDom(component, renderContext);
+                    this._updateComponentDom(component, renderContext);
                 }
             } catch (ex) {
                 console.error("Error updating data of the component with ID " + component.id +

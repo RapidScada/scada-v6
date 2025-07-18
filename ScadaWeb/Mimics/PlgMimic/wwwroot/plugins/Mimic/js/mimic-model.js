@@ -934,8 +934,8 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
             for (let sourcePropertyExport of this.document.propertyExports) {
                 if (sourcePropertyExport.name) {
                     let propertyExport = new rs.mimic.PropertyExport(sourcePropertyExport);
-                    propertyExports.push(propertyExport);
-                    propertyExportMap.set(propertyExport.name, propertyExport);
+                    this.propertyExports.push(propertyExport);
+                    this.propertyExportMap.set(propertyExport.name, propertyExport);
                 }
             }
         }
@@ -959,14 +959,16 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 
     // Gets the value of the target property specified by the export path.
     getTargetPropertyValue(propertyExport) {
-        if (propertyExport.propertyChain.length >= 2) {
-            const ObjectHelper = rs.mimic.ObjectHelper;
-            let componentName = propertyExport.propertyChain[0];
+        const ObjectHelper = rs.mimic.ObjectHelper;
+        let propertyChain = propertyExport.propertyChain;
+
+        if (propertyChain.length >= 2) {
+            let componentName = propertyChain[0];
             let component = this.componentByName.get(componentName);
 
             if (component) {
                 if (component.isFaceplate) {
-                    let topPropertyName = propertyExport.propertyChain[1];
+                    let topPropertyName = propertyChain[1];
                     let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
                     return childPropertyExport
                         ? component.getTargetPropertyValue(childPropertyExport)
@@ -982,14 +984,16 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 
     // Sets the value of the target property specified by the export path.
     setTargetPropertyValue(propertyExport, value) {
-        if (propertyExport.propertyChain.length >= 2) {
-            const ObjectHelper = rs.mimic.ObjectHelper;
-            let componentName = propertyExport.propertyChain[0];
-            let component = faceplateInstance.componentByName.get(componentName);
+        const ObjectHelper = rs.mimic.ObjectHelper;
+        let propertyChain = propertyExport.propertyChain;
+
+        if (propertyChain.length >= 2) {
+            let componentName = propertyChain[0];
+            let component = this.componentByName.get(componentName);
 
             if (component) {
                 if (component.isFaceplate) {
-                    let topPropertyName = propertyExport.propertyChain[1];
+                    let topPropertyName = propertyChain[1];
                     let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
 
                     if (childPropertyExport) {
