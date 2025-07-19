@@ -198,6 +198,34 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         }
     }
 
+    // Calculates the scale value depending on the scale type and mimic size.
+    static _calcScaleValue(mimic, scale) {
+        const ScaleType = rs.mimic.ScaleType;
+
+        if (scale.type === ScaleType.NUMERIC) {
+            if (scale.value >= 0) {
+                return scale.value;
+            }
+        } else {
+            let parentDom = mimic.dom?.parent();
+
+            if (parentDom && mimic.width > 0 && mimic.height > 0) {
+                let areaWidth = parentDom.innerWidth();
+                let horScale = areaWidth / mimic.width;
+
+                if (scale.type === ScaleType.FIT_WIDTH) {
+                    return horScale;
+                } else if (scale.type === ScaleType.FIT_SCREEN) {
+                    let areaHeight = parentDom.innerHeight();
+                    let vertScale = areaHeight / mimic.height;
+                    return Math.min(horScale, vertScale);
+                }
+            }
+        }
+
+        return 1.0;
+    }
+
     // Sets the CSS properties of the mimic element.
     _setProps(mimicElem, mimic, renderContext) {
         let props = mimic.document;
@@ -241,8 +269,18 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
     }
 
     // Sets the scale of the mimic DOM.
-    setScale(scale) {
+    setScale(mimic, scale) {
+        if (mimic.dom) {
+            let scaleValue = MimicRenderer._calcScaleValue(mimic, scale);
 
+            if (scale.type !== rs.mimic.ScaleType.NUMERIC) {
+                scale.value = scaleValue;
+            }
+
+            mimic.dom.css({
+                "transform": "scale(" + scaleValue + ", " + scaleValue + ")",
+            });
+        }
     }
 };
 

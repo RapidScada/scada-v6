@@ -51,7 +51,9 @@ rs.mimic.ScaleType = class {
 
 // Represents a scale.
 rs.mimic.Scale = class Scale {
-    static VALUES = [0.1, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 4, 5];
+    static _TYPE_KEY = "Mimic.ScaleType";
+    static _VALUE_KEY = "Mimic.ScaleValue";
+    static _VALUES = [0.1, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 4, 5];
 
     type;
     value;
@@ -62,19 +64,21 @@ rs.mimic.Scale = class Scale {
     }
 
     save(storage) {
-
+        ScadaUtils.setStorageItem(storage, Scale._TYPE_KEY, this.type);
+        ScadaUtils.setStorageItem(storage, Scale._VALUE_KEY, this.value);
     }
 
     load(storage) {
-
+        this.type = parseInt(ScadaUtils.getStorageItem(storage, Scale._TYPE_KEY, this.type));
+        this.value = parseFloat(ScadaUtils.getStorageItem(storage, Scale._VALUE_KEY, this.value));
     }
 
     getPrev() {
-        for (let i = Scale.VALUES.length - 1; i >= 0; i--) {
-            let prevVal = Scale.VALUES[i];
+        for (let i = Scale._VALUES.length - 1; i >= 0; i--) {
+            let prevVal = Scale._VALUES[i];
 
             if (scale.value > prevVal) {
-                return new Scale(this.type, prevVal);
+                return new Scale(rs.mimic.ScaleType.NUMERIC, prevVal);
             }
         }
 
@@ -82,11 +86,11 @@ rs.mimic.Scale = class Scale {
     }
 
     getNext() {
-        for (let i = 0, len = Scale.VALUES.length; i < len; i++) {
-            let nextVal = Scale.VALUES[i];
+        for (let i = 0, len = Scale._VALUES.length; i < len; i++) {
+            let nextVal = Scale._VALUES[i];
 
             if (scale.value < nextVal) {
-                return new Scale(this.type, nextVal);
+                return new Scale(rs.mimic.ScaleType.NUMERIC, nextVal);
             }
         }
 

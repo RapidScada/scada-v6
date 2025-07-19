@@ -51,7 +51,9 @@ rs.mimic.ScaleType = class {
 
 // Represents a scale.
 rs.mimic.Scale = class Scale {
-    static VALUES = [0.1, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 4, 5];
+    static _TYPE_KEY = "Mimic.ScaleType";
+    static _VALUE_KEY = "Mimic.ScaleValue";
+    static _VALUES = [0.1, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 4, 5];
 
     type;
     value;
@@ -62,19 +64,21 @@ rs.mimic.Scale = class Scale {
     }
 
     save(storage) {
-
+        ScadaUtils.setStorageItem(storage, Scale._TYPE_KEY, this.type);
+        ScadaUtils.setStorageItem(storage, Scale._VALUE_KEY, this.value);
     }
 
     load(storage) {
-
+        this.type = parseInt(ScadaUtils.getStorageItem(storage, Scale._TYPE_KEY, this.type));
+        this.value = parseFloat(ScadaUtils.getStorageItem(storage, Scale._VALUE_KEY, this.value));
     }
 
     getPrev() {
-        for (let i = Scale.VALUES.length - 1; i >= 0; i--) {
-            let prevVal = Scale.VALUES[i];
+        for (let i = Scale._VALUES.length - 1; i >= 0; i--) {
+            let prevVal = Scale._VALUES[i];
 
             if (scale.value > prevVal) {
-                return new Scale(this.type, prevVal);
+                return new Scale(rs.mimic.ScaleType.NUMERIC, prevVal);
             }
         }
 
@@ -82,11 +86,11 @@ rs.mimic.Scale = class Scale {
     }
 
     getNext() {
-        for (let i = 0, len = Scale.VALUES.length; i < len; i++) {
-            let nextVal = Scale.VALUES[i];
+        for (let i = 0, len = Scale._VALUES.length; i < len; i++) {
+            let nextVal = Scale._VALUES[i];
 
             if (scale.value < nextVal) {
-                return new Scale(this.type, nextVal);
+                return new Scale(rs.mimic.ScaleType.NUMERIC, nextVal);
             }
         }
 
@@ -1860,6 +1864,16 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         return true;
     }
 
+    // Gets the mimic width.
+    get width() {
+        return this.document.properties ? this.document.properties.size.width : 0;
+    }
+
+    // Gets the mimic height.
+    get height() {
+        return this.document.properties ? this.document.properties.size.height : 0;
+    }
+
     // Loads a part of the mimic.
     async _loadPart(loadContext) {
         const LoadStep = rs.mimic.LoadStep;
@@ -3419,6 +3433,34 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         }
     }
 
+    // Calculates the scale value depending on the scale type and mimic size.
+    static _calcScaleValue(mimic, scale) {
+        const ScaleType = rs.mimic.ScaleType;
+
+        if (scale.type === ScaleType.NUMERIC) {
+            if (scale.value >= 0) {
+                return scale.value;
+            }
+        } else {
+            let parentDom = mimic.dom?.parent();
+
+            if (parentDom && mimic.width > 0 && mimic.height > 0) {
+                let areaWidth = parentDom.innerWidth();
+                let horScale = areaWidth / mimic.width;
+
+                if (scale.type === ScaleType.FIT_WIDTH) {
+                    return horScale;
+                } else if (scale.type === ScaleType.FIT_SCREEN) {
+                    let areaHeight = parentDom.innerHeight();
+                    let vertScale = areaHeight / mimic.height;
+                    return Math.min(horScale, vertScale);
+                }
+            }
+        }
+
+        return 1.0;
+    }
+
     // Sets the CSS properties of the mimic element.
     _setProps(mimicElem, mimic, renderContext) {
         let props = mimic.document;
@@ -3462,8 +3504,18 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
     }
 
     // Sets the scale of the mimic DOM.
-    setScale(scale) {
+    setScale(mimic, scale) {
+        if (mimic.dom) {
+            let scaleValue = MimicRenderer._calcScaleValue(mimic, scale);
 
+            if (scale.type !== rs.mimic.ScaleType.NUMERIC) {
+                scale.value = scaleValue;
+            }
+
+            mimic.dom.css({
+                "transform": "scale(" + scaleValue + ", " + scaleValue + ")",
+            });
+        }
     }
 };
 

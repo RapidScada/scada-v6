@@ -344,6 +344,16 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         return true;
     }
 
+    // Gets the mimic width.
+    get width() {
+        return this.document.properties ? this.document.properties.size.width : 0;
+    }
+
+    // Gets the mimic height.
+    get height() {
+        return this.document.properties ? this.document.properties.size.height : 0;
+    }
+
     // Loads a part of the mimic.
     async _loadPart(loadContext) {
         const LoadStep = rs.mimic.LoadStep;

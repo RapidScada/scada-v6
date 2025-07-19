@@ -110,7 +110,7 @@ function initScale() {
 }
 
 function updateScale(saveScale = true) {
-    mimic.renderer?.setScale(scale);
+    mimic.renderer?.setScale(mimic, scale);
     $("#spanScale").text(Math.round(scale.value * 100) + "%");
 
     if (saveScale) {
