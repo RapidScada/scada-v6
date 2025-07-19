@@ -18,7 +18,7 @@ body {
 }
 
 /* Toolbar */
-@mixin tool-button {
+@mixin tool-item {
     background-color: $tool-btn-back-color;
     border: 0;
     color: $tool-btn-fore-color;
@@ -57,16 +57,22 @@ body {
     }
 
     .tool-btn {
-        @include tool-button;
+        @include tool-item;
 
         &:hover {
             color: $tool-btn-hover-fore-color;
         }
     }
+
+    &.toolbar-hidden {
+        .tool-item {
+            display: none;
+        }
+    }
 }
 
 #spanScale {
-    @include tool-button;
+    @include tool-item;
     cursor: default;
     font-size: $scale-font-size;
 }

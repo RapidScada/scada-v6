@@ -33,6 +33,12 @@ function bindEvents() {
     });
 
     $(document).on("keydown", function (event) {
+        let targetElem = $(event.target);
+
+        if ((targetElem.is("body") || targetElem.closest("#divToolbar").length > 0) &&
+            handleKeyDown(event.code, event.ctrlKey)) {
+            event.preventDefault();
+        }
     });
 
     $("#btnFitScreen").on("click", function () {
@@ -116,6 +122,29 @@ function updateScale(saveScale = true) {
     if (saveScale) {
         scale.save(localStorage);
     }
+}
+
+function handleKeyDown(code, ctrlKey) {
+    if (ctrlKey) {
+        switch (code) {
+            case "Minus":
+                scale = scale.getPrev();
+                updateScale();
+                return true;
+
+            case "Equal":
+                scale = scale.getNext();
+                updateScale();
+                return true;
+
+            case "Digit0":
+                scale = new rs.mimic.Scale();
+                updateScale();
+                return true;
+        }
+    }
+
+    return false;
 }
 
 $(async function () {

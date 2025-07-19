@@ -8,6 +8,7 @@
     <ScaleType>Numeric</ScaleType>
     <ScaleValue>100</ScaleValue>
     <RememberScale>true</RememberScale>
+    <ShowToolbar>true</ShowToolbar>
   </RuntimeOptions>
   <EditorOptions>
     <UseGrid>true</UseGrid>

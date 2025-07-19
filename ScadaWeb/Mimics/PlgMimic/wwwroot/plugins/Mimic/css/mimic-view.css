@@ -33,6 +33,9 @@
 #divToolbar .tool-btn:hover {
   color: var(--bs-info);
 }
+#divToolbar.toolbar-hidden .tool-item {
+  display: none;
+}
 
 #spanScale {
   background-color: white;
