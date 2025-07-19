@@ -346,12 +346,12 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
     // Gets the mimic width.
     get width() {
-        return this.document.properties ? this.document.properties.size.width : 0;
+        return this.document ? this.document.size.width : 0;
     }
 
     // Gets the mimic height.
     get height() {
-        return this.document.properties ? this.document.properties.size.height : 0;
+        return this.document ? this.document.size.height : 0;
     }
 
     // Loads a part of the mimic.
