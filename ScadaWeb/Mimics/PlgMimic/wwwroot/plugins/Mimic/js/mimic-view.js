@@ -20,9 +20,21 @@ var refreshRate = 1000;
 var runtimeOptions = {};
 var phrases = {};
 
+let errorElem = $();
+let spinnerElem = $();
+let mimicWrapperElem = $();
+let toolbarElem = $();
+
 let cnlListID = 0;
 let scale = new rs.mimic.Scale();
 let errorTimeoutID = 0;
+
+function initElements() {
+    errorElem = $("#divError");
+    spinnerElem = $("#divSpinner");
+    mimicWrapperElem = $("#divMimicWrapper");
+    toolbarElem = $("#divToolbar");
+}
 
 function bindEvents() {
     $(window).on("resize", function () {
@@ -65,18 +77,23 @@ function bindEvents() {
 
 function updateLayout() {
     let h = $(window).height();
-    $("#divMimicWrapper").outerHeight(h);
+    errorElem.outerHeight(h);
+    spinnerElem.outerHeight(h);
+    mimicWrapperElem.outerHeight(h);
 }
 
 async function loadMimic() {
+    spinnerElem.removeClass("d-none");
     let result = await mimic.load(getLoaderUrl(), viewID);
+    spinnerElem.addClass("d-none");
 
     if (result.ok) {
-        $("#divMimicWrapper").append(unitedRenderer.createMimicDom());
+        mimicWrapperElem.append(unitedRenderer.createMimicDom());
+        toolbarElem.removeClass("d-none");
         initScale();
         startUpdatingData();
     } else {
-        // show error
+        showErrorText(result.msg);
     }
 }
 
@@ -125,6 +142,12 @@ function updateScale(saveScale = true) {
     }
 }
 
+function showErrorText(text) {
+    errorElem
+        .text(text)
+        .removeClass("d-none");
+}
+
 function showErrorIcon() {
     clearTimeout(errorTimeoutID);
     $("#spanErrorIcon").removeClass("d-none");
@@ -159,6 +182,7 @@ function handleKeyDown(code, ctrlKey) {
 }
 
 $(async function () {
+    initElements();
     bindEvents();
     updateLayout();
     await loadMimic();

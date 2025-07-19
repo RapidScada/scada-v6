@@ -13,10 +13,6 @@ body {
     overflow: hidden;
 }
 
-/* Mimic */
-#divMimicWrapper {
-}
-
 /* Toolbar */
 @mixin tool-item {
     background-color: $tool-btn-back-color;

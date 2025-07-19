@@ -233,6 +233,10 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         this._setFont(mimicElem, props.font);
         this._setSize(mimicElem, props.size);
 
+        if (!renderContext.editMode) {
+            $("body").css("background-color", props.backColor);
+        }
+
         mimicElem
             .attr("title", props.tooltip)
             .css({

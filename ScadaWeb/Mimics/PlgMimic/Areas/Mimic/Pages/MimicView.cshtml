@@ -26,12 +26,14 @@
     </script>
 }
 
+<div id="divError" class="box-center fs-2 text-danger d-none"></div>
+<div id="divSpinner" class="box-center fs-2 text-secondary d-none"><i id="iSpinner" class="fa-solid fa-spinner fa-spin-pulse fa-3x"></i></div>
 <div id="divMimicWrapper" class="mimic-wrapper"></div>
-<div id="divToolbar" class="@toolbarClass"><button type="button" 
+<div id="divToolbar" class="@toolbarClass d-none"><button type="button" 
     id="btnFitScreen" class="tool-item tool-btn" title="@dict.btnFitScreen_ToolTip"><i class="fa-solid fa-up-down-left-right"></i></button><button type="button"
     id="btnFitWidthBtn" class="tool-item tool-btn" title="@dict.btnFitWidth_ToolTip"><i class="fa-solid fa-solid fa-left-right"></i></button><button type="button"
     id="btnZoomOutBtn" class="tool-item tool-btn" title="@dict.btnZoomOut_ToolTip"><i class="fa-solid fa-search-minus"></i></button><button type="button"
     id="btnZoomInBtn" class="tool-item tool-btn" title="@dict.btnZoomIn_ToolTip"><i class="fa-solid fa-search-plus"></i></button><span
-    id="spanScaleValue" class="tool-item">100%</span><span 
+    id="spanScaleValue" class="tool-item">%</span><span 
     id="spanErrorIcon" class="d-none" title="@dict.spanErrorIcon_ToolTip"><i class="fa-solid fa-triangle-exclamation"></i></span>
 </div>
