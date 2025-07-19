@@ -6,6 +6,7 @@
     <Phrase key="btnFitWidth_ToolTip">По ширине</Phrase>
     <Phrase key="btnZoomOut_ToolTip">Уменьшить</Phrase>
     <Phrase key="btnZoomIn_ToolTip">Увеличить</Phrase>
+    <Phrase key="spanErrorIcon_ToolTip">Ошибка загрузки данных</Phrase>
   </Dictionary>
   <!-- PlgMimic.Common -->
   <Dictionary key="Scada.Web.Plugins.PlgMimic.Components.StandardComponentGroup">

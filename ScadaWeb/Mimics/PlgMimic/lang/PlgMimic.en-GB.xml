@@ -6,6 +6,7 @@
     <Phrase key="btnFitWidth_ToolTip">Fit to Width</Phrase>
     <Phrase key="btnZoomOut_ToolTip">Zoom Out</Phrase>
     <Phrase key="btnZoomIn_ToolTip">Zoom In</Phrase>
+    <Phrase key="spanErrorIcon_ToolTip">Error loading data</Phrase>
   </Dictionary>
   <!-- PlgMimic.Common -->
   <Dictionary key="Scada.Web.Plugins.PlgMimic.Components.StandardComponentGroup">

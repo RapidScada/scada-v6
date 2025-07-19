@@ -22,6 +22,7 @@ var phrases = {};
 
 let cnlListID = 0;
 let scale = new rs.mimic.Scale();
+let errorTimeoutID = 0;
 
 function bindEvents() {
     $(window).on("resize", function () {
@@ -94,7 +95,7 @@ function updateData(callback) {
         if (dto.ok) {
             cnlListID = dto.data.cnlListID;
         } else {
-            // show error
+            showErrorIcon();
         }
 
         dataProvider.prevDataMap = dataProvider.curDataMap;
@@ -117,11 +118,21 @@ function initScale() {
 
 function updateScale(saveScale = true) {
     mimic.renderer?.setScale(mimic, scale);
-    $("#spanScale").text(Math.round(scale.value * 100) + "%");
+    $("#spanScaleValue").text(Math.round(scale.value * 100) + "%");
 
     if (saveScale) {
         scale.save(localStorage);
     }
+}
+
+function showErrorIcon() {
+    clearTimeout(errorTimeoutID);
+    $("#spanErrorIcon").removeClass("d-none");
+
+    errorTimeoutID = setTimeout(function () {
+        $("#spanErrorIcon").addClass("d-none");
+        errorTimeoutID = 0;
+    }, ScadaUtils.ERROR_DISPLAY_DURATION);
 }
 
 function handleKeyDown(code, ctrlKey) {

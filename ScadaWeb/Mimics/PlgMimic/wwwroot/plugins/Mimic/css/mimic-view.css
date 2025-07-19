@@ -37,7 +37,7 @@
   display: none;
 }
 
-#spanScale {
+#spanScaleValue {
   background-color: white;
   border: 0;
   color: var(--bs-gray-700);
@@ -53,7 +53,7 @@
   font-size: 12px;
 }
 
-#spanError {
+#spanErrorIcon {
   text-shadow: -1px -1px 0 var(--bs-white), 1px -1px 0 var(--bs-white), -1px 1px 0 var(--bs-white), 1px 1px 0 var(--bs-white);
   color: var(--bs-danger);
   display: inline-block;

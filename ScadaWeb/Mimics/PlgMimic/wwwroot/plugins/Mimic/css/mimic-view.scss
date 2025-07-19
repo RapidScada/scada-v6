@@ -71,13 +71,13 @@ body {
     }
 }
 
-#spanScale {
+#spanScaleValue {
     @include tool-item;
     cursor: default;
     font-size: $scale-font-size;
 }
 
-#spanError {
+#spanErrorIcon {
     @include text-stroked;
     color: $error-fore-color;
     display: inline-block;
