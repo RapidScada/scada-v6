@@ -298,7 +298,9 @@ function initModals() {
 }
 
 async function loadMimic() {
+    showSpinner();
     let result = await mimic.load(getLoaderUrl(), mimicKey);
+    hideSpinner();
 
     if (result.ok) {
         setButtonsEnabled();
@@ -618,6 +620,15 @@ function arrange(actionType) {
             pushChanges(Change.arrangeComponent(parent.id, getComponentIDs(), -Change.MAX_SHIFT));
             break;
     }
+}
+
+function showSpinner() {
+    $("#divMimicWrapper").append("<div class='mimic-spinner fs-2 text-secondary'>" +
+        "<i class='fa-solid fa-spinner fa-spin-pulse fa-3x'></i></div>");
+}
+
+function hideSpinner() {
+    $("#divMimicWrapper .mimic-spinner").remove();
 }
 
 function setButtonsEnabled(opt_dependsOn) {
