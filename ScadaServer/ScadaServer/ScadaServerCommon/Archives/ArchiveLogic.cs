@@ -108,7 +108,7 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Gets the current archive status as text.
         /// </summary>
-        public virtual string StatusText => GetStatusText(null, null);
+        public virtual string StatusText => ArchiveUtils.GetStatusText(IsReady, null, null);
 
 
         /// <summary>
@@ -126,6 +126,7 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Initializes the indexes that map the archive channels to all channels.
         /// </summary>
+        [Obsolete]
         protected void InitCnlIndexes(ICurrentData curData, ref int[] cnlIndexes)
         {
             if (cnlIndexes == null)
@@ -143,6 +144,7 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Copies the current data to the slice that contains the archive channels.
         /// </summary>
+        [Obsolete]
         protected void CopyCnlData(ICurrentData curData, Slice slice, int[] cnlIndexes)
         {
             if (slice.CnlNums == CnlNums)
@@ -161,6 +163,7 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Gets the archive status, including queue statistics.
         /// </summary>
+        [Obsolete]
         protected string GetStatusText(QueueStats queueStats, int? queueSize)
         {
             if (!IsReady)
@@ -190,6 +193,7 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Gets the channel indexes in the specified array.
         /// </summary>
+        [Obsolete]
         protected static Dictionary<int, int> GetCnlIndexes(int[] cnlNums)
         {
             int cnlCnt = cnlNums.Length;
@@ -206,6 +210,7 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Converts the specified value to a TimeSpan according to its unit.
         /// </summary>
+        [Obsolete]
         protected static TimeSpan ConvertToTimeSpan(int value, TimeUnit timeUnit)
         {
             switch (timeUnit)
@@ -226,6 +231,7 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Gets the closest time to write data to the archive, less than or equal to the specified timestamp.
         /// </summary>
+        [Obsolete]
         protected static DateTime GetClosestWriteTime(DateTime timestamp, TimeSpan period, TimeSpan offset)
         {
             if (period <= TimeSpan.Zero)
@@ -248,6 +254,7 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Gets the next time to write data to the archive, greater than or equal to the specified timestamp.
         /// </summary>
+        [Obsolete]
         protected static DateTime GetNextWriteTime(DateTime timestamp, TimeSpan period, TimeSpan offset)
         {
             return period > TimeSpan.Zero
@@ -258,6 +265,7 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Returns an enumerable collection of dates in the specified time interval.
         /// </summary>
+        [Obsolete]
         protected static IEnumerable<DateTime> EnumerateDates(TimeRange timeRange)
         {
             if (timeRange.EndInclusive)
