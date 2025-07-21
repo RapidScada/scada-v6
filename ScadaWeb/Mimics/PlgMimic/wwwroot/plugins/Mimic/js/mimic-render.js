@@ -33,7 +33,7 @@ rs.mimic.Renderer = class {
     }
 
     // Sets the font of the specified jQuery object.
-    _setFont(jqObj, font) {
+    _setFont(jqObj, font, fontMap) {
         if (font.inherit) {
             jqObj.css({
                 "font-family": "",
@@ -44,7 +44,7 @@ rs.mimic.Renderer = class {
             });
         } else {
             jqObj.css({
-                //"font-family": font.name,
+                "font-family": fontMap?.get(font.name)?.family,
                 "font-size": font.size,
                 "font-weight": font.bold ? "bold" : "normal",
                 "font-style": font.italic ? "italic" : "normal",
@@ -230,7 +230,7 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
     _setProps(mimicElem, mimic, renderContext) {
         let props = mimic.document;
         this._setBackgroundImage(mimicElem, renderContext.getImage(props.backgroundImage));
-        this._setFont(mimicElem, props.font);
+        this._setFont(mimicElem, props.font, renderContext.fontMap);
         this._setSize(mimicElem, props.size);
 
         if (!renderContext.editMode) {
@@ -417,7 +417,7 @@ rs.mimic.TextRenderer = class extends rs.mimic.RegularComponentRenderer {
     _setProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
         let props = component.properties;
-        this._setFont(componentElem, props.font);
+        this._setFont(componentElem, props.font, renderContext.fontMap);
         this._setPadding(componentElem, props.padding);
         componentElem.text(props.text);
     }
@@ -456,7 +456,9 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
 // Encapsulates information about a rendering operation.
 rs.mimic.RenderContext = class {
     editMode = false;
+    fontMap = null;
     editorOptions = null;
+    controlRight = false;
     faceplateMode = false;
     imageMap = null;
     idPrefix = "";
@@ -486,19 +488,22 @@ rs.mimic.RendererSet = class {
 rs.mimic.UnitedRenderer = class {
     mimic;
     editMode;
-    editorOptions;
+    fontMap = null;
+    editorOptions = null;
+    controlRight = false;
 
     constructor(mimic, editMode) {
         this.mimic = mimic;
         this.editMode = editMode;
-        this.editorOptions = null;
     }
 
     // Creates a render context for regular components.
     _createRenderContext(opt_withUnknownTypes) {
         return new rs.mimic.RenderContext({
             editMode: this.editMode,
+            fontMap: this.fontMap,
             editorOptions: this.editorOptions,
+            controlRight: this.controlRight,
             imageMap: this.mimic.imageMap,
             unknownTypes: opt_withUnknownTypes ? new Set() : null
         });
@@ -508,7 +513,9 @@ rs.mimic.UnitedRenderer = class {
     _createFaceplateContext(faceplateInstance, renderContext) {
         return new rs.mimic.RenderContext({
             editMode: this.editMode,
+            fontMap: this.fontMap,
             editorOptions: this.editorOptions,
+            controlRight: this.controlRight,
             faceplateMode: true,
             imageMap: faceplateInstance.model?.imageMap,
             idPrefix: renderContext.idPrefix,
@@ -587,6 +594,17 @@ rs.mimic.UnitedRenderer = class {
                 this._updateComponentDom(component, faceplateContext);
             }
         }
+    }
+
+    // Configures the renderer.
+    configure({
+        fonts = null,
+        editorOptions = null,
+        controlRight = false
+    }) {
+        this.fontMap = Array.isArray(fonts) ? new Map(fonts.map(font => [font.name, font])) : null;
+        this.editorOptions = editorOptions;
+        this.controlRight = controlRight;
     }
 
     // Creates a mimic DOM according to the mimic model. Returns a jQuery object.

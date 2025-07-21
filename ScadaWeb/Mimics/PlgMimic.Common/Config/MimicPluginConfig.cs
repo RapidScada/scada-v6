@@ -55,10 +55,10 @@ namespace Scada.Web.Plugins.PlgMimic.Config
 
             if (rootElem.SelectSingleNode("Fonts") is XmlNode fontsNode)
             {
-                foreach (XmlNode fontNode in fontsNode.SelectNodes("Font"))
+                foreach (XmlElement fontElem in fontsNode.SelectNodes("Font"))
                 {
                     FontOptions fontOptions = new();
-                    fontOptions.LoadFromXml(fontNode);
+                    fontOptions.LoadFromXml(fontElem);
                     Fonts.Add(fontOptions);
                 }
             }

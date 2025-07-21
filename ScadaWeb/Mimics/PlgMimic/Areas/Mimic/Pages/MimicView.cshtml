@@ -20,7 +20,9 @@
     <script src="~/plugins/Mimic/js/mimic-view.js" asp-append-version="true"></script>
     <script>
         viewID = @Model.ViewID;
+        controlRight = @Model.ControlRight.ToLowerString();
         refreshRate = @webContext.AppConfig.DisplayOptions.RefreshRate;
+        fonts = @pluginContext.PluginConfig.Fonts.ToJs();
         runtimeOptions = @pluginContext.PluginConfig.RuntimeOptions.ToJs();
         phrases = @WebUtils.DictionaryToJs(Model.GetType().FullName + ".Js");
     </script>

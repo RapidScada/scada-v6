@@ -20,6 +20,7 @@ const mimicClipboard = new MimicClipboard();
 // Set in MimicEdit.cshtml and MimicEditLang.cshtml
 var rootPath = "/";
 var mimicKey = "0";
+var fonts = [];
 var editorOptions = {};
 var translation = {};
 
@@ -1688,7 +1689,7 @@ function showPermanentToast(message, opt_messageType) {
 }
 
 $(async function () {
-    unitedRenderer.editorOptions = editorOptions;
+    unitedRenderer.configure({ fonts, editorOptions });
     phrases = translation.editor;
     splitter = new Splitter("divSplitter");
 

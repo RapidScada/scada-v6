@@ -16,7 +16,9 @@ const dataProvider = new MimicDataProvider();
 
 // Set in MimicView.cshtml
 var viewID = 0;
+var controlRight = false;
 var refreshRate = 1000;
+var fonts = [];
 var runtimeOptions = {};
 var phrases = {};
 
@@ -182,6 +184,7 @@ function handleKeyDown(code, ctrlKey) {
 }
 
 $(async function () {
+    unitedRenderer.configure({ fonts, controlRight });
     initElements();
     bindEvents();
     updateLayout();
