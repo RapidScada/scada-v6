@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2023
+ * Modified : 2025
  */
 
 using Scada.Data.Models;
@@ -108,15 +108,7 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Gets the current archive status as text.
         /// </summary>
-        public virtual string StatusText
-        {
-            get
-            {
-                return Locale.IsRussian ?
-                    (IsReady ? "готов" : "не готов") :
-                    (IsReady ? "Ready" : "Not Ready");
-            }
-        }
+        public virtual string StatusText => GetStatusText(null, null);
 
 
         /// <summary>
@@ -224,6 +216,8 @@ namespace Scada.Server.Archives
                     return TimeSpan.FromHours(value);
                 case TimeUnit.Day:
                     return TimeSpan.FromDays(value);
+                case TimeUnit.Month:
+                    return TimeSpan.FromDays(31);
                 default: // TimeUnit.Second
                     return TimeSpan.FromSeconds(value);
             }

@@ -120,8 +120,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         private MemoryCache<CacheKey, CnlData> CreateMemoryCache()
         {
             return new MemoryCache<CacheKey, CnlData>(
-                    TimeSpan.FromDays(options.Retention), 
-                    (int)(CnlNums.Length * options.CacheSizeRatio));
+                TimeSpan.FromDays(options.Retention), 
+                (int)(CnlNums.Length * options.CacheSizeRatio));
         }
 
         /// <summary>
