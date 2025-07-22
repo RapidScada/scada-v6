@@ -157,6 +157,52 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
+        /// Adds the specified value to the timestamp, taking the unit into account.
+        /// </summary>
+        public static DateTime AddValue(this DateTime timestamp, int value, TimeUnit timeUnit)
+        {
+            switch (timeUnit)
+            {
+                case TimeUnit.Minute:
+                    return timestamp.AddMinutes(value);
+                case TimeUnit.Hour:
+                    return timestamp.AddHours(value);
+                case TimeUnit.Day:
+                    return timestamp.AddDays(value);
+                case TimeUnit.Month:
+                    return timestamp.AddMonths(value);
+                default: // TimeUnit.Second
+                    return timestamp.AddSeconds(value);
+            }
+        }
+
+        /// <summary>
+        /// Adds the writing period to the specified timestamp.
+        /// </summary>
+        public static DateTime AddWritingPeriod(this DateTime timestamp, HistoricalArchiveOptions options)
+        {
+            return timestamp.AddValue(options.WritingPeriod, options.WritingPeriodUnit);
+        }
+
+        /// <summary>
+        /// Adds the writing offset to the specified timestamp.
+        /// </summary>
+        public static DateTime AddWritingOffset(this DateTime timestamp, HistoricalArchiveOptions options)
+        {
+            return timestamp.AddValue(options.WritingOffset, options.WritingOffsetUnit);
+        }
+
+        /// <summary>
+        /// Adjusts the timestamp for daylight saving time, if specified by the options.
+        /// </summary>
+        public static DateTime AdjustForDst(this DateTime timestamp, HistoricalArchiveOptions options)
+        {
+            return options.AdjustForDst && TimeZoneInfo.Local.IsDaylightSavingTime(timestamp)
+                ? timestamp.AddHours(1)
+                : timestamp;
+        }
+
+        /// <summary>
         /// Gets the closest time to write data to the archive, less than or equal to the specified timestamp.
         /// </summary>
         public static DateTime GetClosestWriteTime(DateTime timestamp, TimeSpan period, TimeSpan offset)
@@ -183,7 +229,39 @@ namespace Scada.Server.Archives
         /// </summary>
         public static DateTime GetClosestWriteTime(DateTime timestamp, HistoricalArchiveOptions options)
         {
-            return DateTime.MinValue;
+            if (options.WritingPeriod <= 0)
+                return timestamp;
+
+            if (options.WritingPeriodUnit == TimeUnit.Month)
+            {
+                DateTime startTime = new DateTime(timestamp.Year, 1, 1, 0, 0, 0, timestamp.Kind)
+                    .AddWritingOffset(options);
+
+                if (timestamp < startTime)
+                {
+                    return startTime.AddMonths(-options.WritingPeriod);
+                }
+                else
+                {
+                    DateTime writeTime = startTime;
+                    DateTime prevWriteTime = startTime;
+
+                    while (writeTime < timestamp)
+                    {
+                        prevWriteTime = writeTime;
+                        writeTime = writeTime.AddMonths(options.WritingPeriod);
+                    }
+
+                    return writeTime <= timestamp ? writeTime : prevWriteTime;
+                }
+            }
+            else
+            {
+                return GetClosestWriteTime(
+                    timestamp,
+                    ConvertToTimeSpan(options.WritingPeriod, options.WritingPeriodUnit),
+                    ConvertToTimeSpan(options.WritingOffset, options.WritingOffsetUnit));
+            }
         }
 
         /// <summary>
@@ -201,15 +279,9 @@ namespace Scada.Server.Archives
         /// </summary>
         public static DateTime GetNextWriteTime(DateTime timestamp, HistoricalArchiveOptions options)
         {
-            return DateTime.MinValue;
-        }
-
-        /// <summary>
-        /// Adds the writing period to the specified timestamp, taking the unit into account.
-        /// </summary>
-        public static DateTime AddWritingPeriod(DateTime timestamp, HistoricalArchiveOptions options)
-        {
-            return DateTime.MinValue;
+            return options.WritingPeriod > 0
+                ? GetClosestWriteTime(timestamp, options).AddWritingPeriod(options)
+                : timestamp;
         }
 
         /// <summary>
