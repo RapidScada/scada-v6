@@ -25,9 +25,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
     {
         private readonly ModuleConfig moduleConfig; // the module configuration
         private readonly PostgreHAO options;        // the archive options
-        private readonly TimeSpan writingPeriod;    // the writing period
-        private readonly TimeSpan writingOffset;    // the writing offset
-        private readonly TimeSpan pullToPeriod;     // the possible timestamp deviation
         private readonly ILog appLog;               // the application log
         private readonly ILog arcLog;               // the archive log
         private readonly QueryBuilder queryBuilder; // builds SQL requests
@@ -54,9 +51,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
             options = new PostgreHAO(archiveConfig.CustomOptions);
-            writingPeriod = ConvertToTimeSpan(options.WritingPeriod, options.WritingPeriodUnit);
-            writingOffset = ConvertToTimeSpan(options.WritingOffset, options.WritingOffsetUnit);
-            pullToPeriod = ConvertToTimeSpan(options.PullToPeriod, TimeUnit.Second);
             appLog = archiveContext.Log;
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             queryBuilder = new QueryBuilder(Code);
@@ -245,9 +239,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             lock (writingLock)
             {
-                DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod, writingOffset);
-                DateTime timestamp = options.UsePeriodStartTime ? writeTime.Add(-writingPeriod) : writeTime;
-                nextWriteTime = writeTime.Add(writingPeriod);
+                DateTime writeTime = GetClosestWriteTime(curData.Timestamp, options);
+                DateTime timestamp = options.UsePeriodStartTime ? writeTime.SubtractWritingPeriod(options) : writeTime;
+                nextWriteTime = writeTime.AddWritingPeriod(options);
 
                 Stopwatch stopwatch = Stopwatch.StartNew();
                 int addedCnt = 0;
@@ -375,7 +369,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 CreatePartition(DateTime.UtcNow, true);
 
                 if (options.WriteWithPeriod)
-                    nextWriteTime = GetNextWriteTime(DateTime.UtcNow, writingPeriod, writingOffset);
+                    nextWriteTime = GetNextWriteTime(DateTime.UtcNow, options);
 
                 if (options.WriteOnChange)
                     appLog.WriteWarning(ServerPhrases.ArchiveMessage, Code, ServerPhrases.WritingOnChangeIsSlow);
@@ -674,9 +668,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             }
             else if (options.IsPeriodic)
             {
-                return pullToPeriod > TimeSpan.Zero
-                    ? PullTimeToPeriod(ref timestamp, writingPeriod, writingOffset, pullToPeriod)
-                    : TimeIsMultipleOfPeriod(timestamp, writingPeriod, writingOffset);
+                return options.PullToPeriod > 0
+                    ? PullTimeToPeriod(ref timestamp, options)
+                    : TimeIsMultipleOfPeriod(timestamp, options);
             }
             else
             {
