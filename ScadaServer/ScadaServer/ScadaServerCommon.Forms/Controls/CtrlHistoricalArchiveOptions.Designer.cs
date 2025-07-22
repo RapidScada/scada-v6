@@ -145,7 +145,7 @@
             cbWritingPeriodUnit.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cbWritingPeriodUnit.DropDownStyle = ComboBoxStyle.DropDownList;
             cbWritingPeriodUnit.FormattingEnabled = true;
-            cbWritingPeriodUnit.Items.AddRange(new object[] { "Sec", "Min", "Hour", "Day" });
+            cbWritingPeriodUnit.Items.AddRange(new object[] { "Sec", "Min", "Hour", "Day", "Month" });
             cbWritingPeriodUnit.Location = new Point(290, 170);
             cbWritingPeriodUnit.Name = "cbWritingPeriodUnit";
             cbWritingPeriodUnit.Size = new Size(70, 23);
@@ -324,7 +324,7 @@
             lblUsePeriodStartTime.AutoSize = true;
             lblUsePeriodStartTime.Location = new Point(-3, 145);
             lblUsePeriodStartTime.Name = "lblUsePeriodStartTime";
-            lblUsePeriodStartTime.Size = new Size(142, 15);
+            lblUsePeriodStartTime.Size = new Size(143, 15);
             lblUsePeriodStartTime.TabIndex = 11;
             lblUsePeriodStartTime.Text = "Timestamp at period start";
             // 

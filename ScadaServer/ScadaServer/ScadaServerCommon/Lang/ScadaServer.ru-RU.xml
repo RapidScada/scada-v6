@@ -45,6 +45,7 @@
     <Phrase key="cbWritingPeriodUnit.Items[1]">Мин.</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[2]">Час</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[3]">День</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[4]">Месяц</Phrase>
     <Phrase key="lblWritingOffset">Смещение записи</Phrase>
     <Phrase key="cbWritingOffsetUnit.Items[0]">Сек.</Phrase>
     <Phrase key="cbWritingOffsetUnit.Items[1]">Мин.</Phrase>

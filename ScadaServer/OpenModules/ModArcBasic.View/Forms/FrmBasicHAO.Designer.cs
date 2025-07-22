@@ -180,7 +180,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             // 
             cbWritingPeriodUnit.DropDownStyle = ComboBoxStyle.DropDownList;
             cbWritingPeriodUnit.FormattingEnabled = true;
-            cbWritingPeriodUnit.Items.AddRange(new object[] { "Sec", "Min", "Hour", "Day" });
+            cbWritingPeriodUnit.Items.AddRange(new object[] { "Sec", "Min", "Hour", "Day", "Month" });
             cbWritingPeriodUnit.Location = new Point(277, 138);
             cbWritingPeriodUnit.Name = "cbWritingPeriodUnit";
             cbWritingPeriodUnit.Size = new Size(70, 23);
@@ -219,7 +219,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             lblUsePeriodStartTime.AutoSize = true;
             lblUsePeriodStartTime.Location = new Point(13, 113);
             lblUsePeriodStartTime.Name = "lblUsePeriodStartTime";
-            lblUsePeriodStartTime.Size = new Size(142, 15);
+            lblUsePeriodStartTime.Size = new Size(143, 15);
             lblUsePeriodStartTime.TabIndex = 7;
             lblUsePeriodStartTime.Text = "Timestamp at period start";
             // 
@@ -314,7 +314,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             lblMaxQueueSize.AutoSize = true;
             lblMaxQueueSize.Location = new Point(13, 56);
             lblMaxQueueSize.Name = "lblMaxQueueSize";
-            lblMaxQueueSize.Size = new Size(120, 15);
+            lblMaxQueueSize.Size = new Size(119, 15);
             lblMaxQueueSize.TabIndex = 2;
             lblMaxQueueSize.Text = "Maximum queue size";
             // 
