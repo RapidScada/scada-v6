@@ -185,21 +185,19 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
+        /// Subtracts the writing period from the specified timestamp.
+        /// </summary>
+        public static DateTime SubtractWritingPeriod(this DateTime timestamp, HistoricalArchiveOptions options)
+        {
+            return timestamp.AddValue(-options.WritingPeriod, options.WritingPeriodUnit);
+        }
+
+        /// <summary>
         /// Adds the writing offset to the specified timestamp.
         /// </summary>
         public static DateTime AddWritingOffset(this DateTime timestamp, HistoricalArchiveOptions options)
         {
             return timestamp.AddValue(options.WritingOffset, options.WritingOffsetUnit);
-        }
-
-        /// <summary>
-        /// Adjusts the timestamp for daylight saving time, if specified by the options.
-        /// </summary>
-        public static DateTime AdjustForDst(this DateTime timestamp, HistoricalArchiveOptions options)
-        {
-            return options.AdjustForDst && TimeZoneInfo.Local.IsDaylightSavingTime(timestamp)
-                ? timestamp.AddHours(1)
-                : timestamp;
         }
 
         /// <summary>
@@ -220,7 +218,7 @@ namespace Scada.Server.Archives
                 : new DateTime(timestamp.Year, 1, 1, 0, 0, 0, timestamp.Kind);
             TimeSpan timeSpan = timestamp - startDate;
             return timeSpan < offset
-                ? startDate.Add(-period).Add(offset)
+                ? startDate.Subtract(period).Add(offset)
                 : startDate.AddTicks((timeSpan - offset).Ticks / period.Ticks * period.Ticks + offset.Ticks);
         }
 
@@ -340,11 +338,11 @@ namespace Scada.Server.Archives
         public static bool PullTimeToPeriod(ref DateTime timestamp, TimeSpan period, TimeSpan offset,
             TimeSpan pullingRange)
         {
-            DateTime closestTime = GetClosestWriteTime(timestamp, period, offset);
+            DateTime writeTime = GetClosestWriteTime(timestamp, period, offset);
 
-            if (timestamp - closestTime <= pullingRange)
+            if (timestamp - writeTime <= pullingRange)
             {
-                timestamp = closestTime;
+                timestamp = writeTime;
                 return true;
             }
             else
@@ -358,11 +356,11 @@ namespace Scada.Server.Archives
         /// </summary>
         public static bool PullTimeToPeriod(ref DateTime timestamp, HistoricalArchiveOptions options)
         {
-            DateTime closestTime = GetClosestWriteTime(timestamp, options);
+            DateTime writeTime = GetClosestWriteTime(timestamp, options);
 
-            if ((timestamp - closestTime).TotalSeconds <= options.PullToPeriod)
+            if ((timestamp - writeTime).TotalSeconds <= options.PullToPeriod)
             {
-                timestamp = closestTime;
+                timestamp = writeTime;
                 return true;
             }
             else

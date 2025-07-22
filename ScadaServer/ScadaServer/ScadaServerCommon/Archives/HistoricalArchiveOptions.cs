@@ -45,7 +45,6 @@ namespace Scada.Server.Archives
             IsPeriodic = options.GetValueAsBool("IsPeriodic", true);
             WriteWithPeriod = options.GetValueAsBool("WriteWithPeriod", true);
             UsePeriodStartTime = options.GetValueAsBool("UsePeriodStartTime", false);
-            AdjustForDst = options.GetValueAsBool("AdjustForDst", false);
             WritingPeriod = options.GetValueAsInt("WritingPeriod", 1);
             WritingPeriodUnit = options.GetValueAsEnum("WritingPeriodUnit", TimeUnit.Minute);
             WritingOffset = options.GetValueAsInt("WritingOffset", 0);
@@ -86,11 +85,6 @@ namespace Scada.Server.Archives
         /// Gets or sets a value indicating whether data is added with the start timestamp of the period.
         /// </summary>
         public bool UsePeriodStartTime { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to offset a writing time by 1 hour in summer.
-        /// </summary>
-        public bool AdjustForDst { get; set; }
 
         /// <summary>
         /// Gets or sets the period of writing data to the archive.
@@ -157,7 +151,6 @@ namespace Scada.Server.Archives
                 if (WriteWithPeriod)
                 {
                     options["UsePeriodStartTime"] = UsePeriodStartTime.ToLowerString();
-                    options["AdjustForDst"] = AdjustForDst.ToLowerString();
                     options["WritingPeriod"] = WritingPeriod.ToString();
                     options["WritingPeriodUnit"] = WritingPeriodUnit.ToString();
                     options["WritingOffset"] = WritingOffset.ToString();
