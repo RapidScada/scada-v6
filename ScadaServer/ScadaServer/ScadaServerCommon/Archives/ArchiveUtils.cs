@@ -38,6 +38,35 @@ namespace Scada.Server.Archives
     public static class ArchiveUtils
     {
         /// <summary>
+        /// Gets the archive status, including queue statistics.
+        /// </summary>
+        public static string GetStatusText(bool isReady, QueueStats queueStats, int? queueSize)
+        {
+            if (!isReady)
+            {
+                return Locale.IsRussian ?
+                    "не готов" :
+                    "Not Ready";
+            }
+            else if (queueStats == null)
+            {
+                return Locale.IsRussian ?
+                    "готов" :
+                    "Ready";
+            }
+            else if (Locale.IsRussian)
+            {
+                return (queueStats.HasError ? "ошибка" : "готов") +
+                    $", очередь {queueSize} из {queueStats.MaxQueueSize}, потеряно {queueStats.SkippedItems}";
+            }
+            else
+            {
+                return (queueStats.HasError ? "Error" : "Ready") +
+                    $", queue {queueSize} of {queueStats.MaxQueueSize}, lost {queueStats.SkippedItems}";
+            }
+        }
+
+        /// <summary>
         /// Gets the channel indexes in the specified array of channel numbers.
         /// </summary>
         public static Dictionary<int, int> GetCnlIndexes(int[] cnlNums)
@@ -103,35 +132,6 @@ namespace Scada.Server.Archives
             else
             {
                 throw new ScadaException("Inappropriate target slice.");
-            }
-        }
-
-        /// <summary>
-        /// Gets the archive status, including queue statistics.
-        /// </summary>
-        public static string GetStatusText(bool isReady, QueueStats queueStats, int? queueSize)
-        {
-            if (!isReady)
-            {
-                return Locale.IsRussian ?
-                    "не готов" :
-                    "Not Ready";
-            }
-            else if (queueStats == null)
-            {
-                return Locale.IsRussian ?
-                    "готов" :
-                    "Ready";
-            }
-            else if (Locale.IsRussian)
-            {
-                return (queueStats.HasError ? "ошибка" : "готов") +
-                    $", очередь {queueSize} из {queueStats.MaxQueueSize}, потеряно {queueStats.SkippedItems}";
-            }
-            else
-            {
-                return (queueStats.HasError ? "Error" : "Ready") +
-                    $", queue {queueSize} of {queueStats.MaxQueueSize}, lost {queueStats.SkippedItems}";
             }
         }
 
@@ -285,7 +285,7 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
-        /// Checks that the timestamp is a multiple of the period.
+        /// Checks that the timestamp is a multiple of the writing period.
         /// </summary>
         public static bool TimeIsMultipleOfPeriod(DateTime timestamp, TimeSpan period, TimeSpan offset)
         {
@@ -303,7 +303,39 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
-        /// Pulls a timestamp to the closest periodic timestamp within the specified range.
+        /// Checks that the timestamp is a multiple of the writing period.
+        /// </summary>
+        public static bool TimeIsMultipleOfPeriod(DateTime timestamp, HistoricalArchiveOptions options)
+        {
+            if (options.WritingPeriod <= 0)
+                return false;
+
+            if (options.WritingPeriodUnit == TimeUnit.Month)
+            {
+                DateTime writeTime = new DateTime(timestamp.Year, 1, 1, 0, 0, 0, timestamp.Kind)
+                    .AddMonths(-options.WritingPeriod).AddWritingOffset(options);
+
+                do
+                {
+                    if ((int)(timestamp - writeTime).TotalSeconds == 0)
+                        return true;
+
+                    writeTime = writeTime.AddMonths(options.WritingPeriod);
+                } while (writeTime <= timestamp);
+
+                return false;
+            }
+            else
+            {
+                return TimeIsMultipleOfPeriod(
+                    timestamp,
+                    ConvertToTimeSpan(options.WritingPeriod, options.WritingPeriodUnit),
+                    ConvertToTimeSpan(options.WritingOffset, options.WritingOffsetUnit));
+            }
+        }
+
+        /// <summary>
+        /// Pulls a timestamp to the closest periodic timestamp within the pulling range.
         /// </summary>
         public static bool PullTimeToPeriod(ref DateTime timestamp, TimeSpan period, TimeSpan offset,
             TimeSpan pullingRange)
@@ -311,6 +343,24 @@ namespace Scada.Server.Archives
             DateTime closestTime = GetClosestWriteTime(timestamp, period, offset);
 
             if (timestamp - closestTime <= pullingRange)
+            {
+                timestamp = closestTime;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Pulls a timestamp to the closest periodic timestamp within the pulling range.
+        /// </summary>
+        public static bool PullTimeToPeriod(ref DateTime timestamp, HistoricalArchiveOptions options)
+        {
+            DateTime closestTime = GetClosestWriteTime(timestamp, options);
+
+            if ((timestamp - closestTime).TotalSeconds <= options.PullToPeriod)
             {
                 timestamp = closestTime;
                 return true;
