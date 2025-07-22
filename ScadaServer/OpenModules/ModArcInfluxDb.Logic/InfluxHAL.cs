@@ -15,6 +15,7 @@ using Scada.Server.Lang;
 using Scada.Server.Modules.ModArcInfluxDb.Config;
 using System.Diagnostics;
 using System.Text;
+using static Scada.Server.Archives.ArchiveUtils;
 
 namespace Scada.Server.Modules.ModArcInfluxDb.Logic
 {
@@ -301,8 +302,11 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
                 nextWriteTime = writeTime.Add(writingPeriod);
 
                 Stopwatch stopwatch = Stopwatch.StartNew();
-                InitCnlIndexes(curData, ref cnlIndexes);
-                InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
+                InitCnlIndexes(curData, CnlNums, ref cnlIndexes);
+
+                if (ArchiveOptions.WriteOnChange)
+                    InitPrevCnlData(curData, CnlNums, cnlIndexes, ref prevCnlData);
+
                 WriteFlag(timestamp);
                 int cnlCnt = CnlNums.Length;
 
@@ -331,8 +335,8 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
                 Stopwatch stopwatch = Stopwatch.StartNew();
                 int changesCnt = 0;
                 bool justInited = prevCnlData == null;
-                InitCnlIndexes(curData, ref cnlIndexes);
-                InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
+                InitCnlIndexes(curData, CnlNums, ref cnlIndexes);
+                InitPrevCnlData(curData, CnlNums, cnlIndexes, ref prevCnlData);
 
                 if (!justInited)
                 {
@@ -558,7 +562,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
                 }
                 else
                 {
-                    timestamps = new List<DateTime>();
+                    timestamps = [];
                 }
 
                 stopwatch.Stop();
@@ -603,8 +607,11 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         public override CnlData GetCnlData(DateTime timestamp, int cnlNum)
         {
-            if (GetRecentCnlData(writingLock, timestamp, cnlNum, out CnlData cnlData))
+            if (CurrentUpdateContext != null &&
+                CurrentUpdateContext.TryGetCnlData(writingLock, timestamp, cnlNum, out CnlData cnlData))
+            {
                 return cnlData;
+            }
 
             lock (readingLock)
             {

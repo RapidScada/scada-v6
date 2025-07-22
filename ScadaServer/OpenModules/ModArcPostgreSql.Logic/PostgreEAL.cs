@@ -77,13 +77,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// <summary>
         /// Gets the current archive status as text.
         /// </summary>
-        public override string StatusText
-        {
-            get
-            {
-                return GetStatusText(eventQueue?.Stats, eventQueue?.Count);
-            }
-        }
+        public override string StatusText =>
+            ArchiveUtils.GetStatusText(IsReady, eventQueue?.Stats, eventQueue?.Count);
 
 
         /// <summary>
@@ -386,7 +381,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 cmd.Parameters.Add("startTime", NpgsqlDbType.TimestampTz).Value = timeRange.StartTime;
                 cmd.Parameters.Add("endTime", NpgsqlDbType.TimestampTz).Value = timeRange.EndTime;
                 dbParams.ForEach(p => cmd.Parameters.Add(p));
-                List<Event> events = new();
+                List<Event> events = [];
 
                 using (NpgsqlDataReader reader = cmd.ExecuteReader())
                 {
@@ -415,7 +410,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public override void WriteEvent(Event ev)
         {
-            if (!options.ReadOnly && TimeInsideRetention(ev.Timestamp, DateTime.UtcNow))
+            if (!options.ReadOnly && options.TimeInsideRetention(ev.Timestamp, DateTime.UtcNow))
             {
                 Stopwatch stopwatch = Stopwatch.StartNew();
                 bool added = eventQueue.Enqueue(ev);

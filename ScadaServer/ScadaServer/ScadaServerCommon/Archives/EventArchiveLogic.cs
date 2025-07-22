@@ -54,14 +54,6 @@ namespace Scada.Server.Archives
 
 
         /// <summary>
-        /// Checks that the timestamp is inside the retention period.
-        /// </summary>
-        protected bool TimeInsideRetention(DateTime timestamp, DateTime now)
-        {
-            return ArchiveOptions != null && now.AddDays(-ArchiveOptions.Retention) <= timestamp;
-        }
-
-        /// <summary>
         /// Gets the event by ID.
         /// </summary>
         public abstract Event GetEventByID(long eventID);

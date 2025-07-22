@@ -73,13 +73,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Gets the current archive status as text.
         /// </summary>
-        public override string StatusText
-        {
-            get
-            {
-                return GetStatusText(eventQueue.Stats, eventQueue.Count);
-            }
-        }
+        public override string StatusText =>
+            ArchiveUtils.GetStatusText(IsReady, eventQueue.Stats, eventQueue.Count);
 
 
         /// <summary>
@@ -273,7 +268,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             {
                 Stopwatch stopwatch = Stopwatch.StartNew();
                 List<Event> events;
-                List<DateTime> dates = new List<DateTime>(EnumerateDates(timeRange));
+                List<DateTime> dates = new List<DateTime>(ArchiveUtils.EnumerateDates(timeRange));
 
                 // simple cases first
                 if (dates.Count == 0)
@@ -358,7 +353,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void WriteEvent(Event ev)
         {
-            if (TimeInsideRetention(ev.Timestamp, DateTime.UtcNow))
+            if (options.TimeInsideRetention(ev.Timestamp, DateTime.UtcNow))
                 eventQueue.Enqueue(ev.Timestamp, ev);
         }
 

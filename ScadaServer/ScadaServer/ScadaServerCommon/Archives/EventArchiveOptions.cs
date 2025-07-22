@@ -24,6 +24,7 @@
  */
 
 using Scada.Config;
+using System;
 
 namespace Scada.Server.Archives
 {
@@ -46,6 +47,15 @@ namespace Scada.Server.Archives
         /// Gets or sets the duration of time that the archive retains data, days.
         /// </summary>
         public int Retention { get; set; }
+
+
+        /// <summary>
+        /// Checks that the timestamp is inside the retention period.
+        /// </summary>
+        public bool TimeInsideRetention(DateTime timestamp, DateTime now)
+        {
+            return now.AddDays(-Retention) <= timestamp;
+        }
 
         /// <summary>
         /// Adds the options to the list.

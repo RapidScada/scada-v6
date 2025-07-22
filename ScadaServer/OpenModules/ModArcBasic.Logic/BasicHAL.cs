@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using static Scada.Server.Archives.ArchiveUtils;
 using static Scada.Server.Modules.ModArcBasic.Logic.ModuleConst;
 
 namespace Scada.Server.Modules.ModArcBasic.Logic
@@ -83,13 +84,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Gets the current archive status as text.
         /// </summary>
-        public override string StatusText
-        {
-            get
-            {
-                return GetStatusText(sliceQueue.Stats, sliceQueue.Count);
-            }
-        }
+        public override string StatusText =>
+            GetStatusText(IsReady, sliceQueue.Stats, sliceQueue.Count);
 
 
         /// <summary>
@@ -523,8 +519,11 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override CnlData GetCnlData(DateTime timestamp, int cnlNum)
         {
-            if (GetRecentCnlData(writingLock, timestamp, cnlNum, out CnlData cnlData))
+            if (CurrentUpdateContext != null &&
+                CurrentUpdateContext.TryGetCnlData(writingLock, timestamp, cnlNum, out CnlData cnlData))
+            {
                 return cnlData;
+            }
 
             lock (readingLock)
             {
@@ -549,8 +548,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                 nextWriteTime = writeTime.Add(writingPeriod);
 
                 Slice slice = new Slice(timestamp, CnlNums);
-                InitCnlIndexes(curData, ref cnlIndexes);
-                CopyCnlData(curData, slice, cnlIndexes);
+                InitCnlIndexes(curData, CnlNums, ref cnlIndexes);
+                CopyCnlData(curData, slice, CnlNums, cnlIndexes);
                 sliceQueue.Enqueue(curData.Timestamp, slice);
             }
         }
@@ -560,7 +559,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override bool AcceptData(ref DateTime timestamp)
         {
-            if (TimeInsideRetention(timestamp, DateTime.UtcNow))
+            if (options.TimeInsideRetention(timestamp, DateTime.UtcNow))
             {
                 return pullToPeriod > TimeSpan.Zero
                     ? PullTimeToPeriod(ref timestamp, writingPeriod, writingOffset, pullToPeriod)

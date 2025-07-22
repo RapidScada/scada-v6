@@ -12,6 +12,7 @@ using Scada.Server.Lang;
 using Scada.Server.Modules.ModArcPostgreSql.Config;
 using System.Data;
 using System.Diagnostics;
+using static Scada.Server.Archives.ArchiveUtils;
 using CacheKey = (int CnlNum, System.DateTime Timestamp);
 
 namespace Scada.Server.Modules.ModArcPostgreSql.Logic
@@ -83,13 +84,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// <summary>
         /// Gets the current archive status as text.
         /// </summary>
-        public override string StatusText
-        {
-            get
-            {
-                return GetStatusText(pointQueue?.Stats, pointQueue?.Count);
-            }
-        }
+        public override string StatusText =>
+            GetStatusText(IsReady, pointQueue?.Stats, pointQueue?.Count);
 
 
         /// <summary>
@@ -254,10 +250,12 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 nextWriteTime = writeTime.Add(writingPeriod);
 
                 Stopwatch stopwatch = Stopwatch.StartNew();
-                InitCnlIndexes(curData, ref cnlIndexes);
-                InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
                 int addedCnt = 0;
                 int lostCnt = 0;
+                InitCnlIndexes(curData, CnlNums, ref cnlIndexes);
+
+                if (ArchiveOptions.WriteOnChange)
+                    InitPrevCnlData(curData, CnlNums, cnlIndexes, ref prevCnlData);
 
                 lock (pointQueue.SyncRoot)
                 {
@@ -303,8 +301,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 int addedCnt = 0;
                 int lostCnt = 0;
                 bool justInited = prevCnlData == null;
-                InitCnlIndexes(curData, ref cnlIndexes);
-                InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
+                InitCnlIndexes(curData, CnlNums, ref cnlIndexes);
+                InitPrevCnlData(curData, CnlNums, cnlIndexes, ref prevCnlData);
 
                 if (!justInited)
                 {
@@ -619,8 +617,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             if (memoryCache != null && memoryCache.TryGetValue((cnlNum, timestamp), out CnlData cnlData))
                 return cnlData;
 
-            if (GetRecentCnlData(writingLock, timestamp, cnlNum, out cnlData))
+            if (CurrentUpdateContext != null &&
+                CurrentUpdateContext.TryGetCnlData(writingLock, timestamp, cnlNum, out cnlData))
+            {
                 return cnlData;
+            }
 
             try
             {
@@ -667,7 +668,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public override bool AcceptData(ref DateTime timestamp)
         {
-            if (options.ReadOnly || !TimeInsideRetention(timestamp, DateTime.UtcNow))
+            if (options.ReadOnly || !options.TimeInsideRetention(timestamp, DateTime.UtcNow))
             {
                 return false;
             }

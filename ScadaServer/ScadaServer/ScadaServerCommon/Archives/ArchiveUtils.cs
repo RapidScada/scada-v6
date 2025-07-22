@@ -71,6 +71,24 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
+        /// Initializes the previous channel data.
+        /// </summary>
+        public static void InitPrevCnlData(ICurrentData curData, int[] cnlNums, int[] cnlIndexes,
+            ref CnlData[] prevCnlData)
+        {
+            if (prevCnlData == null)
+            {
+                int cnlCnt = cnlNums.Length;
+                prevCnlData = new CnlData[cnlCnt];
+
+                for (int i = 0; i < cnlCnt; i++)
+                {
+                    prevCnlData[i] = curData.CnlData[cnlIndexes[i]];
+                }
+            }
+        }
+
+        /// <summary>
         /// Copies the current data to the target slice that contains the archive channels.
         /// </summary>
         public static void CopyCnlData(ICurrentData curData, Slice targetSlice, int[] cnlNums, int[] cnlIndexes)
@@ -192,6 +210,43 @@ namespace Scada.Server.Archives
         public static DateTime AddWritingPeriod(DateTime timestamp, HistoricalArchiveOptions options)
         {
             return DateTime.MinValue;
+        }
+
+        /// <summary>
+        /// Checks that the timestamp is a multiple of the period.
+        /// </summary>
+        public static bool TimeIsMultipleOfPeriod(DateTime timestamp, TimeSpan period, TimeSpan offset)
+        {
+            if (period <= TimeSpan.Zero)
+                return false;
+
+            if (period.TotalDays <= 1)
+            {
+                return (int)timestamp.TimeOfDay.TotalMilliseconds % (int)period.TotalMilliseconds ==
+                    (int)offset.TotalMilliseconds;
+            }
+
+            DateTime startDate = new DateTime(timestamp.Year, 1, 1, 0, 0, 0, timestamp.Kind);
+            return (int)(timestamp - startDate).TotalSeconds % (int)period.TotalSeconds == (int)offset.TotalSeconds;
+        }
+
+        /// <summary>
+        /// Pulls a timestamp to the closest periodic timestamp within the specified range.
+        /// </summary>
+        public static bool PullTimeToPeriod(ref DateTime timestamp, TimeSpan period, TimeSpan offset,
+            TimeSpan pullingRange)
+        {
+            DateTime closestTime = GetClosestWriteTime(timestamp, period, offset);
+
+            if (timestamp - closestTime <= pullingRange)
+            {
+                timestamp = closestTime;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
