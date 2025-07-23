@@ -3355,33 +3355,31 @@ rs.mimic.Renderer = class {
     }
 
     // Appends the child DOM into the parent DOM.
-    static appendChild(parent, child) {
+    appendChild(parent, child) {
         if (parent.dom && child.dom) {
             parent.dom.append(child.dom);
         }
     }
 
     // Removes the component DOM from the mimic keeping data associated with the removed elements.
-    static detach(component) {
+    detach(component) {
         component.dom?.detach();
     }
 
     // Removes the component DOM from the mimic.
-    static remove(component) {
+    remove(component) {
         component.dom?.remove();
     }
 
-    // Arranges the child components according to their order.
+    // Arranges the child component DOMs according to their order.
     static arrangeChildren(parent) {
-        if (parent.children && parent.dom) {
+        if (parent && parent.children) {
             for (let component of parent.children) {
-                component.dom?.detach();
+                component.renderer?.detach(component);
             }
 
             for (let component of parent.children) {
-                if (component.dom) {
-                    parent.dom.append(component.dom);
-                }
+                parent.renderer?.appendChild(parent, component);
             }
         }
     }
@@ -3468,9 +3466,9 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         this._setFont(mimicElem, props.font, renderContext.fontMap);
         this._setSize(mimicElem, props.size);
 
-        if (!renderContext.editMode) {
+        /*if (!renderContext.editMode) {
             $("body").css("background-color", props.backColor);
-        }
+        }*/
 
         mimicElem
             .attr("title", props.tooltip)
@@ -3517,7 +3515,7 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
             }
 
             mimic.dom.css({
-                "transform": "scale(" + scaleValue + ", " + scaleValue + ")",
+                "transform": `scale(${scaleValue})`
             });
         }
     }
@@ -3760,8 +3758,8 @@ rs.mimic.UnitedRenderer = class {
 
     // Appends the component DOM to its parent.
     _appendToParent(component) {
-        if (component.parent) {
-            rs.mimic.Renderer.appendChild(component.parent, component);
+        if (component.parent?.renderer) {
+            component.parent.renderer.appendChild(component.parent, component);
         }
     }
 
@@ -3881,23 +3879,6 @@ rs.mimic.UnitedRenderer = class {
     // Updates the component DOM according to the component model.
     updateComponentDom(component) {
         this._updateComponentDom(component, this._createRenderContext());
-    }
-
-    // Arranges the child component DOMs according to the parent's model.
-    arrangeChildren(parent) {
-        if (parent.children) {
-            // detach components
-            for (let component of parent.children) {
-                if (component.dom) {
-                    component.dom.detach();
-                }
-            }
-
-            // append components
-            for (let component of parent.children) {
-                this._appendToParent(component);
-            }
-        }
     }
 
     // Updates the components according to the current data.

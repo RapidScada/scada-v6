@@ -389,7 +389,7 @@ function remove() {
     for (let componentID of componentIDs) {
         // remove component from model and DOM
         let component = mimic.removeComponent(componentID);
-        rs.mimic.Renderer.remove(component);
+        component.renderer?.remove(component);
 
         // update structure tree
         structTree.removeComponent(componentID);
@@ -572,6 +572,7 @@ function align(actionType) {
 
 function arrange(actionType) {
     const MimicHelper = rs.mimic.MimicHelper;
+    const Renderer = rs.mimic.Renderer;
 
     if (selectedComponents.length === 0) {
         return;
@@ -595,28 +596,28 @@ function arrange(actionType) {
     switch (actionType) {
         case ArrangeActionType.BRING_TO_FRONT:
             MimicHelper.bringToFront(parent, selectedComponents);
-            unitedRenderer.arrangeChildren(parent);
+            Renderer.arrangeChildren(parent);
             structTree.refreshComponents(parent);
             pushChanges(Change.arrangeComponent(parent.id, getComponentIDs(), Change.MAX_SHIFT));
             break;
 
         case ArrangeActionType.BRING_FORWARD:
             MimicHelper.bringForward(parent, selectedComponents);
-            unitedRenderer.arrangeChildren(parent);
+            Renderer.arrangeChildren(parent);
             structTree.refreshComponents(parent);
             pushChanges(Change.arrangeComponent(parent.id, getComponentIDs(), 1));
             break;
 
         case ArrangeActionType.SEND_BACKWARD:
             MimicHelper.sendBackward(parent, selectedComponents);
-            unitedRenderer.arrangeChildren(parent);
+            Renderer.arrangeChildren(parent);
             structTree.refreshComponents(parent);
             pushChanges(Change.arrangeComponent(parent.id, getComponentIDs(), -1));
             break;
 
         case ArrangeActionType.SEND_TO_BACK:
             MimicHelper.sendToBack(parent, selectedComponents);
-            unitedRenderer.arrangeChildren(parent);
+            Renderer.arrangeChildren(parent);
             structTree.refreshComponents(parent);
             pushChanges(Change.arrangeComponent(parent.id, getComponentIDs(), -Change.MAX_SHIFT));
             break;
@@ -837,7 +838,7 @@ function restoreHistoryPoint(historyPoint) {
                         removeFromSelection(component);
                     }
 
-                    Renderer.remove(component);
+                    component.renderer?.remove(component);
                     structTree.removeComponent(componentID);
                     changes.push(Change.removeComponent(componentID));
                 } else {
@@ -859,9 +860,9 @@ function restoreHistoryPoint(historyPoint) {
                         componentIndexes.push(componentSource.index);
 
                         component.properties.location = componentSource.properties.location;
-                        Renderer.detach(component);
+                        component.renderer?.detach(component);
                         component.renderer?.updateLocation(component);
-                        Renderer.appendChild(parent, component);
+                        parent.renderer?.appendChild(parent, component);
 
                         structTree.removeComponent(component.id);
                         changes.push(Change.updateParent(component));
@@ -1241,7 +1242,7 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
                     pushChanges(Change.arrangeComponent(parent.id, selectedIDs, 1, siblingID));
                 }
 
-                unitedRenderer.arrangeChildren(parent);
+                Renderer.arrangeChildren(parent);
                 structTree.refreshComponents(parent);
             } else {
                 errorMessage = phrases.sameParentRequired;
@@ -1261,9 +1262,9 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
             let y = component.y - minLocation.y + offset.y;
 
             if (mimic.updateParent(component, parent, null, x, y)) {
-                Renderer.detach(component);
+                component.renderer?.detach(component);
                 component.renderer?.updateLocation(component);
-                Renderer.appendChild(parent, component);
+                parent.renderer?.appendChild(parent, component);
                 structTree.removeComponent(component.id);
                 changes.push(Change.updateParent(component));
             } else {
