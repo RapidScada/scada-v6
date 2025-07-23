@@ -57,12 +57,12 @@ function bindEvents() {
     });
 
     $("#btnFitScreen").on("click", function () {
-        scale = new rs.mimic.Scale(rs.mimic.ScaleType.FIT_SCREEN, 0);
+        scale = new rs.mimic.Scale(rs.mimic.ScaleType.FIT_SCREEN);
         updateScale();
     });
 
     $("#btnFitWidthBtn").on("click", function () {
-        scale = new rs.mimic.Scale(rs.mimic.ScaleType.FIT_WIDTH, 0);
+        scale = new rs.mimic.Scale(rs.mimic.ScaleType.FIT_WIDTH);
         updateScale();
     });
 
@@ -75,6 +75,39 @@ function bindEvents() {
         scale = scale.getNext();
         updateScale();
     });
+}
+
+function bindGestureEvents() {
+    let initialDistance = NaN;
+    let initialScale = NaN;
+
+    let getDistance = (event) => {
+        let touch1 = event.touches[0];
+        let touch2 = event.touches[1];
+
+        return Math.hypot(
+            touch2.clientX - touch1.clientX,
+            touch2.clientY - touch1.clientY
+        );
+    }
+
+    mimicWrapperElem
+        .on("touchstart", function (event) {
+            if (event.touches.length === 2) {
+                initialDistance = getDistance(event);
+                initialScale = scale.value;
+                event.preventDefault();
+            }
+        })
+        .on("touchmove", function (event) {
+            if (event.touches.length === 2 && Number.isFinite(initialDistance)) {
+                let currentDistance = getDistance(event);
+                let newScale = initialScale * currentDistance / initialDistance;
+                scale = new rs.mimic.Scale(rs.mimic.ScaleType.NUMERIC, newScale);
+                updateScale();
+                event.preventDefault();
+            }
+        });
 }
 
 function updateLayout() {
@@ -204,6 +237,7 @@ $(async function () {
     unitedRenderer.configure({ fonts, controlRight });
     initElements();
     bindEvents();
+    bindGestureEvents();
     updateLayout();
     await loadMimic();
 });

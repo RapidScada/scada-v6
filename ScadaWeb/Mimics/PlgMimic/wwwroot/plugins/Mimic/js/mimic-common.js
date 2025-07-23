@@ -54,13 +54,29 @@ rs.mimic.Scale = class Scale {
     static _TYPE_KEY = "Mimic.ScaleType";
     static _VALUE_KEY = "Mimic.ScaleValue";
     static _VALUES = [0.1, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 4, 5];
+    static _MIN = 0.1;
+    static _MAX = 5;
 
     type;
     value;
 
-    constructor(type, value) {
-        this.type = type ?? rs.mimic.ScaleType.NUMERIC;
-        this.value = value ?? 1;
+    constructor(opt_type, opt_value) {
+        this.type = opt_type ?? rs.mimic.ScaleType.NUMERIC;
+        this.value = Scale._normalize(opt_value);
+    }
+
+    static _normalize(value) {
+        if (Number.isFinite(value)) {
+            if (value < Scale._MIN) {
+                return Scale._MIN;
+            } if (value > Scale._MAX) {
+                return Scale._MAX;
+            } else {
+                return value;
+            }
+        } else {
+            return 1;
+        }
     }
 
     save(storage) {
