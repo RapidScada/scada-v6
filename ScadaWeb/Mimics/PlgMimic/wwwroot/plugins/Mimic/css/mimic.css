@@ -1,6 +1,4 @@
 ﻿.mimic-wrapper {
-  display: flex;
-  justify-content: center;
   overflow: auto;
   position: relative;
 }
@@ -21,7 +19,9 @@
 }
 
 .mimic-wrapper.edit-mode {
+  display: flex;
   align-items: center;
+  justify-content: center;
   cursor: default;
 }
 .mimic-wrapper.edit-mode .mimic {

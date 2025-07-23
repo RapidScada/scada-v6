@@ -82,6 +82,7 @@ function updateLayout() {
     errorElem.outerHeight(h);
     spinnerElem.outerHeight(h);
     mimicWrapperElem.outerHeight(h);
+    alignHorizontally();
 }
 
 async function loadMimic() {
@@ -138,11 +139,27 @@ function initScale() {
 function updateScale(saveScale = true) {
     mimic.renderer?.setScale(mimic, scale);
     $("#spanScaleValue").text(Math.round(scale.value * 100) + "%");
+    alignHorizontally();
 
     if (saveScale) {
         scale.save(localStorage);
     }
 }
+
+function alignHorizontally() {
+    let wrapperPadding = 0;
+
+    if (mimic.dom) {
+        let mimicWidth = mimic.dom[0].getBoundingClientRect().width; // taking scaling into account
+        let wrapperWidth = mimicWrapperElem.innerWidth();
+
+        if (wrapperWidth > mimicWidth) {
+            wrapperPadding = parseInt((wrapperWidth - mimicWidth) / 2);
+        }
+    }
+
+    mimicWrapperElem.css("padding-left", wrapperPadding);
+};
 
 function showErrorText(text) {
     errorElem
