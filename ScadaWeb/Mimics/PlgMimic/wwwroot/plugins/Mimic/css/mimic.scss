@@ -5,6 +5,7 @@ $component-hover-color: var(--bs-gray-500);
 
 .mimic-wrapper {
     overflow: auto;
+    overscroll-behavior: none;
     position: relative; // affects scrolling and scaling
 
     .mimic {

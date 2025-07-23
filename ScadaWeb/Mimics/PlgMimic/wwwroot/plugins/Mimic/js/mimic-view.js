@@ -78,8 +78,20 @@ function bindEvents() {
 }
 
 function bindGestureEvents() {
-    let initialDistance = NaN;
-    let initialScale = NaN;
+    let initialCenter = null;
+    let initialDistance = 0;
+    let initialScale = 0;
+    let initialScroll = null;
+
+    let getCenter = (event) => {
+        let touch1 = event.touches[0];
+        let touch2 = event.touches[1];
+
+        return {
+            x: (touch1.clientX + touch2.clientX) / 2,
+            y: (touch1.clientY + touch2.clientY) / 2
+        };
+    };
 
     let getDistance = (event) => {
         let touch1 = event.touches[0];
@@ -89,22 +101,36 @@ function bindGestureEvents() {
             touch2.clientX - touch1.clientX,
             touch2.clientY - touch1.clientY
         );
-    }
+    };
 
     mimicWrapperElem
         .on("touchstart", function (event) {
             if (event.touches.length === 2) {
+                initialCenter = getCenter(event);
                 initialDistance = getDistance(event);
                 initialScale = scale.value;
+                initialScroll = {
+                    x: mimicWrapperElem.scrollLeft(),
+                    y: mimicWrapperElem.scrollTop()
+                };
                 event.preventDefault();
             }
         })
         .on("touchmove", function (event) {
-            if (event.touches.length === 2 && Number.isFinite(initialDistance)) {
+            if (event.touches.length === 2 && initialCenter && initialDistance > 0 && initialScale > 0) {
+                // measure gesture
+                let currentCenter = getCenter(event);
                 let currentDistance = getDistance(event);
+
+                // update scale
                 let newScale = initialScale * currentDistance / initialDistance;
                 scale = new rs.mimic.Scale(rs.mimic.ScaleType.NUMERIC, newScale);
                 updateScale();
+
+                // scroll
+                let scaleRatio = scale.value / initialScale;
+                mimicWrapperElem.scrollLeft((initialScroll.x + initialCenter.x) * scaleRatio - currentCenter.x);
+                mimicWrapperElem.scrollTop((initialScroll.y + initialCenter.y) * scaleRatio - currentCenter.y);
                 event.preventDefault();
             }
         });

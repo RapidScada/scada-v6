@@ -53,9 +53,9 @@ rs.mimic.ScaleType = class {
 rs.mimic.Scale = class Scale {
     static _TYPE_KEY = "Mimic.ScaleType";
     static _VALUE_KEY = "Mimic.ScaleValue";
-    static _VALUES = [0.1, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 4, 5];
+    static _VALUES = [0.1, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 3, 4, 5, 10];
     static _MIN = 0.1;
-    static _MAX = 5;
+    static _MAX = 10;
 
     type;
     value;

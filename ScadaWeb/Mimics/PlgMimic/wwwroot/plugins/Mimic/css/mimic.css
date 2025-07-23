@@ -1,5 +1,6 @@
 ﻿.mimic-wrapper {
   overflow: auto;
+  overscroll-behavior: none;
   position: relative;
 }
 .mimic-wrapper .mimic {
