@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using Scada.Web.Plugins.PlgMimic.Config;
+using System.Text;
 
 namespace Scada.Web.Plugins.PlgMimic
 {
@@ -14,6 +15,23 @@ namespace Scada.Web.Plugins.PlgMimic
     public class PageReferences
     {
         private readonly List<FontOptions> fonts = [];
+
+
+        /// <summary>
+        /// Appends a link tag to the string builder.
+        /// </summary>
+        private static void AppendLinkTag(StringBuilder sbHtml, IUrlHelper urlHelper, string href)
+        {
+            sbHtml.AppendLine($"<link href='{urlHelper.Content(href)}' rel='stylesheet' />");
+        }
+
+        /// <summary>
+        /// Appends a script tag to the string builder.
+        /// </summary>
+        private static void AppendScriptTag(StringBuilder sbHtml, IUrlHelper urlHelper, string src)
+        {
+            sbHtml.AppendLine($"<script src='{urlHelper.Content(src)}'></script>");
+        }
 
 
         /// <summary>
@@ -31,7 +49,14 @@ namespace Scada.Web.Plugins.PlgMimic
         /// </summary>
         public HtmlString RenderStyles(IUrlHelper urlHelper)
         {
-            return HtmlString.Empty;
+            StringBuilder sbHtml = new();
+
+            foreach(FontOptions font in fonts.Where(f => !string.IsNullOrEmpty(f.Url)))
+            {
+                AppendLinkTag(sbHtml, urlHelper, font.Url);
+            }
+
+            return sbHtml.ToHtmlString();
         }
 
         /// <summary>
