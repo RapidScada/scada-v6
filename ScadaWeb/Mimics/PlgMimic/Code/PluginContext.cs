@@ -3,6 +3,7 @@
 
 using Scada.Log;
 using Scada.Web.Lang;
+using Scada.Web.Plugins.PlgMimic.Components;
 using Scada.Web.Plugins.PlgMimic.Config;
 using Scada.Web.Services;
 
@@ -25,24 +26,33 @@ namespace Scada.Web.Plugins.PlgMimic.Code
         {
             this.webContext = webContext ?? throw new ArgumentNullException(nameof(webContext));
             log = webContext.Log;
+
+            PluginConfig = new MimicPluginConfig();
+            ComponentLibraries = [];
+            PageReferences = new PageReferences();
         }
 
 
         /// <summary>
         /// Gets the plugin configuration.
         /// </summary>
-        public MimicPluginConfig PluginConfig { get; } = new();
+        public MimicPluginConfig PluginConfig { get; }
+
+        /// <summary>
+        /// Gets the component libraries.
+        /// </summary>
+        public List<IComponentLibrary> ComponentLibraries { get; }
 
         /// <summary>
         /// Gets the references to insert into a page that contains a mimic.
         /// </summary>
-        public PageReferences PageReferences { get; } = new();
+        public PageReferences PageReferences { get; }
 
 
         /// <summary>
         /// Loads the plugin configuration.
         /// </summary>
-        public void LoadConfig()
+        private void LoadConfig()
         {
             if (!PluginConfig.Load(webContext.Storage, MimicPluginConfig.DefaultFileName,
                 out string errMsg))
@@ -52,11 +62,40 @@ namespace Scada.Web.Plugins.PlgMimic.Code
         }
 
         /// <summary>
+        /// Retrieves mimic components from the active plugins.
+        /// </summary>
+        private void RetrieveComponents()
+        {
+            ComponentLibraries.Clear();
+
+            foreach (PluginLogic pluginLogic in webContext.PluginHolder.EnumeratePlugins())
+            {
+                if (pluginLogic is IComponentPlugin componentPlugin &&
+                    componentPlugin.ComponentLibrary is IComponentLibrary componentLibrary)
+                {
+                    ComponentLibraries.Add(componentLibrary);
+                }
+            }
+        }
+
+        /// <summary>
         /// Fills in the page references based on the plugin configuration and available components.
         /// </summary>
-        public void FillPageReferences()
+        private void FillPageReferences()
         {
+            PageReferences.Clear();
             PageReferences.RegisterFonts(PluginConfig.Fonts);
+            PageReferences.RegisterComponents(ComponentLibraries);
+        }
+
+        /// <summary>
+        /// Initializes the plugin context.
+        /// </summary>
+        public void Init()
+        {
+            LoadConfig();
+            RetrieveComponents();
+            FillPageReferences();
         }
     }
 }

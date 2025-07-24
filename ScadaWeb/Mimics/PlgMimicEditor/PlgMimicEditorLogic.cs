@@ -48,9 +48,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor
         /// </summary>
         public override void LoadConfig()
         {
-            editorManager.LoadConfig();
-            editorManager.FillModelMeta();
-            editorManager.FillPageReferences();
+            editorManager.Init();
         }
 
         /// <summary>

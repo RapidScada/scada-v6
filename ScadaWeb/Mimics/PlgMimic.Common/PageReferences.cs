@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
+using Scada.Web.Plugins.PlgMimic.Components;
 using Scada.Web.Plugins.PlgMimic.Config;
 using System.Text;
 
@@ -19,7 +20,8 @@ namespace Scada.Web.Plugins.PlgMimic
         /// </summary>
         private const string CustomStylesheet = "~/plugins/Mimic/css/mimic-custom.css";
 
-        private readonly List<FontOptions> fonts = [];
+        private HashSet<string> styleUrls = [];
+        private HashSet<string> scriptUrls = [];
 
 
         /// <summary>
@@ -40,13 +42,40 @@ namespace Scada.Web.Plugins.PlgMimic
 
 
         /// <summary>
-        /// Adds the specified fonts to the page references.
+        /// Clears the page references.
+        /// </summary>
+        public void Clear()
+        {
+            styleUrls = [];
+            scriptUrls = [];
+        }
+
+        /// <summary>
+        /// Adds the font URLs to the page references.
         /// </summary>
         public void RegisterFonts(List<FontOptions> fonts)
         {
             ArgumentNullException.ThrowIfNull(fonts, nameof(fonts));
-            this.fonts.Clear();
-            this.fonts.AddRange(fonts);
+
+            foreach (FontOptions font in fonts)
+            {
+                if (!string.IsNullOrEmpty(font.Url))
+                    styleUrls.Add(font.Url);
+            }
+        }
+
+        /// <summary>
+        /// Adds the styles and scripts of the components to the page references.
+        /// </summary>
+        public void RegisterComponents(List<IComponentLibrary> componentLibraries)
+        {
+            ArgumentNullException.ThrowIfNull(componentLibraries, nameof(componentLibraries));
+
+            foreach (IComponentLibrary componentLibrary in componentLibraries)
+            {
+                componentLibrary.StyleUrls.ForEach(url => styleUrls.Add(url));
+                componentLibrary.ScriptUrls.ForEach(url => scriptUrls.Add(url));
+            }
         }
 
         /// <summary>
@@ -56,9 +85,9 @@ namespace Scada.Web.Plugins.PlgMimic
         {
             StringBuilder sbHtml = new();
 
-            foreach(FontOptions font in fonts.Where(f => !string.IsNullOrEmpty(f.Url)))
+            foreach(string url in styleUrls.AsEnumerable().OrderBy(url => url))
             {
-                AppendLinkTag(sbHtml, urlHelper, font.Url);
+                AppendLinkTag(sbHtml, urlHelper, url);
             }
 
             AppendLinkTag(sbHtml, urlHelper, CustomStylesheet);
@@ -70,7 +99,14 @@ namespace Scada.Web.Plugins.PlgMimic
         /// </summary>
         public HtmlString RenderScripts(IUrlHelper urlHelper)
         {
-            return HtmlString.Empty;
+            StringBuilder sbHtml = new();
+
+            foreach (string url in scriptUrls.AsEnumerable().OrderBy(url => url))
+            {
+                AppendScriptTag(sbHtml, urlHelper, url);
+            }
+
+            return sbHtml.ToHtmlString();
         }
     }
 }

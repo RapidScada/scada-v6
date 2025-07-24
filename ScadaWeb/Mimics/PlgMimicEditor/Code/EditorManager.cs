@@ -58,6 +58,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 FileName = Path.Combine(webContext.AppDirs.LogDir, EditorUtils.LogFileName),
                 CapacityMB = webContext.AppConfig.GeneralOptions.MaxLogSize
             };
+            ComponentLibraries = [];
             ModelMeta = new ModelMeta();
             ModelTranslation = new ModelTranslation();
             PageReferences = new PageReferences();
@@ -75,6 +76,11 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         public ILog PluginLog { get; }
 
         /// <summary>
+        /// Gets the component libraries.
+        /// </summary>
+        public List<IComponentLibrary> ComponentLibraries { get; }
+
+        /// <summary>
         /// Gets the information associated with the mimic model.
         /// </summary>
         public ModelMeta ModelMeta { get; }
@@ -89,6 +95,65 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         public PageReferences PageReferences { get; }
 
+
+        /// <summary>
+        /// Loads the plugin configuration.
+        /// </summary>
+        private void LoadConfig()
+        {
+            if (!PluginConfig.Load(webContext.Storage, MimicPluginConfig.DefaultFileName, out string errMsg))
+            {
+                PluginLog.WriteError(errMsg);
+                webContext.Log.WriteError(WebPhrases.PluginMessage, EditorPluginInfo.PluginCode, errMsg);
+            }
+        }
+
+        /// <summary>
+        /// Retrieves mimic components from the active plugins.
+        /// </summary>
+        private void RetrieveComponents()
+        {
+            ComponentLibraries.Clear();
+
+            foreach (PluginLogic pluginLogic in webContext.PluginHolder.EnumeratePlugins())
+            {
+                if (pluginLogic is IComponentPlugin componentPlugin &&
+                    componentPlugin.ComponentLibrary is IComponentLibrary componentLibrary)
+                {
+                    ComponentLibraries.Add(componentLibrary);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fills in the information about the available components and subtypes from the active plugins.
+        /// </summary>
+        private void FillModelMeta()
+        {
+            ModelMeta.ComponentGroups.Add(new StandardComponentGroup());
+            ModelMeta.SubtypeGroups.Add(new StandardSubtypeGroup());
+
+            foreach (IComponentLibrary componentLibrary in ComponentLibraries)
+            {
+                if (componentLibrary.ComponentGroups is List<ComponentGroup> componentGroups)
+                    ModelMeta.ComponentGroups.AddRange(componentGroups);
+
+                if (componentLibrary.SubtypeGroups is List<SubtypeGroup> subtypeGroups)
+                    ModelMeta.SubtypeGroups.AddRange(subtypeGroups);
+            }
+
+            ModelTranslation.Init(ModelMeta);
+        }
+
+        /// <summary>
+        /// Fills in the page references based on the plugin configuration and available components.
+        /// </summary>
+        private void FillPageReferences()
+        {
+            PageReferences.Clear();
+            PageReferences.RegisterFonts(PluginConfig.Fonts);
+            PageReferences.RegisterComponents(ComponentLibraries);
+        }
 
         /// <summary>
         /// Adds the specified mimic to the editor.
@@ -240,33 +305,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
 
 
         /// <summary>
-        /// Loads the plugin configuration.
+        /// Initializes the editor manager.
         /// </summary>
-        public void LoadConfig()
+        public void Init()
         {
-            if (!PluginConfig.Load(webContext.Storage, MimicPluginConfig.DefaultFileName, out string errMsg))
-            {
-                PluginLog.WriteError(errMsg);
-                webContext.Log.WriteError(WebPhrases.PluginMessage, EditorPluginInfo.PluginCode, errMsg);
-            }
-        }
-
-        /// <summary>
-        /// Fills in the information about the available components and subtypes from the active plugins.
-        /// </summary>
-        public void FillModelMeta()
-        {
-            ModelMeta.ComponentGroups.Add(new StandardComponentGroup());
-            ModelMeta.SubtypeGroups.Add(new StandardSubtypeGroup());
-            ModelTranslation.Init(ModelMeta);
-        }
-
-        /// <summary>
-        /// Fills in the page references based on the plugin configuration and available components.
-        /// </summary>
-        public void FillPageReferences()
-        {
-            PageReferences.RegisterFonts(PluginConfig.Fonts);
+            LoadConfig();
+            RetrieveComponents();
+            FillModelMeta();
+            FillPageReferences();
         }
 
         /// <summary>

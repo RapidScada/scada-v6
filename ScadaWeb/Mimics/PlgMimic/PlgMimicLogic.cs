@@ -52,8 +52,7 @@ namespace Scada.Web.Plugins.PlgMimic
         /// </summary>
         public override void LoadConfig()
         {
-            pluginContext.LoadConfig();
-            pluginContext.FillPageReferences();
+            pluginContext.Init();
         }
 
         /// <summary>
