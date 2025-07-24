@@ -4,6 +4,7 @@
 using Scada.Lang;
 using Scada.Log;
 using Scada.Web.Lang;
+using Scada.Web.Plugins.PlgMimic;
 using Scada.Web.Plugins.PlgMimic.Components;
 using Scada.Web.Plugins.PlgMimic.Config;
 using Scada.Web.Plugins.PlgMimic.MimicModel;
@@ -59,6 +60,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             };
             ModelMeta = new ModelMeta();
             ModelTranslation = new ModelTranslation();
+            PageReferences = new PageReferences();
         }
 
 
@@ -82,7 +84,12 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         public ModelTranslation ModelTranslation { get; }
 
-        
+        /// <summary>
+        /// Gets the references to insert into a page that contains a mimic.
+        /// </summary>
+        public PageReferences PageReferences { get; }
+
+
         /// <summary>
         /// Adds the specified mimic to the editor.
         /// </summary>
@@ -233,7 +240,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
 
 
         /// <summary>
-        /// Loads the configuration of the editor and mimic plugins.
+        /// Loads the plugin configuration.
         /// </summary>
         public void LoadConfig()
         {
@@ -252,6 +259,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             ModelMeta.ComponentGroups.Add(new StandardComponentGroup());
             ModelMeta.SubtypeGroups.Add(new StandardSubtypeGroup());
             ModelTranslation.Init(ModelMeta);
+        }
+
+        /// <summary>
+        /// Fills in the page references based on the plugin configuration and available components.
+        /// </summary>
+        public void FillPageReferences()
+        {
+            PageReferences.RegisterFonts(PluginConfig.Fonts);
         }
 
         /// <summary>

@@ -50,6 +50,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor
         {
             editorManager.LoadConfig();
             editorManager.FillModelMeta();
+            editorManager.FillPageReferences();
         }
 
         /// <summary>

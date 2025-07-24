@@ -17,6 +17,7 @@
 @section Styles {
     <link href="~/plugins/Mimic/css/mimic.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/plugins/MimicEditor/css/mimic-edit.min.css" rel="stylesheet" asp-append-version="true" />
+    @editorManager.PageReferences.RenderStyles(Url)
 }
 
 @section Scripts {
@@ -45,6 +46,7 @@
         fonts = @editorManager.PluginConfig.Fonts.ToJs();
         editorOptions = @editorManager.PluginConfig.EditorOptions.ToJs();
     </script>
+    @editorManager.PageReferences.RenderScripts(Url)
 }
 
 <div id="divToolbar"><partial name="_ToolbarContents" /></div>

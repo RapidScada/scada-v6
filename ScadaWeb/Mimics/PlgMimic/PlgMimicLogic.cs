@@ -25,7 +25,7 @@ namespace Scada.Web.Plugins.PlgMimic
         public PlgMimicLogic(IWebContext webContext)
             : base(webContext)
         {
-            pluginContext = new PluginContext();
+            pluginContext = new PluginContext(webContext);
             Info = new MimicPluginInfo();
         }
 
@@ -52,11 +52,8 @@ namespace Scada.Web.Plugins.PlgMimic
         /// </summary>
         public override void LoadConfig()
         {
-            if (!pluginContext.PluginConfig.Load(WebContext.Storage, MimicPluginConfig.DefaultFileName,
-                out string errMsg))
-            {
-                Log.WriteError(WebPhrases.PluginMessage, Code, errMsg);
-            }
+            pluginContext.LoadConfig();
+            pluginContext.FillPageReferences();
         }
 
         /// <summary>

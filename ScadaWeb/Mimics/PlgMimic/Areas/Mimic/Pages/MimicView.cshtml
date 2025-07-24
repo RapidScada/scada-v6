@@ -11,6 +11,7 @@
 @section Styles {
     <link href="~/plugins/Mimic/css/mimic.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/plugins/Mimic/css/mimic-view.min.css" rel="stylesheet" asp-append-version="true" />
+    @pluginContext.PageReferences.RenderStyles(Url)
 }
 
 @section Scripts {
@@ -26,6 +27,7 @@
         runtimeOptions = @pluginContext.PluginConfig.RuntimeOptions.ToJs();
         phrases = @WebUtils.DictionaryToJs(Model.GetType().FullName + ".Js");
     </script>
+    @pluginContext.PageReferences.RenderScripts(Url)
 }
 
 <div id="divError" class="box-center fs-2 text-danger d-none"></div>
