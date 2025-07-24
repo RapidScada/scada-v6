@@ -129,8 +129,10 @@ function bindGestureEvents() {
 
                 // scroll
                 let scaleRatio = scale.value / initialScale;
-                mimicWrapperElem.scrollLeft((initialScroll.x + initialCenter.x) * scaleRatio - currentCenter.x);
-                mimicWrapperElem.scrollTop((initialScroll.y + initialCenter.y) * scaleRatio - currentCenter.y);
+                let scrollLeft = Math.round((initialScroll.x + initialCenter.x) * scaleRatio - currentCenter.x);
+                let scrollTop = Math.round((initialScroll.y + initialCenter.y) * scaleRatio - currentCenter.y);
+                mimicWrapperElem.scrollLeft(scrollLeft);
+                mimicWrapperElem.scrollTop(scrollTop);
                 event.preventDefault();
             }
         });

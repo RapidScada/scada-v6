@@ -72,11 +72,16 @@ rs.mimic.Scale = class Scale {
             } if (value > Scale._MAX) {
                 return Scale._MAX;
             } else {
-                return value;
+                const factor = 1000000;
+                return Math.trunc(value * factor) / factor;
             }
         } else {
             return 1;
         }
+    }
+
+    setValue(value) {
+        this.value = Scale._normalize(value);
     }
 
     save(storage) {
@@ -85,8 +90,8 @@ rs.mimic.Scale = class Scale {
     }
 
     load(storage) {
-        this.type = parseInt(ScadaUtils.getStorageItem(storage, Scale._TYPE_KEY, this.type));
-        this.value = parseFloat(ScadaUtils.getStorageItem(storage, Scale._VALUE_KEY, this.value));
+        this.type = parseInt(ScadaUtils.getStorageItem(storage, Scale._TYPE_KEY)) || this.type;
+        this.value = parseFloat(ScadaUtils.getStorageItem(storage, Scale._VALUE_KEY)) || this.value;
     }
 
     getPrev() {
@@ -3527,11 +3532,11 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
             let scaleValue = MimicRenderer._calcScaleValue(mimic, scale);
 
             if (scale.type !== rs.mimic.ScaleType.NUMERIC) {
-                scale.value = scaleValue;
+                scale.setValue(scaleValue);
             }
 
             mimic.dom.css({
-                "transform": `scale(${scaleValue})`
+                "transform": `scale(${scale.value})`
             });
         }
     }

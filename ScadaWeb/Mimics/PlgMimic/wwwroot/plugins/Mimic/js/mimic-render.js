@@ -276,11 +276,11 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
             let scaleValue = MimicRenderer._calcScaleValue(mimic, scale);
 
             if (scale.type !== rs.mimic.ScaleType.NUMERIC) {
-                scale.value = scaleValue;
+                scale.setValue(scaleValue);
             }
 
             mimic.dom.css({
-                "transform": `scale(${scaleValue})`
+                "transform": `scale(${scale.value})`
             });
         }
     }
