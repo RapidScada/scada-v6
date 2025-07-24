@@ -14,6 +14,11 @@ namespace Scada.Web.Plugins.PlgMimic
     /// </summary>
     public class PageReferences
     {
+        /// <summary>
+        /// The path to the custom stylesheet.
+        /// </summary>
+        private const string CustomStylesheet = "~/plugins/Mimic/css/mimic-custom.css";
+
         private readonly List<FontOptions> fonts = [];
 
 
@@ -56,6 +61,7 @@ namespace Scada.Web.Plugins.PlgMimic
                 AppendLinkTag(sbHtml, urlHelper, font.Url);
             }
 
+            AppendLinkTag(sbHtml, urlHelper, CustomStylesheet);
             return sbHtml.ToHtmlString();
         }
 
