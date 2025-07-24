@@ -78,6 +78,7 @@ function bindEvents() {
 }
 
 function bindGestureEvents() {
+    // when zoom in quickly, glitches may occur because the scrollable area does not expand fast enough
     let initialCenter = null;
     let initialDistance = 0;
     let initialScale = 0;
