@@ -34,4 +34,6 @@
     </Reference>
   </ItemGroup>
 
+  <Import Project="..\PlgMimBasicComp.Shared\PlgMimBasicComp.Shared.projitems" Label="Shared" />
+
 </Project>

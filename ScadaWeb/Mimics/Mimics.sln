@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgMimBasicComp", "PlgMimBa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgMimBasicComp.View", "PlgMimBasicComp.View\PlgMimBasicComp.View.csproj", "{3860750B-747B-48B0-81ED-580474FD7C20}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PlgMimBasicComp.Shared", "PlgMimBasicComp.Shared\PlgMimBasicComp.Shared.shproj", "{62999784-F2DF-4D76-A88A-207BAFA0607B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,13 +74,17 @@ Global
 		{5C9D4988-2F33-4EB8-A045-9343C158C8D3} = {B222C848-3353-4DAC-A4DE-05D2868A6BDB}
 		{DC8C657A-0DFB-4D0F-8EE8-269A97E55950} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{3860750B-747B-48B0-81ED-580474FD7C20} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{62999784-F2DF-4D76-A88A-207BAFA0607B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {481E3627-5BA5-4BA4-B5A9-38732C697B7D}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		PlgMimBasicComp.Shared\PlgMimBasicComp.Shared.projitems*{3860750b-747b-48b0-81ed-580474fd7c20}*SharedItemsImports = 5
 		PlgMimicEditor.Shared\PlgMimicEditor.Shared.projitems*{569eb001-f5d2-4c9e-b1d5-65b6ca9d67c8}*SharedItemsImports = 5
 		PlgMimicEditor.Shared\PlgMimicEditor.Shared.projitems*{5c9d4988-2f33-4eb8-a045-9343c158c8d3}*SharedItemsImports = 13
+		PlgMimBasicComp.Shared\PlgMimBasicComp.Shared.projitems*{62999784-f2df-4d76-a88a-207bafa0607b}*SharedItemsImports = 13
 		PlgMimicEditor.Shared\PlgMimicEditor.Shared.projitems*{b0d9ffc8-ec3c-4a8c-8d60-31354f744df4}*SharedItemsImports = 5
+		PlgMimBasicComp.Shared\PlgMimBasicComp.Shared.projitems*{dc8c657a-0dfb-4d0f-8ee8-269a97e55950}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

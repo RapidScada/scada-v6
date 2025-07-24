@@ -3,7 +3,18 @@
 
 namespace Scada.Web.Plugins.PlgMimBasicComp.View
 {
-    public class PlgMimBasicCompView
+    /// <summary>
+    /// Implements the plugin user interface for the Administrator application.
+    /// <para>Реализует пользовательский интерфейс плагина для приложения Администратор.</para>
+    /// </summary>
+    public class PlgMimBasicCompView : PluginView
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public PlgMimBasicCompView()
+        {
+            Info = new PluginInfo();
+        }
     }
 }
