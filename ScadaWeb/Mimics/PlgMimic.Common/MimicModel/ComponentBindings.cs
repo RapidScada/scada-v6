@@ -176,7 +176,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// </summary>
         public void OffsetCnlNums(int offset)
         {
-            if (offset > 0)
+            if (offset > 0 && ObjNum <= 0 && DeviceNum <= 0)
             {
                 if (InCnlNum > 0)
                     InCnlNum += offset;
