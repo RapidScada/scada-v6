@@ -7,7 +7,7 @@ namespace Scada.Web.Plugins.PlgMimic.Components
     /// Defines functionality of a component library specification.
     /// <para>Определяет функциональность спецификации библиотеки компонентов.</para>
     /// </summary>
-    public interface IComponentLibrary
+    public interface IComponentSpec
     {
         /// <summary>
         /// Gets the groups of components.

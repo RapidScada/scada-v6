@@ -28,7 +28,7 @@ namespace Scada.Web.Plugins.PlgMimic.Code
             log = webContext.Log;
 
             PluginConfig = new MimicPluginConfig();
-            ComponentLibraries = [];
+            ComponentSpecs = [];
             PageReferences = new PageReferences();
         }
 
@@ -39,9 +39,9 @@ namespace Scada.Web.Plugins.PlgMimic.Code
         public MimicPluginConfig PluginConfig { get; }
 
         /// <summary>
-        /// Gets the component libraries.
+        /// Gets the component library specifications.
         /// </summary>
-        public List<IComponentLibrary> ComponentLibraries { get; }
+        public List<IComponentSpec> ComponentSpecs { get; }
 
         /// <summary>
         /// Gets the references to insert into a page that contains a mimic.
@@ -66,14 +66,14 @@ namespace Scada.Web.Plugins.PlgMimic.Code
         /// </summary>
         private void RetrieveComponents()
         {
-            ComponentLibraries.Clear();
+            ComponentSpecs.Clear();
 
             foreach (PluginLogic pluginLogic in webContext.PluginHolder.EnumeratePlugins())
             {
                 if (pluginLogic is IComponentPlugin componentPlugin &&
-                    componentPlugin.ComponentLibrary is IComponentLibrary componentLibrary)
+                    componentPlugin.ComponentSpec is IComponentSpec componentSpec)
                 {
-                    ComponentLibraries.Add(componentLibrary);
+                    ComponentSpecs.Add(componentSpec);
                 }
             }
         }
@@ -85,7 +85,7 @@ namespace Scada.Web.Plugins.PlgMimic.Code
         {
             PageReferences.Clear();
             PageReferences.RegisterFonts(PluginConfig.Fonts);
-            PageReferences.RegisterComponents(ComponentLibraries);
+            PageReferences.RegisterComponents(ComponentSpecs);
         }
 
         /// <summary>

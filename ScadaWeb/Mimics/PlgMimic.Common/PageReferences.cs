@@ -59,7 +59,7 @@ namespace Scada.Web.Plugins.PlgMimic
 
             foreach (FontOptions font in fonts)
             {
-                if (!string.IsNullOrEmpty(font.Url))
+                if (font != null && !string.IsNullOrEmpty(font.Url))
                     styleUrls.Add(font.Url);
             }
         }
@@ -67,14 +67,17 @@ namespace Scada.Web.Plugins.PlgMimic
         /// <summary>
         /// Adds the styles and scripts of the components to the page references.
         /// </summary>
-        public void RegisterComponents(List<IComponentLibrary> componentLibraries)
+        public void RegisterComponents(List<IComponentSpec> componentSpecs)
         {
-            ArgumentNullException.ThrowIfNull(componentLibraries, nameof(componentLibraries));
+            ArgumentNullException.ThrowIfNull(componentSpecs, nameof(componentSpecs));
 
-            foreach (IComponentLibrary componentLibrary in componentLibraries)
+            foreach (IComponentSpec componentSpec in componentSpecs)
             {
-                componentLibrary.StyleUrls.ForEach(url => styleUrls.Add(url));
-                componentLibrary.ScriptUrls.ForEach(url => scriptUrls.Add(url));
+                if (componentSpec != null)
+                {
+                    componentSpec.StyleUrls.ForEach(url => styleUrls.Add(url));
+                    componentSpec.ScriptUrls.ForEach(url => scriptUrls.Add(url));
+                }
             }
         }
 

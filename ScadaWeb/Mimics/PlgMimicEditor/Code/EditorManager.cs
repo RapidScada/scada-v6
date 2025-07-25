@@ -58,7 +58,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 FileName = Path.Combine(webContext.AppDirs.LogDir, EditorUtils.LogFileName),
                 CapacityMB = webContext.AppConfig.GeneralOptions.MaxLogSize
             };
-            ComponentLibraries = [];
+            ComponentSpecs = [];
             ModelMeta = new ModelMeta();
             ModelTranslation = new ModelTranslation();
             PageReferences = new PageReferences();
@@ -76,9 +76,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         public ILog PluginLog { get; }
 
         /// <summary>
-        /// Gets the component libraries.
+        /// Gets the component library specifications.
         /// </summary>
-        public List<IComponentLibrary> ComponentLibraries { get; }
+        public List<IComponentSpec> ComponentSpecs { get; }
 
         /// <summary>
         /// Gets the information associated with the mimic model.
@@ -113,14 +113,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         private void RetrieveComponents()
         {
-            ComponentLibraries.Clear();
+            ComponentSpecs.Clear();
 
             foreach (PluginLogic pluginLogic in webContext.PluginHolder.EnumeratePlugins())
             {
                 if (pluginLogic is IComponentPlugin componentPlugin &&
-                    componentPlugin.ComponentLibrary is IComponentLibrary componentLibrary)
+                    componentPlugin.ComponentSpec is IComponentSpec componentSpec)
                 {
-                    ComponentLibraries.Add(componentLibrary);
+                    ComponentSpecs.Add(componentSpec);
                 }
             }
         }
@@ -133,7 +133,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             ModelMeta.ComponentGroups.Add(new StandardComponentGroup());
             ModelMeta.SubtypeGroups.Add(new StandardSubtypeGroup());
 
-            foreach (IComponentLibrary componentLibrary in ComponentLibraries)
+            foreach (IComponentSpec componentLibrary in ComponentSpecs)
             {
                 if (componentLibrary.ComponentGroups is List<ComponentGroup> componentGroups)
                     ModelMeta.ComponentGroups.AddRange(componentGroups);
@@ -152,7 +152,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         {
             PageReferences.Clear();
             PageReferences.RegisterFonts(PluginConfig.Fonts);
-            PageReferences.RegisterComponents(ComponentLibraries);
+            PageReferences.RegisterComponents(ComponentSpecs);
         }
 
         /// <summary>

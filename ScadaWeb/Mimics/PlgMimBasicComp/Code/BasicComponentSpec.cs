@@ -9,7 +9,7 @@ namespace Scada.Web.Plugins.PlgMimBasicComp.Code
     /// Represents a specification of the basic component library.
     /// <para>Представляет спецификацию библиотеки базовых компонентов.</para>
     /// </summary>
-    public class BasicComponentLibrary : IComponentLibrary
+    public class BasicComponentSpec : IComponentSpec
     {
         /// <summary>
         /// Gets the groups of components.

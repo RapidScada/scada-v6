@@ -25,6 +25,6 @@ namespace Scada.Web.Plugins.PlgMimBasicComp
         /// <summary>
         /// Gets the component library specification.
         /// </summary>
-        public IComponentLibrary ComponentLibrary => new BasicComponentLibrary();
+        public IComponentSpec ComponentSpec => new BasicComponentSpec();
     }
 }
