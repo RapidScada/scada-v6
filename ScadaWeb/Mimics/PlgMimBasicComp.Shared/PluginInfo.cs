@@ -27,7 +27,7 @@ namespace Scada.Web.Plugins.PlgMimBasicComp
         /// Gets the plugin description.
         /// </summary>
         public override string Descr => Locale.IsRussian ?
-            "Библиотека основных компонентов для мнемосхем." :
+            "Библиотека основных компонентов мнемосхем." :
             "Library of basic components for mimic diagrams.";
     }
 }

@@ -1,5 +1,9 @@
 ﻿// Contains descriptors for basic components.
 
+rs.mimic.BasicSubtype = class {
+    static COLOR_CONDITION = "BasicColorCondition";
+};
+
 rs.mimic.BasicLedDescriptor = class extends rs.mimic.RegularComponentDescriptor {
     constructor() {
         super();

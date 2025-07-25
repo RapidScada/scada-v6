@@ -1,6 +1,6 @@
 ﻿[
   {
-    "outputFile": "wwwroot/plugins/PlgMimBasicComp/css/basic.css",
-    "inputFile": "wwwroot/plugins/PlgMimBasicComp/css/basic.scss"
+    "outputFile": "wwwroot/plugins/MimBasicComp/css/basic.css",
+    "inputFile": "wwwroot/plugins/MimBasicComp/css/basic.scss"
   }
 ]

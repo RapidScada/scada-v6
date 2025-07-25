@@ -56,7 +56,7 @@
     <Phrase key="Border">Граница</Phrase>
     <Phrase key="CornerRadius">Радиус углов</Phrase>
     <Phrase key="CssClass">CSS-класс</Phrase>
-    <Phrase key="ForeColor">Цвет текста</Phrase>
+    <Phrase key="ForeColor">Основной цвет</Phrase>
     <Phrase key="BlinkingState">При мигании</Phrase>
     <Phrase key="ClickAction">По щелчку</Phrase>
     <Phrase key="DisabledState">При отключении</Phrase>
@@ -201,7 +201,7 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.VisualState">
     <Phrase key="backColor">Цвет фона</Phrase>
-    <Phrase key="foreColor">Цвет текста</Phrase>
+    <Phrase key="foreColor">Основной цвет</Phrase>
     <Phrase key="borderColor">Цвет границы</Phrase>
     <Phrase key="underline">Подчёркивание</Phrase>
   </Dictionary>

@@ -1,9 +1,5 @@
 ﻿// Contains subtypes for basic components.
 
-rs.mimic.BasicSubtype = class {
-    static COLOR_CONDITION = "BasicColorCondition";
-};
-
 rs.mimic.BasicColorCondition = class extends rs.mimic.Condition {
     color = "";
 

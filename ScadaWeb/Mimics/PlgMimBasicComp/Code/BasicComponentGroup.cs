@@ -18,7 +18,7 @@ namespace Scada.Web.Plugins.PlgMimBasicComp.Code
         {
             Name = PluginPhrases.BasicGroup;
             DictionaryPrefix = PluginConst.ComponentModelPrefix;
-            const string IconPath = "~/plugins/PlgMimBasicComp/images/";
+            const string IconPath = "~/plugins/MimBasicComp/images/";
 
             Items.Add(new ComponentItem
             {
