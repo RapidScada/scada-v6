@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Lang;
 using Scada.Log;
 using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMimic.Components;
@@ -73,6 +74,10 @@ namespace Scada.Web.Plugins.PlgMimic.Code
                 if (pluginLogic is IComponentPlugin componentPlugin &&
                     componentPlugin.ComponentSpec is IComponentSpec componentSpec)
                 {
+                    log.WriteAction(WebPhrases.PluginMessage, MimicPluginInfo.PluginCode,
+                        string.Format(Locale.IsRussian ?
+                            "Добавление компонентов из плагина {0}" :
+                            "Add components from the {0} plugin", pluginLogic.Code));
                     ComponentSpecs.Add(componentSpec);
                 }
             }
