@@ -192,5 +192,26 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 
             return cnlNums.ToList();
         }
+
+        /// <summary>
+        /// Offsets the channel numbers by the specified value.
+        /// </summary>
+        public void OffsetCnlNums(int offset)
+        {
+            if (offset > 0)
+            {
+                if (InCnlNum > 0)
+                    InCnlNum += offset;
+
+                if (OutCnlNum > 0)
+                    OutCnlNum += offset;
+
+                foreach (PropertyBinding propertyBinding in PropertyBindings)
+                {
+                    if (propertyBinding.CnlNum > 0)
+                        propertyBinding.CnlNum += offset;
+                }
+            }
+        }
     }
 }
