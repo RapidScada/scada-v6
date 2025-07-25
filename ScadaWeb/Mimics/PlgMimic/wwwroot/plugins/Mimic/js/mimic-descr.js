@@ -180,7 +180,8 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "propertyExports",
             displayName: "Exported properties",
             category: KnownCategory.DATA,
-            type: BasicType.LIST
+            type: BasicType.LIST,
+            subtype: Subtype.PROPERTY_EXPORT
         }));
 
         // layout
@@ -265,7 +266,8 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "propertyBindings",
             displayName: "Property bindings",
             category: KnownCategory.DATA,
-            type: BasicType.LIST
+            type: BasicType.LIST,
+            subtype: Subtype.PROPERTY_BINDING
         }));
 
         // design
@@ -317,6 +319,7 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
         super();
         const KnownCategory = rs.mimic.KnownCategory;
         const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
         const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
@@ -333,14 +336,16 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
             name: "border",
             displayName: "Border",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.BORDER
         }));
 
         this.add(new PropertyDescriptor({
             name: "cornerRadius",
             displayName: "Corner radius",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.CORNER_RADIUS
         }));
 
         this.add(new PropertyDescriptor({
@@ -363,28 +368,32 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
             name: "blinkingState",
             displayName: "When blinking",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.VISUAL_STATE
         }));
 
         this.add(new PropertyDescriptor({
             name: "clickAction",
             displayName: "On click",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.ACTION
         }));
 
         this.add(new PropertyDescriptor({
             name: "disabledState",
             displayName: "On disabled",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.VISUAL_STATE
         }));
 
         this.add(new PropertyDescriptor({
             name: "hoverState",
             displayName: "On hover",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.VISUAL_STATE
         }));
 
         this.add(new PropertyDescriptor({
@@ -467,7 +476,8 @@ rs.mimic.TextDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             name: "padding",
             displayName: "Padding",
             category: KnownCategory.LAYOUT,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.PADDING
         }));
     }
 };
@@ -503,7 +513,8 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             name: "conditions",
             displayName: "Conditions",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.LIST
+            type: BasicType.LIST,
+            subtype: Subtype.IMAGE_CONDITION
         }));
 
         this.add(new PropertyDescriptor({
@@ -519,7 +530,8 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             name: "padding",
             displayName: "Padding",
             category: KnownCategory.LAYOUT,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.PADDING
         }));
     }
 };

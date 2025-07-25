@@ -520,7 +520,7 @@ rs.mimic.VisualState = class VisualState {
 // --- Misc ---
 
 // Represents a list that can create new items.
-rs.mimic.List = class List extends Array {
+rs.mimic.List = class extends Array {
     constructor(createItemFn) {
         super();
 
@@ -533,33 +533,72 @@ rs.mimic.List = class List extends Array {
 }
 
 // Represents a list of ImageCondition items.
-rs.mimic.ImageConditionList = class extends rs.mimic.List {
+rs.mimic.ImageConditionList = class ImageConditionList extends rs.mimic.List {
     constructor() {
         super(() => {
             return new rs.mimic.ImageCondition();
         });
     }
+
+    static parse(source) {
+        const ImageCondition = rs.mimic.ImageCondition;
+        let imageConditions = new ImageConditionList();
+
+        if (Array.isArray(source)) {
+            for (let sourceItem of source) {
+                imageConditions.push(ImageCondition.parse(sourceItem));
+            }
+        }
+
+        return imageConditions;
+    }
 }
 
 // Represents a list of PropertyBinding items.
-rs.mimic.PropertyBindingList = class extends rs.mimic.List {
+rs.mimic.PropertyBindingList = class PropertyBindingList extends rs.mimic.List {
     constructor() {
         super(() => {
             return new rs.mimic.PropertyBinding();
         });
     }
+
+    static parse(source) {
+        const PropertyBinding = rs.mimic.PropertyBinding;
+        let propertyBindings = new PropertyBindingList();
+
+        if (Array.isArray(source)) {
+            for (let sourceItem of source) {
+                propertyBindings.push(PropertyBinding.parse(sourceItem));
+            }
+        }
+
+        return propertyBindings;
+    }
 }
 
 // Represents a list of PropertyExport items.
-rs.mimic.PropertyExportList = class extends rs.mimic.List {
+rs.mimic.PropertyExportList = class PropertyExportList extends rs.mimic.List {
     constructor() {
         super(() => {
             return new rs.mimic.PropertyExport();
         });
     }
+
+    static parse(source) {
+        const PropertyExport = rs.mimic.PropertyExport;
+        let propertyExports = new PropertyExportList();
+
+        if (Array.isArray(source)) {
+            for (let sourceItem of source) {
+                propertyExports.push(PropertyExport.parse(sourceItem));
+            }
+        }
+
+        return propertyExports;
+    }
 }
 
-// Parses property values ​​from strings and objects.
+// Parses property values ​​from strings.
 rs.mimic.PropertyParser = class {
     static parseBool(string, defaultValue = false) {
         return !string
@@ -585,45 +624,6 @@ rs.mimic.PropertyParser = class {
         } else {
             return defaultValue;
         }
-    }
-
-    static parseImageConditions(source) {
-        const ImageCondition = rs.mimic.ImageCondition;
-        let imageConditions = new rs.mimic.ImageConditionList();
-
-        if (Array.isArray(source)) {
-            for (let sourceItem of source) {
-                imageConditions.push(ImageCondition.parse(sourceItem));
-            }
-        }
-
-        return imageConditions;
-    }
-
-    static parsePropertyBindings(source) {
-        const PropertyBinding = rs.mimic.PropertyBinding;
-        let propertyBindings = new rs.mimic.PropertyBindingList();
-
-        if (Array.isArray(source)) {
-            for (let sourceItem of source) {
-                propertyBindings.push(PropertyBinding.parse(sourceItem));
-            }
-        }
-
-        return propertyBindings;
-    }
-
-    static parsePropertyExports(source) {
-        const PropertyExport = rs.mimic.PropertyExport;
-        let propertyExports = new rs.mimic.PropertyExportList();
-
-        if (Array.isArray(source)) {
-            for (let sourceItem of source) {
-                propertyExports.push(PropertyExport.parse(sourceItem));
-            }
-        }
-
-        return propertyExports;
     }
 }
 

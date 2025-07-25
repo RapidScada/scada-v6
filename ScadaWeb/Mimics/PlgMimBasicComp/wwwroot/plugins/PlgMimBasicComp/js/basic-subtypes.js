@@ -1,6 +1,10 @@
 ﻿// Contains subtypes for basic components.
 
-rs.mimic.BasicColorCondition = class BasicColorCondition extends rs.mimic.Condition {
+rs.mimic.BasicSubtype = class {
+    static COLOR_CONDITION = "BasicColorCondition";
+};
+
+rs.mimic.BasicColorCondition = class extends rs.mimic.Condition {
     color = "";
 
     get typeName() {
@@ -9,7 +13,7 @@ rs.mimic.BasicColorCondition = class BasicColorCondition extends rs.mimic.Condit
 
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
-        let colorCondition = new BasicColorCondition();
+        let colorCondition = new rs.mimic.BasicColorCondition();
 
         if (source) {
             colorCondition.color = PropertyParser.parseString(source.color);
@@ -19,3 +23,24 @@ rs.mimic.BasicColorCondition = class BasicColorCondition extends rs.mimic.Condit
         return colorCondition;
     }
 };
+
+rs.mimic.BasicColorConditionList = class extends rs.mimic.List {
+    constructor() {
+        super(() => {
+            return new rs.mimic.BasicColorCondition();
+        });
+    }
+
+    static parse(source) {
+        const BasicColorCondition = rs.mimic.BasicColorCondition;
+        let colorConditions = new rs.mimic.BasicColorConditionList();
+
+        if (Array.isArray(source)) {
+            for (let sourceItem of source) {
+                colorConditions.push(BasicColorCondition.parse(sourceItem));
+            }
+        }
+
+        return colorConditions;
+    }
+}

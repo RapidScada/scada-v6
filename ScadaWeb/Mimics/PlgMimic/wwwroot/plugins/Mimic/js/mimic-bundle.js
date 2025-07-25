@@ -389,7 +389,8 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "propertyExports",
             displayName: "Exported properties",
             category: KnownCategory.DATA,
-            type: BasicType.LIST
+            type: BasicType.LIST,
+            subtype: Subtype.PROPERTY_EXPORT
         }));
 
         // layout
@@ -474,7 +475,8 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "propertyBindings",
             displayName: "Property bindings",
             category: KnownCategory.DATA,
-            type: BasicType.LIST
+            type: BasicType.LIST,
+            subtype: Subtype.PROPERTY_BINDING
         }));
 
         // design
@@ -526,6 +528,7 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
         super();
         const KnownCategory = rs.mimic.KnownCategory;
         const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
         const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
@@ -542,14 +545,16 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
             name: "border",
             displayName: "Border",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.BORDER
         }));
 
         this.add(new PropertyDescriptor({
             name: "cornerRadius",
             displayName: "Corner radius",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.CORNER_RADIUS
         }));
 
         this.add(new PropertyDescriptor({
@@ -572,28 +577,32 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
             name: "blinkingState",
             displayName: "When blinking",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.VISUAL_STATE
         }));
 
         this.add(new PropertyDescriptor({
             name: "clickAction",
             displayName: "On click",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.ACTION
         }));
 
         this.add(new PropertyDescriptor({
             name: "disabledState",
             displayName: "On disabled",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.VISUAL_STATE
         }));
 
         this.add(new PropertyDescriptor({
             name: "hoverState",
             displayName: "On hover",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.VISUAL_STATE
         }));
 
         this.add(new PropertyDescriptor({
@@ -676,7 +685,8 @@ rs.mimic.TextDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             name: "padding",
             displayName: "Padding",
             category: KnownCategory.LAYOUT,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.PADDING
         }));
     }
 };
@@ -712,7 +722,8 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             name: "conditions",
             displayName: "Conditions",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.LIST
+            type: BasicType.LIST,
+            subtype: Subtype.IMAGE_CONDITION
         }));
 
         this.add(new PropertyDescriptor({
@@ -728,7 +739,8 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             name: "padding",
             displayName: "Padding",
             category: KnownCategory.LAYOUT,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.PADDING
         }));
     }
 };
@@ -1166,7 +1178,7 @@ rs.mimic.MimicFactory = class {
             tooltip: PropertyParser.parseString(sourceProps.tooltip),
 
             // data
-            propertyExports: PropertyParser.parsePropertyExports(sourceProps.propertyExports),
+            propertyExports: rs.mimic.PropertyExportList.parse(sourceProps.propertyExports),
 
             // layout
             size: rs.mimic.Size.parse(sourceProps.size)
@@ -1229,7 +1241,7 @@ rs.mimic.ComponentFactory = class {
             inCnlNum: PropertyParser.parseInt(sourceProps.inCnlNum),
             objNum: PropertyParser.parseInt(sourceProps.objNum),
             outCnlNum: PropertyParser.parseInt(sourceProps.outCnlNum),
-            propertyBindings: PropertyParser.parsePropertyBindings(sourceProps.propertyBindings),
+            propertyBindings: rs.mimic.PropertyBindingList.parse(sourceProps.propertyBindings),
 
             // design
             id: PropertyParser.parseInt(sourceProps.id),
@@ -1403,7 +1415,7 @@ rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
 
         // behavior
         Object.assign(properties, {
-            conditions: PropertyParser.parseImageConditions(sourceProps.conditions),
+            conditions: rs.mimic.ImageConditionList.parse(sourceProps.conditions),
             sizeMode: PropertyParser.parseString(sourceProps.sizeMode, rs.mimic.ImageSizeMode.NORMAL)
         });
 
@@ -3092,7 +3104,7 @@ rs.mimic.VisualState = class VisualState {
 // --- Misc ---
 
 // Represents a list that can create new items.
-rs.mimic.List = class List extends Array {
+rs.mimic.List = class extends Array {
     constructor(createItemFn) {
         super();
 
@@ -3105,33 +3117,72 @@ rs.mimic.List = class List extends Array {
 }
 
 // Represents a list of ImageCondition items.
-rs.mimic.ImageConditionList = class extends rs.mimic.List {
+rs.mimic.ImageConditionList = class ImageConditionList extends rs.mimic.List {
     constructor() {
         super(() => {
             return new rs.mimic.ImageCondition();
         });
     }
+
+    static parse(source) {
+        const ImageCondition = rs.mimic.ImageCondition;
+        let imageConditions = new ImageConditionList();
+
+        if (Array.isArray(source)) {
+            for (let sourceItem of source) {
+                imageConditions.push(ImageCondition.parse(sourceItem));
+            }
+        }
+
+        return imageConditions;
+    }
 }
 
 // Represents a list of PropertyBinding items.
-rs.mimic.PropertyBindingList = class extends rs.mimic.List {
+rs.mimic.PropertyBindingList = class PropertyBindingList extends rs.mimic.List {
     constructor() {
         super(() => {
             return new rs.mimic.PropertyBinding();
         });
     }
+
+    static parse(source) {
+        const PropertyBinding = rs.mimic.PropertyBinding;
+        let propertyBindings = new PropertyBindingList();
+
+        if (Array.isArray(source)) {
+            for (let sourceItem of source) {
+                propertyBindings.push(PropertyBinding.parse(sourceItem));
+            }
+        }
+
+        return propertyBindings;
+    }
 }
 
 // Represents a list of PropertyExport items.
-rs.mimic.PropertyExportList = class extends rs.mimic.List {
+rs.mimic.PropertyExportList = class PropertyExportList extends rs.mimic.List {
     constructor() {
         super(() => {
             return new rs.mimic.PropertyExport();
         });
     }
+
+    static parse(source) {
+        const PropertyExport = rs.mimic.PropertyExport;
+        let propertyExports = new PropertyExportList();
+
+        if (Array.isArray(source)) {
+            for (let sourceItem of source) {
+                propertyExports.push(PropertyExport.parse(sourceItem));
+            }
+        }
+
+        return propertyExports;
+    }
 }
 
-// Parses property values ​​from strings and objects.
+// Parses property values ​​from strings.
 rs.mimic.PropertyParser = class {
     static parseBool(string, defaultValue = false) {
         return !string
@@ -3157,45 +3208,6 @@ rs.mimic.PropertyParser = class {
         } else {
             return defaultValue;
         }
-    }
-
-    static parseImageConditions(source) {
-        const ImageCondition = rs.mimic.ImageCondition;
-        let imageConditions = new rs.mimic.ImageConditionList();
-
-        if (Array.isArray(source)) {
-            for (let sourceItem of source) {
-                imageConditions.push(ImageCondition.parse(sourceItem));
-            }
-        }
-
-        return imageConditions;
-    }
-
-    static parsePropertyBindings(source) {
-        const PropertyBinding = rs.mimic.PropertyBinding;
-        let propertyBindings = new rs.mimic.PropertyBindingList();
-
-        if (Array.isArray(source)) {
-            for (let sourceItem of source) {
-                propertyBindings.push(PropertyBinding.parse(sourceItem));
-            }
-        }
-
-        return propertyBindings;
-    }
-
-    static parsePropertyExports(source) {
-        const PropertyExport = rs.mimic.PropertyExport;
-        let propertyExports = new rs.mimic.PropertyExportList();
-
-        if (Array.isArray(source)) {
-            for (let sourceItem of source) {
-                propertyExports.push(PropertyExport.parse(sourceItem));
-            }
-        }
-
-        return propertyExports;
     }
 }
 

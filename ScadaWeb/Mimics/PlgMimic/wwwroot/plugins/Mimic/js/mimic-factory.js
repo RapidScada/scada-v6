@@ -21,7 +21,7 @@ rs.mimic.MimicFactory = class {
             tooltip: PropertyParser.parseString(sourceProps.tooltip),
 
             // data
-            propertyExports: PropertyParser.parsePropertyExports(sourceProps.propertyExports),
+            propertyExports: rs.mimic.PropertyExportList.parse(sourceProps.propertyExports),
 
             // layout
             size: rs.mimic.Size.parse(sourceProps.size)
@@ -84,7 +84,7 @@ rs.mimic.ComponentFactory = class {
             inCnlNum: PropertyParser.parseInt(sourceProps.inCnlNum),
             objNum: PropertyParser.parseInt(sourceProps.objNum),
             outCnlNum: PropertyParser.parseInt(sourceProps.outCnlNum),
-            propertyBindings: PropertyParser.parsePropertyBindings(sourceProps.propertyBindings),
+            propertyBindings: rs.mimic.PropertyBindingList.parse(sourceProps.propertyBindings),
 
             // design
             id: PropertyParser.parseInt(sourceProps.id),
@@ -258,7 +258,7 @@ rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
 
         // behavior
         Object.assign(properties, {
-            conditions: PropertyParser.parseImageConditions(sourceProps.conditions),
+            conditions: rs.mimic.ImageConditionList.parse(sourceProps.conditions),
             sizeMode: PropertyParser.parseString(sourceProps.sizeMode, rs.mimic.ImageSizeMode.NORMAL)
         });
 
