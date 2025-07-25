@@ -18,6 +18,7 @@ rs.mimic.LoadStep = class {
 // Represents a result of loading a mimic.
 rs.mimic.LoadResult = class {
     ok = false;
+    warn = false;
     msg = "";
 };
 
@@ -2055,6 +2056,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                         this.componentMap.set(component.id, component);
                     } else if (sourceComponent.typeName) {
                         loadContext.unknownTypes.add(sourceComponent.typeName);
+                        loadContext.result.warn = true;
                     }
                 }
             }
@@ -3894,6 +3896,7 @@ rs.mimic.UnitedRenderer = class {
             console.info("Mimic DOM created in " + (Date.now() - startTime) + " ms");
             return this.mimic.dom;
         } else {
+            console.warn("Unable to create mimic DOM");
             return $();
         }
     }

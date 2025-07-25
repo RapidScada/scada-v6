@@ -626,6 +626,7 @@ rs.mimic.UnitedRenderer = class {
             console.info("Mimic DOM created in " + (Date.now() - startTime) + " ms");
             return this.mimic.dom;
         } else {
+            console.warn("Unable to create mimic DOM");
             return $();
         }
     }

@@ -18,6 +18,7 @@ rs.mimic.LoadStep = class {
 // Represents a result of loading a mimic.
 rs.mimic.LoadResult = class {
     ok = false;
+    warn = false;
     msg = "";
 };
 

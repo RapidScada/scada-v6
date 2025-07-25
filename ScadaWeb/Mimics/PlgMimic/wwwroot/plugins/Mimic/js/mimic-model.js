@@ -502,6 +502,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                         this.componentMap.set(component.id, component);
                     } else if (sourceComponent.typeName) {
                         loadContext.unknownTypes.add(sourceComponent.typeName);
+                        loadContext.result.warn = true;
                     }
                 }
             }

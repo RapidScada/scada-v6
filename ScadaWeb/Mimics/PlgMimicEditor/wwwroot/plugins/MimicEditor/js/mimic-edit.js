@@ -309,6 +309,10 @@ async function loadMimic() {
         showStructure();
         showMimic();
         selectMimic();
+
+        if (result.warn) {
+            showToast(phrases.loadMimicError, MessageType.WARNING);
+        }
     } else {
         selectNone();
         showToast(phrases.loadMimicError, MessageType.ERROR);
