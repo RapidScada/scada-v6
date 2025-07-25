@@ -10,11 +10,12 @@ rs.mimic.BasicLedRenderer = class extends rs.mimic.RegularComponentRenderer {
         super._setProps(componentElem, component, renderContext);
         componentElem.text("Led");
     }
-}
+};
 
-function registerRenderers() {
+// Registers the renderers. The function name must be unique.
+function registerBasicRenderers() {
     let componentRenderers = rs.mimic.RendererSet.componentRenderers;
     componentRenderers.set("BasicLed", new rs.mimic.BasicLedRenderer());
 }
 
-registerRenderers();
+registerBasicRenderers();

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PlgMimBasicCompDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Code.BasicComponentGroup">
+    <Phrase key="BasicGroup">ОСНОВНЫЕ</Phrase>
+    <Phrase key="ButtonComponent">Кнопка</Phrase>
+    <Phrase key="LedComponent">Светодиод</Phrase>
+    <Phrase key="LinkComponent">Ссылка</Phrase>
+    <Phrase key="ToggleComponent">Тумблер</Phrase>
+  </Dictionary>
+  <!-- Components -->
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.Button">
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.Led">
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.Link">
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.Toggle">
+  </Dictionary>
+  <!-- Structures -->
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.ColorCondition">
+    <Phrase key="ComparisonOper1">Сравнение 1</Phrase>
+    <Phrase key="ComparisonArg1">Аргумент 1</Phrase>
+    <Phrase key="LogicalOper">Логический оператор</Phrase>
+    <Phrase key="ComparisonOper2">Сравнение 2</Phrase>
+    <Phrase key="ComparisonArg2">Аргумент 2</Phrase>
+    <Phrase key="Color">Цвет</Phrase>
+  </Dictionary>
+</PlgMimBasicCompDictionaries>

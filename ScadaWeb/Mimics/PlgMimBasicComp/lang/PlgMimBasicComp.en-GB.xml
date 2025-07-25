@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PlgMimBasicCompDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Code.BasicComponentGroup">
+    <Phrase key="BasicGroup">BASIC</Phrase>
+    <Phrase key="ButtonComponent">Button</Phrase>
+    <Phrase key="LedComponent">Led</Phrase>
+    <Phrase key="LinkComponent">Link</Phrase>
+    <Phrase key="ToggleComponent">Toggle</Phrase>
+  </Dictionary>
+  <!-- Components -->
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.Button">
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.Led">
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.Link">
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.Toggle">
+  </Dictionary>
+  <!-- Structures -->
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.ColorCondition">
+    <Phrase key="ComparisonOper1">Comparison 1</Phrase>
+    <Phrase key="ComparisonArg1">Argument 1</Phrase>
+    <Phrase key="LogicalOper">Logical operator</Phrase>
+    <Phrase key="ComparisonOper2">Comparison 2</Phrase>
+    <Phrase key="ComparisonArg2">Argument 2</Phrase>
+    <Phrase key="Color">Color</Phrase>
+  </Dictionary>
+</PlgMimBasicCompDictionaries>

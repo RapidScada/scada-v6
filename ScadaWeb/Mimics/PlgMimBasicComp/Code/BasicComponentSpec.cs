@@ -25,16 +25,17 @@ namespace Scada.Web.Plugins.PlgMimBasicComp.Code
         /// Gets the URLs of component stylesheets.
         /// </summary>
         public List<string> StyleUrls => [
-            "~/plugins/MimBasicComp/css/basiccomp.min.css"
+            "~/plugins/MimBasicComp/css/basic.min.css"
         ];
 
         /// <summary>
         /// Gets the URLs of component scripts.
         /// </summary>
         public List<string> ScriptUrls => [
-            "~/plugins/MimBasicComp/js/basiccomp-descr.js",
-            "~/plugins/MimBasicComp/js/basiccomp-factory.js",
-            "~/plugins/MimBasicComp/js/basiccomp-render.js"
+            "~/plugins/MimBasicComp/js/basic-descr.js",
+            "~/plugins/MimBasicComp/js/basic-factory.js",
+            "~/plugins/MimBasicComp/js/basic-render.js",
+            "~/plugins/MimBasicComp/js/basic-subtypes.js"
         ];
     }
 }
