@@ -23,10 +23,29 @@ rs.mimic.BasicLedDescriptor = class extends rs.mimic.RegularComponentDescriptor 
     }
 };
 
+rs.mimic.BasicColorConditionDescriptor = class extends rs.mimic.ConditionDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyEditor = rs.mimic.PropertyEditor;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "color",
+            displayName: "Color",
+            type: BasicType.STRING,
+            editor: PropertyEditor.COLOR_DIALOG
+        }));
+    }
+}
+
 // Registers the descriptors. The function name must be unique.
 function registerBasicDescriptors() {
     let componentDescriptors = rs.mimic.DescriptorSet.componentDescriptors;
     componentDescriptors.set("BasicLed", new rs.mimic.BasicLedDescriptor());
+
+    let structureDescriptors = rs.mimic.DescriptorSet.structureDescriptors;
+    structureDescriptors.set("BasicColorCondition", new rs.mimic.BasicColorConditionDescriptor);
 }
 
 registerBasicDescriptors();

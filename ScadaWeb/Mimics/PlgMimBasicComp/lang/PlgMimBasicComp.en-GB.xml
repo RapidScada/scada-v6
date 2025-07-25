@@ -8,16 +8,17 @@
     <Phrase key="ToggleComponent">Toggle</Phrase>
   </Dictionary>
   <!-- Components -->
-  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.Button">
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicButton">
   </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.Led">
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicLed">
+    <Phrase key="Conditions">Conditions</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.Link">
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicLink">
   </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.Toggle">
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicToggle">
   </Dictionary>
   <!-- Structures -->
-  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.ColorCondition">
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicColorCondition">
     <Phrase key="ComparisonOper1">Comparison 1</Phrase>
     <Phrase key="ComparisonArg1">Argument 1</Phrase>
     <Phrase key="LogicalOper">Logical operator</Phrase>
