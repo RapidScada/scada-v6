@@ -19,6 +19,7 @@
     <Phrase key="SameParentRequired">Selected components must have the same parent.</Phrase>
     <Phrase key="ComponentNotSpecified">Component not specified.</Phrase>
     <Phrase key="ClipboardEmpty">Clipboard is empty.</Phrase>
+    <Phrase key="ConfirmReload">The changes may not be saved. Are you sure?</Phrase>
     <Phrase key="ConfirmDeleteDependency">Are you sure you want to delete the dependency?</Phrase>
     <Phrase key="ConfirmDeleteImage">Are you sure you want to delete the image?</Phrase>
   </Dictionary>

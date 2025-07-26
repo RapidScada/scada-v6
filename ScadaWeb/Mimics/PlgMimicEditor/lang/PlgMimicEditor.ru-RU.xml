@@ -19,6 +19,7 @@
     <Phrase key="SameParentRequired">Выбранные компоненты должны иметь общего родителя.</Phrase>
     <Phrase key="ComponentNotSpecified">Компонент не указан.</Phrase>
     <Phrase key="ClipboardEmpty">Буфер обмена пуст.</Phrase>
+    <Phrase key="ConfirmReload">Изменения могут не сохраниться. Вы уверены?</Phrase>
     <Phrase key="ConfirmDeleteDependency">Вы уверены, что хотите удалить зависимость?</Phrase>
     <Phrase key="ConfirmDeleteImage">Вы уверены, что хотите удалить изображение?</Phrase>
   </Dictionary>

@@ -63,7 +63,9 @@ function bindEvents() {
     });
 
     $(ToolbarButton.RELOAD).on("click", async function () {
-        await reload();
+        if (!mimicModified || confirm(phrases.confirmReload)) {
+            await reload();
+        }
     });
 
     $(ToolbarButton.SAVE).on("click", async function () {
