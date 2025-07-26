@@ -1,6 +1,6 @@
 // Contains classes: AlingActionType, ArrangeActionType, ChangeType, DragType, EnabledDependsOn, LongActionType,
-//     MessageType, ToolbarButton, Change, UpdateDto, LongAction, MimicClipboard, 
-//     HistoryChange, HistoryPoint, MimicHistory
+//     MessageType, ToolbarButton, Change, UpdateDto, LongAction, QueueEmptyFlags,
+//     HistoryChange, HistoryPoint, MimicHistory, MimicClipboard
 // Depends on mimic-model.js
 
 // Specifies the action types for component alignment.
@@ -396,110 +396,11 @@ class LongAction {
     }
 }
 
-// Represents a clipboard for copying and pasting components.
-class MimicClipboard {
-    static MARKER = "MimicEditor";
-
-    _isEmpty;
-    _clipboardData;
-    _componentJsons;
-    _rootID;
-    _offset;
-
-    constructor() {
-        this._clear();
-    }
-
-    get rootID() {
-        return this._clipboardData ? this._clipboardData.rootID : this._rootID;
-    }
-
-    get offset() {
-        return this._clipboardData ? this._clipboardData.offset : this._offset;
-    }
-
-    get isEmpty() {
-        return this._isEmpty;
-    }
-
-    _clear() {
-        this._isEmpty = true;
-        this._clipboardData = null;
-        this._componentJsons = [];
-        this._rootID = 0;
-        this._offset = { x: 0, y: 0 };
-    }
-
-    static _validate(clipboardData) {
-        return clipboardData &&
-            clipboardData.marker === MimicClipboard.MARKER &&
-            Array.isArray(clipboardData.components) &&
-            Number.isInteger(clipboardData.rootID) &&
-            clipboardData.offset instanceof Object;
-    }
-
-    async defineEmptiness() {
-        if (this._componentJsons.length > 0) {
-            this._isEmpty = false;
-        } else {
-            try { this._isEmpty = !await navigator.clipboard.readText(); }
-            catch { this._isEmpty = true; }
-        }
-    }
-
-    async writeComponents(components) {
-        // extract information from components
-        let plainObjects = [];
-        this._clear();
-
-        if (Array.isArray(components) && components.length > 0) {
-            this._isEmpty = false;
-            this._rootID = components[0].parentID; // assuming that parents are the same
-            this._offset = rs.mimic.MimicHelper.getMinLocation(components);
-
-            for (let component of components) {
-                plainObjects.push(component.toPlainObject())
-
-                if (component.isContainer) {
-                    plainObjects.push(...component.getAllChildren().map(c => c.toPlainObject()));
-                }
-            }
-
-            this._componentJsons = plainObjects.map(o => JSON.stringify(o));
-        }
-
-        // write to system buffer
-        try {
-            await navigator.clipboard.writeText(JSON.stringify({
-                marker: MimicClipboard.MARKER,
-                components: plainObjects,
-                rootID: this._rootID,
-                offset: this._offset
-            }));
-        } catch (ex) {
-            console.error("Error writing to clipboard: " + ex.message);
-        }
-    }
-
-    async readComponents() {
-        // read from system buffer first
-        try {
-            let text = await navigator.clipboard.readText();
-            let data;
-            try { data = JSON.parse(text); }
-            catch { data = null; }
-
-            if (MimicClipboard._validate(data)) {
-                this._clipboardData = data;
-                return data.components;
-            }
-        } catch (ex) {
-            console.error("Error reading from clipboard: " + ex.message);
-        }
-
-        // return plain objects that are not instances of Component
-        return this._componentJsons.map(j => JSON.parse(j));
-    }
+// Represents flags to process when the update queue is empty.
+class QueueEmptyFlags {
+    saveRequired = false;
+    reloadRequired = false;
+    fullReloadRequired = false;
 }
 
 // Represents a change in history.
@@ -799,6 +700,112 @@ class MimicHistory {
         } else {
             return null;
         }
+    }
+}
+
+// Represents a clipboard for copying and pasting components.
+class MimicClipboard {
+    static MARKER = "MimicEditor";
+
+    _isEmpty;
+    _clipboardData;
+    _componentJsons;
+    _rootID;
+    _offset;
+
+    constructor() {
+        this._clear();
+    }
+
+    get rootID() {
+        return this._clipboardData ? this._clipboardData.rootID : this._rootID;
+    }
+
+    get offset() {
+        return this._clipboardData ? this._clipboardData.offset : this._offset;
+    }
+
+    get isEmpty() {
+        return this._isEmpty;
+    }
+
+    _clear() {
+        this._isEmpty = true;
+        this._clipboardData = null;
+        this._componentJsons = [];
+        this._rootID = 0;
+        this._offset = { x: 0, y: 0 };
+    }
+
+    static _validate(clipboardData) {
+        return clipboardData &&
+            clipboardData.marker === MimicClipboard.MARKER &&
+            Array.isArray(clipboardData.components) &&
+            Number.isInteger(clipboardData.rootID) &&
+            clipboardData.offset instanceof Object;
+    }
+
+    async defineEmptiness() {
+        if (this._componentJsons.length > 0) {
+            this._isEmpty = false;
+        } else {
+            try { this._isEmpty = !await navigator.clipboard.readText(); }
+            catch { this._isEmpty = true; }
+        }
+    }
+
+    async writeComponents(components) {
+        // extract information from components
+        let plainObjects = [];
+        this._clear();
+
+        if (Array.isArray(components) && components.length > 0) {
+            this._isEmpty = false;
+            this._rootID = components[0].parentID; // assuming that parents are the same
+            this._offset = rs.mimic.MimicHelper.getMinLocation(components);
+
+            for (let component of components) {
+                plainObjects.push(component.toPlainObject())
+
+                if (component.isContainer) {
+                    plainObjects.push(...component.getAllChildren().map(c => c.toPlainObject()));
+                }
+            }
+
+            this._componentJsons = plainObjects.map(o => JSON.stringify(o));
+        }
+
+        // write to system buffer
+        try {
+            await navigator.clipboard.writeText(JSON.stringify({
+                marker: MimicClipboard.MARKER,
+                components: plainObjects,
+                rootID: this._rootID,
+                offset: this._offset
+            }));
+        } catch (ex) {
+            console.error("Error writing to clipboard: " + ex.message);
+        }
+    }
+
+    async readComponents() {
+        // read from system buffer first
+        try {
+            let text = await navigator.clipboard.readText();
+            let data;
+            try { data = JSON.parse(text); }
+            catch { data = null; }
+
+            if (MimicClipboard._validate(data)) {
+                this._clipboardData = data;
+                return data.components;
+            }
+        } catch (ex) {
+            console.error("Error reading from clipboard: " + ex.message);
+        }
+
+        // return plain objects that are not instances of Component
+        return this._componentJsons.map(j => JSON.parse(j));
     }
 }
 

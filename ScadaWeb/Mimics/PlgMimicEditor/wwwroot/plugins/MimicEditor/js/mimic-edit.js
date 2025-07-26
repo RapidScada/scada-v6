@@ -13,9 +13,10 @@ const IMAGES_PATH = "../../plugins/MimicEditor/images/";
 const mimic = new rs.mimic.Mimic();
 const unitedRenderer = new rs.mimic.UnitedRenderer(mimic, true);
 const updateQueue = [];
-const toastMessages = new Set();
+const queueEmptyFlags = new QueueEmptyFlags();
 const mimicHistory = new MimicHistory();
 const mimicClipboard = new MimicClipboard();
+const permanentMessages = new Set();
 
 // Set in MimicEdit.cshtml and MimicEditLang.cshtml
 var rootPath = "/";
@@ -35,8 +36,6 @@ let selectedComponents = [];
 let lastUpdateTime = 0;
 let longAction = null;
 let mimicModified = false;
-let mimicReloadRequired = false;
-let mimicSaveRequired = false;
 let maxComponentID = null;
 
 // --- Startup ---
@@ -337,15 +336,15 @@ async function startUpdatingBackend() {
 
 async function reload() {
     if (updateQueue.length > 0) {
-        mimicReloadRequired = true;
+        queueEmptyFlags.fullReloadRequired = true;
     } else {
-        await reloadMimic();
+        await fullReloadMimic();
     }
 }
 
 async function save() {
     if (updateQueue.length > 0) {
-        mimicSaveRequired = true;
+        queueEmptyFlags.saveRequired = true;
     } else {
         await saveMimic();
     }
@@ -642,12 +641,15 @@ function arrange(actionType) {
 
 async function reloadMimic() {
     showToast(phrases.mimicReloading, MessageType.WARNING);
+    clearSelection();
+    clearLongAction();
+    clearHistory();
+    await loadMimic();
+}
 
+async function fullReloadMimic() {
     if (await reloadMimicOnServer()) {
-        clearSelection();
-        clearLongAction();
-        clearHistory();
-        await loadMimic();
+        await reloadMimic();
     } else {
         showToast(phrases.loadMimicError, MessageType.ERROR);
     }
@@ -781,7 +783,7 @@ function addDependency(faceplateMeta, opt_oldfaceplateMeta) {
     mimic.addDependency(faceplateMeta);
     structTree.refreshDependencies();
     changes.push(Change.addDependency(faceplateMeta));
-    reload();
+    queueEmptyFlags.reloadRequired = true; // before pushing changes
     pushChanges(...changes);
 }
 
@@ -789,7 +791,7 @@ function removeDependency(typeName) {
     console.log(`Remove '${typeName}' dependency`);
     mimic.removeDependency(typeName);
     structTree.refreshDependencies();
-    reload();
+    queueEmptyFlags.reloadRequired = true; // before pushing changes
     pushChanges(Change.removeDependency(typeName));
 }
 
@@ -1572,14 +1574,18 @@ async function postUpdate(updateDto) {
 }
 
 async function handleQueueEmpty() {
-    if (mimicReloadRequired) {
-        mimicReloadRequired = false;
-        await reloadMimic();
+    if (queueEmptyFlags.saveRequired) {
+        queueEmptyFlags.saveRequired = false;
+        await saveMimic();
     }
 
-    if (mimicSaveRequired) {
-        mimicSaveRequired = false;
-        await saveMimic();
+    if (queueEmptyFlags.fullReloadRequired) {
+        queueEmptyFlags.fullReloadRequired = false;
+        queueEmptyFlags.reloadRequired = false;
+        await fullReloadMimic();
+    } else if (queueEmptyFlags.reloadRequired) {
+        queueEmptyFlags.reloadRequired = false;
+        await reloadMimic();
     }
 }
 
@@ -1739,7 +1745,7 @@ function showToast(message, opt_messageType, opt_toastOptions) {
     // delete hidden toast
     toastElem.on("hidden.bs.toast", function () {
         if (toastElem.data("permanent")) {
-            toastMessages.delete(message);
+            permanentMessages.delete(message);
         }
 
         toastElem.remove();
@@ -1749,8 +1755,8 @@ function showToast(message, opt_messageType, opt_toastOptions) {
 }
 
 function showPermanentToast(message, opt_messageType) {
-    if (!toastMessages.has(message)) {
-        toastMessages.add(message);
+    if (!permanentMessages.has(message)) {
+        permanentMessages.add(message);
         showToast(message, opt_messageType, { autohide: false }).data("permanent", true);
     }
 }
