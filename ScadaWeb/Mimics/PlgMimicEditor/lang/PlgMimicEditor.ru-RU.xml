@@ -8,7 +8,7 @@
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js">
     <Phrase key="FaceplateGroup">ФЕЙСПЛЕЙТЫ</Phrase>
     <Phrase key="MimicReloading">Перезагрузка схемы.</Phrase>
-    <Phrase key="MimicReloaded">Мнемосхема перезагружена успешно.</Phrase>
+    <Phrase key="MimicReloaded">Мнемосхема перезагружена на сервере.</Phrase>
     <Phrase key="MimicSaved">Мнемосхема сохранена успешно.</Phrase>
     <Phrase key="LoadMimicError">Ошибка при загрузке мнемосхемы.</Phrase>
     <Phrase key="SaveMimicError">Ошибка при сохранении мнемосхемы.</Phrase>

@@ -637,7 +637,7 @@ function arrange(actionType) {
     }
 }
 
-// --- Auxiliary ---
+// --- Reload and Save ---
 
 async function reloadMimic() {
     showToast(phrases.mimicReloading, MessageType.WARNING);
@@ -648,14 +648,14 @@ async function reloadMimic() {
 }
 
 async function fullReloadMimic() {
-    if (await reloadMimicOnServer()) {
+    if (await reloadOnServer()) {
         await reloadMimic();
     } else {
         showToast(phrases.loadMimicError, MessageType.ERROR);
     }
 }
 
-async function reloadMimicOnServer() {
+async function reloadOnServer() {
     let response = await fetch(getUpdaterUrl() + "ReloadMimic?key=" + mimicKey, { method: "POST" });
 
     if (response.ok) {
@@ -690,6 +690,8 @@ async function saveMimic() {
         }
     }
 }
+
+// --- Display ---
 
 function showSpinner() {
     $("#divMimicWrapper").append("<div class='mimic-spinner fs-2 text-secondary'>" +
@@ -770,6 +772,57 @@ function showMimic() {
     $("#divMimicWrapper").empty().append(mimicElem);
 }
 
+function showToast(message, opt_messageType, opt_toastOptions) {
+    // construct toast
+    let toastElem = $("<div class='toast align-items-center'></div>");
+
+    if (opt_messageType) {
+        switch (opt_messageType) {
+            case MessageType.INFO:
+                toastElem.addClass("text-bg-info");
+                break;
+            case MessageType.SUCCESS:
+                toastElem.addClass("text-bg-success");
+                break;
+            case MessageType.WARNING:
+                toastElem.addClass("text-bg-warning");
+                break;
+            case MessageType.ERROR:
+                toastElem.addClass("text-bg-danger");
+                break;
+        }
+    }
+
+    let contentsElem = $("<div class='d-flex'></div>").appendTo(toastElem);
+    $("<div class='toast-body'></div>").text(message).appendTo(contentsElem);
+    $("<button type='button' class='btn-close me-2 m-auto' data-bs-dismiss='toast'></button>").appendTo(contentsElem);
+    $("#divToastContainer").prepend(toastElem);
+
+    // show toast
+    let toast = bootstrap.Toast.getOrCreateInstance(toastElem[0], opt_toastOptions);
+    toast.show();
+
+    // delete hidden toast
+    toastElem.on("hidden.bs.toast", function () {
+        if (toastElem.data("permanent")) {
+            permanentMessages.delete(message);
+        }
+
+        toastElem.remove();
+    });
+
+    return toastElem;
+}
+
+function showPermanentToast(message, opt_messageType) {
+    if (!permanentMessages.has(message)) {
+        permanentMessages.add(message);
+        showToast(message, opt_messageType, { autohide: false }).data("permanent", true);
+    }
+}
+
+// --- Edit Structure ---
+
 function addDependency(faceplateMeta, opt_oldfaceplateMeta) {
     console.log(`Add '${faceplateMeta.typeName}' dependency`);
     let changes = [];
@@ -819,6 +872,8 @@ function removeImage(imageName) {
     showMimic();
     pushChanges(Change.removeImage(imageName));
 }
+
+// --- History ---
 
 function addToHistory(changes) {
     mimicHistory.addPoint(mimic, changes);
@@ -977,6 +1032,8 @@ function restoreHistoryPoint(historyPoint) {
     }
 }
 
+// --- Selection ---
+
 function selectMimic() {
     clearSelection();
     structTree.selectMimic();
@@ -1049,6 +1106,90 @@ function selectComponents(components) {
     let componentIDs = selectedComponents.map(c => c.id);
     console.log(`Components with IDs ${componentIDs.join(", ")} selected`);
 }
+
+// --- Update Queue ---
+
+function pushChanges(...changes) {
+    if (changes.length > 0) {
+        updateQueue.push(new UpdateDto(mimicKey, changes));
+        addToHistory(changes);
+    }
+}
+
+function pushChangesNoHistory(...changes) {
+    if (changes.length > 0) {
+        updateQueue.push(new UpdateDto(mimicKey, changes));
+    }
+}
+
+async function postUpdates() {
+    if (updateQueue.length > 0) {
+        // send changes
+        while (updateQueue.length > 0) {
+            let updateDto = updateQueue.shift();
+            let result = await postUpdate(updateDto);
+
+            if (result) {
+                mimicModified = true;
+
+                if (updateQueue.length === 0) {
+                    await handleQueueEmpty();
+                }
+            } else {
+                updateQueue.unshift(updateDto);
+                break;
+            }
+        }
+    } else if (Date.now() - lastUpdateTime >= KEEP_ALIVE_INTERVAL) {
+        // heartbeat
+        await postUpdate(new UpdateDto(mimicKey));
+    }
+}
+
+async function postUpdate(updateDto) {
+    try {
+        let response = await fetch(getUpdaterUrl() + "UpdateMimic", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: updateDto.json
+        });
+
+        if (response.ok) {
+            let dto = await response.json();
+
+            if (!dto.ok) {
+                console.error(dto.msg);
+                showPermanentToast(shortenMessage(dto.msg), MessageType.ERROR);
+            }
+        } else {
+            showPermanentToast(phrases.postUpdateError, MessageType.ERROR);
+        }
+
+        lastUpdateTime = Date.now();
+        return true;
+    } catch {
+        showPermanentToast(phrases.postUpdateError, MessageType.ERROR);
+        return false;
+    }
+}
+
+async function handleQueueEmpty() {
+    if (queueEmptyFlags.saveRequired) {
+        queueEmptyFlags.saveRequired = false;
+        await saveMimic();
+    }
+
+    if (queueEmptyFlags.fullReloadRequired) {
+        queueEmptyFlags.fullReloadRequired = false;
+        queueEmptyFlags.reloadRequired = false;
+        await fullReloadMimic();
+    } else if (queueEmptyFlags.reloadRequired) {
+        queueEmptyFlags.reloadRequired = false;
+        await reloadMimic();
+    }
+}
+
+// --- Misc ---
 
 function closestCompElem(clickedElem) {
     let faceplateElem = clickedElem.parents(".comp.faceplate").last();
@@ -1501,94 +1642,6 @@ function resizeComponents(offsetW, offsetH) {
     pushChanges(...changes);
 }
 
-function getLoaderUrl() {
-    return rootPath + "Api/MimicEditor/Loader/";
-}
-
-function getUpdaterUrl() {
-    return rootPath + "Api/MimicEditor/Updater/";
-}
-
-function pushChanges(...changes) {
-    if (changes.length > 0) {
-        updateQueue.push(new UpdateDto(mimicKey, changes));
-        addToHistory(changes);
-    }
-}
-
-function pushChangesNoHistory(...changes) {
-    if (changes.length > 0) {
-        updateQueue.push(new UpdateDto(mimicKey, changes));
-    }
-}
-
-async function postUpdates() {
-    if (updateQueue.length > 0) {
-        // send changes
-        while (updateQueue.length > 0) {
-            let updateDto = updateQueue.shift();
-            let result = await postUpdate(updateDto);
-
-            if (result) {
-                mimicModified = true;
-
-                if (updateQueue.length === 0) {
-                    await handleQueueEmpty();
-                }
-            } else {
-                updateQueue.unshift(updateDto);
-                break;
-            }
-        }
-    } else if (Date.now() - lastUpdateTime >= KEEP_ALIVE_INTERVAL) {
-        // heartbeat
-        await postUpdate(new UpdateDto(mimicKey));
-    }
-}
-
-async function postUpdate(updateDto) {
-    try {
-        let response = await fetch(getUpdaterUrl() + "UpdateMimic", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: updateDto.json
-        });
-
-        if (response.ok) {
-            let dto = await response.json();
-
-            if (!dto.ok) {
-                console.error(dto.msg);
-                showPermanentToast(shortenMessage(dto.msg), MessageType.ERROR);
-            }
-        } else {
-            showPermanentToast(phrases.postUpdateError, MessageType.ERROR);
-        }
-
-        lastUpdateTime = Date.now();
-        return true;
-    } catch {
-        showPermanentToast(phrases.postUpdateError, MessageType.ERROR);
-        return false;
-    }
-}
-
-async function handleQueueEmpty() {
-    if (queueEmptyFlags.saveRequired) {
-        queueEmptyFlags.saveRequired = false;
-        await saveMimic();
-    }
-
-    if (queueEmptyFlags.fullReloadRequired) {
-        queueEmptyFlags.fullReloadRequired = false;
-        queueEmptyFlags.reloadRequired = false;
-        await fullReloadMimic();
-    } else if (queueEmptyFlags.reloadRequired) {
-        queueEmptyFlags.reloadRequired = false;
-        await reloadMimic();
-    }
-}
-
 function handlePropertyChanged(eventData) {
     let changedObject = eventData.topObject;
     let propertyName = eventData.topPropertyName;
@@ -1702,6 +1755,14 @@ function handleKeyDown(code, ctrlKey, shiftKey) {
     return false;
 }
 
+function getLoaderUrl() {
+    return rootPath + "Api/MimicEditor/Loader/";
+}
+
+function getUpdaterUrl() {
+    return rootPath + "Api/MimicEditor/Updater/";
+}
+
 function setEnabled(selector, enabled) {
     $(selector).prop("disabled", !enabled);
 }
@@ -1710,55 +1771,6 @@ function shortenMessage(message) {
     return message && message.length > TOAST_MESSAGE_LENGTH
         ? message.substring(0, TOAST_MESSAGE_LENGTH) + "..."
         : message;
-}
-
-function showToast(message, opt_messageType, opt_toastOptions) {
-    // construct toast
-    let toastElem = $("<div class='toast align-items-center'></div>");
-
-    if (opt_messageType) {
-        switch (opt_messageType) {
-            case MessageType.INFO:
-                toastElem.addClass("text-bg-info");
-                break;
-            case MessageType.SUCCESS:
-                toastElem.addClass("text-bg-success");
-                break;
-            case MessageType.WARNING:
-                toastElem.addClass("text-bg-warning");
-                break;
-            case MessageType.ERROR:
-                toastElem.addClass("text-bg-danger");
-                break;
-        }
-    }
-
-    let contentsElem = $("<div class='d-flex'></div>").appendTo(toastElem);
-    $("<div class='toast-body'></div>").text(message).appendTo(contentsElem);
-    $("<button type='button' class='btn-close me-2 m-auto' data-bs-dismiss='toast'></button>").appendTo(contentsElem);
-    $("#divToastContainer").prepend(toastElem);
-
-    // show toast
-    let toast = bootstrap.Toast.getOrCreateInstance(toastElem[0], opt_toastOptions);
-    toast.show();
-
-    // delete hidden toast
-    toastElem.on("hidden.bs.toast", function () {
-        if (toastElem.data("permanent")) {
-            permanentMessages.delete(message);
-        }
-
-        toastElem.remove();
-    });
-
-    return toastElem;
-}
-
-function showPermanentToast(message, opt_messageType) {
-    if (!permanentMessages.has(message)) {
-        permanentMessages.add(message);
-        showToast(message, opt_messageType, { autohide: false }).data("permanent", true);
-    }
 }
 
 $(async function () {

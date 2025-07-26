@@ -8,7 +8,7 @@
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js">
     <Phrase key="FaceplateGroup">FACEPLATES</Phrase>
     <Phrase key="MimicReloading">Reloading mimic.</Phrase>
-    <Phrase key="MimicReloaded">Mimic reloaded successfully.</Phrase>
+    <Phrase key="MimicReloaded">Mimic reloaded on server.</Phrase>
     <Phrase key="MimicSaved">Mimic saved successfully.</Phrase>
     <Phrase key="LoadMimicError">Error loading mimic.</Phrase>
     <Phrase key="SaveMimicError">Error saving mimic.</Phrase>
