@@ -170,5 +170,16 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 
             xmlDoc.Save(stream);
         }
+
+        /// <summary>
+        /// Clears the mimic diagram.
+        /// </summary>
+        public virtual void Clear()
+        {
+            Dependencies.Clear();
+            Document.RemoveAll();
+            Components.Clear();
+            Images.Clear();
+        }
     }
 }

@@ -36,7 +36,10 @@ let lastUpdateTime = 0;
 let longAction = null;
 let mimicModified = false;
 let mimicReloadRequired = false;
+let mimicSaveRequired = false;
 let maxComponentID = null;
+
+// --- Startup ---
 
 function bindEvents() {
     $(window)
@@ -57,6 +60,10 @@ function bindEvents() {
             handleKeyDown(event.code, event.ctrlKey, event.shiftKey)) {
             event.preventDefault();
         }
+    });
+
+    $(ToolbarButton.RELOAD).on("click", async function () {
+        await reload();
     });
 
     $(ToolbarButton.SAVE).on("click", async function () {
@@ -324,20 +331,21 @@ async function startUpdatingBackend() {
     setTimeout(startUpdatingBackend, UPDATE_RATE);
 }
 
+// --- Toolbar ---
+
+async function reload() {
+    if (updateQueue.length > 0) {
+        mimicReloadRequired = true;
+    } else {
+        await reloadMimic();
+    }
+}
+
 async function save() {
-    let response = await fetch(getUpdaterUrl() + "SaveMimic?key=" + mimicKey, { method: "POST" });
-
-    if (response.ok) {
-        let dto = await response.json();
-
-        if (dto.ok) {
-            mimicModified = false;
-            console.log(phrases.mimicSaved);
-            showToast(phrases.mimicSaved, MessageType.SUCCESS);
-        } else {
-            console.error(dto.msg);
-            showToast(phrases.saveMimicError, MessageType.ERROR);
-        }
+    if (updateQueue.length > 0) {
+        mimicSaveRequired = true;
+    } else {
+        await saveMimic();
     }
 }
 
@@ -628,6 +636,57 @@ function arrange(actionType) {
     }
 }
 
+// --- Auxiliary ---
+
+async function reloadMimic() {
+    showToast(phrases.mimicReloading, MessageType.WARNING);
+
+    if (await reloadMimicOnServer()) {
+        clearSelection();
+        clearLongAction();
+        clearHistory();
+        await loadMimic();
+    } else {
+        showToast(phrases.loadMimicError, MessageType.ERROR);
+    }
+}
+
+async function reloadMimicOnServer() {
+    let response = await fetch(getUpdaterUrl() + "ReloadMimic?key=" + mimicKey, { method: "POST" });
+
+    if (response.ok) {
+        let dto = await response.json();
+
+        if (dto.ok) {
+            mimicModified = false;
+            console.log(phrases.mimicReloaded);
+            return true;
+        } else {
+            console.error(dto.msg);
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
+async function saveMimic() {
+    let response = await fetch(getUpdaterUrl() + "SaveMimic?key=" + mimicKey, { method: "POST" });
+
+    if (response.ok) {
+        let dto = await response.json();
+
+        if (dto.ok) {
+            mimicModified = false;
+            console.log(phrases.mimicSaved);
+            showToast(phrases.mimicSaved, MessageType.SUCCESS);
+        } else {
+            console.error(dto.msg);
+            showToast(phrases.saveMimicError, MessageType.ERROR);
+        }
+    }
+}
+
 function showSpinner() {
     $("#divMimicWrapper").append("<div class='mimic-spinner fs-2 text-secondary'>" +
         "<i class='fa-solid fa-spinner fa-spin-pulse fa-3x'></i></div>");
@@ -720,7 +779,7 @@ function addDependency(faceplateMeta, opt_oldfaceplateMeta) {
     mimic.addDependency(faceplateMeta);
     structTree.refreshDependencies();
     changes.push(Change.addDependency(faceplateMeta));
-    mimicReloadRequired = true;
+    reload();
     pushChanges(...changes);
 }
 
@@ -728,7 +787,7 @@ function removeDependency(typeName) {
     console.log(`Remove '${typeName}' dependency`);
     mimic.removeDependency(typeName);
     structTree.refreshDependencies();
-    mimicReloadRequired = true;
+    reload();
     pushChanges(Change.removeDependency(typeName));
 }
 
@@ -1513,11 +1572,12 @@ async function postUpdate(updateDto) {
 async function handleQueueEmpty() {
     if (mimicReloadRequired) {
         mimicReloadRequired = false;
-        showToast(phrases.mimicReload, MessageType.WARNING);
-        clearSelection();
-        clearLongAction();
-        clearHistory();
-        await loadMimic();
+        await reloadMimic();
+    }
+
+    if (mimicSaveRequired) {
+        mimicSaveRequired = false;
+        await saveMimic();
     }
 }
 

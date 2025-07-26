@@ -63,6 +63,18 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         }
 
         /// <summary>
+        /// Clears the mimic diagram.
+        /// </summary>
+        public override void Clear()
+        {
+            base.Clear();
+            DependencyMap.Clear();
+            ComponentMap.Clear();
+            ImageMap.Clear();
+            FaceplateMap.Clear();
+        }
+
+        /// <summary>
         /// Loads the mimic diagram from file.
         /// </summary>
         public void Load(string fileName, LoadContext loadContext)

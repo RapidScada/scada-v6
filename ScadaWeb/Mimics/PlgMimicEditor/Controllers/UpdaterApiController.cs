@@ -43,6 +43,25 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
         }
 
         /// <summary>
+        /// Reloads the mimic.
+        /// </summary>
+        [HttpPost]
+        public Dto ReloadMimic([FromQuery] long key)
+        {
+            try
+            {
+                return editorManager.ReloadMimic(key, out string errMsg)
+                    ? Dto.Success()
+                    : Dto.Fail(errMsg);
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(ReloadMimic)));
+                return Dto.Fail(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Saves the mimic.
         /// </summary>
         [HttpPost]

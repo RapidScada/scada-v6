@@ -399,6 +399,46 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         }
 
         /// <summary>
+        /// Reloads the mimic that is already open.
+        /// </summary>
+        public bool ReloadMimic(long mimicKey, out string errMsg)
+        {
+            if (!FindMimic(mimicKey, out MimicInstance mimicInstance, out errMsg))
+                return false;
+
+            try
+            {
+                lock (mimicInstance.Mimic.SyncRoot)
+                {
+                    // clear mimic
+                    Mimic mimic = mimicInstance.Mimic;
+                    mimic.Clear();
+
+                    // load mimic
+                    LoadContext loadContext = new() { EditMode = true };
+                    mimic.Load(mimicInstance.FileName, loadContext);
+
+                    // load faceplates
+                    string viewDir = EditorUtils.GetViewDir(mimicInstance.ParentGroup.ProjectFileName);
+                    mimic.LoadFaceplates(viewDir, false, loadContext);
+                }
+
+                PluginLog.WriteAction(Locale.IsRussian ?
+                    "Перезагружена мнемосхема {0}" :
+                    "Mimic reloaded {0}", mimicInstance.FileName);
+
+                errMsg = "";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.BuildErrorMessage(EditorPhrases.LoadMimicError);
+                PluginLog.WriteError(errMsg);
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Saves the mimic specified by the key.
         /// </summary>
         public bool SaveMimic(long mimicKey, out string errMsg)

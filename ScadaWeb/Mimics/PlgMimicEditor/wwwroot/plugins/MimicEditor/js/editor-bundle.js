@@ -167,6 +167,7 @@ class MessageType {
 
 // Specifies the toolbar button selectors.
 class ToolbarButton {
+    static RELOAD = "#btnReload";
     static SAVE = "#btnSave";
     static UNDO = "#btnUndo";
     static REDO = "#btnRedo";

@@ -40,6 +40,15 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         }
 
         /// <summary>
+        /// Removes all properties.
+        /// </summary>
+        public static void RemoveAll(this ExpandoObject obj)
+        {
+            IDictionary<string, object> dict = obj;
+            dict.Remove(dict.Keys.ToList());
+        }
+
+        /// <summary>
         /// Loads the object property from the XML node.
         /// </summary>
         public static void LoadProperty(this ExpandoObject obj, XmlElement propertyElem)
