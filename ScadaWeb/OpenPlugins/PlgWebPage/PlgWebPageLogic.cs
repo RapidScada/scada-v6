@@ -26,7 +26,7 @@ namespace Scada.Web.Plugins.PlgWebPage
         /// <summary>
         /// Gets the view specifications.
         /// </summary>
-        public override ICollection<ViewSpec> ViewSpecs => new ViewSpec[] { new WebPageViewSpec() };
+        public override List<ViewSpec> ViewSpecs => [new WebPageViewSpec()];
 
         /// <summary>
         /// Loads language dictionaries.
