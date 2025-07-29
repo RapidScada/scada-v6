@@ -2,16 +2,28 @@
 <ScadaInstanceConfig>
   <Culture>en-GB</Culture>
   <LogDir></LogDir>
-  <ActiveStorage>FileStorage</ActiveStorage>
-  <Connection>
-    <Name>Default Connection</Name>
-    <DBMS>PostgreSQL</DBMS>
-    <Server>localhost</Server>
-    <Database>rapid_scada</Database>
-    <Username>postgres</Username>
-    <Password>4D83D8AEB31C1B40335A78AF3539DD22</Password>
-    <ConnectionString />
-  </Connection>
+  <DefaultConnection>MainConnection</DefaultConnection>
+  <ActiveStorage>FileStorage</ActiveStorage>  
+  <Connections>
+    <Connection>
+      <Name>MainConnection</Name>
+      <DBMS>PostgreSQL</DBMS>
+      <Server>localhost</Server>
+      <Database>rapid_scada</Database>
+      <Username>postgres</Username>
+      <Password>4D83D8AEB31C1B40335A78AF3539DD22</Password>
+      <ConnectionString />
+    </Connection>
+    <Connection>
+      <Name>ReserveConnection</Name>
+      <DBMS>PostgreSQL</DBMS>
+      <Server />
+      <Database />
+      <Username />
+      <Password />
+      <ConnectionString />
+    </Connection>
+  </Connections>
   <Storages>
     <Storage code="FileStorage">
       <ViewAvailable>false</ViewAvailable>

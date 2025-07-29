@@ -281,7 +281,7 @@ namespace Scada.Storages.PostgreSqlStorage
         /// </summary>
         public override void MakeReady()
         {
-            conn = CreateDbConnection(StorageContext.InstanceConfig.Connection);
+            conn = CreateDbConnection(StorageContext.InstanceConfig.GetDefaultConnectionOptions());
 
             // wait for connection
             DateTime utcNow = DateTime.UtcNow;

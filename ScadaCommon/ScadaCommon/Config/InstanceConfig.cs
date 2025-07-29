@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2023
+ * Modified : 2025
  */
 
 using Scada.Dbms;
@@ -69,14 +69,19 @@ namespace Scada.Config
         public string LogDir { get; set; }
 
         /// <summary>
+        /// Gets or sets the name of the default connection.
+        /// </summary>
+        public string DefaultConnection { get; set; }
+
+        /// <summary>
         /// Gets or sets the code of the active storage.
         /// </summary>
         public string ActiveStorage { get; set; }
 
         /// <summary>
-        /// Gets the default database connection options.
+        /// Gets the connection options accessed by connection name.
         /// </summary>
-        public DbConnectionOptions Connection { get; private set; }
+        public SortedList<string, DbConnectionOptions> Connections { get; private set; }
 
         /// <summary>
         /// Gets the storage configurations accessed by storage code.
@@ -91,8 +96,9 @@ namespace Scada.Config
         {
             Culture = Locale.DefaultCulture.Name;
             LogDir = "";
+            DefaultConnection = "";
             ActiveStorage = DefaultStorageCode;
-            Connection = new DbConnectionOptions();
+            Connections = new SortedList<string, DbConnectionOptions>();
             Storages = new SortedList<string, XmlElement>();
         }
 
@@ -111,10 +117,26 @@ namespace Scada.Config
 
                 Culture = rootElem.GetChildAsString("Culture");
                 LogDir = rootElem.GetChildAsString("LogDir");
+                DefaultConnection = rootElem.GetChildAsString("DefaultConnection");
                 ActiveStorage = rootElem.GetChildAsString("ActiveStorage");
 
-                if (rootElem.SelectSingleNode("Connection") is XmlNode connectionNode)
-                    Connection.LoadFromXml(connectionNode);
+                if (rootElem.SelectSingleNode("Connections") is XmlNode connectionsNode)
+                {
+                    foreach (XmlNode connectionNode in connectionsNode.SelectNodes("Connection"))
+                    {
+                        DbConnectionOptions connectionOptions = new DbConnectionOptions();
+                        connectionOptions.LoadFromXml(connectionNode);
+                        Connections[connectionOptions.Name] = connectionOptions;
+                    }
+                }
+                else if (rootElem.SelectSingleNode("Connection") is XmlNode connectionNode)
+                {
+                    // support old format
+                    DbConnectionOptions connectionOptions = new DbConnectionOptions();
+                    connectionOptions.LoadFromXml(connectionNode);
+                    Connections[connectionOptions.Name] = connectionOptions;
+                    DefaultConnection = connectionOptions.Name;
+                }
 
                 if (rootElem.SelectSingleNode("Storages") is XmlNode storagesNode)
                 {
@@ -153,10 +175,16 @@ namespace Scada.Config
 
                 rootElem.AppendElem("Culture", Culture);
                 rootElem.AppendElem("LogDir", LogDir);
+                rootElem.AppendElem("DefaultConnection", DefaultConnection);
                 rootElem.AppendElem("ActiveStorage", ActiveStorage);
-                Connection.SaveToXml(rootElem.AppendElem("Connection"));
-
+                XmlElement connectionsElem = rootElem.AppendElem("Connections");
                 XmlElement storagesElem = rootElem.AppendElem("Storages");
+
+                foreach (DbConnectionOptions connectionOptions in Connections.Values)
+                {
+                    connectionOptions.SaveToXml(connectionsElem.AppendElem("Connection"));
+                }
+
                 foreach (XmlElement storageElem in Storages.Values)
                 {
                     XmlNode newStorageNode = xmlDoc.ImportNode(storageElem, true);
@@ -177,11 +205,23 @@ namespace Scada.Config
         }
 
         /// <summary>
+        /// Gets the default connection options.
+        /// </summary>
+        public DbConnectionOptions GetDefaultConnectionOptions()
+        {
+            return !string.IsNullOrEmpty(DefaultConnection) &&
+                Connections.TryGetValue(DefaultConnection, out DbConnectionOptions options)
+                ? options
+                : new DbConnectionOptions();
+        }
+
+        /// <summary>
         /// Gets the XML node corresponding to the active storage.
         /// </summary>
         public XmlElement GetActiveStorageXml()
         {
-            return Storages.TryGetValue(ActiveStorage, out XmlElement xmlElement)
+            return !string.IsNullOrEmpty(ActiveStorage) &&
+                Storages.TryGetValue(ActiveStorage, out XmlElement xmlElement)
                 ? xmlElement
                 : new XmlDocument().CreateElement("Storage");
         }
