@@ -233,7 +233,7 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
         /// </summary>
         private NpgsqlConnection CreateConnection()
         {
-            return new NpgsqlConnection(ServerContext.InstanceConfig.Connection
+            return new NpgsqlConnection(ServerContext.InstanceConfig.GetDefaultConnectionOptions()
                 .BuildConnectionString(KnownDBMS.PostgreSQL));
         }
 
