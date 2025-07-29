@@ -126,7 +126,9 @@ namespace Scada.Config
                     {
                         DbConnectionOptions connectionOptions = new DbConnectionOptions();
                         connectionOptions.LoadFromXml(connectionNode);
-                        Connections[connectionOptions.Name] = connectionOptions;
+
+                        if (!string.IsNullOrEmpty(connectionOptions.Name))
+                            Connections[connectionOptions.Name] = connectionOptions;
                     }
                 }
                 else if (rootElem.SelectSingleNode("Connection") is XmlNode connectionNode)
@@ -143,7 +145,9 @@ namespace Scada.Config
                     foreach (XmlElement storageElem in storagesNode.SelectNodes("Storage"))
                     {
                         string storageCode = storageElem.GetAttrAsString("code");
-                        Storages[storageCode] = storageElem;
+
+                        if (!string.IsNullOrEmpty(storageCode))
+                            Storages[storageCode] = storageElem;
                     }
                 }
 
