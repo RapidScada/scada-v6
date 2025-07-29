@@ -202,7 +202,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             // prepare database
             connOptions = options.UseDefaultConn
-                ? ArchiveContext.InstanceConfig.Connection
+                ? ArchiveContext.InstanceConfig.GetDefaultConnectionOptions()
                 : moduleConfig.GetConnectionOptions(options.Connection);
             readingConn = DbUtils.CreateDbConnection(connOptions);
             writingConn = DbUtils.CreateDbConnection(connOptions);
