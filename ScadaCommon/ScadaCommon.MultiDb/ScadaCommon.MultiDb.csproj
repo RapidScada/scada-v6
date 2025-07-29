@@ -15,8 +15,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySql.Data" Version="8.4.0" />
-    <PackageReference Include="Npgsql" Version="8.0.7" />
+    <PackageReference Include="MySql.Data" Version="9.4.0" />
+    <PackageReference Include="Npgsql" Version="9.0.3" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.9.1" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.0" />
   </ItemGroup>

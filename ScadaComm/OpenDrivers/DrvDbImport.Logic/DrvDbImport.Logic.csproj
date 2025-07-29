@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySql.Data" Version="8.4.0" />
+    <PackageReference Include="MySql.Data" Version="9.4.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.0" />
   </ItemGroup>
 
