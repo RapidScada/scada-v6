@@ -33,7 +33,7 @@ namespace Scada.Web.Plugins.PlgMimic
         /// <summary>
         /// Gets the view specifications.
         /// </summary>
-        public override ICollection<ViewSpec> ViewSpecs => [new MimicViewSpec()];
+        public override List<ViewSpec> ViewSpecs => [new MimicViewSpec()];
 
 
         /// <summary>
