@@ -47,9 +47,28 @@ class ScadaUtils {
         return new Date().toLocaleTimeString("en-GB");
     }
 
+    // Converts the specified date object to a string in YYYY-MM-DD format.
+    static dateToString(date) {
+        return date.toISOString().slice(0, 10);
+    }
+
     // Gets the number of days in the specified month and year. Month is between 0 and 11.
     static daysInMonth(year, month) {
         return new Date(year, month + 1, 0).getDate();
+    }
+
+    // Adds one day to the specified date. Returns a new date object.
+    static addDay(value) {
+        let date = new Date(value);
+        date.setDate(date.getDate() + 1);
+        return date;
+    }
+
+    // Adds one month to the specified date. Returns a new date object.
+    static addMonth(value) {
+        let date = new Date(value);
+        date.setMonth(date.getMonth() + 1);
+        return date;
     }
 
     // Switches browser to full screen mode.
