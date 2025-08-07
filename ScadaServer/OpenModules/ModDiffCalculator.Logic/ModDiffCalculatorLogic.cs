@@ -30,7 +30,6 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         private readonly LogFile moduleLog;                // the module log
         private readonly ModuleConfig moduleConfig;        // the module configuration
         private readonly List<ChannelGroup> channelGroups; // the processed channel groups
-        private readonly List<ChannelGroup> recalcGroups;  // require continually calculations
 
         private Thread moduleThread;      // the working thread of the module
         private volatile bool terminated; // necessary to stop the thread
@@ -50,7 +49,6 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
             };
             moduleConfig = new ModuleConfig();
             channelGroups = [];
-            recalcGroups = [];
 
             moduleThread = null;
             terminated = false;
@@ -115,9 +113,6 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
                             ChannelGroup channelGroup = new(groupConfig);
                             channelGroup.InitTime(utcNow);
                             channelGroups.Add(channelGroup);
-
-                            if (groupConfig.RecalcDiff)
-                                recalcGroups.Add(channelGroup);
                         }
                     }
                 }
@@ -195,11 +190,12 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         /// </summary>
         private void ProcessRecalcGroups()
         {
-            foreach (ChannelGroup group in recalcGroups)
+            foreach (ChannelGroup group in channelGroups)
             {
                 try
                 {
-                    RecalculateDiff(group);
+                    if (group.GroupConfig.RecalcDiff)
+                        RecalculateDiff(group);
                 }
                 catch (Exception ex)
                 {
