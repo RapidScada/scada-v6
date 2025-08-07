@@ -67,10 +67,11 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
         public int Delay { get; set; } = 10;
 
         /// <summary>
-        /// Gets or sets a value indicating whether to continually calculate the difference with the current data.
+        /// Gets or sets a value indicating whether to continuously calculate
+        /// the difference between historical and current data.
         /// </summary>
         [DisplayName, Category, Description]
-        public bool DiffWithCurrent { get; set; } = false;
+        public bool RecalcDiff { get; set; } = false;
 
         /// <summary>
         /// Gets or sets the bit number of the archive for reading and writing data.
@@ -122,7 +123,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
             CustomPeriod = xmlElem.GetAttrAsTimeSpan("customPeriod");
             Offset = xmlElem.GetAttrAsTimeSpan("offset");
             Delay = xmlElem.GetAttrAsInt("delay", Delay);
-            DiffWithCurrent = xmlElem.GetAttrAsBool("diffWithCurrent");
+            RecalcDiff = xmlElem.GetAttrAsBool("recalcDiff");
             ArchiveBit = xmlElem.GetAttrAsInt("archiveBit");
 
             foreach (XmlElement itemElem in xmlElem.SelectNodes("Item"))
@@ -148,7 +149,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
 
             xmlElem.SetAttribute("offset", Offset);
             xmlElem.SetAttribute("delay", Delay);
-            xmlElem.SetAttribute("diffWithCurrent", DiffWithCurrent);
+            xmlElem.SetAttribute("recalcDiff", RecalcDiff);
             xmlElem.SetAttribute("archiveBit", ArchiveBit);
 
             foreach (ItemConfig itemConfig in Items)

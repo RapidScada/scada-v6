@@ -6,27 +6,33 @@
     <Phrase key="CmdCode.Description">Код команды для управления модулем.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDiffCalculator.Config.GroupConfig">
-    <Phrase key="Active.DisplayName">Активна</Phrase>
-    <Phrase key="Active.Category">Основные параметры</Phrase>
-    <Phrase key="Active.Description">Значение, указывающее, активна ли группа.</Phrase>
+    <!-- Behavior -->
     <Phrase key="CustomPeriod.DisplayName">Пользовательский период</Phrase>
     <Phrase key="CustomPeriod.Category">Поведение</Phrase>
     <Phrase key="CustomPeriod.Description">Пользовательский расчётный период.</Phrase>
     <Phrase key="Delay.DisplayName">Задержка</Phrase>
     <Phrase key="Delay.Category">Поведение</Phrase>
     <Phrase key="Delay.Description">Задержка перед расчётом после наступления времени расчёта, в секундах.</Phrase>
-    <Phrase key="Name.DisplayName">Наименование</Phrase>
-    <Phrase key="Name.Category">Основные параметры</Phrase>
-    <Phrase key="Name.Description">Наименование группы.</Phrase>
     <Phrase key="Offset.DisplayName">Смещение</Phrase>
     <Phrase key="Offset.Category">Поведение</Phrase>
     <Phrase key="Offset.Description">Смещение времени расчёта.</Phrase>
     <Phrase key="PeriodType.DisplayName">Тип периода</Phrase>
     <Phrase key="PeriodType.Category">Поведение</Phrase>
     <Phrase key="PeriodType.Description">Тип периода расчёта.</Phrase>
+    <Phrase key="RecalcDiff.DisplayName">Пересчитывать разницу</Phrase>
+    <Phrase key="RecalcDiff.Category">Поведение</Phrase>
+    <Phrase key="RecalcDiff.Description">Значение, указывающее, следует ли постоянно рассчитывать разницу между историческими и текущими данными.</Phrase>
+    <!-- Data -->
     <Phrase key="ArchiveBit.DisplayName">Бит архива</Phrase>
     <Phrase key="ArchiveBit.Category">Данные</Phrase>
     <Phrase key="ArchiveBit.Description">Номер бита архива для чтения и записи данных.</Phrase>
+    <!-- Main Parameters -->
+    <Phrase key="Active.DisplayName">Активна</Phrase>
+    <Phrase key="Active.Category">Основные параметры</Phrase>
+    <Phrase key="Active.Description">Значение, указывающее, активна ли группа.</Phrase>
+    <Phrase key="Name.DisplayName">Наименование</Phrase>
+    <Phrase key="Name.Category">Основные параметры</Phrase>
+    <Phrase key="Name.Description">Наименование группы.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDiffCalculator.Config.ItemConfig">
     <Phrase key="DestCnlNum.DisplayName">Канал-назначение</Phrase>

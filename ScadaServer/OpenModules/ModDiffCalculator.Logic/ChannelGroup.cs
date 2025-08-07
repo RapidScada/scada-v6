@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Data.Models;
 using Scada.Server.Modules.ModDiffCalculator.Config;
 
 namespace Scada.Server.Modules.ModDiffCalculator.Logic
@@ -11,10 +12,14 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
     /// </summary>
     internal class ChannelGroup
     {
+        private readonly TimeSpan CacheExpiration = TimeSpan.FromMinutes(1);
+        private const int CacheCapacity = 100;
+
         private readonly bool periodIsMonth; // indicates that a monthly period is used
         private readonly double period;      // period in seconds, except month
         private readonly double offset;      // offset in seconds
         private readonly double delay;       // delay in seconds
+        private readonly MemoryCache<DateTime, Slice> cache; // the thread-safe group cache
 
         private DateTime time1;              // the previous calculation time
         private DateTime time2;              // the upcoming calculation time
@@ -37,6 +42,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
             };
             offset = groupConfig.Offset.TotalSeconds;
             delay = groupConfig.Delay;
+            cache = new MemoryCache<DateTime, Slice>(CacheExpiration, CacheCapacity);
 
             time1 = DateTime.MinValue;
             time2 = DateTime.MinValue;
@@ -62,6 +68,11 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         /// Gets the destination channel numbers corresponding to the source channels.
         /// </summary>
         public int[] DestCnlNums { get; }
+
+        /// <summary>
+        /// Gets the previous calculation time.
+        /// </summary>
+        public DateTime PrevCalcTime => time1;
 
 
         /// <summary>
@@ -124,6 +135,17 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
             return periodIsMonth
                 ? timestamp.AddMonths(1)
                 : timestamp.AddSeconds(period);
+        }
+
+        /// <summary>
+        /// Gets the historical slice from the group cache or from the server.
+        /// </summary>
+        public Slice GetSlice(IServerContext serverContext, DateTime timestamp)
+        {
+            return cache.GetOrCreate(timestamp, () =>
+            {
+                return serverContext.GetSlice(GroupConfig.ArchiveBit, timestamp, SrcCnlNums);
+            });
         }
     }
 }
