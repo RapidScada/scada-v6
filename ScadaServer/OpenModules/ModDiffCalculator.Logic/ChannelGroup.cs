@@ -15,7 +15,6 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         private readonly TimeSpan CacheExpiration = TimeSpan.FromMinutes(1);
         private const int CacheCapacity = 100;
 
-        private readonly bool periodIsMonth; // indicates that a monthly period is used
         private readonly double period;      // period in seconds, except month
         private readonly double offset;      // offset in seconds
         private readonly double delay;       // delay in seconds
@@ -31,13 +30,12 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         /// </summary>
         public ChannelGroup(GroupConfig groupConfig)
         {
-            periodIsMonth = groupConfig.PeriodType == PeriodType.Month;
             period = groupConfig.PeriodType switch
             {
                 PeriodType.Minute => 60,
                 PeriodType.Hour => 3600,
                 PeriodType.Day => TimeSpan.FromDays(1).TotalSeconds,
-                PeriodType.Month => 0,
+                PeriodType.Month => TimeSpan.FromDays(31).TotalSeconds,
                 _ => groupConfig.CustomPeriod.TotalSeconds // PeriodType.Custom
             };
             offset = groupConfig.Offset.TotalSeconds;
@@ -53,6 +51,11 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
             DestCnlNums = groupConfig.Items.Select(i => i.DestCnlNum).ToArray();
         }
 
+
+        /// <summary>
+        /// Indicates that a monthly period is used.
+        /// </summary>
+        private bool PeriodIsMonth => GroupConfig.PeriodType == PeriodType.Month;
 
         /// <summary>
         /// Gets the group configuration.
@@ -112,7 +115,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         /// </summary>
         public DateTime GetCalculationTime(DateTime startTime)
         {
-            if (periodIsMonth)
+            if (PeriodIsMonth)
             {
                 DateTime calcTime = new DateTime(startTime.Year, startTime.Month, 1, 0, 0, 0, startTime.Kind)
                     .AddSeconds(offset);
@@ -132,7 +135,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         /// </summary>
         public DateTime GetNextCalculationTime(DateTime timestamp)
         {
-            return periodIsMonth
+            return PeriodIsMonth
                 ? timestamp.AddMonths(1)
                 : timestamp.AddSeconds(period);
         }
