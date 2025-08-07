@@ -7,6 +7,9 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDiffCalculator.Config.GroupConfig">
     <!-- Behavior -->
+    <Phrase key="AdjustForDst.DisplayName">Adjust for DST</Phrase>
+    <Phrase key="AdjustForDst.Category">Behavior</Phrase>
+    <Phrase key="AdjustForDst.Description">A value indicating whether to add one hour to the calculation time within the daylight saving time range. Applies to daily and monthly periods.</Phrase>
     <Phrase key="CustomPeriod.DisplayName">Custom period</Phrase>
     <Phrase key="CustomPeriod.Category">Behavior</Phrase>
     <Phrase key="CustomPeriod.Description">The custom calculation period.</Phrase>

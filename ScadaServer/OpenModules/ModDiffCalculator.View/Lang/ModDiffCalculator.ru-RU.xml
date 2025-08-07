@@ -7,6 +7,9 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDiffCalculator.Config.GroupConfig">
     <!-- Behavior -->
+    <Phrase key="AdjustForDst.DisplayName">Перевод на летнее время</Phrase>
+    <Phrase key="AdjustForDst.Category">Поведение</Phrase>
+    <Phrase key="AdjustForDst.Description">Значение, указывающее, следует ли добавлять один час к времени расчёта в период летнего времени. Применяется для суточного и месячного периода.</Phrase>
     <Phrase key="CustomPeriod.DisplayName">Пользовательский период</Phrase>
     <Phrase key="CustomPeriod.Category">Поведение</Phrase>
     <Phrase key="CustomPeriod.Description">Пользовательский расчётный период.</Phrase>

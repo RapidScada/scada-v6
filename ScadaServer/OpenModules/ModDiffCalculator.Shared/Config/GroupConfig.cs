@@ -25,7 +25,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
         /// <summary>
         /// Gets or sets a value indicating whether the group is active.
         /// </summary>
-        [DisplayName, Category, Description]
+        [DisplayName, Category, Description, NCM.TypeConverter(typeof(BooleanConverter))]
         public bool Active { get; set; } = true;
 
         /// <summary>
@@ -67,10 +67,17 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
         public int Delay { get; set; } = 10;
 
         /// <summary>
+        /// Gets or sets a value indicating whether to add one hour to the calculation time
+        /// within the daylight saving time range. Applies to daily and monthly periods.
+        /// </summary>
+        [DisplayName, Category, Description, NCM.TypeConverter(typeof(BooleanConverter))]
+        public bool AdjustForDst { get; set; } = false;
+
+        /// <summary>
         /// Gets or sets a value indicating whether to continuously calculate
         /// the difference between historical and current data.
         /// </summary>
-        [DisplayName, Category, Description]
+        [DisplayName, Category, Description, NCM.TypeConverter(typeof(BooleanConverter))]
         public bool RecalcDiff { get; set; } = false;
 
         /// <summary>
@@ -123,6 +130,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
             CustomPeriod = xmlElem.GetAttrAsTimeSpan("customPeriod");
             Offset = xmlElem.GetAttrAsTimeSpan("offset");
             Delay = xmlElem.GetAttrAsInt("delay", Delay);
+            AdjustForDst = xmlElem.GetAttrAsBool("adjustForDst");
             RecalcDiff = xmlElem.GetAttrAsBool("recalcDiff");
             ArchiveBit = xmlElem.GetAttrAsInt("archiveBit");
 
@@ -149,6 +157,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
 
             xmlElem.SetAttribute("offset", Offset);
             xmlElem.SetAttribute("delay", Delay);
+            xmlElem.SetAttribute("adjustForDst", AdjustForDst);
             xmlElem.SetAttribute("recalcDiff", RecalcDiff);
             xmlElem.SetAttribute("archiveBit", ArchiveBit);
 

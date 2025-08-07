@@ -15,14 +15,14 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         private readonly TimeSpan CacheExpiration = TimeSpan.FromMinutes(1);
         private const int CacheCapacity = 100;
 
-        private readonly double period;      // period in seconds, except month
-        private readonly double offset;      // offset in seconds
-        private readonly double delay;       // delay in seconds
+        private readonly double period;   // period in seconds, except month
+        private readonly double offset;   // offset in seconds
+        private readonly double delay;    // delay in seconds
         private readonly MemoryCache<DateTime, Slice> cache; // the thread-safe group cache
 
-        private DateTime time1;              // the previous calculation time
-        private DateTime time2;              // the upcoming calculation time
-        private DateTime delayedCalcTime;    // the upcoming calculation time with the delay
+        private DateTime time1;           // the previous calculation time, UTC
+        private DateTime time2;           // the upcoming calculation time, UTC
+        private DateTime delayedCalcTime; // the upcoming calculation time with the delay, UTC
 
 
         /// <summary>
@@ -53,9 +53,16 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
 
 
         /// <summary>
-        /// Indicates that a monthly period is used.
+        /// Gets a value indicating whether a monthly period is used.
         /// </summary>
         private bool PeriodIsMonth => GroupConfig.PeriodType == PeriodType.Month;
+
+        /// <summary>
+        /// Gets a value indicating whether the period is affected by the AdjustForDst option.
+        /// </summary>
+        private bool PeriodIsAdjustable => 
+            GroupConfig.PeriodType == PeriodType.Day || GroupConfig.PeriodType == PeriodType.Month;
+
 
         /// <summary>
         /// Gets the group configuration.
@@ -85,7 +92,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         {
             time1 = GetCalculationTime(utcNow);
             time2 = GetNextCalculationTime(time1);
-            delayedCalcTime = time2.AddSeconds(delay);
+            delayedCalcTime = AdjustForDst(time2.AddSeconds(delay));
         }
 
         /// <summary>
@@ -95,11 +102,11 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         {
             if (delayedCalcTime <= utcNow)
             {
-                timestamp1 = time1;
-                timestamp2 = time2;
+                timestamp1 = AdjustForDst(time1);
+                timestamp2 = AdjustForDst(time2);
                 time1 = time2;
                 time2 = GetNextCalculationTime(time2);
-                delayedCalcTime = time2.AddSeconds(delay);
+                delayedCalcTime = AdjustForDst(time2.AddSeconds(delay));
                 return true;
             }
             else
@@ -138,6 +145,18 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
             return PeriodIsMonth
                 ? timestamp.AddMonths(1)
                 : timestamp.AddSeconds(period);
+        }
+
+        /// <summary>
+        /// Adjusts the specified timestamp for daylight saving time, if specified by the group configuration.
+        /// </summary>
+        public DateTime AdjustForDst(DateTime timestamp)
+        {
+            // check summer time for local time zone
+            return GroupConfig.AdjustForDst && PeriodIsAdjustable && 
+                timestamp > DateTime.MinValue && timestamp.ToLocalTime().IsDaylightSavingTime()
+                ? timestamp.AddHours(1)
+                : timestamp;
         }
 
         /// <summary>

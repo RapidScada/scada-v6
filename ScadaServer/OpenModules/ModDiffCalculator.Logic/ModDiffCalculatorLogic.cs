@@ -223,12 +223,16 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
                 {
                     DateTime timestamp1 = group.GetCalculationTime(task.StartDT);
                     DateTime timestamp2 = group.GetNextCalculationTime(timestamp1);
+                    DateTime timestamp1Adj = group.AdjustForDst(timestamp1);
+                    DateTime timestamp2Adj = group.AdjustForDst(timestamp2);
 
-                    while (timestamp2 < task.EndDT)
+                    while (timestamp2Adj < task.EndDT)
                     {
-                        CalculateDiff(group, timestamp1, timestamp2);
+                        CalculateDiff(group, timestamp1Adj, timestamp2Adj);
                         timestamp1 = timestamp2;
                         timestamp2 = group.GetNextCalculationTime(timestamp2);
+                        timestamp1Adj = timestamp2Adj;
+                        timestamp2Adj = group.AdjustForDst(timestamp2);
                     }
                 }
 
