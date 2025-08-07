@@ -1228,7 +1228,7 @@ namespace Scada.Server.Engine
                 if (useCache)
                 {
                     cnlListID = ScadaUtils.GenerateUniqueID();
-                    cnlListItem = new CnlListItem(cnlListID, cnlNums.Length);
+                    cnlListItem = new CnlListItem(cnlListID, cnlNums);
 
                     if (!serverCache.CnlListCache.Add(cnlListID, cnlListItem))
                         cnlListID = 0;
@@ -1269,17 +1269,16 @@ namespace Scada.Server.Engine
         public Slice GetCurrentData(long cnlListID)
         {
             DateTime timestamp = DateTime.MinValue;
-            int[] cnlNums = null;
+            CnlListItem cnlListItem = null;
             CnlData[] cnlDataArr = null;
 
             try
             {
-                CnlListItem cnlListItem = serverCache.CnlListCache.Get(cnlListID);
+                cnlListItem = serverCache.CnlListCache.Get(cnlListID);
 
                 if (cnlListItem != null)
                 {
-                    int cnlCnt = cnlListItem.CnlTags.Count;
-                    cnlNums = new int[cnlCnt];
+                    int cnlCnt = cnlListItem.CnlNums.Length;
                     cnlDataArr = new CnlData[cnlCnt];
 
                     lock (curData)
@@ -1301,9 +1300,9 @@ namespace Scada.Server.Engine
                     "Error getting current data of the cached channel list");
             }
 
-            return cnlNums == null
+            return cnlListItem == null
                 ? new Slice(timestamp, 0)
-                : new Slice(timestamp, cnlNums, cnlDataArr);
+                : new Slice(timestamp, cnlListItem.CnlNums, cnlDataArr);
         }
 
         /// <summary>
