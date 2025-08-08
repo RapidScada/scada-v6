@@ -31,6 +31,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         private readonly ModuleConfig moduleConfig;        // the module configuration
         private readonly List<ChannelGroup> channelGroups; // the processed channel groups
 
+        private bool fatalError;          // normal operation is impossible
         private Thread moduleThread;      // the working thread of the module
         private volatile bool terminated; // necessary to stop the thread
         private CalculationTask calcTask; // the user task to calculate differences
@@ -50,6 +51,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
             moduleConfig = new ModuleConfig();
             channelGroups = [];
 
+            fatalError = false;
             moduleThread = null;
             terminated = false;
             calcTask = null;
@@ -139,13 +141,6 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         {
             DateTime recalcTime = DateTime.UtcNow;
 
-            // wait for archives to be ready
-            while (!terminated && !ServerContext.IsReady)
-            {
-                Thread.Sleep(ScadaUtils.ThreadDelay);
-            }
-
-            // process data
             while (!terminated)
             {
                 // regular calculation
@@ -320,18 +315,26 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
             moduleLog.WriteAction(ServerPhrases.StartModule, Code, Version);
 
             // load configuration
-            if (moduleConfig.Load(Storage, ModuleConfig.DefaultFileName, out string errMsg) &&
-                InitGroups(out errMsg))
+            if (!moduleConfig.Load(Storage, ModuleConfig.DefaultFileName, out string errMsg) ||
+                !InitGroups(out errMsg))
             {
-                // start module thread
-                moduleThread = new Thread(Execute);
-                moduleThread.Start();
-            }
-            else
-            {
+                fatalError = true;
                 Log.WriteError(ServerPhrases.ModuleMessage, Code, errMsg);
                 moduleLog.WriteError(errMsg);
                 moduleLog.WriteError(CommonPhrases.ExecutionImpossible);
+            }
+        }
+
+        /// <summary>
+        /// Performs actions when the service is ready.
+        /// </summary>
+        public override void OnServiceReady()
+        {
+            // start module thread
+            if (!fatalError)
+            {
+                moduleThread = new Thread(Execute);
+                moduleThread.Start();
             }
         }
 
