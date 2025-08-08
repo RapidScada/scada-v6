@@ -137,8 +137,15 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         /// </summary>
         private void Execute()
         {
-            DateTime recalcTime = DateTime.MinValue;
+            DateTime recalcTime = DateTime.UtcNow;
 
+            // wait for archives to be ready
+            while (!terminated && !ServerContext.IsReady)
+            {
+                Thread.Sleep(ScadaUtils.ThreadDelay);
+            }
+
+            // process data
             while (!terminated)
             {
                 // regular calculation
