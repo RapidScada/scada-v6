@@ -101,7 +101,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             moduleLog.WriteBreak();
             moduleLog.WriteAction(ServerPhrases.StartModule, Code, Version);
 
-            // load configuration and start gates
+            // load configuration and start exporters
             if (moduleConfig.Load(Storage, ModuleConfig.DefaultFileName, out string errMsg) &&
                 InitExporters(out errMsg))
             {
