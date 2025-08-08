@@ -99,6 +99,11 @@ namespace Scada.Server.Engine
         /// </summary>
         public IDictionary<string, object> SharedData => coreLogic.SharedData;
 
+        /// <summary>
+        /// Gets a value indicating whether the Server service is ready.
+        /// </summary>
+        public bool IsReady => coreLogic.IsReady;
+
 
         /// <summary>
         /// Gets the current data of the specified channel.

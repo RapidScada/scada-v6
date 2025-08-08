@@ -81,6 +81,11 @@ namespace Scada.Server.Modules
         /// Gets the application level shared data.
         /// </summary>
         IDictionary<string, object> SharedData { get; }
+        
+        /// <summary>
+        /// Gets a value indicating whether the Server service is ready.
+        /// </summary>
+        bool IsReady { get; }
 
 
         /// <summary>
