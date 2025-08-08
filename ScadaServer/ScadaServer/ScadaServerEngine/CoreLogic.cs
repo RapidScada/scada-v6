@@ -526,6 +526,7 @@ namespace Scada.Server.Engine
                 archiveHolder.ReadCurrentData(curData);
                 calc.InitScripts();
                 serviceStatus = ServiceStatus.Normal;
+                moduleHolder.OnServiceReady();
 
                 while (!terminated)
                 {
