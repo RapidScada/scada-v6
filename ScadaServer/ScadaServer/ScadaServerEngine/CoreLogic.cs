@@ -1217,8 +1217,7 @@ namespace Scada.Server.Engine
             if (cnlNums == null)
                 throw new ArgumentNullException(nameof(cnlNums));
 
-            DateTime timestamp = DateTime.MinValue;
-            CnlData[] cnlDataArr = new CnlData[cnlNums.Length];
+            Slice slice = new Slice(DateTime.MinValue, cnlNums);
             cnlListID = 0;
 
             try
@@ -1236,18 +1235,18 @@ namespace Scada.Server.Engine
 
                 lock (curData)
                 {
-                    timestamp = curData.Timestamp;
+                    slice.Timestamp = curData.Timestamp;
 
                     for (int i = 0, cnlCnt = cnlNums.Length; i < cnlCnt; i++)
                     {
                         if (cnlTags.TryGetValue(cnlNums[i], out CnlTag cnlTag))
                         {
-                            cnlDataArr[i] = curData.CnlData[cnlTag.Index];
+                            slice.CnlData[i] = curData.CnlData[cnlTag.Index];
                             cnlListItem?.CnlTags.Add(cnlTag);
                         }
                         else
                         {
-                            cnlDataArr[i] = CnlData.Empty;
+                            slice.CnlData[i] = CnlData.Empty;
                             cnlListItem?.CnlTags.Add(new CnlTag());
                         }
                     }
@@ -1260,7 +1259,7 @@ namespace Scada.Server.Engine
                     "Error getting current data of the channels");
             }
 
-            return new Slice(timestamp, cnlNums, cnlDataArr);
+            return slice;
         }
 
         /// <summary>
