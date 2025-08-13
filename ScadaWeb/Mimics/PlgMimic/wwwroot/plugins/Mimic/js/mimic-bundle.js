@@ -3500,6 +3500,7 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         this._setBackgroundImage(mimicElem, renderContext.getImage(props.backgroundImage));
         this._setFont(mimicElem, props.font, renderContext.fontMap);
         this._setSize(mimicElem, props.size);
+        this._setStyle(props.stylesheet);
 
         if (!renderContext.editMode) {
             $("body").css("background-color", props.backColor);
@@ -3513,6 +3514,22 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
                 "background-size": props.size.width + "px " + props.size.height + "px",
                 "color": props.foreColor
             });
+    }
+
+    // Adds a style element to the page head or replaces the existing style element.
+    _setStyle(stylesheet) {
+        if (stylesheet) {
+            let newStyleElem = $("<style id='mimic-style'></style>").html(stylesheet);
+            let oldStyleElem = $("head").find("#mimic-style");
+
+            if (oldStyleElem.length > 0) {
+                oldStyleElem.replaceWith(newStyleElem);
+            } else {
+                $("head").append(newStyleElem);
+            }
+        } else {
+            $("head").find("#mimic-style").remove();
+        }
     }
 
     // Creates a mimic DOM according to the mimic model.
