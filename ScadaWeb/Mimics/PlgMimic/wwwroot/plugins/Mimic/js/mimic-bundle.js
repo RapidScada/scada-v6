@@ -3601,11 +3601,6 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         let props = component.properties;
         this._setLocation(componentElem, props.location);
         this._setSize(componentElem, props.size);
-
-        componentElem.css({
-            "background-color": props.backColor,
-            "color": props.foreColor
-        });
     }
 
     // Creates a component DOM according to the component model.
@@ -3693,6 +3688,12 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         let props = component.properties;
         this._setBorder(componentElem, props.border);
         this._setCornerRadius(componentElem, props.cornerRadius);
+
+        componentElem.css({
+            "background-color": props.backColor,
+            "color": props.foreColor
+        });
+
         componentElem.attr("title", props.tooltip);
     }
 };
