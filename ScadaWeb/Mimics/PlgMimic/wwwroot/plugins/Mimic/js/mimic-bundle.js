@@ -3581,21 +3581,9 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
     }
 
     // Sets the CSS classes of the component element.
-    _setClasses(componentElem) {
+    _setClasses(componentElem, component, renderContext) {
         componentElem.removeClass(); // clear classes
         componentElem.addClass("comp");
-    }
-
-    // Sets the CSS properties of the component element.
-    _setProps(componentElem, component, renderContext) {
-        let props = component.properties;
-        this._setLocation(componentElem, props.location);
-        this._setSize(componentElem, props.size);
-
-        componentElem.css({
-            "background-color": props.backColor,
-            "color": props.foreColor
-        });
 
         if (renderContext.editMode) {
             if (!renderContext.faceplateMode && component.isContainer) {
@@ -3608,12 +3596,24 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         }
     }
 
+    // Sets the CSS properties of the component element.
+    _setProps(componentElem, component, renderContext) {
+        let props = component.properties;
+        this._setLocation(componentElem, props.location);
+        this._setSize(componentElem, props.size);
+
+        componentElem.css({
+            "background-color": props.backColor,
+            "color": props.foreColor
+        });
+    }
+
     // Creates a component DOM according to the component model.
     createDom(component, renderContext) {
         let componentElem = $("<div></div>")
             .attr("id", "comp" + renderContext.idPrefix + component.id)
             .attr("data-id", component.id);
-        this._setClasses(componentElem);
+        this._setClasses(componentElem, component, renderContext);
         this._setProps(componentElem, component, renderContext);
         component.dom = componentElem;
         return componentElem;
@@ -3624,7 +3624,7 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         let componentElem = component.dom;
 
         if (componentElem) {
-            this._setClasses(componentElem);
+            this._setClasses(componentElem, component, renderContext);
             this._setProps(componentElem, component, renderContext);
         }
 
@@ -3679,23 +3679,28 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
 
 // Represents a renderer for regular non-faceplate components.
 rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
+    _setClasses(componentElem, component, renderContext) {
+        super._setClasses(componentElem, component, renderContext);
+        let props = component.properties;
+
+        if (props.cssClass) {
+            componentElem.addClass(props.cssClass);
+        }
+    }
+
     _setProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
         let props = component.properties;
         this._setBorder(componentElem, props.border);
         this._setCornerRadius(componentElem, props.cornerRadius);
         componentElem.attr("title", props.tooltip);
-
-        if (props.cssClass) {
-            componentElem.addClass(props.cssClass);
-        }
     }
 };
 
 // Represents a text component renderer.
 rs.mimic.TextRenderer = class extends rs.mimic.RegularComponentRenderer {
-    _setClasses(componentElem) {
-        super._setClasses(componentElem);
+    _setClasses(componentElem, component, renderContext) {
+        super._setClasses(componentElem, component, renderContext);
         componentElem.addClass("text");
     }
 
@@ -3710,8 +3715,8 @@ rs.mimic.TextRenderer = class extends rs.mimic.RegularComponentRenderer {
 
 // Represents a picture component renderer.
 rs.mimic.PictureRenderer = class extends rs.mimic.RegularComponentRenderer {
-    _setClasses(componentElem) {
-        super._setClasses(componentElem);
+    _setClasses(componentElem, component, renderContext) {
+        super._setClasses(componentElem, component, renderContext);
         componentElem.addClass("picture");
     }
 
@@ -3724,16 +3729,16 @@ rs.mimic.PictureRenderer = class extends rs.mimic.RegularComponentRenderer {
 
 // Represents a panel component renderer.
 rs.mimic.PanelRenderer = class extends rs.mimic.RegularComponentRenderer {
-    _setClasses(componentElem) {
-        super._setClasses(componentElem);
+    _setClasses(componentElem, component, renderContext) {
+        super._setClasses(componentElem, component, renderContext);
         componentElem.addClass("panel");
     }
 };
 
 // Represents a faceplate renderer.
 rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
-    _setClasses(componentElem) {
-        super._setClasses(componentElem);
+    _setClasses(componentElem, component, renderContext) {
+        super._setClasses(componentElem, component, renderContext);
         componentElem.addClass("faceplate");
     }
 };

@@ -1,8 +1,8 @@
 ﻿// Contains renderers for basic components.
 
 rs.mimic.BasicLedRenderer = class extends rs.mimic.RegularComponentRenderer {
-    _setClasses(componentElem) {
-        super._setClasses(componentElem);
+    _setClasses(componentElem, component, renderContext) {
+        super._setClasses(componentElem, component, renderContext);
         componentElem.addClass("basic-led");
     }
 
