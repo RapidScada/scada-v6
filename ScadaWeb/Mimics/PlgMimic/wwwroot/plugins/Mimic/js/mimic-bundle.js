@@ -3719,7 +3719,134 @@ rs.mimic.TextRenderer = class extends rs.mimic.RegularComponentRenderer {
         let props = component.properties;
         this._setFont(componentElem, props.font, renderContext.fontMap);
         this._setPadding(componentElem, props.padding);
+        this._setTextDirection(componentElem, props.textDirection);
         componentElem.text(props.text);
+
+        if (props.autoSize) {
+            componentElem.css({
+                "display": "inline",
+                "overflow": "visible",
+                "white-space": "nowrap",
+                "width": "",
+                "height": ""
+            });
+        } else {
+            componentElem
+                .css({
+                    "display": "flex",
+                    "overflow": "hidden",
+                    "white-space": props.wordWrap ? "normal" : "nowrap"
+                });
+            this._setTextAlign(componentElem, props.textAlign);
+        }
+    }
+
+    _setTextAlign(jqObj, contentAlignment) {
+        const ContentAlignment = rs.mimic.ContentAlignment;
+
+        switch (contentAlignment) {
+            case ContentAlignment.TOP_LEFT:
+                jqObj.css({
+                    "align-items": "flex-start",
+                    "justify-content": "flex-start",
+                    "text-align": "left"
+                });
+                break;
+
+            case ContentAlignment.TOP_CENTER:
+                jqObj.css({
+                    "align-items": "flex-start",
+                    "justify-content": "center",
+                    "text-align": "center"
+                });
+                break;
+
+            case ContentAlignment.TOP_RIGHT:
+                jqObj.css({
+                    "align-items": "flex-start",
+                    "justify-content": "flex-end",
+                    "text-align": "right"
+                });
+                break;
+
+            case ContentAlignment.MIDDLE_LEFT:
+                jqObj.css({
+                    "align-items": "center",
+                    "justify-content": "flex-start",
+                    "text-align": "left"
+                });
+                break;
+
+            case ContentAlignment.MIDDLE_CENTER:
+                jqObj.css({
+                    "align-items": "center",
+                    "justify-content": "center",
+                    "text-align": "center"
+                });
+                break;
+
+            case ContentAlignment.MIDDLE_RIGHT:
+                jqObj.css({
+                    "align-items": "center",
+                    "justify-content": "flex-end",
+                    "text-align": "right"
+                });
+                break;
+
+            case ContentAlignment.BOTTOM_LEFT:
+                jqObj.css({
+                    "align-items": "flex-end",
+                    "justify-content": "flex-start",
+                    "text-align": "left"
+                });
+                break;
+
+            case ContentAlignment.BOTTOM_CENTER:
+                jqObj.css({
+                    "align-items": "flex-end",
+                    "justify-content": "center",
+                    "text-align": "center"
+                });
+                break;
+
+            case ContentAlignment.BOTTOM_RIGHT:
+                jqObj.css({
+                    "align-items": "flex-end",
+                    "justify-content": "flex-end",
+                    "text-align": "right"
+                });
+                break;
+
+            default:
+                jqObj.css({
+                    "align-items": "",
+                    "justify-content": "",
+                    "text-align": ""
+                });
+                break;
+        }
+    }
+
+    _setTextDirection(jqObj, textDirection) {
+        const TextDirection = rs.mimic.TextDirection;
+
+        switch (textDirection) {
+            case TextDirection.VERTICAL90:
+                jqObj.css("writing-mode", "vertical-rl");
+                break;
+
+            case TextDirection.VERTICAL270:
+                jqObj.css("writing-mode", "sideways-lr");
+                break;
+
+            default:
+                jqObj.css("writing-mode", "");
+                break;
+        }
+    }
+
+    allowResizing(component) {
+        return !component.properties.autoSize;
     }
 };
 
