@@ -20,5 +20,15 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// Gets the groups of subtypes.
         /// </summary>
         public List<SubtypeGroup> SubtypeGroups { get; } = [];
+
+
+        /// <summary>
+        /// Clears the information.
+        /// </summary>
+        public void Clear()
+        {
+            ComponentGroups.Clear();
+            SubtypeGroups.Clear();
+        }
     }
 }

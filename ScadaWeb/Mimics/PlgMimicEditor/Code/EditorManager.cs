@@ -130,6 +130,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         private void FillModelMeta()
         {
+            ModelMeta.Clear();
             ModelMeta.ComponentGroups.Add(new StandardComponentGroup());
             ModelMeta.SubtypeGroups.Add(new StandardSubtypeGroup());
 
