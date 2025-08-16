@@ -18,6 +18,14 @@ $component-hover-color: var(--bs-gray-500);
             line-height: normal;
             position: absolute;
 
+            &.disabled {
+                cursor: not-allowed;
+            }
+
+            &.hidden {
+                display: none;
+            }
+
             &.picture {
                 background-repeat: no-repeat;
                 background-position: center;

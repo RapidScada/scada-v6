@@ -13,6 +13,12 @@
   line-height: normal;
   position: absolute;
 }
+.mimic-wrapper .mimic .comp.disabled {
+  cursor: not-allowed;
+}
+.mimic-wrapper .mimic .comp.hidden {
+  display: none;
+}
 .mimic-wrapper .mimic .comp.picture {
   background-repeat: no-repeat;
   background-position: center;

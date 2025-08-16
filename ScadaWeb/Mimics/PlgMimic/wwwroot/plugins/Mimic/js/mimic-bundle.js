@@ -3584,6 +3584,7 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
     _setClasses(componentElem, component, renderContext) {
         componentElem.removeClass(); // clear classes
         componentElem.addClass("comp");
+        let props = component.properties;
 
         if (renderContext.editMode) {
             if (!renderContext.faceplateMode && component.isContainer) {
@@ -3592,6 +3593,14 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
 
             if (component.isSelected) {
                 componentElem.addClass("selected")
+            }
+        } else {
+            if (!props.enabled) {
+                componentElem.addClass("disabled")
+            }
+
+            if (!props.visible) {
+                componentElem.addClass("hidden")
             }
         }
     }
@@ -3689,12 +3698,12 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         this._setBorder(componentElem, props.border);
         this._setCornerRadius(componentElem, props.cornerRadius);
 
-        componentElem.css({
-            "background-color": props.backColor,
-            "color": props.foreColor
-        });
-
-        componentElem.attr("title", props.tooltip);
+        componentElem
+            .attr("title", props.tooltip)
+            .css({
+                "background-color": props.backColor,
+                "color": props.foreColor
+            });
     }
 };
 
