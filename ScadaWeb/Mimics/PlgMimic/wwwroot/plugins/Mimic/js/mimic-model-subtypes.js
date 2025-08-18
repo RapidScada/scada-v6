@@ -60,8 +60,8 @@ rs.mimic.DataMember = class {
 // Specifies how an image is positioned within a component.
 rs.mimic.ImageSizeMode = class {
     static NORMAL = "Normal";
-    static STRETCH = "Stretch";
     static CENTER = "Center";
+    static STRETCH = "Stretch";
     static ZOOM = "Zoom";
 }
 

@@ -27,9 +27,12 @@ $component-hover-color: var(--bs-gray-500);
             }
 
             &.picture {
-                background-repeat: no-repeat;
-                background-position: center;
-                background-clip: padding-box;
+                .picture-content {
+                    background-repeat: no-repeat;
+                    background-clip: content-box;
+                    height: 100%;
+                    width: 100%;
+                }
             }
         }
     }

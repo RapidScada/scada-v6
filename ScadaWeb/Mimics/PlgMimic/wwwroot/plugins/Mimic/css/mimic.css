@@ -19,10 +19,11 @@
 .mimic-wrapper .mimic .comp.hidden {
   display: none;
 }
-.mimic-wrapper .mimic .comp.picture {
+.mimic-wrapper .mimic .comp.picture .picture-content {
   background-repeat: no-repeat;
-  background-position: center;
-  background-clip: padding-box;
+  background-clip: content-box;
+  height: 100%;
+  width: 100%;
 }
 
 .mimic-wrapper.edit-mode {

@@ -310,6 +310,10 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         return true;
     }
 
+    // Completes the creation of the component DOM.
+    _completeDom(componentElem, component, renderContext) {
+    }
+
     // Sets the CSS classes of the component element.
     _setClasses(componentElem, component, renderContext) {
         componentElem.removeClass(); // clear classes
@@ -347,6 +351,7 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         let componentElem = $("<div></div>")
             .attr("id", "comp" + renderContext.idPrefix + component.id)
             .attr("data-id", component.id);
+        this._completeDom(componentElem, component, renderContext);
         this._setClasses(componentElem, component, renderContext);
         this._setProps(componentElem, component, renderContext);
         component.dom = componentElem;
@@ -582,6 +587,10 @@ rs.mimic.TextRenderer = class extends rs.mimic.RegularComponentRenderer {
 
 // Represents a picture component renderer.
 rs.mimic.PictureRenderer = class extends rs.mimic.RegularComponentRenderer {
+    _completeDom(componentElem, component, renderContext) {
+        componentElem.append("<div class='picture-content'></div>");
+    }
+
     _setClasses(componentElem, component, renderContext) {
         super._setClasses(componentElem, component, renderContext);
         componentElem.addClass("picture");
@@ -589,8 +598,43 @@ rs.mimic.PictureRenderer = class extends rs.mimic.RegularComponentRenderer {
 
     _setProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
+        const ImageSizeMode = rs.mimic.ImageSizeMode;
+        let contentElem = componentElem.find(".picture-content:first");
         let props = component.properties;
-        this._setBackgroundImage(componentElem, renderContext.getImage(props.imageName));
+        this._setPadding(componentElem, props.padding);
+        this._setBackgroundImage(contentElem, renderContext.getImage(props.imageName));
+
+        switch (props.sizeMode) {
+            case ImageSizeMode.NORMAL:
+                contentElem.css({
+                    "background-position": "top left",
+                    "background-size": ""
+                });
+                break;
+
+            case ImageSizeMode.CENTER:
+                contentElem.css({
+                    "background-position": "center center",
+                    "background-size": ""
+                });
+                break;
+
+            case ImageSizeMode.STRETCH:
+                let w = props.size.width - props.border.width * 2 - props.padding.left - props.padding.right;
+                let h = props.size.height - props.border.width * 2 - props.padding.top - props.padding.bottom;
+                contentElem.css({
+                    "background-position": "center center",
+                    "background-size": `${w}px ${h}px`
+                });
+                break;
+
+            case ImageSizeMode.ZOOM:
+                contentElem.css({
+                    "background-position": "center center",
+                    "background-size": "contain"
+                });
+                break;
+        }
     }
 };
 
