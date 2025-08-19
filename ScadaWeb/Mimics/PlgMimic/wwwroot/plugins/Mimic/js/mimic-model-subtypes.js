@@ -502,6 +502,10 @@ rs.mimic.VisualState = class VisualState {
         return "VisualState";
     }
 
+    get isEmpty() {
+        return !(this.backColor || this.foreColor || this.borderColor || this.underline);
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let visualState = new VisualState();

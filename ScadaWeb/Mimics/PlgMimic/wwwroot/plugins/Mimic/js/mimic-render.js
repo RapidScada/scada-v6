@@ -450,11 +450,19 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
             });
 
         if (props.enabled) {
-            componentElem
-                .on("mouseenter", () => { this._setVisualState(componentElem, props.hoverState); })
-                .on("mouseleave", () => { this._restoreVisualState(componentElem, props); });
+            if (!props.blinkingState.isEmpty) {
+                componentElem
+                    .on("blinkon.rs.mimic", () => { this._setVisualState(componentElem, props.blinkingState); })
+                    .on("blinkoff.rs.mimic", () => { this._restoreVisualState(componentElem, props); });
+            }
+
+            if (!props.hoverState.isEmpty) {
+                componentElem
+                    .on("mouseenter.rs.mimic", () => { this._setVisualState(componentElem, props.hoverState); })
+                    .on("mouseleave.rs.mimic", () => { this._restoreVisualState(componentElem, props); });
+            }
         } else {
-            componentElem.off("mouseenter mouseleave");
+            componentElem.off(".rs.mimic");
             this._setVisualState(componentElem, props.disabledState);
         }
     }
@@ -478,12 +486,22 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
     }
 
     _restoreVisualState(jqObj, props) {
-        jqObj.css({
-            "background-color": props.backColor,
-            "color": props.foreColor,
-            "border-color": props.border.color,
-            "text-decoration": props.font.inherit ? "" : (props.font.underline ? "underline" : "none")
-        });
+        let isBlinking = !props.blinkingState.isEmpty && jqObj.hasClass("blink-on");
+        let isHovered = !props.hoverState.isEmpty && jqObj.is(":hover");
+
+        if (isBlinking) {
+            this._setVisualState(componentElem, props.blinkingState);
+        } else if (isHovered) {
+            this._setVisualState(componentElem, props.hoverState);
+        } else {
+            // original state
+            jqObj.css({
+                "background-color": props.backColor,
+                "color": props.foreColor,
+                "border-color": props.border.color,
+                "text-decoration": props.font.inherit ? "" : (props.font.underline ? "underline" : "none")
+            });
+        }
     }
 };
 
