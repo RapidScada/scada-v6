@@ -71,6 +71,14 @@ rs.mimic.Renderer = class {
         });
     }
 
+    // Sets the rotation of the specified jQuery object.
+    _setRotation(jqObj, rotation) {
+        jqObj.css({
+            "transform": `rotate(${rotation}deg)`,
+            "transform-origin": "center"
+        });
+    }
+
     // Sets the width and height of the specified jQuery object.
     _setSize(jqObj, size) {
         jqObj.css({
@@ -603,6 +611,7 @@ rs.mimic.PictureRenderer = class extends rs.mimic.RegularComponentRenderer {
         let props = component.properties;
         this._setPadding(componentElem, props.padding);
         this._setBackgroundImage(contentElem, renderContext.getImage(props.imageName));
+        this._setRotation(contentElem, props.rotation);
 
         switch (props.sizeMode) {
             case ImageSizeMode.NORMAL:
