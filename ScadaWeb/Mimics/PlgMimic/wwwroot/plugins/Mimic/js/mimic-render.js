@@ -437,6 +437,7 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
 
     _setProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
+        const EventType = rs.mimic.EventType;
         let props = component.properties;
         this._setBorder(componentElem, props.border);
         this._setCornerRadius(componentElem, props.cornerRadius);
@@ -452,8 +453,8 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         if (props.enabled) {
             if (!props.blinkingState.isEmpty) {
                 componentElem
-                    .on("blinkon.rs.mimic", () => { this._setVisualState(componentElem, props.blinkingState); })
-                    .on("blinkoff.rs.mimic", () => { this._restoreVisualState(componentElem, props); });
+                    .on(EventType.BLINK_ON, () => { this._setVisualState(componentElem, props.blinkingState); })
+                    .on(EventType.BLINK_OFF, () => { this._restoreVisualState(componentElem, props); });
             }
 
             if (!props.hoverState.isEmpty) {
@@ -490,9 +491,9 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         let isHovered = !props.hoverState.isEmpty && jqObj.is(":hover");
 
         if (isBlinking) {
-            this._setVisualState(componentElem, props.blinkingState);
+            this._setVisualState(jqObj, props.blinkingState);
         } else if (isHovered) {
-            this._setVisualState(componentElem, props.hoverState);
+            this._setVisualState(jqObj, props.hoverState);
         } else {
             // original state
             jqObj.css({

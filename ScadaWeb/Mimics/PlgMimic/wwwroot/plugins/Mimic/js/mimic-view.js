@@ -157,6 +157,7 @@ async function loadMimic() {
         toolbarElem.removeClass("d-none");
         initScale();
         startUpdatingData();
+        startBlinking();
     } else {
         showErrorText(result.msg);
     }
@@ -185,6 +186,49 @@ function updateData(callback) {
         unitedRenderer.updateData(dataProvider);
         callback();
     });
+}
+
+function startBlinking() {
+    let blinkers = getBlinkers(); // components that can blink
+
+    if (blinkers.length > 0 && runtimeOptions.blinkingRate > 0) {
+        let blinkOn = false;
+        let blinkIteration = () => {
+            blinkOn = !blinkOn;
+            blink(blinkers, blinkOn);
+            setTimeout(blinkIteration, runtimeOptions.blinkingRate);
+        };
+
+        setTimeout(blinkIteration, runtimeOptions.blinkingRate);
+    }
+}
+
+function getBlinkers() {
+    let blinkers = [];
+
+    for (let component of mimic.components) {
+        if (!(component.properties?.blinkingState?.isEmpty ?? true)) {
+            blinkers.push(component);
+        }
+    }
+
+    return blinkers;
+}
+
+function blink(blinkers, blinkOn) {
+    const EventType = rs.mimic.EventType;
+
+    for (let blinker of blinkers) {
+        if (blinker.dom) {
+            if (blinkOn) {
+                blinker.dom.addClass("blink-on");
+                blinker.dom.trigger(EventType.BLINK_ON);
+            } else {
+                blinker.dom.removeClass("blink-on");
+                blinker.dom.trigger(EventType.BLINK_OFF);
+            }
+        }
+    }
 }
 
 function initScale() {

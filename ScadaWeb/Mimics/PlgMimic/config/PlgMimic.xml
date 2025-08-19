@@ -9,6 +9,7 @@
     <ScaleValue>100</ScaleValue>
     <RememberScale>true</RememberScale>
     <ShowToolbar>true</ShowToolbar>
+    <BlinkingRate>1000</BlinkingRate>
   </RuntimeOptions>
   <EditorOptions>
     <UseGrid>true</UseGrid>

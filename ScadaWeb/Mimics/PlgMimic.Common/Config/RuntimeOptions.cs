@@ -31,6 +31,11 @@ namespace Scada.Web.Plugins.PlgMimic.Config
         /// </summary>
         public bool ShowToolbar { get; set; } = true;
 
+        /// <summary>
+        /// Gets or sets the blinking rate in milliseconds.
+        /// </summary>
+        public int BlinkingRate { get; set; } = 1000;
+
 
         /// <summary>
         /// Loads the options from the XML node.
@@ -42,6 +47,7 @@ namespace Scada.Web.Plugins.PlgMimic.Config
             ScaleValue = xmlNode.GetChildAsDouble("ScaleValue", ScaleValue);
             RememberScale = xmlNode.GetChildAsBool("RememberScale", RememberScale);
             ShowToolbar = xmlNode.GetChildAsBool("ShowToolbar", ShowToolbar);
+            BlinkingRate = xmlNode.GetChildAsInt("BlinkingRate", BlinkingRate);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// Contains classes: LoadStep, LoadResult, LoadContext, ScaleType, Scale, ObjectHelper
+﻿// Contains classes: LoadStep, LoadResult, LoadContext, EventType, ScaleType, Scale, ObjectHelper
 // Depends on scada-common.js
 
 // Namespaces
@@ -41,6 +41,12 @@ rs.mimic.LoadContext = class {
         this.controllerUrl = controllerUrl;
         this.mimicKey = mimicKey.toString();
     }
+};
+
+// Specifies the event types used by a mimic.
+rs.mimic.EventType = class {
+    static BLINK_ON = "blinkon.rs.mimic";
+    static BLINK_OFF = "blinkoff.rs.mimic";
 };
 
 // Specifies the scale types. Corresponds to ScaleType.cs
