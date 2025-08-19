@@ -3716,9 +3716,16 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
             .css({
                 "background-color": props.backColor,
                 "color": props.foreColor
-            })
-            .on("mouseenter", () => { this._setVisualState(componentElem, props.hoverState); })
-            .on("mouseleave", () => { this._restoreVisualState(componentElem, props); });
+            });
+
+        if (props.enabled) {
+            componentElem
+                .on("mouseenter", () => { this._setVisualState(componentElem, props.hoverState); })
+                .on("mouseleave", () => { this._restoreVisualState(componentElem, props); });
+        } else {
+            componentElem.off("mouseenter mouseleave");
+            this._setVisualState(componentElem, props.disabledState);
+        }
     }
 
     _setVisualState(jqObj, visualState) {

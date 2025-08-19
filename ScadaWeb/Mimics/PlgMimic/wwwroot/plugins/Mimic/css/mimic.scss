@@ -20,6 +20,7 @@ $component-hover-color: var(--bs-gray-500);
 
             &.disabled {
                 cursor: not-allowed;
+                pointer-events: none;
             }
 
             &.hidden {

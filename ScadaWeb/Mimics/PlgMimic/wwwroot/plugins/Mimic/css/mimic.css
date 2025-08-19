@@ -15,6 +15,7 @@
 }
 .mimic-wrapper .mimic .comp.disabled {
   cursor: not-allowed;
+  pointer-events: none;
 }
 .mimic-wrapper .mimic .comp.hidden {
   display: none;
