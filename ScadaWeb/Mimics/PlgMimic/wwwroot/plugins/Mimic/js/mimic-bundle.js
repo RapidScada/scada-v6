@@ -566,6 +566,15 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
         }));
 
         this.add(new PropertyDescriptor({
+            name: "font",
+            displayName: "Font",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.FONT,
+            editor: PropertyEditor.FONT_DIALOG
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "foreColor",
             displayName: "Foreground color",
             category: KnownCategory.APPEARANCE,
@@ -631,19 +640,9 @@ rs.mimic.TextDescriptor = class extends rs.mimic.RegularComponentDescriptor {
         const KnownCategory = rs.mimic.KnownCategory;
         const BasicType = rs.mimic.BasicType;
         const Subtype = rs.mimic.Subtype;
-        const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
         // appearance
-        this.add(new PropertyDescriptor({
-            name: "font",
-            displayName: "Font",
-            category: KnownCategory.APPEARANCE,
-            type: BasicType.STRUCT,
-            subtype: Subtype.FONT,
-            editor: PropertyEditor.FONT_DIALOG
-        }));
-
         this.add(new PropertyDescriptor({
             name: "text",
             displayName: "Text",
@@ -1283,6 +1282,7 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
             border: new rs.mimic.Border(),
             cornerRadius: new rs.mimic.CornerRadius(),
             cssClass: "",
+            font: new rs.mimic.Font({ inherit: true }),
             foreColor: ""
         });
 
@@ -1310,6 +1310,7 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
             border: rs.mimic.Border.parse(sourceProps.border),
             cornerRadius: rs.mimic.CornerRadius.parse(sourceProps.cornerRadius),
             cssClass: PropertyParser.parseString(sourceProps.cssClass),
+            font: rs.mimic.Font.parse(sourceProps.font),
             foreColor: PropertyParser.parseString(sourceProps.foreColor)
         });
 
@@ -1334,7 +1335,6 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
 
         // appearance
         Object.assign(properties, {
-            font: new rs.mimic.Font({ inherit: true }),
             text: "Text",
             textAlign: rs.mimic.ContentAlignment.TOP_LEFT,
             textDirection: rs.mimic.TextDirection.HORIZONTAL,
@@ -1357,7 +1357,6 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
 
         // appearance
         Object.assign(properties, {
-            font: rs.mimic.Font.parse(sourceProps.font),
             text: PropertyParser.parseString(sourceProps.text, "Text"),
             textAlign: PropertyParser.parseString(sourceProps.textAlign, rs.mimic.ContentAlignment.TOP_LEFT),
             textDirection: PropertyParser.parseString(sourceProps.textDirection, rs.mimic.TextDirection.HORIZONTAL),
@@ -3710,13 +3709,43 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         let props = component.properties;
         this._setBorder(componentElem, props.border);
         this._setCornerRadius(componentElem, props.cornerRadius);
+        this._setFont(componentElem, props.font, renderContext.fontMap);
 
         componentElem
             .attr("title", props.tooltip)
             .css({
                 "background-color": props.backColor,
                 "color": props.foreColor
-            });
+            })
+            .on("mouseenter", () => { this._setVisualState(componentElem, props.hoverState); })
+            .on("mouseleave", () => { this._restoreVisualState(componentElem, props); });
+    }
+
+    _setVisualState(jqObj, visualState) {
+        if (visualState.backColor) {
+            jqObj.css("background-color", visualState.backColor);
+        }
+
+        if (visualState.foreColor) {
+            jqObj.css("color", visualState.foreColor);
+        }
+
+        if (visualState.borderColor) {
+            jqObj.css("border-color", visualState.borderColor);
+        }
+
+        if (visualState.underline) {
+            jqObj.css("text-decoration", "underline");
+        }
+    }
+
+    _restoreVisualState(jqObj, props) {
+        jqObj.css({
+            "background-color": props.backColor,
+            "color": props.foreColor,
+            "border-color": props.border.color,
+            "text-decoration": props.font.inherit ? "" : (props.font.underline ? "underline" : "none")
+        });
     }
 };
 
@@ -3730,7 +3759,6 @@ rs.mimic.TextRenderer = class extends rs.mimic.RegularComponentRenderer {
     _setProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
         let props = component.properties;
-        this._setFont(componentElem, props.font, renderContext.fontMap);
         this._setPadding(componentElem, props.padding);
         this._setTextDirection(componentElem, props.textDirection);
         componentElem.text(props.text);

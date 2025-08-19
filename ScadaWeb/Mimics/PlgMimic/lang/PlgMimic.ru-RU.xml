@@ -56,6 +56,7 @@
     <Phrase key="Border">Граница</Phrase>
     <Phrase key="CornerRadius">Радиус углов</Phrase>
     <Phrase key="CssClass">CSS-класс</Phrase>
+    <Phrase key="Font">Шрифт</Phrase>
     <Phrase key="ForeColor">Основной цвет</Phrase>
     <Phrase key="BlinkingState">При мигании</Phrase>
     <Phrase key="ClickAction">По щелчку</Phrase>
@@ -65,7 +66,6 @@
     <Phrase key="Tooltip">Подсказка</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Text">
-    <Phrase key="Font">Шрифт</Phrase>
     <Phrase key="Text">Текст</Phrase>
     <Phrase key="TextAlign">Выравнивание текста</Phrase>
     <Phrase key="TextDirection">Направление текста</Phrase>

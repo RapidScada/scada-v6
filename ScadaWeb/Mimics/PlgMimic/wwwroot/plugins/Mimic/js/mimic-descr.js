@@ -356,6 +356,15 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
         }));
 
         this.add(new PropertyDescriptor({
+            name: "font",
+            displayName: "Font",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.FONT,
+            editor: PropertyEditor.FONT_DIALOG
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "foreColor",
             displayName: "Foreground color",
             category: KnownCategory.APPEARANCE,
@@ -421,19 +430,9 @@ rs.mimic.TextDescriptor = class extends rs.mimic.RegularComponentDescriptor {
         const KnownCategory = rs.mimic.KnownCategory;
         const BasicType = rs.mimic.BasicType;
         const Subtype = rs.mimic.Subtype;
-        const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
         // appearance
-        this.add(new PropertyDescriptor({
-            name: "font",
-            displayName: "Font",
-            category: KnownCategory.APPEARANCE,
-            type: BasicType.STRUCT,
-            subtype: Subtype.FONT,
-            editor: PropertyEditor.FONT_DIALOG
-        }));
-
         this.add(new PropertyDescriptor({
             name: "text",
             displayName: "Text",

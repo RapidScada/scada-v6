@@ -440,13 +440,43 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         let props = component.properties;
         this._setBorder(componentElem, props.border);
         this._setCornerRadius(componentElem, props.cornerRadius);
+        this._setFont(componentElem, props.font, renderContext.fontMap);
 
         componentElem
             .attr("title", props.tooltip)
             .css({
                 "background-color": props.backColor,
                 "color": props.foreColor
-            });
+            })
+            .on("mouseenter", () => { this._setVisualState(componentElem, props.hoverState); })
+            .on("mouseleave", () => { this._restoreVisualState(componentElem, props); });
+    }
+
+    _setVisualState(jqObj, visualState) {
+        if (visualState.backColor) {
+            jqObj.css("background-color", visualState.backColor);
+        }
+
+        if (visualState.foreColor) {
+            jqObj.css("color", visualState.foreColor);
+        }
+
+        if (visualState.borderColor) {
+            jqObj.css("border-color", visualState.borderColor);
+        }
+
+        if (visualState.underline) {
+            jqObj.css("text-decoration", "underline");
+        }
+    }
+
+    _restoreVisualState(jqObj, props) {
+        jqObj.css({
+            "background-color": props.backColor,
+            "color": props.foreColor,
+            "border-color": props.border.color,
+            "text-decoration": props.font.inherit ? "" : (props.font.underline ? "underline" : "none")
+        });
     }
 };
 
@@ -460,7 +490,6 @@ rs.mimic.TextRenderer = class extends rs.mimic.RegularComponentRenderer {
     _setProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
         let props = component.properties;
-        this._setFont(componentElem, props.font, renderContext.fontMap);
         this._setPadding(componentElem, props.padding);
         this._setTextDirection(componentElem, props.textDirection);
         componentElem.text(props.text);

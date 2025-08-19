@@ -125,6 +125,7 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
             border: new rs.mimic.Border(),
             cornerRadius: new rs.mimic.CornerRadius(),
             cssClass: "",
+            font: new rs.mimic.Font({ inherit: true }),
             foreColor: ""
         });
 
@@ -152,6 +153,7 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
             border: rs.mimic.Border.parse(sourceProps.border),
             cornerRadius: rs.mimic.CornerRadius.parse(sourceProps.cornerRadius),
             cssClass: PropertyParser.parseString(sourceProps.cssClass),
+            font: rs.mimic.Font.parse(sourceProps.font),
             foreColor: PropertyParser.parseString(sourceProps.foreColor)
         });
 
@@ -176,7 +178,6 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
 
         // appearance
         Object.assign(properties, {
-            font: new rs.mimic.Font({ inherit: true }),
             text: "Text",
             textAlign: rs.mimic.ContentAlignment.TOP_LEFT,
             textDirection: rs.mimic.TextDirection.HORIZONTAL,
@@ -199,7 +200,6 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
 
         // appearance
         Object.assign(properties, {
-            font: rs.mimic.Font.parse(sourceProps.font),
             text: PropertyParser.parseString(sourceProps.text, "Text"),
             textAlign: PropertyParser.parseString(sourceProps.textAlign, rs.mimic.ContentAlignment.TOP_LEFT),
             textDirection: PropertyParser.parseString(sourceProps.textDirection, rs.mimic.TextDirection.HORIZONTAL),
