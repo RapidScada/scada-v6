@@ -20,12 +20,15 @@
   width: 100%;
 }
 
+.mimic-wrapper.view-mode .mimic .comp.hidden {
+  display: none;
+}
 .mimic-wrapper.view-mode .mimic .comp.disabled {
   cursor: not-allowed;
   pointer-events: none;
 }
-.mimic-wrapper.view-mode .mimic .comp.hidden {
-  display: none;
+.mimic-wrapper.view-mode .mimic .comp.has-action {
+  cursor: pointer;
 }
 
 .mimic-wrapper.edit-mode {

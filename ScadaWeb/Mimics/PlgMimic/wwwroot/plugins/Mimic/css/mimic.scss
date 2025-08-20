@@ -33,13 +33,17 @@ $component-hover-color: var(--bs-gray-500);
 .mimic-wrapper.view-mode {
     .mimic {
         .comp {
+            &.hidden {
+                display: none;
+            }
+
             &.disabled {
                 cursor: not-allowed;
                 pointer-events: none;
             }
 
-            &.hidden {
-                display: none;
+            &.has-action {
+                cursor: pointer;
             }
         }
     }

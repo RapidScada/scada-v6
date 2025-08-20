@@ -3666,6 +3666,10 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         componentElem.addClass("comp");
         let props = component.properties;
 
+        if (!props.enabled) {
+            componentElem.addClass("disabled")
+        }
+
         if (renderContext.editMode) {
             if (!renderContext.faceplateMode && component.isContainer) {
                 componentElem.addClass("container")
@@ -3678,10 +3682,6 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
             if (!props.visible) {
                 componentElem.addClass("hidden")
             }
-        }
-
-        if (!props.enabled) {
-            componentElem.addClass("disabled")
         }
     }
 
@@ -3766,22 +3766,29 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
 rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
     _setClasses(componentElem, component, renderContext) {
         super._setClasses(componentElem, component, renderContext);
+        const ActionType = rs.mimic.ActionType;
         let props = component.properties;
 
         if (props.cssClass) {
             componentElem.addClass(props.cssClass);
+        }
+
+        if (props.enabled && props.clickAction.actionType !== ActionType.NONE) {
+            componentElem.addClass("has-action");
         }
     }
 
     _setProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
         const EventType = rs.mimic.EventType;
+        const ActionType = rs.mimic.ActionType;
         let props = component.properties;
         this._setBorder(componentElem, props.border);
         this._setCornerRadius(componentElem, props.cornerRadius);
         this._setFont(componentElem, props.font, renderContext.fontMap);
         this._restoreVisualState(componentElem, props);
         componentElem.attr("title", props.tooltip);
+        componentElem.off(".rs.mimic");
 
         if (props.enabled) {
             if (!props.blinkingState.isEmpty) {
@@ -3795,46 +3802,70 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
                     .on("mouseenter.rs.mimic", () => { this._setVisualState(componentElem, props.hoverState); })
                     .on("mouseleave.rs.mimic", () => { this._restoreVisualState(componentElem, props); });
             }
+
+            if (!renderContext.editMode && props.clickAction.actionType !== ActionType.NONE) {
+                componentElem.on("click.rs.mimic", () => {
+                    this._executeAction(componentElem, props.clickAction, renderContext);
+                });
+            }
         } else {
-            componentElem.off(".rs.mimic");
             this._setVisualState(componentElem, props.disabledState);
         }
     }
 
-    _setVisualState(jqObj, visualState) {
+    _setVisualState(componentElem, visualState) {
         if (visualState.backColor) {
-            jqObj.css("background-color", visualState.backColor);
+            componentElem.css("background-color", visualState.backColor);
         }
 
         if (visualState.foreColor) {
-            jqObj.css("color", visualState.foreColor);
+            componentElem.css("color", visualState.foreColor);
         }
 
         if (visualState.borderColor) {
-            jqObj.css("border-color", visualState.borderColor);
+            componentElem.css("border-color", visualState.borderColor);
         }
 
         if (visualState.underline) {
-            jqObj.css("text-decoration", "underline");
+            componentElem.css("text-decoration", "underline");
         }
     }
 
-    _restoreVisualState(jqObj, props) {
-        let isBlinking = !props.blinkingState.isEmpty && jqObj.hasClass("blink-on");
-        let isHovered = !props.hoverState.isEmpty && jqObj.is(":hover");
+    _restoreVisualState(componentElem, props) {
+        let isBlinking = !props.blinkingState.isEmpty && componentElem.hasClass("blink-on");
+        let isHovered = !props.hoverState.isEmpty && componentElem.is(":hover");
 
         if (isBlinking) {
-            this._setVisualState(jqObj, props.blinkingState);
+            this._setVisualState(componentElem, props.blinkingState);
         } else if (isHovered) {
-            this._setVisualState(jqObj, props.hoverState);
+            this._setVisualState(componentElem, props.hoverState);
         } else {
             // original state
-            jqObj.css({
+            componentElem.css({
                 "background-color": props.backColor,
                 "color": props.foreColor,
                 "border-color": props.border.color,
                 "text-decoration": props.font.inherit ? "" : (props.font.underline ? "underline" : "none")
             });
+        }
+    }
+
+    _executeAction(componentElem, action, renderContext) {
+        const ActionType = rs.mimic.ActionType;
+        console.log("Do some action...");
+
+        switch (action.actionType) {
+            case ActionType.DRAW_CHART:
+                break;
+
+            case ActionType.SEND_COMMAND:
+                break;
+
+            case ActionType.OPEN_LINK:
+                break;
+
+            case ActionType.EXECUTE_SCRIPT:
+                break;
         }
     }
 };
