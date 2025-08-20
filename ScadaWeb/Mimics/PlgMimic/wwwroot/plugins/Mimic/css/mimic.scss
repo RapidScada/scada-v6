@@ -18,15 +18,6 @@ $component-hover-color: var(--bs-gray-500);
             line-height: normal;
             position: absolute;
 
-            &.disabled {
-                cursor: not-allowed;
-                pointer-events: none;
-            }
-
-            &.hidden {
-                display: none;
-            }
-
             &.picture {
                 .picture-content {
                     background-repeat: no-repeat;
@@ -34,6 +25,21 @@ $component-hover-color: var(--bs-gray-500);
                     height: 100%;
                     width: 100%;
                 }
+            }
+        }
+    }
+}
+
+.mimic-wrapper.view-mode {
+    .mimic {
+        .comp {
+            &.disabled {
+                cursor: not-allowed;
+                pointer-events: none;
+            }
+
+            &.hidden {
+                display: none;
             }
         }
     }

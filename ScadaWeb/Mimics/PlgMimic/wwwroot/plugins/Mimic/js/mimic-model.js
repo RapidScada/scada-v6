@@ -1019,13 +1019,18 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
         }
     }
 
-    // Updates the target property corresponding to the changed property.
+    // Handles a change to the faceplate property.
     handlePropertyChanged(propertyName) {
         let propertyExport = this.model?.propertyExportMap.get(propertyName);
 
         if (propertyExport) {
+            // update target property corresponding to changed property
             let value = this.properties[propertyName];
             this.setTargetPropertyValue(propertyExport, value);
+        } else if (propertyName === "blinking" || propertyName === "enabled") {
+            // propagate property to components
+            let value = this.properties[propertyName];
+            this.components.forEach(c => { c.properties[propertyName] = value; });
         }
     }
 };

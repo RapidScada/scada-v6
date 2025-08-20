@@ -337,13 +337,13 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
                 componentElem.addClass("selected")
             }
         } else {
-            if (!props.enabled) {
-                componentElem.addClass("disabled")
-            }
-
             if (!props.visible) {
                 componentElem.addClass("hidden")
             }
+        }
+
+        if (!props.enabled) {
+            componentElem.addClass("disabled")
         }
     }
 
