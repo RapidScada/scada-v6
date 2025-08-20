@@ -442,13 +442,8 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         this._setBorder(componentElem, props.border);
         this._setCornerRadius(componentElem, props.cornerRadius);
         this._setFont(componentElem, props.font, renderContext.fontMap);
-
-        componentElem
-            .attr("title", props.tooltip)
-            .css({
-                "background-color": props.backColor,
-                "color": props.foreColor
-            });
+        this._restoreVisualState(componentElem, props);
+        componentElem.attr("title", props.tooltip);
 
         if (props.enabled) {
             if (!props.blinkingState.isEmpty) {
