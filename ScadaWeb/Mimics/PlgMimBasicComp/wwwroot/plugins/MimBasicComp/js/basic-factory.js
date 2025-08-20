@@ -1,8 +1,8 @@
 ﻿// Contains factories for basic components.
 
 rs.mimic.BasicLedFactory = class extends rs.mimic.RegularComponentFactory {
-    createProperties() {
-        let properties = super.createProperties();
+    _createProperties() {
+        let properties = super._createProperties();
 
         // behavior
         Object.assign(properties, {
@@ -12,8 +12,8 @@ rs.mimic.BasicLedFactory = class extends rs.mimic.RegularComponentFactory {
         return properties;
     }
 
-    parseProperties(sourceProps) {
-        let properties = super.parseProperties(sourceProps);
+    _parseProperties(sourceProps) {
+        let properties = super._parseProperties(sourceProps);
         sourceProps ??= {};
 
         // behavior

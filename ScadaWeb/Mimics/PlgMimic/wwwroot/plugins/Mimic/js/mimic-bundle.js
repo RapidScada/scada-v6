@@ -1194,18 +1194,8 @@ rs.mimic.MimicFactory = class {
 
 // Represents an abstract component factory.
 rs.mimic.ComponentFactory = class {
-    // Copies the properties from the source object.
-    _copyProperties(component, source) {
-        component.id = source.id;
-        component.typeName = source.typeName;
-        component.properties = this.parseProperties(source.properties);
-        component.properties.typeName = source.typeName;
-        component.bindings = source.bindings;
-        component.parentID = source.parentID;
-    }
-
     // Creates new component properties.
-    createProperties() {
+    _createProperties() {
         return {
             // behavior
             blinking: false,
@@ -1232,7 +1222,7 @@ rs.mimic.ComponentFactory = class {
     }
 
     // Parses the component properties from the specified source object.
-    parseProperties(sourceProps) {
+    _parseProperties(sourceProps) {
         const PropertyParser = rs.mimic.PropertyParser;
         sourceProps ??= {};
         return {
@@ -1260,11 +1250,45 @@ rs.mimic.ComponentFactory = class {
         };
     }
 
+    // Copies the properties from the source object.
+    _copyProperties(component, source) {
+        component.id = source.id;
+        component.typeName = source.typeName;
+        component.properties = this._parseProperties(source.properties);
+        component.properties.typeName = source.typeName;
+        component.bindings = source.bindings;
+        component.parentID = source.parentID;
+    }
+
+    // Creates and adds default property bindings.
+    _addDefaultBindings(component) {
+        if (component.bindings && component.bindings.inCnlNum > 0) {
+            let defaultBindings = this._createDefaultBindings(component);
+
+            if (defaultBindings) {
+                let bindingExists = binding => {
+                    return component.bindings.propertyBindings.some(pb => pb.dataMember === binding.dataMember);
+                };
+
+                for (let binding of defaultBindings) {
+                    if (!bindingExists(binding)) {
+                        component.bindings.propertyBindings.push(binding);
+                    }
+                }
+            }
+        }
+    }
+
+    // Creates an array of default property bindings for the component.
+    _createDefaultBindings(component) {
+        return null;
+    }
+
     // Creates a new component with the given type name.
     createComponent(typeName) {
         let component = new rs.mimic.Component();
         component.typeName = typeName;
-        component.properties = this.createProperties(typeName);
+        component.properties = this._createProperties(typeName);
         component.properties.typeName = typeName;
         return component;
     }
@@ -1273,14 +1297,15 @@ rs.mimic.ComponentFactory = class {
     createComponentFromSource(source) {
         let component = new rs.mimic.Component();
         this._copyProperties(component, source);
+        this._addDefaultBindings(component);
         return component;
     }
 };
 
 // Represents an abstract factory for regular non-faceplate components.
 rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
-    createProperties() {
-        let properties = super.createProperties();
+    _createProperties() {
+        let properties = super._createProperties();
 
         // appearance
         Object.assign(properties, {
@@ -1305,9 +1330,9 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
         return properties;
     }
 
-    parseProperties(sourceProps) {
+    _parseProperties(sourceProps) {
         const PropertyParser = rs.mimic.PropertyParser;
-        let properties = super.parseProperties(sourceProps);
+        let properties = super._parseProperties(sourceProps);
         sourceProps ??= {};
 
         // appearance
@@ -1336,8 +1361,8 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
 
 // Creates components of the Text type.
 rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
-    createProperties() {
-        let properties = super.createProperties();
+    _createProperties() {
+        let properties = super._createProperties();
 
         // appearance
         Object.assign(properties, {
@@ -1356,9 +1381,9 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
         return properties;
     }
 
-    parseProperties(sourceProps) {
+    _parseProperties(sourceProps) {
         const PropertyParser = rs.mimic.PropertyParser;
-        let properties = super.parseProperties(sourceProps);
+        let properties = super._parseProperties(sourceProps);
         sourceProps ??= {};
 
         // appearance
@@ -1378,6 +1403,32 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
         return properties;
     }
 
+    _createDefaultBindings(component) {
+        const DataMember = rs.mimic.DataMember;
+        let cnlNum = component.bindings.inCnlNum;
+        let cnlProps = component.bindings.inCnlProps;
+        return [
+            {
+                propertyName: "text",
+                dataSource: String(cnlNum),
+                dataMember: DataMember.DISPLAY_VALUE_WITH_UNIT,
+                format: "",
+                propertyChain: ["text"],
+                cnlNum: cnlNum,
+                cnlProps: cnlProps
+            },
+            {
+                propertyName: "foreColor",
+                dataSource: String(cnlNum),
+                dataMember: DataMember.COLOR0,
+                format: "",
+                propertyChain: ["foreColor"],
+                cnlNum: cnlNum,
+                cnlProps: cnlProps
+            }
+        ];
+    }
+
     createComponent() {
         return super.createComponent("Text");
     }
@@ -1385,8 +1436,8 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
 
 // Creates components of the Picture type.
 rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
-    createProperties() {
-        let properties = super.createProperties();
+    _createProperties() {
+        let properties = super._createProperties();
 
         // appearance
         Object.assign(properties, {
@@ -1408,9 +1459,9 @@ rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
         return properties;
     }
 
-    parseProperties(sourceProps) {
+    _parseProperties(sourceProps) {
         const PropertyParser = rs.mimic.PropertyParser;
-        let properties = super.parseProperties(sourceProps);
+        let properties = super._parseProperties(sourceProps);
         sourceProps ??= {};
 
         // appearance
@@ -1515,7 +1566,7 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
 
     createComponent() {
         let faceplateInstance = new rs.mimic.FaceplateInstance();
-        faceplateInstance.properties = this.createProperties();
+        faceplateInstance.properties = this._createProperties();
 
         if (this.faceplate) {
             this._updateSize(faceplateInstance);
