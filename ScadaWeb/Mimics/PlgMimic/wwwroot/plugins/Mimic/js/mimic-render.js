@@ -518,7 +518,7 @@ rs.mimic.TextRenderer = class extends rs.mimic.RegularComponentRenderer {
         let props = component.properties;
         this._setPadding(componentElem, props.padding);
         this._setTextDirection(componentElem, props.textDirection);
-        componentElem.text(props.text);
+        componentElem.text(props.text || props.inCnlNum <= 0 ? props.text : `[${props.inCnlNum}]`);
 
         if (props.autoSize) {
             componentElem.css({

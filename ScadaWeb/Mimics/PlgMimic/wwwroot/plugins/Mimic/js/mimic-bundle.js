@@ -1388,7 +1388,7 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
 
         // appearance
         Object.assign(properties, {
-            text: PropertyParser.parseString(sourceProps.text, "Text"),
+            text: PropertyParser.parseString(sourceProps.text),
             textAlign: PropertyParser.parseString(sourceProps.textAlign, rs.mimic.ContentAlignment.TOP_LEFT),
             textDirection: PropertyParser.parseString(sourceProps.textDirection, rs.mimic.TextDirection.HORIZONTAL),
             wordWrap: PropertyParser.parseBool(sourceProps.wordWrap)
@@ -1407,17 +1407,18 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
         const DataMember = rs.mimic.DataMember;
         let cnlNum = component.bindings.inCnlNum;
         let cnlProps = component.bindings.inCnlProps;
-        return [
-            {
-                propertyName: "text",
-                dataSource: String(cnlNum),
-                dataMember: DataMember.DISPLAY_VALUE_WITH_UNIT,
-                format: "",
-                propertyChain: ["text"],
-                cnlNum: cnlNum,
-                cnlProps: cnlProps
-            },
-            {
+        let bindings = [{
+            propertyName: "text",
+            dataSource: String(cnlNum),
+            dataMember: DataMember.DISPLAY_VALUE_WITH_UNIT,
+            format: "",
+            propertyChain: ["text"],
+            cnlNum: cnlNum,
+            cnlProps: cnlProps
+        }];
+
+        if (!component.properties.foreColor) {
+            bindings.push({
                 propertyName: "foreColor",
                 dataSource: String(cnlNum),
                 dataMember: DataMember.COLOR0,
@@ -1425,8 +1426,10 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
                 propertyChain: ["foreColor"],
                 cnlNum: cnlNum,
                 cnlProps: cnlProps
-            }
-        ];
+            });
+        }
+
+        return bindings;
     }
 
     createComponent() {
@@ -3853,7 +3856,7 @@ rs.mimic.TextRenderer = class extends rs.mimic.RegularComponentRenderer {
         let props = component.properties;
         this._setPadding(componentElem, props.padding);
         this._setTextDirection(componentElem, props.textDirection);
-        componentElem.text(props.text);
+        componentElem.text(props.text || props.inCnlNum <= 0 ? props.text : `[${props.inCnlNum}]`);
 
         if (props.autoSize) {
             componentElem.css({
