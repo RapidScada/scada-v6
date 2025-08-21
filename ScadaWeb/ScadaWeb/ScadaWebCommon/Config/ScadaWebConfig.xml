@@ -61,7 +61,6 @@
       <Option name="EventDepth" value="2" />
       <Option name="MaxReportPeriod" value="31" />
       <Option name="CommandPassword" value="false" />
-      <Option name="AllowCommandApi" value="false" />
       <Option name="AllowAuthApi" value="false" />
     </OptionGroup>
     <OptionGroup name="Scheme">
