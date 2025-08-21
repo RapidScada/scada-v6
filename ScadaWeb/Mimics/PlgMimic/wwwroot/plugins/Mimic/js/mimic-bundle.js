@@ -3784,7 +3784,9 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
 // Represents a renderer for regular non-faceplate components.
 rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
     _setClasses(componentElem, component, renderContext) {
+        let classes = this._keepClasses(componentElem);
         super._setClasses(componentElem, component, renderContext);
+        componentElem.addClass(classes);
         let props = component.properties;
 
         if (props.cssClass) {
@@ -3828,6 +3830,20 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         } else {
             this._setVisualState(componentElem, props.disabledState);
         }
+    }
+
+    _keepClasses(componentElem) {
+        let classes = [];
+
+        if (componentElem.hasClass("blink-on")) {
+            classes.push("blink-on");
+        }
+
+        if (componentElem.hasClass("wait-action")) {
+            classes.push("wait-action");
+        }
+
+        return classes.join(" ");
     }
 
     _setVisualState(componentElem, visualState) {
@@ -3903,7 +3919,7 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
                     if (action.commandArgs.showDialog) {
                         renderContext.viewHub.features.command.show(props.outCnlNum);
                     } else {
-                        this._showWaitCursor(componentElem);
+                        this._showWait(componentElem);
                         renderContext.mainApi.sendCommand(props.outCnlNum, action.commandArgs.cmdVal, false, null);
                     }
                 } else {
@@ -3943,10 +3959,10 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         }
     }
 
-    _showWaitCursor(componentElem) {
+    _showWait(componentElem) {
         const WAIT_DURATION = 1000;
-        componentElem.css("cursor", "wait");
-        setTimeout(() => { componentElem.css("cursor", ""); }, WAIT_DURATION);
+        componentElem.addClass("wait-action");
+        setTimeout(() => { componentElem.removeClass("wait-action"); }, WAIT_DURATION);
     }
 };
 

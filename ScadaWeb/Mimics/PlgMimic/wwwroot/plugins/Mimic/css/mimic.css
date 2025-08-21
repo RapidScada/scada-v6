@@ -30,6 +30,9 @@
 .mimic-wrapper.view-mode .mimic .comp.has-action {
   cursor: pointer;
 }
+.mimic-wrapper.view-mode .mimic .comp.wait-action {
+  cursor: wait !important;
+}
 
 .mimic-wrapper.edit-mode {
   display: flex;

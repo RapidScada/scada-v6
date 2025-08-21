@@ -45,6 +45,10 @@ $component-hover-color: var(--bs-gray-500);
             &.has-action {
                 cursor: pointer;
             }
+
+            &.wait-action {
+                cursor: wait !important;
+            }
         }
     }
 }
