@@ -211,7 +211,7 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
 
         // layout
         Object.assign(properties, {
-            autoSize: false,
+            autoSize: true,
             padding: new rs.mimic.Padding()
         });
 
