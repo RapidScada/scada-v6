@@ -220,7 +220,7 @@ rs.mimic.ObjectHelper = class ObjectHelper {
 //     TextDescriptor, PictureDescriptor, PanelDescriptor, FaceplateDescriptor,
 //     StructureDescriptor, ActionDescriptor, BorderDescriptor, CommandArgsDescriptor, ConditionDescriptor,
 //     CornerRadiusDescriptor, ImageConditionDescriptor, LinkArgsDescriptor, PaddingDescriptor,
-//     PropertyBindingDescriptor, PropertyExportDescriptor, VisualStateDescriptor,
+//     PropertyBindingDescriptor, PropertyExportDescriptor, UrlParamsDescriptor, VisualStateDescriptor,
 //     DescriptorSet
 // Depends on scada-common.js, mimic-common.js
 
@@ -273,6 +273,7 @@ rs.mimic.Subtype = class {
     static PROPERTY_BINDING = "PropertyBinding";
     static PROPERTY_EXPORT = "PropertyExport";
     static SIZE = "Size";
+    static URL_PARAMS = "UrlParams";
     static VISUAL_STATE = "VisualState";
 };
 
@@ -965,16 +966,23 @@ rs.mimic.LinkArgsDescriptor = class extends rs.mimic.StructureDescriptor {
         }));
 
         this.add(new PropertyDescriptor({
-            name: "target",
-            displayName: "Target",
-            type: BasicType.ENUM,
-            subtype: Subtype.LINK_TARGET
+            name: "urlParams",
+            displayName: "URL parameters",
+            type: BasicType.STRUCT,
+            subtype: Subtype.URL_PARAMS
         }));
 
         this.add(new PropertyDescriptor({
             name: "viewID",
             displayName: "View ID",
             type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "target",
+            displayName: "Target",
+            type: BasicType.ENUM,
+            subtype: Subtype.LINK_TARGET
         }));
 
         this.add(new PropertyDescriptor({
@@ -1083,6 +1091,29 @@ rs.mimic.PropertyExportDescriptor = class extends rs.mimic.StructureDescriptor {
     }
 };
 
+// Represents a descriptor for the UrlParams structure.
+rs.mimic.UrlParamsDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "enabled",
+            displayName: "Enabled",
+            type: BasicType.BOOL
+        }));
+
+        for (let i = 0; i < 10; i++) {
+            this.add(new PropertyDescriptor({
+                name: "param" + i,
+                displayName: "Parameter " + i,
+                type: BasicType.STRING
+            }));
+        }
+    }
+};
+
 // Represents a descriptor for the VisualState structure.
 rs.mimic.VisualStateDescriptor = class extends rs.mimic.StructureDescriptor {
     constructor() {
@@ -1157,6 +1188,7 @@ rs.mimic.DescriptorSet = class {
         ["Padding", new rs.mimic.PaddingDescriptor()],
         ["PropertyBinding", new rs.mimic.PropertyBindingDescriptor()],
         ["PropertyExport", new rs.mimic.PropertyExportDescriptor()],
+        ["UrlParams", new rs.mimic.UrlParamsDescriptor()],
         ["VisualState", new rs.mimic.VisualStateDescriptor()]
     ]);
 };
@@ -2651,7 +2683,7 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 // Enumerations: ActionType, ComparisonOperator, DataMember, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth,
 //     ContentAlignment, TextDirection
 // Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
-//     PropertyBinding, PropertyExport, Size, VisualState
+//     PropertyBinding, PropertyExport, Size, UrlParams, VisualState
 // Misc: List, ImageConditionList, PropertyBindingList, PropertyExportList, PropertyParser, DataProvider
 // No dependencies
 
@@ -2992,8 +3024,9 @@ rs.mimic.ImageCondition = class ImageCondition extends rs.mimic.Condition {
 // Represents arguments of the OPEN_LINK action.
 rs.mimic.LinkArgs = class LinkArgs {
     url = "";
-    target = rs.mimic.LinkTarget.SELF;
+    urlParams = new rs.mimic.UrlParams();
     viewID = 0;
+    target = rs.mimic.LinkTarget.SELF;
     modalWidth = rs.mimic.ModalWidth.NORMAL;
     modalHeight = 0;
 
@@ -3011,8 +3044,9 @@ rs.mimic.LinkArgs = class LinkArgs {
 
         if (source) {
             linkArgs.url = PropertyParser.parseString(source.url);
-            linkArgs.target = PropertyParser.parseString(source.target, linkArgs.target);
+            linkArgs.urlParams = rs.mimic.UrlParams.parse(source.urlParams);
             linkArgs.viewID = PropertyParser.parseInt(source.viewID);
+            linkArgs.target = PropertyParser.parseString(source.target, linkArgs.target);
             linkArgs.modalWidth = PropertyParser.parseString(source.modalWidth, linkArgs.modalWidth);
             linkArgs.modalHeight = PropertyParser.parseInt(source.modalHeight);
         }
@@ -3157,6 +3191,61 @@ rs.mimic.Size = class Size {
         }
 
         return size;
+    }
+}
+
+// Represents URL parameters.
+rs.mimic.UrlParams = class UrlParams {
+    enabled = false;
+    param0 = "";
+    param1 = "";
+    param2 = "";
+    param3 = "";
+    param4 = "";
+    param5 = "";
+    param6 = "";
+    param7 = "";
+    param8 = "";
+    param9 = "";
+
+    get typeName() {
+        return "UrlParams";
+    }
+
+    toArray() {
+        return [
+            this.param0,
+            this.param1,
+            this.param2,
+            this.param3,
+            this.param4,
+            this.param5,
+            this.param6,
+            this.param7,
+            this.param8,
+            this.param9
+        ];
+    }
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let urlParams = new UrlParams();
+
+        if (source) {
+            urlParams.enabled = PropertyParser.parseBool(source.enabled);
+            urlParams.param0 = PropertyParser.parseString(source.param0);
+            urlParams.param1 = PropertyParser.parseString(source.param1);
+            urlParams.param2 = PropertyParser.parseString(source.param2);
+            urlParams.param3 = PropertyParser.parseString(source.param3);
+            urlParams.param4 = PropertyParser.parseString(source.param4);
+            urlParams.param5 = PropertyParser.parseString(source.param5);
+            urlParams.param6 = PropertyParser.parseString(source.param6);
+            urlParams.param7 = PropertyParser.parseString(source.param7);
+            urlParams.param8 = PropertyParser.parseString(source.param8);
+            urlParams.param9 = PropertyParser.parseString(source.param9);
+        }
+
+        return urlParams;
     }
 }
 
@@ -3934,9 +4023,15 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
                 break;
 
             case ActionType.OPEN_LINK:
-                let url = action.linkArgs.viewID > 0
-                    ? viewHub.getViewUrl(action.linkArgs.viewID, action.linkArgs.target === LinkTarget.NEW_MODAL)
-                    : action.linkArgs.url;
+                let url;
+
+                if (action.linkArgs.viewID > 0) {
+                    url = viewHub.getViewUrl(action.linkArgs.viewID, action.linkArgs.target === LinkTarget.NEW_MODAL);
+                } else if (action.linkArgs.urlParams.enabled) {
+                    url = ScadaUtils.formatString(action.linkArgs.url, ...action.linkArgs.urlParams.toArray());
+                } else {
+                    url = action.linkArgs.url;
+                }
 
                 if (url) {
                     switch (action.linkArgs.target) {

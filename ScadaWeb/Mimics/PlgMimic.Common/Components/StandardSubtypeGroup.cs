@@ -39,6 +39,7 @@ namespace Scada.Web.Plugins.PlgMimic.Components
                 "PropertyBinding",
                 "PropertyExport",
                 "Size",
+                "UrlParams",
                 "VisualState"
             ]);
         }

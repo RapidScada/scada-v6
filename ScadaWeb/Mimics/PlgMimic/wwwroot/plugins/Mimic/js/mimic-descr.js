@@ -4,7 +4,7 @@
 //     TextDescriptor, PictureDescriptor, PanelDescriptor, FaceplateDescriptor,
 //     StructureDescriptor, ActionDescriptor, BorderDescriptor, CommandArgsDescriptor, ConditionDescriptor,
 //     CornerRadiusDescriptor, ImageConditionDescriptor, LinkArgsDescriptor, PaddingDescriptor,
-//     PropertyBindingDescriptor, PropertyExportDescriptor, VisualStateDescriptor,
+//     PropertyBindingDescriptor, PropertyExportDescriptor, UrlParamsDescriptor, VisualStateDescriptor,
 //     DescriptorSet
 // Depends on scada-common.js, mimic-common.js
 
@@ -57,6 +57,7 @@ rs.mimic.Subtype = class {
     static PROPERTY_BINDING = "PropertyBinding";
     static PROPERTY_EXPORT = "PropertyExport";
     static SIZE = "Size";
+    static URL_PARAMS = "UrlParams";
     static VISUAL_STATE = "VisualState";
 };
 
@@ -749,16 +750,23 @@ rs.mimic.LinkArgsDescriptor = class extends rs.mimic.StructureDescriptor {
         }));
 
         this.add(new PropertyDescriptor({
-            name: "target",
-            displayName: "Target",
-            type: BasicType.ENUM,
-            subtype: Subtype.LINK_TARGET
+            name: "urlParams",
+            displayName: "URL parameters",
+            type: BasicType.STRUCT,
+            subtype: Subtype.URL_PARAMS
         }));
 
         this.add(new PropertyDescriptor({
             name: "viewID",
             displayName: "View ID",
             type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "target",
+            displayName: "Target",
+            type: BasicType.ENUM,
+            subtype: Subtype.LINK_TARGET
         }));
 
         this.add(new PropertyDescriptor({
@@ -867,6 +875,29 @@ rs.mimic.PropertyExportDescriptor = class extends rs.mimic.StructureDescriptor {
     }
 };
 
+// Represents a descriptor for the UrlParams structure.
+rs.mimic.UrlParamsDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "enabled",
+            displayName: "Enabled",
+            type: BasicType.BOOL
+        }));
+
+        for (let i = 0; i < 10; i++) {
+            this.add(new PropertyDescriptor({
+                name: "param" + i,
+                displayName: "Parameter " + i,
+                type: BasicType.STRING
+            }));
+        }
+    }
+};
+
 // Represents a descriptor for the VisualState structure.
 rs.mimic.VisualStateDescriptor = class extends rs.mimic.StructureDescriptor {
     constructor() {
@@ -941,6 +972,7 @@ rs.mimic.DescriptorSet = class {
         ["Padding", new rs.mimic.PaddingDescriptor()],
         ["PropertyBinding", new rs.mimic.PropertyBindingDescriptor()],
         ["PropertyExport", new rs.mimic.PropertyExportDescriptor()],
+        ["UrlParams", new rs.mimic.UrlParamsDescriptor()],
         ["VisualState", new rs.mimic.VisualStateDescriptor()]
     ]);
 };

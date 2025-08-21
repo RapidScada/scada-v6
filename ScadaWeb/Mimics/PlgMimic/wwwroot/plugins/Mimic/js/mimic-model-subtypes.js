@@ -1,7 +1,7 @@
 ﻿// Enumerations: ActionType, ComparisonOperator, DataMember, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth,
 //     ContentAlignment, TextDirection
 // Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
-//     PropertyBinding, PropertyExport, Size, VisualState
+//     PropertyBinding, PropertyExport, Size, UrlParams, VisualState
 // Misc: List, ImageConditionList, PropertyBindingList, PropertyExportList, PropertyParser, DataProvider
 // No dependencies
 
@@ -342,8 +342,9 @@ rs.mimic.ImageCondition = class ImageCondition extends rs.mimic.Condition {
 // Represents arguments of the OPEN_LINK action.
 rs.mimic.LinkArgs = class LinkArgs {
     url = "";
-    target = rs.mimic.LinkTarget.SELF;
+    urlParams = new rs.mimic.UrlParams();
     viewID = 0;
+    target = rs.mimic.LinkTarget.SELF;
     modalWidth = rs.mimic.ModalWidth.NORMAL;
     modalHeight = 0;
 
@@ -361,8 +362,9 @@ rs.mimic.LinkArgs = class LinkArgs {
 
         if (source) {
             linkArgs.url = PropertyParser.parseString(source.url);
-            linkArgs.target = PropertyParser.parseString(source.target, linkArgs.target);
+            linkArgs.urlParams = rs.mimic.UrlParams.parse(source.urlParams);
             linkArgs.viewID = PropertyParser.parseInt(source.viewID);
+            linkArgs.target = PropertyParser.parseString(source.target, linkArgs.target);
             linkArgs.modalWidth = PropertyParser.parseString(source.modalWidth, linkArgs.modalWidth);
             linkArgs.modalHeight = PropertyParser.parseInt(source.modalHeight);
         }
@@ -507,6 +509,61 @@ rs.mimic.Size = class Size {
         }
 
         return size;
+    }
+}
+
+// Represents URL parameters.
+rs.mimic.UrlParams = class UrlParams {
+    enabled = false;
+    param0 = "";
+    param1 = "";
+    param2 = "";
+    param3 = "";
+    param4 = "";
+    param5 = "";
+    param6 = "";
+    param7 = "";
+    param8 = "";
+    param9 = "";
+
+    get typeName() {
+        return "UrlParams";
+    }
+
+    toArray() {
+        return [
+            this.param0,
+            this.param1,
+            this.param2,
+            this.param3,
+            this.param4,
+            this.param5,
+            this.param6,
+            this.param7,
+            this.param8,
+            this.param9
+        ];
+    }
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let urlParams = new UrlParams();
+
+        if (source) {
+            urlParams.enabled = PropertyParser.parseBool(source.enabled);
+            urlParams.param0 = PropertyParser.parseString(source.param0);
+            urlParams.param1 = PropertyParser.parseString(source.param1);
+            urlParams.param2 = PropertyParser.parseString(source.param2);
+            urlParams.param3 = PropertyParser.parseString(source.param3);
+            urlParams.param4 = PropertyParser.parseString(source.param4);
+            urlParams.param5 = PropertyParser.parseString(source.param5);
+            urlParams.param6 = PropertyParser.parseString(source.param6);
+            urlParams.param7 = PropertyParser.parseString(source.param7);
+            urlParams.param8 = PropertyParser.parseString(source.param8);
+            urlParams.param9 = PropertyParser.parseString(source.param9);
+        }
+
+        return urlParams;
     }
 }
 

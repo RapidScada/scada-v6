@@ -577,9 +577,15 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
                 break;
 
             case ActionType.OPEN_LINK:
-                let url = action.linkArgs.viewID > 0
-                    ? viewHub.getViewUrl(action.linkArgs.viewID, action.linkArgs.target === LinkTarget.NEW_MODAL)
-                    : action.linkArgs.url;
+                let url;
+
+                if (action.linkArgs.viewID > 0) {
+                    url = viewHub.getViewUrl(action.linkArgs.viewID, action.linkArgs.target === LinkTarget.NEW_MODAL);
+                } else if (action.linkArgs.urlParams.enabled) {
+                    url = ScadaUtils.formatString(action.linkArgs.url, ...action.linkArgs.urlParams.toArray());
+                } else {
+                    url = action.linkArgs.url;
+                }
 
                 if (url) {
                     switch (action.linkArgs.target) {

@@ -178,8 +178,9 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.LinkArgs">
     <Phrase key="Url">URL</Phrase>
-    <Phrase key="Target">Target</Phrase>
+    <Phrase key="UrlParams">URL parameters</Phrase>
     <Phrase key="ViewID">View ID</Phrase>
+    <Phrase key="Target">Target</Phrase>
     <Phrase key="ModalWidth">Modal width</Phrase>
     <Phrase key="ModalHeight">Modal height</Phrase>
   </Dictionary>
@@ -198,6 +199,19 @@
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.PropertyExport">
     <Phrase key="Name">Property name</Phrase>
     <Phrase key="Path">Path</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.UrlParams">
+    <Phrase key="Enabled">Enabled</Phrase>
+    <Phrase key="Param0">Parameter 0</Phrase>
+    <Phrase key="Param1">Parameter 1</Phrase>
+    <Phrase key="Param2">Parameter 2</Phrase>
+    <Phrase key="Param3">Parameter 3</Phrase>
+    <Phrase key="Param4">Parameter 4</Phrase>
+    <Phrase key="Param5">Parameter 5</Phrase>
+    <Phrase key="Param6">Parameter 6</Phrase>
+    <Phrase key="Param7">Parameter 7</Phrase>
+    <Phrase key="Param8">Parameter 8</Phrase>
+    <Phrase key="Param9">Parameter 9</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.VisualState">
     <Phrase key="backColor">Back color</Phrase>
