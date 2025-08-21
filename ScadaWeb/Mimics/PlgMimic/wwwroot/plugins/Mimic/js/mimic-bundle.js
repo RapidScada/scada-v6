@@ -3446,7 +3446,7 @@ rs.mimic.DataProvider = class DataProvider {
 
 // Contains classes: Renderer, MimicRenderer, ComponentRenderer, RegularComponentRenderer,
 //     TextRenderer, PictureRenderer, PanelRenderer, RenderContext, RendererSet, UnitedRenderer
-// Depends on jquery, scada-common.js, mimic-common.js, modal.js
+// Depends on jquery, scada-common.js, modal.js, mimic-common.js, mimic-model.js
 
 // Represents a renderer of a mimic or component.
 rs.mimic.Renderer = class {
