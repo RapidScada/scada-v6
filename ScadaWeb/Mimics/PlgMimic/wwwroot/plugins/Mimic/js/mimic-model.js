@@ -728,7 +728,7 @@ rs.mimic.Component = class {
     parentID = 0;       // parent ID
     index = -1;         // sibling index
 
-    parent = null;      // mimic or panel
+    parent = null;      // mimic or component
     children = null;    // top-level child components
     dom = null;         // jQuery objects representing DOM content
     renderer = null;    // renders the component

@@ -2373,7 +2373,7 @@ rs.mimic.Component = class {
     parentID = 0;       // parent ID
     index = -1;         // sibling index
 
-    parent = null;      // mimic or panel
+    parent = null;      // mimic or component
     children = null;    // top-level child components
     dom = null;         // jQuery objects representing DOM content
     renderer = null;    // renders the component
@@ -3276,6 +3276,45 @@ rs.mimic.VisualState = class VisualState {
         }
 
         return visualState;
+    }
+};
+
+// --- Scripts ---
+
+// Represents an additional mimic logic.
+rs.mimic.MimicScript = class {
+
+};
+
+// Represents an additional component logic.
+rs.mimic.ComponentScript = class {
+    domCreated(args) {
+    }
+
+    domUpdated(args) {
+    }
+
+    dataUpdated(args) {
+    }
+};
+
+// Provides arguments when creating and updating a mimic or component DOM.
+rs.mimic.UpdateDomArgs = class {
+    constructor({ mimic, component, renderContext }) {
+        this.jqElem = (mimic ?? component)?.dom;
+        this.mimic = mimic;
+        this.component = component;
+        this.renderContext = renderContext;
+    }
+};
+
+// Provides arguments when updating mimic or component data.
+rs.mimic.UpdateDataArgs = class {
+    constructor({ mimic, component, dataProvider }) {
+        this.mimic = mimic;
+        this.component = component;
+        this.dataProvider = dataProvider;
+        this.propertyChanged = false;
     }
 };
 
