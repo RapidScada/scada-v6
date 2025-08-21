@@ -1907,7 +1907,7 @@ rs.mimic.MimicHelper = class MimicHelper {
         // property binding is { propertyName, dataSource, dataMember, format, propertyChain, cnlNum, cnlProps }
         // channel properties are { joinLen, unit }
         const DataProvider = rs.mimic.DataProvider;
-        let dataChanged = false;
+        let propertyChanged = false;
 
         if (component.bindings && Array.isArray(component.bindings.propertyBindings) &&
             component.bindings.propertyBindings.length > 0) {
@@ -1918,13 +1918,13 @@ rs.mimic.MimicHelper = class MimicHelper {
 
                     if (!DataProvider.dataEqual(curData, prevData) || !dataProvider.prevCnlDataMap) {
                         MimicHelper._setComponentProperty(component, binding, curData);
-                        dataChanged = true;
+                        propertyChanged = true;
                     }
                 }
             }
         }
 
-        return dataChanged;
+        return propertyChanged;
     }
 };
 
