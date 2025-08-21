@@ -265,7 +265,7 @@ class PropGrid {
 
         if (propertyDescriptor.isReadOnly) {
             bindingOptions.readonly = true;
-            bindingOptions.interval = ScadaUtils.MS_PER_DAY;
+            bindingOptions.interval = 0;
         }
 
         switch (propertyDescriptor.type) {
