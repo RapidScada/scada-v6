@@ -429,7 +429,7 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
     _setClasses(componentElem, component, renderContext) {
         let classes = this._keepClasses(componentElem);
         super._setClasses(componentElem, component, renderContext);
-        componentElem.addClass(classes);
+        this._restoreClasses(componentElem, classes);
         let props = component.properties;
 
         if (props.cssClass) {
@@ -486,7 +486,13 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
             classes.push("wait-action");
         }
 
-        return classes.join(" ");
+        return classes;
+    }
+
+    _restoreClasses(componentElem, classes) {
+        for (let c of classes) {
+            componentElem.addClass(c);
+        }
     }
 
     _setVisualState(componentElem, visualState) {
