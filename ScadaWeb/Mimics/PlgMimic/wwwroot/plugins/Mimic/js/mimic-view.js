@@ -219,7 +219,7 @@ function blink(blinkers, blinkOn) {
     const EventType = rs.mimic.EventType;
 
     for (let blinker of blinkers) {
-        if (blinker.dom) {
+        if (blinker.properties.blinking && blinker.dom) {
             if (blinkOn) {
                 blinker.dom.addClass("blink-on");
                 blinker.dom.trigger(EventType.BLINK_ON);
