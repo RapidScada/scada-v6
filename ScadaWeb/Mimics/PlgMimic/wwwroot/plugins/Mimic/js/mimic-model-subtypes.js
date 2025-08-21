@@ -91,11 +91,26 @@ rs.mimic.LinkTarget = class {
 };
 
 // Specifies the widths of a modal dialog.
-rs.mimic.ModalWidth = class {
+rs.mimic.ModalWidth = class ModalWidth {
     static NORMAL = "Normal";
     static SMALL = "Small";
     static LARGE = "Large";
     static EXTRA_LARGE = "ExtraLarge";
+
+    static toModalSize(modalWidth) {
+        switch (modalWidth) {
+            case ModalWidth.NORMAL:
+                return 0;
+            case ModalWidth.SMALL:
+                return 1;
+            case ModalWidth.LARGE:
+                return 2;
+            case ModalWidth.EXTRA_LARGE:
+                return 3;
+            default:
+                return 0;
+        };
+    }
 };
 
 // Specifies the alignments of component content.
@@ -334,6 +349,10 @@ rs.mimic.LinkArgs = class LinkArgs {
 
     get typeName() {
         return "LinkArgs";
+    }
+
+    getModalSize() {
+        return rs.mimic.ModalWidth.toModalSize(this.modalWidth);
     }
 
     static parse(source) {

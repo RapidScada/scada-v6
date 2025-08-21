@@ -307,7 +307,7 @@ function handleKeyDown(code, ctrlKey) {
 }
 
 $(async function () {
-    unitedRenderer.configure({ fonts, controlRight });
+    unitedRenderer.configure({ viewHub, mainApi, fonts, controlRight });
     initElements();
     bindEvents();
     bindGestureEvents();

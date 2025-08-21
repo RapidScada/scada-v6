@@ -1,6 +1,6 @@
 ﻿// Contains classes: Renderer, MimicRenderer, ComponentRenderer, RegularComponentRenderer,
 //     TextRenderer, PictureRenderer, PanelRenderer, RenderContext, RendererSet, UnitedRenderer
-// Depends on jquery, scada-common.js, mimic-common.js
+// Depends on jquery, scada-common.js, mimic-common.js, modal.js
 
 // Represents a renderer of a mimic or component.
 rs.mimic.Renderer = class {
@@ -428,14 +428,13 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
 rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
     _setClasses(componentElem, component, renderContext) {
         super._setClasses(componentElem, component, renderContext);
-        const ActionType = rs.mimic.ActionType;
         let props = component.properties;
 
         if (props.cssClass) {
             componentElem.addClass(props.cssClass);
         }
 
-        if (props.enabled && props.clickAction.actionType !== ActionType.NONE) {
+        if (this._hasAction(props, renderContext)) {
             componentElem.addClass("has-action");
         }
     }
@@ -443,7 +442,6 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
     _setProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
         const EventType = rs.mimic.EventType;
-        const ActionType = rs.mimic.ActionType;
         let props = component.properties;
         this._setBorder(componentElem, props.border);
         this._setCornerRadius(componentElem, props.cornerRadius);
@@ -465,9 +463,9 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
                     .on("mouseleave.rs.mimic", () => { this._restoreVisualState(componentElem, props); });
             }
 
-            if (!renderContext.editMode && props.clickAction.actionType !== ActionType.NONE) {
+            if (this._hasAction(props, renderContext)) {
                 componentElem.on("click.rs.mimic", () => {
-                    this._executeAction(componentElem, props.clickAction, renderContext);
+                    this._executeAction(componentElem, props, renderContext);
                 });
             }
         } else {
@@ -512,23 +510,86 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         }
     }
 
-    _executeAction(componentElem, action, renderContext) {
+    _hasAction(props, renderContext) {
         const ActionType = rs.mimic.ActionType;
-        console.log("Do some action...");
+        return !renderContext.editMode && props.enabled &&
+            props.clickAction.actionType !== ActionType.NONE &&
+            (props.clickAction.actionType !== ActionType.SEND_COMMAND || renderContext.controlRight);
+    }
+
+    _executeAction(componentElem, props, renderContext) {
+        const ActionType = rs.mimic.ActionType;
+        const LinkTarget = rs.mimic.LinkTarget;
+        let action = props.clickAction;
+
+        if (!renderContext.viewHub) {
+            console.error("View hub is undefined.");
+            return;
+        }
+
+        if (!renderContext.mainApi) {
+            console.error("Main API is undefined.");
+            return;
+        }
 
         switch (action.actionType) {
             case ActionType.DRAW_CHART:
+                if (props.inCnlNum > 0) {
+                    renderContext.viewHub.features.chart.show(props.inCnlNum, null, action.chartArgs);
+                } else {
+                    console.warn("Input channel not specified.");
+                }
                 break;
 
             case ActionType.SEND_COMMAND:
+                if (props.outCnlNum > 0) {
+                    if (action.commandArgs.showDialog) {
+                        renderContext.viewHub.features.command.show(props.outCnlNum);
+                    } else {
+                        this._showWaitCursor(componentElem);
+                        renderContext.mainApi.sendCommand(props.outCnlNum, action.commandArgs.cmdVal, false, null);
+                    }
+                } else {
+                    console.warn("Output channel not specified.");
+                }
                 break;
 
             case ActionType.OPEN_LINK:
+                let url = action.linkArgs.viewID > 0
+                    ? viewHub.getViewUrl(action.linkArgs.viewID, action.linkArgs.target === LinkTarget.NEW_MODAL)
+                    : action.linkArgs.url;
+
+                if (url) {
+                    switch (action.linkArgs.target) {
+                        case LinkTarget.SELF:
+                            window.top.location = url;
+                            break;
+                        case LinkTarget.NEW_TAB:
+                            window.open(url);
+                            break;
+                        case LinkTarget.NEW_MODAL:
+                            renderContext.viewHub.modalManager.showModal(url, new ModalOptions({
+                                size: action.linkArgs.getModalSize(),
+                                height: action.linkArgs.modalHeight
+                            }));
+                            break;
+                    }
+                } else {
+                    console.warn("URL is undefined.");
+                }
+
                 break;
 
             case ActionType.EXECUTE_SCRIPT:
+                console.warn("Not implemented.");
                 break;
         }
+    }
+
+    _showWaitCursor(componentElem) {
+        const WAIT_DURATION = 1000;
+        componentElem.css("cursor", "wait");
+        setTimeout(() => { componentElem.css("cursor", ""); }, WAIT_DURATION);
     }
 };
 
@@ -747,11 +808,13 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
 // Encapsulates information about a rendering operation.
 rs.mimic.RenderContext = class {
     editMode = false;
+    viewHub = null;
+    mainApi = null;
     fontMap = null;
     editorOptions = null;
     controlRight = false;
-    faceplateMode = false;
     imageMap = null;
+    faceplateMode = false;
     idPrefix = "";
     unknownTypes = null;
 
@@ -779,6 +842,8 @@ rs.mimic.RendererSet = class {
 rs.mimic.UnitedRenderer = class {
     mimic;
     editMode;
+    viewHub = null;
+    mainApi = null;
     fontMap = null;
     editorOptions = null;
     controlRight = false;
@@ -792,6 +857,8 @@ rs.mimic.UnitedRenderer = class {
     _createRenderContext(opt_withUnknownTypes) {
         return new rs.mimic.RenderContext({
             editMode: this.editMode,
+            viewHub: this.viewHub,
+            mainApi: this.mainApi,
             fontMap: this.fontMap,
             editorOptions: this.editorOptions,
             controlRight: this.controlRight,
@@ -804,6 +871,8 @@ rs.mimic.UnitedRenderer = class {
     _createFaceplateContext(faceplateInstance, renderContext) {
         return new rs.mimic.RenderContext({
             editMode: this.editMode,
+            viewHub: this.viewHub,
+            mainApi: this.mainApi,
             fontMap: this.fontMap,
             editorOptions: this.editorOptions,
             controlRight: this.controlRight,
@@ -889,10 +958,14 @@ rs.mimic.UnitedRenderer = class {
 
     // Configures the renderer.
     configure({
+        viewHub = null,
+        mainApi = null,
         fonts = null,
         editorOptions = null,
         controlRight = false
     }) {
+        this.viewHub = viewHub;
+        this.mainApi = mainApi;
         this.fontMap = Array.isArray(fonts) ? new Map(fonts.map(font => [font.name, font])) : null;
         this.editorOptions = editorOptions;
         this.controlRight = controlRight;
