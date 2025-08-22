@@ -2,6 +2,7 @@
 //     ContentAlignment, TextDirection
 // Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
 //     PropertyBinding, PropertyExport, Size, UrlParams, VisualState
+// Scripts: MimicScript, ComponentScript, UpdateDomArgs, UpdateDataArgs, ActionScriptArgs
 // Misc: List, ImageConditionList, PropertyBindingList, PropertyExportList, PropertyParser, DataProvider
 // No dependencies
 
@@ -599,12 +600,19 @@ rs.mimic.VisualState = class VisualState {
 
 // --- Scripts ---
 
-// Represents an additional mimic logic.
+// A base class for mimic logic.
 rs.mimic.MimicScript = class {
+    domCreated(args) {
+    }
 
+    domUpdated(args) {
+    }
+
+    dataUpdated(args) {
+    }
 };
 
-// Represents an additional component logic.
+// A base class for component logic.
 rs.mimic.ComponentScript = class {
     domCreated(args) {
     }

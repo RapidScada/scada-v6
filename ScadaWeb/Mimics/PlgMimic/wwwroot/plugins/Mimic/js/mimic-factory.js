@@ -65,6 +65,11 @@ rs.mimic.ComponentFactory = class {
         return null;
     }
 
+    // Creates an object that implements additional component logic.
+    _createExtraScript() {
+        return null;
+    }
+
     // Creates new component properties.
     createProperties() {
         return {
@@ -127,14 +132,16 @@ rs.mimic.ComponentFactory = class {
         component.typeName = typeName;
         component.properties = this.createProperties(typeName);
         component.properties.typeName = typeName;
+        component.extraScript = this._createExtraScript();
         return component;
     }
 
-    // Creates a new component with the specified properties, making deep copies of the source properties.
+    // Creates a new component with the specified properties.
     createComponentFromSource(source) {
         let component = new rs.mimic.Component();
         this._copyProperties(component, source);
         this._addDefaultBindings(component);
+        component.extraScript = this._createExtraScript();
         return component;
     }
 };
@@ -275,7 +282,29 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
 };
 
 // Creates components of the Picture type.
-rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
+rs.mimic.PictureFactory = class PictureFactory extends rs.mimic.RegularComponentFactory {
+    static PictureScriptClass = class extends rs.mimic.ComponentScript {
+        dataUpdated(args) {
+            const DataProvider = rs.mimic.DataProvider;
+
+            if (args.component.bindings && args.component.bindings.inCnlNum > 0 &&
+                args.component.properties.conditions.length > 0) {
+                let cnlNum = args.component.bindings.inCnlNum;
+                let curData = args.dataProvider.getCurData(cnlNum);
+                let prevData = args.dataProvider.getPrevData(cnlNum);
+
+                if (!DataProvider.dataEqual(curData, prevData) || !dataProvider.prevCnlDataMap) {
+
+                    args.propertyChanged = true;
+                }
+            }
+        }
+    };
+
+    _createExtraScript() {
+        return new PictureFactory.PictureScriptClass();
+    }
+
     createProperties() {
         let properties = super.createProperties();
 

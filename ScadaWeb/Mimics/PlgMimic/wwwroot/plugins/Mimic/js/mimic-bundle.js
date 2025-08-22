@@ -1260,6 +1260,11 @@ rs.mimic.ComponentFactory = class {
         return null;
     }
 
+    // Creates an object that implements additional component logic.
+    _createExtraScript() {
+        return null;
+    }
+
     // Creates new component properties.
     createProperties() {
         return {
@@ -1322,14 +1327,16 @@ rs.mimic.ComponentFactory = class {
         component.typeName = typeName;
         component.properties = this.createProperties(typeName);
         component.properties.typeName = typeName;
+        component.extraScript = this._createExtraScript();
         return component;
     }
 
-    // Creates a new component with the specified properties, making deep copies of the source properties.
+    // Creates a new component with the specified properties.
     createComponentFromSource(source) {
         let component = new rs.mimic.Component();
         this._copyProperties(component, source);
         this._addDefaultBindings(component);
+        component.extraScript = this._createExtraScript();
         return component;
     }
 };
@@ -1470,7 +1477,29 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
 };
 
 // Creates components of the Picture type.
-rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
+rs.mimic.PictureFactory = class PictureFactory extends rs.mimic.RegularComponentFactory {
+    static PictureScriptClass = class extends rs.mimic.ComponentScript {
+        dataUpdated(args) {
+            const DataProvider = rs.mimic.DataProvider;
+
+            if (args.component.bindings && args.component.bindings.inCnlNum > 0 &&
+                args.component.properties.conditions.length > 0) {
+                let cnlNum = args.component.bindings.inCnlNum;
+                let curData = args.dataProvider.getCurData(cnlNum);
+                let prevData = args.dataProvider.getPrevData(cnlNum);
+
+                if (!DataProvider.dataEqual(curData, prevData) || !dataProvider.prevCnlDataMap) {
+
+                    args.propertyChanged = true;
+                }
+            }
+        }
+    };
+
+    _createExtraScript() {
+        return new PictureFactory.PictureScriptClass();
+    }
+
     createProperties() {
         let properties = super.createProperties();
 
@@ -1978,6 +2007,7 @@ rs.mimic.MimicBase = class {
 rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     dom;      // mimic DOM as a jQuery object
     renderer; // renders the mimic
+    script;   // custom mimic logic
 
     // Imitates a component ID to use as a parent ID.
     get id() {
@@ -2210,6 +2240,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         super.clear();
         this.dom = null;
         this.renderer = null;
+        this.script = null;
     }
 
     // Loads the mimic. Returns a LoadResult.
@@ -2366,18 +2397,20 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
 // Represents a component of a mimic diagram.
 rs.mimic.Component = class {
-    id = 0;             // component ID
-    typeName = "";      // component type name
-    properties = null;  // factory normalized properties
-    bindings = null;    // server side prepared bindings, see ComponentBindings.cs
-    parentID = 0;       // parent ID
-    index = -1;         // sibling index
+    id = 0;              // component ID
+    typeName = "";       // component type name
+    properties = null;   // factory normalized properties
+    bindings = null;     // server side prepared bindings, see ComponentBindings.cs
+    parentID = 0;        // parent ID
+    index = -1;          // sibling index
 
-    parent = null;      // mimic or component
-    children = null;    // top-level child components
-    dom = null;         // jQuery objects representing DOM content
-    renderer = null;    // renders the component
-    isSelected = false; // selected in the editor
+    parent = null;       // mimic or component
+    children = null;     // top-level child components
+    dom = null;          // jQuery objects representing DOM content
+    renderer = null;     // renders the component
+    extraScript = null;  // additional component logic
+    customScript = null; // custom component logic
+    isSelected = false;  // selected in the editor
 
     constructor(source) {
         Object.assign(this, source);
@@ -2684,6 +2717,7 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 //     ContentAlignment, TextDirection
 // Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
 //     PropertyBinding, PropertyExport, Size, UrlParams, VisualState
+// Scripts: MimicScript, ComponentScript, UpdateDomArgs, UpdateDataArgs, ActionScriptArgs
 // Misc: List, ImageConditionList, PropertyBindingList, PropertyExportList, PropertyParser, DataProvider
 // No dependencies
 
@@ -3281,12 +3315,19 @@ rs.mimic.VisualState = class VisualState {
 
 // --- Scripts ---
 
-// Represents an additional mimic logic.
+// A base class for mimic logic.
 rs.mimic.MimicScript = class {
+    domCreated(args) {
+    }
 
+    domUpdated(args) {
+    }
+
+    dataUpdated(args) {
+    }
 };
 
-// Represents an additional component logic.
+// A base class for component logic.
 rs.mimic.ComponentScript = class {
     domCreated(args) {
     }

@@ -333,6 +333,7 @@ rs.mimic.MimicBase = class {
 rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     dom;      // mimic DOM as a jQuery object
     renderer; // renders the mimic
+    script;   // custom mimic logic
 
     // Imitates a component ID to use as a parent ID.
     get id() {
@@ -565,6 +566,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         super.clear();
         this.dom = null;
         this.renderer = null;
+        this.script = null;
     }
 
     // Loads the mimic. Returns a LoadResult.
@@ -721,18 +723,20 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
 // Represents a component of a mimic diagram.
 rs.mimic.Component = class {
-    id = 0;             // component ID
-    typeName = "";      // component type name
-    properties = null;  // factory normalized properties
-    bindings = null;    // server side prepared bindings, see ComponentBindings.cs
-    parentID = 0;       // parent ID
-    index = -1;         // sibling index
+    id = 0;              // component ID
+    typeName = "";       // component type name
+    properties = null;   // factory normalized properties
+    bindings = null;     // server side prepared bindings, see ComponentBindings.cs
+    parentID = 0;        // parent ID
+    index = -1;          // sibling index
 
-    parent = null;      // mimic or component
-    children = null;    // top-level child components
-    dom = null;         // jQuery objects representing DOM content
-    renderer = null;    // renders the component
-    isSelected = false; // selected in the editor
+    parent = null;       // mimic or component
+    children = null;     // top-level child components
+    dom = null;          // jQuery objects representing DOM content
+    renderer = null;     // renders the component
+    extraScript = null;  // additional component logic
+    customScript = null; // custom component logic
+    isSelected = false;  // selected in the editor
 
     constructor(source) {
         Object.assign(this, source);
