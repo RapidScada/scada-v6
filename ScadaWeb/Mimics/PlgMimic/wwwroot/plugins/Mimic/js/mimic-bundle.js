@@ -4752,7 +4752,17 @@ rs.mimic.UnitedRenderer = class {
 
         for (let component of this.mimic.components) {
             try {
-                if (component.updateData(dataProvider) || component.onDataUpdated(dataProvider)) {
+                let updateDomNeeded = false;
+
+                if (component.updateData(dataProvider)) {
+                    updateDomNeeded = true;
+                }
+
+                if (component.onDataUpdated(dataProvider)) {
+                    updateDomNeeded = true;
+                }
+
+                if (updateDomNeeded) {
                     this._updateComponentDom(component, renderContext);
                 }
             } catch (ex) {
