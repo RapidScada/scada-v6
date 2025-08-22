@@ -11,23 +11,6 @@ rs.mimic.MimicHelper = class MimicHelper {
         }
     }
 
-    // Sets the component property according to the current data.
-    static _setComponentProperty(component, binding, curData) {
-        const DataProvider = rs.mimic.DataProvider;
-        const ObjectHelper = rs.mimic.ObjectHelper;
-        let fieldValue = DataProvider.getFieldValue(curData, binding.dataMember, binding.cnlProps.unit);
-
-        if (binding.format) {
-            fieldValue = binding.format.replace("{0}", String(fieldValue));
-        }
-
-        ObjectHelper.setPropertyValue(component.properties, binding.propertyChain, 0, fieldValue);
-
-        if (component.isFaceplate) {
-            component.handlePropertyChanged(binding.propertyName);
-        }
-    }
-
     // Finds a parent and children for each component.
     static defineNesting(root, components, opt_componentMap) {
         let componentMap = opt_componentMap ?? new Map(components.map(c => [c.id, c]));
@@ -253,46 +236,6 @@ rs.mimic.MimicHelper = class MimicHelper {
             x: minX,
             y: minY
         };
-    }
-
-    // Updates the component properties according to the current data. Returns true if any property has changed.
-    static updateData(component, dataProvider) {
-        // component bindings are
-        // { inCnlNum, outCnlNum, objNum, deviceNum, checkRights, inCnlProps, outCnlProps, propertyBindings }
-        // property binding is { propertyName, dataSource, dataMember, format, propertyChain, cnlNum, cnlProps }
-        // channel properties are { joinLen, unit }
-        let propertyChanged = false;
-
-        if (component.bindings && Array.isArray(component.bindings.propertyBindings) &&
-            component.bindings.propertyBindings.length > 0) {
-            for (let binding of component.bindings.propertyBindings) {
-                if (binding.propertyName && binding.cnlNum > 0 && binding.cnlProps) {
-                    let curData = dataProvider.getCurData(binding.cnlNum, binding.cnlProps.joinLen);
-                    let prevData = dataProvider.getPrevData(binding.cnlNum, binding.cnlProps.joinLen);
-
-                    if (dataProvider.dataChanged(curData, prevData)) {
-                        MimicHelper._setComponentProperty(component, binding, curData);
-                        propertyChanged = true;
-                    }
-                }
-            }
-        }
-
-        // execute additional component logic
-        if (component.extraScript) {
-            let args = new rs.mimic.UpdateDataArgs({ component, dataProvider });
-            component.extraScript.dataUpdated(args);
-            propertyChanged ||= args.propertyChanged;
-        }
-
-        // execute custom component logic
-        if (component.customScript) {
-            let args = new rs.mimic.UpdateDataArgs({ component, dataProvider });
-            component.customScript.dataUpdated(args);
-            propertyChanged ||= args.propertyChanged;
-        }
-
-        return propertyChanged;
     }
 };
 
@@ -813,6 +756,24 @@ rs.mimic.Component = class {
         }
     }
 
+    // Sets the property according to the current data.
+    _setProperty(binding, curData) {
+        const DataProvider = rs.mimic.DataProvider;
+        const ObjectHelper = rs.mimic.ObjectHelper;
+        let fieldValue = DataProvider.getFieldValue(curData, binding.dataMember, binding.cnlProps.unit);
+
+        if (binding.format) {
+            fieldValue = binding.format.replace("{0}", String(fieldValue));
+        }
+
+        ObjectHelper.setPropertyValue(this.properties, binding.propertyChain, 0, fieldValue);
+
+        if (this.isFaceplate) {
+            this.handlePropertyChanged(binding.propertyName);
+        }
+    }
+
+    // Sets the location property.
     setLocation(x, y) {
         if (this.properties) {
             this.properties.location.x = parseInt(x) || 0;
@@ -820,6 +781,7 @@ rs.mimic.Component = class {
         }
     }
 
+    // Sets the size property.
     setSize(width, height) {
         if (this.properties) {
             this.properties.size.width = parseInt(width) || 0;
@@ -827,6 +789,7 @@ rs.mimic.Component = class {
         }
     }
 
+    // Gets all child components as a flat array.
     getAllChildren() {
         let allChildren = [];
 
@@ -843,6 +806,7 @@ rs.mimic.Component = class {
         return allChildren;
     }
 
+    // Creates a plain object containing the main component properties.
     toPlainObject() {
         return {
             id: this.id,
@@ -855,6 +819,47 @@ rs.mimic.Component = class {
         };
     }
 
+    // Updates the properties according to the current data. Returns true if any property has changed.
+    updateData(dataProvider) {
+        // component bindings are
+        // { inCnlNum, outCnlNum, objNum, deviceNum, checkRights, inCnlProps, outCnlProps, propertyBindings }
+        // property binding is { propertyName, dataSource, dataMember, format, propertyChain, cnlNum, cnlProps }
+        // channel properties are { joinLen, unit }
+        let propertyChanged = false;
+
+        if (this.bindings && Array.isArray(this.bindings.propertyBindings) &&
+            this.bindings.propertyBindings.length > 0) {
+            for (let binding of this.bindings.propertyBindings) {
+                if (binding.propertyName && binding.cnlNum > 0 && binding.cnlProps) {
+                    let curData = dataProvider.getCurData(binding.cnlNum, binding.cnlProps.joinLen);
+                    let prevData = dataProvider.getPrevData(binding.cnlNum, binding.cnlProps.joinLen);
+
+                    if (dataProvider.dataChanged(curData, prevData)) {
+                        this._setProperty(binding, curData);
+                        propertyChanged = true;
+                    }
+                }
+            }
+        }
+
+        // execute additional component logic
+        if (this.extraScript) {
+            let args = new rs.mimic.UpdateDataArgs({ component: this, dataProvider });
+            this.extraScript.dataUpdated(args);
+            propertyChanged ||= args.propertyChanged;
+        }
+
+        // execute custom component logic
+        if (this.customScript) {
+            let args = new rs.mimic.UpdateDataArgs({ component: this, dataProvider });
+            this.customScript.dataUpdated(args);
+            propertyChanged ||= args.propertyChanged;
+        }
+
+        return propertyChanged;
+    }
+
+    // Returns a string that represents the current object.
     toString() {
         return this.displayName;
     }
