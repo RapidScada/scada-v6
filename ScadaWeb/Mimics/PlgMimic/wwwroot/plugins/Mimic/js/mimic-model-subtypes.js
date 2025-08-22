@@ -619,7 +619,6 @@ rs.mimic.ComponentScript = class {
 // Provides arguments when creating and updating a mimic or component DOM.
 rs.mimic.UpdateDomArgs = class {
     constructor({ mimic, component, renderContext }) {
-        this.jqElem = (mimic ?? component)?.dom;
         this.mimic = mimic;
         this.component = component;
         this.renderContext = renderContext;
@@ -633,6 +632,14 @@ rs.mimic.UpdateDataArgs = class {
         this.component = component;
         this.dataProvider = dataProvider;
         this.propertyChanged = false;
+    }
+};
+
+// Provides arguments when an action script is executed.
+rs.mimic.ActionScriptArgs = class {
+    constructor({ component, renderContext }) {
+        this.component = component;
+        this.renderContext = renderContext;
     }
 };
 

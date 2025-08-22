@@ -3301,7 +3301,6 @@ rs.mimic.ComponentScript = class {
 // Provides arguments when creating and updating a mimic or component DOM.
 rs.mimic.UpdateDomArgs = class {
     constructor({ mimic, component, renderContext }) {
-        this.jqElem = (mimic ?? component)?.dom;
         this.mimic = mimic;
         this.component = component;
         this.renderContext = renderContext;
@@ -3315,6 +3314,14 @@ rs.mimic.UpdateDataArgs = class {
         this.component = component;
         this.dataProvider = dataProvider;
         this.propertyChanged = false;
+    }
+};
+
+// Provides arguments when an action script is executed.
+rs.mimic.ActionScriptArgs = class {
+    constructor({ component, renderContext }) {
+        this.component = component;
+        this.renderContext = renderContext;
     }
 };
 
@@ -3952,7 +3959,7 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
 
             if (this._hasAction(props, renderContext)) {
                 componentElem.on("click.rs.mimic", () => {
-                    this._executeAction(componentElem, props, renderContext);
+                    this._executeAction(componentElem, component, renderContext);
                 });
             }
         } else {
@@ -4024,9 +4031,11 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
             (props.clickAction.actionType !== ActionType.SEND_COMMAND || renderContext.controlRight);
     }
 
-    _executeAction(componentElem, props, renderContext) {
+    _executeAction(componentElem, component, renderContext) {
         const ActionType = rs.mimic.ActionType;
+        const ActionScriptArgs = rs.mimic.ActionScriptArgs;
         const LinkTarget = rs.mimic.LinkTarget;
+        let props = component.properties;
         let action = props.clickAction;
 
         if (!renderContext.viewHub) {
@@ -4094,7 +4103,16 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
                 break;
 
             case ActionType.EXECUTE_SCRIPT:
-                console.warn("Not implemented.");
+                if (action.script) {
+                    try {
+                        let actionFunc = new Function("args", `const fn = ${action.script}; return fn(args);`);
+                        actionFunc(new ActionScriptArgs({ component, renderContext }));
+                    } catch (ex) {
+                        console.error("Error executing action script: " + ex.message);
+                    }
+                } else {
+                    console.warn("Script is undefined.");
+                }
                 break;
         }
     }
