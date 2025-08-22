@@ -1066,7 +1066,7 @@ rs.mimic.UnitedRenderer = class {
 
         for (let component of this.mimic.components) {
             try {
-                if (component.updateData(dataProvider)) {
+                if (component.updateData(dataProvider) || component.onDataUpdated(dataProvider)) {
                     this._updateComponentDom(component, renderContext);
                 }
             } catch (ex) {

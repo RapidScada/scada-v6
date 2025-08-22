@@ -2094,10 +2094,6 @@ rs.mimic.Component = class {
             }
         }
 
-        if (this.onDataUpdated(dataProvider)) {
-            propertyChanged = true;
-        }
-
         return propertyChanged;
     }
 
@@ -4756,7 +4752,7 @@ rs.mimic.UnitedRenderer = class {
 
         for (let component of this.mimic.components) {
             try {
-                if (component.updateData(dataProvider)) {
+                if (component.updateData(dataProvider) || component.onDataUpdated(dataProvider)) {
                     this._updateComponentDom(component, renderContext);
                 }
             } catch (ex) {

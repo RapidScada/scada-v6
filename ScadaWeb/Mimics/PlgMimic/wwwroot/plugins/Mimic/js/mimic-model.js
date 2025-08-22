@@ -891,10 +891,6 @@ rs.mimic.Component = class {
             }
         }
 
-        if (this.onDataUpdated(dataProvider)) {
-            propertyChanged = true;
-        }
-
         return propertyChanged;
     }
 
