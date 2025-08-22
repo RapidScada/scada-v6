@@ -939,6 +939,7 @@ rs.mimic.UnitedRenderer = class {
             if (renderer) {
                 component.renderer = renderer;
                 renderer.createDom(component, renderContext);
+                component.onDomCreated(renderContext);
                 this._appendToParent(component);
             } else {
                 renderContext.unknownTypes?.add(component.typeName);
@@ -957,6 +958,7 @@ rs.mimic.UnitedRenderer = class {
         let renderer = rs.mimic.RendererSet.faceplateRenderer;
         faceplateInstance.renderer = renderer;
         renderer.createDom(faceplateInstance, faceplateContext);
+        faceplateInstance.onDomCreated(renderContext);
         this._appendToParent(faceplateInstance);
         faceplateContext.idPrefix += faceplateInstance.id + "-";
 
@@ -978,6 +980,8 @@ rs.mimic.UnitedRenderer = class {
                     component.renderer.createDom(component, renderContext);
                     oldDom.replaceWith(component.dom);
                 }
+
+                component.onDomUpdated(renderContext);
             }
         }
     }
@@ -987,6 +991,7 @@ rs.mimic.UnitedRenderer = class {
         if (faceplateInstance.model && faceplateInstance.dom && faceplateInstance.renderer) {
             let faceplateContext = this._createFaceplateContext(faceplateInstance, renderContext);
             faceplateInstance.renderer.updateDom(faceplateInstance, faceplateContext);
+            faceplateInstance.onDomUpdated(renderContext);
             faceplateContext.idPrefix += faceplateInstance.id + "-";
 
             for (let component of faceplateInstance.components) {
@@ -1017,6 +1022,7 @@ rs.mimic.UnitedRenderer = class {
         let renderer = rs.mimic.RendererSet.mimicRenderer;
         this.mimic.renderer = renderer;
         renderer.createDom(this.mimic, renderContext);
+        this.mimic.onDomCreated(renderContext);
 
         for (let component of this.mimic.components) {
             this._createComponentDom(component, renderContext);
@@ -1038,7 +1044,9 @@ rs.mimic.UnitedRenderer = class {
 
     // Updates a mimic DOM according to the mimic model.
     updateMimicDom() {
-        rs.mimic.RendererSet.mimicRenderer.updateDom(this.mimic, this._createRenderContext());
+        let renderContext = this._createRenderContext();
+        rs.mimic.RendererSet.mimicRenderer.updateDom(this.mimic, renderContext);
+        this.mimic.onDomUpdated(renderContext);
     }
 
     // Creates a component DOM according to the component model. Returns a jQuery object.
@@ -1062,9 +1070,10 @@ rs.mimic.UnitedRenderer = class {
                     this._updateComponentDom(component, renderContext);
                 }
             } catch (ex) {
-                console.error("Error updating data of the component with ID " + component.id +
-                    " of type " + component.typeName + ": " + ex.message);
+                console.error(`Error updating data of the component with ID ${component.id}: ${ex.message}`);
             }
         }
+
+        this.mimic.onDataUpdated(dataProvider);
     }
 };

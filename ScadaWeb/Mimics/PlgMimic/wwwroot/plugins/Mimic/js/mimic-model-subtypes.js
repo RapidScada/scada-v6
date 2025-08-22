@@ -655,7 +655,7 @@ rs.mimic.ComponentScript = class ComponentScript {
     }
 
     static createFromSource(sourceCode) {
-        const CustomClass = new Function("ComponentScript", sourceCode)(ComponentScript);
+        const CustomClass = new Function("ComponentScript", "return " + sourceCode)(ComponentScript);
         return new CustomClass();
     }
 };
@@ -816,7 +816,7 @@ rs.mimic.DataProvider = class DataProvider {
     }
 
     dataChanged(curData, prevData) {
-        return !DataProvider.dataEqual(curData, prevData) || !this.prevCnlDataMap;
+        return !DataProvider.dataEqual(curData, prevData) || !this.prevDataMap;
     }
 
     static dataEqual(data1, data2) {

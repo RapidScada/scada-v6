@@ -8,6 +8,9 @@
     <Phrase key="btnZoomIn_ToolTip">Zoom In</Phrase>
     <Phrase key="spanErrorIcon_ToolTip">Error loading data</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.Areas.Mimic.Pages.MimicViewModel.Js">
+    <Phrase key="DisplayMimicError">Error displaying mimic.</Phrase>
+  </Dictionary>
   <!-- PlgMimic.Common -->
   <Dictionary key="Scada.Web.Plugins.PlgMimic.Components.StandardComponentGroup">
     <Phrase key="StandardGroup">STANDARD</Phrase>

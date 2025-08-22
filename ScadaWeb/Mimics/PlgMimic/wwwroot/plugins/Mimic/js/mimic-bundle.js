@@ -1874,6 +1874,55 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         return parentID > 0 ? this.componentMap.get(parentID) : this;
     }
 
+    // Initializes the custom scripts of the mimic and components.
+    initCustomScripts() {
+        const ComponentScript = rs.mimic.ComponentScript;
+
+        // mimic script
+        if (this.document.script) {
+            try {
+                this.script = ComponentScript.createFromSource(this.document.script);
+            } catch (ex) {
+                console.error("Error creating mimic script: " + ex.message);
+            }
+        }
+
+        // component scripts
+        for (let component of this.components) {
+            if (component.properties.script) {
+                try {
+                    component.customScript = ComponentScript.createFromSource(component.properties.script);
+                } catch (ex) {
+                    console.error(`Error creating script for the component with ID ${component.id}: ${ex.message}`);
+                }
+            }
+        }
+    }
+
+    // Executes the custom script when the mimic DOM has been created.
+    onDomCreated(renderContext) {
+        if (this.script) {
+            let args = new rs.mimic.UpdateDomArgs({ mimic: this, renderContext });
+            this.script.domCreated(args);
+        }
+    }
+
+    // Executes the custom script when the mimic DOM has been updated.
+    onDomUpdated(renderContext) {
+        if (this.script) {
+            let args = new rs.mimic.UpdateDomArgs({ mimic: this, renderContext });
+            this.script.domUpdated(args);
+        }
+    }
+
+    // Executes the custom script when updating data.
+    onDataUpdated(dataProvider) {
+        if (this.script) {
+            let args = new rs.mimic.UpdateDataArgs({ mimic: this, dataProvider });
+            this.script.dataUpdated(args);
+        }
+    }
+
     // Returns a string that represents the current object.
     toString() {
         return "Mimic";
@@ -2045,14 +2094,39 @@ rs.mimic.Component = class {
             }
         }
 
-        // execute additional component logic
+        if (this.onDataUpdated(dataProvider)) {
+            propertyChanged = true;
+        }
+
+        return propertyChanged;
+    }
+
+    // Executes the custom script when the component DOM has been created.
+    onDomCreated(renderContext) {
+        if (this.customScript) {
+            let args = new rs.mimic.UpdateDomArgs({ component: this, renderContext });
+            this.customScript.domCreated(args);
+        }
+    }
+
+    // Executes the custom script when the component DOM has been updated.
+    onDomUpdated(renderContext) {
+        if (this.customScript) {
+            let args = new rs.mimic.UpdateDomArgs({ component: this, renderContext });
+            this.customScript.domUpdated(args);
+        }
+    }
+
+    // Executes the scripts when updating component data. Returns true if any property has changed.
+    onDataUpdated(dataProvider) {
+        let propertyChanged = false;
+
         if (this.extraScript) {
             let args = new rs.mimic.UpdateDataArgs({ component: this, dataProvider });
             this.extraScript.dataUpdated(args);
             propertyChanged ||= args.propertyChanged;
         }
 
-        // execute custom component logic
         if (this.customScript) {
             let args = new rs.mimic.UpdateDataArgs({ component: this, dataProvider });
             this.customScript.dataUpdated(args);
@@ -2917,7 +2991,7 @@ rs.mimic.ComponentScript = class ComponentScript {
     }
 
     static createFromSource(sourceCode) {
-        const CustomClass = new Function("ComponentScript", sourceCode)(ComponentScript);
+        const CustomClass = new Function("ComponentScript", "return " + sourceCode)(ComponentScript);
         return new CustomClass();
     }
 };
@@ -3078,7 +3152,7 @@ rs.mimic.DataProvider = class DataProvider {
     }
 
     dataChanged(curData, prevData) {
-        return !DataProvider.dataEqual(curData, prevData) || !this.prevCnlDataMap;
+        return !DataProvider.dataEqual(curData, prevData) || !this.prevDataMap;
     }
 
     static dataEqual(data1, data2) {
@@ -4555,6 +4629,7 @@ rs.mimic.UnitedRenderer = class {
             if (renderer) {
                 component.renderer = renderer;
                 renderer.createDom(component, renderContext);
+                component.onDomCreated(renderContext);
                 this._appendToParent(component);
             } else {
                 renderContext.unknownTypes?.add(component.typeName);
@@ -4573,6 +4648,7 @@ rs.mimic.UnitedRenderer = class {
         let renderer = rs.mimic.RendererSet.faceplateRenderer;
         faceplateInstance.renderer = renderer;
         renderer.createDom(faceplateInstance, faceplateContext);
+        faceplateInstance.onDomCreated(renderContext);
         this._appendToParent(faceplateInstance);
         faceplateContext.idPrefix += faceplateInstance.id + "-";
 
@@ -4594,6 +4670,8 @@ rs.mimic.UnitedRenderer = class {
                     component.renderer.createDom(component, renderContext);
                     oldDom.replaceWith(component.dom);
                 }
+
+                component.onDomUpdated(renderContext);
             }
         }
     }
@@ -4603,6 +4681,7 @@ rs.mimic.UnitedRenderer = class {
         if (faceplateInstance.model && faceplateInstance.dom && faceplateInstance.renderer) {
             let faceplateContext = this._createFaceplateContext(faceplateInstance, renderContext);
             faceplateInstance.renderer.updateDom(faceplateInstance, faceplateContext);
+            faceplateInstance.onDomUpdated(renderContext);
             faceplateContext.idPrefix += faceplateInstance.id + "-";
 
             for (let component of faceplateInstance.components) {
@@ -4633,6 +4712,7 @@ rs.mimic.UnitedRenderer = class {
         let renderer = rs.mimic.RendererSet.mimicRenderer;
         this.mimic.renderer = renderer;
         renderer.createDom(this.mimic, renderContext);
+        this.mimic.onDomCreated(renderContext);
 
         for (let component of this.mimic.components) {
             this._createComponentDom(component, renderContext);
@@ -4654,7 +4734,9 @@ rs.mimic.UnitedRenderer = class {
 
     // Updates a mimic DOM according to the mimic model.
     updateMimicDom() {
-        rs.mimic.RendererSet.mimicRenderer.updateDom(this.mimic, this._createRenderContext());
+        let renderContext = this._createRenderContext();
+        rs.mimic.RendererSet.mimicRenderer.updateDom(this.mimic, renderContext);
+        this.mimic.onDomUpdated(renderContext);
     }
 
     // Creates a component DOM according to the component model. Returns a jQuery object.
@@ -4678,9 +4760,10 @@ rs.mimic.UnitedRenderer = class {
                     this._updateComponentDom(component, renderContext);
                 }
             } catch (ex) {
-                console.error("Error updating data of the component with ID " + component.id +
-                    " of type " + component.typeName + ": " + ex.message);
+                console.error(`Error updating data of the component with ID ${component.id}: ${ex.message}`);
             }
         }
+
+        this.mimic.onDataUpdated(dataProvider);
     }
 };

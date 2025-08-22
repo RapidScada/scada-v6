@@ -150,17 +150,25 @@ function updateLayout() {
 async function loadMimic() {
     spinnerElem.removeClass("d-none");
     let result = await mimic.load(getLoaderUrl(), viewID);
-    spinnerElem.addClass("d-none");
 
     if (result.ok) {
-        mimicWrapperElem.append(unitedRenderer.createMimicDom());
-        toolbarElem.removeClass("d-none");
-        initScale();
-        startUpdatingData();
-        startBlinking();
+        try {
+            mimic.initCustomScripts();
+            mimicWrapperElem.append(unitedRenderer.createMimicDom());
+            toolbarElem.removeClass("d-none");
+            initScale();
+            startUpdatingData();
+            startBlinking();
+        }
+        catch (ex) {
+            console.error(ex);
+            showErrorText(phrases.displayMimicError);
+        }
     } else {
         showErrorText(result.msg);
     }
+
+    spinnerElem.addClass("d-none");
 }
 
 function getLoaderUrl() {

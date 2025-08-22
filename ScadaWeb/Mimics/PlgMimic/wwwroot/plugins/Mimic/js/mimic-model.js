@@ -671,6 +671,55 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         return parentID > 0 ? this.componentMap.get(parentID) : this;
     }
 
+    // Initializes the custom scripts of the mimic and components.
+    initCustomScripts() {
+        const ComponentScript = rs.mimic.ComponentScript;
+
+        // mimic script
+        if (this.document.script) {
+            try {
+                this.script = ComponentScript.createFromSource(this.document.script);
+            } catch (ex) {
+                console.error("Error creating mimic script: " + ex.message);
+            }
+        }
+
+        // component scripts
+        for (let component of this.components) {
+            if (component.properties.script) {
+                try {
+                    component.customScript = ComponentScript.createFromSource(component.properties.script);
+                } catch (ex) {
+                    console.error(`Error creating script for the component with ID ${component.id}: ${ex.message}`);
+                }
+            }
+        }
+    }
+
+    // Executes the custom script when the mimic DOM has been created.
+    onDomCreated(renderContext) {
+        if (this.script) {
+            let args = new rs.mimic.UpdateDomArgs({ mimic: this, renderContext });
+            this.script.domCreated(args);
+        }
+    }
+
+    // Executes the custom script when the mimic DOM has been updated.
+    onDomUpdated(renderContext) {
+        if (this.script) {
+            let args = new rs.mimic.UpdateDomArgs({ mimic: this, renderContext });
+            this.script.domUpdated(args);
+        }
+    }
+
+    // Executes the custom script when updating data.
+    onDataUpdated(dataProvider) {
+        if (this.script) {
+            let args = new rs.mimic.UpdateDataArgs({ mimic: this, dataProvider });
+            this.script.dataUpdated(args);
+        }
+    }
+
     // Returns a string that represents the current object.
     toString() {
         return "Mimic";
@@ -842,14 +891,39 @@ rs.mimic.Component = class {
             }
         }
 
-        // execute additional component logic
+        if (this.onDataUpdated(dataProvider)) {
+            propertyChanged = true;
+        }
+
+        return propertyChanged;
+    }
+
+    // Executes the custom script when the component DOM has been created.
+    onDomCreated(renderContext) {
+        if (this.customScript) {
+            let args = new rs.mimic.UpdateDomArgs({ component: this, renderContext });
+            this.customScript.domCreated(args);
+        }
+    }
+
+    // Executes the custom script when the component DOM has been updated.
+    onDomUpdated(renderContext) {
+        if (this.customScript) {
+            let args = new rs.mimic.UpdateDomArgs({ component: this, renderContext });
+            this.customScript.domUpdated(args);
+        }
+    }
+
+    // Executes the scripts when updating component data. Returns true if any property has changed.
+    onDataUpdated(dataProvider) {
+        let propertyChanged = false;
+
         if (this.extraScript) {
             let args = new rs.mimic.UpdateDataArgs({ component: this, dataProvider });
             this.extraScript.dataUpdated(args);
             propertyChanged ||= args.propertyChanged;
         }
 
-        // execute custom component logic
         if (this.customScript) {
             let args = new rs.mimic.UpdateDataArgs({ component: this, dataProvider });
             this.customScript.dataUpdated(args);

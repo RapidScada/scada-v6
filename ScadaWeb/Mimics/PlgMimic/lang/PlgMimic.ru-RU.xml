@@ -8,6 +8,9 @@
     <Phrase key="btnZoomIn_ToolTip">Увеличить</Phrase>
     <Phrase key="spanErrorIcon_ToolTip">Ошибка загрузки данных</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.Areas.Mimic.Pages.MimicViewModel.Js">
+    <Phrase key="DisplayMimicError">Ошибка при отображении мнемосхемы.</Phrase>
+  </Dictionary>
   <!-- PlgMimic.Common -->
   <Dictionary key="Scada.Web.Plugins.PlgMimic.Components.StandardComponentGroup">
     <Phrase key="StandardGroup">СТАНДАРТНЫЕ</Phrase>
