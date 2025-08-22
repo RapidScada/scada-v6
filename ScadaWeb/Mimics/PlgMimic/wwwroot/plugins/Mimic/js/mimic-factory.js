@@ -1,5 +1,5 @@
 ﻿// Contains classes: MimicFactory, ComponentFactory, RegularComponentFactory,
-//     TextFactory, PictureFactory, PanelFactory, FaceplateFactory, FactorySet
+//     TextFactory, PictureScript, PictureFactory, PanelFactory, FaceplateFactory, FactorySet
 // Depends on mimic-common.js, mimic-model.js, mimic-model-subtypes.js
 
 // Create mimic properties.
@@ -281,28 +281,43 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
     }
 };
 
-// Creates components of the Picture type.
-rs.mimic.PictureFactory = class PictureFactory extends rs.mimic.RegularComponentFactory {
-    static PictureScriptClass = class extends rs.mimic.ComponentScript {
-        dataUpdated(args) {
-            const DataProvider = rs.mimic.DataProvider;
+// Implements logic for Picture type components.
+rs.mimic.PictureScript = class extends rs.mimic.ComponentScript {
+    dataUpdated(args) {
+        // select image according to conditions
+        let cnlNum = args.component.bindings?.inCnlNum;
+        let props = args.component.properties;
+        let conditions = props.conditions;
 
-            if (args.component.bindings && args.component.bindings.inCnlNum > 0 &&
-                args.component.properties.conditions.length > 0) {
-                let cnlNum = args.component.bindings.inCnlNum;
-                let curData = args.dataProvider.getCurData(cnlNum);
-                let prevData = args.dataProvider.getPrevData(cnlNum);
+        if (cnlNum > 0 && conditions.length > 0) {
+            let curData = args.dataProvider.getCurData(cnlNum);
+            let prevData = args.dataProvider.getPrevData(cnlNum);
 
-                if (!DataProvider.dataEqual(curData, prevData) || !dataProvider.prevCnlDataMap) {
+            if (dataProvider.dataChanged(curData, prevData)) {
+                let imageName = props.defaultImage;
 
+                if (curData.d.stat > 0) {
+                    for (let condition of conditions) {
+                        if (condition.satisfied(curData.d.val)) {
+                            imageName = condition.imageName;
+                            break;
+                        }
+                    }
+                }
+
+                if (props.imageName !== imageName) {
+                    props.imageName = imageName;
                     args.propertyChanged = true;
                 }
             }
         }
-    };
+    }
+};
 
+// Creates components of the Picture type.
+rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
     _createExtraScript() {
-        return new PictureFactory.PictureScriptClass();
+        return new rs.mimic.PictureScript();
     }
 
     createProperties() {
@@ -317,6 +332,7 @@ rs.mimic.PictureFactory = class PictureFactory extends rs.mimic.RegularComponent
         // behavior
         Object.assign(properties, {
             conditions: new rs.mimic.ImageConditionList(),
+            defaultImage: "",
             sizeMode: rs.mimic.ImageSizeMode.NORMAL
         });
 
@@ -342,6 +358,7 @@ rs.mimic.PictureFactory = class PictureFactory extends rs.mimic.RegularComponent
         // behavior
         Object.assign(properties, {
             conditions: rs.mimic.ImageConditionList.parse(sourceProps.conditions),
+            defaultImage: PropertyParser.parseString(sourceProps.defaultImage),
             sizeMode: PropertyParser.parseString(sourceProps.sizeMode, rs.mimic.ImageSizeMode.NORMAL)
         });
 

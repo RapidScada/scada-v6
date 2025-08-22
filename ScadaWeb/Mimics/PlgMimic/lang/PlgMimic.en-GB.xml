@@ -77,6 +77,7 @@
     <Phrase key="ImageName">Image</Phrase>
     <Phrase key="Rotation">Rotation</Phrase>
     <Phrase key="Conditions">Conditions</Phrase>
+    <Phrase key="DefaultImage">Default image</Phrase>
     <Phrase key="SizeMode">Size mode</Phrase>
     <Phrase key="Padding">Padding</Phrase>
   </Dictionary>

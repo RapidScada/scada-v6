@@ -2,7 +2,7 @@
 //     ContentAlignment, TextDirection
 // Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
 //     PropertyBinding, PropertyExport, Size, UrlParams, VisualState
-// Scripts: MimicScript, ComponentScript, UpdateDomArgs, UpdateDataArgs, ActionScriptArgs
+// Scripts: ComponentScript, UpdateDomArgs, UpdateDataArgs, ActionScriptArgs
 // Misc: List, ImageConditionList, PropertyBindingList, PropertyExportList, PropertyParser, DataProvider
 // No dependencies
 
@@ -27,8 +27,8 @@ rs.mimic.ComparisonOperator = class ComparisonOperator {
     static GREATER_THAN = "GreaterThan";
     static GREATER_THAN_EQUAL = "GreaterThanEqual";
 
-    static getDisplayName(value) {
-        switch (value) {
+    static getDisplayName(oper) {
+        switch (oper) {
             case ComparisonOperator.EQUAL:
                 return "=";
             case ComparisonOperator.NOT_EQUAL:
@@ -43,6 +43,25 @@ rs.mimic.ComparisonOperator = class ComparisonOperator {
                 return ">=";
             default:
                 return "";
+        }
+    }
+
+    static compare(oper, val1, val2) {
+        switch (oper) {
+            case ComparisonOperator.EQUAL:
+                return val1 === val2;
+            case ComparisonOperator.NOT_EQUAL:
+                return val1 !== val2;
+            case ComparisonOperator.LESS_THAN:
+                return val1 < val2;
+            case ComparisonOperator.LESS_THAN_EQUAL:
+                return val1 <= val2;
+            case ComparisonOperator.GREATER_THAN:
+                return val1 > val2;
+            case ComparisonOperator.GREATER_THAN_EQUAL:
+                return val1 >= val2;
+            default:
+                return false;
         }
     }
 };
@@ -72,14 +91,25 @@ rs.mimic.LogicalOperator = class LogicalOperator {
     static AND = "And";
     static OR = "Or";
 
-    static getDisplayName(value) {
-        switch (value) {
+    static getDisplayName(oper) {
+        switch (oper) {
             case LogicalOperator.AND:
                 return "&&";
             case LogicalOperator.OR:
                 return "||";
             default:
                 return "";
+        }
+    }
+
+    isTrue(oper, val1, val2) {
+        switch (oper) {
+            case LogicalOperator.AND:
+                return val1 && val2;
+            case LogicalOperator.OR:
+                return val1 || val2;
+            default:
+                return false;
         }
     }
 };
@@ -246,6 +276,19 @@ rs.mimic.Condition = class Condition {
         this.logicalOper = PropertyParser.parseString(source.logicalOper, this.logicalOper);
         this.comparisonOper2 = PropertyParser.parseString(source.comparisonOper2, this.comparisonOper2);
         this.comparisonArg2 = PropertyParser.parseFloat(source.comparisonArg2);
+    }
+
+    satisfied(value) {
+        const ComparisonOperator = rs.mimic.ComparisonOperator;
+        const LogicalOperator = rs.mimic.LogicalOperator;
+        let comp1 = ComparisonOperator.compare(this.comparisonOper1, value, this.comparisonArg1);
+
+        if (this.logicalOper === LogicalOperator.NONE) {
+            return comp1;
+        } else {
+            let comp2 = ComparisonOperator.compare(this.comparisonOper2, value, this.comparisonArg2);
+            return LogicalOperator.isTrue(this.logicalOper, comp1, comp2);
+        }
     }
 
     static parse(source) {
@@ -600,8 +643,8 @@ rs.mimic.VisualState = class VisualState {
 
 // --- Scripts ---
 
-// A base class for mimic logic.
-rs.mimic.MimicScript = class {
+// A base class for mimic or component logic.
+rs.mimic.ComponentScript = class ComponentScript {
     domCreated(args) {
     }
 
@@ -610,17 +653,10 @@ rs.mimic.MimicScript = class {
 
     dataUpdated(args) {
     }
-};
 
-// A base class for component logic.
-rs.mimic.ComponentScript = class {
-    domCreated(args) {
-    }
-
-    domUpdated(args) {
-    }
-
-    dataUpdated(args) {
+    static createFromSource(sourceCode) {
+        const CustomClass = new Function("ComponentScript", sourceCode)(ComponentScript);
+        return new CustomClass();
     }
 };
 
@@ -777,6 +813,10 @@ rs.mimic.DataProvider = class DataProvider {
 
     getPrevData(cnlNum, opt_joinLen) {
         return DataProvider.EMPTY_DATA;
+    }
+
+    dataChanged(curData, prevData) {
+        return !DataProvider.dataEqual(curData, prevData) || !this.prevCnlDataMap;
     }
 
     static dataEqual(data1, data2) {

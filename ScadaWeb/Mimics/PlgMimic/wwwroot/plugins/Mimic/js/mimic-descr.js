@@ -518,6 +518,14 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
         }));
 
         this.add(new PropertyDescriptor({
+            name: "defaultImage",
+            displayName: "Default image",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.STRING,
+            editor: PropertyEditor.IMAGE_DIALOG
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "sizeMode",
             displayName: "Size mode",
             category: KnownCategory.BEHAVIOR,

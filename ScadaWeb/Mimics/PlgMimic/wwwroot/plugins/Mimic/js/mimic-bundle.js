@@ -734,6 +734,14 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
         }));
 
         this.add(new PropertyDescriptor({
+            name: "defaultImage",
+            displayName: "Default image",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.STRING,
+            editor: PropertyEditor.IMAGE_DIALOG
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "sizeMode",
             displayName: "Size mode",
             category: KnownCategory.BEHAVIOR,
@@ -1193,485 +1201,6 @@ rs.mimic.DescriptorSet = class {
     ]);
 };
 
-// Contains classes: MimicFactory, ComponentFactory, RegularComponentFactory,
-//     TextFactory, PictureFactory, PanelFactory, FaceplateFactory, FactorySet
-// Depends on mimic-common.js, mimic-model.js, mimic-model-subtypes.js
-
-// Create mimic properties.
-rs.mimic.MimicFactory = class {
-    // Parses the document properties from the specified source object.
-    static parseProperties(sourceProps) {
-        const PropertyParser = rs.mimic.PropertyParser;
-        sourceProps ??= {};
-        return {
-            // appearance
-            backColor: PropertyParser.parseString(sourceProps.backColor),
-            backgroundImage: PropertyParser.parseString(sourceProps.backgroundImage),
-            font: rs.mimic.Font.parse(sourceProps.font),
-            foreColor: PropertyParser.parseString(sourceProps.foreColor),
-            stylesheet: PropertyParser.parseString(sourceProps.stylesheet),
-
-            // behavior
-            script: PropertyParser.parseString(sourceProps.script),
-            tooltip: PropertyParser.parseString(sourceProps.tooltip),
-
-            // data
-            propertyExports: rs.mimic.PropertyExportList.parse(sourceProps.propertyExports),
-
-            // layout
-            size: rs.mimic.Size.parse(sourceProps.size)
-        };
-    }
-}
-
-// Represents an abstract component factory.
-rs.mimic.ComponentFactory = class {
-    // Copies the properties from the source object.
-    _copyProperties(component, source) {
-        component.id = source.id;
-        component.typeName = source.typeName;
-        component.properties = this.parseProperties(source.properties);
-        component.properties.typeName = source.typeName;
-        component.bindings = source.bindings;
-        component.parentID = source.parentID;
-    }
-
-    // Creates and adds default property bindings.
-    _addDefaultBindings(component) {
-        if (component.bindings && component.bindings.inCnlNum > 0) {
-            let defaultBindings = this._createDefaultBindings(component);
-
-            if (defaultBindings) {
-                let bindingExists = binding => {
-                    return component.bindings.propertyBindings.some(pb => pb.dataMember === binding.dataMember);
-                };
-
-                for (let binding of defaultBindings) {
-                    if (!bindingExists(binding)) {
-                        component.bindings.propertyBindings.push(binding);
-                    }
-                }
-            }
-        }
-    }
-
-    // Creates an array of default property bindings for the component.
-    _createDefaultBindings(component) {
-        return null;
-    }
-
-    // Creates an object that implements additional component logic.
-    _createExtraScript() {
-        return null;
-    }
-
-    // Creates new component properties.
-    createProperties() {
-        return {
-            // behavior
-            blinking: false,
-            enabled: true,
-            visible: true,
-
-            // data
-            checkRights: false,
-            deviceNum: 0,
-            inCnlNum: 0,
-            objNum: 0,
-            outCnlNum: 0,
-            propertyBindings: new rs.mimic.PropertyBindingList(),
-
-            // design
-            id: 0,
-            name: "",
-            typeName: "",
-
-            // layout
-            location: new rs.mimic.Point(),
-            size: new rs.mimic.Size()
-        };
-    }
-
-    // Parses the component properties from the specified source object.
-    parseProperties(sourceProps) {
-        const PropertyParser = rs.mimic.PropertyParser;
-        sourceProps ??= {};
-        return {
-            // behavior
-            blinking: PropertyParser.parseBool(sourceProps.blinking),
-            enabled: PropertyParser.parseBool(sourceProps.enabled),
-            visible: PropertyParser.parseBool(sourceProps.visible),
-
-            // data
-            checkRights: PropertyParser.parseBool(sourceProps.checkRights),
-            deviceNum: PropertyParser.parseInt(sourceProps.deviceNum),
-            inCnlNum: PropertyParser.parseInt(sourceProps.inCnlNum),
-            objNum: PropertyParser.parseInt(sourceProps.objNum),
-            outCnlNum: PropertyParser.parseInt(sourceProps.outCnlNum),
-            propertyBindings: rs.mimic.PropertyBindingList.parse(sourceProps.propertyBindings),
-
-            // design
-            id: PropertyParser.parseInt(sourceProps.id),
-            name: PropertyParser.parseString(sourceProps.name),
-            typeName: PropertyParser.parseString(sourceProps.typeName),
-
-            // layout
-            location: rs.mimic.Point.parse(sourceProps.location),
-            size: rs.mimic.Size.parse(sourceProps.size)
-        };
-    }
-
-    // Creates a new component with the given type name.
-    createComponent(typeName) {
-        let component = new rs.mimic.Component();
-        component.typeName = typeName;
-        component.properties = this.createProperties(typeName);
-        component.properties.typeName = typeName;
-        component.extraScript = this._createExtraScript();
-        return component;
-    }
-
-    // Creates a new component with the specified properties.
-    createComponentFromSource(source) {
-        let component = new rs.mimic.Component();
-        this._copyProperties(component, source);
-        this._addDefaultBindings(component);
-        component.extraScript = this._createExtraScript();
-        return component;
-    }
-};
-
-// Represents an abstract factory for regular non-faceplate components.
-rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
-    createProperties() {
-        let properties = super.createProperties();
-
-        // appearance
-        Object.assign(properties, {
-            backColor: "",
-            border: new rs.mimic.Border(),
-            cornerRadius: new rs.mimic.CornerRadius(),
-            cssClass: "",
-            font: new rs.mimic.Font({ inherit: true }),
-            foreColor: ""
-        });
-
-        // behavior
-        Object.assign(properties, {
-            blinkingState: new rs.mimic.VisualState(),
-            clickAction: new rs.mimic.Action(),
-            disabledState: new rs.mimic.VisualState(),
-            hoverState: new rs.mimic.VisualState(),
-            script: "",
-            tooltip: ""
-        });
-
-        return properties;
-    }
-
-    parseProperties(sourceProps) {
-        const PropertyParser = rs.mimic.PropertyParser;
-        let properties = super.parseProperties(sourceProps);
-        sourceProps ??= {};
-
-        // appearance
-        Object.assign(properties, {
-            backColor: PropertyParser.parseString(sourceProps.backColor),
-            border: rs.mimic.Border.parse(sourceProps.border),
-            cornerRadius: rs.mimic.CornerRadius.parse(sourceProps.cornerRadius),
-            cssClass: PropertyParser.parseString(sourceProps.cssClass),
-            font: rs.mimic.Font.parse(sourceProps.font),
-            foreColor: PropertyParser.parseString(sourceProps.foreColor)
-        });
-
-        // behavior
-        Object.assign(properties, {
-            blinkingState: rs.mimic.VisualState.parse(sourceProps.blinkingState),
-            clickAction: rs.mimic.Action.parse(sourceProps.clickAction),
-            disabledState: rs.mimic.VisualState.parse(sourceProps.disabledState),
-            hoverState: rs.mimic.VisualState.parse(sourceProps.hoverState),
-            script: PropertyParser.parseString(sourceProps.script),
-            tooltip: PropertyParser.parseString(sourceProps.tooltip)
-        });
-
-        return properties;
-    }
-};
-
-// Creates components of the Text type.
-rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
-    _createDefaultBindings(component) {
-        const DataMember = rs.mimic.DataMember;
-        let cnlNum = component.bindings.inCnlNum;
-        let cnlProps = component.bindings.inCnlProps;
-        let bindings = [{
-            propertyName: "text",
-            dataSource: String(cnlNum),
-            dataMember: DataMember.DISPLAY_VALUE_WITH_UNIT,
-            format: "",
-            propertyChain: ["text"],
-            cnlNum: cnlNum,
-            cnlProps: cnlProps
-        }];
-
-        if (!component.properties.foreColor) {
-            bindings.push({
-                propertyName: "foreColor",
-                dataSource: String(cnlNum),
-                dataMember: DataMember.COLOR0,
-                format: "",
-                propertyChain: ["foreColor"],
-                cnlNum: cnlNum,
-                cnlProps: cnlProps
-            });
-        }
-
-        return bindings;
-    }
-
-    createProperties() {
-        let properties = super.createProperties();
-
-        // appearance
-        Object.assign(properties, {
-            text: "Text",
-            textAlign: rs.mimic.ContentAlignment.TOP_LEFT,
-            textDirection: rs.mimic.TextDirection.HORIZONTAL,
-            wordWrap: false
-        });
-
-        // layout
-        Object.assign(properties, {
-            autoSize: true,
-            padding: new rs.mimic.Padding()
-        });
-
-        return properties;
-    }
-
-    parseProperties(sourceProps) {
-        const PropertyParser = rs.mimic.PropertyParser;
-        let properties = super.parseProperties(sourceProps);
-        sourceProps ??= {};
-
-        // appearance
-        Object.assign(properties, {
-            text: PropertyParser.parseString(sourceProps.text),
-            textAlign: PropertyParser.parseString(sourceProps.textAlign, rs.mimic.ContentAlignment.TOP_LEFT),
-            textDirection: PropertyParser.parseString(sourceProps.textDirection, rs.mimic.TextDirection.HORIZONTAL),
-            wordWrap: PropertyParser.parseBool(sourceProps.wordWrap)
-        });
-
-        // layout
-        Object.assign(properties, {
-            autoSize: PropertyParser.parseBool(sourceProps.autoSize),
-            padding: rs.mimic.Padding.parse(sourceProps.padding)
-        });
-
-        return properties;
-    }
-
-    createComponent() {
-        return super.createComponent("Text");
-    }
-};
-
-// Creates components of the Picture type.
-rs.mimic.PictureFactory = class PictureFactory extends rs.mimic.RegularComponentFactory {
-    static PictureScriptClass = class extends rs.mimic.ComponentScript {
-        dataUpdated(args) {
-            const DataProvider = rs.mimic.DataProvider;
-
-            if (args.component.bindings && args.component.bindings.inCnlNum > 0 &&
-                args.component.properties.conditions.length > 0) {
-                let cnlNum = args.component.bindings.inCnlNum;
-                let curData = args.dataProvider.getCurData(cnlNum);
-                let prevData = args.dataProvider.getPrevData(cnlNum);
-
-                if (!DataProvider.dataEqual(curData, prevData) || !dataProvider.prevCnlDataMap) {
-
-                    args.propertyChanged = true;
-                }
-            }
-        }
-    };
-
-    _createExtraScript() {
-        return new PictureFactory.PictureScriptClass();
-    }
-
-    createProperties() {
-        let properties = super.createProperties();
-
-        // appearance
-        Object.assign(properties, {
-            imageName: "",
-            rotation: 0
-        });
-
-        // behavior
-        Object.assign(properties, {
-            conditions: new rs.mimic.ImageConditionList(),
-            sizeMode: rs.mimic.ImageSizeMode.NORMAL
-        });
-
-        // layout
-        Object.assign(properties, {
-            padding: new rs.mimic.Padding()
-        });
-
-        return properties;
-    }
-
-    parseProperties(sourceProps) {
-        const PropertyParser = rs.mimic.PropertyParser;
-        let properties = super.parseProperties(sourceProps);
-        sourceProps ??= {};
-
-        // appearance
-        Object.assign(properties, {
-            imageName: PropertyParser.parseString(sourceProps.imageName),
-            rotation: PropertyParser.parseFloat(sourceProps.rotation)
-        });
-
-        // behavior
-        Object.assign(properties, {
-            conditions: rs.mimic.ImageConditionList.parse(sourceProps.conditions),
-            sizeMode: PropertyParser.parseString(sourceProps.sizeMode, rs.mimic.ImageSizeMode.NORMAL)
-        });
-
-        // layout
-        Object.assign(properties, {
-            padding: rs.mimic.Padding.parse(sourceProps.padding)
-        });
-
-        return properties;
-    }
-
-    createComponent() {
-        return super.createComponent("Picture");
-    }
-};
-
-// Creates components of the Panel type.
-rs.mimic.PanelFactory = class extends rs.mimic.RegularComponentFactory {
-    createComponent() {
-        let component = super.createComponent("Panel");
-        component.children = []; // accept child components
-        return component;
-    }
-
-    createComponentFromSource(source) {
-        let component = super.createComponentFromSource(source);
-        component.children = [];
-        return component;
-    }
-};
-
-// Creates faceplate instances.
-rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
-    faceplate; // can be null
-
-    constructor(faceplate) {
-        super();
-        this.faceplate = faceplate;
-    }
-
-    _updateSize(faceplateInstance) {
-        faceplateInstance.properties.size = rs.mimic.Size.parse(this.faceplate.document.size);
-    }
-
-    _createComponents(faceplateInstance) {
-        const FactorySet = rs.mimic.FactorySet;
-        const MimicHelper = rs.mimic.MimicHelper;
-
-        if (Array.isArray(this.faceplate.components)) {
-            for (let sourceComponent of this.faceplate.components) {
-                let factory = FactorySet.getComponentFactory(sourceComponent.typeName, this.faceplate.faceplateMap);
-
-                if (factory) {
-                    let componentCopy = factory.createComponentFromSource(sourceComponent);
-                    faceplateInstance.components.push(componentCopy);
-
-                    if (componentCopy.name) {
-                        faceplateInstance.componentByName.set(componentCopy.name, componentCopy);
-                    }
-                }
-            }
-
-            MimicHelper.defineNesting(faceplateInstance, faceplateInstance.components);
-        }
-    }
-
-    _createCustomProperties(faceplateInstance, sourceProps) {
-        const ObjectHelper = rs.mimic.ObjectHelper;
-        sourceProps ??= {};
-
-        for (let propertyExport of this.faceplate.propertyExports) {
-            let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport);
-            let sourceValue = sourceProps[propertyExport.name];
-
-            if (sourceValue === undefined) {
-                faceplateInstance.properties[propertyExport.name] = baseValue;
-            } else {
-                let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);
-                faceplateInstance.properties[propertyExport.name] = mergedValue;
-                faceplateInstance.setTargetPropertyValue(propertyExport, mergedValue);
-            }
-        }
-    }
-
-    _applyModel(faceplateInstance, source) {
-        faceplateInstance.typeName = faceplateInstance.properties.typeName = this.faceplate.typeName;
-        faceplateInstance.model = this.faceplate;
-        this._createComponents(faceplateInstance);
-        this._createCustomProperties(faceplateInstance, source?.properties);
-    }
-
-    createComponent() {
-        let faceplateInstance = new rs.mimic.FaceplateInstance();
-        faceplateInstance.properties = this.createProperties();
-
-        if (this.faceplate) {
-            this._updateSize(faceplateInstance);
-            this._applyModel(faceplateInstance, null);
-        }
-
-        return faceplateInstance;
-    }
-
-    createComponentFromSource(source) {
-        let faceplateInstance = new rs.mimic.FaceplateInstance();
-        this._copyProperties(faceplateInstance, source);
-
-        if (this.faceplate) {
-            this._applyModel(faceplateInstance, source);
-        }
-
-        return faceplateInstance;
-    }
-};
-
-// Contains factories for mimic components.
-rs.mimic.FactorySet = class FactorySet {
-    static componentFactories = new Map([
-        ["Text", new rs.mimic.TextFactory()],
-        ["Picture", new rs.mimic.PictureFactory()],
-        ["Panel", new rs.mimic.PanelFactory()]
-    ]);
-    static getFaceplateFactory(faceplate) {
-        return new rs.mimic.FaceplateFactory(faceplate);
-    }
-    static getComponentFactory(typeName, faceplateMap) {
-        if (faceplateMap.has(typeName)) {
-            let faceplate = faceplateMap.get(typeName); // can be null
-            return FactorySet.getFaceplateFactory(faceplate);
-        } else {
-            return FactorySet.componentFactories.get(typeName);
-        }
-    }
-};
-
 // Contains classes: MimicHelper, MimicBase, Mimic, Component, Image, FaceplateMeta, Faceplate, FaceplateInstance
 // Depends on scada-common.js, mimic-common.js, mimic-model-subtypes.js, mimic-factory.js
 
@@ -1931,11 +1460,10 @@ rs.mimic.MimicHelper = class MimicHelper {
 
     // Updates the component properties according to the current data. Returns true if any property has changed.
     static updateData(component, dataProvider) {
-        // component bindings are 
+        // component bindings are
         // { inCnlNum, outCnlNum, objNum, deviceNum, checkRights, inCnlProps, outCnlProps, propertyBindings }
         // property binding is { propertyName, dataSource, dataMember, format, propertyChain, cnlNum, cnlProps }
         // channel properties are { joinLen, unit }
-        const DataProvider = rs.mimic.DataProvider;
         let propertyChanged = false;
 
         if (component.bindings && Array.isArray(component.bindings.propertyBindings) &&
@@ -1945,12 +1473,26 @@ rs.mimic.MimicHelper = class MimicHelper {
                     let curData = dataProvider.getCurData(binding.cnlNum, binding.cnlProps.joinLen);
                     let prevData = dataProvider.getPrevData(binding.cnlNum, binding.cnlProps.joinLen);
 
-                    if (!DataProvider.dataEqual(curData, prevData) || !dataProvider.prevCnlDataMap) {
+                    if (dataProvider.dataChanged(curData, prevData)) {
                         MimicHelper._setComponentProperty(component, binding, curData);
                         propertyChanged = true;
                     }
                 }
             }
+        }
+
+        // execute additional component logic
+        if (component.extraScript) {
+            let args = new rs.mimic.UpdateDataArgs({ component, dataProvider });
+            component.extraScript.dataUpdated(args);
+            propertyChanged ||= args.propertyChanged;
+        }
+
+        // execute custom component logic
+        if (component.customScript) {
+            let args = new rs.mimic.UpdateDataArgs({ component, dataProvider });
+            component.customScript.dataUpdated(args);
+            propertyChanged ||= args.propertyChanged;
         }
 
         return propertyChanged;
@@ -2717,7 +2259,7 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 //     ContentAlignment, TextDirection
 // Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
 //     PropertyBinding, PropertyExport, Size, UrlParams, VisualState
-// Scripts: MimicScript, ComponentScript, UpdateDomArgs, UpdateDataArgs, ActionScriptArgs
+// Scripts: ComponentScript, UpdateDomArgs, UpdateDataArgs, ActionScriptArgs
 // Misc: List, ImageConditionList, PropertyBindingList, PropertyExportList, PropertyParser, DataProvider
 // No dependencies
 
@@ -2742,8 +2284,8 @@ rs.mimic.ComparisonOperator = class ComparisonOperator {
     static GREATER_THAN = "GreaterThan";
     static GREATER_THAN_EQUAL = "GreaterThanEqual";
 
-    static getDisplayName(value) {
-        switch (value) {
+    static getDisplayName(oper) {
+        switch (oper) {
             case ComparisonOperator.EQUAL:
                 return "=";
             case ComparisonOperator.NOT_EQUAL:
@@ -2758,6 +2300,25 @@ rs.mimic.ComparisonOperator = class ComparisonOperator {
                 return ">=";
             default:
                 return "";
+        }
+    }
+
+    static compare(oper, val1, val2) {
+        switch (oper) {
+            case ComparisonOperator.EQUAL:
+                return val1 === val2;
+            case ComparisonOperator.NOT_EQUAL:
+                return val1 !== val2;
+            case ComparisonOperator.LESS_THAN:
+                return val1 < val2;
+            case ComparisonOperator.LESS_THAN_EQUAL:
+                return val1 <= val2;
+            case ComparisonOperator.GREATER_THAN:
+                return val1 > val2;
+            case ComparisonOperator.GREATER_THAN_EQUAL:
+                return val1 >= val2;
+            default:
+                return false;
         }
     }
 };
@@ -2787,14 +2348,25 @@ rs.mimic.LogicalOperator = class LogicalOperator {
     static AND = "And";
     static OR = "Or";
 
-    static getDisplayName(value) {
-        switch (value) {
+    static getDisplayName(oper) {
+        switch (oper) {
             case LogicalOperator.AND:
                 return "&&";
             case LogicalOperator.OR:
                 return "||";
             default:
                 return "";
+        }
+    }
+
+    isTrue(oper, val1, val2) {
+        switch (oper) {
+            case LogicalOperator.AND:
+                return val1 && val2;
+            case LogicalOperator.OR:
+                return val1 || val2;
+            default:
+                return false;
         }
     }
 };
@@ -2961,6 +2533,19 @@ rs.mimic.Condition = class Condition {
         this.logicalOper = PropertyParser.parseString(source.logicalOper, this.logicalOper);
         this.comparisonOper2 = PropertyParser.parseString(source.comparisonOper2, this.comparisonOper2);
         this.comparisonArg2 = PropertyParser.parseFloat(source.comparisonArg2);
+    }
+
+    satisfied(value) {
+        const ComparisonOperator = rs.mimic.ComparisonOperator;
+        const LogicalOperator = rs.mimic.LogicalOperator;
+        let comp1 = ComparisonOperator.compare(this.comparisonOper1, value, this.comparisonArg1);
+
+        if (this.logicalOper === LogicalOperator.NONE) {
+            return comp1;
+        } else {
+            let comp2 = ComparisonOperator.compare(this.comparisonOper2, value, this.comparisonArg2);
+            return LogicalOperator.isTrue(this.logicalOper, comp1, comp2);
+        }
     }
 
     static parse(source) {
@@ -3315,8 +2900,8 @@ rs.mimic.VisualState = class VisualState {
 
 // --- Scripts ---
 
-// A base class for mimic logic.
-rs.mimic.MimicScript = class {
+// A base class for mimic or component logic.
+rs.mimic.ComponentScript = class ComponentScript {
     domCreated(args) {
     }
 
@@ -3325,17 +2910,10 @@ rs.mimic.MimicScript = class {
 
     dataUpdated(args) {
     }
-};
 
-// A base class for component logic.
-rs.mimic.ComponentScript = class {
-    domCreated(args) {
-    }
-
-    domUpdated(args) {
-    }
-
-    dataUpdated(args) {
+    static createFromSource(sourceCode) {
+        const CustomClass = new Function("ComponentScript", sourceCode)(ComponentScript);
+        return new CustomClass();
     }
 };
 
@@ -3494,6 +3072,10 @@ rs.mimic.DataProvider = class DataProvider {
         return DataProvider.EMPTY_DATA;
     }
 
+    dataChanged(curData, prevData) {
+        return !DataProvider.dataEqual(curData, prevData) || !this.prevCnlDataMap;
+    }
+
     static dataEqual(data1, data2) {
         return data1.d.val === data2.d.val && data1.d.stat === data2.d.stat;
     }
@@ -3527,6 +3109,502 @@ rs.mimic.DataProvider = class DataProvider {
 
             default:
                 return null;
+        }
+    }
+};
+
+// Contains classes: MimicFactory, ComponentFactory, RegularComponentFactory,
+//     TextFactory, PictureScript, PictureFactory, PanelFactory, FaceplateFactory, FactorySet
+// Depends on mimic-common.js, mimic-model.js, mimic-model-subtypes.js
+
+// Create mimic properties.
+rs.mimic.MimicFactory = class {
+    // Parses the document properties from the specified source object.
+    static parseProperties(sourceProps) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        sourceProps ??= {};
+        return {
+            // appearance
+            backColor: PropertyParser.parseString(sourceProps.backColor),
+            backgroundImage: PropertyParser.parseString(sourceProps.backgroundImage),
+            font: rs.mimic.Font.parse(sourceProps.font),
+            foreColor: PropertyParser.parseString(sourceProps.foreColor),
+            stylesheet: PropertyParser.parseString(sourceProps.stylesheet),
+
+            // behavior
+            script: PropertyParser.parseString(sourceProps.script),
+            tooltip: PropertyParser.parseString(sourceProps.tooltip),
+
+            // data
+            propertyExports: rs.mimic.PropertyExportList.parse(sourceProps.propertyExports),
+
+            // layout
+            size: rs.mimic.Size.parse(sourceProps.size)
+        };
+    }
+}
+
+// Represents an abstract component factory.
+rs.mimic.ComponentFactory = class {
+    // Copies the properties from the source object.
+    _copyProperties(component, source) {
+        component.id = source.id;
+        component.typeName = source.typeName;
+        component.properties = this.parseProperties(source.properties);
+        component.properties.typeName = source.typeName;
+        component.bindings = source.bindings;
+        component.parentID = source.parentID;
+    }
+
+    // Creates and adds default property bindings.
+    _addDefaultBindings(component) {
+        if (component.bindings && component.bindings.inCnlNum > 0) {
+            let defaultBindings = this._createDefaultBindings(component);
+
+            if (defaultBindings) {
+                let bindingExists = binding => {
+                    return component.bindings.propertyBindings.some(pb => pb.dataMember === binding.dataMember);
+                };
+
+                for (let binding of defaultBindings) {
+                    if (!bindingExists(binding)) {
+                        component.bindings.propertyBindings.push(binding);
+                    }
+                }
+            }
+        }
+    }
+
+    // Creates an array of default property bindings for the component.
+    _createDefaultBindings(component) {
+        return null;
+    }
+
+    // Creates an object that implements additional component logic.
+    _createExtraScript() {
+        return null;
+    }
+
+    // Creates new component properties.
+    createProperties() {
+        return {
+            // behavior
+            blinking: false,
+            enabled: true,
+            visible: true,
+
+            // data
+            checkRights: false,
+            deviceNum: 0,
+            inCnlNum: 0,
+            objNum: 0,
+            outCnlNum: 0,
+            propertyBindings: new rs.mimic.PropertyBindingList(),
+
+            // design
+            id: 0,
+            name: "",
+            typeName: "",
+
+            // layout
+            location: new rs.mimic.Point(),
+            size: new rs.mimic.Size()
+        };
+    }
+
+    // Parses the component properties from the specified source object.
+    parseProperties(sourceProps) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        sourceProps ??= {};
+        return {
+            // behavior
+            blinking: PropertyParser.parseBool(sourceProps.blinking),
+            enabled: PropertyParser.parseBool(sourceProps.enabled),
+            visible: PropertyParser.parseBool(sourceProps.visible),
+
+            // data
+            checkRights: PropertyParser.parseBool(sourceProps.checkRights),
+            deviceNum: PropertyParser.parseInt(sourceProps.deviceNum),
+            inCnlNum: PropertyParser.parseInt(sourceProps.inCnlNum),
+            objNum: PropertyParser.parseInt(sourceProps.objNum),
+            outCnlNum: PropertyParser.parseInt(sourceProps.outCnlNum),
+            propertyBindings: rs.mimic.PropertyBindingList.parse(sourceProps.propertyBindings),
+
+            // design
+            id: PropertyParser.parseInt(sourceProps.id),
+            name: PropertyParser.parseString(sourceProps.name),
+            typeName: PropertyParser.parseString(sourceProps.typeName),
+
+            // layout
+            location: rs.mimic.Point.parse(sourceProps.location),
+            size: rs.mimic.Size.parse(sourceProps.size)
+        };
+    }
+
+    // Creates a new component with the given type name.
+    createComponent(typeName) {
+        let component = new rs.mimic.Component();
+        component.typeName = typeName;
+        component.properties = this.createProperties(typeName);
+        component.properties.typeName = typeName;
+        component.extraScript = this._createExtraScript();
+        return component;
+    }
+
+    // Creates a new component with the specified properties.
+    createComponentFromSource(source) {
+        let component = new rs.mimic.Component();
+        this._copyProperties(component, source);
+        this._addDefaultBindings(component);
+        component.extraScript = this._createExtraScript();
+        return component;
+    }
+};
+
+// Represents an abstract factory for regular non-faceplate components.
+rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
+    createProperties() {
+        let properties = super.createProperties();
+
+        // appearance
+        Object.assign(properties, {
+            backColor: "",
+            border: new rs.mimic.Border(),
+            cornerRadius: new rs.mimic.CornerRadius(),
+            cssClass: "",
+            font: new rs.mimic.Font({ inherit: true }),
+            foreColor: ""
+        });
+
+        // behavior
+        Object.assign(properties, {
+            blinkingState: new rs.mimic.VisualState(),
+            clickAction: new rs.mimic.Action(),
+            disabledState: new rs.mimic.VisualState(),
+            hoverState: new rs.mimic.VisualState(),
+            script: "",
+            tooltip: ""
+        });
+
+        return properties;
+    }
+
+    parseProperties(sourceProps) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let properties = super.parseProperties(sourceProps);
+        sourceProps ??= {};
+
+        // appearance
+        Object.assign(properties, {
+            backColor: PropertyParser.parseString(sourceProps.backColor),
+            border: rs.mimic.Border.parse(sourceProps.border),
+            cornerRadius: rs.mimic.CornerRadius.parse(sourceProps.cornerRadius),
+            cssClass: PropertyParser.parseString(sourceProps.cssClass),
+            font: rs.mimic.Font.parse(sourceProps.font),
+            foreColor: PropertyParser.parseString(sourceProps.foreColor)
+        });
+
+        // behavior
+        Object.assign(properties, {
+            blinkingState: rs.mimic.VisualState.parse(sourceProps.blinkingState),
+            clickAction: rs.mimic.Action.parse(sourceProps.clickAction),
+            disabledState: rs.mimic.VisualState.parse(sourceProps.disabledState),
+            hoverState: rs.mimic.VisualState.parse(sourceProps.hoverState),
+            script: PropertyParser.parseString(sourceProps.script),
+            tooltip: PropertyParser.parseString(sourceProps.tooltip)
+        });
+
+        return properties;
+    }
+};
+
+// Creates components of the Text type.
+rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
+    _createDefaultBindings(component) {
+        const DataMember = rs.mimic.DataMember;
+        let cnlNum = component.bindings.inCnlNum;
+        let cnlProps = component.bindings.inCnlProps;
+        let bindings = [{
+            propertyName: "text",
+            dataSource: String(cnlNum),
+            dataMember: DataMember.DISPLAY_VALUE_WITH_UNIT,
+            format: "",
+            propertyChain: ["text"],
+            cnlNum: cnlNum,
+            cnlProps: cnlProps
+        }];
+
+        if (!component.properties.foreColor) {
+            bindings.push({
+                propertyName: "foreColor",
+                dataSource: String(cnlNum),
+                dataMember: DataMember.COLOR0,
+                format: "",
+                propertyChain: ["foreColor"],
+                cnlNum: cnlNum,
+                cnlProps: cnlProps
+            });
+        }
+
+        return bindings;
+    }
+
+    createProperties() {
+        let properties = super.createProperties();
+
+        // appearance
+        Object.assign(properties, {
+            text: "Text",
+            textAlign: rs.mimic.ContentAlignment.TOP_LEFT,
+            textDirection: rs.mimic.TextDirection.HORIZONTAL,
+            wordWrap: false
+        });
+
+        // layout
+        Object.assign(properties, {
+            autoSize: true,
+            padding: new rs.mimic.Padding()
+        });
+
+        return properties;
+    }
+
+    parseProperties(sourceProps) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let properties = super.parseProperties(sourceProps);
+        sourceProps ??= {};
+
+        // appearance
+        Object.assign(properties, {
+            text: PropertyParser.parseString(sourceProps.text),
+            textAlign: PropertyParser.parseString(sourceProps.textAlign, rs.mimic.ContentAlignment.TOP_LEFT),
+            textDirection: PropertyParser.parseString(sourceProps.textDirection, rs.mimic.TextDirection.HORIZONTAL),
+            wordWrap: PropertyParser.parseBool(sourceProps.wordWrap)
+        });
+
+        // layout
+        Object.assign(properties, {
+            autoSize: PropertyParser.parseBool(sourceProps.autoSize),
+            padding: rs.mimic.Padding.parse(sourceProps.padding)
+        });
+
+        return properties;
+    }
+
+    createComponent() {
+        return super.createComponent("Text");
+    }
+};
+
+// Implements logic for Picture type components.
+rs.mimic.PictureScript = class extends rs.mimic.ComponentScript {
+    dataUpdated(args) {
+        // select image according to conditions
+        let cnlNum = args.component.bindings?.inCnlNum;
+        let props = args.component.properties;
+        let conditions = props.conditions;
+
+        if (cnlNum > 0 && conditions.length > 0) {
+            let curData = args.dataProvider.getCurData(cnlNum);
+            let prevData = args.dataProvider.getPrevData(cnlNum);
+
+            if (dataProvider.dataChanged(curData, prevData)) {
+                let imageName = props.defaultImage;
+
+                if (curData.d.stat > 0) {
+                    for (let condition of conditions) {
+                        if (condition.satisfied(curData.d.val)) {
+                            imageName = condition.imageName;
+                            break;
+                        }
+                    }
+                }
+
+                if (props.imageName !== imageName) {
+                    props.imageName = imageName;
+                    args.propertyChanged = true;
+                }
+            }
+        }
+    }
+};
+
+// Creates components of the Picture type.
+rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
+    _createExtraScript() {
+        return new rs.mimic.PictureScript();
+    }
+
+    createProperties() {
+        let properties = super.createProperties();
+
+        // appearance
+        Object.assign(properties, {
+            imageName: "",
+            rotation: 0
+        });
+
+        // behavior
+        Object.assign(properties, {
+            conditions: new rs.mimic.ImageConditionList(),
+            defaultImage: "",
+            sizeMode: rs.mimic.ImageSizeMode.NORMAL
+        });
+
+        // layout
+        Object.assign(properties, {
+            padding: new rs.mimic.Padding()
+        });
+
+        return properties;
+    }
+
+    parseProperties(sourceProps) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let properties = super.parseProperties(sourceProps);
+        sourceProps ??= {};
+
+        // appearance
+        Object.assign(properties, {
+            imageName: PropertyParser.parseString(sourceProps.imageName),
+            rotation: PropertyParser.parseFloat(sourceProps.rotation)
+        });
+
+        // behavior
+        Object.assign(properties, {
+            conditions: rs.mimic.ImageConditionList.parse(sourceProps.conditions),
+            defaultImage: PropertyParser.parseString(sourceProps.defaultImage),
+            sizeMode: PropertyParser.parseString(sourceProps.sizeMode, rs.mimic.ImageSizeMode.NORMAL)
+        });
+
+        // layout
+        Object.assign(properties, {
+            padding: rs.mimic.Padding.parse(sourceProps.padding)
+        });
+
+        return properties;
+    }
+
+    createComponent() {
+        return super.createComponent("Picture");
+    }
+};
+
+// Creates components of the Panel type.
+rs.mimic.PanelFactory = class extends rs.mimic.RegularComponentFactory {
+    createComponent() {
+        let component = super.createComponent("Panel");
+        component.children = []; // accept child components
+        return component;
+    }
+
+    createComponentFromSource(source) {
+        let component = super.createComponentFromSource(source);
+        component.children = [];
+        return component;
+    }
+};
+
+// Creates faceplate instances.
+rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
+    faceplate; // can be null
+
+    constructor(faceplate) {
+        super();
+        this.faceplate = faceplate;
+    }
+
+    _updateSize(faceplateInstance) {
+        faceplateInstance.properties.size = rs.mimic.Size.parse(this.faceplate.document.size);
+    }
+
+    _createComponents(faceplateInstance) {
+        const FactorySet = rs.mimic.FactorySet;
+        const MimicHelper = rs.mimic.MimicHelper;
+
+        if (Array.isArray(this.faceplate.components)) {
+            for (let sourceComponent of this.faceplate.components) {
+                let factory = FactorySet.getComponentFactory(sourceComponent.typeName, this.faceplate.faceplateMap);
+
+                if (factory) {
+                    let componentCopy = factory.createComponentFromSource(sourceComponent);
+                    faceplateInstance.components.push(componentCopy);
+
+                    if (componentCopy.name) {
+                        faceplateInstance.componentByName.set(componentCopy.name, componentCopy);
+                    }
+                }
+            }
+
+            MimicHelper.defineNesting(faceplateInstance, faceplateInstance.components);
+        }
+    }
+
+    _createCustomProperties(faceplateInstance, sourceProps) {
+        const ObjectHelper = rs.mimic.ObjectHelper;
+        sourceProps ??= {};
+
+        for (let propertyExport of this.faceplate.propertyExports) {
+            let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport);
+            let sourceValue = sourceProps[propertyExport.name];
+
+            if (sourceValue === undefined) {
+                faceplateInstance.properties[propertyExport.name] = baseValue;
+            } else {
+                let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);
+                faceplateInstance.properties[propertyExport.name] = mergedValue;
+                faceplateInstance.setTargetPropertyValue(propertyExport, mergedValue);
+            }
+        }
+    }
+
+    _applyModel(faceplateInstance, source) {
+        faceplateInstance.typeName = faceplateInstance.properties.typeName = this.faceplate.typeName;
+        faceplateInstance.model = this.faceplate;
+        this._createComponents(faceplateInstance);
+        this._createCustomProperties(faceplateInstance, source?.properties);
+    }
+
+    createComponent() {
+        let faceplateInstance = new rs.mimic.FaceplateInstance();
+        faceplateInstance.properties = this.createProperties();
+
+        if (this.faceplate) {
+            this._updateSize(faceplateInstance);
+            this._applyModel(faceplateInstance, null);
+        }
+
+        return faceplateInstance;
+    }
+
+    createComponentFromSource(source) {
+        let faceplateInstance = new rs.mimic.FaceplateInstance();
+        this._copyProperties(faceplateInstance, source);
+
+        if (this.faceplate) {
+            this._applyModel(faceplateInstance, source);
+        }
+
+        return faceplateInstance;
+    }
+};
+
+// Contains factories for mimic components.
+rs.mimic.FactorySet = class FactorySet {
+    static componentFactories = new Map([
+        ["Text", new rs.mimic.TextFactory()],
+        ["Picture", new rs.mimic.PictureFactory()],
+        ["Panel", new rs.mimic.PanelFactory()]
+    ]);
+    static getFaceplateFactory(faceplate) {
+        return new rs.mimic.FaceplateFactory(faceplate);
+    }
+    static getComponentFactory(typeName, faceplateMap) {
+        if (faceplateMap.has(typeName)) {
+            let faceplate = faceplateMap.get(typeName); // can be null
+            return FactorySet.getFaceplateFactory(faceplate);
+        } else {
+            return FactorySet.componentFactories.get(typeName);
         }
     }
 };
@@ -4596,7 +4674,7 @@ rs.mimic.UnitedRenderer = class {
                 }
             } catch (ex) {
                 console.error("Error updating data of the component with ID " + component.id +
-                    " of type " + component.typeName);
+                    " of type " + component.typeName + ": " + ex.message);
             }
         }
     }

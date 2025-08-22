@@ -1063,7 +1063,7 @@ rs.mimic.UnitedRenderer = class {
                 }
             } catch (ex) {
                 console.error("Error updating data of the component with ID " + component.id +
-                    " of type " + component.typeName);
+                    " of type " + component.typeName + ": " + ex.message);
             }
         }
     }

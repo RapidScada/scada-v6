@@ -257,11 +257,10 @@ rs.mimic.MimicHelper = class MimicHelper {
 
     // Updates the component properties according to the current data. Returns true if any property has changed.
     static updateData(component, dataProvider) {
-        // component bindings are 
+        // component bindings are
         // { inCnlNum, outCnlNum, objNum, deviceNum, checkRights, inCnlProps, outCnlProps, propertyBindings }
         // property binding is { propertyName, dataSource, dataMember, format, propertyChain, cnlNum, cnlProps }
         // channel properties are { joinLen, unit }
-        const DataProvider = rs.mimic.DataProvider;
         let propertyChanged = false;
 
         if (component.bindings && Array.isArray(component.bindings.propertyBindings) &&
@@ -271,12 +270,26 @@ rs.mimic.MimicHelper = class MimicHelper {
                     let curData = dataProvider.getCurData(binding.cnlNum, binding.cnlProps.joinLen);
                     let prevData = dataProvider.getPrevData(binding.cnlNum, binding.cnlProps.joinLen);
 
-                    if (!DataProvider.dataEqual(curData, prevData) || !dataProvider.prevCnlDataMap) {
+                    if (dataProvider.dataChanged(curData, prevData)) {
                         MimicHelper._setComponentProperty(component, binding, curData);
                         propertyChanged = true;
                     }
                 }
             }
+        }
+
+        // execute additional component logic
+        if (component.extraScript) {
+            let args = new rs.mimic.UpdateDataArgs({ component, dataProvider });
+            component.extraScript.dataUpdated(args);
+            propertyChanged ||= args.propertyChanged;
+        }
+
+        // execute custom component logic
+        if (component.customScript) {
+            let args = new rs.mimic.UpdateDataArgs({ component, dataProvider });
+            component.customScript.dataUpdated(args);
+            propertyChanged ||= args.propertyChanged;
         }
 
         return propertyChanged;
