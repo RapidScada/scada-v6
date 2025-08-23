@@ -41,6 +41,13 @@
     <Descr>Требуется плагин Карты</Descr>
   </ViewType>
   <ViewType>
+    <ViewTypeID>7</ViewTypeID>
+    <Name>Мнемосхема (новый)</Name>
+    <Code>MimicView</Code>
+    <FileExt>mim</FileExt>
+    <Descr>Требуется плагин Мнемосхемы</Descr>
+  </ViewType>
+  <ViewType>
     <ViewTypeID>101</ViewTypeID>
     <Name>Пользовательское представление</Name>
     <Descr>Добавляйте пользовательские элементы, начиная с этой строки</Descr>
