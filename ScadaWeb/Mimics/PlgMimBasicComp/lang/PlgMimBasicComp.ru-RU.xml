@@ -9,6 +9,9 @@
   </Dictionary>
   <!-- Components -->
   <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicButton">
+    <Phrase key="ImageName">Изображение</Phrase>
+    <Phrase key="ImageSize">Размер изображения</Phrase>
+    <Phrase key="Text">Текст</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicLed">
     <Phrase key="Conditions">Условия</Phrase>

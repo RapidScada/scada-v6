@@ -2872,6 +2872,10 @@ rs.mimic.Size = class Size {
     width = 100;
     height = 100;
 
+    constructor(source) {
+        Object.assign(this, source);
+    }
+
     get typeName() {
         return "Size";
     }
