@@ -281,7 +281,7 @@ rs.mimic.MimicBase = class {
     // Creates a component instance based on the source object. Returns null if the component factory is not found.
     createComponent(source) {
         let factory = this.getComponentFactory(source.typeName);
-        return factory ? factory.createComponentFromSource(source) : null;
+        return factory?.createComponentFromSource(source);
     }
 };
 

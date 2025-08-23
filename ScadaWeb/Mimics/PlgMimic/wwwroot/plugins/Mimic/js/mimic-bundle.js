@@ -1484,7 +1484,7 @@ rs.mimic.MimicBase = class {
     // Creates a component instance based on the source object. Returns null if the component factory is not found.
     createComponent(source) {
         let factory = this.getComponentFactory(source.typeName);
-        return factory ? factory.createComponentFromSource(source) : null;
+        return factory?.createComponentFromSource(source);
     }
 };
 
@@ -2334,8 +2334,9 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 //     ContentAlignment, TextDirection
 // Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
 //     PropertyBinding, PropertyExport, Size, UrlParams, VisualState
+// Lists: List, ImageConditionList, PropertyBindingList, PropertyExportList
 // Scripts: ComponentScript, UpdateDomArgs, UpdateDataArgs, ActionScriptArgs
-// Misc: List, ImageConditionList, PropertyBindingList, PropertyExportList, PropertyParser, DataProvider
+// Misc: PropertyParser, DataProvider
 // No dependencies
 
 // --- Enumerations ---
@@ -2973,53 +2974,7 @@ rs.mimic.VisualState = class VisualState {
     }
 };
 
-// --- Scripts ---
-
-// A base class for mimic or component logic.
-rs.mimic.ComponentScript = class ComponentScript {
-    domCreated(args) {
-    }
-
-    domUpdated(args) {
-    }
-
-    dataUpdated(args) {
-    }
-
-    static createFromSource(sourceCode) {
-        const CustomClass = new Function("ComponentScript", "return " + sourceCode)(ComponentScript);
-        return new CustomClass();
-    }
-};
-
-// Provides arguments when creating and updating a mimic or component DOM.
-rs.mimic.UpdateDomArgs = class {
-    constructor({ mimic, component, renderContext }) {
-        this.mimic = mimic;
-        this.component = component;
-        this.renderContext = renderContext;
-    }
-};
-
-// Provides arguments when updating mimic or component data.
-rs.mimic.UpdateDataArgs = class {
-    constructor({ mimic, component, dataProvider }) {
-        this.mimic = mimic;
-        this.component = component;
-        this.dataProvider = dataProvider;
-        this.propertyChanged = false;
-    }
-};
-
-// Provides arguments when an action script is executed.
-rs.mimic.ActionScriptArgs = class {
-    constructor({ component, renderContext }) {
-        this.component = component;
-        this.renderContext = renderContext;
-    }
-};
-
-// --- Misc ---
+// --- Lists ---
 
 // Represents a list that can create new items.
 rs.mimic.List = class extends Array {
@@ -3099,6 +3054,54 @@ rs.mimic.PropertyExportList = class PropertyExportList extends rs.mimic.List {
         return propertyExports;
     }
 }
+
+// --- Scripts ---
+
+// A base class for mimic or component logic.
+rs.mimic.ComponentScript = class ComponentScript {
+    domCreated(args) {
+    }
+
+    domUpdated(args) {
+    }
+
+    dataUpdated(args) {
+    }
+
+    static createFromSource(sourceCode) {
+        const CustomClass = new Function("ComponentScript", "return " + sourceCode)(ComponentScript);
+        return new CustomClass();
+    }
+};
+
+// Provides arguments when creating and updating a mimic or component DOM.
+rs.mimic.UpdateDomArgs = class {
+    constructor({ mimic, component, renderContext }) {
+        this.mimic = mimic;
+        this.component = component;
+        this.renderContext = renderContext;
+    }
+};
+
+// Provides arguments when updating mimic or component data.
+rs.mimic.UpdateDataArgs = class {
+    constructor({ mimic, component, dataProvider }) {
+        this.mimic = mimic;
+        this.component = component;
+        this.dataProvider = dataProvider;
+        this.propertyChanged = false;
+    }
+};
+
+// Provides arguments when an action script is executed.
+rs.mimic.ActionScriptArgs = class {
+    constructor({ component, renderContext }) {
+        this.component = component;
+        this.renderContext = renderContext;
+    }
+};
+
+// --- Misc ---
 
 // Parses property values ​​from strings.
 rs.mimic.PropertyParser = class {
