@@ -15,7 +15,6 @@ namespace Scada.Web.Plugins.PlgMimBasicComp.Code
         public static string BasicGroup { get; private set; }
         public static string ButtonComponent { get; private set; }
         public static string LedComponent { get; private set; }
-        public static string LinkComponent { get; private set; }
         public static string ToggleComponent { get; private set; }
 
         public static void Init()
@@ -24,7 +23,6 @@ namespace Scada.Web.Plugins.PlgMimBasicComp.Code
             BasicGroup = dict[nameof(BasicGroup)];
             ButtonComponent = dict[nameof(ButtonComponent)];
             LedComponent = dict[nameof(LedComponent)];
-            LinkComponent = dict[nameof(LinkComponent)];
             ToggleComponent = dict[nameof(ToggleComponent)];
         }
     }

@@ -36,13 +36,6 @@ namespace Scada.Web.Plugins.PlgMimBasicComp.Code
 
             Items.Add(new ComponentItem
             {
-                IconUrl = IconPath + "link-icon.png",
-                DisplayName = PluginPhrases.LinkComponent,
-                TypeName = "BasicLink"
-            });
-
-            Items.Add(new ComponentItem
-            {
                 IconUrl = IconPath + "toggle-icon.png",
                 DisplayName = PluginPhrases.ToggleComponent,
                 TypeName = "BasicToggle"

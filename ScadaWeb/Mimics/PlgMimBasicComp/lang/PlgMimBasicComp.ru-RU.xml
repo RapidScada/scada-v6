@@ -13,8 +13,6 @@
   <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicLed">
     <Phrase key="Conditions">Условия</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicLink">
-  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicToggle">
   </Dictionary>
   <!-- Structures -->
