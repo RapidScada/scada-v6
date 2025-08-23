@@ -453,13 +453,13 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         componentElem.off(".rs.mimic");
 
         if (props.enabled) {
-            if (!props.blinkingState.isEmpty) {
+            if (props.blinkingState.isSet) {
                 componentElem
                     .on(EventType.BLINK_ON, () => { this._setVisualState(componentElem, props.blinkingState); })
                     .on(EventType.BLINK_OFF, () => { this._restoreVisualState(componentElem, props); });
             }
 
-            if (!props.hoverState.isEmpty) {
+            if (props.hoverState.isSet) {
                 componentElem
                     .on("mouseenter.rs.mimic", () => { this._setVisualState(componentElem, props.hoverState); })
                     .on("mouseleave.rs.mimic", () => { this._restoreVisualState(componentElem, props); });
@@ -514,8 +514,8 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
     }
 
     _restoreVisualState(componentElem, props) {
-        let isBlinking = !props.blinkingState.isEmpty && componentElem.hasClass("blink-on");
-        let isHovered = !props.hoverState.isEmpty && componentElem.is(":hover");
+        let isBlinking = props.blinkingState.isSet && componentElem.hasClass("blink-on");
+        let isHovered = props.hoverState.isSet && componentElem.is(":hover");
 
         if (isBlinking) {
             this._setVisualState(componentElem, props.blinkingState);

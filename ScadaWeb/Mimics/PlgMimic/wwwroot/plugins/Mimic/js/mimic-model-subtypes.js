@@ -314,6 +314,10 @@ rs.mimic.CornerRadius = class CornerRadius {
         return "CornerRadius";
     }
 
+    get isSet() {
+        return this.topLeft > 0 || this.topRight > 0 || this.bottomRight > 0 || this.bottomLeft > 0;
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let cornerRadius = new CornerRadius();
@@ -627,8 +631,8 @@ rs.mimic.VisualState = class VisualState {
         return "VisualState";
     }
 
-    get isEmpty() {
-        return !(this.backColor || this.foreColor || this.borderColor || this.underline);
+    get isSet() {
+        return this.backColor || this.foreColor || this.borderColor || this.underline;
     }
 
     static parse(source) {

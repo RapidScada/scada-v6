@@ -532,8 +532,13 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         this.clear();
         let loadContext = new rs.mimic.LoadContext(controllerUrl, mimicKey);
 
-        while (await this._loadPart(loadContext)) {
-            // do nothing
+        try {
+            while (await this._loadPart(loadContext)) {
+                // do nothing
+            }
+        } catch (ex) {
+            console.error(ex);
+            loadContext.result.msg = "Unhandled exception.";
         }
 
         if (loadContext.result.ok) {
