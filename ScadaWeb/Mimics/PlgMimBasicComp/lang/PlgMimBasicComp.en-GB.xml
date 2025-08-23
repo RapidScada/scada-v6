@@ -20,6 +20,13 @@
     <Phrase key="DefaultColor">Default color</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicToggle">
+    <Phrase key="Position">Position</Phrase>
+  </Dictionary>
+  <!-- Enumerations -->
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicTogglePosition">
+    <Phrase key="NotSet">Not set</Phrase>
+    <Phrase key="Off">Off</Phrase>
+    <Phrase key="On">On</Phrase>
   </Dictionary>
   <!-- Structures -->
   <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicColorCondition">

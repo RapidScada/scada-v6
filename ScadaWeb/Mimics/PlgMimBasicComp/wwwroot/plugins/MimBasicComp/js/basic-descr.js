@@ -1,6 +1,10 @@
 ﻿// Contains descriptors for basic components.
 
 rs.mimic.BasicSubtype = class {
+    // Enumerations
+    static TOGGLE_POSITION = "BasicTogglePosition";
+
+    // Structures
     static COLOR_CONDITION = "BasicColorCondition";
 };
 
@@ -83,6 +87,23 @@ rs.mimic.BasicLedDescriptor = class extends rs.mimic.RegularComponentDescriptor 
 };
 
 rs.mimic.BasicToggleDescriptor = class extends rs.mimic.RegularComponentDescriptor {
+    constructor() {
+        super();
+        const KnownCategory = rs.mimic.KnownCategory;
+        const BasicType = rs.mimic.BasicType;
+        const BasicSubtype = rs.mimic.BasicSubtype;
+        const PropertyEditor = rs.mimic.PropertyEditor;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        // appearance
+        this.add(new PropertyDescriptor({
+            name: "position",
+            displayName: "Position",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.ENUM,
+            subtype: BasicSubtype.TOGGLE_POSITION
+        }));
+    }
 };
 
 rs.mimic.BasicColorConditionDescriptor = class extends rs.mimic.ConditionDescriptor {

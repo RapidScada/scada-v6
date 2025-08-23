@@ -124,7 +124,6 @@ rs.mimic.BasicLedFactory = class extends rs.mimic.RegularComponentFactory {
         // behavior
         props.conditions = rs.mimic.BasicColorConditionList.parse(sourceProps.conditions);
         props.defaultColor = PropertyParser.parseString(sourceProps.defaultColor);
-
         return props;
     }
 
@@ -133,7 +132,69 @@ rs.mimic.BasicLedFactory = class extends rs.mimic.RegularComponentFactory {
     }
 };
 
+rs.mimic.BasicToggleScript = class extends rs.mimic.ComponentScript {
+    dataUpdated(args) {
+        // set toggle position
+        const BasicTogglePosition = rs.mimic.BasicTogglePosition;
+        let cnlNum = args.component.bindings?.inCnlNum;
+
+        if (cnlNum > 0) {
+            let curData = args.dataProvider.getCurData(cnlNum);
+            let prevData = args.dataProvider.getPrevData(cnlNum);
+
+            if (dataProvider.dataChanged(curData, prevData)) {
+                let props = args.component.properties;
+                let position = props.position;
+
+                if (curData.d.stat > 0) {
+                    position = BasicTogglePosition.NOT_SET;
+                } else {
+                    position = curData.d.val > 0
+                        ? BasicTogglePosition.ON
+                        : BasicTogglePosition.OFF;
+                }
+
+                if (props.position !== position) {
+                    props.position = position;
+                    args.propertyChanged = true;
+                }
+            }
+        }
+    }
+};
+
 rs.mimic.BasicToggleFactory = class extends rs.mimic.RegularComponentFactory {
+    _createExtraScript() {
+        return new rs.mimic.BasicToggleScript();
+    }
+
+    createProperties() {
+        let props = super.createProperties();
+
+        // change inherited properties
+        props.backColor = "Silver";
+        props.foreColor = "White";
+        props.border.color = "Silver";
+        props.border.width = 2;
+        props.size.width = 60;
+        props.size.height = 30;
+
+        // appearance
+        props.position = rs.mimic.BasicTogglePosition.ON;
+        return props;
+    }
+
+    parseProperties(sourceProps) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let props = super.parseProperties(sourceProps);
+        sourceProps ??= {};
+        props.position = PropertyParser.parseString(sourceProps.position, rs.mimic.BasicTogglePosition.NOT_SET);
+        return props;
+    }
+
+    createComponent() {
+        return super.createComponent("BasicToggle");
+    }
 };
 
 // Registers the factories. The function name must be unique.

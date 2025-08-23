@@ -1,5 +1,11 @@
 ﻿// Contains subtypes for basic components.
 
+rs.mimic.BasicTogglePosition = class {
+    static NOT_SET = "NotSet";
+    static OFF = "Off";
+    static ON = "On";
+}
+
 rs.mimic.BasicColorCondition = class extends rs.mimic.Condition {
     color = "";
 

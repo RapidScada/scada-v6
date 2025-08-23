@@ -14,10 +14,8 @@ namespace Scada.Web.Plugins.PlgMimBasicComp.Code
         public BasicSubtypeGroup()
         {
             DictionaryPrefix = PluginConst.ComponentModelPrefix;
-
-            StructNames.AddRange([
-                "BasicColorCondition"
-            ]);
+            EnumNames.Add("BasicTogglePosition");
+            StructNames.Add("BasicColorCondition");
         }
     }
 }
