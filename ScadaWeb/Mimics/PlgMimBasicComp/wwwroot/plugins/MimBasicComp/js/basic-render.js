@@ -1,9 +1,25 @@
 ﻿// Contains renderers for basic components.
 
 rs.mimic.BasicButtonRenderer = class extends rs.mimic.RegularComponentRenderer {
+    _setBorder(jqObj, border) {
+        if (border.width > 0) {
+            super._setBorder(jqObj, border);
+        } else {
+            jqObj.css("border", ""); // default border
+        }
+    }
+
+    _setCornerRadius(jqObj, cornerRadius) {
+        if (cornerRadius.isSet) {
+            super._setCornerRadius(jqObj, cornerRadius);
+        } else {
+            jqObj.css("border-radius", ""); // default radius
+        }
+    }
+
     _completeDom(componentElem, component, renderContext) {
         let contentElem = $("<div class='basic-button-content'>" +
-            "<div class='basic-button-icon'><div class='basic-button-text'></div></div></div>");
+            "<div class='basic-button-icon'></div><div class='basic-button-text'></div></div>");
         componentElem.append(contentElem);
     }
 
@@ -31,10 +47,10 @@ rs.mimic.BasicButtonRenderer = class extends rs.mimic.RegularComponentRenderer {
     }
 
     createDom(component, renderContext) {
-        let buttonElem = $("<button></button>")
+        let buttonElem = $("<button type='button'></button>")
             .attr("id", "comp" + renderContext.idPrefix + component.id)
             .attr("data-id", component.id);
-        this._completeDom(componentElem, component, renderContext);
+        this._completeDom(buttonElem, component, renderContext);
         this._setClasses(buttonElem, component, renderContext);
         this._setProps(buttonElem, component, renderContext);
         component.dom = buttonElem;

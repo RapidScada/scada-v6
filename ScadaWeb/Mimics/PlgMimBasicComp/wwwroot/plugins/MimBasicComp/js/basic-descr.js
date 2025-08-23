@@ -9,6 +9,8 @@ rs.mimic.BasicButtonDescriptor = class extends rs.mimic.RegularComponentDescript
         super();
         const KnownCategory = rs.mimic.KnownCategory;
         const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
+        const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
         // appearance

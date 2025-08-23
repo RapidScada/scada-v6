@@ -1,1 +1,8 @@
-﻿
+﻿.basic-button .basic-button-content {
+  align-items: center;
+  gap: 5px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  white-space: nowrap;
+}

@@ -3,6 +3,7 @@
 rs.mimic.BasicButtonFactory = class extends rs.mimic.RegularComponentFactory {
     createProperties() {
         let properties = super.createProperties();
+        properties.size.height = 30;
 
         // appearance
         Object.assign(properties, {
@@ -28,11 +29,15 @@ rs.mimic.BasicButtonFactory = class extends rs.mimic.RegularComponentFactory {
 
         return properties;
     }
+
+    createComponent() {
+        return super.createComponent("BasicButton");
+    }
 };
 
 rs.mimic.BasicLedFactory = class extends rs.mimic.RegularComponentFactory {
     createProperties() {
-        let properties = super._createProperties();
+        let properties = super.createProperties();
 
         // behavior
         Object.assign(properties, {
@@ -43,7 +48,7 @@ rs.mimic.BasicLedFactory = class extends rs.mimic.RegularComponentFactory {
     }
 
     parseProperties(sourceProps) {
-        let properties = super._parseProperties(sourceProps);
+        let properties = super.parseProperties(sourceProps);
         sourceProps ??= {};
 
         // behavior
