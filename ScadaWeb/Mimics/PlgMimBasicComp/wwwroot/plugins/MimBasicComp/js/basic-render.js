@@ -18,9 +18,9 @@ rs.mimic.BasicButtonRenderer = class extends rs.mimic.RegularComponentRenderer {
     }
 
     _completeDom(componentElem, component, renderContext) {
-        let contentElem = $("<div class='basic-button-content'>" +
-            "<div class='basic-button-icon'></div><div class='basic-button-text'></div></div>");
-        componentElem.append(contentElem);
+        $("<div class='basic-button-content'>" +
+            "<div class='basic-button-icon'></div>" +
+            "<div class='basic-button-text'></div></div>").appendTo(componentElem);
     }
 
     _setClasses(componentElem, component, renderContext) {
@@ -59,14 +59,44 @@ rs.mimic.BasicButtonRenderer = class extends rs.mimic.RegularComponentRenderer {
 };
 
 rs.mimic.BasicLedRenderer = class extends rs.mimic.RegularComponentRenderer {
+    _setBorder(jqObj, border) {
+        // do nothing
+    }
+
+    _setCornerRadius(jqObj, cornerRadius) {
+        // do nothing
+    }
+
+    _setLedBorder(componentElem, borderElem, border) {
+        super._setBorder(componentElem, null);
+        super._setBorder(borderElem, border);
+    }
+
+    _setLedCornerRadius(componentElem, borderElem, cornerRadius) {
+        super._setCornerRadius(componentElem, cornerRadius);
+        super._setCornerRadius(borderElem, cornerRadius);
+    }
+
+    _completeDom(componentElem, component, renderContext) {
+        $("<div class='basic-led-border'></div>").appendTo(componentElem);
+    }
+
     _setClasses(componentElem, component, renderContext) {
         super._setClasses(componentElem, component, renderContext);
         componentElem.addClass("basic-led");
+
+        if (!component.properties.isSquare) {
+            componentElem.addClass("circle");
+        }
     }
 
     _setProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
-        componentElem.text("Led");
+        let borderElem = componentElem.children().first();
+        let props = component.properties;
+        this._setLedBorder(componentElem, borderElem, props.border);
+        this._setLedCornerRadius(componentElem, borderElem, props.isSquare ? props.cornerRadius : null);
+        borderElem.css("opacity", props.borderOpacity / 100);
     }
 };
 

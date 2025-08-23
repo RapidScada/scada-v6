@@ -45,7 +45,23 @@ rs.mimic.BasicLedDescriptor = class extends rs.mimic.RegularComponentDescriptor 
         const KnownCategory = rs.mimic.KnownCategory;
         const BasicType = rs.mimic.BasicType;
         const BasicSubtype = rs.mimic.BasicSubtype;
+        const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        // appearance
+        this.add(new PropertyDescriptor({
+            name: "borderOpacity",
+            displayName: "Border opacity",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "isSquare",
+            displayName: "Square",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.BOOL
+        }));
 
         // behavior
         this.add(new PropertyDescriptor({
@@ -54,6 +70,14 @@ rs.mimic.BasicLedDescriptor = class extends rs.mimic.RegularComponentDescriptor 
             category: KnownCategory.BEHAVIOR,
             type: BasicType.LIST,
             subtype: BasicSubtype.COLOR_CONDITION
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "defaultColor",
+            displayName: "Default color",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.STRING,
+            editor: PropertyEditor.COLOR_DIALOG
         }));
     }
 };

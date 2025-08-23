@@ -14,7 +14,10 @@
     <Phrase key="Text">Текст</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicLed">
+    <Phrase key="BorderOpacity">Непрозрачность границы</Phrase>
+    <Phrase key="IsSquare">Квадратный</Phrase>
     <Phrase key="Conditions">Условия</Phrase>
+    <Phrase key="DefaultColor">Цвет по умолчанию</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicToggle">
   </Dictionary>

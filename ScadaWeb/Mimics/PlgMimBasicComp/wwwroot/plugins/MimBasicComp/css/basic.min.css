@@ -1,1 +1,1 @@
-﻿.basic-button .basic-button-content{align-items:center;gap:5px;display:flex;justify-content:center;overflow:hidden;white-space:nowrap;}
+﻿.basic-button .basic-button-content{align-items:center;gap:5px;display:flex;justify-content:center;overflow:hidden;white-space:nowrap;}.basic-led{border:0 none #000;}.basic-led .basic-led-border{width:100%;height:100%;}.basic-led.circle{border-radius:50%;}.basic-led.circle .basic-led-border{border-radius:50%;}

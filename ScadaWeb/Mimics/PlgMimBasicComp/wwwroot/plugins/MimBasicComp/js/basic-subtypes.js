@@ -3,6 +3,11 @@
 rs.mimic.BasicColorCondition = class extends rs.mimic.Condition {
     color = "";
 
+    constructor(source) {
+        super();
+        Object.assign(this, source);
+    }
+
     get typeName() {
         return "BasicColorCondition";
     }

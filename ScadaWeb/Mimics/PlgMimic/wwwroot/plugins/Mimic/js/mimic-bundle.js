@@ -3713,30 +3713,34 @@ rs.mimic.Renderer = class {
 
     // Sets the border of the specified jQuery object.
     _setBorder(jqObj, border) {
-        if (border.width > 0) {
+        if (border && border.width > 0) {
             jqObj.css({
                 "border-width": border.width,
                 "border-style": "solid",
                 "border-color": border.color
             });
         } else {
-            jqObj.css("border", "none");
+            jqObj.css("border", "");
         }
     }
 
     // Sets the corner radius of the specified jQuery object.
     _setCornerRadius(jqObj, cornerRadius) {
-        jqObj.css({
-            "border-top-left-radius": cornerRadius.topLeft,
-            "border-top-right-radius": cornerRadius.topRight,
-            "border-bottom-right-radius": cornerRadius.bottomRight,
-            "border-bottom-left-radius": cornerRadius.bottomLeft
-        });
+        if (cornerRadius) {
+            jqObj.css({
+                "border-top-left-radius": cornerRadius.topLeft,
+                "border-top-right-radius": cornerRadius.topRight,
+                "border-bottom-right-radius": cornerRadius.bottomRight,
+                "border-bottom-left-radius": cornerRadius.bottomLeft
+            });
+        } else {
+            jqObj.css("border-radius", "");
+        }
     }
 
     // Sets the font of the specified jQuery object.
     _setFont(jqObj, font, fontMap) {
-        if (font.inherit) {
+        if (!font || font.inherit) {
             jqObj.css({
                 "font-family": "",
                 "font-size": "",
