@@ -149,10 +149,10 @@ rs.mimic.ComponentFactory = class {
 // Represents an abstract factory for regular non-faceplate components.
 rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
     createProperties() {
-        let properties = super.createProperties();
+        let props = super.createProperties();
 
         // appearance
-        Object.assign(properties, {
+        Object.assign(props, {
             backColor: "",
             border: new rs.mimic.Border(),
             cornerRadius: new rs.mimic.CornerRadius(),
@@ -162,7 +162,7 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
         });
 
         // behavior
-        Object.assign(properties, {
+        Object.assign(props, {
             blinkingState: new rs.mimic.VisualState(),
             clickAction: new rs.mimic.Action(),
             disabledState: new rs.mimic.VisualState(),
@@ -171,16 +171,16 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
             tooltip: ""
         });
 
-        return properties;
+        return props;
     }
 
     parseProperties(sourceProps) {
         const PropertyParser = rs.mimic.PropertyParser;
-        let properties = super.parseProperties(sourceProps);
+        let props = super.parseProperties(sourceProps);
         sourceProps ??= {};
 
         // appearance
-        Object.assign(properties, {
+        Object.assign(props, {
             backColor: PropertyParser.parseString(sourceProps.backColor),
             border: rs.mimic.Border.parse(sourceProps.border),
             cornerRadius: rs.mimic.CornerRadius.parse(sourceProps.cornerRadius),
@@ -190,7 +190,7 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
         });
 
         // behavior
-        Object.assign(properties, {
+        Object.assign(props, {
             blinkingState: rs.mimic.VisualState.parse(sourceProps.blinkingState),
             clickAction: rs.mimic.Action.parse(sourceProps.clickAction),
             disabledState: rs.mimic.VisualState.parse(sourceProps.disabledState),
@@ -199,7 +199,7 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
             tooltip: PropertyParser.parseString(sourceProps.tooltip)
         });
 
-        return properties;
+        return props;
     }
 };
 
@@ -235,10 +235,10 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
     }
 
     createProperties() {
-        let properties = super.createProperties();
+        let props = super.createProperties();
 
         // appearance
-        Object.assign(properties, {
+        Object.assign(props, {
             text: "Text",
             textAlign: rs.mimic.ContentAlignment.TOP_LEFT,
             textDirection: rs.mimic.TextDirection.HORIZONTAL,
@@ -246,21 +246,21 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
         });
 
         // layout
-        Object.assign(properties, {
+        Object.assign(props, {
             autoSize: true,
             padding: new rs.mimic.Padding()
         });
 
-        return properties;
+        return props;
     }
 
     parseProperties(sourceProps) {
         const PropertyParser = rs.mimic.PropertyParser;
-        let properties = super.parseProperties(sourceProps);
+        let props = super.parseProperties(sourceProps);
         sourceProps ??= {};
 
         // appearance
-        Object.assign(properties, {
+        Object.assign(props, {
             text: PropertyParser.parseString(sourceProps.text),
             textAlign: PropertyParser.parseString(sourceProps.textAlign, rs.mimic.ContentAlignment.TOP_LEFT),
             textDirection: PropertyParser.parseString(sourceProps.textDirection, rs.mimic.TextDirection.HORIZONTAL),
@@ -268,12 +268,12 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
         });
 
         // layout
-        Object.assign(properties, {
+        Object.assign(props, {
             autoSize: PropertyParser.parseBool(sourceProps.autoSize),
             padding: rs.mimic.Padding.parse(sourceProps.padding)
         });
 
-        return properties;
+        return props;
     }
 
     createComponent() {
@@ -321,53 +321,53 @@ rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
     }
 
     createProperties() {
-        let properties = super.createProperties();
+        let props = super.createProperties();
 
         // appearance
-        Object.assign(properties, {
+        Object.assign(props, {
             imageName: "",
             rotation: 0
         });
 
         // behavior
-        Object.assign(properties, {
+        Object.assign(props, {
             conditions: new rs.mimic.ImageConditionList(),
             defaultImage: "",
             sizeMode: rs.mimic.ImageSizeMode.NORMAL
         });
 
         // layout
-        Object.assign(properties, {
+        Object.assign(props, {
             padding: new rs.mimic.Padding()
         });
 
-        return properties;
+        return props;
     }
 
     parseProperties(sourceProps) {
         const PropertyParser = rs.mimic.PropertyParser;
-        let properties = super.parseProperties(sourceProps);
+        let props = super.parseProperties(sourceProps);
         sourceProps ??= {};
 
         // appearance
-        Object.assign(properties, {
+        Object.assign(props, {
             imageName: PropertyParser.parseString(sourceProps.imageName),
             rotation: PropertyParser.parseFloat(sourceProps.rotation)
         });
 
         // behavior
-        Object.assign(properties, {
+        Object.assign(props, {
             conditions: rs.mimic.ImageConditionList.parse(sourceProps.conditions),
             defaultImage: PropertyParser.parseString(sourceProps.defaultImage),
             sizeMode: PropertyParser.parseString(sourceProps.sizeMode, rs.mimic.ImageSizeMode.NORMAL)
         });
 
         // layout
-        Object.assign(properties, {
+        Object.assign(props, {
             padding: rs.mimic.Padding.parse(sourceProps.padding)
         });
 
-        return properties;
+        return props;
     }
 
     createComponent() {
