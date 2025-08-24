@@ -2176,6 +2176,8 @@ rs.mimic.Component = class {
                 return cmdVal;
             }
         }
+
+        return Number.NaN;
     }
 
     // Returns a string that represents the current object.
