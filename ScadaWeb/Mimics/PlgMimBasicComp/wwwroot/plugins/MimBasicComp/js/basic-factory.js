@@ -38,9 +38,7 @@ rs.mimic.BasicButtonFactory = class extends rs.mimic.RegularComponentFactory {
     }
 };
 
-rs.mimic.BasicLedScript = class BasicLedScript extends rs.mimic.ComponentScript {
-    static instance = new BasicLedScript();
-
+rs.mimic.BasicLedScript = class extends rs.mimic.ComponentScript {
     dataUpdated(args) {
         // select background color according to conditions
         let cnlNum = args.component.bindings?.inCnlNum;
@@ -73,8 +71,8 @@ rs.mimic.BasicLedScript = class BasicLedScript extends rs.mimic.ComponentScript 
 };
 
 rs.mimic.BasicLedFactory = class extends rs.mimic.RegularComponentFactory {
-    _getExtraScript() {
-        return rs.mimic.BasicLedScript.instance;
+    _createExtraScript() {
+        return new rs.mimic.BasicLedScript();
     }
 
     _addDefaultConditions(conditions) {
@@ -134,9 +132,7 @@ rs.mimic.BasicLedFactory = class extends rs.mimic.RegularComponentFactory {
     }
 };
 
-rs.mimic.BasicToggleScript = class BasicToggleScript extends rs.mimic.ComponentScript {
-    static instance = new BasicToggleScript();
-
+rs.mimic.BasicToggleScript = class extends rs.mimic.ComponentScript {
     dataUpdated(args) {
         // set toggle position
         const BasicTogglePosition = rs.mimic.BasicTogglePosition;
@@ -168,8 +164,8 @@ rs.mimic.BasicToggleScript = class BasicToggleScript extends rs.mimic.ComponentS
 };
 
 rs.mimic.BasicToggleFactory = class extends rs.mimic.RegularComponentFactory {
-    _getExtraScript() {
-        return rs.mimic.BasicToggleScript.instance;
+    _createExtraScript() {
+        return new rs.mimic.BasicToggleScript();
     }
 
     createProperties() {

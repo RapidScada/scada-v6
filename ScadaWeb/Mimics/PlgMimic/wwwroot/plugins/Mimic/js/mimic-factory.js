@@ -65,8 +65,8 @@ rs.mimic.ComponentFactory = class {
         return null;
     }
 
-    // Gets an object that implements additional component logic.
-    _getExtraScript() {
+    // Creates an object that implements additional component logic.
+    _createExtraScript() {
         return null;
     }
 
@@ -132,7 +132,7 @@ rs.mimic.ComponentFactory = class {
         component.typeName = typeName;
         component.properties = this.createProperties(typeName);
         component.properties.typeName = typeName;
-        component.extraScript = this._getExtraScript();
+        component.extraScript = this._createExtraScript();
         return component;
     }
 
@@ -141,7 +141,7 @@ rs.mimic.ComponentFactory = class {
         let component = new rs.mimic.Component();
         this._copyProperties(component, source);
         this._addDefaultBindings(component);
-        component.extraScript = this._getExtraScript();
+        component.extraScript = this._createExtraScript();
         return component;
     }
 };
@@ -282,9 +282,7 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
 };
 
 // Implements logic for Picture type components.
-rs.mimic.PictureScript = class PictureScript extends rs.mimic.ComponentScript {
-    static instance = new PictureScript();
-
+rs.mimic.PictureScript = class extends rs.mimic.ComponentScript {
     dataUpdated(args) {
         // select image according to conditions
         let cnlNum = args.component.bindings?.inCnlNum;
@@ -318,8 +316,8 @@ rs.mimic.PictureScript = class PictureScript extends rs.mimic.ComponentScript {
 
 // Creates components of the Picture type.
 rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
-    _getExtraScript() {
-        return rs.mimic.PictureScript.instance;
+    _createExtraScript() {
+        return new rs.mimic.PictureScript();
     }
 
     createProperties() {
