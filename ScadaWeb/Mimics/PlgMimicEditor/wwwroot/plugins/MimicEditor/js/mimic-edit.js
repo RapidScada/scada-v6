@@ -1235,7 +1235,7 @@ function getDragType(event, compElem) {
     if (selectedComponents.length === 1) {
         let component = getComponentByDom(compElem);
 
-        if (component?.renderer?.allowResizing(component)) {
+        if (component && component.isSelected && component.renderer?.allowResizing(component)) {
             let compW = compElem.outerWidth();
             let compH = compElem.outerHeight();
 
