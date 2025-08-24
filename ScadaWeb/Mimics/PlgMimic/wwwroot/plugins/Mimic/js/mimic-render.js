@@ -575,7 +575,9 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
                         renderContext.viewHub.features.command.show(props.outCnlNum);
                     } else {
                         this._showWait(componentElem);
-                        renderContext.mainApi.sendCommand(props.outCnlNum, action.commandArgs.cmdVal, false, null);
+                        let cmdVal = this._getCommandValue(component, action.commandArgs.cmdVal);
+                        console.log(`Send command ${cmdVal} to channel ${props.outCnlNum}`);
+                        renderContext.mainApi.sendCommand(props.outCnlNum, cmdVal, false, null);
                     }
                 } else {
                     console.warn("Output channel not specified.");
@@ -633,6 +635,11 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         const WAIT_DURATION = 1000;
         componentElem.addClass("wait-action");
         setTimeout(() => { componentElem.removeClass("wait-action"); }, WAIT_DURATION);
+    }
+
+    _getCommandValue(component, defaultValue) {
+        let cmdVal = component.getCommandValue();
+        return Number.isFinite(cmdVal) ? cmdVal : defaultValue;
     }
 };
 

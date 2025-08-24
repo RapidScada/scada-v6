@@ -952,6 +952,29 @@ rs.mimic.Component = class {
         return propertyChanged;
     }
 
+    // Executes the scripts when getting command value.
+    getCommandValue() {
+        // custom logic first
+        if (this.customScript) {
+            let args = new rs.mimic.GetCommandArgs(this);
+            let cmdVal = this.customScript.getCommandValue(args);
+
+            if (Number.isFinite(cmdVal)) {
+                return cmdVal;
+            }
+        }
+
+        // then additional logic
+        if (this.extraScript) {
+            let args = new rs.mimic.GetCommandArgs(this);
+            let cmdVal = this.extraScript.getCommandValue(args);
+
+            if (Number.isFinite(cmdVal)) {
+                return cmdVal;
+            }
+        }
+    }
+
     // Returns a string that represents the current object.
     toString() {
         return this.displayName;

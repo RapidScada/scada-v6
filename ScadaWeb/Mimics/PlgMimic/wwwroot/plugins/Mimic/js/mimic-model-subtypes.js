@@ -3,7 +3,7 @@
 // Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
 //     PropertyBinding, PropertyExport, Size, UrlParams, VisualState
 // Lists: List, ImageConditionList, PropertyBindingList, PropertyExportList
-// Scripts: ComponentScript, UpdateDomArgs, UpdateDataArgs, ActionScriptArgs
+// Scripts: ComponentScript, UpdateDomArgs, UpdateDataArgs, GetCommandArgs, ActionScriptArgs
 // Misc: PropertyParser, DataProvider
 // No dependencies
 
@@ -744,6 +744,10 @@ rs.mimic.ComponentScript = class ComponentScript {
     dataUpdated(args) {
     }
 
+    getCommandValue(args) {
+        return Number.NaN;
+    }
+
     static createFromSource(sourceCode) {
         const CustomClass = new Function("ComponentScript", "return " + sourceCode)(ComponentScript);
         return new CustomClass();
@@ -768,6 +772,13 @@ rs.mimic.UpdateDataArgs = class {
         this.propertyChanged = false;
     }
 };
+
+// Provides arguments when getting command value.
+rs.mimic.GetCommandArgs = class {
+    constructor(component) {
+        this.component = component;
+    }
+}
 
 // Provides arguments when an action script is executed.
 rs.mimic.ActionScriptArgs = class {

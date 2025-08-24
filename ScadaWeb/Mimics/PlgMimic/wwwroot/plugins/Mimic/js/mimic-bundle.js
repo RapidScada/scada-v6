@@ -2155,6 +2155,29 @@ rs.mimic.Component = class {
         return propertyChanged;
     }
 
+    // Executes the scripts when getting command value.
+    getCommandValue() {
+        // custom logic first
+        if (this.customScript) {
+            let args = new rs.mimic.GetCommandArgs(this);
+            let cmdVal = this.customScript.getCommandValue(args);
+
+            if (Number.isFinite(cmdVal)) {
+                return cmdVal;
+            }
+        }
+
+        // then additional logic
+        if (this.extraScript) {
+            let args = new rs.mimic.GetCommandArgs(this);
+            let cmdVal = this.extraScript.getCommandValue(args);
+
+            if (Number.isFinite(cmdVal)) {
+                return cmdVal;
+            }
+        }
+    }
+
     // Returns a string that represents the current object.
     toString() {
         return this.displayName;
@@ -2358,7 +2381,7 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 // Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
 //     PropertyBinding, PropertyExport, Size, UrlParams, VisualState
 // Lists: List, ImageConditionList, PropertyBindingList, PropertyExportList
-// Scripts: ComponentScript, UpdateDomArgs, UpdateDataArgs, ActionScriptArgs
+// Scripts: ComponentScript, UpdateDomArgs, UpdateDataArgs, GetCommandArgs, ActionScriptArgs
 // Misc: PropertyParser, DataProvider
 // No dependencies
 
@@ -3099,6 +3122,10 @@ rs.mimic.ComponentScript = class ComponentScript {
     dataUpdated(args) {
     }
 
+    getCommandValue(args) {
+        return Number.NaN;
+    }
+
     static createFromSource(sourceCode) {
         const CustomClass = new Function("ComponentScript", "return " + sourceCode)(ComponentScript);
         return new CustomClass();
@@ -3123,6 +3150,13 @@ rs.mimic.UpdateDataArgs = class {
         this.propertyChanged = false;
     }
 };
+
+// Provides arguments when getting command value.
+rs.mimic.GetCommandArgs = class {
+    constructor(component) {
+        this.component = component;
+    }
+}
 
 // Provides arguments when an action script is executed.
 rs.mimic.ActionScriptArgs = class {
@@ -4295,7 +4329,9 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
                         renderContext.viewHub.features.command.show(props.outCnlNum);
                     } else {
                         this._showWait(componentElem);
-                        renderContext.mainApi.sendCommand(props.outCnlNum, action.commandArgs.cmdVal, false, null);
+                        let cmdVal = this._getCommandValue(component, action.commandArgs.cmdVal);
+                        console.log(`Send command ${cmdVal} to channel ${props.outCnlNum}`);
+                        renderContext.mainApi.sendCommand(props.outCnlNum, cmdVal, false, null);
                     }
                 } else {
                     console.warn("Output channel not specified.");
@@ -4353,6 +4389,11 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         const WAIT_DURATION = 1000;
         componentElem.addClass("wait-action");
         setTimeout(() => { componentElem.removeClass("wait-action"); }, WAIT_DURATION);
+    }
+
+    _getCommandValue(component, defaultValue) {
+        let cmdVal = component.getCommandValue();
+        return Number.isFinite(cmdVal) ? cmdVal : defaultValue;
     }
 };
 

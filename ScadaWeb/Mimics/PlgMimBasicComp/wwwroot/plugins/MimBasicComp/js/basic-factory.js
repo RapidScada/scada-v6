@@ -147,11 +147,11 @@ rs.mimic.BasicToggleScript = class extends rs.mimic.ComponentScript {
                 let position = props.position;
 
                 if (curData.d.stat > 0) {
-                    position = BasicTogglePosition.NOT_SET;
-                } else {
                     position = curData.d.val > 0
                         ? BasicTogglePosition.ON
                         : BasicTogglePosition.OFF;
+                } else {
+                    position = BasicTogglePosition.NOT_SET;
                 }
 
                 if (props.position !== position) {
@@ -160,6 +160,10 @@ rs.mimic.BasicToggleScript = class extends rs.mimic.ComponentScript {
                 }
             }
         }
+    }
+
+    getCommandValue(args) {
+        return args.component.properties.position === rs.mimic.BasicTogglePosition.ON ? 0 : 1;
     }
 };
 
