@@ -13,6 +13,7 @@
     <Phrase key="LoadMimicError">Ошибка при загрузке мнемосхемы.</Phrase>
     <Phrase key="SaveMimicError">Ошибка при сохранении мнемосхемы.</Phrase>
     <Phrase key="PostUpdateError">Ошибка при передаче обновления.</Phrase>
+    <Phrase key="DisplayMimicError">Ошибка при отображении мнемосхемы.</Phrase>
     <Phrase key="UnableAddComponent">Невозможно добавить компонент.</Phrase>
     <Phrase key="UnableChangeParent">Невозможно изменить родителя.</Phrase>
     <Phrase key="UnableRestoreHistory">Невозможно восстановить точку истории.</Phrase>

@@ -307,23 +307,28 @@ function initModals() {
 }
 
 async function loadMimic() {
+    // load
     showSpinner();
     let result = await mimic.load(getLoaderUrl(), mimicKey);
-    hideSpinner();
 
-    if (result.ok) {
-        setButtonsEnabled();
+    if (!result.ok) {
+        showToast(phrases.loadMimicError, MessageType.ERROR);
+    } else if (result.warn) {
+        showToast(phrases.loadMimicError, MessageType.WARNING);
+    }
+
+    // display
+    try {
         showFaceplates();
         showStructure();
         showMimic();
         selectMimic();
-
-        if (result.warn) {
-            showToast(phrases.loadMimicError, MessageType.WARNING);
-        }
-    } else {
-        selectNone();
-        showToast(phrases.loadMimicError, MessageType.ERROR);
+    } catch (ex) {
+        console.error(ex);
+        showToast(phrases.displayMimicError, MessageType.ERROR);
+    } finally {
+        setButtonsEnabled();
+        hideSpinner();
     }
 }
 

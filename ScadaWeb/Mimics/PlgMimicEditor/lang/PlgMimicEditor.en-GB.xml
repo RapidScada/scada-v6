@@ -13,6 +13,7 @@
     <Phrase key="LoadMimicError">Error loading mimic.</Phrase>
     <Phrase key="SaveMimicError">Error saving mimic.</Phrase>
     <Phrase key="PostUpdateError">Error posting update.</Phrase>
+    <Phrase key="DisplayMimicError">Error displaying mimic.</Phrase>
     <Phrase key="UnableAddComponent">Unable to add component.</Phrase>
     <Phrase key="UnableChangeParent">Unable to change parent.</Phrase>
     <Phrase key="UnableRestoreHistory">Unable to restore history point.</Phrase>
