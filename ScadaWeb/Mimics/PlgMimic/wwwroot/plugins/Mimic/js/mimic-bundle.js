@@ -3172,30 +3172,30 @@ rs.mimic.ActionScriptArgs = class {
 
 // Parses property values ​​from strings.
 rs.mimic.PropertyParser = class {
-    static parseBool(string, defaultValue = false) {
-        return !string
-            ? defaultValue
-            : string === "true" || string === "True";
+    static parseBool(source, defaultValue = false) {
+        if (typeof source === "boolean") {
+            return source;
+        } else if (typeof source === "string") {
+            return source ? source === "true" || source === "True" : defaultValue;
+        } else {
+            return defaultValue;
+        }
     }
 
-    static parseFloat(string, defaultValue = 0.0) {
-        let number = Number.parseFloat(string);
+    static parseFloat(source, defaultValue = 0.0) {
+        let number = Number.parseFloat(source);
         return Number.isFinite(number) ? number : defaultValue;
     }
 
-    static parseInt(string, defaultValue = 0) {
-        let number = Number.parseInt(string);
+    static parseInt(source, defaultValue = 0) {
+        let number = Number.parseInt(source);
         return Number.isFinite(number) ? number : defaultValue;
     }
 
     static parseString(source, defaultValue = "") {
-        if (source instanceof String) {
-            return source;
-        } else if (source && source.toString instanceof Function) {
-            return source.toString();
-        } else {
-            return defaultValue;
-        }
+        return typeof source === "string"
+            ? source
+            : String(source) || defaultValue;
     }
 }
 
