@@ -13,6 +13,9 @@
   line-height: normal;
   position: absolute;
 }
+.mimic-wrapper .mimic .comp.text .text-content {
+  overflow: hidden;
+}
 .mimic-wrapper .mimic .comp.picture .picture-content {
   background-repeat: no-repeat;
   background-clip: content-box;
@@ -51,4 +54,9 @@
 }
 .mimic-wrapper.edit-mode .mimic .comp.faceplate .comp:hover {
   box-shadow: none;
+}
+.mimic-wrapper.edit-mode .mimic .comp::before {
+  content: "";
+  inset: var(--border-width, 0);
+  position: absolute;
 }

@@ -4233,6 +4233,11 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         } else {
             this._setVisualState(componentElem, props.disabledState);
         }
+
+        // configure area outside rounded corners
+        if (renderContext.editMode) {
+            componentElem.css("--border-width", -props.border.width + "px");
+        }
     }
 
     _keepClasses(componentElem) {
@@ -4411,6 +4416,10 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
 
 // Represents a text component renderer.
 rs.mimic.TextRenderer = class extends rs.mimic.RegularComponentRenderer {
+    _completeDom(componentElem, component, renderContext) {
+        $("<div class='text-content'></div>").appendTo(componentElem);
+    }
+
     _setClasses(componentElem, component, renderContext) {
         super._setClasses(componentElem, component, renderContext);
         componentElem.addClass("text");
@@ -4418,27 +4427,33 @@ rs.mimic.TextRenderer = class extends rs.mimic.RegularComponentRenderer {
 
     _setProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
+        let contentElem = componentElem.find(".text-content:first");
         let props = component.properties;
-        this._setPadding(componentElem, props.padding);
-        this._setTextDirection(componentElem, props.textDirection);
-        componentElem.text(props.text || props.inCnlNum <= 0 ? props.text : `[${props.inCnlNum}]`);
+        this._setPadding(contentElem, props.padding);
+        this._setTextDirection(contentElem, props.textDirection);
+        contentElem.text(props.text || props.inCnlNum <= 0 ? props.text : `[${props.inCnlNum}]`);
 
         if (props.autoSize) {
             componentElem.css({
+                "width": "",
+                "height": ""
+            });
+
+            contentElem.css({
                 "display": "inline",
-                "overflow": "visible",
                 "white-space": "nowrap",
                 "width": "",
                 "height": ""
             });
         } else {
-            componentElem
+            contentElem
                 .css({
                     "display": "flex",
-                    "overflow": "hidden",
-                    "white-space": props.wordWrap ? "normal" : "nowrap"
+                    "white-space": props.wordWrap ? "normal" : "nowrap",
+                    "width": "100%",
+                    "height": "100%"
                 });
-            this._setTextAlign(componentElem, props.textAlign);
+            this._setTextAlign(contentElem, props.textAlign);
         }
     }
 

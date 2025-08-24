@@ -18,6 +18,12 @@ $component-hover-color: var(--bs-gray-500);
             line-height: normal;
             position: absolute;
 
+            &.text {
+                .text-content {
+                    overflow: hidden;
+                }
+            }
+
             &.picture {
                 .picture-content {
                     background-repeat: no-repeat;
@@ -77,6 +83,13 @@ $component-hover-color: var(--bs-gray-500);
                         box-shadow: none;
                     }
                 }
+            }
+
+            // area outside rounded corners
+            &::before {
+                content: "";
+                inset: var(--border-width, 0);
+                position: absolute;
             }
         }
     }

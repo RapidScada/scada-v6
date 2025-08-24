@@ -18,9 +18,9 @@ rs.mimic.BasicButtonRenderer = class extends rs.mimic.RegularComponentRenderer {
     }
 
     _completeDom(componentElem, component, renderContext) {
-        $("<div class='basic-button-content'>" +
+        componentElem.append("<div class='basic-button-content'>" +
             "<div class='basic-button-icon'></div>" +
-            "<div class='basic-button-text'></div></div>").appendTo(componentElem);
+            "<div class='basic-button-text'></div></div>");
     }
 
     _setClasses(componentElem, component, renderContext) {
@@ -92,17 +92,22 @@ rs.mimic.BasicLedRenderer = class extends rs.mimic.RegularComponentRenderer {
 
     _setProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
-        let borderElem = componentElem.children().first();
+        let borderElem = componentElem.children(".basic-led-border:first");
         let props = component.properties;
         this._setLedBorder(componentElem, borderElem, props.border);
         this._setLedCornerRadius(componentElem, borderElem, props.isSquare ? props.cornerRadius : null);
         borderElem.css("opacity", props.borderOpacity / 100);
+
+        // configure area outside rounded corners
+        if (renderContext.editMode) {
+            componentElem.css("--border-width", 0);
+        }
     }
 };
 
 rs.mimic.BasicToggleRenderer = class extends rs.mimic.RegularComponentRenderer {
     _completeDom(componentElem, component, renderContext) {
-        $("<div class='basic-toggle-lever'></div>").appendTo(componentElem);
+        componentElem.append("<div class='basic-toggle-lever'></div>");
     }
 
     _setClasses(componentElem, component, renderContext) {
