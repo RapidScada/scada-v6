@@ -508,7 +508,7 @@ class PropGrid {
         } else if (opt_backToTop) {
             this._selectObject(this._topObject);
         } else {
-            let isChild = parent !== this._topObject;
+            let isChild = this._selectedObject !== this._topObject;
             this._showObjectProperties(this._selectedObject, isChild);
         }
     }
