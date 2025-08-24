@@ -2013,6 +2013,24 @@ rs.mimic.Component = class {
         }
     }
 
+    get innerWidth() {
+        let props = this.properties;
+        return props
+            ? props.size.width -
+                (props.border ? props.border.width * 2 : 0) -
+                (props.padding ? props.padding.left + props.padding.right : 0)
+            : 0;
+    }
+
+    get innerHeight() {
+        let props = this.properties;
+        return props
+            ? props.size.height -
+                (props.border ? props.border.width * 2 : 0) -
+                (props.padding ? props.padding.top + props.padding.bottom : 0)
+            : 0;
+    }
+
     // Sets the property according to the current data.
     _setProperty(binding, curData) {
         const DataProvider = rs.mimic.DataProvider;
@@ -4516,11 +4534,9 @@ rs.mimic.PictureRenderer = class extends rs.mimic.RegularComponentRenderer {
                 break;
 
             case ImageSizeMode.STRETCH:
-                let w = props.size.width - props.border.width * 2 - props.padding.left - props.padding.right;
-                let h = props.size.height - props.border.width * 2 - props.padding.top - props.padding.bottom;
                 contentElem.css({
                     "background-position": "center center",
-                    "background-size": `${w}px ${h}px`
+                    "background-size": `${component.innerWidth}px ${component.innerHeight}px`
                 });
                 break;
 

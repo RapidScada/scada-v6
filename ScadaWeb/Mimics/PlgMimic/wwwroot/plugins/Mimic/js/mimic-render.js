@@ -814,11 +814,9 @@ rs.mimic.PictureRenderer = class extends rs.mimic.RegularComponentRenderer {
                 break;
 
             case ImageSizeMode.STRETCH:
-                let w = props.size.width - props.border.width * 2 - props.padding.left - props.padding.right;
-                let h = props.size.height - props.border.width * 2 - props.padding.top - props.padding.bottom;
                 contentElem.css({
                     "background-position": "center center",
-                    "background-size": `${w}px ${h}px`
+                    "background-size": `${component.innerWidth}px ${component.innerHeight}px`
                 });
                 break;
 
