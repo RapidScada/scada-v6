@@ -1907,7 +1907,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     // Executes the custom script when the mimic DOM has been created.
     onDomCreated(renderContext) {
         if (this.script) {
-            let args = new rs.mimic.UpdateDomArgs({ mimic: this, renderContext });
+            let args = new rs.mimic.DomUpdateArgs({ mimic: this, renderContext });
             this.script.domCreated(args);
         }
     }
@@ -1915,7 +1915,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     // Executes the custom script when the mimic DOM has been updated.
     onDomUpdated(renderContext) {
         if (this.script) {
-            let args = new rs.mimic.UpdateDomArgs({ mimic: this, renderContext });
+            let args = new rs.mimic.DomUpdateArgs({ mimic: this, renderContext });
             this.script.domUpdated(args);
         }
     }
@@ -1923,7 +1923,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     // Executes the custom script when updating data.
     onDataUpdated(dataProvider) {
         if (this.script) {
-            let args = new rs.mimic.UpdateDataArgs({ mimic: this, dataProvider });
+            let args = new rs.mimic.DataUpdateArgs({ mimic: this, dataProvider });
             this.script.dataUpdated(args);
         }
     }
@@ -2123,7 +2123,7 @@ rs.mimic.Component = class {
     // Executes the custom script when the component DOM has been created.
     onDomCreated(renderContext) {
         if (this.customScript) {
-            let args = new rs.mimic.UpdateDomArgs({ component: this, renderContext });
+            let args = new rs.mimic.DomUpdateArgs({ component: this, renderContext });
             this.customScript.domCreated(args);
         }
     }
@@ -2131,7 +2131,7 @@ rs.mimic.Component = class {
     // Executes the custom script when the component DOM has been updated.
     onDomUpdated(renderContext) {
         if (this.customScript) {
-            let args = new rs.mimic.UpdateDomArgs({ component: this, renderContext });
+            let args = new rs.mimic.DomUpdateArgs({ component: this, renderContext });
             this.customScript.domUpdated(args);
         }
     }
@@ -2141,13 +2141,13 @@ rs.mimic.Component = class {
         let propertyChanged = false;
 
         if (this.extraScript) {
-            let args = new rs.mimic.UpdateDataArgs({ component: this, dataProvider });
+            let args = new rs.mimic.DataUpdateArgs({ component: this, dataProvider });
             this.extraScript.dataUpdated(args);
             propertyChanged ||= args.propertyChanged;
         }
 
         if (this.customScript) {
-            let args = new rs.mimic.UpdateDataArgs({ component: this, dataProvider });
+            let args = new rs.mimic.DataUpdateArgs({ component: this, dataProvider });
             this.customScript.dataUpdated(args);
             propertyChanged ||= args.propertyChanged;
         }
@@ -2155,11 +2155,11 @@ rs.mimic.Component = class {
         return propertyChanged;
     }
 
-    // Executes the scripts when getting command value.
+    // Gets a command value by executes the scripts.
     getCommandValue() {
         // custom logic first
         if (this.customScript) {
-            let args = new rs.mimic.GetCommandArgs(this);
+            let args = new rs.mimic.CommandSendArgs(this);
             let cmdVal = this.customScript.getCommandValue(args);
 
             if (Number.isFinite(cmdVal)) {
@@ -2169,7 +2169,7 @@ rs.mimic.Component = class {
 
         // then additional logic
         if (this.extraScript) {
-            let args = new rs.mimic.GetCommandArgs(this);
+            let args = new rs.mimic.CommandSendArgs(this);
             let cmdVal = this.extraScript.getCommandValue(args);
 
             if (Number.isFinite(cmdVal)) {
@@ -2381,7 +2381,7 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 // Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
 //     PropertyBinding, PropertyExport, Size, UrlParams, VisualState
 // Lists: List, ImageConditionList, PropertyBindingList, PropertyExportList
-// Scripts: ComponentScript, UpdateDomArgs, UpdateDataArgs, GetCommandArgs, ActionScriptArgs
+// Scripts: ComponentScript, DomUpdateArgs, DataUpdateArgs, CommandSendArgs, ActionScriptArgs
 // Misc: PropertyParser, DataProvider
 // No dependencies
 
@@ -3133,7 +3133,7 @@ rs.mimic.ComponentScript = class ComponentScript {
 };
 
 // Provides arguments when creating and updating a mimic or component DOM.
-rs.mimic.UpdateDomArgs = class {
+rs.mimic.DomUpdateArgs = class {
     constructor({ mimic, component, renderContext }) {
         this.mimic = mimic;
         this.component = component;
@@ -3142,7 +3142,7 @@ rs.mimic.UpdateDomArgs = class {
 };
 
 // Provides arguments when updating mimic or component data.
-rs.mimic.UpdateDataArgs = class {
+rs.mimic.DataUpdateArgs = class {
     constructor({ mimic, component, dataProvider }) {
         this.mimic = mimic;
         this.component = component;
@@ -3151,8 +3151,8 @@ rs.mimic.UpdateDataArgs = class {
     }
 };
 
-// Provides arguments when getting command value.
-rs.mimic.GetCommandArgs = class {
+// Provides arguments when sending a command.
+rs.mimic.CommandSendArgs = class {
     constructor(component) {
         this.component = component;
     }

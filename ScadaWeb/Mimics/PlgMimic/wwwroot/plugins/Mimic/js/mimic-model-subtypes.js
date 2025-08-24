@@ -3,7 +3,7 @@
 // Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
 //     PropertyBinding, PropertyExport, Size, UrlParams, VisualState
 // Lists: List, ImageConditionList, PropertyBindingList, PropertyExportList
-// Scripts: ComponentScript, UpdateDomArgs, UpdateDataArgs, GetCommandArgs, ActionScriptArgs
+// Scripts: ComponentScript, DomUpdateArgs, DataUpdateArgs, CommandSendArgs, ActionScriptArgs
 // Misc: PropertyParser, DataProvider
 // No dependencies
 
@@ -755,7 +755,7 @@ rs.mimic.ComponentScript = class ComponentScript {
 };
 
 // Provides arguments when creating and updating a mimic or component DOM.
-rs.mimic.UpdateDomArgs = class {
+rs.mimic.DomUpdateArgs = class {
     constructor({ mimic, component, renderContext }) {
         this.mimic = mimic;
         this.component = component;
@@ -764,7 +764,7 @@ rs.mimic.UpdateDomArgs = class {
 };
 
 // Provides arguments when updating mimic or component data.
-rs.mimic.UpdateDataArgs = class {
+rs.mimic.DataUpdateArgs = class {
     constructor({ mimic, component, dataProvider }) {
         this.mimic = mimic;
         this.component = component;
@@ -773,8 +773,8 @@ rs.mimic.UpdateDataArgs = class {
     }
 };
 
-// Provides arguments when getting command value.
-rs.mimic.GetCommandArgs = class {
+// Provides arguments when sending a command.
+rs.mimic.CommandSendArgs = class {
     constructor(component) {
         this.component = component;
     }
