@@ -91,8 +91,8 @@ rs.mimic.BasicToggleDescriptor = class extends rs.mimic.RegularComponentDescript
         super();
         const KnownCategory = rs.mimic.KnownCategory;
         const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
         const BasicSubtype = rs.mimic.BasicSubtype;
-        const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
         // appearance
@@ -102,6 +102,15 @@ rs.mimic.BasicToggleDescriptor = class extends rs.mimic.RegularComponentDescript
             category: KnownCategory.APPEARANCE,
             type: BasicType.ENUM,
             subtype: BasicSubtype.TOGGLE_POSITION
+        }));
+
+        // layout
+        this.add(new PropertyDescriptor({
+            name: "padding",
+            displayName: "Padding",
+            category: KnownCategory.LAYOUT,
+            type: BasicType.STRUCT,
+            subtype: Subtype.PADDING
         }));
     }
 };

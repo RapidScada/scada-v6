@@ -27,4 +27,28 @@
 }
 
 .basic-toggle {
+    display: flex;
+
+    .basic-toggle-lever {
+        border-radius: 50%;
+    }
+}
+
+.basic-toggle.position-not-set {
+    align-items: center;
+    justify-content: center;
+
+    .basic-toggle-lever {
+        display: none;
+    }
+}
+
+.basic-toggle.position-off {
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+
+.basic-toggle.position-on {
+    align-items: flex-start;
+    justify-content: flex-end;
 }

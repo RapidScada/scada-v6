@@ -101,6 +101,37 @@ rs.mimic.BasicLedRenderer = class extends rs.mimic.RegularComponentRenderer {
 };
 
 rs.mimic.BasicToggleRenderer = class extends rs.mimic.RegularComponentRenderer {
+    _completeDom(componentElem, component, renderContext) {
+        $("<div class='basic-toggle-lever'></div>").appendTo(componentElem);
+    }
+
+    _setClasses(componentElem, component, renderContext) {
+        super._setClasses(componentElem, component, renderContext);
+        componentElem.addClass("basic-toggle");
+
+        const BasicTogglePosition = rs.mimic.BasicTogglePosition;
+        let position = component.properties.position;
+        componentElem.toggleClass("position-not-set", position === BasicTogglePosition.NOT_SET);
+        componentElem.toggleClass("position-off", position === BasicTogglePosition.OFF);
+        componentElem.toggleClass("position-on", position === BasicTogglePosition.ON);
+    }
+
+    _setProps(componentElem, component, renderContext) {
+        super._setProps(componentElem, component, renderContext);
+        let props = component.properties;
+        this._setPadding(componentElem, props.padding);
+
+        let leverElem = componentElem.children().first();
+        let minSize = Math.min(component.width, component.height);
+        let minInnerSize = Math.min(component.innerWidth, component.innerHeight);
+        componentElem.css("border-radius", minSize / 2);
+
+        leverElem.css({
+            "background-color": props.foreColor,
+            "width": minInnerSize,
+            "height": minInnerSize
+        });
+    }
 };
 
 // Registers the renderers. The function name must be unique.

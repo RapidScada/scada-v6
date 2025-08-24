@@ -181,6 +181,10 @@ rs.mimic.BasicToggleFactory = class extends rs.mimic.RegularComponentFactory {
 
         // appearance
         props.position = rs.mimic.BasicTogglePosition.ON;
+
+        // layout
+        props.padding = new rs.mimic.Padding();
+
         return props;
     }
 
@@ -189,6 +193,7 @@ rs.mimic.BasicToggleFactory = class extends rs.mimic.RegularComponentFactory {
         let props = super.parseProperties(sourceProps);
         sourceProps ??= {};
         props.position = PropertyParser.parseString(sourceProps.position, rs.mimic.BasicTogglePosition.NOT_SET);
+        props.padding = rs.mimic.Padding.parse(sourceProps.padding);
         return props;
     }
 
