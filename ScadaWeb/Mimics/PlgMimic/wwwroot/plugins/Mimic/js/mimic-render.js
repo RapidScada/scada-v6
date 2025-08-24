@@ -576,8 +576,13 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
                     } else {
                         this._showWait(componentElem);
                         let cmdVal = this._getCommandValue(component, action.commandArgs.cmdVal);
-                        console.log(`Send command ${cmdVal} to channel ${props.outCnlNum}`);
-                        renderContext.mainApi.sendCommand(props.outCnlNum, cmdVal, false, null);
+
+                        if (Number.isFinite(cmdVal)) {
+                            console.log(`Send command ${cmdVal} to channel ${props.outCnlNum}`);
+                            renderContext.mainApi.sendCommand(props.outCnlNum, cmdVal, false, null);
+                        } else {
+                            console.warn("Command cancelled.");
+                        }
                     }
                 } else {
                     console.warn("Output channel not specified.");
@@ -638,8 +643,13 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
     }
 
     _getCommandValue(component, defaultValue) {
-        let cmdVal = component.getCommandValue();
-        return Number.isFinite(cmdVal) ? cmdVal : defaultValue;
+        try {
+            let cmdVal = component.getCommandValue();
+            return Number.isFinite(cmdVal) ? cmdVal : defaultValue;
+        } catch (ex) {
+            console.error("Error getting command value: " + ex.message);
+            return Number.NaN;
+        }
     }
 };
 
