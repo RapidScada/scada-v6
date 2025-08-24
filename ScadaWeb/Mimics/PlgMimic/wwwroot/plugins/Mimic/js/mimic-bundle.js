@@ -3306,7 +3306,7 @@ rs.mimic.ComponentFactory = class {
 
             if (defaultBindings) {
                 let bindingExists = binding => {
-                    return component.bindings.propertyBindings.some(pb => pb.dataMember === binding.dataMember);
+                    return component.bindings.propertyBindings.some(pb => pb.propertyName === binding.propertyName);
                 };
 
                 for (let binding of defaultBindings) {
