@@ -571,6 +571,7 @@ class MimicHistory {
                         objectID: componentID,
                         oldObjectJson: this._getComponentJsonFromCache(componentID)
                     }));
+                    this._removeComponentFromCache(componentID);
                 }
 
                 break;
@@ -631,6 +632,10 @@ class MimicHistory {
         } else {
             this._componentJsonMap.delete(componentID);
         }
+    }
+
+    _removeComponentFromCache(componentID) {
+        this._componentJsonMap.delete(componentID);
     }
 
     clear() {
