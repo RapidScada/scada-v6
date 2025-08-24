@@ -913,6 +913,7 @@ function restoreHistoryPoint(historyPoint) {
 
                 if (documentSource) {
                     Object.assign(mimic.document, MimicFactory.parseProperties(documentSource));
+                    mimicHistory.rememberDocument(mimic, true);
                     unitedRenderer.updateMimicDom();
                     changes.push(Change.updateDocument(mimic.document));
                 } else {
@@ -947,6 +948,7 @@ function restoreHistoryPoint(historyPoint) {
 
                 if (component && componentSource && factory) {
                     Object.assign(component.properties, factory.parseProperties(componentSource.properties));
+                    mimicHistory.rememberComponent(component, true);
                     unitedRenderer.updateComponentDom(component);
                     structTree.updateComponent(component);
                     changes.push(Change.updateComponent(component.id, component.properties));

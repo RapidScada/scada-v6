@@ -538,7 +538,7 @@ class MimicHistory {
             case ChangeType.ADD_COMPONENT: {
                 let componentID = mimicChange.objectID;
                 let componentJson = this._getComponentJsonFromMimic(componentID, mimic);
-                this._componentJsonMap.set(componentID, componentJson);
+                this._updateComponentCache(componentID, newComponentJson);
 
                 historyChanges.push(new HistoryChange({
                     changeType: ChangeType.ADD_COMPONENT,
@@ -552,7 +552,7 @@ class MimicHistory {
                 for (let componentID of mimicChange.getObjectIDs()) {
                     let oldComponentJson = this._getComponentJsonFromCache(componentID);
                     let newComponentJson = this._getComponentJsonFromMimic(componentID, mimic);
-                    this._componentJsonMap.set(componentID, newComponentJson);
+                    this._updateComponentCache(componentID, newComponentJson);
 
                     historyChanges.push(new HistoryChange({
                         changeType: ChangeType.UPDATE_COMPONENT,
@@ -579,7 +579,7 @@ class MimicHistory {
                 let componentID = mimicChange.objectID;
                 let oldComponentJson = this._getComponentJsonFromCache(componentID);
                 let newComponentJson = this._getComponentJsonFromMimic(componentID, mimic);
-                this._componentJsonMap.set(componentID, newComponentJson);
+                this._updateComponentCache(componentID, newComponentJson);
 
                 historyChanges.push(new HistoryChange({
                     changeType: ChangeType.UPDATE_PARENT,
@@ -624,10 +624,12 @@ class MimicHistory {
     }
 
     _updateComponentCache(componentID, component) {
-        if (component) {
-            this._componentJsonMap.set(componentID, null);
+        if (component instanceof rs.mimic.Component) {
+            this._componentJsonMap.set(componentID, JSON.stringify(component.toPlainObject()));
+        } else if (typeof component === "string" && component) {
+            this._componentJsonMap.set(componentID, component);
         } else {
-            this._componentJsonMap.set(componentID, JSON.stringify(newComponent.toPlainObject()));
+            this._componentJsonMap.delete(componentID);
         }
     }
 
@@ -646,7 +648,7 @@ class MimicHistory {
 
     rememberComponent(component, overwriteExisting) {
         if (overwriteExisting || !this._componentJsonMap.has(component.id)) {
-            this._componentJsonMap.set(component.id, JSON.stringify(component.toPlainObject()));
+            this._updateComponentCache(component.id, component);
         }
     }
 
