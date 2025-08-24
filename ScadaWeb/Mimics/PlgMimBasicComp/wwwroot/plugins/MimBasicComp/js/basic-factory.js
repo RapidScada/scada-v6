@@ -94,8 +94,6 @@ rs.mimic.BasicLedFactory = class extends rs.mimic.RegularComponentFactory {
         let props = super.createProperties();
 
         // change inherited properties
-        props.backColor = "Silver";
-        props.border.color = "Black";
         props.border.width = 3;
         props.size.width = 30;
         props.size.height = 30;
@@ -168,6 +166,39 @@ rs.mimic.BasicToggleScript = class extends rs.mimic.ComponentScript {
 };
 
 rs.mimic.BasicToggleFactory = class extends rs.mimic.RegularComponentFactory {
+    _createDefaultBindings(component) {
+        const DataMember = rs.mimic.DataMember;
+        let cnlNum = component.bindings.inCnlNum;
+        let cnlProps = component.bindings.inCnlProps;
+        let bindings = [];
+
+        if (!component.properties.backColor) {
+            bindings.push({
+                propertyName: "backColor",
+                dataSource: String(cnlNum),
+                dataMember: DataMember.COLOR0,
+                format: "",
+                propertyChain: ["backColor"],
+                cnlNum: cnlNum,
+                cnlProps: cnlProps
+            });
+        }
+
+        if (!component.properties.border.color) {
+            bindings.push({
+                propertyName: "border.color",
+                dataSource: String(cnlNum),
+                dataMember: DataMember.COLOR0,
+                format: "",
+                propertyChain: ["border", "color"],
+                cnlNum: cnlNum,
+                cnlProps: cnlProps
+            });
+        }
+
+        return bindings;
+    }
+
     _createExtraScript() {
         return new rs.mimic.BasicToggleScript();
     }
@@ -176,9 +207,6 @@ rs.mimic.BasicToggleFactory = class extends rs.mimic.RegularComponentFactory {
         let props = super.createProperties();
 
         // change inherited properties
-        props.backColor = "Silver";
-        props.foreColor = "White";
-        props.border.color = "Silver";
         props.border.width = 2;
         props.size.width = 60;
         props.size.height = 30;
