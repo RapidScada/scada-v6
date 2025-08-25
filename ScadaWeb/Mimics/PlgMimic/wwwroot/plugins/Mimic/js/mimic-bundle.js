@@ -3194,10 +3194,10 @@ rs.mimic.PropertyParser = class {
     }
 
     static parseString(source, defaultValue = "") {
-        if (typeof source === "string") {
-            return source;
-        } else if (source === undefined || source === null) {
+        if (source === undefined || source === null) {
             return defaultValue;
+        } else if (typeof source === "string") {
+            return source || defaultValue;
         } else {
             return String(source) || defaultValue;
         }
