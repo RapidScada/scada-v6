@@ -33,6 +33,9 @@
   <Plugins>
     <Plugin code="PlgChart" />
     <Plugin code="PlgMain" />
+    <Plugin code="PlgMimic" />
+    <Plugin code="PlgMimicEditor" />
+    <Plugin code="PlgMimBasicComp" />
     <Plugin code="PlgScheme" />
     <Plugin code="PlgSchBasicComp" />
     <Plugin code="PlgStore" />
