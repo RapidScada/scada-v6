@@ -24,7 +24,7 @@ rs.mimic.MimicFactory = class {
             propertyExports: rs.mimic.PropertyExportList.parse(sourceProps.propertyExports),
 
             // layout
-            size: rs.mimic.Size.parse(sourceProps.size)
+            size: rs.mimic.Size.parse(sourceProps.size, { width: 800, height: 600 })
         };
     }
 }

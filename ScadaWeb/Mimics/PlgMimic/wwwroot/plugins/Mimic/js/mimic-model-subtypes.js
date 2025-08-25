@@ -552,9 +552,10 @@ rs.mimic.Size = class Size {
         return "Size";
     }
 
-    static parse(source) {
+    static parse(source, defaultValue) {
         const PropertyParser = rs.mimic.PropertyParser;
         let size = new Size();
+        source ??= defaultValue;
 
         if (source) {
             size.width = PropertyParser.parseInt(source.width);
@@ -813,9 +814,13 @@ rs.mimic.PropertyParser = class {
     }
 
     static parseString(source, defaultValue = "") {
-        return typeof source === "string"
-            ? source
-            : String(source) || defaultValue;
+        if (typeof source === "string") {
+            return source;
+        } else if (source === undefined || source === null) {
+            return defaultValue;
+        } else {
+            return String(source) || defaultValue;
+        }
     }
 }
 

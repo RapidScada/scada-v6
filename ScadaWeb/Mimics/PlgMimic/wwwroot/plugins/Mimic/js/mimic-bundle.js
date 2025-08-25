@@ -2932,9 +2932,10 @@ rs.mimic.Size = class Size {
         return "Size";
     }
 
-    static parse(source) {
+    static parse(source, defaultValue) {
         const PropertyParser = rs.mimic.PropertyParser;
         let size = new Size();
+        source ??= defaultValue;
 
         if (source) {
             size.width = PropertyParser.parseInt(source.width);
@@ -3193,9 +3194,13 @@ rs.mimic.PropertyParser = class {
     }
 
     static parseString(source, defaultValue = "") {
-        return typeof source === "string"
-            ? source
-            : String(source) || defaultValue;
+        if (typeof source === "string") {
+            return source;
+        } else if (source === undefined || source === null) {
+            return defaultValue;
+        } else {
+            return String(source) || defaultValue;
+        }
     }
 }
 
@@ -3284,7 +3289,7 @@ rs.mimic.MimicFactory = class {
             propertyExports: rs.mimic.PropertyExportList.parse(sourceProps.propertyExports),
 
             // layout
-            size: rs.mimic.Size.parse(sourceProps.size)
+            size: rs.mimic.Size.parse(sourceProps.size, { width: 800, height: 600 })
         };
     }
 }
