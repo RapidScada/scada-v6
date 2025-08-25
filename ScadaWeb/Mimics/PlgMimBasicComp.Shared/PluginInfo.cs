@@ -20,7 +20,7 @@ namespace Scada.Web.Plugins.PlgMimBasicComp
         /// Gets the plugin name.
         /// </summary>
         public override string Name => Locale.IsRussian ?
-            "Основные компоненты схем" :
+            "Основные компоненты мнемосхем" :
             "Basic Mimic Components";
 
         /// <summary>
