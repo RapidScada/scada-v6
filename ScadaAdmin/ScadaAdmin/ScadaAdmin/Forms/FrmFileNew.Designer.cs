@@ -28,86 +28,83 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtFileName = new System.Windows.Forms.TextBox();
-            this.lblFileName = new System.Windows.Forms.Label();
-            this.lbFileType = new System.Windows.Forms.ListBox();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnOK = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            txtFileName = new TextBox();
+            lblFileName = new Label();
+            lbFileType = new ListBox();
+            btnCancel = new Button();
+            btnOK = new Button();
+            SuspendLayout();
             // 
             // txtFileName
             // 
-            this.txtFileName.Location = new System.Drawing.Point(12, 97);
-            this.txtFileName.Name = "txtFileName";
-            this.txtFileName.Size = new System.Drawing.Size(360, 23);
-            this.txtFileName.TabIndex = 2;
+            txtFileName.Location = new Point(12, 137);
+            txtFileName.Name = "txtFileName";
+            txtFileName.Size = new Size(360, 23);
+            txtFileName.TabIndex = 2;
             // 
             // lblFileName
             // 
-            this.lblFileName.AutoSize = true;
-            this.lblFileName.Location = new System.Drawing.Point(9, 79);
-            this.lblFileName.Name = "lblFileName";
-            this.lblFileName.Size = new System.Drawing.Size(58, 15);
-            this.lblFileName.TabIndex = 1;
-            this.lblFileName.Text = "File name";
+            lblFileName.AutoSize = true;
+            lblFileName.Location = new Point(9, 119);
+            lblFileName.Name = "lblFileName";
+            lblFileName.Size = new Size(58, 15);
+            lblFileName.TabIndex = 1;
+            lblFileName.Text = "File name";
             // 
             // lbFileType
             // 
-            this.lbFileType.FormattingEnabled = true;
-            this.lbFileType.ItemHeight = 15;
-            this.lbFileType.Items.AddRange(new object[] {
-            "Scheme View",
-            "Table View",
-            "Text File",
-            "XML File"});
-            this.lbFileType.Location = new System.Drawing.Point(12, 12);
-            this.lbFileType.Name = "lbFileType";
-            this.lbFileType.Size = new System.Drawing.Size(360, 64);
-            this.lbFileType.TabIndex = 0;
-            this.lbFileType.SelectedIndexChanged += new System.EventHandler(this.lbFileType_SelectedIndexChanged);
+            lbFileType.FormattingEnabled = true;
+            lbFileType.IntegralHeight = false;
+            lbFileType.ItemHeight = 15;
+            lbFileType.Items.AddRange(new object[] { "Scheme Classic", "Mimic Diagram (experimental)", "Faceplate (experimental)", "Table View", "XML File", "Text File" });
+            lbFileType.Location = new Point(12, 12);
+            lbFileType.Name = "lbFileType";
+            lbFileType.Size = new Size(360, 104);
+            lbFileType.TabIndex = 0;
+            lbFileType.SelectedIndexChanged += lbFileType_SelectedIndexChanged;
             // 
             // btnCancel
             // 
-            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(297, 136);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 4;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.DialogResult = DialogResult.Cancel;
+            btnCancel.Location = new Point(297, 176);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(75, 23);
+            btnCancel.TabIndex = 4;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = true;
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(216, 136);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 3;
-            this.btnOK.Text = "OK";
-            this.btnOK.UseVisualStyleBackColor = true;
-            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            btnOK.Location = new Point(216, 176);
+            btnOK.Name = "btnOK";
+            btnOK.Size = new Size(75, 23);
+            btnOK.TabIndex = 3;
+            btnOK.Text = "OK";
+            btnOK.UseVisualStyleBackColor = true;
+            btnOK.Click += btnOK_Click;
             // 
             // FrmFileNew
             // 
-            this.AcceptButton = this.btnOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(384, 171);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.lbFileType);
-            this.Controls.Add(this.txtFileName);
-            this.Controls.Add(this.lblFileName);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FrmFileNew";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "New File";
-            this.Load += new System.EventHandler(this.FrmFileNew_Load);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AcceptButton = btnOK;
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = btnCancel;
+            ClientSize = new Size(384, 211);
+            Controls.Add(btnCancel);
+            Controls.Add(btnOK);
+            Controls.Add(lbFileType);
+            Controls.Add(txtFileName);
+            Controls.Add(lblFileName);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FrmFileNew";
+            ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "New File";
+            Load += FrmFileNew_Load;
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

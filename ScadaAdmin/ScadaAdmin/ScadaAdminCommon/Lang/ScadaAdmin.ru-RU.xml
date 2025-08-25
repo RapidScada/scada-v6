@@ -488,10 +488,12 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmFileNew">
     <Phrase key="this">Новый файл</Phrase>
-    <Phrase key="lbFileType.Items[0]">Схема</Phrase>
-    <Phrase key="lbFileType.Items[1]">Таблица</Phrase>
-    <Phrase key="lbFileType.Items[2]">Текстовый файл</Phrase>
-    <Phrase key="lbFileType.Items[3]">XML файл</Phrase>
+    <Phrase key="lbFileType.Items[0]">Мнемосхема классическая</Phrase>
+    <Phrase key="lbFileType.Items[1]">Мнемосхема новая (экспериментально)</Phrase>
+    <Phrase key="lbFileType.Items[2]">Фейсплейт (экспериментально)</Phrase>
+    <Phrase key="lbFileType.Items[3]">Табличное представление</Phrase>
+    <Phrase key="lbFileType.Items[4]">XML-файл</Phrase>
+    <Phrase key="lbFileType.Items[5]">Текстовый файл</Phrase>
     <Phrase key="lblFileName">Имя файла</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>

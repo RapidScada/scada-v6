@@ -488,10 +488,12 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmFileNew">
     <Phrase key="this">New File</Phrase>
-    <Phrase key="lbFileType.Items[0]">Scheme View</Phrase>
-    <Phrase key="lbFileType.Items[1]">Table View</Phrase>
-    <Phrase key="lbFileType.Items[2]">Text File</Phrase>
-    <Phrase key="lbFileType.Items[3]">XML File</Phrase>
+    <Phrase key="lbFileType.Items[0]">Scheme Classic</Phrase>
+    <Phrase key="lbFileType.Items[1]">Mimic Diagram (experimental)</Phrase>
+    <Phrase key="lbFileType.Items[2]">Faceplate (experimental)</Phrase>
+    <Phrase key="lbFileType.Items[3]">Table View</Phrase>
+    <Phrase key="lbFileType.Items[4]">XML File</Phrase>
+    <Phrase key="lbFileType.Items[5]">Text File</Phrase>
     <Phrase key="lblFileName">File name</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>

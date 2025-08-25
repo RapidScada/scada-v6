@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2025
  */
 
 using System.Xml;
@@ -34,24 +34,43 @@ namespace Scada.Admin.App.Code
     internal static class FileCreator
     {
         /// <summary>
+        /// Checks if the files type is XML based.
+        /// </summary>
+        private static bool IsXmlBased(KnownFileType fileType)
+        {
+            return 
+                fileType == KnownFileType.SchemeView ||
+                fileType == KnownFileType.MimicView ||
+                fileType == KnownFileType.Faceplate ||
+                fileType == KnownFileType.TableView ||
+                fileType == KnownFileType.Xml;
+        }
+
+        /// <summary>
         /// Creates a new file of the specified type.
         /// </summary>
         public static void CreateFile(string fileName, KnownFileType fileType)
         {
             using FileStream stream = new(fileName, FileMode.CreateNew, FileAccess.Write, FileShare.Read);
 
-            if (fileType == KnownFileType.SchemeView ||
-                fileType == KnownFileType.TableView ||
-                fileType == KnownFileType.XmlFile)
+            if (IsXmlBased(fileType))
             {
                 XmlDocument xmlDoc = new();
                 XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
                 xmlDoc.AppendChild(xmlDecl);
 
-                if (fileType == KnownFileType.SchemeView)
-                    xmlDoc.AppendChild(xmlDoc.CreateElement("SchemeView"));
-                else if (fileType == KnownFileType.TableView)
-                    xmlDoc.AppendChild(xmlDoc.CreateElement("TableView"));
+                string elementName = fileType switch
+                {
+                    KnownFileType.SchemeView => "SchemeView",
+                    KnownFileType.MimicView => "MimicView",
+                    KnownFileType.Faceplate => "Faceplate",
+                    KnownFileType.TableView => "TableView",
+                    KnownFileType.Xml => "Document",
+                    _ => ""
+                };
+
+                if (!string.IsNullOrEmpty(elementName))
+                    xmlDoc.AppendChild(xmlDoc.CreateElement(elementName));
 
                 xmlDoc.Save(stream);
             }
@@ -65,9 +84,11 @@ namespace Scada.Admin.App.Code
             return fileType switch
             {
                 KnownFileType.SchemeView => "sch",
+                KnownFileType.MimicView => "mim",
+                KnownFileType.Faceplate => "fp",
                 KnownFileType.TableView => "tbl",
-                KnownFileType.TextFile => "txt",
-                KnownFileType.XmlFile => "xml",
+                KnownFileType.Text => "txt",
+                KnownFileType.Xml => "xml",
                 _ => ""
             };
         }
@@ -80,9 +101,11 @@ namespace Scada.Admin.App.Code
             return extension?.ToLowerInvariant() switch
             {
                 "sch" => KnownFileType.SchemeView,
+                "mim" => KnownFileType.MimicView,
+                "fp" => KnownFileType.Faceplate,
                 "tbl" => KnownFileType.TableView,
-                "txt" => KnownFileType.TextFile,
-                "xml" => KnownFileType.XmlFile,
+                "txt" => KnownFileType.Text,
+                "xml" => KnownFileType.Xml,
                 _ => KnownFileType.None
             };
         }

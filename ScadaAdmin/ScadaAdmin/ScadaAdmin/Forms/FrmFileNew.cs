@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2025
  */
 
 using Scada.Admin.App.Code;
@@ -79,10 +79,12 @@ namespace Scada.Admin.App.Forms
         {
             return lbFileType.SelectedIndex switch
             {
-                1 => KnownFileType.TableView,
-                2 => KnownFileType.TextFile,
-                3 => KnownFileType.XmlFile,
-                _ => KnownFileType.SchemeView
+                0 => KnownFileType.SchemeView,
+                1 => KnownFileType.MimicView,
+                2 => KnownFileType.Faceplate,
+                3 => KnownFileType.TableView,
+                4 => KnownFileType.Xml,
+                _ => KnownFileType.Text
             };
         }
 
@@ -105,7 +107,7 @@ namespace Scada.Admin.App.Forms
         {
             string fileName = FileName;
 
-            if (fileName == "")
+            if (string.IsNullOrEmpty(fileName))
             {
                 ScadaUiUtils.ShowError(AppPhrases.FileNameEmpty);
                 return false;
