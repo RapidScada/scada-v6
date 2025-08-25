@@ -20,6 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="..\PlgMimic.Common\Config\PlgMimic.xml" Link="config\PlgMimic.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 

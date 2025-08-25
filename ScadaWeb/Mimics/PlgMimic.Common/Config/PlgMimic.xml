@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <PlgMimic>
   <Fonts>
+    <!--
     <Font name="Arial" family="Arial, Helvetica, sans-serif" url="~/lib/arial/css/arial.css" />
+    -->
   </Fonts>
   <RuntimeOptions>
     <!-- ScaleType: Numeric | FitScreen | FitWidth -->
