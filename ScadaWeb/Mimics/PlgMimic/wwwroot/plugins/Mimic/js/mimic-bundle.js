@@ -3197,9 +3197,9 @@ rs.mimic.PropertyParser = class {
         if (source === undefined || source === null) {
             return defaultValue;
         } else if (typeof source === "string") {
-            return source || defaultValue;
+            return source;
         } else {
-            return String(source) || defaultValue;
+            return String(source);
         }
     }
 }
