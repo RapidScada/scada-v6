@@ -62,7 +62,7 @@ namespace Scada.Admin.App.Code
                 string elementName = fileType switch
                 {
                     KnownFileType.SchemeView => "SchemeView",
-                    KnownFileType.MimicView => "MimicView",
+                    KnownFileType.MimicView => "Mimic",
                     KnownFileType.Faceplate => "Faceplate",
                     KnownFileType.TableView => "TableView",
                     KnownFileType.Xml => "Document",
