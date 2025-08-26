@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Mimic editorVersion="6.0.0.0" xmlns:basic="urn:rapidscada:mimic:basic">
+<Mimic editorVersion="6.0.0.0">
   <Dependencies>
     <Faceplate typeName="MyFaceplate" path="FaceplateExample.fp" />
   </Dependencies>
