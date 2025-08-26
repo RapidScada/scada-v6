@@ -4,8 +4,8 @@
   <Dictionary key="Scada.Application">
     <Phrase key="ProductName">Rapid SCADA</Phrase>
     <Phrase key="ServerAppName">服务器</Phrase>
-    <Phrase key="CommAppName">通訊器</Phrase>
-    <Phrase key="WebAppName">網站</Phrase>
+    <Phrase key="CommAppName">通讯器</Phrase>
+    <Phrase key="WebAppName">网站</Phrase>
     <Phrase key="WebsiteUrl">https://rapidscada.org</Phrase>
     <Phrase key="UnhandledException">未知错误</Phrase>
     <Phrase key="ExecutionImpossible">无法正常执行</Phrase>
@@ -17,13 +17,13 @@
     <Phrase key="StopLogicError">停止逻辑处理时发生错误</Phrase>
     <Phrase key="LogicCycleError">逻辑工作周期错误</Phrase>
     <Phrase key="ThreadFatalError">线程发生严重错误</Phrase>
-    <Phrase key="WriteInfoError">将应用程序信息写入文件时出错</Phrase>
+    <Phrase key="WriteInfoError">将程序信息写入文件时出错</Phrase>
     <Phrase key="ConnectionNotFound">未发现连接&quot;{0}&quot;。</Phrase>
     <Phrase key="DatabaseNotSupported">数据库不支持。</Phrase>
     <Phrase key="OperationNotSupported">操作不支持。</Phrase>
     <Phrase key="CommandSent">命令已经发送。</Phrase>
     <Phrase key="SendCommandError">发送命令时发生错误</Phrase>
-    <Phrase key="AgentDisabled">Agent已禁用。</Phrase>
+    <Phrase key="AgentDisabled">代理已禁用。</Phrase>
   </Dictionary>
   <Dictionary key="Scada.ConfigDatabase">
     <Phrase key="UndefinedTable">未定义</Phrase>
@@ -37,7 +37,7 @@
     <Phrase key="DeviceTable">设备</Phrase>
     <Phrase key="DevTypeTable">设备类型</Phrase>
     <Phrase key="FormatTable">格式</Phrase>
-    <Phrase key="LimTable">限制</Phrase>
+    <Phrase key="LimTable">阈值</Phrase>
     <Phrase key="ObjTable">对象</Phrase>
     <Phrase key="ObjRightTable">对象权限</Phrase>
     <Phrase key="QuantityTable">数量</Phrase>
@@ -53,7 +53,7 @@
   </Dictionary>
   <Dictionary key="Scada.Files">
     <Phrase key="FileNotFound">没有找到文件。</Phrase>
-    <Phrase key="NamedFileNotFound">没有找到文件 {0}。</Phrase>
+    <Phrase key="NamedFileNotFound">没有找到文件{0}。</Phrase>
     <Phrase key="DirectoryNotExists">目录不存在。</Phrase>
     <Phrase key="PathNotSupported">路径不支持。</Phrase>
     <Phrase key="InvalidFileFormat">无效的文件格式。</Phrase>
@@ -65,7 +65,7 @@
   </Dictionary>
   <Dictionary key="Scada.Format">
     <Phrase key="IntegerRequired">需要一个整数</Phrase>
-    <Phrase key="IntegerInRangeRequired">需要从 {0} 到 {1} 之间的一个整数。</Phrase>
+    <Phrase key="IntegerInRangeRequired">需要从{0}到{1}之间的一个整数。</Phrase>
     <Phrase key="RealRequired">需要一个实数。</Phrase>
     <Phrase key="NonemptyRequired">需要一个非空数字。</Phrase>
     <Phrase key="ValidUrlRequired">需要一个有效的URL地址。</Phrase>
@@ -73,7 +73,7 @@
     <Phrase key="DateTimeRequired">需要日期和时间。</Phrase>
     <Phrase key="NotNumber">不是一个数字。</Phrase>
     <Phrase key="NotHexadecimal">不是一个十六进制数字。</Phrase>
-    <Phrase key="InvalidParamVal">参数 &quot;{0}&quot; 的值无效。</Phrase>
+    <Phrase key="InvalidParamVal">参数&quot;{0}&quot;的值无效。</Phrase>
     <Phrase key="InvalidSecretKey">无效的密钥。</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms">
@@ -92,24 +92,24 @@
   <Dictionary key="Scada.ComponentModel">
     <Phrase key="TrueValue">是</Phrase>
     <Phrase key="FalseValue">否</Phrase>
-    <Phrase key="EmptyValue">(空白)</Phrase>
-    <Phrase key="CollectionValue">(集合)</Phrase>
+    <Phrase key="EmptyValue">（空白）</Phrase>
+    <Phrase key="CollectionValue">（集合）</Phrase>
   </Dictionary>
   <Dictionary key="Scada.CnlDataFormatter">
     <Phrase key="UndefinedSign">---</Phrase>
     <Phrase key="CommandDescrPrefix">命令：</Phrase>
-    <Phrase key="StatusFormat">状态 {0}</Phrase>
+    <Phrase key="StatusFormat">状态{0}</Phrase>
     <Phrase key="CriticalSeverity">关键</Phrase>
     <Phrase key="MajorSeverity">主要</Phrase>
-    <Phrase key="MinorSeverity">轻微</Phrase>
+    <Phrase key="MinorSeverity">次要</Phrase>
     <Phrase key="InfoSeverity">信息</Phrase>
-    <Phrase key="UnknownUser">User {0}</Phrase>
+    <Phrase key="UnknownUser">用户{0}</Phrase>
   </Dictionary>
   <!-- ScadaCommon.Forms.dll -->
   <Dictionary key="Scada.Forms.Controls.CtrlBitmask">
     <Phrase key="lblMaskValue">十进制数据</Phrase>
     <Phrase key="btnResetMask">重置</Phrase>
-    <Phrase key="lblMaskBits">位</Phrase>
+    <Phrase key="lblMaskBits">比特位</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Controls.CtrlClientConnection">
     <Phrase key="gbConnectionOptions">连接选项</Phrase>
@@ -127,7 +127,7 @@
     <Phrase key="gbConnectionOptions">连接选项</Phrase>
     <Phrase key="lblName">名称</Phrase>
     <Phrase key="lblDbms">数据库管理系统</Phrase>
-    <Phrase key="cbDbms.Items[0]">Undefined</Phrase>
+    <Phrase key="cbDbms.Items[0]">未定义</Phrase>
     <Phrase key="lblServer">服务器</Phrase>
     <Phrase key="lblDatabase">数据库</Phrase>
     <Phrase key="lblUsername">用户名</Phrase>
@@ -135,16 +135,16 @@
     <Phrase key="chkConnectionString">连接字符串</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Controls.CtrlRegistration">
-    <Phrase key="lblProductName">產品名稱</Phrase>
-    <Phrase key="lblCompCode">電腦程式碼</Phrase>
-    <Phrase key="btnCopyCompCode">複製</Phrase>
-    <Phrase key="btnRefreshCompCode">重新整理</Phrase>
-    <Phrase key="lblCompCodeInfo">如果程式碼遺失，請上傳配置並重新啟動服務。</Phrase>
-    <Phrase key="lblRegKey">註冊碼</Phrase>
-    <Phrase key="btnPasteRegKey">貼上</Phrase>
-    <Phrase key="lblRegKeyInfo">密鑰驗證結果寫入應用程式或模組日誌中。</Phrase>
-    <Phrase key="llblGetPermanentKey">取得永久密鑰</Phrase>
-    <Phrase key="llblGetTrialKey">取得試用金鑰</Phrase>
+    <Phrase key="lblProductName">产品名称</Phrase>
+    <Phrase key="lblCompCode">主机识别码</Phrase>
+    <Phrase key="btnCopyCompCode">复制</Phrase>
+    <Phrase key="btnRefreshCompCode">刷新</Phrase>
+    <Phrase key="lblCompCodeInfo">如果主机识别码缺失，请重新上载配置并重启服务。</Phrase>
+    <Phrase key="lblRegKey">注册密钥</Phrase>
+    <Phrase key="btnPasteRegKey">粘贴</Phrase>
+    <Phrase key="lblRegKeyInfo">注册密钥验证结果已写入程序或模组的日志中。</Phrase>
+    <Phrase key="llblGetPermanentKey">取得永久注册密钥</Phrase>
+    <Phrase key="llblGetTrialKey">取得试用注册密钥</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmBitmask">
     <Phrase key="this">位掩码</Phrase>
@@ -170,7 +170,7 @@
     <Phrase key="btnCancel">取消</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmEntitySelect">
-    <Phrase key="this">从 {0} 中选择</Phrase>
+    <Phrase key="this">从{0}中选择</Phrase>
     <Phrase key="lblFilter">过滤</Phrase>
     <Phrase key="btnApplyFilter">应用</Phrase>
     <Phrase key="chkOnlySelected">只显示选择行</Phrase>
@@ -199,10 +199,10 @@
     <Phrase key="btnCancel">取消</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmRangeEdit">
-    <Phrase key="this">編輯範圍</Phrase>
-    <Phrase key="lblRange">整數範圍</Phrase>
+    <Phrase key="this">编辑范围</Phrase>
+    <Phrase key="lblRange">整数范围</Phrase>
     <Phrase key="lblExample">例如：1 - 5、10</Phrase>
-    <Phrase key="btnOK">好的</Phrase>
+    <Phrase key="btnOK">确认</Phrase>
     <Phrase key="btnCancel">取消</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.BitItemCollection">

@@ -19,11 +19,17 @@ namespace Scada.Web.Plugins.PlgMimic.Models
             : base(mimicKey)
         {
             ArgumentNullException.ThrowIfNull(faceplate, nameof(faceplate));
+            Dependencies = faceplate.Dependencies;
             Document = faceplate.Document;
             Components = faceplate.Components;
-            Images = faceplate.Images.Values;
+            Images = faceplate.Images;
         }
 
+
+        /// <summary>
+        /// Gets the faceplate dependencies.
+        /// </summary>
+        public List<FaceplateMeta> Dependencies { get; }
 
         /// <summary>
         /// Gets the faceplate document.

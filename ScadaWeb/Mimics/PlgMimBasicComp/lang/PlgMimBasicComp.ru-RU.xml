@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PlgMimBasicCompDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Code.BasicComponentGroup">
+    <Phrase key="BasicGroup">ОСНОВНЫЕ</Phrase>
+    <Phrase key="ButtonComponent">Кнопка</Phrase>
+    <Phrase key="LedComponent">Светодиод</Phrase>
+    <Phrase key="LinkComponent">Ссылка</Phrase>
+    <Phrase key="ToggleComponent">Тумблер</Phrase>
+  </Dictionary>
+  <!-- Components -->
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicButton">
+    <Phrase key="ImageName">Изображение</Phrase>
+    <Phrase key="ImageSize">Размер изображения</Phrase>
+    <Phrase key="Text">Текст</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicLed">
+    <Phrase key="BorderOpacity">Непрозрачность границы</Phrase>
+    <Phrase key="IsSquare">Квадратный</Phrase>
+    <Phrase key="Conditions">Условия</Phrase>
+    <Phrase key="DefaultColor">Цвет по умолчанию</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicToggle">
+    <Phrase key="Position">Положение</Phrase>
+    <Phrase key="Padding">Отступ</Phrase>
+  </Dictionary>
+  <!-- Enumerations -->
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicTogglePosition">
+    <Phrase key="NotSet">Не установлен</Phrase>
+    <Phrase key="Off">Выключен</Phrase>
+    <Phrase key="On">Включен</Phrase>
+  </Dictionary>
+  <!-- Structures -->
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicColorCondition">
+    <Phrase key="ComparisonOper1">Сравнение 1</Phrase>
+    <Phrase key="ComparisonArg1">Аргумент 1</Phrase>
+    <Phrase key="LogicalOper">Логический оператор</Phrase>
+    <Phrase key="ComparisonOper2">Сравнение 2</Phrase>
+    <Phrase key="ComparisonArg2">Аргумент 2</Phrase>
+    <Phrase key="Color">Цвет</Phrase>
+  </Dictionary>
+</PlgMimBasicCompDictionaries>

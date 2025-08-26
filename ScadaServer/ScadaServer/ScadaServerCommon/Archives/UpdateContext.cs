@@ -27,6 +27,7 @@ using Scada.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Scada.Server.Archives
 {
@@ -79,5 +80,28 @@ namespace Scada.Server.Archives
         /// Gets or sets the number of lost data points.
         /// </summary>
         public int LostCount { get; set; }
+
+
+        /// <summary>
+        /// Gets the recently updated channel data.
+        /// </summary>
+        public bool TryGetCnlData(object lockObj, DateTime timestamp, int cnlNum, out CnlData cnlData)
+        {
+            if (Monitor.TryEnter(lockObj))
+            {
+                try
+                {
+                    if (Timestamp == timestamp && UpdatedData.TryGetValue(cnlNum, out cnlData))
+                        return true;
+                }
+                finally
+                {
+                    Monitor.Exit(lockObj);
+                }
+            }
+
+            cnlData = CnlData.Empty;
+            return false;
+        }
     }
 }

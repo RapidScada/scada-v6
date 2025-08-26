@@ -1,21 +1,62 @@
 ﻿.mimic-wrapper {
   overflow: auto;
-  position: relative; /*affects scrolling and scaling*/
+  overscroll-behavior: none;
+  position: relative;
 }
 .mimic-wrapper .mimic {
-  position: absolute; /*affects scaling*/
-  transform-origin: left top; /*affects scaling*/
+  background-color: white;
+  position: absolute;
+  transform-origin: left top;
 }
 .mimic-wrapper .mimic .comp {
   box-sizing: border-box;
   line-height: normal;
   position: absolute;
 }
-.mimic-wrapper .mimic .comp.selected {
-  box-shadow: 0 0 0 1px lime;
+.mimic-wrapper .mimic .comp.text .text-content {
+  overflow: hidden;
 }
-.mimic-wrapper .mimic .comp.picture {
+.mimic-wrapper .mimic .comp.picture .picture-content {
   background-repeat: no-repeat;
-  background-position: center;
-  background-clip: padding-box;
+  background-clip: content-box;
+  height: 100%;
+  width: 100%;
+}
+
+.mimic-wrapper.view-mode .mimic .comp.hidden {
+  display: none;
+}
+.mimic-wrapper.view-mode .mimic .comp.disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.mimic-wrapper.view-mode .mimic .comp.has-action {
+  cursor: pointer;
+}
+.mimic-wrapper.view-mode .mimic .comp.wait-action {
+  cursor: wait !important;
+}
+
+.mimic-wrapper.edit-mode {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+}
+.mimic-wrapper.edit-mode .mimic {
+  box-shadow: 0 0 0 1px var(--bs-gray-500);
+}
+.mimic-wrapper.edit-mode .mimic .comp.selected {
+  box-shadow: 0 0 0 3px lime;
+}
+.mimic-wrapper.edit-mode .mimic .comp:not(.selected):hover {
+  box-shadow: 0 0 0 1px var(--bs-gray-500);
+}
+.mimic-wrapper.edit-mode .mimic .comp.faceplate .comp:hover {
+  box-shadow: none;
+}
+.mimic-wrapper.edit-mode .mimic .comp::before {
+  content: "";
+  inset: var(--border-width, 0);
+  position: absolute;
 }

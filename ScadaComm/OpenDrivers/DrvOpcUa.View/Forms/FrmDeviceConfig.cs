@@ -140,9 +140,27 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private void ConfigToControls()
         {
             changing = true;
-            txtServerUrl.Text = lineConfig.ConnectionOptions.ServerUrl;
+            ShowLineConfig();
             FillDeviceTree();
             changing = false;
+        }
+
+        /// <summary>
+        /// Shows the communication line configuration.
+        /// </summary>
+        private void ShowLineConfig()
+        {
+            // connection options
+            OpcConnectionOptions connectionOptions = lineConfig.ConnectionOptions;
+            txtServerUrl.Text = connectionOptions.ServerUrl;
+            numReconnectIfIdle.SetValue(connectionOptions.ReconnectIfIdle);
+
+            // subscription options
+            LineSubscriptionOptions subscriptionOptions = lineConfig.SubscriptionOptions;
+            cbCreationMode.SelectedIndex = (int)subscriptionOptions.CreationMode;
+            txtNodeIdFormat.Text = subscriptionOptions.NodeIdFormat;
+            numMaxItemCount.SetValue(subscriptionOptions.MaxItemCount);
+            cbTagNamingMode.SelectedIndex = (int)subscriptionOptions.TagNamingMode;
         }
 
         /// <summary>
@@ -568,11 +586,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// </summary>
         private string GetTagCode(ServerNodeTag serverNodeTag)
         {
-            return deviceConfig.EditingOptions.DefaultTagCode switch
-            {
-                DefaultTagCode.NodeID => serverNodeTag.NodeIdStr,
-                _ => serverNodeTag.DisplayName
-            };
+            return lineConfig.SubscriptionOptions.TagNamingMode == TagNamingMode.NodeID
+                ? serverNodeTag.NodeIdStr
+                : serverNodeTag.DisplayName;
         }
 
         /// <summary>
@@ -580,8 +596,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// </summary>
         private bool GetDataType(NodeId nodeId, out string dataTypeName, out bool isArray)
         {
-            if (nodeId == null)
-                throw new ArgumentNullException(nameof(nodeId));
+            ArgumentNullException.ThrowIfNull(nodeId, nameof(nodeId));
+
             if (opcSession == null)
                 throw new InvalidOperationException("OPC session must not be null.");
 
@@ -663,6 +679,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         {
             // translate form
             FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions { ToolTip = toolTip });
+            FormTranslator.Translate(ctrlEmptyItem, ctrlEmptyItem.GetType().FullName);
             FormTranslator.Translate(ctrlSubscription, ctrlSubscription.GetType().FullName);
             FormTranslator.Translate(ctrlItem, ctrlItem.GetType().FullName);
             FormTranslator.Translate(ctrlCommand, ctrlCommand.GetType().FullName);
@@ -731,6 +748,58 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 LineConfigModified = true;
         }
 
+        private void numReconnectIfIdle_ValueChanged(object sender, EventArgs e)
+        {
+            if (!changing)
+            {
+                lineConfig.ConnectionOptions.ReconnectIfIdle = Convert.ToInt32(numReconnectIfIdle.Value);
+                LineConfigModified = true;
+            }
+        }
+
+        private void cbCreationMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!changing)
+            {
+                lineConfig.SubscriptionOptions.CreationMode = (SubscriptionCreationMode)cbCreationMode.SelectedIndex;
+                LineConfigModified = true;
+            }
+
+            // enable/disable controls
+            SubscriptionCreationMode mode = lineConfig.SubscriptionOptions.CreationMode;
+            lblTagNamingMode.Enabled = cbTagNamingMode.Enabled = mode == SubscriptionCreationMode.Manual;
+            lblNodeIdFormat.Enabled = lblNodeIdFormatExample.Enabled = txtNodeIdFormat.Enabled =
+                lblMaxItemCount.Enabled = numMaxItemCount.Enabled = mode == SubscriptionCreationMode.ChannelBased;
+        }
+
+        private void txtNodeIdFormat_TextChanged(object sender, EventArgs e)
+        {
+            if (!changing)
+            {
+                lineConfig.SubscriptionOptions.NodeIdFormat = txtNodeIdFormat.Text;
+                LineConfigModified = true;
+            }
+        }
+
+        private void numMaxItemCount_ValueChanged(object sender, EventArgs e)
+        {
+            if (!changing)
+            {
+                lineConfig.SubscriptionOptions.MaxItemCount = Convert.ToInt32(numMaxItemCount.Value);
+                LineConfigModified = true;
+            }
+        }
+
+        private void cbTagNamingMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!changing)
+            {
+                lineConfig.SubscriptionOptions.TagNamingMode = (TagNamingMode)cbTagNamingMode.SelectedIndex;
+                LineConfigModified = true;
+            }
+        }
+
+
         private async void btnConnect_ClickAsync(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(lineConfig.ConnectionOptions.ServerUrl))
@@ -782,11 +851,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         }
 
 
-        private void btnAddItem_Click(object sender, EventArgs e)
-        {
-            AddItem(tvServer.SelectedNode);
-        }
-
         private void btnAddSubscription_Click(object sender, EventArgs e)
         {
             // add a new subscription
@@ -796,6 +860,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 deviceConfig.Subscriptions, subscriptionConfig);
             ctrlSubscription.SetFocus();
             DeviceConfigModified = true;
+        }
+
+        private void btnAddItem_Click(object sender, EventArgs e)
+        {
+            AddItem(tvServer.SelectedNode);
         }
 
         private void btnMoveUpItem_Click(object sender, EventArgs e)
@@ -947,12 +1016,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 if (treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode))
                     selectedNode.Text = GetDisplayName(commandConfig.DisplayName, DriverPhrases.UnnamedCommand);
             }
-        }
-
-        private void btnEditingOptions_Click(object sender, EventArgs e)
-        {
-            if (new FrmEditingOptions(deviceConfig.EditingOptions).ShowDialog() == DialogResult.OK)
-                DeviceConfigModified = true;
         }
 
         private void btnSave_Click(object sender, EventArgs e)

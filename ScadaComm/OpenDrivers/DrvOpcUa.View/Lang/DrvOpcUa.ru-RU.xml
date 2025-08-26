@@ -10,7 +10,7 @@
     <Phrase key="lblDataType">Тип данных</Phrase>
     <Phrase key="chkIsMethod">Метод</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEmptyItem">
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlEmptyItem">
     <Phrase key="gbEmptyItem">Параметры элемента</Phrase>
     <Phrase key="lblNotSelected">Элемент не выбран</Phrase>
   </Dictionary>
@@ -34,10 +34,23 @@
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmDeviceConfig">
     <Phrase key="this">Свойства устройства {0} - OPC UA</Phrase>
+    <Phrase key="pageLine">Линия</Phrase>
+    <Phrase key="pageDevice">Устройство</Phrase>
     <Phrase key="gbConnectionOptions">Параметры соединения</Phrase>
     <Phrase key="lblServerUrl">Адрес сервера</Phrase>
     <Phrase key="btnSecurityOptions.ToolTip">Настройки безопасности</Phrase>
-    <Phrase key="lblConnectionInfo">Параметры соединения общие для линии связи.</Phrase>
+    <Phrase key="lblReconnectIfIdle">Переподключаться при бездействии, с</Phrase>
+    <Phrase key="gbSubscriptionOptions">Параметры подписки</Phrase>
+    <Phrase key="lblCreationMode">Режим создания подписок</Phrase>
+    <Phrase key="cbCreationMode.Items[0]">Вручную</Phrase>
+    <Phrase key="cbCreationMode.Items[1]">На основе каналов</Phrase>
+    <Phrase key="lblTagNamingMode">Именование тегов</Phrase>
+    <Phrase key="cbTagNamingMode.Items[0]">Идентификатор узла</Phrase>
+    <Phrase key="cbTagNamingMode.Items[1]">Наименование</Phrase>
+    <Phrase key="lblNodeIdFormat">Формат идентификаторов узлов</Phrase>
+    <Phrase key="lblNodeIdFormatExample">Например, ns=1;s={0}</Phrase>
+    <Phrase key="lblMaxItemCount">Макс. количество элементов на подписку</Phrase>
+    <Phrase key="lblLineInfo">Параметры на этой странице являются общими для линии связи.</Phrase>
     <Phrase key="gbServerBrowse">Обзор сервера</Phrase>
     <Phrase key="btnConnect.ToolTip">Соединиться с сервером</Phrase>
     <Phrase key="btnDisconnect.ToolTip">Разъединиться с сервером</Phrase>
@@ -65,18 +78,12 @@
     <Phrase key="UnnamedCommand">&lt;Безымянная команда&gt;</Phrase>
     <Phrase key="UnknownDataType">Неизвестный тип данных &quot;{0}&quot;.</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmEditingOptions">
-    <Phrase key="this">Параметры редактирования</Phrase>
-    <Phrase key="lblDefaultTagCode">Код тега по умолчанию</Phrase>
-    <Phrase key="cbDefaultTagCode.Items[0]">Идентификатор узла</Phrase>
-    <Phrase key="cbDefaultTagCode.Items[1]">Наименование</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Отмена</Phrase>
-  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmNodeAttr">
     <Phrase key="this">Атрибуты узла</Phrase>
     <Phrase key="colName">Наименование</Phrase>
     <Phrase key="colValue">Значение</Phrase>
+    <Phrase key="miCopyName">Копировать наименование</Phrase>
+    <Phrase key="miCopyValue">Копировать значение</Phrase>
     <Phrase key="btnClose">Закрыть</Phrase>
     <Phrase key="ReadAttrError">Ошибка при чтении атрибутов с OPC-сервера</Phrase>
   </Dictionary>

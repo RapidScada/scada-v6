@@ -12,19 +12,31 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
     public class MimicInstance
     {
         /// <summary>
-        /// Gets the mimic file name.
+        /// Initializes a new instance of the class.
         /// </summary>
-        public string FileName { get; init; }
+        public MimicInstance(Mimic mimic)
+        {
+            Mimic = mimic ?? throw new ArgumentNullException(nameof(mimic));
+            MimicKey = ScadaUtils.GenerateUniqueID();
+            Updater = new MimicUpdater(mimic);
+            ClientAccessTime = DateTime.UtcNow;
+        }
+
 
         /// <summary>
         /// Gets the mimic model.
         /// </summary>
-        public Mimic Mimic { get; init; }
+        public Mimic Mimic { get; }
 
         /// <summary>
-        /// Gets the mimic key provided by the editor.
+        /// Gets the mimic key.
         /// </summary>
-        public long MimicKey { get; init; }
+        public long MimicKey { get; }
+
+        /// <summary>
+        /// Gets the mimic file name.
+        /// </summary>
+        public string FileName { get; init; }
 
         /// <summary>
         /// Gets the group containing the mimic.
@@ -32,9 +44,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         public MimicGroup ParentGroup { get; init; }
 
         /// <summary>
+        /// Gets the mimic updater.
+        /// </summary>
+        public MimicUpdater Updater { get; }
+
+        /// <summary>
         /// Gets the timestamp when the mimic was accessed by the client.
         /// </summary>
-        public DateTime ClientAccessTime { get; private set; } = DateTime.MinValue;
+        public DateTime ClientAccessTime { get; private set; }
 
 
         /// <summary>

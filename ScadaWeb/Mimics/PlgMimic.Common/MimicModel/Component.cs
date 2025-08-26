@@ -11,33 +11,17 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     /// Represents a component of a mimic diagram.
     /// <para>Представляет компонент мнемосхемы.</para>
     /// </summary>
-    public class Component
+    public sealed class Component : IContainer
     {
-        /// <summary>
-        /// The component properties that are loaded explicitly.
-        /// </summary>
-        protected static readonly HashSet<string> ComponentKnownProperties = ["ID", "Name", "TypeName"];
-
-
         /// <summary>
         /// Gets or sets the component ID that is unique within the mimic.
         /// </summary>
         public int ID { get; set; } = 0;
 
         /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        public string Name { get; set; } = "";
-
-        /// <summary>
         /// Gets or sets the type name.
         /// </summary>
         public string TypeName { get; set; } = "";
-
-        /// <summary>
-        /// Gets or sets the ID of the parent component.
-        /// </summary>
-        public int ParentID { get; set; } = 0;
 
         /// <summary>
         /// Gets the component properties.
@@ -47,49 +31,115 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Gets the component bindings.
         /// </summary>
-        public ComponentBindings Bindings { get; } = new();
+        public ComponentBindings Bindings { get; set; } = null;
 
         /// <summary>
-        /// Gets the component access options.
+        /// Gets or sets the ID of the parent component.
         /// </summary>
-        public ComponentAccess Access { get; } = new();
+        public int ParentID { get; set; } = 0;
 
         /// <summary>
-        /// Gets the properties that are loaded explicitly.
+        /// Gets the parent container.
         /// </summary>
         [JsonIgnore]
-        public virtual HashSet<string> KnownProperties => ComponentKnownProperties;
+        public IContainer Parent { get; set; } = null;
+
+        /// <summary>
+        /// Gets the top-level child components.
+        /// </summary>
+        [JsonIgnore]
+        public List<Component> Components { get; } = [];
 
 
         /// <summary>
-        /// Loads the component from the XML node.
+        /// Loads the component from the XML node. Returns true if the component has been added to the map.
         /// </summary>
-        public virtual void LoadFromXml(XmlNode xmlNode, HashSet<int> componentIDs)
+        public bool LoadFromXml(XmlNode xmlNode, LoadContext loadContext)
         {
             ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
-            ID = xmlNode.GetChildAsInt("ID");
-            Name = xmlNode.GetChildAsString("Name");
+            ArgumentNullException.ThrowIfNull(loadContext, nameof(loadContext));
+
+            ID = xmlNode.GetChildAsInt(KnownProperty.ID);
             TypeName = xmlNode.Name;
 
-            foreach (XmlNode childNode in xmlNode.ChildNodes)
+            if (ID > 0 && loadContext.ComponentIDs.Add(ID))
             {
-                if (!KnownProperties.Contains(childNode.Name))
-                    Properties.LoadProperty(childNode);
+                // load properties
+                foreach (XmlElement childElem in xmlNode.ChildNodes.OfType<XmlElement>())
+                {
+                    if (childElem.Name != KnownProperty.Components)
+                        Properties.LoadProperty(childElem);
+                }
+
+                // load bindings in view mode
+                if (!loadContext.EditMode)
+                {
+                    Bindings = new();
+                    Bindings.LoadFromXml(xmlNode);
+                }
+
+                // load child components
+                if (xmlNode.SelectSingleNode(KnownProperty.Components) is XmlNode componentsNode)
+                {
+                    foreach (XmlNode childNode in componentsNode.ChildNodes)
+                    {
+                        Component component = new();
+
+                        if (component.LoadFromXml(childNode, loadContext))
+                        {
+                            component.ParentID = ID;
+                            component.Parent = this;
+                            Components.Add(component);
+                        }
+                    }
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
         /// <summary>
         /// Saves the component into the XML node.
         /// </summary>
-        public virtual void SaveToXml(XmlNode xmlNode)
+        public void SaveToXml(XmlNode xmlNode)
         {
             ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
-            xmlNode.AppendElem("ID", ID);
-            xmlNode.AppendElem("Name", Name);
+            xmlNode.AppendElem(KnownProperty.ID, ID);
 
-            foreach (KeyValuePair<string, object> kvp in Properties)
+            foreach (KeyValuePair<string, object> kvp in Properties.OrderBy(p => p.Key))
             {
-                ExpandoExtensions.SaveProperty(xmlNode, kvp.Key, kvp.Value);
+                if (!KnownProperty.All.Contains(kvp.Key))
+                    ExpandoExtensions.SaveProperty(xmlNode, kvp.Key, kvp.Value);
+            }
+
+            if (Components.Count > 0)
+            {
+                XmlElement componentsElem = xmlNode.AppendElem(KnownProperty.Components);
+
+                foreach (Component component in Components)
+                {
+                    component.SaveToXml(componentsElem.AppendElem(component.TypeName));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets all child components recursively.
+        /// </summary>
+        public IEnumerable<Component> GetAllChildren()
+        {
+            foreach (Component component in Components)
+            {
+                yield return component;
+
+                foreach (Component childComponent in component.GetAllChildren())
+                {
+                    yield return childComponent;
+                }
             }
         }
     }

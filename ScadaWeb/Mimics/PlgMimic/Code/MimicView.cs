@@ -13,12 +13,16 @@ namespace Scada.Web.Plugins.PlgMimic.Code
     /// </summary>
     public class MimicView : ViewBase
     {
+        private readonly MimicViewArgs viewArgs; // the view arguments
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public MimicView(View viewEntity)
             : base(viewEntity)
         {
+            viewArgs = new MimicViewArgs(Args);
             Mimic = new Mimic();
         }
 
@@ -30,20 +34,24 @@ namespace Scada.Web.Plugins.PlgMimic.Code
 
 
         /// <summary>
+        /// Adds the faceplate to the view resources.
+        /// </summary>
+        private void AddToResources(FaceplateMeta faceplateMeta)
+        {
+            Resources.Add(new ViewResource
+            {
+                TypeCode = faceplateMeta.TypeName,
+                Path = faceplateMeta.Path
+            });
+        }
+
+        /// <summary>
         /// Loads the view from the specified stream.
         /// </summary>
         public override void LoadView(Stream stream)
         {
-            Mimic.Load(stream);
-
-            foreach (FaceplateMeta faceplateMeta in Mimic.Dependencies)
-            {
-                Resources.Add(new ViewResource
-                {
-                    TypeCode = faceplateMeta.TypeName,
-                    Path = faceplateMeta.Path
-                });
-            }
+            Mimic.Load(stream, new LoadContext { EditMode = false });
+            Mimic.Dependencies.ForEach(AddToResources);
         }
 
         /// <summary>
@@ -52,11 +60,32 @@ namespace Scada.Web.Plugins.PlgMimic.Code
         public override void LoadResource(ViewResource resource, Stream stream)
         {
             if (!string.IsNullOrEmpty(resource.TypeCode) &&
-                !Mimic.Faceplates.ContainsKey(resource.TypeCode))
+                !Mimic.FaceplateMap.ContainsKey(resource.TypeCode))
             {
                 Faceplate faceplate = new();
-                faceplate.Load(stream);
-                Mimic.Faceplates.Add(resource.TypeCode, faceplate);
+                faceplate.Load(stream, new LoadContext { EditMode = false });
+                Mimic.FaceplateMap.Add(resource.TypeCode, faceplate);
+
+                foreach (FaceplateMeta dependency in faceplate.Dependencies)
+                {
+                    FaceplateMeta dependencyCopy = dependency.Transit();
+                    Mimic.Dependencies.Add(dependencyCopy);
+                    AddToResources(dependencyCopy);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Builds the view after loading the view itself and all required resources.
+        /// </summary>
+        public override void Build()
+        {
+            // set title in template mode
+            if (viewArgs.TitleCompID > 0 &&
+                Mimic.ComponentMap.TryGetValue(viewArgs.TitleCompID, out Component component) &&
+                component.TypeName == "Text")
+            {
+                component.Properties.SetValue("Text", Title);
             }
         }
 
@@ -65,7 +94,16 @@ namespace Scada.Web.Plugins.PlgMimic.Code
         /// </summary>
         public override void Bind(ConfigDataset configDataset)
         {
-
+            foreach (Component component in Mimic.EnumerateComponents())
+            {
+                if (component.Bindings != null)
+                {
+                    component.Bindings.BindChannels(configDataset);
+                    component.Bindings.OffsetCnlNums(viewArgs.CnlOffset);
+                    component.Bindings.GetAllCnlNums().ForEach(cnlNum =>
+                        AddCnl(configDataset.CnlTable.GetItem(cnlNum)));
+                }
+            }
         }
     }
 }

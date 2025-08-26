@@ -5,7 +5,7 @@
     <Phrase key="spanFitScreenBtn_ToolTip">Ajustar a la pantalla</Phrase>
     <Phrase key="spanFitWidthBtn_ToolTip">Ajustar al ancho</Phrase>
     <Phrase key="spanZoomOutBtn_ToolTip">Disminuir el zoom</Phrase>
-    <Phrase key="spanZoomInBtn_ToolTip">Acercarse</Phrase>
+    <Phrase key="spanZoomInBtn_ToolTip">Acercar</Phrase>
     <Phrase key="spanErrorBadge">Error</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgScheme.Template.TemplateBindings">

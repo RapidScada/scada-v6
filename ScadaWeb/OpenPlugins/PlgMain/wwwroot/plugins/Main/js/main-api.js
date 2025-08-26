@@ -47,7 +47,9 @@ class MainApi {
     // Calls the callback function without any exception.
     _doCallback(callback, dto, methodName) {
         try {
-            callback(dto);
+            if (callback instanceof Function) {
+                callback(dto);
+            }
 
             if (!dto.ok) {
                 console.error(`Error in ${methodName}.`, dto.msg)
@@ -178,7 +180,7 @@ class MainApi {
     }
 
     // Sends the telecontrol command.
-    sendCommand(cnlNum, cmdVal, isHex, cmdData, callback) {
+    sendCommand(cnlNum, cmdVal, isHex, cmdData, opt_callback) {
         fetch(this._getApiRootPath() + "SendCommand", {
             method: "POST",
             headers: {
@@ -192,8 +194,8 @@ class MainApi {
             })
         })
             .then(response => response.ok ? response.json() : Dto.fail(response.statusText))
-            .then(data => this._doCallback(callback, data, "sendCommand"))
-            .catch(error => this._doCallback(callback, Dto.fail(error.message), "sendCommand"));
+            .then(data => this._doCallback(opt_callback, data, "sendCommand"))
+            .catch(error => this._doCallback(opt_callback, Dto.fail(error.message), "sendCommand"));
     }
 
     // Creates a map of current data records accessed by channel number.

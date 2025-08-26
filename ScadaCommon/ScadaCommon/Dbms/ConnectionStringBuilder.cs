@@ -89,7 +89,7 @@ namespace Scada.Dbms
                         options.Server, options.Username, password, options.Database);
 
                 case KnownDBMS.MSSQL:
-                    return string.Format("Server={0};Database={1};User ID={2};Password={3}",
+                    return string.Format("Server={0};Database={1};User ID={2};Password={3};Encrypt=False",
                         options.Server, options.Database, options.Username, password);
 
                 case KnownDBMS.Oracle:

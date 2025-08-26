@@ -21,7 +21,7 @@
     <Phrase key="LoadError">Error al cargar datos</Phrase>
     <Phrase key="Generated">Generado</Phrase>
     <Phrase key="TimeCol">Tiempo</Phrase>
-    <Phrase key="ZoomIn">Acercarse</Phrase>
+    <Phrase key="ZoomIn">Acercar</Phrase>
     <Phrase key="ZoomOut">Disminuir el zoom</Phrase>
     <Phrase key="ResetZoom">Restablecer zoom</Phrase>
   </Dictionary>

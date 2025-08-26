@@ -314,9 +314,19 @@
                 <td>Бит n значения val</td>
             </tr>
             <tr>
-                <td>GetBit(cnlData, val)</td>
+                <td>GetBit(cnlData, n)</td>
                 <td>CnlData</td>
                 <td>Данные канала, состоящие из бита n значения и статуса канала</td>
+            </tr>
+            <tr>
+                <td>GetBits(val, n, len)</td>
+                <td>double</td>
+                <td>Заданные биты указанного значения</td>
+            </tr>
+            <tr>
+                <td>GetBits(cnlData, n, len)</td>
+                <td>CnlData</td>
+                <td>Данные канала, состоящие из заданных бит значения и статуса канала</td>
             </tr>
             <tr>
                 <td>SetBit(val, n, isOn)</td>
@@ -342,6 +352,11 @@
                 <td>SetData()</td>
                 <td>double</td>
                 <td>Устанавливает текущие данные канала в соответствии со значением команды</td>
+            </tr>
+            <tr>
+                <td>GetDefaultData(val)</td>
+                <td>CnlData</td>
+                <td>Данные по умолчанию для расчётного канала</td>
             </tr>
             <tr>
                 <td>Now()</td>

@@ -22,11 +22,16 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         /// The module log file name.
         /// </summary>
         private const string LogFileName = ModuleUtils.ModuleCode + ".log";
+        /// <summary>
+        /// Specifies how often differences between historical and current data should be recalculated.
+        /// </summary>
+        private static readonly TimeSpan RecalcPeriod = TimeSpan.FromSeconds(1);
 
         private readonly LogFile moduleLog;                // the module log
         private readonly ModuleConfig moduleConfig;        // the module configuration
         private readonly List<ChannelGroup> channelGroups; // the processed channel groups
 
+        private bool fatalError;          // normal operation is impossible
         private Thread moduleThread;      // the working thread of the module
         private volatile bool terminated; // necessary to stop the thread
         private CalculationTask calcTask; // the user task to calculate differences
@@ -46,6 +51,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
             moduleConfig = new ModuleConfig();
             channelGroups = [];
 
+            fatalError = false;
             moduleThread = null;
             terminated = false;
             calcTask = null;
@@ -133,14 +139,19 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         /// </summary>
         private void Execute()
         {
+            DateTime recalcTime = DateTime.UtcNow;
+
             while (!terminated)
             {
                 // regular calculation
                 DateTime utcNow = DateTime.UtcNow;
+                ProcessGroups(utcNow);
 
-                foreach (ChannelGroup group in channelGroups)
+                // continually calculation
+                if (utcNow - recalcTime >= RecalcPeriod)
                 {
-                    ProcessGroup(group, utcNow);
+                    recalcTime = utcNow;
+                    ProcessRecalcGroups();
                 }
 
                 // calculation by task
@@ -155,21 +166,46 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         }
 
         /// <summary>
-        /// Performs calculations for the specified channel group, if necessary.
+        /// Performs calculations for all channel groups, if necessary.
         /// </summary>
-        private void ProcessGroup(ChannelGroup group, DateTime utcNow)
+        private void ProcessGroups(DateTime utcNow)
         {
-            try
+            foreach (ChannelGroup group in channelGroups)
             {
-                if (group.IsTimeToCalculate(utcNow, out DateTime timestamp1, out DateTime timestamp2))
-                    CalculateDiffs(group, timestamp1, timestamp2);
+                try
+                {
+                    if (group.IsTimeToCalculate(utcNow, out DateTime timestamp1, out DateTime timestamp2))
+                        CalculateDiff(group, timestamp1, timestamp2);
+                }
+                catch (Exception ex)
+                {
+                    moduleLog.WriteError(ex, Locale.IsRussian ?
+                        "Ошибка при обработке группы \"{0}\"" :
+                        "Error processing \"{0}\" group",
+                        group.GroupConfig.DisplayName);
+                }
             }
-            catch (Exception ex)
+        }
+
+        /// <summary>
+        /// Performs calculations for the channel groups that require continually calculations.
+        /// </summary>
+        private void ProcessRecalcGroups()
+        {
+            foreach (ChannelGroup group in channelGroups)
             {
-                moduleLog.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при обработке группы \"{0}\"" :
-                    "Error processing \"{0}\" group",
-                    group.GroupConfig.DisplayName);
+                try
+                {
+                    if (group.GroupConfig.RecalcDiff)
+                        RecalculateDiff(group);
+                }
+                catch (Exception ex)
+                {
+                    moduleLog.WriteError(ex, Locale.IsRussian ?
+                        "Ошибка при перерасчёте группы \"{0}\"" :
+                        "Error recalculating \"{0}\" group",
+                        group.GroupConfig.DisplayName);
+                }
             }
         }
 
@@ -189,12 +225,16 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
                 {
                     DateTime timestamp1 = group.GetCalculationTime(task.StartDT);
                     DateTime timestamp2 = group.GetNextCalculationTime(timestamp1);
+                    DateTime timestamp1Adj = group.AdjustForDst(timestamp1);
+                    DateTime timestamp2Adj = group.AdjustForDst(timestamp2);
 
-                    while (timestamp2 < task.EndDT)
+                    while (timestamp2Adj < task.EndDT)
                     {
-                        CalculateDiffs(group, timestamp1, timestamp2);
+                        CalculateDiff(group, timestamp1Adj, timestamp2Adj);
                         timestamp1 = timestamp2;
                         timestamp2 = group.GetNextCalculationTime(timestamp2);
+                        timestamp1Adj = timestamp2Adj;
+                        timestamp2Adj = group.AdjustForDst(timestamp2);
                     }
                 }
 
@@ -213,18 +253,43 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         /// <summary>
         /// Calculates differences for the specified channel group.
         /// </summary>
-        private void CalculateDiffs(ChannelGroup group, DateTime timestamp1, DateTime timestamp2)
+        private void CalculateDiff(ChannelGroup group, DateTime timestamp1, DateTime timestamp2)
         {
             moduleLog.WriteAction(Locale.IsRussian ?
                 "Расчёт разностей для группы \"{0}\" на моменты времени {1} и {2}" :
                 "Calculate differences for \"{0}\" group at times {1} and {2}",
                 group.GroupConfig.DisplayName, timestamp1.ToLocalizedString(), timestamp2.ToLocalizedString());
 
-            int archiveBit = group.GroupConfig.ArchiveBit;
-            Slice srcSlice1 = ServerContext.GetSlice(archiveBit, timestamp1, group.SrcCnlNums);
-            Slice srcSlice2 = ServerContext.GetSlice(archiveBit, timestamp2, group.SrcCnlNums);
+            Slice srcSlice1 = group.GetSlice(ServerContext, timestamp1);
+            Slice srcSlice2 = group.GetSlice(ServerContext, timestamp2);
             Slice destSlice = new(timestamp2, group.DestCnlNums);
+            SubtractSlices(srcSlice1, srcSlice2, destSlice);
 
+            int archiveBit = group.GroupConfig.ArchiveBit;
+            int archiveMask = ScadaUtils.SetBit(0, archiveBit, true);
+            ServerContext.WriteHistoricalData(archiveMask, destSlice, WriteDataFlags.Default);
+        }
+
+        /// <summary>
+        /// Calculates differences between historical and current data for the specified channel group.
+        /// </summary>
+        private void RecalculateDiff(ChannelGroup group)
+        {
+            if (group.PrevCalcTime > DateTime.MinValue)
+            {
+                Slice srcSlice1 = group.GetSlice(ServerContext, group.PrevCalcTime);
+                Slice srcSlice2 = ServerContext.GetCurrentData(group.SrcCnlNums, false, out _);
+                Slice destSlice = new(srcSlice2.Timestamp, group.DestCnlNums);
+                SubtractSlices(srcSlice1, srcSlice2, destSlice);
+                ServerContext.WriteCurrentData(destSlice, WriteDataFlags.Default);
+            }
+        }
+
+        /// <summary>
+        /// Subtracts data of the source slices and writes to the destination slice.
+        /// </summary>
+        private static void SubtractSlices(Slice srcSlice1, Slice srcSlice2, Slice destSlice)
+        {
             for (int i = 0; i < srcSlice1.Length; i++)
             {
                 CnlData cnlData1 = srcSlice1.CnlData[i];
@@ -237,9 +302,6 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
                         CnlStatusID.Defined);
                 }
             }
-
-            int archiveMask = ScadaUtils.SetBit(0, archiveBit, true);
-            ServerContext.WriteHistoricalData(archiveMask, destSlice, WriteDataFlags.Default);
         }
 
 
@@ -253,18 +315,26 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
             moduleLog.WriteAction(ServerPhrases.StartModule, Code, Version);
 
             // load configuration
-            if (moduleConfig.Load(Storage, ModuleConfig.DefaultFileName, out string errMsg) &&
-                InitGroups(out errMsg))
+            if (!moduleConfig.Load(Storage, ModuleConfig.DefaultFileName, out string errMsg) ||
+                !InitGroups(out errMsg))
             {
-                // start module thread
-                moduleThread = new Thread(Execute);
-                moduleThread.Start();
-            }
-            else
-            {
+                fatalError = true;
                 Log.WriteError(ServerPhrases.ModuleMessage, Code, errMsg);
                 moduleLog.WriteError(errMsg);
                 moduleLog.WriteError(CommonPhrases.ExecutionImpossible);
+            }
+        }
+
+        /// <summary>
+        /// Performs actions when the service is ready.
+        /// </summary>
+        public override void OnServiceReady()
+        {
+            // start module thread
+            if (!fatalError)
+            {
+                moduleThread = new Thread(Execute);
+                moduleThread.Start();
             }
         }
 

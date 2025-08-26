@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2024
+ * Modified : 2025
  */
 
 using Microsoft.AspNetCore.Authentication;
@@ -103,6 +103,13 @@ namespace Scada.Web.Code
             try
             {
                 result = clientAccessor.ScadaClient.ValidateUser(username, password);
+
+                if (result.IsValid && result.RoleID == RoleID.Application)
+                {
+                    result.IsValid = false;
+                    result.ErrorMessage = WebPhrases.IllegalRole;
+                }
+
                 friendlyError = result.ErrorMessage;
             }
             catch (Exception ex)

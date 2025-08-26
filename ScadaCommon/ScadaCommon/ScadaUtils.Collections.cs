@@ -404,5 +404,24 @@ namespace Scada
                 }
             }
         }
+
+        /// <summary>
+        /// Removes the elements with the specified keys from the dictionary.
+        /// </summary>
+        public static void Remove<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, IEnumerable<TKey> keys)
+        {
+            foreach (TKey key in keys)
+            {
+                dictionary.Remove(key);
+            }
+        }
+
+        /// <summary>
+        /// Swaps the list elements.
+        /// </summary>
+        public static void Swap<T>(this IList<T> list, int index1, int index2)
+        {
+            (list[index1], list[index2]) = (list[index2], list[index1]);
+        }
     }
 }

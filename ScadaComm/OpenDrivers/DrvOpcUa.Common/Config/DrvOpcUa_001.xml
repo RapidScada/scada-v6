@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <OpcDeviceConfig>
-  <EditingOptions>
-    <DefaultTagCode>NodeID</DefaultTagCode>
-  </EditingOptions>
   <Subscriptions>
     <Subscription active="true" displayName="Demo Subscription" publishingInterval="1000">
       <Item active="true" nodeID="ns=3;i=1001" displayName="Counter" tagCode="ns=3;i=1001" dataType="System.Double" isArray="false" />

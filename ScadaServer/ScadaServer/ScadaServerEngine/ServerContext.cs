@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2023
+ * Modified : 2025
  */
 
 using Scada.Config;
@@ -99,6 +99,11 @@ namespace Scada.Server.Engine
         /// </summary>
         public IDictionary<string, object> SharedData => coreLogic.SharedData;
 
+        /// <summary>
+        /// Gets a value indicating whether the Server service is ready.
+        /// </summary>
+        public bool IsReady => coreLogic.IsReady;
+
 
         /// <summary>
         /// Gets the current data of the specified channel.
@@ -119,7 +124,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the current data of the specified channels.
         /// </summary>
-        public CnlData[] GetCurrentData(int[] cnlNums, bool useCache, out long cnlListID)
+        public Slice GetCurrentData(int[] cnlNums, bool useCache, out long cnlListID)
         {
             return coreLogic.GetCurrentData(cnlNums, useCache, out cnlListID);
         }
@@ -127,7 +132,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the current data of the cached channel list.
         /// </summary>
-        public CnlData[] GetCurrentData(long cnlListID)
+        public Slice GetCurrentData(long cnlListID)
         {
             return coreLogic.GetCurrentData(cnlListID);
         }

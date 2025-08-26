@@ -25,7 +25,6 @@ namespace Scada.Web.Plugins.PlgMain.Code
             EventDepth = options.GetValueAsInt("EventDepth", 2);
             MaxReportPeriod = options.GetValueAsInt("MaxReportPeriod", 31);
             CommandPassword = options.GetValueAsBool("CommandPassword");
-            AllowCommandApi = options.GetValueAsBool("AllowCommandApi");
             AllowAuthApi = options.GetValueAsBool("AllowAuthApi");
         }
 
@@ -69,11 +68,6 @@ namespace Scada.Web.Plugins.PlgMain.Code
         /// Gets or sets a value indicating whether a password is required to send a command.
         /// </summary>
         public bool CommandPassword { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether a command can be sent using web API.
-        /// </summary>
-        public bool AllowCommandApi { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether login and logout is allowed using web API.

@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.lbTabs = new System.Windows.Forms.ListBox();
-            this.ctrlDisplayOptions = new Scada.Admin.Extensions.ExtWebConfig.Control.CtrlDisplayOptions();
-            this.ctrlGeneralOptions = new Scada.Admin.Extensions.ExtWebConfig.Control.CtrlGeneralOptions();
-            this.ctrlLoginOptions = new Scada.Admin.Extensions.ExtWebConfig.Control.CtrlLoginOptions();
-            this.ctrlPluginAssignment = new Scada.Admin.Extensions.ExtWebConfig.Control.CtrlPluginAssignment();
-            this.ctrlConnectionOptions = new Scada.Admin.Extensions.ExtWebConfig.Control.CtrlConnectionOptions();
+            this.ctrlDisplayOptions = new Scada.Admin.Extensions.ExtWebConfig.Controls.CtrlDisplayOptions();
+            this.ctrlGeneralOptions = new Scada.Admin.Extensions.ExtWebConfig.Controls.CtrlGeneralOptions();
+            this.ctrlLoginOptions = new Scada.Admin.Extensions.ExtWebConfig.Controls.CtrlLoginOptions();
+            this.ctrlPluginAssignment = new Scada.Admin.Extensions.ExtWebConfig.Controls.CtrlPluginAssignment();
+            this.ctrlConnectionOptions = new Scada.Admin.Extensions.ExtWebConfig.Controls.CtrlConnectionOptions();
             this.SuspendLayout();
             // 
             // lbTabs
@@ -119,10 +119,10 @@
         #endregion
 
         private ListBox lbTabs;
-        private Control.CtrlDisplayOptions ctrlDisplayOptions;
-        private Control.CtrlGeneralOptions ctrlGeneralOptions;
-        private Control.CtrlLoginOptions ctrlLoginOptions;
-        private Control.CtrlPluginAssignment ctrlPluginAssignment;
-        private Control.CtrlConnectionOptions ctrlConnectionOptions;
+        private Controls.CtrlDisplayOptions ctrlDisplayOptions;
+        private Controls.CtrlGeneralOptions ctrlGeneralOptions;
+        private Controls.CtrlLoginOptions ctrlLoginOptions;
+        private Controls.CtrlPluginAssignment ctrlPluginAssignment;
+        private Controls.CtrlConnectionOptions ctrlConnectionOptions;
     }
 }

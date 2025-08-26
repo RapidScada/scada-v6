@@ -7,5 +7,12 @@
     <AuthenticationMode>Anonymous</AuthenticationMode>
     <Username />
     <Password />
+    <ReconnectIfIdle>60</ReconnectIfIdle>
   </ConnectionOptions>
+  <SubscriptionOptions>
+    <CreationMode>Manual</CreationMode>
+    <TagNamingMode>NodeID</TagNamingMode>
+    <NodeIdFormat></NodeIdFormat>
+    <MaxItemCount>1000</MaxItemCount>
+  </SubscriptionOptions>
 </OpcLineConfig>

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2023
+ * Modified : 2025
  */
 
 using Microsoft.Extensions.Caching.Memory;
@@ -187,12 +187,17 @@ namespace Scada.Web.Code
             // load resources
             if (view.Resources != null)
             {
-                foreach (ViewResource resource in view.Resources)
+                int index = 0;
+
+                while (index < view.Resources.Count)
                 {
+                    ViewResource resource = view.Resources[index];
+                    index++;
+
                     if (resource != null)
                     {
                         using BinaryReader reader = webContext.Storage.OpenBinary(DataCategory.View, resource.Path);
-                        view.LoadResource(resource, reader.BaseStream);
+                        view.LoadResource(resource, reader.BaseStream); // more resources may be added to the list
                     }
                 }
             }
@@ -215,8 +220,13 @@ namespace Scada.Web.Code
             // load resources
             if (view.Resources != null)
             {
-                foreach (ViewResource resource in view.Resources)
+                int index = 0;
+
+                while (index < view.Resources.Count)
                 {
+                    ViewResource resource = view.Resources[index];
+                    index++;
+
                     if (resource != null)
                     {
                         using MemoryStream memoryStream = new();

@@ -27,7 +27,7 @@ namespace Scada.Web.Plugins.PlgMimic.Code
         /// <summary>
         /// Gets the view type.
         /// </summary>
-        public override Type ViewType => typeof(TypeCode);
+        public override Type ViewType => typeof(MimicView);
 
 
         /// <summary>

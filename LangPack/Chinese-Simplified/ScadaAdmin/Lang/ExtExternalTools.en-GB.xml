@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ExtExternalToolsDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtExternalTools.Forms.FrmExtensionConfig">
+    <Phrase key="this">外部工具</Phrase>
+    <Phrase key="btnAdd">新增</Phrase>
+    <Phrase key="btnMoveUp">上移</Phrase>
+    <Phrase key="btnMoveDown">下移</Phrase>
+    <Phrase key="btnDelete">删除</Phrase>
+    <Phrase key="gbTool">选择的工具</Phrase>
+    <Phrase key="lblTitle">标题</Phrase>
+    <Phrase key="lblFileName">可执行文件</Phrase>
+    <Phrase key="lblArguments">参数</Phrase>
+    <Phrase key="lblWorkingDirectory">工作路径</Phrase>
+    <Phrase key="miProjectFileName">工程文件名</Phrase>
+    <Phrase key="miItemFileName">子项文件名</Phrase>
+    <Phrase key="UnnamedTool">&lt;未命名工具&gt;</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtExternalTools.ExtExternalToolsLogic">
+    <Phrase key="ParentMenuItem">外部工具</Phrase>
+    <Phrase key="ExecutableNotFound">未找到工具可执行文件。</Phrase>
+    <Phrase key="UndefinedArgs">工具参数未定义。</Phrase>
+    <Phrase key="StartToolError">启动工具错误</Phrase>
+  </Dictionary>
+</ExtExternalToolsDictionaries>

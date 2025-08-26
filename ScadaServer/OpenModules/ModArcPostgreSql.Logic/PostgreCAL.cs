@@ -11,6 +11,7 @@ using Scada.Server.Config;
 using Scada.Server.Lang;
 using Scada.Server.Modules.ModArcPostgreSql.Config;
 using System.Diagnostics;
+using static Scada.Server.Archives.ArchiveUtils;
 
 namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 {
@@ -74,13 +75,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// <summary>
         /// Gets the current archive status as text.
         /// </summary>
-        public override string StatusText
-        {
-            get
-            {
-                return GetStatusText(pointQueue?.Stats, pointQueue?.Count);
-            }
-        }
+        public override string StatusText =>
+            GetStatusText(IsReady, pointQueue?.Stats, pointQueue?.Count);
 
 
         /// <summary>
@@ -135,7 +131,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             // prepare database
             connOptions = options.UseDefaultConn
-                ? ArchiveContext.InstanceConfig.Connection
+                ? ArchiveContext.InstanceConfig.GetDefaultConnectionOptions()
                 : moduleConfig.GetConnectionOptions(options.Connection);
             readingConn = DbUtils.CreateDbConnection(connOptions);
 
@@ -288,7 +284,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             lock (writingLock)
             {
                 Stopwatch stopwatch = Stopwatch.StartNew();
-                InitCnlIndexes(curData, ref cnlIndexes);
+                InitCnlIndexes(curData, CnlNums, ref cnlIndexes);
                 int addedCnt = 0;
                 int lostCnt = 0;
 

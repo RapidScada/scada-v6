@@ -44,6 +44,12 @@ namespace Scada.Server.Archives
 
 
         /// <summary>
+        /// Gets the archive options.
+        /// </summary>
+        protected virtual CurrentArchiveOptions ArchiveOptions => null;
+
+
+        /// <summary>
         /// Reads the current data.
         /// </summary>
         public abstract void ReadData(ICurrentData curData, out bool completed);

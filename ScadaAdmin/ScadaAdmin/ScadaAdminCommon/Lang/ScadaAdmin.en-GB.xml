@@ -488,10 +488,12 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmFileNew">
     <Phrase key="this">New File</Phrase>
-    <Phrase key="lbFileType.Items[0]">Scheme View</Phrase>
-    <Phrase key="lbFileType.Items[1]">Table View</Phrase>
-    <Phrase key="lbFileType.Items[2]">Text File</Phrase>
-    <Phrase key="lbFileType.Items[3]">XML File</Phrase>
+    <Phrase key="lbFileType.Items[0]">Scheme Classic</Phrase>
+    <Phrase key="lbFileType.Items[1]">Mimic Diagram (experimental)</Phrase>
+    <Phrase key="lbFileType.Items[2]">Faceplate (experimental)</Phrase>
+    <Phrase key="lbFileType.Items[3]">Table View</Phrase>
+    <Phrase key="lbFileType.Items[4]">XML File</Phrase>
+    <Phrase key="lbFileType.Items[5]">Text File</Phrase>
     <Phrase key="lblFileName">File name</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
@@ -625,6 +627,12 @@
     <Phrase key="ProjectAlreadyExists">A project with the same name already exists.</Phrase>
     <Phrase key="ProjectTemplateEmpty">Creating a project without a template is not recommended. Continue?</Phrase>
     <Phrase key="ProjectTemplateNotFound">The project template not found.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.FrmProjectProps">
+    <Phrase key="this">Project Properties</Phrase>
+    <Phrase key="lblName">Project name</Phrase>
+    <Phrase key="lblVersion">Version</Phrase>
+    <Phrase key="lblDescr">Description</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmStartPage">
     <Phrase key="this">Start Page</Phrase>

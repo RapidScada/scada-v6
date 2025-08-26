@@ -14,7 +14,7 @@ class ModalButton {
     static OK_CANCEL = [ModalButton.OK, ModalButton.CANCEL];
     static YES_NO_CANCEL = [ModalButton.YES, ModalButton.NO, ModalButton.CANCEL];
     static EXEC_CLOSE = [ModalButton.EXEC, ModalButton.CLOSE];
-};
+}
 
 // Specifies the sizes of a modal dialog.
 class ModalSize {
@@ -22,7 +22,7 @@ class ModalSize {
     static SMALL = 1;
     static LARGE = 2;
     static EXTRA_LARGE = 3;
-};
+}
 
 // Represents modal dialog options.
 class ModalOptions {

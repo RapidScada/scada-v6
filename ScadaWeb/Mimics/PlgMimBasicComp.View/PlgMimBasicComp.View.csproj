@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <RootNamespace>Scada.Web.Plugins.PlgMimBasicComp.View</RootNamespace>
+    <Authors>Mikhail Shiryaev</Authors>
+    <Company>Rapid Software LLC</Company>
+    <Product>Rapid SCADA</Product>
+    <Copyright>Copyright © 2025</Copyright>
+    <Version>6.0.0</Version>
+    <AssemblyVersion>6.0.0.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="ScadaCommon">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaWebCommon.Subset">
+      <HintPath>..\..\ScadaWeb\ScadaWebCommon.Subset\bin\Release\net8.0\ScadaWebCommon.Subset.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Import Project="..\PlgMimBasicComp.Shared\PlgMimBasicComp.Shared.projitems" Label="Shared" />
+
+</Project>

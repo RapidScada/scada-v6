@@ -28,191 +28,188 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.gbCommand = new System.Windows.Forms.GroupBox();
-            this.chkIsMethod = new System.Windows.Forms.CheckBox();
-            this.lblDataType = new System.Windows.Forms.Label();
-            this.txtParentNodeID = new System.Windows.Forms.TextBox();
-            this.lblParentNodeID = new System.Windows.Forms.Label();
-            this.txtNodeID = new System.Windows.Forms.TextBox();
-            this.lblNodeID = new System.Windows.Forms.Label();
-            this.numCmdNum = new System.Windows.Forms.NumericUpDown();
-            this.lblCmdNum = new System.Windows.Forms.Label();
-            this.txtCmdCode = new System.Windows.Forms.TextBox();
-            this.lblCmdCode = new System.Windows.Forms.Label();
-            this.txtDisplayName = new System.Windows.Forms.TextBox();
-            this.lblDisplayName = new System.Windows.Forms.Label();
-            this.pbDataTypeWarning = new System.Windows.Forms.PictureBox();
-            this.cbDataType = new System.Windows.Forms.ComboBox();
-            this.gbCommand.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numCmdNum)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbDataTypeWarning)).BeginInit();
-            this.SuspendLayout();
+            gbCommand = new GroupBox();
+            chkIsMethod = new CheckBox();
+            pbDataTypeWarning = new PictureBox();
+            cbDataType = new ComboBox();
+            lblDataType = new Label();
+            txtParentNodeID = new TextBox();
+            lblParentNodeID = new Label();
+            txtNodeID = new TextBox();
+            lblNodeID = new Label();
+            numCmdNum = new NumericUpDown();
+            lblCmdNum = new Label();
+            txtCmdCode = new TextBox();
+            lblCmdCode = new Label();
+            txtDisplayName = new TextBox();
+            lblDisplayName = new Label();
+            gbCommand.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbDataTypeWarning).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numCmdNum).BeginInit();
+            SuspendLayout();
             // 
             // gbCommand
             // 
-            this.gbCommand.Controls.Add(this.chkIsMethod);
-            this.gbCommand.Controls.Add(this.pbDataTypeWarning);
-            this.gbCommand.Controls.Add(this.cbDataType);
-            this.gbCommand.Controls.Add(this.lblDataType);
-            this.gbCommand.Controls.Add(this.txtParentNodeID);
-            this.gbCommand.Controls.Add(this.lblParentNodeID);
-            this.gbCommand.Controls.Add(this.txtNodeID);
-            this.gbCommand.Controls.Add(this.lblNodeID);
-            this.gbCommand.Controls.Add(this.numCmdNum);
-            this.gbCommand.Controls.Add(this.lblCmdNum);
-            this.gbCommand.Controls.Add(this.txtCmdCode);
-            this.gbCommand.Controls.Add(this.lblCmdCode);
-            this.gbCommand.Controls.Add(this.txtDisplayName);
-            this.gbCommand.Controls.Add(this.lblDisplayName);
-            this.gbCommand.Location = new System.Drawing.Point(0, 0);
-            this.gbCommand.Name = "gbCommand";
-            this.gbCommand.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbCommand.Size = new System.Drawing.Size(250, 500);
-            this.gbCommand.TabIndex = 0;
-            this.gbCommand.TabStop = false;
-            this.gbCommand.Text = "Command Parameters";
+            gbCommand.Controls.Add(chkIsMethod);
+            gbCommand.Controls.Add(pbDataTypeWarning);
+            gbCommand.Controls.Add(cbDataType);
+            gbCommand.Controls.Add(lblDataType);
+            gbCommand.Controls.Add(txtParentNodeID);
+            gbCommand.Controls.Add(lblParentNodeID);
+            gbCommand.Controls.Add(txtNodeID);
+            gbCommand.Controls.Add(lblNodeID);
+            gbCommand.Controls.Add(numCmdNum);
+            gbCommand.Controls.Add(lblCmdNum);
+            gbCommand.Controls.Add(txtCmdCode);
+            gbCommand.Controls.Add(lblCmdCode);
+            gbCommand.Controls.Add(txtDisplayName);
+            gbCommand.Controls.Add(lblDisplayName);
+            gbCommand.Dock = DockStyle.Fill;
+            gbCommand.Location = new Point(0, 0);
+            gbCommand.Name = "gbCommand";
+            gbCommand.Padding = new Padding(10, 3, 10, 10);
+            gbCommand.Size = new Size(250, 500);
+            gbCommand.TabIndex = 0;
+            gbCommand.TabStop = false;
+            gbCommand.Text = "Command Parameters";
             // 
             // chkIsMethod
             // 
-            this.chkIsMethod.AutoSize = true;
-            this.chkIsMethod.Enabled = false;
-            this.chkIsMethod.Location = new System.Drawing.Point(13, 286);
-            this.chkIsMethod.Name = "chkIsMethod";
-            this.chkIsMethod.Size = new System.Drawing.Size(79, 19);
-            this.chkIsMethod.TabIndex = 12;
-            this.chkIsMethod.Text = "Is method";
-            this.chkIsMethod.UseVisualStyleBackColor = true;
-            // 
-            // lblDataType
-            // 
-            this.lblDataType.AutoSize = true;
-            this.lblDataType.Location = new System.Drawing.Point(10, 239);
-            this.lblDataType.Name = "lblDataType";
-            this.lblDataType.Size = new System.Drawing.Size(57, 15);
-            this.lblDataType.TabIndex = 10;
-            this.lblDataType.Text = "Data type";
-            // 
-            // txtParentNodeID
-            // 
-            this.txtParentNodeID.Location = new System.Drawing.Point(13, 213);
-            this.txtParentNodeID.Name = "txtParentNodeID";
-            this.txtParentNodeID.ReadOnly = true;
-            this.txtParentNodeID.Size = new System.Drawing.Size(224, 23);
-            this.txtParentNodeID.TabIndex = 9;
-            // 
-            // lblParentNodeID
-            // 
-            this.lblParentNodeID.AutoSize = true;
-            this.lblParentNodeID.Location = new System.Drawing.Point(10, 195);
-            this.lblParentNodeID.Name = "lblParentNodeID";
-            this.lblParentNodeID.Size = new System.Drawing.Size(85, 15);
-            this.lblParentNodeID.TabIndex = 8;
-            this.lblParentNodeID.Text = "Parent node ID";
-            // 
-            // txtNodeID
-            // 
-            this.txtNodeID.Location = new System.Drawing.Point(13, 169);
-            this.txtNodeID.Name = "txtNodeID";
-            this.txtNodeID.ReadOnly = true;
-            this.txtNodeID.Size = new System.Drawing.Size(224, 23);
-            this.txtNodeID.TabIndex = 7;
-            // 
-            // lblNodeID
-            // 
-            this.lblNodeID.AutoSize = true;
-            this.lblNodeID.Location = new System.Drawing.Point(10, 151);
-            this.lblNodeID.Name = "lblNodeID";
-            this.lblNodeID.Size = new System.Drawing.Size(50, 15);
-            this.lblNodeID.TabIndex = 6;
-            this.lblNodeID.Text = "Node ID";
-            // 
-            // numCmdNum
-            // 
-            this.numCmdNum.Location = new System.Drawing.Point(13, 125);
-            this.numCmdNum.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.numCmdNum.Name = "numCmdNum";
-            this.numCmdNum.Size = new System.Drawing.Size(120, 23);
-            this.numCmdNum.TabIndex = 5;
-            this.numCmdNum.ValueChanged += new System.EventHandler(this.numCmdNum_ValueChanged);
-            // 
-            // lblCmdNum
-            // 
-            this.lblCmdNum.AutoSize = true;
-            this.lblCmdNum.Location = new System.Drawing.Point(10, 107);
-            this.lblCmdNum.Name = "lblCmdNum";
-            this.lblCmdNum.Size = new System.Drawing.Size(109, 15);
-            this.lblCmdNum.TabIndex = 4;
-            this.lblCmdNum.Text = "Command number";
-            // 
-            // txtCmdCode
-            // 
-            this.txtCmdCode.Location = new System.Drawing.Point(13, 81);
-            this.txtCmdCode.Name = "txtCmdCode";
-            this.txtCmdCode.Size = new System.Drawing.Size(224, 23);
-            this.txtCmdCode.TabIndex = 3;
-            this.txtCmdCode.TextChanged += new System.EventHandler(this.txtCmdCode_TextChanged);
-            // 
-            // lblCmdCode
-            // 
-            this.lblCmdCode.AutoSize = true;
-            this.lblCmdCode.Location = new System.Drawing.Point(10, 63);
-            this.lblCmdCode.Name = "lblCmdCode";
-            this.lblCmdCode.Size = new System.Drawing.Size(93, 15);
-            this.lblCmdCode.TabIndex = 2;
-            this.lblCmdCode.Text = "Command code";
-            // 
-            // txtDisplayName
-            // 
-            this.txtDisplayName.Location = new System.Drawing.Point(13, 37);
-            this.txtDisplayName.Name = "txtDisplayName";
-            this.txtDisplayName.Size = new System.Drawing.Size(224, 23);
-            this.txtDisplayName.TabIndex = 1;
-            this.txtDisplayName.TextChanged += new System.EventHandler(this.txtDisplayName_TextChanged);
-            // 
-            // lblDisplayName
-            // 
-            this.lblDisplayName.AutoSize = true;
-            this.lblDisplayName.Location = new System.Drawing.Point(10, 19);
-            this.lblDisplayName.Name = "lblDisplayName";
-            this.lblDisplayName.Size = new System.Drawing.Size(78, 15);
-            this.lblDisplayName.TabIndex = 0;
-            this.lblDisplayName.Text = "Display name";
+            chkIsMethod.AutoSize = true;
+            chkIsMethod.Enabled = false;
+            chkIsMethod.Location = new Point(13, 286);
+            chkIsMethod.Name = "chkIsMethod";
+            chkIsMethod.Size = new Size(79, 19);
+            chkIsMethod.TabIndex = 12;
+            chkIsMethod.Text = "Is method";
+            chkIsMethod.UseVisualStyleBackColor = true;
             // 
             // pbDataTypeWarning
             // 
-            this.pbDataTypeWarning.BackColor = System.Drawing.SystemColors.Window;
-            this.pbDataTypeWarning.Image = global::Scada.Comm.Drivers.DrvOpcUa.View.Properties.Resources.warning;
-            this.pbDataTypeWarning.Location = new System.Drawing.Point(201, 260);
-            this.pbDataTypeWarning.Name = "pbDataTypeWarning";
-            this.pbDataTypeWarning.Size = new System.Drawing.Size(16, 16);
-            this.pbDataTypeWarning.TabIndex = 19;
-            this.pbDataTypeWarning.TabStop = false;
+            pbDataTypeWarning.BackColor = SystemColors.Window;
+            pbDataTypeWarning.Image = Properties.Resources.warning;
+            pbDataTypeWarning.Location = new Point(201, 260);
+            pbDataTypeWarning.Name = "pbDataTypeWarning";
+            pbDataTypeWarning.Size = new Size(16, 16);
+            pbDataTypeWarning.TabIndex = 19;
+            pbDataTypeWarning.TabStop = false;
             // 
             // cbDataType
             // 
-            this.cbDataType.FormattingEnabled = true;
-            this.cbDataType.Location = new System.Drawing.Point(13, 257);
-            this.cbDataType.Name = "cbDataType";
-            this.cbDataType.Size = new System.Drawing.Size(224, 23);
-            this.cbDataType.TabIndex = 11;
-            this.cbDataType.TextChanged += new System.EventHandler(this.cbDataType_TextChanged);
+            cbDataType.FormattingEnabled = true;
+            cbDataType.Location = new Point(13, 257);
+            cbDataType.Name = "cbDataType";
+            cbDataType.Size = new Size(224, 23);
+            cbDataType.TabIndex = 11;
+            cbDataType.TextChanged += cbDataType_TextChanged;
+            // 
+            // lblDataType
+            // 
+            lblDataType.AutoSize = true;
+            lblDataType.Location = new Point(10, 239);
+            lblDataType.Name = "lblDataType";
+            lblDataType.Size = new Size(57, 15);
+            lblDataType.TabIndex = 10;
+            lblDataType.Text = "Data type";
+            // 
+            // txtParentNodeID
+            // 
+            txtParentNodeID.Location = new Point(13, 213);
+            txtParentNodeID.Name = "txtParentNodeID";
+            txtParentNodeID.ReadOnly = true;
+            txtParentNodeID.Size = new Size(224, 23);
+            txtParentNodeID.TabIndex = 9;
+            // 
+            // lblParentNodeID
+            // 
+            lblParentNodeID.AutoSize = true;
+            lblParentNodeID.Location = new Point(10, 195);
+            lblParentNodeID.Name = "lblParentNodeID";
+            lblParentNodeID.Size = new Size(85, 15);
+            lblParentNodeID.TabIndex = 8;
+            lblParentNodeID.Text = "Parent node ID";
+            // 
+            // txtNodeID
+            // 
+            txtNodeID.Location = new Point(13, 169);
+            txtNodeID.Name = "txtNodeID";
+            txtNodeID.ReadOnly = true;
+            txtNodeID.Size = new Size(224, 23);
+            txtNodeID.TabIndex = 7;
+            // 
+            // lblNodeID
+            // 
+            lblNodeID.AutoSize = true;
+            lblNodeID.Location = new Point(10, 151);
+            lblNodeID.Name = "lblNodeID";
+            lblNodeID.Size = new Size(50, 15);
+            lblNodeID.TabIndex = 6;
+            lblNodeID.Text = "Node ID";
+            // 
+            // numCmdNum
+            // 
+            numCmdNum.Location = new Point(13, 125);
+            numCmdNum.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
+            numCmdNum.Name = "numCmdNum";
+            numCmdNum.Size = new Size(120, 23);
+            numCmdNum.TabIndex = 5;
+            numCmdNum.ValueChanged += numCmdNum_ValueChanged;
+            // 
+            // lblCmdNum
+            // 
+            lblCmdNum.AutoSize = true;
+            lblCmdNum.Location = new Point(10, 107);
+            lblCmdNum.Name = "lblCmdNum";
+            lblCmdNum.Size = new Size(109, 15);
+            lblCmdNum.TabIndex = 4;
+            lblCmdNum.Text = "Command number";
+            // 
+            // txtCmdCode
+            // 
+            txtCmdCode.Location = new Point(13, 81);
+            txtCmdCode.Name = "txtCmdCode";
+            txtCmdCode.Size = new Size(224, 23);
+            txtCmdCode.TabIndex = 3;
+            txtCmdCode.TextChanged += txtCmdCode_TextChanged;
+            // 
+            // lblCmdCode
+            // 
+            lblCmdCode.AutoSize = true;
+            lblCmdCode.Location = new Point(10, 63);
+            lblCmdCode.Name = "lblCmdCode";
+            lblCmdCode.Size = new Size(93, 15);
+            lblCmdCode.TabIndex = 2;
+            lblCmdCode.Text = "Command code";
+            // 
+            // txtDisplayName
+            // 
+            txtDisplayName.Location = new Point(13, 37);
+            txtDisplayName.Name = "txtDisplayName";
+            txtDisplayName.Size = new Size(224, 23);
+            txtDisplayName.TabIndex = 1;
+            txtDisplayName.TextChanged += txtDisplayName_TextChanged;
+            // 
+            // lblDisplayName
+            // 
+            lblDisplayName.AutoSize = true;
+            lblDisplayName.Location = new Point(10, 19);
+            lblDisplayName.Name = "lblDisplayName";
+            lblDisplayName.Size = new Size(78, 15);
+            lblDisplayName.TabIndex = 0;
+            lblDisplayName.Text = "Display name";
             // 
             // CtrlCommand
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.gbCommand);
-            this.Name = "CtrlCommand";
-            this.Size = new System.Drawing.Size(250, 500);
-            this.gbCommand.ResumeLayout(false);
-            this.gbCommand.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numCmdNum)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbDataTypeWarning)).EndInit();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(gbCommand);
+            Name = "CtrlCommand";
+            Size = new Size(250, 500);
+            gbCommand.ResumeLayout(false);
+            gbCommand.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbDataTypeWarning).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numCmdNum).EndInit();
+            ResumeLayout(false);
 
         }
 

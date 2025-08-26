@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2023
+ * Modified : 2025
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -42,6 +42,7 @@ namespace Scada.Web.Lang
 
         // Scada.Web
         public static string CorrectErrors { get; private set; }
+        public static string IllegalRole { get; private set; }
         public static string ClientError { get; private set; }
         public static string UnknownUsername { get; private set; }
         public static string AccessDenied { get; private set; }
@@ -92,6 +93,7 @@ namespace Scada.Web.Lang
             // load phrases from dictionaries
             LocaleDict dict = Locale.GetDictionary("Scada.Web");
             CorrectErrors = dict[nameof(CorrectErrors)];
+            IllegalRole = dict[nameof(IllegalRole)];
             ClientError = dict[nameof(ClientError)];
             UnknownUsername = dict[nameof(UnknownUsername)];
             AccessDenied = dict[nameof(AccessDenied)];

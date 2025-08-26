@@ -1,30 +1,48 @@
 ﻿@{
     dynamic dict = Locale.GetDictionary(typeof(MimicEditModel).FullName + ".ToolbarContents");
 }
-<button type="button" 
-id="btnSave" class="btn btn-outline-primary btn-sm" title="@dict.btnSave"><i class="fa-regular fa-floppy-disk"></i></button><span class="splitter"></span><button type="button" 
-id="btnUndo" class="btn btn-outline-primary btn-sm" title="@dict.btnUndo"><i class="fa-solid fa-arrow-rotate-left"></i></button><button type="button" 
-id="btnRedo" class="btn btn-outline-primary btn-sm" title="@dict.btnRedo"><i class="fa-solid fa-arrow-rotate-right"></i></button><span class="splitter"></span><button type="button" 
-id="btnCut" class="btn btn-outline-primary btn-sm" title="@dict.btnCut"><i class="fa-solid fa-scissors"></i></button><button type="button"
-id="btnCopy" class="btn btn-outline-primary btn-sm" title="@dict.btnCopy"><i class="fa-solid fa-copy"></i></button><button type="button" 
-id="btnPaste" class="btn btn-outline-primary btn-sm" title="@dict.btnPaste"><i class="fa-regular fa-paste"></i></button><button type="button" 
-id="btnDelete" class="btn btn-outline-primary btn-sm" title="@dict.btnDelete"><i class="fa-regular fa-trash-can"></i></button><span class="splitter"></span><button type="button" 
-id="btnPointer" class="btn btn-outline-primary btn-sm" title="@dict.btnPointer"><i class="fa-solid fa-arrow-pointer"></i></button><div class="dropdown d-inline-block">
+<!--
+--><span class="wrapper" title="@dict.btnReload"><button type="button" id="btnReload" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-rotate"></i></button></span><!--
+--><span class="wrapper" title="@dict.btnSave"><button type="button" id="btnSave" class="btn btn-outline-primary btn-sm"><i class="fa-regular fa-floppy-disk"></i></button></span><!--
+--><span class="splitter"></span><!--
+--><span class="wrapper" title="@dict.btnUndo"><button type="button" id="btnUndo" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-rotate-left"></i></button></span><!--
+--><span class="wrapper" title="@dict.btnRedo"><button type="button" id="btnRedo" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-rotate-right"></i></button></span><!--
+--><span class="splitter"></span><!--
+--><span class="wrapper" title="@dict.btnCut"><button type="button" id="btnCut" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-scissors"></i></button></span><!--
+--><span class="wrapper" title="@dict.btnCopy"><button type="button" id="btnCopy" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-copy"></i></button></span><!--
+--><span class="wrapper" title="@dict.btnPaste"><button type="button" id="btnPaste" class="btn btn-outline-primary btn-sm"><i class="fa-regular fa-paste"></i></button></span><!--
+--><span class="wrapper" title="@dict.btnRemove"><button type="button" id="btnRemove" class="btn btn-outline-primary btn-sm"><i class="fa-regular fa-trash-can"></i></button></span><!--
+--><span class="splitter"></span><!--
+--><span class="wrapper" title="@dict.btnPointer"><button type="button" id="btnPointer" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-pointer"></i></button></span><!--
+--><div class="dropdown d-inline-block">
     <button type="button" id="btnAlign" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" title="@dict.btnAlign"><i class="fa-solid fa-align-left"></i></button>
     <ul class="dropdown-menu">
-        <li><button id="btnAlignLefts" class="dropdown-item" href="#">@dict.btnAlignLefts</button></li>
-        <li><button id="btnAlignCenters" class="dropdown-item" href="#">@dict.btnAlignCenters</button></li>
-        <li><button id="btnAlignRights" class="dropdown-item" href="#">@dict.btnAlignRights</button></li>
+        <li><button id="btnAlignLefts" class="dropdown-item rs-btn-align" data-action="align-lefts">@dict.btnAlignLefts</button></li>
+        <li><button id="btnAlignCenters" class="dropdown-item rs-btn-align" data-action="align-centers">@dict.btnAlignCenters</button></li>
+        <li><button id="btnAlignRights" class="dropdown-item rs-btn-align" data-action="align-rights">@dict.btnAlignRights</button></li>
         <li><hr class="dropdown-divider"></li>
-        <li><button id="btnAlignTops" class="dropdown-item" href="#">@dict.btnAlignTops</button></li>
-        <li><button id="btnAlignMiddles" class="dropdown-item" href="#">@dict.btnAlignMiddles</button></li>
-        <li><button id="btnAlignBottoms" class="dropdown-item" href="#">@dict.btnAlignBottoms</button></li>
+        <li><button id="btnAlignTops" class="dropdown-item rs-btn-align" data-action="align-tops">@dict.btnAlignTops</button></li>
+        <li><button id="btnAlignMiddles" class="dropdown-item rs-btn-align" data-action="align-middles">@dict.btnAlignMiddles</button></li>
+        <li><button id="btnAlignBottoms" class="dropdown-item rs-btn-align" data-action="align-bottoms">@dict.btnAlignBottoms</button></li>
         <li><hr class="dropdown-divider"></li>
-        <li><button id="btnMakeSameWidth" class="dropdown-item" href="#">@dict.btnMakeSameWidth</button></li>
-        <li><button id="btnMakeSameHeight" class="dropdown-item" href="#">@dict.btnMakeSameHeight</button></li>
-        <li><button id="btnMakeSameSize" class="dropdown-item" href="#">@dict.btnMakeSameSize</button></li>
+        <li><button id="btnSameWidth" class="dropdown-item rs-btn-align" data-action="same-width">@dict.btnSameWidth</button></li>
+        <li><button id="btnSameHeight" class="dropdown-item rs-btn-align" data-action="same-height">@dict.btnSameHeight</button></li>
+        <li><button id="btnSameSize" class="dropdown-item rs-btn-align" data-action="same-size">@dict.btnSameSize</button></li>
         <li><hr class="dropdown-divider"></li>
-        <li><button id="btnMakeHorizontalSpacingEqual" class="dropdown-item" href="#">@dict.btnMakeHorizontalSpacingEqual</button></li>
-        <li><button id="btnMakeVerticalSpacingEqual" class="dropdown-item" href="#">@dict.btnMakeVerticalSpacingEqual</button></li>
+        <li><button id="btnHorSpacing" class="dropdown-item rs-btn-align" data-action="hor-spacing">@dict.btnHorSpacing</button></li>
+        <li><button id="btnVertSpacing" class="dropdown-item rs-btn-align" data-action="vert-spacing">@dict.btnVertSpacing</button></li>
+    </ul>
+</div><!--
+--><div class="dropdown d-inline-block">
+    <button type="button" id="btnArrange" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" title="@dict.btnArrange"><i class="fa-solid fa-layer-group"></i></button>
+    <ul class="dropdown-menu">
+        <li><button id="btnSendToBack" class="dropdown-item rs-btn-arrange" data-action="send-to-back">@dict.btnSendToBack</button></li>
+        <li><button id="btnSendBackward" class="dropdown-item rs-btn-arrange" data-action="send-backward">@dict.btnSendBackward</button></li>
+        <li><button id="btnBringForward" class="dropdown-item rs-btn-arrange" data-action="bring-forward">@dict.btnBringForward</button></li>
+        <li><button id="btnBringToFront" class="dropdown-item rs-btn-arrange" data-action="bring-to-front">@dict.btnBringToFront</button></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><button id="btnPlaceBefore" class="dropdown-item rs-btn-arrange" data-action="place-before">@dict.btnPlaceBefore</button></li>
+        <li><button id="btnPlaceAfter" class="dropdown-item rs-btn-arrange" data-action="place-after">@dict.btnPlaceAfter</button></li>
+        <li><button id="btnSelectParent" class="dropdown-item rs-btn-arrange" data-action="select-parent">@dict.btnSelectParent</button></li>
     </ul>
 </div>

@@ -1,26 +1,95 @@
-﻿$component-selected-color: lime;
+﻿$mimic-background-color: white;
+$mimic-border-color: var(--bs-gray-500);
+$component-selected-color: lime;
+$component-hover-color: var(--bs-gray-500);
 
 .mimic-wrapper {
     overflow: auto;
-    position: relative; /*affects scrolling and scaling*/
+    overscroll-behavior: none;
+    position: relative; // affects scrolling and scaling
 
     .mimic {
-        position: absolute; /*affects scaling*/
-        transform-origin: left top; /*affects scaling*/
+        background-color: $mimic-background-color;
+        position: absolute; // affects scaling
+        transform-origin: left top; // affects scaling
 
         .comp {
             box-sizing: border-box;
             line-height: normal;
             position: absolute;
 
-            &.selected {
-                box-shadow: 0 0 0 1px $component-selected-color;
+            &.text {
+                .text-content {
+                    overflow: hidden;
+                }
             }
 
             &.picture {
-                background-repeat: no-repeat;
-                background-position: center;
-                background-clip: padding-box;
+                .picture-content {
+                    background-repeat: no-repeat;
+                    background-clip: content-box;
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+.mimic-wrapper.view-mode {
+    .mimic {
+        .comp {
+            &.hidden {
+                display: none;
+            }
+
+            &.disabled {
+                cursor: not-allowed;
+                pointer-events: none;
+            }
+
+            &.has-action {
+                cursor: pointer;
+            }
+
+            &.wait-action {
+                cursor: wait !important;
+            }
+        }
+    }
+}
+
+.mimic-wrapper.edit-mode {
+    display: flex;
+    align-items: center; // center vertically
+    justify-content: center; // center horizontally
+    cursor: default;
+
+    .mimic {
+        box-shadow: 0 0 0 1px $mimic-border-color;
+
+        .comp {
+            &.selected {
+                box-shadow: 0 0 0 3px $component-selected-color;
+            }
+
+            &:not(.selected):hover {
+                box-shadow: 0 0 0 1px $component-hover-color;
+            }
+
+            &.faceplate {
+                .comp {
+                    &:hover {
+                        box-shadow: none;
+                    }
+                }
+            }
+
+            // area outside rounded corners
+            &::before {
+                content: "";
+                inset: var(--border-width, 0);
+                position: absolute;
             }
         }
     }

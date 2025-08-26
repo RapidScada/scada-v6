@@ -76,7 +76,7 @@ namespace Scada.Admin.Extensions.ExtMimicLauncher
         /// <summary>
         /// Gets the file extensions that the extension can open.
         /// </summary>
-        public override ICollection<string> FileExtensions => ["mim"];
+        public override ICollection<string> FileExtensions => ["mim", "fp"];
 
 
         /// <summary>

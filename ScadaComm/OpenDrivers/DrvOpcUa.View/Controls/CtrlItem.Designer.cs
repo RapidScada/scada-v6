@@ -28,227 +28,216 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.gbItem = new System.Windows.Forms.GroupBox();
-            this.numDataLen = new System.Windows.Forms.NumericUpDown();
-            this.lblDataLen = new System.Windows.Forms.Label();
-            this.chkIsArray = new System.Windows.Forms.CheckBox();
-            this.chkIsString = new System.Windows.Forms.CheckBox();
-            this.pbDataTypeWarning = new System.Windows.Forms.PictureBox();
-            this.cbDataType = new System.Windows.Forms.ComboBox();
-            this.lblDataType = new System.Windows.Forms.Label();
-            this.txtNodeID = new System.Windows.Forms.TextBox();
-            this.lblNodeID = new System.Windows.Forms.Label();
-            this.txtTagNum = new System.Windows.Forms.TextBox();
-            this.lblTagNum = new System.Windows.Forms.Label();
-            this.txtTagCode = new System.Windows.Forms.TextBox();
-            this.lblTagCode = new System.Windows.Forms.Label();
-            this.txtDisplayName = new System.Windows.Forms.TextBox();
-            this.lblDisplayName = new System.Windows.Forms.Label();
-            this.chkItemActive = new System.Windows.Forms.CheckBox();
-            this.gbItem.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numDataLen)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbDataTypeWarning)).BeginInit();
-            this.SuspendLayout();
+            gbItem = new GroupBox();
+            numDataLen = new NumericUpDown();
+            lblDataLen = new Label();
+            chkIsArray = new CheckBox();
+            chkIsString = new CheckBox();
+            pbDataTypeWarning = new PictureBox();
+            cbDataType = new ComboBox();
+            lblDataType = new Label();
+            txtNodeID = new TextBox();
+            lblNodeID = new Label();
+            txtTagNum = new TextBox();
+            lblTagNum = new Label();
+            txtTagCode = new TextBox();
+            lblTagCode = new Label();
+            txtDisplayName = new TextBox();
+            lblDisplayName = new Label();
+            chkItemActive = new CheckBox();
+            gbItem.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numDataLen).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbDataTypeWarning).BeginInit();
+            SuspendLayout();
             // 
             // gbItem
             // 
-            this.gbItem.Controls.Add(this.numDataLen);
-            this.gbItem.Controls.Add(this.lblDataLen);
-            this.gbItem.Controls.Add(this.chkIsArray);
-            this.gbItem.Controls.Add(this.chkIsString);
-            this.gbItem.Controls.Add(this.pbDataTypeWarning);
-            this.gbItem.Controls.Add(this.cbDataType);
-            this.gbItem.Controls.Add(this.lblDataType);
-            this.gbItem.Controls.Add(this.txtNodeID);
-            this.gbItem.Controls.Add(this.lblNodeID);
-            this.gbItem.Controls.Add(this.txtTagNum);
-            this.gbItem.Controls.Add(this.lblTagNum);
-            this.gbItem.Controls.Add(this.txtTagCode);
-            this.gbItem.Controls.Add(this.lblTagCode);
-            this.gbItem.Controls.Add(this.txtDisplayName);
-            this.gbItem.Controls.Add(this.lblDisplayName);
-            this.gbItem.Controls.Add(this.chkItemActive);
-            this.gbItem.Location = new System.Drawing.Point(0, 0);
-            this.gbItem.Name = "gbItem";
-            this.gbItem.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbItem.Size = new System.Drawing.Size(250, 500);
-            this.gbItem.TabIndex = 0;
-            this.gbItem.TabStop = false;
-            this.gbItem.Text = "Item Parameters";
+            gbItem.Controls.Add(numDataLen);
+            gbItem.Controls.Add(lblDataLen);
+            gbItem.Controls.Add(chkIsArray);
+            gbItem.Controls.Add(chkIsString);
+            gbItem.Controls.Add(pbDataTypeWarning);
+            gbItem.Controls.Add(cbDataType);
+            gbItem.Controls.Add(lblDataType);
+            gbItem.Controls.Add(txtNodeID);
+            gbItem.Controls.Add(lblNodeID);
+            gbItem.Controls.Add(txtTagNum);
+            gbItem.Controls.Add(lblTagNum);
+            gbItem.Controls.Add(txtTagCode);
+            gbItem.Controls.Add(lblTagCode);
+            gbItem.Controls.Add(txtDisplayName);
+            gbItem.Controls.Add(lblDisplayName);
+            gbItem.Controls.Add(chkItemActive);
+            gbItem.Dock = DockStyle.Fill;
+            gbItem.Location = new Point(0, 0);
+            gbItem.Name = "gbItem";
+            gbItem.Padding = new Padding(10, 3, 10, 10);
+            gbItem.Size = new Size(250, 500);
+            gbItem.TabIndex = 0;
+            gbItem.TabStop = false;
+            gbItem.Text = "Item Parameters";
             // 
             // numDataLen
             // 
-            this.numDataLen.Location = new System.Drawing.Point(13, 332);
-            this.numDataLen.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numDataLen.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numDataLen.Name = "numDataLen";
-            this.numDataLen.Size = new System.Drawing.Size(120, 23);
-            this.numDataLen.TabIndex = 12;
-            this.numDataLen.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numDataLen.ValueChanged += new System.EventHandler(this.numArrayLen_ValueChanged);
+            numDataLen.Location = new Point(13, 332);
+            numDataLen.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            numDataLen.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numDataLen.Name = "numDataLen";
+            numDataLen.Size = new Size(120, 23);
+            numDataLen.TabIndex = 12;
+            numDataLen.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            numDataLen.ValueChanged += numArrayLen_ValueChanged;
             // 
             // lblDataLen
             // 
-            this.lblDataLen.AutoSize = true;
-            this.lblDataLen.Location = new System.Drawing.Point(10, 314);
-            this.lblDataLen.Name = "lblDataLen";
-            this.lblDataLen.Size = new System.Drawing.Size(118, 15);
-            this.lblDataLen.TabIndex = 11;
-            this.lblDataLen.Text = "String or array length";
+            lblDataLen.AutoSize = true;
+            lblDataLen.Location = new Point(10, 314);
+            lblDataLen.Name = "lblDataLen";
+            lblDataLen.Size = new Size(118, 15);
+            lblDataLen.TabIndex = 11;
+            lblDataLen.Text = "String or array length";
             // 
             // chkIsArray
             // 
-            this.chkIsArray.AutoSize = true;
-            this.chkIsArray.Location = new System.Drawing.Point(13, 292);
-            this.chkIsArray.Name = "chkIsArray";
-            this.chkIsArray.Size = new System.Drawing.Size(63, 19);
-            this.chkIsArray.TabIndex = 10;
-            this.chkIsArray.Text = "Is array";
-            this.chkIsArray.UseVisualStyleBackColor = true;
-            this.chkIsArray.CheckedChanged += new System.EventHandler(this.chkIsArray_CheckedChanged);
+            chkIsArray.AutoSize = true;
+            chkIsArray.Location = new Point(13, 292);
+            chkIsArray.Name = "chkIsArray";
+            chkIsArray.Size = new Size(63, 19);
+            chkIsArray.TabIndex = 10;
+            chkIsArray.Text = "Is array";
+            chkIsArray.UseVisualStyleBackColor = true;
+            chkIsArray.CheckedChanged += chkIsArray_CheckedChanged;
             // 
             // chkIsString
             // 
-            this.chkIsString.AutoSize = true;
-            this.chkIsString.Enabled = false;
-            this.chkIsString.Location = new System.Drawing.Point(13, 267);
-            this.chkIsString.Name = "chkIsString";
-            this.chkIsString.Size = new System.Drawing.Size(67, 19);
-            this.chkIsString.TabIndex = 9;
-            this.chkIsString.Text = "Is string";
-            this.chkIsString.UseVisualStyleBackColor = true;
+            chkIsString.AutoSize = true;
+            chkIsString.Enabled = false;
+            chkIsString.Location = new Point(13, 267);
+            chkIsString.Name = "chkIsString";
+            chkIsString.Size = new Size(67, 19);
+            chkIsString.TabIndex = 9;
+            chkIsString.Text = "Is string";
+            chkIsString.UseVisualStyleBackColor = true;
             // 
             // pbDataTypeWarning
             // 
-            this.pbDataTypeWarning.BackColor = System.Drawing.SystemColors.Window;
-            this.pbDataTypeWarning.Image = global::Scada.Comm.Drivers.DrvOpcUa.View.Properties.Resources.warning;
-            this.pbDataTypeWarning.Location = new System.Drawing.Point(201, 241);
-            this.pbDataTypeWarning.Name = "pbDataTypeWarning";
-            this.pbDataTypeWarning.Size = new System.Drawing.Size(16, 16);
-            this.pbDataTypeWarning.TabIndex = 17;
-            this.pbDataTypeWarning.TabStop = false;
+            pbDataTypeWarning.BackColor = SystemColors.Window;
+            pbDataTypeWarning.Image = Properties.Resources.warning;
+            pbDataTypeWarning.Location = new Point(201, 241);
+            pbDataTypeWarning.Name = "pbDataTypeWarning";
+            pbDataTypeWarning.Size = new Size(16, 16);
+            pbDataTypeWarning.TabIndex = 17;
+            pbDataTypeWarning.TabStop = false;
             // 
             // cbDataType
             // 
-            this.cbDataType.FormattingEnabled = true;
-            this.cbDataType.Location = new System.Drawing.Point(13, 238);
-            this.cbDataType.Name = "cbDataType";
-            this.cbDataType.Size = new System.Drawing.Size(224, 23);
-            this.cbDataType.TabIndex = 14;
-            this.cbDataType.TextChanged += new System.EventHandler(this.cbDataType_TextChanged);
+            cbDataType.FormattingEnabled = true;
+            cbDataType.Location = new Point(13, 238);
+            cbDataType.Name = "cbDataType";
+            cbDataType.Size = new Size(224, 23);
+            cbDataType.TabIndex = 14;
+            cbDataType.TextChanged += cbDataType_TextChanged;
             // 
             // lblDataType
             // 
-            this.lblDataType.AutoSize = true;
-            this.lblDataType.Location = new System.Drawing.Point(10, 220);
-            this.lblDataType.Name = "lblDataType";
-            this.lblDataType.Size = new System.Drawing.Size(57, 15);
-            this.lblDataType.TabIndex = 13;
-            this.lblDataType.Text = "Data type";
+            lblDataType.AutoSize = true;
+            lblDataType.Location = new Point(10, 220);
+            lblDataType.Name = "lblDataType";
+            lblDataType.Size = new Size(57, 15);
+            lblDataType.TabIndex = 13;
+            lblDataType.Text = "Data type";
             // 
             // txtNodeID
             // 
-            this.txtNodeID.Location = new System.Drawing.Point(13, 194);
-            this.txtNodeID.Name = "txtNodeID";
-            this.txtNodeID.ReadOnly = true;
-            this.txtNodeID.Size = new System.Drawing.Size(224, 23);
-            this.txtNodeID.TabIndex = 8;
+            txtNodeID.Location = new Point(13, 194);
+            txtNodeID.Name = "txtNodeID";
+            txtNodeID.ReadOnly = true;
+            txtNodeID.Size = new Size(224, 23);
+            txtNodeID.TabIndex = 8;
             // 
             // lblNodeID
             // 
-            this.lblNodeID.AutoSize = true;
-            this.lblNodeID.Location = new System.Drawing.Point(10, 176);
-            this.lblNodeID.Name = "lblNodeID";
-            this.lblNodeID.Size = new System.Drawing.Size(50, 15);
-            this.lblNodeID.TabIndex = 7;
-            this.lblNodeID.Text = "Node ID";
+            lblNodeID.AutoSize = true;
+            lblNodeID.Location = new Point(10, 176);
+            lblNodeID.Name = "lblNodeID";
+            lblNodeID.Size = new Size(50, 15);
+            lblNodeID.TabIndex = 7;
+            lblNodeID.Text = "Node ID";
             // 
             // txtTagNum
             // 
-            this.txtTagNum.Location = new System.Drawing.Point(13, 150);
-            this.txtTagNum.Name = "txtTagNum";
-            this.txtTagNum.ReadOnly = true;
-            this.txtTagNum.Size = new System.Drawing.Size(120, 23);
-            this.txtTagNum.TabIndex = 6;
+            txtTagNum.Location = new Point(13, 150);
+            txtTagNum.Name = "txtTagNum";
+            txtTagNum.ReadOnly = true;
+            txtTagNum.Size = new Size(120, 23);
+            txtTagNum.TabIndex = 6;
             // 
             // lblTagNum
             // 
-            this.lblTagNum.AutoSize = true;
-            this.lblTagNum.Location = new System.Drawing.Point(10, 132);
-            this.lblTagNum.Name = "lblTagNum";
-            this.lblTagNum.Size = new System.Drawing.Size(70, 15);
-            this.lblTagNum.TabIndex = 5;
-            this.lblTagNum.Text = "Tag number";
+            lblTagNum.AutoSize = true;
+            lblTagNum.Location = new Point(10, 132);
+            lblTagNum.Name = "lblTagNum";
+            lblTagNum.Size = new Size(71, 15);
+            lblTagNum.TabIndex = 5;
+            lblTagNum.Text = "Tag number";
             // 
             // txtTagCode
             // 
-            this.txtTagCode.Location = new System.Drawing.Point(13, 106);
-            this.txtTagCode.Name = "txtTagCode";
-            this.txtTagCode.Size = new System.Drawing.Size(224, 23);
-            this.txtTagCode.TabIndex = 4;
-            this.txtTagCode.TextChanged += new System.EventHandler(this.txtTagCode_TextChanged);
+            txtTagCode.Location = new Point(13, 106);
+            txtTagCode.Name = "txtTagCode";
+            txtTagCode.Size = new Size(224, 23);
+            txtTagCode.TabIndex = 4;
+            txtTagCode.TextChanged += txtTagCode_TextChanged;
             // 
             // lblTagCode
             // 
-            this.lblTagCode.AutoSize = true;
-            this.lblTagCode.Location = new System.Drawing.Point(10, 88);
-            this.lblTagCode.Name = "lblTagCode";
-            this.lblTagCode.Size = new System.Drawing.Size(54, 15);
-            this.lblTagCode.TabIndex = 3;
-            this.lblTagCode.Text = "Tag code";
+            lblTagCode.AutoSize = true;
+            lblTagCode.Location = new Point(10, 88);
+            lblTagCode.Name = "lblTagCode";
+            lblTagCode.Size = new Size(55, 15);
+            lblTagCode.TabIndex = 3;
+            lblTagCode.Text = "Tag code";
             // 
             // txtDisplayName
             // 
-            this.txtDisplayName.Location = new System.Drawing.Point(13, 62);
-            this.txtDisplayName.Name = "txtDisplayName";
-            this.txtDisplayName.Size = new System.Drawing.Size(224, 23);
-            this.txtDisplayName.TabIndex = 2;
-            this.txtDisplayName.TextChanged += new System.EventHandler(this.txtDisplayName_TextChanged);
+            txtDisplayName.Location = new Point(13, 62);
+            txtDisplayName.Name = "txtDisplayName";
+            txtDisplayName.Size = new Size(224, 23);
+            txtDisplayName.TabIndex = 2;
+            txtDisplayName.TextChanged += txtDisplayName_TextChanged;
             // 
             // lblDisplayName
             // 
-            this.lblDisplayName.AutoSize = true;
-            this.lblDisplayName.Location = new System.Drawing.Point(10, 44);
-            this.lblDisplayName.Name = "lblDisplayName";
-            this.lblDisplayName.Size = new System.Drawing.Size(78, 15);
-            this.lblDisplayName.TabIndex = 1;
-            this.lblDisplayName.Text = "Display name";
+            lblDisplayName.AutoSize = true;
+            lblDisplayName.Location = new Point(10, 44);
+            lblDisplayName.Name = "lblDisplayName";
+            lblDisplayName.Size = new Size(78, 15);
+            lblDisplayName.TabIndex = 1;
+            lblDisplayName.Text = "Display name";
             // 
             // chkItemActive
             // 
-            this.chkItemActive.AutoSize = true;
-            this.chkItemActive.Location = new System.Drawing.Point(13, 22);
-            this.chkItemActive.Name = "chkItemActive";
-            this.chkItemActive.Size = new System.Drawing.Size(59, 19);
-            this.chkItemActive.TabIndex = 0;
-            this.chkItemActive.Text = "Active";
-            this.chkItemActive.UseVisualStyleBackColor = true;
-            this.chkItemActive.CheckedChanged += new System.EventHandler(this.chkItemActive_CheckedChanged);
+            chkItemActive.AutoSize = true;
+            chkItemActive.Location = new Point(13, 22);
+            chkItemActive.Name = "chkItemActive";
+            chkItemActive.Size = new Size(59, 19);
+            chkItemActive.TabIndex = 0;
+            chkItemActive.Text = "Active";
+            chkItemActive.UseVisualStyleBackColor = true;
+            chkItemActive.CheckedChanged += chkItemActive_CheckedChanged;
             // 
             // CtrlItem
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.gbItem);
-            this.Name = "CtrlItem";
-            this.Size = new System.Drawing.Size(250, 500);
-            this.gbItem.ResumeLayout(false);
-            this.gbItem.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numDataLen)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbDataTypeWarning)).EndInit();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(gbItem);
+            Name = "CtrlItem";
+            Size = new Size(250, 500);
+            gbItem.ResumeLayout(false);
+            gbItem.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numDataLen).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbDataTypeWarning).EndInit();
+            ResumeLayout(false);
 
         }
 

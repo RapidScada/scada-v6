@@ -27,12 +27,12 @@
     <Phrase key="divViewExplorerTab">Puntos de vista</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout.Modal">
-    <Phrase key="Ok">DE ACUERDO</Phrase>
+    <Phrase key="Ok">OK</Phrase>
     <Phrase key="Yes">Sí</Phrase>
     <Phrase key="No">No</Phrase>
     <Phrase key="Execute">Ejecutar</Phrase>
     <Phrase key="Cancel">Cancelar</Phrase>
-    <Phrase key="Close">Cerca</Phrase>
+    <Phrase key="Close">Cerrar</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout.NotifPanel">
     <Phrase key="NoNotif">No Notificaciones</Phrase>
@@ -68,8 +68,8 @@
     <Phrase key="InvalidCaptcha">Código de protección no válido.</Phrase>
     <Phrase key="lblUsername">Nombre de usuario</Phrase>
     <Phrase key="lblPassword">Contraseña</Phrase>
-    <Phrase key="lblCaptcha">código de protección</Phrase>
-    <Phrase key="lblRememberMe">Acuérdate de mí</Phrase>
+    <Phrase key="lblCaptcha">Código de protección</Phrase>
+    <Phrase key="lblRememberMe">Recordarme</Phrase>
     <Phrase key="btnLogin">Acceso</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Reports">
@@ -80,7 +80,7 @@
     <Phrase key="PageTitle">Perfil del usuario</Phrase>
     <Phrase key="lblUserID">ID de usuario:</Phrase>
     <Phrase key="lblUsername">Nombre de usuario:</Phrase>
-    <Phrase key="lblRole">Role:</Phrase>
+    <Phrase key="lblRole">Rol:</Phrase>
     <Phrase key="lblTimeZone">Zona horaria:</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.View">

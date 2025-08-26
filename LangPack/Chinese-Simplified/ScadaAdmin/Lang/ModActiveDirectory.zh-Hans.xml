@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ModActiveDirectoryDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModActiveDirectory.Config.ModuleConfig">
+    <Phrase key="LdapServer.DisplayName">LDAP服务器</Phrase>
+    <Phrase key="LdapServer.Category">主要参数</Phrase>
+    <Phrase key="LdapServer.Description">域控制器主机或IP地址。例如，127.0.0.1</Phrase>
+    <Phrase key="EnableSearch.DisplayName">开启搜索</Phrase>
+    <Phrase key="EnableSearch.Category">主要参数</Phrase>
+    <Phrase key="EnableSearch.Description">开启Active Directory和PostgreSQL中的用户搜索。</Phrase>
+    <Phrase key="SearchRoot.DisplayName">搜索根目录</Phrase>
+    <Phrase key="SearchRoot.Category">主要参数</Phrase>
+    <Phrase key="SearchRoot.Description">Active Directory中的搜索根目录。例如，DC=company，DC=com</Phrase>
+  </Dictionary>
+</ModActiveDirectoryDictionaries>

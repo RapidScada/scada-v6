@@ -1,0 +1,43 @@
+﻿@{
+    dynamic dict = Locale.GetDictionary(typeof(MimicEditModel).FullName + ".ImageModal");
+}
+<!-- Image modal -->
+<div id="divImageModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 text-truncate">@dict.PageTitle</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="frmImageModal" class="needs-validation" novalidate spellcheck="false">
+                    <div class="mb-3">
+                        <label id="imageModal_lblName" for="imageModal_txtName" class="form-label">@dict.lblName</label>
+                        <input type="text" id="imageModal_txtName" class="form-control" required autocomplete="off">
+                        <div class="invalid-feedback">@dict.RequiredField</div>
+                    </div>
+                    <div>
+                        <span id="imageModal_lblData" class="form-label d-inline-block">@dict.lblData</span>
+                        <span id="imageModal_spnFileSize"></span>
+                        <div class="card text-center mb-3">
+                            <div class="card-body">
+                                <img id="imageModal_imgPreview" />
+                                <div id="imageModal_divNoImage">@dict.NoImage</div>
+                            </div>
+                        </div>
+                        <button type="button" id="imageModal_btnUpload" class="btn btn-outline-primary">@dict.btnUpload</button>
+                        <a id="imageModal_btnDownload" class="btn btn-outline-primary">@dict.btnDownload</a>
+                    </div>
+                    <div class="d-none">
+                        <input type="file" id="imageModal_file" />
+                        <button type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="imageModal_btnOK" class="btn btn-primary">@dict.btnOK</button>
+                <button type="button" id="imageModal_btnCancel" class="btn btn-secondary" data-bs-dismiss="modal">@dict.btnCancel</button>
+            </div>
+        </div>
+    </div>
+</div>

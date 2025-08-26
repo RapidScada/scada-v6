@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2013
- * Modified : 2023
+ * Modified : 2025
  */
 
 using Scada.Data.Entities;
@@ -112,6 +112,14 @@ namespace Scada.Server.Modules
         /// Performs actions when starting the service.
         /// </summary>
         public virtual void OnServiceStart()
+        {
+        }
+
+        /// <summary>
+        /// Performs actions when the service is ready.
+        /// </summary>
+        /// <remarks>Archives are ready, current data is loaded, scripts are compiled.</remarks>
+        public virtual void OnServiceReady()
         {
         }
 

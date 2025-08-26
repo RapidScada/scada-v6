@@ -1,6 +1,62 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<ExtWebConfigDictionaries culture="zh-Hans" lang="ChineseSimplified">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ExtWebConfigDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.ExtWebConfigLogic">
+    <Phrase key="ApplicationOptionsNode">程序选项</Phrase>
+    <Phrase key="PluginsNode">插件</Phrase>
     <Phrase key="LogsNode">日志</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlDisplayOptions">    
+    <Phrase key="gbDisplayOptions">显示选项</Phrase>
+    <Phrase key="lblShowHeader">显示页眉</Phrase>
+    <Phrase key="lblShowMainMenu">显示主菜单</Phrase>
+    <Phrase key="lblShowViewExplorer">显示视图</Phrase>
+    <Phrase key="lblRefreshRate">数据刷新率，毫秒</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlGeneralOptions">
+    <Phrase key="gbGeneralOptions">通用选项</Phrase>
+    <Phrase key="lblDefaultCulture">默认区域性名称</Phrase>
+    <Phrase key="lblDefaultTimeZone">默认时区</Phrase>
+    <Phrase key="lblDefaultStartPage">默认起始页于用户登录后显示</Phrase>
+    <Phrase key="lblEnableCommands">开放遥测控制指令集</Phrase>
+    <Phrase key="lblShareStats">与开发人员共享非个性化统计信息</Phrase>
+    <Phrase key="lblMaxLogSize">日志文件最大大小, MB</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlLoginOptions">
+    <Phrase key="gbLoginOptions">登入选项</Phrase>
+    <Phrase key="lblRequireCaptcha">需要验证码登入</Phrase>
+    <Phrase key="lblAllowRememberMe">允许记住登入信息</Phrase>
+    <Phrase key="lblRememberMeExpires">登入有效期，天</Phrase>
+    <Phrase key="lblAutoLoginUsername">用于自动登入的用账户</Phrase>
+    <Phrase key="lblAutoLoginPassword">用于自动登入的用密码</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlPluginAssignment">
+    <Phrase key="gbPluginAssignment">插件配置</Phrase>
+    <Phrase key="lblChartFeature">绘制图表的插件</Phrase>
+    <Phrase key="lblCommandFeature">发送命令的插件</Phrase>
+    <Phrase key="lblEventAckFeature">确认事件的插件</Phrase>
+    <Phrase key="lblUserManagementFeature">用户管理的插件</Phrase>
+    <Phrase key="lblNotificationFeature">通知管理的插件</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Forms.FrmApplicationOptions">
+    <Phrase key="this">程序选项</Phrase>
+    <Phrase key="lbTabs.Items[0]">通用选项</Phrase>
+    <Phrase key="lbTabs.Items[1]">连线选项</Phrase>
+    <Phrase key="lbTabs.Items[2]">登入选项</Phrase>
+    <Phrase key="lbTabs.Items[3]">显示选项</Phrase>
+    <Phrase key="lbTabs.Items[4]">插件配置</Phrase>
+    <Phrase key="ApplicationConfigTitle">程序选项</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Forms.FrmPlugins">
+    <Phrase key="this">插件</Phrase>
+    <Phrase key="lblUnusedPlugins">未使用的插件：</Phrase>
+    <Phrase key="btnActivate">启用</Phrase>
+    <Phrase key="lblActivePlugins">启用的插件：</Phrase>
+    <Phrase key="btnDeactivate">禁用</Phrase>
+    <Phrase key="btnMoveUp">上移</Phrase>
+    <Phrase key="btnMoveDown">下移</Phrase>
+    <Phrase key="btnProperties">属性</Phrase>
+    <Phrase key="btnRegister">注册</Phrase>
+    <Phrase key="lblDescr">描述</Phrase>
+  </Dictionary>
 </ExtWebConfigDictionaries>
+

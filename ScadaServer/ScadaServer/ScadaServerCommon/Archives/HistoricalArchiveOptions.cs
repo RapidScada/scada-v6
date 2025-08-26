@@ -24,6 +24,7 @@
  */
 
 using Scada.Config;
+using System;
 using System.Globalization;
 
 namespace Scada.Server.Archives
@@ -125,6 +126,14 @@ namespace Scada.Server.Archives
         /// </summary>
         public DeadbandUnit DeadbandUnit { get; set; }
 
+
+        /// <summary>
+        /// Checks that the timestamp is inside the retention period.
+        /// </summary>
+        public bool TimeInsideRetention(DateTime timestamp, DateTime now)
+        {
+            return now.AddDays(-Retention) <= timestamp;
+        }
 
         /// <summary>
         /// Adds the options to the list.

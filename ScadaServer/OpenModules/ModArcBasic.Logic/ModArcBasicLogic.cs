@@ -32,24 +32,12 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Gets the module code.
         /// </summary>
-        public override string Code
-        {
-            get
-            {
-                return ModuleUtils.ModuleCode;
-            }
-        }
+        public override string Code => ModuleUtils.ModuleCode;
 
         /// <summary>
         /// Gets the module purposes.
         /// </summary>
-        public override ModulePurposes ModulePurposes
-        {
-            get
-            {
-                return ModulePurposes.Archive;
-            }
-        }
+        public override ModulePurposes ModulePurposes => ModulePurposes.Archive;
 
 
         /// <summary>

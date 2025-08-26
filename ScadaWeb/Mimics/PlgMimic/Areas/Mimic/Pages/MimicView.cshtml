@@ -1,33 +1,44 @@
 ﻿@page "{id:int?}"
 @model MimicViewModel
+@inject IWebContext webContext
+@inject PluginContext pluginContext
 @{
     Layout = "_BasicLayout";
     dynamic dict = Locale.GetDictionary(Model.GetType().FullName);
+    var toolbarClass = pluginContext.PluginConfig.RuntimeOptions.ShowToolbar ? "" : "toolbar-hidden";
 }
 
 @section Styles {
     <link href="~/plugins/Mimic/css/mimic.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/plugins/Mimic/css/mimic-view.min.css" rel="stylesheet" asp-append-version="true" />
+    @pluginContext.PageReferences.RenderStyles(Url)
 }
 
 @section Scripts {
     <script src="~/js/view-hub.js" asp-append-version="true"></script>
+    <script src="~/js/components/modal.js" asp-append-version="true"></script>
     <script src="~/plugins/Main/js/main-api.js" asp-append-version="true"></script>
-    <script src="~/plugins/Mimic/js/mimic-common.js" asp-append-version="true"></script>
-    <script src="~/plugins/Mimic/js/mimic-model.js" asp-append-version="true"></script>
-    <script src="~/plugins/Mimic/js/mimic-render.js" asp-append-version="true"></script>
+    <script src="~/plugins/Mimic/js/mimic-bundle.js" asp-append-version="true"></script>
     <script src="~/plugins/Mimic/js/mimic-view.js" asp-append-version="true"></script>
     <script>
         viewID = @Model.ViewID;
+        controlRight = @Model.ControlRight.ToLowerString();
+        refreshRate = @webContext.AppConfig.DisplayOptions.RefreshRate;
+        fonts = @pluginContext.PluginConfig.Fonts.ToJs();
+        runtimeOptions = @pluginContext.PluginConfig.RuntimeOptions.ToJs();
+        phrases = @WebUtils.DictionaryToJs(Model.GetType().FullName + ".Js");
     </script>
+    @pluginContext.PageReferences.RenderScripts(Url)
 }
 
-<div id="divMimicWrapper" class="mimic-wrapper"></div>
-<div id="divToolbar"><button type="button" 
-    id="btnFitScreen" class="tool-btn" title="@dict.btnFitScreen_ToolTip"><i class="fa-solid fa-up-down-left-right"></i></button><button type="button"
-    id="btnFitWidthBtn" class="tool-btn" title="@dict.btnFitWidth_ToolTip"><i class="fa-solid fa-solid fa-left-right"></i></button><button type="button"
-    id="btnZoomOutBtn" class="tool-btn" title="@dict.btnZoomOut_ToolTip"><i class="fa-solid fa-search-minus"></i></button><button type="button"
-    id="btnZoomInBtn" class="tool-btn" title="@dict.btnZoomIn_ToolTip"><i class="fa-solid fa-search-plus"></i></button><span
-    id="spanScale">100%</span><span 
-    id="spanError"><i class="fa-solid fa-triangle-exclamation"></i></span>
+<div id="divError" class="box-center fs-2 text-danger d-none"></div>
+<div id="divSpinner" class="box-center fs-2 text-secondary d-none"><i id="iSpinner" class="fa-solid fa-spinner fa-spin-pulse fa-3x"></i></div>
+<div id="divMimicWrapper" class="mimic-wrapper view-mode"></div>
+<div id="divToolbar" class="@toolbarClass d-none"><button type="button" 
+    id="btnFitScreen" class="tool-item tool-btn" title="@dict.btnFitScreen_ToolTip"><i class="fa-solid fa-up-down-left-right"></i></button><button type="button"
+    id="btnFitWidthBtn" class="tool-item tool-btn" title="@dict.btnFitWidth_ToolTip"><i class="fa-solid fa-solid fa-left-right"></i></button><button type="button"
+    id="btnZoomOutBtn" class="tool-item tool-btn" title="@dict.btnZoomOut_ToolTip"><i class="fa-solid fa-search-minus"></i></button><button type="button"
+    id="btnZoomInBtn" class="tool-item tool-btn" title="@dict.btnZoomIn_ToolTip"><i class="fa-solid fa-search-plus"></i></button><span
+    id="spanScaleValue" class="tool-item">%</span><span 
+    id="spanErrorIcon" class="d-none" title="@dict.spanErrorIcon_ToolTip"><i class="fa-solid fa-triangle-exclamation"></i></span>
 </div>

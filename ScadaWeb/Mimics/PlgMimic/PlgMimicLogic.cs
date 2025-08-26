@@ -1,9 +1,11 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.Extensions.DependencyInjection;
 using Scada.Lang;
 using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMimic.Code;
+using Scada.Web.Plugins.PlgMimic.Config;
 using Scada.Web.Services;
 
 namespace Scada.Web.Plugins.PlgMimic
@@ -14,19 +16,25 @@ namespace Scada.Web.Plugins.PlgMimic
     /// </summary>
     public class PlgMimicLogic : PluginLogic
     {
+        private readonly PluginContext pluginContext;
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public PlgMimicLogic(IWebContext webContext)
             : base(webContext)
         {
+            pluginContext = new PluginContext(webContext);
             Info = new MimicPluginInfo();
         }
+
 
         /// <summary>
         /// Gets the view specifications.
         /// </summary>
-        public override ICollection<ViewSpec> ViewSpecs => [new MimicViewSpec()];
+        public override List<ViewSpec> ViewSpecs => [new MimicViewSpec()];
+
 
         /// <summary>
         /// Loads language dictionaries.
@@ -36,7 +44,23 @@ namespace Scada.Web.Plugins.PlgMimic
             if (!Locale.LoadDictionaries(AppDirs.LangDir, Code, out string errMsg))
                 Log.WriteError(WebPhrases.PluginMessage, Code, errMsg);
 
-            //PluginPhrases.Init();
+            MimicPhrases.Init();
+        }
+
+        /// <summary>
+        /// Loads configuration.
+        /// </summary>
+        public override void LoadConfig()
+        {
+            pluginContext.Init();
+        }
+
+        /// <summary>
+        /// Adds services to the DI container.
+        /// </summary>
+        public override void AddServices(IServiceCollection services)
+        {
+            services.AddSingleton(pluginContext);
         }
     }
 }

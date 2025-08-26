@@ -16,12 +16,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         public static string MimicNotFound { get; private set; }
         public static string LoadMimicError { get; private set; }
         public static string SaveMimicError { get; private set; }
-
-        // Scada.Web.Plugins.PlgMimicEditor.Code.StandardComponentGroup
-        public static string StandardGroup { get; private set; }
-        public static string TextComponent { get; private set; }
-        public static string PictureComponent { get; private set; }
-        public static string PanelComponent { get; private set; }
+        public static string UpdateMimicError { get; private set; }
 
         // Scada.Web.Plugins.PlgMimicEditor.PlgMimicEditorLogic
         public static string EditorMenuItem { get; private set; }
@@ -34,12 +29,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             MimicNotFound = dict[nameof(MimicNotFound)];
             LoadMimicError = dict[nameof(LoadMimicError)];
             SaveMimicError = dict[nameof(SaveMimicError)];
-
-            dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMimicEditor.Code.StandardComponentGroup");
-            StandardGroup = dict[nameof(StandardGroup)];
-            TextComponent = dict[nameof(TextComponent)];
-            PictureComponent = dict[nameof(PictureComponent)];
-            PanelComponent = dict[nameof(PanelComponent)];
+            UpdateMimicError = dict[nameof(UpdateMimicError)];
 
             dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMimicEditor.PlgMimicEditorLogic");
             EditorMenuItem = dict[nameof(EditorMenuItem)];

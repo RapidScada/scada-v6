@@ -44,5 +44,19 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         {
             return ScadaUtils.NormalDir(Path.Combine(Path.GetDirectoryName(projectFileName), "Views"));
         }
+
+        /// <summary>
+        /// Convers the property name to a pascal-casing format.
+        /// </summary>
+        public static string ToPascalCase(this string s)
+        {
+            if (string.IsNullOrEmpty(s) || char.IsUpper(s[0]))
+                return s;
+
+            if (s == "id")
+                return "ID";
+
+            return s[0].ToString().ToUpperInvariant() + s[1..];
+        }
     }
 }

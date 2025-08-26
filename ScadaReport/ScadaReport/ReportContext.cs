@@ -39,6 +39,11 @@ namespace Scada.Report
         public TimeZoneInfo TimeZone { get; init; }
 
         /// <summary>
+        /// Gets the directory of the application configuration.
+        /// </summary>
+        public string ConfigDir { get; init; }
+
+        /// <summary>
         /// Gets the directory of templates.
         /// </summary>
         public string TemplateDir { get; init; }

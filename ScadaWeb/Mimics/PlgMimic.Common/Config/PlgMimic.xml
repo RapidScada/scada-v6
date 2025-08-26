@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PlgMimic>
+  <Fonts>
+    <!--
+    <Font name="Arial" family="Arial, Helvetica, sans-serif" url="~/lib/arial/css/arial.css" />
+    -->
+  </Fonts>
+  <RuntimeOptions>
+    <!-- ScaleType: Numeric | FitScreen | FitWidth -->
+    <ScaleType>Numeric</ScaleType>
+    <ScaleValue>100</ScaleValue>
+    <RememberScale>true</RememberScale>
+    <ShowToolbar>true</ShowToolbar>
+    <BlinkingRate>1000</BlinkingRate>
+  </RuntimeOptions>
+  <EditorOptions>
+    <UseGrid>true</UseGrid>
+    <ShowGrid>true</ShowGrid>
+    <GridStep>10</GridStep>
+  </EditorOptions>
+</PlgMimic>

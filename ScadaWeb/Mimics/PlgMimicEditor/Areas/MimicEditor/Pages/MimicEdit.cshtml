@@ -17,31 +17,40 @@
 @section Styles {
     <link href="~/plugins/Mimic/css/mimic.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/plugins/MimicEditor/css/mimic-edit.min.css" rel="stylesheet" asp-append-version="true" />
+    @editorManager.PageReferences.RenderStyles(Url)
 }
 
 @section Scripts {
+    <script type="importmap">
+        {
+            "imports": {
+              "lib/": "./../../../plugins/MimicEditor/lib/"
+            }
+        }
+    </script>
     <script type="module">
-        import { Pane } from './../../../plugins/MimicEditor/lib/tweakpane/tweakpane-4.0.5.min.js';
-        window.Pane = Pane;
+        import { Pane as Tweakpane } from "lib/tweakpane/tweakpane-4.0.5.min.js";
+        import * as TweakpaneEssentialsPlugin from "lib/tweakpane/tweakpane-plugin-essentials-0.2.1.min.js";
+        window.Tweakpane = Tweakpane;
+        window.TweakpaneEssentialsPlugin = TweakpaneEssentialsPlugin;
     </script>
     <script src="~/js/components/splitter.js" asp-append-version="true"></script>
-    <script src="~/plugins/Mimic/js/mimic-common.js" asp-append-version="true"></script>
-    <script src="~/plugins/Mimic/js/mimic-model.js" asp-append-version="true"></script>
-    <script src="~/plugins/Mimic/js/mimic-render.js" asp-append-version="true"></script>
-    <script src="~/plugins/MimicEditor/js/editor.js" asp-append-version="true"></script>
-    <script src="~/plugins/MimicEditor/js/mimic-descr.js" asp-append-version="true"></script>
-    <script src="~/plugins/MimicEditor/js/mimic-factory.js" asp-append-version="true"></script>
-    <script src="~/plugins/MimicEditor/js/prop-grid.js" asp-append-version="true"></script>
+    <script src="~/plugins/Mimic/js/mimic-bundle.js" asp-append-version="true"></script>
+    <script src="~/plugins/MimicEditor/lib/codeflask/codeflask.min.js" asp-append-version="true"></script>
+    <script src="~/plugins/MimicEditor/js/editor-bundle.js" asp-append-version="true"></script>
     <script src="~/plugins/MimicEditor/js/mimic-edit.js" asp-append-version="true"></script>
     <script src="~/plugins/MimicEditor/js/mimic-edit-lang.js"></script>
     <script>
         rootPath = "@Url.Content("~/")";
         mimicKey = "@Model.MimicKey";
+        fonts = @editorManager.PluginConfig.Fonts.ToJs();
+        editorOptions = @editorManager.PluginConfig.EditorOptions.ToJs();
     </script>
+    @editorManager.PageReferences.RenderScripts(Url)
 }
 
 <div id="divToolbar"><partial name="_ToolbarContents" /></div>
-<div id="divMain">
+<div id="divMain" spellcheck="false">
     <div id="divLeftPanel">
         <ul class="nav nav-tabs nav-fill flex-nowrap">
             <li class="nav-item">
@@ -55,12 +64,16 @@
             </li>
         </ul>
         <div class="tab-content">
-            <div id="divComponents" class="tab-pane show active"><partial name="_ComponentList" model="@editorManager.ComponentList" /></div>
+            <div id="divComponents" class="tab-pane show active"><partial name="_ComponentList" model="@editorManager.ModelMeta" /></div>
             <div id="divStructure" class="tab-pane"></div>
-            <div id="divProperties" class="tab-pane"></div>
+            <div id="divProperties" class="tab-pane"><div id="tweakpane"></div></div>
         </div>
     </div>
     <div id="divSplitter" class="splitter vert"></div>
-    <div id="divMimicWrapper" class="mimic-wrapper"></div>
+    <div id="divMimicWrapper" class="mimic-wrapper edit-mode"></div>
 </div>
 <div id="divToastContainer" class="toast-container"></div>
+
+<partial name="_ImageModal" />
+<partial name="_FaceplateModal" />
+<partial name="_TextEditor" />

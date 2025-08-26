@@ -30,11 +30,12 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         private static readonly TimeSpan ReconnectDelay = TimeSpan.FromSeconds(5);
 
-        private readonly IStorage storage;                    // the application storage
-        private readonly List<SubscriptionTag> subscrTags;    // metadata about subscriptions
+        private readonly IStorage storage;                 // the application storage
+        private readonly List<SubscriptionTag> subscrTags; // metadata about subscriptions
 
-        private DateTime connAttemptDT;                       // the timestamp of a connection attempt
-        private SessionReconnectHandler reconnectHandler;     // the object needed to reconnect
+        private DateTime connAttemptDT;                    // the timestamp of a connection attempt
+        private DateTime lastNotifDT;                      // the timestamp when new data was received
+        private SessionReconnectHandler reconnectHandler;  // the object needed to reconnect
 
 
         /// <summary>
@@ -44,9 +45,10 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             : base(connectionOptions, log)
         {
             this.storage = storage ?? throw new ArgumentNullException(nameof(storage));
-            subscrTags = new List<SubscriptionTag>();
+            subscrTags = [];
 
             connAttemptDT = DateTime.MinValue;
+            lastNotifDT = DateTime.MinValue;
             reconnectHandler = null;
         }
 
@@ -125,6 +127,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         {
             if (e.Subscription?.Handle is SubscriptionTag subscriptionTag)
             {
+                lastNotifDT = DateTime.UtcNow;
                 subscriptionTag.DeviceLogic.ProcessDataChanges(subscriptionTag, e.NotificationMessage);
             }
             else
@@ -216,6 +219,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 ConnectAsync().Wait();
                 OpcSession.KeepAlive += OpcSession_KeepAlive;
                 OpcSession.Notification += OpcSession_Notification;
+                lastNotifDT = DateTime.UtcNow;
                 return true;
             }
             catch (Exception ex)
@@ -245,6 +249,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                             "Disconnect from OPC server");
                         OpcSession.Close();
                     }
+
+                    reconnectHandler?.Dispose();
                 }
                 catch (Exception ex)
                 {
@@ -254,6 +260,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 }
 
                 OpcSession = null;
+                reconnectHandler = null;
             }
         }
 
@@ -344,6 +351,22 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     "Error creating subscriptions"));
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Checks the connection status. If disconnected, reconnects and creates subscriptions.
+        /// </summary>
+        public bool ReconnectIfNeeded()
+        {
+            if (IsConnected && connectionOptions.ReconnectIfIdle > 0 && 
+                (DateTime.UtcNow - lastNotifDT).TotalSeconds > connectionOptions.ReconnectIfIdle)
+            {
+                Disconnect();
+            }
+
+            return OpcSession == null
+                ? Connect() && CreateSubscriptions(true)
+                : OpcSession.Connected;
         }
     }
 }

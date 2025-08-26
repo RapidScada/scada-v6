@@ -12,54 +12,39 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
     public class CommandConfig
     {
         /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public CommandConfig()
-        {
-            NodeID = "";
-            ParentNodeID = "";
-            DisplayName = "";
-            CmdNum = 0;
-            CmdCode = "";
-            IsMethod = false;
-            DataTypeName = "";
-        }
-
-
-        /// <summary>
         /// Gets or sets the OPC node ID.
         /// </summary>
-        public string NodeID { get; set; }
+        public string NodeID { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the ID of the parent OPC node.
         /// </summary>
-        public string ParentNodeID { get; set; }
+        public string ParentNodeID { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the display name.
         /// </summary>
-        public string DisplayName { get; set; }
+        public string DisplayName { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the command number.
         /// </summary>
-        public int CmdNum { get; set; }
+        public int CmdNum { get; set; } = 0;
 
         /// <summary>
         /// Gets or sets the command code.
         /// </summary>
-        public string CmdCode { get; set; }
+        public string CmdCode { get; set; } = "";
 
         /// <summary>
         /// Gets or sets a value indicating whether the command calls an OPC method.
         /// </summary>
-        public bool IsMethod { get; set; }
+        public bool IsMethod { get; set; } = false;
 
         /// <summary>
         /// Gets or sets the data type name of an OPC variable.
         /// </summary>
-        public string DataTypeName { get; set; }
+        public string DataTypeName { get; set; } = "";
 
 
         /// <summary>

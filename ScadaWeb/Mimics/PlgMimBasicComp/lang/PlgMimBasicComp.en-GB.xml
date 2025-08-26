@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PlgMimBasicCompDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Code.BasicComponentGroup">
+    <Phrase key="BasicGroup">BASIC</Phrase>
+    <Phrase key="ButtonComponent">Button</Phrase>
+    <Phrase key="LedComponent">Led</Phrase>
+    <Phrase key="LinkComponent">Link</Phrase>
+    <Phrase key="ToggleComponent">Toggle</Phrase>
+  </Dictionary>
+  <!-- Components -->
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicButton">
+    <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="ImageSize">Image size</Phrase>
+    <Phrase key="Text">Text</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicLed">
+    <Phrase key="BorderOpacity">Border opacity</Phrase>
+    <Phrase key="IsSquare">Square</Phrase>
+    <Phrase key="Conditions">Conditions</Phrase>
+    <Phrase key="DefaultColor">Default color</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicToggle">
+    <Phrase key="Position">Position</Phrase>
+    <Phrase key="Padding">Padding</Phrase>
+  </Dictionary>
+  <!-- Enumerations -->
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicTogglePosition">
+    <Phrase key="NotSet">Not set</Phrase>
+    <Phrase key="Off">Off</Phrase>
+    <Phrase key="On">On</Phrase>
+  </Dictionary>
+  <!-- Structures -->
+  <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicColorCondition">
+    <Phrase key="ComparisonOper1">Comparison 1</Phrase>
+    <Phrase key="ComparisonArg1">Argument 1</Phrase>
+    <Phrase key="LogicalOper">Logical operator</Phrase>
+    <Phrase key="ComparisonOper2">Comparison 2</Phrase>
+    <Phrase key="ComparisonArg2">Argument 2</Phrase>
+    <Phrase key="Color">Color</Phrase>
+  </Dictionary>
+</PlgMimBasicCompDictionaries>
