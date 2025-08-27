@@ -486,7 +486,7 @@
   <Dictionary key="Scada.Admin.App.Forms.FrmFileNew">
     <Phrase key="lbFileType.Items[0]">Skema Klasik</Phrase>
     <Phrase key="lbFileType.Items[1]">Diagram Mimik (eksperimental)</Phrase>
-    <Phrase key="lbFileType.Items[2]">Pelat muka (eksperimental)</Phrase>
+    <Phrase key="lbFileType.Items[2]">Pelat Muka (eksperimental)</Phrase>
     <Phrase key="lbFileType.Items[3]">Tampilan Tabel</Phrase>
     <Phrase key="lbFileType.Items[4]">Berkas XML</Phrase>
     <Phrase key="lbFileType.Items[5]">Berkas Teks</Phrase>

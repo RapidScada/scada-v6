@@ -491,7 +491,7 @@ Endringene trer i kraft etter å ha startet programmet på nytt.</Phrase>
     <Phrase key="this">Ny fil</Phrase>
     <Phrase key="lbFileType.Items[0]">Et oversiktsbilde klassisk</Phrase>
     <Phrase key="lbFileType.Items[1]">Et oversiktsbilde (eksperimentelt)</Phrase>
-    <Phrase key="lbFileType.Items[2]">Frontplate (eksperimentell)</Phrase>
+    <Phrase key="lbFileType.Items[2]">Frontplate (eksperimentelt)</Phrase>
     <Phrase key="lbFileType.Items[3]">Tabellvisning</Phrase>
     <Phrase key="lbFileType.Items[4]">XML-fil</Phrase>
     <Phrase key="lbFileType.Items[5]">Tekstfil</Phrase>
