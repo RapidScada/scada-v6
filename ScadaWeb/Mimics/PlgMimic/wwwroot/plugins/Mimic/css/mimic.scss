@@ -1,7 +1,8 @@
 ﻿$mimic-background-color: white;
-$mimic-border-color: var(--bs-gray-500);
-$component-selected-color: lime;
-$component-hover-color: var(--bs-gray-500);
+$mimic-box-shadow: 0 0 0 1px var(--bs-gray-500);
+$component-selected-box-shadow: 0 0 0 3px lime;
+$component-hover-box-shadow: 0 0 0 1px var(--bs-gray-500);
+$component-fiction-border: 1px dashed var(--bs-gray-600);
 
 .mimic-wrapper {
     overflow: auto;
@@ -31,6 +32,10 @@ $component-hover-color: var(--bs-gray-500);
                     height: 100%;
                     width: 100%;
                 }
+            }
+
+            &.panel {
+                background-color: inherit; // not transparent
             }
         }
     }
@@ -66,15 +71,31 @@ $component-hover-color: var(--bs-gray-500);
     cursor: default;
 
     .mimic {
-        box-shadow: 0 0 0 1px $mimic-border-color;
+        box-shadow: $mimic-box-shadow;
 
         .comp {
+            &::before { // component area
+                content: "";
+                inset: var(--border-width, 0);
+                position: absolute;
+            }
+
             &.selected {
-                box-shadow: 0 0 0 3px $component-selected-color;
+                &::before {
+                    box-shadow: $component-selected-box-shadow;
+                }
             }
 
             &:not(.selected):hover {
-                box-shadow: 0 0 0 1px $component-hover-color;
+                &::before {
+                    box-shadow: $component-hover-box-shadow;
+                }
+            }
+
+            &.fiction-border {
+                &::before {
+                    border: $component-fiction-border;
+                }
             }
 
             &.faceplate {
@@ -83,13 +104,6 @@ $component-hover-color: var(--bs-gray-500);
                         box-shadow: none;
                     }
                 }
-            }
-
-            // area outside rounded corners
-            &::before {
-                content: "";
-                inset: var(--border-width, 0);
-                position: absolute;
             }
         }
     }

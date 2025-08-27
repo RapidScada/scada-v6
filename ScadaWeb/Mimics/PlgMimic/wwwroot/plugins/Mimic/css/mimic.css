@@ -22,6 +22,9 @@
   height: 100%;
   width: 100%;
 }
+.mimic-wrapper .mimic .comp.panel {
+  background-color: inherit;
+}
 
 .mimic-wrapper.view-mode .mimic .comp.hidden {
   display: none;
@@ -46,17 +49,20 @@
 .mimic-wrapper.edit-mode .mimic {
   box-shadow: 0 0 0 1px var(--bs-gray-500);
 }
-.mimic-wrapper.edit-mode .mimic .comp.selected {
-  box-shadow: 0 0 0 3px lime;
-}
-.mimic-wrapper.edit-mode .mimic .comp:not(.selected):hover {
-  box-shadow: 0 0 0 1px var(--bs-gray-500);
-}
-.mimic-wrapper.edit-mode .mimic .comp.faceplate .comp:hover {
-  box-shadow: none;
-}
 .mimic-wrapper.edit-mode .mimic .comp::before {
   content: "";
   inset: var(--border-width, 0);
   position: absolute;
+}
+.mimic-wrapper.edit-mode .mimic .comp.selected::before {
+  box-shadow: 0 0 0 3px lime;
+}
+.mimic-wrapper.edit-mode .mimic .comp:not(.selected):hover::before {
+  box-shadow: 0 0 0 1px var(--bs-gray-500);
+}
+.mimic-wrapper.edit-mode .mimic .comp.fiction-border::before {
+  border: 1px dashed var(--bs-gray-600);
+}
+.mimic-wrapper.edit-mode .mimic .comp.faceplate .comp:hover {
+  box-shadow: none;
 }
