@@ -53,6 +53,7 @@
         "dist/js/bootstrap.min.js.map",
         "scss/_functions.scss",
         "scss/_variables.scss",
+        "scss/_variables-dark.scss",
         "LICENSE"
       ]
     },
