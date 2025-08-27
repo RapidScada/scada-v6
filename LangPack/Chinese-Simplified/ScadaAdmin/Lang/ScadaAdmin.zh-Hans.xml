@@ -493,7 +493,7 @@
     <Phrase key="lbFileType.Items[2]">面板（實驗性）</Phrase>
     <Phrase key="lbFileType.Items[3]">表格視圖</Phrase>
     <Phrase key="lbFileType.Items[4]">XML文件</Phrase>
-    <Phrase key="lbFileType.Items[5]">文字檔案</Phrase>
+    <Phrase key="lbFileType.Items[5]">文本文件</Phrase>
     <Phrase key="lblFileName">文件名</Phrase>
     <Phrase key="btnOK">确定</Phrase>
     <Phrase key="btnCancel">取消</Phrase>

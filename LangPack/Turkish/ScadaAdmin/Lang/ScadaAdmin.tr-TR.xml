@@ -489,8 +489,8 @@ Değişiklikler, uygulama yeniden başlatıldıktan sonra geçerli olacaktır.</
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmFileNew">
     <Phrase key="this">Yeni dosya</Phrase>
-    <Phrase key="lbFileType.Items[0]">Şema Klasik</Phrase>
-    <Phrase key="lbFileType.Items[1]">Mimik Diyagramı (deneysel)</Phrase>
+    <Phrase key="lbFileType.Items[0]">Akış şeması Klasik</Phrase>
+    <Phrase key="lbFileType.Items[1]">Akış şeması (deneysel)</Phrase>
     <Phrase key="lbFileType.Items[2]">Ön panel (deneysel)</Phrase>
     <Phrase key="lbFileType.Items[3]">Tablo görünümü</Phrase>
     <Phrase key="lbFileType.Items[4]">XML Dosyası</Phrase>

@@ -490,7 +490,7 @@ Změny se projeví po restartování aplikace.</Phrase>
   <Dictionary key="Scada.Admin.App.Forms.FrmFileNew">
     <Phrase key="this">Nový soubor</Phrase>
     <Phrase key="lbFileType.Items[0]">Klasické schéma</Phrase>
-    <Phrase key="lbFileType.Items[1]">Mimický diagram (experimentální)</Phrase>
+    <Phrase key="lbFileType.Items[1]">Blokové schéma (experimentální)</Phrase>
     <Phrase key="lbFileType.Items[2]">Čelní panel (experimentální)</Phrase>
     <Phrase key="lbFileType.Items[3]">Zobrazení tabulky</Phrase>
     <Phrase key="lbFileType.Items[4]">XML soubor</Phrase>

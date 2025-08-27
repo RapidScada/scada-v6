@@ -490,8 +490,8 @@ Les modifications prendront effet après le redémarrage de l'application.</Phra
   <Dictionary key="Scada.Admin.App.Forms.FrmFileNew">
     <Phrase key="this">Nouveau fichier</Phrase>
     <Phrase key="lbFileType.Items[0]">Schéma Classique</Phrase>
-    <Phrase key="lbFileType.Items[1]">Diagramme synoptique (expérimental)</Phrase>
-    <Phrase key="lbFileType.Items[2]">Plaque frontale (expérimentale)</Phrase>
+    <Phrase key="lbFileType.Items[1]">Schéma synoptique (expérimental)</Phrase>
+    <Phrase key="lbFileType.Items[2]">Plaque frontale (expérimental)</Phrase>
     <Phrase key="lbFileType.Items[3]">Vue de tableau</Phrase>
     <Phrase key="lbFileType.Items[4]">Fichier XML</Phrase>
     <Phrase key="lbFileType.Items[5]">Fichier texte</Phrase> 

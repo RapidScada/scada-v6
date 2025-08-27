@@ -489,8 +489,8 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmFileNew">
     <Phrase key="this">Нев Филе</Phrase>
-    <Phrase key="lbFileType.Items[0]">Шема Класик</Phrase>
-    <Phrase key="lbFileType.Items[1]">Мимички дијаграм (експериментално)</Phrase>
+    <Phrase key="lbFileType.Items[0]">Визуелизација Класик</Phrase>
+    <Phrase key="lbFileType.Items[1]">Визуелизација (експериментално)</Phrase>
     <Phrase key="lbFileType.Items[2]">Предња плоча (експериментално)</Phrase>
     <Phrase key="lbFileType.Items[3]">Табле Виев</Phrase>
     <Phrase key="lbFileType.Items[4]">XML датотека</Phrase>

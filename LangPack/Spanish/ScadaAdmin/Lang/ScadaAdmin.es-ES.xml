@@ -489,8 +489,8 @@ Los cambios surtirán efecto después de reiniciar la aplicación.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmFileNew">
     <Phrase key="this">Archivo nuevo</Phrase>
-    <Phrase key="lbFileType.Items[0]">Esquema clásico</Phrase>
-    <Phrase key="lbFileType.Items[1]">Diagrama mímico (experimental)</Phrase>
+    <Phrase key="lbFileType.Items[0]">Vista de Proceso clásico</Phrase>
+    <Phrase key="lbFileType.Items[1]">Vista de Proceso (experimental)</Phrase>
     <Phrase key="lbFileType.Items[2]">Placa frontal (experimental)</Phrase>
     <Phrase key="lbFileType.Items[3]">Vista de tabla</Phrase>
     <Phrase key="lbFileType.Items[4]">Archivo XML</Phrase>

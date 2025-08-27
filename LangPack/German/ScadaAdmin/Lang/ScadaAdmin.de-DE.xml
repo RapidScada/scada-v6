@@ -487,7 +487,7 @@
   <Dictionary key="Scada.Admin.App.Forms.FrmFileNew">
     <Phrase key="this">Neue Datei</Phrase>
     <Phrase key="lbFileType.Items[0]">Schema Klassisch</Phrase>
-    <Phrase key="lbFileType.Items[1]">Blindschaltbild (experimentell)</Phrase>
+    <Phrase key="lbFileType.Items[1]">Übersichtsbild (experimentell)</Phrase>
     <Phrase key="lbFileType.Items[2]">Frontplatte (experimentell)</Phrase>
     <Phrase key="lbFileType.Items[3]">Tabellenansicht</Phrase>
     <Phrase key="lbFileType.Items[4]">XML-Datei</Phrase>
