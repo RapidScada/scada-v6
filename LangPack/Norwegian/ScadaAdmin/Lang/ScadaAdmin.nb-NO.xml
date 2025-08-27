@@ -489,10 +489,12 @@ Endringene trer i kraft etter å ha startet programmet på nytt.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmFileNew">
     <Phrase key="this">Ny fil</Phrase>
-    <Phrase key="lbFileType.Items[0]">Oppleggsvisning</Phrase>
-    <Phrase key="lbFileType.Items[1]">Tabellvisning</Phrase>
-    <Phrase key="lbFileType.Items[2]">Tekstfil</Phrase>
-    <Phrase key="lbFileType.Items[3]">XML-fil</Phrase>
+    <Phrase key="lbFileType.Items[0]">Klassisk ordning</Phrase>
+    <Phrase key="lbFileType.Items[1]">Mimikkdiagram (eksperimentelt)</Phrase>
+    <Phrase key="lbFileType.Items[2]">Frontplate (eksperimentell)</Phrase>
+    <Phrase key="lbFileType.Items[3]">Tabellvisning</Phrase>
+    <Phrase key="lbFileType.Items[4]">XML-fil</Phrase>
+    <Phrase key="lbFileType.Items[5]">Tekstfil</Phrase>
     <Phrase key="lblFileName">Filnavn</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Avbryt</Phrase>

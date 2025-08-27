@@ -484,11 +484,12 @@
     <Phrase key="ExecutableFileFilter">Berkas yang dapat dieksekusi (*.exe)|*.exe|Semua Berkas (*.*)|*.*</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmFileNew">
-    <Phrase key="this">Berkas Baru</Phrase>
-    <Phrase key="lbFileType.Items[0]">Tampilan Skema</Phrase>
-    <Phrase key="lbFileType.Items[1]">Tampilan Tabel</Phrase>
-    <Phrase key="lbFileType.Items[2]">Berkas Teks</Phrase>
-    <Phrase key="lbFileType.Items[3]">Berkas XML</Phrase>
+    <Phrase key="lbFileType.Items[0]">Skema Klasik</Phrase>
+    <Phrase key="lbFileType.Items[1]">Diagram Mimik (eksperimental)</Phrase>
+    <Phrase key="lbFileType.Items[2]">Pelat muka (eksperimental)</Phrase>
+    <Phrase key="lbFileType.Items[3]">Tampilan Tabel</Phrase>
+    <Phrase key="lbFileType.Items[4]">Berkas XML</Phrase>
+    <Phrase key="lbFileType.Items[5]">Berkas Teks</Phrase>
     <Phrase key="lblFileName">Nama berkas</Phrase>
     <Phrase key="btnOK">Oke</Phrase>
     <Phrase key="btnCancel">Batal</Phrase>

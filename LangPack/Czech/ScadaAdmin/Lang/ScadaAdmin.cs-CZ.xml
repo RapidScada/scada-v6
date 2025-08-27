@@ -489,10 +489,12 @@ Změny se projeví po restartování aplikace.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmFileNew">
     <Phrase key="this">Nový soubor</Phrase>
-    <Phrase key="lbFileType.Items[0]">Zobrazení schématu</Phrase>
-    <Phrase key="lbFileType.Items[1]">Pohled na tabulku</Phrase>
-    <Phrase key="lbFileType.Items[2]">Textový soubor</Phrase>
-    <Phrase key="lbFileType.Items[3]">Soubor XML</Phrase>
+    <Phrase key="lbFileType.Items[0]">Klasické schéma</Phrase>
+    <Phrase key="lbFileType.Items[1]">Mimický diagram (experimentální)</Phrase>
+    <Phrase key="lbFileType.Items[2]">Čelní panel (experimentální)</Phrase>
+    <Phrase key="lbFileType.Items[3]">Zobrazení tabulky</Phrase>
+    <Phrase key="lbFileType.Items[4]">XML soubor</Phrase>
+    <Phrase key="lbFileType.Items[5]">Text soubor</Phrase>
     <Phrase key="lblFileName">Název souboru</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">zrušení</Phrase>

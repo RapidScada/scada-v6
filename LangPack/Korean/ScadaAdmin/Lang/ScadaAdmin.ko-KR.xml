@@ -489,10 +489,12 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmFileNew">
     <Phrase key="this">새로운 파일</Phrase>
-    <Phrase key="lbFileType.Items[0]">체계 보기</Phrase>
-    <Phrase key="lbFileType.Items[1]">테이블 보기</Phrase>
-    <Phrase key="lbFileType.Items[2]">텍스트 파일</Phrase>
-    <Phrase key="lbFileType.Items[3]">XML 파일</Phrase>
+    <Phrase key="lbFileType.Items[0]">스킴 클래식</Phrase>
+    <Phrase key="lbFileType.Items[1]">미믹 다이어그램(실험적)</Phrase>
+    <Phrase key="lbFileType.Items[2]">페이스플레이트(실험용)</Phrase>
+    <Phrase key="lbFileType.Items[3]">테이블 보기</Phrase>
+    <Phrase key="lbFileType.Items[4]">XML 파일</Phrase>
+    <Phrase key="lbFileType.Items[5]">텍스트 파일</Phrase>
     <Phrase key="lblFileName">파일 이름</Phrase>
     <Phrase key="btnOK">좋아요</Phrase>
     <Phrase key="btnCancel">취소</Phrase>
