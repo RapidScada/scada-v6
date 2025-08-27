@@ -485,10 +485,12 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmFileNew">
     <Phrase key="this">新しいファイル</Phrase>
-    <Phrase key="lbFileType.Items[0]">スキームビュー</Phrase>
-    <Phrase key="lbFileType.Items[1]">テーブルビュー</Phrase>
-    <Phrase key="lbFileType.Items[2]">テキストファイル</Phrase>
-    <Phrase key="lbFileType.Items[3]">XMLファイル</Phrase>
+    <Phrase key="lbFileType.Items[0]">スキームクラシック</Phrase>
+    <Phrase key="lbFileType.Items[1]">ミミックダイアグラム（実験的）</Phrase>
+    <Phrase key="lbFileType.Items[2]">フェイスプレート（実験的）</Phrase>
+    <Phrase key="lbFileType.Items[3]">テーブルビュー</Phrase>
+    <Phrase key="lbFileType.Items[4]">XMLファイル</Phrase>
+    <Phrase key="lbFileType.Items[5]">テキストファイル</Phrase>
     <Phrase key="lblFileName">ファイル名</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">キャンセル</Phrase>
