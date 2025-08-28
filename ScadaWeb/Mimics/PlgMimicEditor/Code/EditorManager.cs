@@ -346,14 +346,26 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
 
                 // load faceplates
                 string viewDir = EditorUtils.GetViewDir(projectFileName);
-                mimic.LoadFaceplates(viewDir, false, loadContext);
+                mimic.LoadFaceplates(viewDir, loadContext);
 
                 // add mimic to the editor
                 StartCleanup();
                 MimicInstance mimicInstance = AddMimic(projectFileName, fileName, mimic);
-                PluginLog.WriteAction(Locale.IsRussian ?
-                    "Загружена мнемосхема {0}" :
-                    "Mimic loaded {0}", fileName);
+
+                // log results
+                if (loadContext.Errors.Count == 0)
+                {
+                    PluginLog.WriteAction(Locale.IsRussian ?
+                        "Загружена мнемосхема {0}" :
+                        "Mimic loaded {0}", fileName);
+                }
+                else
+                {
+                    PluginLog.WriteAction(Locale.IsRussian ?
+                        "Загружена мнемосхема {0} с ошибками:" :
+                        "Mimic loaded {0} with errors:", fileName);
+                    loadContext.Errors.ForEach(s => PluginLog.WriteLine(s));
+                }
 
                 return new OpenResult
                 {
@@ -421,12 +433,23 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
 
                     // load faceplates
                     string viewDir = EditorUtils.GetViewDir(mimicInstance.ParentGroup.ProjectFileName);
-                    mimic.LoadFaceplates(viewDir, false, loadContext);
-                }
+                    mimic.LoadFaceplates(viewDir, loadContext);
 
-                PluginLog.WriteAction(Locale.IsRussian ?
-                    "Перезагружена мнемосхема {0}" :
-                    "Mimic reloaded {0}", mimicInstance.FileName);
+                    // log results
+                    if (loadContext.Errors.Count == 0)
+                    {
+                        PluginLog.WriteAction(Locale.IsRussian ?
+                            "Перезагружена мнемосхема {0}" :
+                            "Mimic reloaded {0}", mimicInstance.FileName);
+                    }
+                    else
+                    {
+                        PluginLog.WriteAction(Locale.IsRussian ?
+                            "Перезагружена мнемосхема {0} с ошибками:" :
+                            "Mimic reloaded {0} with errors:", mimicInstance.FileName);
+                        loadContext.Errors.ForEach(s => PluginLog.WriteLine(s));
+                    }
+                }
 
                 errMsg = "";
                 return true;

@@ -86,7 +86,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Loads the faceplates specified in dependencies.
         /// </summary>
-        public void LoadFaceplates(string viewDir, bool continueOnError, LoadContext loadContext)
+        public void LoadFaceplates(string viewDir, LoadContext loadContext)
         {
             ArgumentNullException.ThrowIfNull(loadContext, nameof(loadContext));
             int dependencyIndex = 0;
@@ -115,15 +115,9 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                     }
                     catch (Exception ex)
                     {
-                        if (continueOnError)
-                        {
-                            faceplateMeta.HasError = true;
-                            loadContext.Errors.Add(ex.Message);
-                        }
-                        else
-                        {
-                            throw;
-                        }
+                        // continue loading on error
+                        faceplateMeta.HasError = true;
+                        loadContext.Errors.Add(ex.Message);
                     }
                 }
             }
@@ -143,7 +137,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 
             // load faceplates
             FaceplateMap.Clear();
-            LoadFaceplates(viewDir, true, loadContext);
+            LoadFaceplates(viewDir, loadContext);
         }
 
         /// <summary>
