@@ -11,6 +11,8 @@
     <Text>
       <ID>1</ID>
       <Name />
+      <Enabled>True</Enabled>
+      <Visible>True</Visible>
       <Location>
         <X>10</X>
         <Y>10</Y>
