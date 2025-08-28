@@ -358,6 +358,13 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
         }));
 
         this.add(new PropertyDescriptor({
+            name: "cssClass",
+            displayName: "CSS class",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "font",
             displayName: "Font",
             category: KnownCategory.APPEARANCE,
@@ -3286,6 +3293,7 @@ rs.mimic.MimicFactory = class {
             backColor: PropertyParser.parseString(sourceProps.backColor),
             backgroundImage: PropertyParser.parseString(sourceProps.backgroundImage),
             backgroundPadding: new rs.mimic.Padding(),
+            cssClass: PropertyParser.parseString(sourceProps.cssClass),
             font: rs.mimic.Font.parse(sourceProps.font),
             foreColor: PropertyParser.parseString(sourceProps.foreColor),
             stylesheet: PropertyParser.parseString(sourceProps.stylesheet),
@@ -4012,6 +4020,17 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         return 1.0;
     }
 
+    // Sets the CSS classes of the mimic element.
+    _setClasses(mimicElem, mimic, renderContext) {
+        mimicElem.removeClass(); // clear classes
+        mimicElem.addClass("mimic");
+        let props = mimic.document;
+
+        if (props.cssClass) {
+            mimicElem.addClass(props.cssClass);
+        }
+}
+
     // Sets the CSS properties of the mimic element.
     _setProps(mimicElem, mimic, renderContext) {
         let props = mimic.document;
@@ -4068,13 +4087,14 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
 
     // Creates a mimic DOM according to the mimic model.
     createDom(mimic, renderContext) {
-        let mimicElem = $("<div class='mimic'></div>");
+        let mimicElem = $("<div></div>");
 
         if (MimicRenderer._gridVisible(renderContext)) {
             let gridElem = MimicRenderer._createGrid(renderContext.editorOptions.gridStep, mimic.document.size);
             mimicElem.append(gridElem);
         }
 
+        this._setClasses(mimicElem, mimic, renderContext);
         this._setProps(mimicElem, mimic, renderContext);
         mimic.dom = mimicElem;
         return mimicElem;
@@ -4090,6 +4110,7 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
                 mimicElem.children(".grid:first").replaceWith(gridElem);
             }
 
+            this._setClasses(mimicElem, mimic, renderContext);
             this._setProps(mimicElem, mimic, renderContext);
         }
 

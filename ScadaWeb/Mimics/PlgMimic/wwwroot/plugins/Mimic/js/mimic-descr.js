@@ -142,6 +142,13 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
         }));
 
         this.add(new PropertyDescriptor({
+            name: "cssClass",
+            displayName: "CSS class",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "font",
             displayName: "Font",
             category: KnownCategory.APPEARANCE,

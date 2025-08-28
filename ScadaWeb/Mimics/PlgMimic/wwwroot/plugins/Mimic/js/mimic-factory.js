@@ -13,6 +13,7 @@ rs.mimic.MimicFactory = class {
             backColor: PropertyParser.parseString(sourceProps.backColor),
             backgroundImage: PropertyParser.parseString(sourceProps.backgroundImage),
             backgroundPadding: new rs.mimic.Padding(),
+            cssClass: PropertyParser.parseString(sourceProps.cssClass),
             font: rs.mimic.Font.parse(sourceProps.font),
             foreColor: PropertyParser.parseString(sourceProps.foreColor),
             stylesheet: PropertyParser.parseString(sourceProps.stylesheet),

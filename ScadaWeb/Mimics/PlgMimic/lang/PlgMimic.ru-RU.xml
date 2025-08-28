@@ -31,6 +31,7 @@
     <Phrase key="BackColor">Цвет фона</Phrase>
     <Phrase key="BackgroundImage">Фоновое изображение</Phrase>
     <Phrase key="BackgroundPadding">Отступ фона</Phrase>
+    <Phrase key="CssClass">CSS-класс</Phrase>
     <Phrase key="Font">Шрифт</Phrase>
     <Phrase key="ForeColor">Основной цвет</Phrase>
     <Phrase key="Stylesheet">Таблица стилей</Phrase>

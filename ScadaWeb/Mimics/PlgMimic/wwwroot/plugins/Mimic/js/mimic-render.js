@@ -242,6 +242,17 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         return 1.0;
     }
 
+    // Sets the CSS classes of the mimic element.
+    _setClasses(mimicElem, mimic, renderContext) {
+        mimicElem.removeClass(); // clear classes
+        mimicElem.addClass("mimic");
+        let props = mimic.document;
+
+        if (props.cssClass) {
+            mimicElem.addClass(props.cssClass);
+        }
+}
+
     // Sets the CSS properties of the mimic element.
     _setProps(mimicElem, mimic, renderContext) {
         let props = mimic.document;
@@ -298,13 +309,14 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
 
     // Creates a mimic DOM according to the mimic model.
     createDom(mimic, renderContext) {
-        let mimicElem = $("<div class='mimic'></div>");
+        let mimicElem = $("<div></div>");
 
         if (MimicRenderer._gridVisible(renderContext)) {
             let gridElem = MimicRenderer._createGrid(renderContext.editorOptions.gridStep, mimic.document.size);
             mimicElem.append(gridElem);
         }
 
+        this._setClasses(mimicElem, mimic, renderContext);
         this._setProps(mimicElem, mimic, renderContext);
         mimic.dom = mimicElem;
         return mimicElem;
@@ -320,6 +332,7 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
                 mimicElem.children(".grid:first").replaceWith(gridElem);
             }
 
+            this._setClasses(mimicElem, mimic, renderContext);
             this._setProps(mimicElem, mimic, renderContext);
         }
 
