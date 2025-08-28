@@ -63,6 +63,9 @@
 .mimic-wrapper.edit-mode .mimic .comp.fiction-border::before {
   border: 1px dashed var(--bs-gray-600);
 }
-.mimic-wrapper.edit-mode .mimic .comp.faceplate .comp:hover {
+.mimic-wrapper.edit-mode .mimic .comp.picture.blank .picture-content {
+  background-image: url("../images/picture-blank.svg");
+}
+.mimic-wrapper.edit-mode .mimic .comp.faceplate .comp:hover::before {
   box-shadow: none;
 }

@@ -80,29 +80,27 @@ $component-fiction-border: 1px dashed var(--bs-gray-600);
                 position: absolute;
             }
 
-            &.selected {
-                &::before {
-                    box-shadow: $component-selected-box-shadow;
-                }
+            &.selected::before {
+                box-shadow: $component-selected-box-shadow;
             }
 
-            &:not(.selected):hover {
-                &::before {
-                    box-shadow: $component-hover-box-shadow;
-                }
+            &:not(.selected):hover::before {
+                box-shadow: $component-hover-box-shadow;
             }
 
-            &.fiction-border {
-                &::before {
-                    border: $component-fiction-border;
+            &.fiction-border::before {
+                border: $component-fiction-border;
+            }
+
+            &.picture.blank {
+                .picture-content {
+                    background-image: url("../images/picture-blank.svg");
                 }
             }
 
             &.faceplate {
-                .comp {
-                    &:hover {
-                        box-shadow: none;
-                    }
+                .comp:hover::before {
+                    box-shadow: none;
                 }
             }
         }

@@ -4580,6 +4580,10 @@ rs.mimic.PictureRenderer = class extends rs.mimic.RegularComponentRenderer {
     _setClasses(componentElem, component, renderContext) {
         super._setClasses(componentElem, component, renderContext);
         componentElem.addClass("picture");
+
+        if (renderContext.editMode && !component.properties.imageName) {
+            componentElem.addClass("blank");
+        }
     }
 
     _setProps(componentElem, component, renderContext) {
