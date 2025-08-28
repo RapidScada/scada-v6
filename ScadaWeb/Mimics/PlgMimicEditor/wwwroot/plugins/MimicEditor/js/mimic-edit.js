@@ -54,7 +54,7 @@ function bindEvents() {
     $(document).on("keydown", function (event) {
         let targetElem = $(event.target);
 
-        if ((targetElem.is("body") || targetElem.closest("#divToolbar").length > 0 ||
+        if ((targetElem.is("body") || targetElem.closest(".mimic, #divToolbar").length > 0 ||
             event.code === "KeyS" && event.ctrlKey) &&
             handleKeyDown(event.code, event.ctrlKey, event.shiftKey)) {
             event.preventDefault();

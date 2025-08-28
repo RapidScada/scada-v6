@@ -895,6 +895,10 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
         super._setClasses(componentElem, component, renderContext);
         componentElem.addClass("faceplate");
     }
+
+    _setProps(componentElem, component, renderContext) {
+        super._setProps(componentElem, component, renderContext);
+    }
 };
 
 // Encapsulates information about a rendering operation.
