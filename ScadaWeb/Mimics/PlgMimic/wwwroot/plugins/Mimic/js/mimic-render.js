@@ -245,23 +245,39 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
     // Sets the CSS properties of the mimic element.
     _setProps(mimicElem, mimic, renderContext) {
         let props = mimic.document;
-        this._setBackgroundImage(mimicElem, renderContext.getImage(props.backgroundImage));
         this._setFont(mimicElem, props.font, renderContext.fontMap);
         this._setSize(mimicElem, props.size);
         this._setStyle(props.stylesheet);
-
-        if (!renderContext.editMode) {
-            $("body").css("background-color", props.backColor);
-        }
 
         mimicElem
             .attr("title", props.tooltip)
             .css({
                 "background-color": props.backColor,
-                "background-repeat": "no-repeat",
-                "background-size": props.size.width + "px " + props.size.height + "px",
                 "color": props.foreColor
             });
+
+        if (props.backgroundImage) {
+            let x = props.backgroundPadding.left;
+            let y = props.backgroundPadding.top;
+            let w = props.size.width - x - props.backgroundPadding.right;
+            let h = props.size.height - y - props.backgroundPadding.bottom;
+
+            mimicElem.css({
+                "background-image": this._imageToDataUrlCss(renderContext.getImage(props.backgroundImage)),
+                "background-position": `${x}px ${y}px`,
+                "background-size": `${w}px ${h}px`
+            });
+        } else {
+            mimicElem.css({
+                "background-image": "",
+                "background-position": "",
+                "background-size": ""
+            });
+        }
+
+        if (!renderContext.editMode) {
+            $("body").css("background-color", props.backColor);
+        }
     }
 
     // Adds a style element to the page head or replaces the existing style element.

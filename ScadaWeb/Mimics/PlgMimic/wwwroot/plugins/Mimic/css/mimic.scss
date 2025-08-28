@@ -11,6 +11,7 @@ $component-fiction-border: 1px dashed var(--bs-gray-600);
 
     .mimic {
         background-color: $mimic-background-color;
+        background-repeat: no-repeat;
         position: absolute; // affects scaling
         transform-origin: left top; // affects scaling
 

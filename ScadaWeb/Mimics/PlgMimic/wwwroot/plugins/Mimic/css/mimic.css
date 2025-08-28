@@ -5,6 +5,7 @@
 }
 .mimic-wrapper .mimic {
   background-color: white;
+  background-repeat: no-repeat;
   position: absolute;
   transform-origin: left top;
 }

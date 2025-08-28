@@ -30,6 +30,7 @@
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Mimic">
     <Phrase key="BackColor">Background color</Phrase>
     <Phrase key="BackgroundImage">Background image</Phrase>
+    <Phrase key="BackgroundPadding">Background padding</Phrase>
     <Phrase key="Font">Font</Phrase>
     <Phrase key="ForeColor">Foreground color</Phrase>
     <Phrase key="Stylesheet">Stylesheet</Phrase>

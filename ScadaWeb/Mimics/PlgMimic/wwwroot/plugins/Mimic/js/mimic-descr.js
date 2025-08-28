@@ -134,6 +134,14 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
         }));
 
         this.add(new PropertyDescriptor({
+            name: "backgroundPadding",
+            displayName: "Background padding",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.PADDING
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "font",
             displayName: "Font",
             category: KnownCategory.APPEARANCE,
