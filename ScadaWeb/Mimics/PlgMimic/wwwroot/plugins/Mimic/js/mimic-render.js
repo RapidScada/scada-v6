@@ -166,6 +166,12 @@ rs.mimic.Renderer = class {
 rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
     static _GRID_COLOR = "#dee2e6"; // gray-300
 
+    // Checks whether to display grid.
+    static _gridVisible(renderContext) {
+        return renderContext.editMode && renderContext.editorOptions &&
+            renderContext.editorOptions.showGrid && renderContext.editorOptions.gridStep > 1;
+    }
+
     // Creates a grid canvas and draws grid cells.
     static _createGrid(gridSize, mimicSize) {
         // create canvas
@@ -278,9 +284,9 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
     createDom(mimic, renderContext) {
         let mimicElem = $("<div class='mimic'></div>");
 
-        if (renderContext.editMode && renderContext.editorOptions &&
-            renderContext.editorOptions.showGrid && renderContext.editorOptions.gridStep > 1) {
-            mimicElem.append(MimicRenderer._createGrid(renderContext.editorOptions.gridStep, mimic.document.size));
+        if (MimicRenderer._gridVisible(renderContext)) {
+            let gridElem = MimicRenderer._createGrid(renderContext.editorOptions.gridStep, mimic.document.size);
+            mimicElem.append(gridElem);
         }
 
         this._setProps(mimicElem, mimic, renderContext);
@@ -293,6 +299,11 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         let mimicElem = mimic.dom;
 
         if (mimicElem) {
+            if (MimicRenderer._gridVisible(renderContext)) {
+                let gridElem = MimicRenderer._createGrid(renderContext.editorOptions.gridStep, mimic.document.size);
+                mimicElem.children(".grid:first").replaceWith(gridElem);
+            }
+
             this._setProps(mimicElem, mimic, renderContext);
         }
 
