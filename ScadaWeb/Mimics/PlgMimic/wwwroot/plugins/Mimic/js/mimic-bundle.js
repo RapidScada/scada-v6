@@ -4020,6 +4020,40 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         return 1.0;
     }
 
+    // Adds, replaces or removes a style element in the page head.
+    static _updateStyleElem(stylesheet) {
+        if (stylesheet) {
+            let newStyleElem = $("<style id='mimic-style'></style>").html(stylesheet);
+            let oldStyleElem = $("head").find("#mimic-style");
+
+            if (oldStyleElem.length > 0) {
+                oldStyleElem.replaceWith(newStyleElem);
+            } else {
+                $("head").append(newStyleElem);
+            }
+        } else {
+            $("head").find("#mimic-style").remove();
+        }
+    }
+
+    // Updates a style element according to the stylesheets of the mimic and faceplates.
+    static _setStylesheet(mimic) {
+        let stylesheet = mimic.document.stylesheet;
+
+        for (let faceplate of mimic.faceplates) {
+            stylesheet += faceplate.document.stylesheet;
+        }
+
+        MimicRenderer._updateStyleElem(stylesheet);
+    }
+
+    // Sets the body background color in edit mode.
+    static _setBodyBackColor(mimic, renderContext) {
+        if (!renderContext.editMode) {
+            $("body").css("background-color", mimic.document.backColor);
+        }
+    }
+
     // Sets the CSS classes of the mimic element.
     _setClasses(mimicElem, mimic, renderContext) {
         mimicElem.removeClass(); // clear classes
@@ -4036,7 +4070,6 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         let props = mimic.document;
         this._setFont(mimicElem, props.font, renderContext.fontMap);
         this._setSize(mimicElem, props.size);
-        this._setStyle(props.stylesheet);
 
         mimicElem
             .attr("title", props.tooltip)
@@ -4063,31 +4096,13 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
                 "background-size": ""
             });
         }
-
-        if (!renderContext.editMode) {
-            $("body").css("background-color", props.backColor);
-        }
-    }
-
-    // Adds a style element to the page head or replaces the existing style element.
-    _setStyle(stylesheet) {
-        if (stylesheet) {
-            let newStyleElem = $("<style id='mimic-style'></style>").html(stylesheet);
-            let oldStyleElem = $("head").find("#mimic-style");
-
-            if (oldStyleElem.length > 0) {
-                oldStyleElem.replaceWith(newStyleElem);
-            } else {
-                $("head").append(newStyleElem);
-            }
-        } else {
-            $("head").find("#mimic-style").remove();
-        }
     }
 
     // Creates a mimic DOM according to the mimic model.
     createDom(mimic, renderContext) {
         let mimicElem = $("<div></div>");
+        MimicRenderer._setStylesheet(mimic);
+        MimicRenderer._setBodyBackColor(mimic, renderContext);
 
         if (MimicRenderer._gridVisible(renderContext)) {
             let gridElem = MimicRenderer._createGrid(renderContext.editorOptions.gridStep, mimic.document.size);
@@ -4103,6 +4118,8 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
     // Updates the existing mimic DOM according to the mimic model.
     updateDom(mimic, renderContext) {
         let mimicElem = mimic.dom;
+        MimicRenderer._setStylesheet(mimic);
+        MimicRenderer._setBodyBackColor(mimic, renderContext);
 
         if (mimicElem) {
             if (MimicRenderer._gridVisible(renderContext)) {
@@ -4115,6 +4132,11 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         }
 
         return mimicElem;
+    }
+
+    // Sets the CSS properties of the mimic element.
+    setMimicProps(mimicElem, mimic, renderContext) {
+        this._setProps(mimicElem, mimic, renderContext);
     }
 
     // Sets the scale of the mimic DOM.
@@ -4701,10 +4723,22 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
     _setClasses(componentElem, component, renderContext) {
         super._setClasses(componentElem, component, renderContext);
         componentElem.addClass("faceplate");
+
+        if (component.model) {
+            let modelProps = component.model.document;
+
+            if (modelProps.cssClass) {
+                mimicElem.addClass(modelProps.cssClass);
+            }
+        }
     }
 
     _setProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
+
+        if (component.model) {
+            rs.mimic.RendererSet.mimicRenderer.setMimicProps(componentElem, component.model, renderContext);
+        }
     }
 };
 

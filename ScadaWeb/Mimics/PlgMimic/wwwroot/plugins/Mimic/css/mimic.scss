@@ -16,6 +16,7 @@ $component-fiction-border: 1px dashed var(--bs-gray-600);
         transform-origin: left top; // affects scaling
 
         .comp {
+            background-repeat: no-repeat;
             box-sizing: border-box;
             line-height: normal;
             position: absolute;
@@ -28,7 +29,6 @@ $component-fiction-border: 1px dashed var(--bs-gray-600);
 
             &.picture {
                 .picture-content {
-                    background-repeat: no-repeat;
                     background-clip: content-box;
                     height: 100%;
                     width: 100%;
