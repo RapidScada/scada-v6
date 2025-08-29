@@ -173,12 +173,12 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
     }
 
     // Creates a grid canvas and draws grid cells.
-    static _createGrid(gridSize, mimicSize) {
+    static _createGrid(gridSize, mimicWidth, mimicHeight) {
         // create canvas
         let canvasElem = $("<canvas class='grid'></canvas>");
         let canvas = canvasElem[0];
-        let width = canvas.width = mimicSize.width;
-        let height = canvas.height = mimicSize.height;
+        let width = canvas.width = mimicWidth;
+        let height = canvas.height = mimicHeight;
 
         // prepare drawing context
         let context = canvas.getContext("2d");
@@ -293,6 +293,11 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         this._setFont(mimicElem, props.font, renderContext.fontMap);
         this._setSize(mimicElem, props.size);
 
+        if (mimic.isFaceplate) {
+            this._setBorder(mimicElem, props.border);
+            this._setCornerRadius(mimicElem, props.cornerRadius);
+        }
+
         mimicElem
             .attr("title", props.tooltip)
             .css({
@@ -327,8 +332,8 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         MimicRenderer._setBodyBackColor(mimic, renderContext);
 
         if (MimicRenderer._gridVisible(renderContext)) {
-            let gridElem = MimicRenderer._createGrid(renderContext.editorOptions.gridStep, mimic.document.size);
-            mimicElem.append(gridElem);
+            mimicElem.append(MimicRenderer._createGrid(
+                renderContext.editorOptions.gridStep, mimic.innerWidth, mimic.innerHeight));
         }
 
         this._setClasses(mimicElem, mimic, renderContext);
@@ -345,8 +350,8 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
 
         if (mimicElem) {
             if (MimicRenderer._gridVisible(renderContext)) {
-                let gridElem = MimicRenderer._createGrid(renderContext.editorOptions.gridStep, mimic.document.size);
-                mimicElem.children(".grid:first").replaceWith(gridElem);
+                mimicElem.children(".grid:first").replaceWith(MimicRenderer._createGrid(
+                    renderContext.editorOptions.gridStep, mimic.innerWidth, mimic.innerHeight));
             }
 
             this._setClasses(mimicElem, mimic, renderContext);

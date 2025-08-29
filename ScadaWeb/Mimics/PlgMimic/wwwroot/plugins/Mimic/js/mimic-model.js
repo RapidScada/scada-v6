@@ -312,6 +312,22 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         return this.document ? this.document.size.height : 0;
     }
 
+    // Gets the inner width excluding the border.
+    get innerWidth() {
+        let props = this.document;
+        return props
+            ? props.size.width - (props.border ? props.border.width * 2 : 0)
+            : 0;
+    }
+
+    // Gets the inner height excluding the border.
+    get innerHeight() {
+        let props = this.document;
+        return props
+            ? props.size.height - (props.border ? props.border.width * 2 : 0)
+            : 0;
+    }
+
     // Loads a part of the mimic.
     async _loadPart(loadContext) {
         const LoadStep = rs.mimic.LoadStep;
