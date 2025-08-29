@@ -241,6 +241,7 @@ rs.mimic.MimicHelper = class MimicHelper {
 
 // A base class for mimic diagrams and faceplates.
 rs.mimic.MimicBase = class {
+    isFaceplate;   // mimic is a faceplate
     dependencies;  // meta information about faceplates
     document;      // mimic properties
     components;    // all components
@@ -255,6 +256,7 @@ rs.mimic.MimicBase = class {
 
     // Clears the mimic.
     clear() {
+        this.isFaceplate = false;
         this.dependencies = [];
         this.document = {};
         this.components = [];
@@ -287,10 +289,9 @@ rs.mimic.MimicBase = class {
 
 // Represents a mimic diagram.
 rs.mimic.Mimic = class extends rs.mimic.MimicBase {
-    isFaceplate; // mimic is a faceplate
-    dom;         // mimic DOM as a jQuery object
-    renderer;    // renders the mimic
-    script;      // custom mimic logic
+    dom;      // mimic DOM as a jQuery object
+    renderer; // renders the mimic
+    script;   // custom mimic logic
 
     // Imitates a component ID to use as a parent ID.
     get id() {
@@ -538,7 +539,6 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     // Clears the mimic.
     clear() {
         super.clear();
-        this.isFaceplate = false;
         this.dom = null;
         this.renderer = null;
         this.script = null;
@@ -1062,7 +1062,8 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
     constructor(source, typeName) {
         super();
         this.clear();
-        this.document = source.document ?? {};
+        this.isFaceplate = true;
+        this.document = rs.mimic.MimicFactory.parseProperties(source.document, true);
         this.typeName = typeName;
         this._fillDependencies(source);
         this._fillComponents(source);

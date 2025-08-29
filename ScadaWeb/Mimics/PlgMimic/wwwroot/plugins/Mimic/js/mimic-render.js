@@ -545,7 +545,7 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
             this._setVisualState(componentElem, props.disabledState);
         }
 
-        // configure area outside rounded corners
+        // configure component area
         if (renderContext.editMode) {
             componentElem.css("--border-width", -props.border.width + "px");
         }
@@ -961,10 +961,18 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
     }
 
     _setProps(componentElem, component, renderContext) {
-        super._setProps(componentElem, component, renderContext);
+        let borderWidth = 0;
 
         if (component.model) {
             rs.mimic.RendererSet.mimicRenderer.setMimicProps(componentElem, component.model, renderContext);
+            borderWidth = component.model.document.border.width;
+        }
+
+        super._setProps(componentElem, component, renderContext);
+
+        // configure component area
+        if (renderContext.editMode) {
+            componentElem.css("--border-width", -borderWidth + "px");
         }
     }
 };
