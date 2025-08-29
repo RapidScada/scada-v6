@@ -5,10 +5,10 @@
 // Create mimic properties.
 rs.mimic.MimicFactory = class {
     // Parses the document properties from the specified source object.
-    static parseProperties(sourceProps) {
+    static parseProperties(sourceProps, isFaceplate) {
         const PropertyParser = rs.mimic.PropertyParser;
         sourceProps ??= {};
-        return {
+        let props = {
             // appearance
             backColor: PropertyParser.parseString(sourceProps.backColor),
             backgroundImage: PropertyParser.parseString(sourceProps.backgroundImage),
@@ -22,12 +22,18 @@ rs.mimic.MimicFactory = class {
             script: PropertyParser.parseString(sourceProps.script),
             tooltip: PropertyParser.parseString(sourceProps.tooltip),
 
-            // data
-            propertyExports: rs.mimic.PropertyExportList.parse(sourceProps.propertyExports),
-
             // layout
             size: rs.mimic.Size.parse(sourceProps.size, { width: 800, height: 600 })
         };
+
+        // faceplate properties
+        if (isFaceplate) {
+            props.border = rs.mimic.Border.parse(sourceProps.border);
+            props.cornerRadius = rs.mimic.CornerRadius.parse(sourceProps.cornerRadius);
+            props.propertyExports = rs.mimic.PropertyExportList.parse(sourceProps.propertyExports);
+        }
+
+        return props;
     }
 }
 

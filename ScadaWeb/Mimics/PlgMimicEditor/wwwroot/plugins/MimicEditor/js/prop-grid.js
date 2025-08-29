@@ -67,7 +67,7 @@ class PropGrid {
         this._clearPane();
         let targetObject = PropGridHelper.getTargetObject(obj);
         let descriptor = PropGridHelper.getObjectDescriptor(obj);
-        let folderMap = this._addFolders(descriptor);
+        let folderMap = this._addFolders(targetObject, descriptor);
         this._addBlades(folderMap, targetObject, isChild, descriptor);
     }
 
@@ -184,15 +184,16 @@ class PropGrid {
         return blade;
     }
 
-    _addFolders(objectDescriptor) {
+    _addFolders(targetObject, objectDescriptor) {
         let folderMap = new Map();
 
-        if (objectDescriptor) {
+        if (targetObject && objectDescriptor) {
             // get distinct categories
             let categorySet = new Set();
 
             for (let propertyDescriptor of objectDescriptor.propertyDescriptors.values()) {
-                if (propertyDescriptor.isBrowsable && propertyDescriptor.category) {
+                if (targetObject.hasOwnProperty(propertyDescriptor.name) &&
+                    propertyDescriptor.isBrowsable && propertyDescriptor.category) {
                     categorySet.add(propertyDescriptor.category);
                 }
             }

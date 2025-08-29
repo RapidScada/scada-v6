@@ -21,6 +21,7 @@ namespace Scada.Web.Plugins.PlgMimic.Models
             ArgumentNullException.ThrowIfNull(mimic, nameof(mimic));
             Dependencies = mimic.Dependencies;
             Document = mimic.Document;
+            IsFaceplate = mimic.IsFaceplate;
         }
 
 
@@ -33,5 +34,10 @@ namespace Scada.Web.Plugins.PlgMimic.Models
         /// Gets or sets the mimic document.
         /// </summary>
         public ExpandoObject Document { get; }
+
+        /// <summary>
+        /// Indicates that the mimic is a faceplate.
+        /// </summary>
+        public bool IsFaceplate { get; }
     }
 }

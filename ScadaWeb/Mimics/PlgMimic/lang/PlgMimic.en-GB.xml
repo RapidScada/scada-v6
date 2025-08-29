@@ -24,6 +24,7 @@
     <Phrase key="Behavior">BEHAVIOR</Phrase>
     <Phrase key="Data">DATA</Phrase>
     <Phrase key="Design">DESIGN</Phrase>
+    <Phrase key="Faceplate">FACEPLATE</Phrase>
     <Phrase key="Layout">LAYOUT</Phrase>
     <Phrase key="Misc">MISC</Phrase>
   </Dictionary>
@@ -37,6 +38,8 @@
     <Phrase key="Stylesheet">Stylesheet</Phrase>
     <Phrase key="Script">Script</Phrase>
     <Phrase key="Tooltip">Tooltip</Phrase>
+    <Phrase key="Border">Border</Phrase>
+    <Phrase key="CornerRadius">Corner radius</Phrase>
     <Phrase key="PropertyExports">Exported properties</Phrase>
     <Phrase key="Size">Size</Phrase>
   </Dictionary>

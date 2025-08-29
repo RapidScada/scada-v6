@@ -31,6 +31,11 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         public Dictionary<string, Faceplate> FaceplateMap { get; } = [];
 
         /// <summary>
+        /// Gets a value indicating whether the mimic is intended to be used as a faceplate.
+        /// </summary>
+        public bool IsFaceplate => RootElemName == RootElement.Faceplate;
+
+        /// <summary>
         /// Gets an object that can be used to synchronize access to the mimic.
         /// </summary>
         public object SyncRoot => this;

@@ -15,6 +15,7 @@ rs.mimic.KnownCategory = class {
     static BEHAVIOR = "behavior";
     static DATA = "data";
     static DESIGN = "design";
+    static FACEPLATE = "faceplate";
     static LAYOUT = "layout";
     static MISC = "misc";
 };
@@ -191,11 +192,27 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             type: BasicType.STRING
         }));
 
-        // data
+        // faceplate
+        this.add(new PropertyDescriptor({
+            name: "border",
+            displayName: "Border",
+            category: KnownCategory.FACEPLATE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.BORDER
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "cornerRadius",
+            displayName: "Corner radius",
+            category: KnownCategory.FACEPLATE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.CORNER_RADIUS
+        }));
+
         this.add(new PropertyDescriptor({
             name: "propertyExports",
             displayName: "Exported properties",
-            category: KnownCategory.DATA,
+            category: KnownCategory.FACEPLATE,
             type: BasicType.LIST,
             subtype: Subtype.PROPERTY_EXPORT
         }));

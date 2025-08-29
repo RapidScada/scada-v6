@@ -912,7 +912,7 @@ function restoreHistoryPoint(historyPoint) {
                 let documentSource = historyChange.getNewObject();
 
                 if (documentSource) {
-                    Object.assign(mimic.document, MimicFactory.parseProperties(documentSource));
+                    Object.assign(mimic.document, MimicFactory.parseProperties(documentSource, mimic.isFaceplate));
                     mimicHistory.rememberDocument(mimic, true);
                     unitedRenderer.updateMimicDom();
                     changes.push(Change.updateDocument(mimic.document));

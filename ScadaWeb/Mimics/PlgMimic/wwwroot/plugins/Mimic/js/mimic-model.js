@@ -287,9 +287,10 @@ rs.mimic.MimicBase = class {
 
 // Represents a mimic diagram.
 rs.mimic.Mimic = class extends rs.mimic.MimicBase {
-    dom;      // mimic DOM as a jQuery object
-    renderer; // renders the mimic
-    script;   // custom mimic logic
+    isFaceplate; // mimic is a faceplate
+    dom;         // mimic DOM as a jQuery object
+    renderer;    // renders the mimic
+    script;      // custom mimic logic
 
     // Imitates a component ID to use as a parent ID.
     get id() {
@@ -404,7 +405,8 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                     }
                 }
 
-                this.document = rs.mimic.MimicFactory.parseProperties(dto.data.document);
+                this.isFaceplate = dto.data.isFaceplate;
+                this.document = rs.mimic.MimicFactory.parseProperties(dto.data.document, this.isFaceplate);
             }
 
             return dto;
@@ -520,6 +522,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     // Clears the mimic.
     clear() {
         super.clear();
+        this.isFaceplate = false;
         this.dom = null;
         this.renderer = null;
         this.script = null;

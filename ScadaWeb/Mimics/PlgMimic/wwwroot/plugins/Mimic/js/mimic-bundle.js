@@ -231,6 +231,7 @@ rs.mimic.KnownCategory = class {
     static BEHAVIOR = "behavior";
     static DATA = "data";
     static DESIGN = "design";
+    static FACEPLATE = "faceplate";
     static LAYOUT = "layout";
     static MISC = "misc";
 };
@@ -407,11 +408,27 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             type: BasicType.STRING
         }));
 
-        // data
+        // faceplate
+        this.add(new PropertyDescriptor({
+            name: "border",
+            displayName: "Border",
+            category: KnownCategory.FACEPLATE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.BORDER
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "cornerRadius",
+            displayName: "Corner radius",
+            category: KnownCategory.FACEPLATE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.CORNER_RADIUS
+        }));
+
         this.add(new PropertyDescriptor({
             name: "propertyExports",
             displayName: "Exported properties",
-            category: KnownCategory.DATA,
+            category: KnownCategory.FACEPLATE,
             type: BasicType.LIST,
             subtype: Subtype.PROPERTY_EXPORT
         }));
@@ -1505,9 +1522,10 @@ rs.mimic.MimicBase = class {
 
 // Represents a mimic diagram.
 rs.mimic.Mimic = class extends rs.mimic.MimicBase {
-    dom;      // mimic DOM as a jQuery object
-    renderer; // renders the mimic
-    script;   // custom mimic logic
+    isFaceplate; // mimic is a faceplate
+    dom;         // mimic DOM as a jQuery object
+    renderer;    // renders the mimic
+    script;      // custom mimic logic
 
     // Imitates a component ID to use as a parent ID.
     get id() {
@@ -1622,7 +1640,8 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                     }
                 }
 
-                this.document = rs.mimic.MimicFactory.parseProperties(dto.data.document);
+                this.isFaceplate = dto.data.isFaceplate;
+                this.document = rs.mimic.MimicFactory.parseProperties(dto.data.document, this.isFaceplate);
             }
 
             return dto;
@@ -1738,6 +1757,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     // Clears the mimic.
     clear() {
         super.clear();
+        this.isFaceplate = false;
         this.dom = null;
         this.renderer = null;
         this.script = null;
@@ -3285,10 +3305,10 @@ rs.mimic.DataProvider = class DataProvider {
 // Create mimic properties.
 rs.mimic.MimicFactory = class {
     // Parses the document properties from the specified source object.
-    static parseProperties(sourceProps) {
+    static parseProperties(sourceProps, isFaceplate) {
         const PropertyParser = rs.mimic.PropertyParser;
         sourceProps ??= {};
-        return {
+        let props = {
             // appearance
             backColor: PropertyParser.parseString(sourceProps.backColor),
             backgroundImage: PropertyParser.parseString(sourceProps.backgroundImage),
@@ -3302,12 +3322,18 @@ rs.mimic.MimicFactory = class {
             script: PropertyParser.parseString(sourceProps.script),
             tooltip: PropertyParser.parseString(sourceProps.tooltip),
 
-            // data
-            propertyExports: rs.mimic.PropertyExportList.parse(sourceProps.propertyExports),
-
             // layout
             size: rs.mimic.Size.parse(sourceProps.size, { width: 800, height: 600 })
         };
+
+        // faceplate properties
+        if (isFaceplate) {
+            props.border = rs.mimic.Border.parse(sourceProps.border);
+            props.cornerRadius = rs.mimic.CornerRadius.parse(sourceProps.cornerRadius);
+            props.propertyExports = rs.mimic.PropertyExportList.parse(sourceProps.propertyExports);
+        }
+
+        return props;
     }
 }
 

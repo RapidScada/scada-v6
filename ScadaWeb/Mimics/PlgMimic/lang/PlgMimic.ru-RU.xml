@@ -24,6 +24,7 @@
     <Phrase key="Behavior">ПОВЕДЕНИЕ</Phrase>
     <Phrase key="Data">ДАННЫЕ</Phrase>
     <Phrase key="Design">ПРОЕКТИРОВАНИЕ</Phrase>
+    <Phrase key="Faceplate">ФЕЙСПЛЕЙТ</Phrase>
     <Phrase key="Layout">МАКЕТ</Phrase>
     <Phrase key="Misc">РАЗНОЕ</Phrase>
   </Dictionary>
@@ -37,6 +38,8 @@
     <Phrase key="Stylesheet">Таблица стилей</Phrase>
     <Phrase key="Script">Скрипт</Phrase>
     <Phrase key="Tooltip">Подсказка</Phrase>
+    <Phrase key="Border">Граница</Phrase>
+    <Phrase key="CornerRadius">Радиус углов</Phrase>
     <Phrase key="PropertyExports">Экспортируемые свойства</Phrase>
     <Phrase key="Size">Размер</Phrase>
   </Dictionary>
