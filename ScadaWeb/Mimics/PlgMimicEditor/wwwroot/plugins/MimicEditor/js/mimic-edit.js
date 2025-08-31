@@ -1314,7 +1314,7 @@ function addComponent(typeName, parentID, point) {
         (parentID > 0 ? ` inside component ${parentID}` : ""));
 
     let factory = mimic.getComponentFactory(typeName);
-    let renderer = mimic.isFaceplate(typeName)
+    let renderer = mimic.isFaceplateType(typeName)
         ? rs.mimic.RendererSet.faceplateRenderer
         : rs.mimic.RendererSet.componentRenderers.get(typeName);
 

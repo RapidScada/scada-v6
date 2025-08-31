@@ -87,6 +87,10 @@
 #divComponents .component-item:hover {
   background-color: var(--bs-gray-200);
 }
+#divComponents .component-item:active {
+  background-color: var(--bs-blue);
+  color: var(--bs-white);
+}
 #divComponents .component-item .component-icon {
   width: 16px;
   height: 16px;

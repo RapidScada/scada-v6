@@ -1506,7 +1506,7 @@ rs.mimic.MimicBase = class {
     }
 
     // Checks whether the specified type name represents a faceplate.
-    isFaceplate(typeName) {
+    isFaceplateType(typeName) {
         return this.faceplateMap?.has(typeName);
     }
 
