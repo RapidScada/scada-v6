@@ -433,6 +433,13 @@ rs.mimic.Padding = class Padding {
         return "Padding";
     }
 
+    setAll(value) {
+        this.top = value;
+        this.right = value;
+        this.bottom = value;
+        this.left = value;
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let padding = new Padding();
