@@ -2861,15 +2861,12 @@ rs.mimic.Padding = class Padding {
     bottom = 0;
     left = 0;
 
-    get typeName() {
-        return "Padding";
+    constructor(source) {
+        Object.assign(this, source);
     }
 
-    setAll(value) {
-        this.top = value;
-        this.right = value;
-        this.bottom = value;
-        this.left = value;
+    get typeName() {
+        return "Padding";
     }
 
     static parse(source) {
