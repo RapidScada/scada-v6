@@ -94,6 +94,8 @@ rs.mimic.BasicLedFactory = class extends rs.mimic.RegularComponentFactory {
         let props = super.createProperties();
 
         // change inherited properties
+        props.backColor = "Silver";
+        props.border.color = "Black";
         props.border.width = 3;
         props.size.width = 30;
         props.size.height = 30;

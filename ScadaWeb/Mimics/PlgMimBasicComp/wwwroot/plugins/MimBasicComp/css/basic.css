@@ -8,13 +8,11 @@
 }
 
 .basic-led {
-  background-color: silver;
   border: 0 none black;
 }
 .basic-led .basic-led-border {
-  border-color: black;
-  width: 100%;
   height: 100%;
+  width: 100%;
 }
 
 .basic-led.circle {
