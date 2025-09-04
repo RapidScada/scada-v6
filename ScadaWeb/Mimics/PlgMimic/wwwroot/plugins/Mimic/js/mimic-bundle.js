@@ -4226,7 +4226,7 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
 
         if (!props.enabled) {
             componentElem.addClass("disabled-state");
-            componentElem.addClass("disabled");
+            componentElem.addClass("disabled"); // Bootstrap class
         }
 
         if (!props.visible) {
