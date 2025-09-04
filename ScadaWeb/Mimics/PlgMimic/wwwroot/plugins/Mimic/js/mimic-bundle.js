@@ -2000,6 +2000,7 @@ rs.mimic.Component = class {
     renderer = null;     // renders the component
     extraScript = null;  // additional component logic
     customScript = null; // custom component logic
+    customData = null;   // custom component data
     isSelected = false;  // selected in the editor
 
     constructor(source) {
