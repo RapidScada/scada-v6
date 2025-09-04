@@ -27,10 +27,10 @@
   background-color: inherit;
 }
 
-.mimic-wrapper.view-mode .mimic .comp.hidden {
+.mimic-wrapper.view-mode .mimic .comp.invisible-state {
   display: none;
 }
-.mimic-wrapper.view-mode .mimic .comp.disabled {
+.mimic-wrapper.view-mode .mimic .comp.disabled-state {
   cursor: not-allowed;
   pointer-events: none;
 }

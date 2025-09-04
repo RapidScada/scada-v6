@@ -4225,20 +4225,21 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         let props = component.properties;
 
         if (!props.enabled) {
-            componentElem.addClass("disabled")
+            componentElem.addClass("disabled-state");
+            componentElem.addClass("disabled");
+        }
+
+        if (!props.visible) {
+            componentElem.addClass("invisible-state");
         }
 
         if (renderContext.editMode) {
             if (!renderContext.faceplateMode && component.isContainer) {
-                componentElem.addClass("container")
+                componentElem.addClass("container");
             }
 
             if (component.isSelected) {
-                componentElem.addClass("selected")
-            }
-        } else {
-            if (!props.visible) {
-                componentElem.addClass("hidden")
+                componentElem.addClass("selected");
             }
         }
     }
