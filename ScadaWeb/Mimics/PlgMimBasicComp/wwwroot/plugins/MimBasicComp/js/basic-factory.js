@@ -144,14 +144,12 @@ rs.mimic.BasicToggleScript = class extends rs.mimic.ComponentScript {
 
             if (dataProvider.dataChanged(curData, prevData)) {
                 let props = args.component.properties;
-                let position = props.position;
+                let position = BasicTogglePosition.NOT_SET;
 
                 if (curData.d.stat > 0) {
                     position = curData.d.val > 0
                         ? BasicTogglePosition.ON
                         : BasicTogglePosition.OFF;
-                } else {
-                    position = BasicTogglePosition.NOT_SET;
                 }
 
                 if (props.position !== position) {
