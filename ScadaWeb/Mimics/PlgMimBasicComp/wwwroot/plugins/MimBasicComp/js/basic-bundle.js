@@ -356,6 +356,7 @@ rs.mimic.BasicToggleFactory = class extends rs.mimic.RegularComponentFactory {
 
         // change inherited properties
         props.border.width = 2;
+        props.foreColor = "White";
         props.size.width = 60;
         props.size.height = 30;
 
