@@ -10,7 +10,6 @@
   transform-origin: left top;
 }
 .mimic-wrapper .mimic .comp {
-  background-repeat: no-repeat;
   box-sizing: border-box;
   line-height: normal;
   position: absolute;
@@ -20,6 +19,7 @@
 }
 .mimic-wrapper .mimic .comp.picture .picture-content {
   background-clip: content-box;
+  background-repeat: no-repeat;
   height: 100%;
   width: 100%;
 }
