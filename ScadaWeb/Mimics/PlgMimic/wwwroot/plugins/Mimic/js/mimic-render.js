@@ -445,6 +445,11 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         let props = component.properties;
         this._setLocation(componentElem, props.location);
         this._setSize(componentElem, props.size);
+    }
+
+    // Binds events to the component element.
+    _bindEvents(componentElem, component, renderContext) {
+        let props = component.properties;
         componentElem.off(".rs.mimic");
 
         if (props.enabled && this._hasAction(props, renderContext)) {
@@ -574,6 +579,62 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         }
     }
 
+    // Sets the component colors and text decoration to the specified ones.
+    _setVisualState(componentElem, visualState) {
+        if (visualState.backColor) {
+            componentElem.css("background-color", visualState.backColor);
+        }
+
+        if (visualState.foreColor) {
+            componentElem.css("color", visualState.foreColor);
+        }
+
+        if (visualState.borderColor) {
+            componentElem.css("border-color", visualState.borderColor);
+        }
+
+        if (visualState.underline) {
+            componentElem.css("text-decoration", "underline");
+        }
+    }
+
+    // Sets the component colors and text decoration according to its actual state.
+    _restoreVisualState(componentElem, props) {
+        let isBlinking = props.blinkingState.isSet && componentElem.hasClass("blink-on");
+        let isHovered = props.hoverState.isSet && componentElem.is(":hover");
+
+        if (isBlinking) {
+            this._setVisualState(componentElem, props.blinkingState);
+        } else if (isHovered) {
+            this._setVisualState(componentElem, props.hoverState);
+        } else {
+            // original state
+            componentElem.css({
+                "background-color": props.backColor,
+                "color": props.foreColor,
+                "border-color": props.border.color,
+                "text-decoration": props.font.inherit ? "" : (props.font.underline ? "underline" : "none")
+            });
+        }
+    }
+
+    // Binds the visual state events of the component.
+    _bindVisualStates(componentElem, props) {
+        const EventType = rs.mimic.EventType;
+
+        if (props.blinkingState.isSet) {
+            componentElem
+                .on(EventType.BLINK_ON, () => { this._setVisualState(componentElem, props.blinkingState); })
+                .on(EventType.BLINK_OFF, () => { this._restoreVisualState(componentElem, props); });
+        }
+
+        if (props.hoverState.isSet) {
+            componentElem
+                .on("mouseenter.rs.mimic", () => { this._setVisualState(componentElem, props.hoverState); })
+                .on("mouseleave.rs.mimic", () => { this._restoreVisualState(componentElem, props); });
+        }
+    }
+
     // Creates a component DOM according to the component model.
     createDom(component, renderContext) {
         let componentElem = $("<div></div>")
@@ -583,6 +644,7 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         this._completeDom(componentElem, component, renderContext);
         this._setClasses(componentElem, component, renderContext);
         this._setProps(componentElem, component, renderContext);
+        this._bindEvents(componentElem, component, renderContext);
         component.dom = componentElem;
         return componentElem;
     }
@@ -594,6 +656,7 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         if (componentElem) {
             this._setClasses(componentElem, component, renderContext);
             this._setProps(componentElem, component, renderContext);
+            this._bindEvents(componentElem, component, renderContext);
         }
 
         return componentElem;
@@ -658,70 +721,29 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
 
     _setProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
-        const EventType = rs.mimic.EventType;
         let props = component.properties;
         this._setBorder(componentElem, props.border);
         this._setCornerRadius(componentElem, props.cornerRadius);
         this._setFont(componentElem, props.font, renderContext.fontMap);
-        this._restoreVisualState(componentElem, props);
         componentElem.attr("title", props.tooltip);
 
         if (props.enabled) {
-            if (props.blinkingState.isSet) {
-                componentElem
-                    .on(EventType.BLINK_ON, () => { this._setVisualState(componentElem, props.blinkingState); })
-                    .on(EventType.BLINK_OFF, () => { this._restoreVisualState(componentElem, props); });
-            }
-
-            if (props.hoverState.isSet) {
-                componentElem
-                    .on("mouseenter.rs.mimic", () => { this._setVisualState(componentElem, props.hoverState); })
-                    .on("mouseleave.rs.mimic", () => { this._restoreVisualState(componentElem, props); });
-            }
+            this._restoreVisualState(componentElem, props);
         } else {
             this._setVisualState(componentElem, props.disabledState);
         }
 
-        // configure component area
         if (renderContext.editMode) {
             componentElem.css("--border-width", -props.border.width + "px");
         }
     }
 
-    _setVisualState(componentElem, visualState) {
-        if (visualState.backColor) {
-            componentElem.css("background-color", visualState.backColor);
-        }
+    _bindEvents(componentElem, component, renderContext) {
+        super._bindEvents(componentElem, component, renderContext);
+        let props = component.properties;
 
-        if (visualState.foreColor) {
-            componentElem.css("color", visualState.foreColor);
-        }
-
-        if (visualState.borderColor) {
-            componentElem.css("border-color", visualState.borderColor);
-        }
-
-        if (visualState.underline) {
-            componentElem.css("text-decoration", "underline");
-        }
-    }
-
-    _restoreVisualState(componentElem, props) {
-        let isBlinking = props.blinkingState.isSet && componentElem.hasClass("blink-on");
-        let isHovered = props.hoverState.isSet && componentElem.is(":hover");
-
-        if (isBlinking) {
-            this._setVisualState(componentElem, props.blinkingState);
-        } else if (isHovered) {
-            this._setVisualState(componentElem, props.hoverState);
-        } else {
-            // original state
-            componentElem.css({
-                "background-color": props.backColor,
-                "color": props.foreColor,
-                "border-color": props.border.color,
-                "text-decoration": props.font.inherit ? "" : (props.font.underline ? "underline" : "none")
-            });
+        if (props.enabled) {
+            this._bindVisualStates(componentElem, component.properties);
         }
     }
 };
@@ -962,18 +984,32 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
     }
 
     _setProps(componentElem, component, renderContext) {
+        super._setProps(componentElem, component, renderContext);
         let borderWidth = 0;
 
         if (component.model) {
+            let compProps = component.properties;
+            let modelProps = component.model.document;
             rs.mimic.RendererSet.mimicRenderer.setMimicProps(componentElem, component.model, renderContext);
-            borderWidth = component.model.document.border.width;
+            borderWidth = modelProps.border.width;
+
+            if (compProps.enabled) {
+                this._restoreVisualState(componentElem, modelProps);
+            } else {
+                this._setVisualState(componentElem, modelProps.disabledState);
+            }
         }
 
-        super._setProps(componentElem, component, renderContext);
-
-        // configure component area
         if (renderContext.editMode) {
             componentElem.css("--border-width", -borderWidth + "px");
+        }
+    }
+
+    _bindEvents(componentElem, component, renderContext) {
+        super._bindEvents(componentElem, component, renderContext);
+
+        if (component.model && component.properties.enabled) {
+            this._bindVisualStates(componentElem, component.model.document);
         }
     }
 };

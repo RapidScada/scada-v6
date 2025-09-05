@@ -28,8 +28,11 @@ rs.mimic.MimicFactory = class {
 
         // faceplate properties
         if (isFaceplate) {
+            props.blinkingState = rs.mimic.VisualState.parse(sourceProps.blinkingState);
             props.border = rs.mimic.Border.parse(sourceProps.border);
             props.cornerRadius = rs.mimic.CornerRadius.parse(sourceProps.cornerRadius);
+            props.disabledState = rs.mimic.VisualState.parse(sourceProps.disabledState);
+            props.hoverState = rs.mimic.VisualState.parse(sourceProps.hoverState);
             props.propertyExports = rs.mimic.PropertyExportList.parse(sourceProps.propertyExports);
         }
 

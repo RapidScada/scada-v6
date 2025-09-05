@@ -194,6 +194,14 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
 
         // faceplate
         this.add(new PropertyDescriptor({
+            name: "blinkingState",
+            displayName: "When blinking",
+            category: KnownCategory.FACEPLATE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.VISUAL_STATE
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "border",
             displayName: "Border",
             category: KnownCategory.FACEPLATE,
@@ -207,6 +215,22 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             category: KnownCategory.FACEPLATE,
             type: BasicType.STRUCT,
             subtype: Subtype.CORNER_RADIUS
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "disabledState",
+            displayName: "On disabled",
+            category: KnownCategory.FACEPLATE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.VISUAL_STATE
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "hoverState",
+            displayName: "On hover",
+            category: KnownCategory.FACEPLATE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.VISUAL_STATE
         }));
 
         this.add(new PropertyDescriptor({

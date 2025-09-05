@@ -29,6 +29,7 @@
     <Phrase key="Misc">MISC</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Mimic">
+    <!-- Mimic -->
     <Phrase key="BackColor">Background color</Phrase>
     <Phrase key="BackgroundImage">Background image</Phrase>
     <Phrase key="BackgroundPadding">Background padding</Phrase>
@@ -38,13 +39,17 @@
     <Phrase key="Stylesheet">Stylesheet</Phrase>
     <Phrase key="Script">Script</Phrase>
     <Phrase key="Tooltip">Tooltip</Phrase>
+    <Phrase key="Size">Size</Phrase>
+    <!-- Faceplate -->
+    <Phrase key="BlinkingState">When blinking</Phrase>
     <Phrase key="Border">Border</Phrase>
     <Phrase key="CornerRadius">Corner radius</Phrase>
+    <Phrase key="DisabledState">On disabled</Phrase>
+    <Phrase key="HoverState">On hover</Phrase>
     <Phrase key="PropertyExports">Exported properties</Phrase>
-    <Phrase key="Size">Size</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Component">
-    <!-- ComponentDescriptor -->
+    <!-- Component-->
     <Phrase key="Blinking">Blinking</Phrase>
     <Phrase key="ClickAction">On click</Phrase>
     <Phrase key="Enabled">Enabled</Phrase>
@@ -60,7 +65,7 @@
     <Phrase key="TypeName">Type name</Phrase>
     <Phrase key="Location">Location</Phrase>
     <Phrase key="Size">Size</Phrase>
-    <!-- RegularComponentDescriptor -->
+    <!-- Regular Component -->
     <Phrase key="BackColor">Background color</Phrase>
     <Phrase key="Border">Border</Phrase>
     <Phrase key="CornerRadius">Corner radius</Phrase>
