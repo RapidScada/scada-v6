@@ -246,6 +246,14 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
         }));
 
         this.add(new PropertyDescriptor({
+            name: "clickAction",
+            displayName: "On click",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.STRUCT,
+            subtype: Subtype.ACTION
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "enabled",
             displayName: "Enabled",
             category: KnownCategory.BEHAVIOR,
@@ -412,14 +420,6 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
             category: KnownCategory.BEHAVIOR,
             type: BasicType.STRUCT,
             subtype: Subtype.VISUAL_STATE
-        }));
-
-        this.add(new PropertyDescriptor({
-            name: "clickAction",
-            displayName: "On click",
-            category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRUCT,
-            subtype: Subtype.ACTION
         }));
 
         this.add(new PropertyDescriptor({

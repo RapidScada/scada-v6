@@ -46,6 +46,7 @@
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Component">
     <!-- ComponentDescriptor -->
     <Phrase key="Blinking">Мигает</Phrase>
+    <Phrase key="ClickAction">По щелчку</Phrase>
     <Phrase key="Enabled">Включен</Phrase>
     <Phrase key="Visible">Видимый</Phrase>
     <Phrase key="CheckRights">Проверять права</Phrase>
@@ -67,7 +68,6 @@
     <Phrase key="Font">Шрифт</Phrase>
     <Phrase key="ForeColor">Основной цвет</Phrase>
     <Phrase key="BlinkingState">При мигании</Phrase>
-    <Phrase key="ClickAction">По щелчку</Phrase>
     <Phrase key="DisabledState">При отключении</Phrase>
     <Phrase key="HoverState">При наведении</Phrase>
     <Phrase key="Script">Скрипт</Phrase>

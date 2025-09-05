@@ -83,6 +83,7 @@ rs.mimic.ComponentFactory = class {
         return {
             // behavior
             blinking: false,
+            clickAction: new rs.mimic.Action(),
             enabled: true,
             visible: true,
 
@@ -112,6 +113,7 @@ rs.mimic.ComponentFactory = class {
         return {
             // behavior
             blinking: PropertyParser.parseBool(sourceProps.blinking),
+            clickAction: rs.mimic.Action.parse(sourceProps.clickAction),
             enabled: PropertyParser.parseBool(sourceProps.enabled),
             visible: PropertyParser.parseBool(sourceProps.visible),
 
@@ -172,7 +174,6 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
         // behavior
         Object.assign(props, {
             blinkingState: new rs.mimic.VisualState(),
-            clickAction: new rs.mimic.Action(),
             disabledState: new rs.mimic.VisualState(),
             hoverState: new rs.mimic.VisualState(),
             script: "",
@@ -200,7 +201,6 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
         // behavior
         Object.assign(props, {
             blinkingState: rs.mimic.VisualState.parse(sourceProps.blinkingState),
-            clickAction: rs.mimic.Action.parse(sourceProps.clickAction),
             disabledState: rs.mimic.VisualState.parse(sourceProps.disabledState),
             hoverState: rs.mimic.VisualState.parse(sourceProps.hoverState),
             script: PropertyParser.parseString(sourceProps.script),

@@ -462,6 +462,14 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
         }));
 
         this.add(new PropertyDescriptor({
+            name: "clickAction",
+            displayName: "On click",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.STRUCT,
+            subtype: Subtype.ACTION
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "enabled",
             displayName: "Enabled",
             category: KnownCategory.BEHAVIOR,
@@ -628,14 +636,6 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
             category: KnownCategory.BEHAVIOR,
             type: BasicType.STRUCT,
             subtype: Subtype.VISUAL_STATE
-        }));
-
-        this.add(new PropertyDescriptor({
-            name: "clickAction",
-            displayName: "On click",
-            category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRUCT,
-            subtype: Subtype.ACTION
         }));
 
         this.add(new PropertyDescriptor({
@@ -3405,6 +3405,7 @@ rs.mimic.ComponentFactory = class {
         return {
             // behavior
             blinking: false,
+            clickAction: new rs.mimic.Action(),
             enabled: true,
             visible: true,
 
@@ -3434,6 +3435,7 @@ rs.mimic.ComponentFactory = class {
         return {
             // behavior
             blinking: PropertyParser.parseBool(sourceProps.blinking),
+            clickAction: rs.mimic.Action.parse(sourceProps.clickAction),
             enabled: PropertyParser.parseBool(sourceProps.enabled),
             visible: PropertyParser.parseBool(sourceProps.visible),
 
@@ -3494,7 +3496,6 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
         // behavior
         Object.assign(props, {
             blinkingState: new rs.mimic.VisualState(),
-            clickAction: new rs.mimic.Action(),
             disabledState: new rs.mimic.VisualState(),
             hoverState: new rs.mimic.VisualState(),
             script: "",
@@ -3522,7 +3523,6 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
         // behavior
         Object.assign(props, {
             blinkingState: rs.mimic.VisualState.parse(sourceProps.blinkingState),
-            clickAction: rs.mimic.Action.parse(sourceProps.clickAction),
             disabledState: rs.mimic.VisualState.parse(sourceProps.disabledState),
             hoverState: rs.mimic.VisualState.parse(sourceProps.hoverState),
             script: PropertyParser.parseString(sourceProps.script),
@@ -4221,8 +4221,10 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
 
     // Sets the CSS classes of the component element.
     _setClasses(componentElem, component, renderContext) {
+        let unchangedClasses = this._keepClasses(componentElem);
         componentElem.removeClass(); // clear classes
         componentElem.addClass("comp");
+        componentElem.addClass(unchangedClasses.join(" "));
         let props = component.properties;
 
         if (!props.enabled) {
@@ -4232,6 +4234,10 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
 
         if (!props.visible) {
             componentElem.addClass("invisible-state");
+        }
+
+        if (this._hasAction(props, renderContext)) {
+            componentElem.addClass("has-action");
         }
 
         if (renderContext.editMode) {
@@ -4245,139 +4251,7 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         }
     }
 
-    // Sets the CSS properties of the component element.
-    _setProps(componentElem, component, renderContext) {
-        let props = component.properties;
-        this._setLocation(componentElem, props.location);
-        this._setSize(componentElem, props.size);
-    }
-
-    // Creates a component DOM according to the component model.
-    createDom(component, renderContext) {
-        let componentElem = $("<div></div>")
-            .attr("id", "comp" + renderContext.idPrefix + component.id)
-            .attr("data-id", component.id);
-        this._completeDom(componentElem, component, renderContext);
-        this._setClasses(componentElem, component, renderContext);
-        this._setProps(componentElem, component, renderContext);
-        component.dom = componentElem;
-        return componentElem;
-    }
-
-    // Updates the existing component DOM according to the component model.
-    updateDom(component, renderContext) {
-        let componentElem = component.dom;
-
-        if (componentElem) {
-            this._setClasses(componentElem, component, renderContext);
-            this._setProps(componentElem, component, renderContext);
-        }
-
-        return componentElem;
-    }
-
-    // Sets the location of the component DOM without changing the component model.
-    setLocation(component, x, y) {
-        if (component.dom) {
-            this._setLocation(component.dom, {
-                x: x,
-                y: y
-            });
-        }
-    }
-
-    // Gets the component location from its DOM.
-    getLocation(component) {
-        if (component.dom) {
-            let position = component.dom.position();
-            return {
-                x: parseInt(position.left),
-                y: parseInt(position.top)
-            };
-        } else {
-            return {
-                x: 0,
-                y: 0
-            };
-        }
-    }
-
-    // Updates the location of the component DOM according to the component model.
-    updateLocation(component) {
-        if (component.dom) {
-            this._setLocation(component.dom, component.properties.location);
-        }
-    }
-
-    // Visually selects or deselects the component.
-    updateSelected(component) {
-        if (component.dom) {
-            component.dom.toggleClass("selected", component.isSelected);
-        }
-    }
-
-    // Gets a value indicating whether the component can be resized by a user.
-    allowResizing(component) {
-        return true;
-    }
-};
-
-// Represents a renderer for regular non-faceplate components.
-rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
-    _setClasses(componentElem, component, renderContext) {
-        let classes = this._keepClasses(componentElem);
-        super._setClasses(componentElem, component, renderContext);
-        this._restoreClasses(componentElem, classes);
-        let props = component.properties;
-
-        if (props.cssClass) {
-            componentElem.addClass(props.cssClass);
-        }
-
-        if (this._hasAction(props, renderContext)) {
-            componentElem.addClass("has-action");
-        }
-    }
-
-    _setProps(componentElem, component, renderContext) {
-        super._setProps(componentElem, component, renderContext);
-        const EventType = rs.mimic.EventType;
-        let props = component.properties;
-        this._setBorder(componentElem, props.border);
-        this._setCornerRadius(componentElem, props.cornerRadius);
-        this._setFont(componentElem, props.font, renderContext.fontMap);
-        this._restoreVisualState(componentElem, props);
-        componentElem.attr("title", props.tooltip);
-        componentElem.off(".rs.mimic");
-
-        if (props.enabled) {
-            if (props.blinkingState.isSet) {
-                componentElem
-                    .on(EventType.BLINK_ON, () => { this._setVisualState(componentElem, props.blinkingState); })
-                    .on(EventType.BLINK_OFF, () => { this._restoreVisualState(componentElem, props); });
-            }
-
-            if (props.hoverState.isSet) {
-                componentElem
-                    .on("mouseenter.rs.mimic", () => { this._setVisualState(componentElem, props.hoverState); })
-                    .on("mouseleave.rs.mimic", () => { this._restoreVisualState(componentElem, props); });
-            }
-
-            if (this._hasAction(props, renderContext)) {
-                componentElem.on("click.rs.mimic", () => {
-                    this._executeAction(componentElem, component, renderContext);
-                });
-            }
-        } else {
-            this._setVisualState(componentElem, props.disabledState);
-        }
-
-        // configure component area
-        if (renderContext.editMode) {
-            componentElem.css("--border-width", -props.border.width + "px");
-        }
-    }
-
+    // Collects classes that should remain unchanged during an update.
     _keepClasses(componentElem) {
         let classes = [];
 
@@ -4392,49 +4266,21 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         return classes;
     }
 
-    _restoreClasses(componentElem, classes) {
-        for (let c of classes) {
-            componentElem.addClass(c);
-        }
-    }
+    // Sets the CSS properties of the component element.
+    _setProps(componentElem, component, renderContext) {
+        let props = component.properties;
+        this._setLocation(componentElem, props.location);
+        this._setSize(componentElem, props.size);
+        componentElem.off(".rs.mimic");
 
-    _setVisualState(componentElem, visualState) {
-        if (visualState.backColor) {
-            componentElem.css("background-color", visualState.backColor);
-        }
-
-        if (visualState.foreColor) {
-            componentElem.css("color", visualState.foreColor);
-        }
-
-        if (visualState.borderColor) {
-            componentElem.css("border-color", visualState.borderColor);
-        }
-
-        if (visualState.underline) {
-            componentElem.css("text-decoration", "underline");
-        }
-    }
-
-    _restoreVisualState(componentElem, props) {
-        let isBlinking = props.blinkingState.isSet && componentElem.hasClass("blink-on");
-        let isHovered = props.hoverState.isSet && componentElem.is(":hover");
-
-        if (isBlinking) {
-            this._setVisualState(componentElem, props.blinkingState);
-        } else if (isHovered) {
-            this._setVisualState(componentElem, props.hoverState);
-        } else {
-            // original state
-            componentElem.css({
-                "background-color": props.backColor,
-                "color": props.foreColor,
-                "border-color": props.border.color,
-                "text-decoration": props.font.inherit ? "" : (props.font.underline ? "underline" : "none")
+        if (props.enabled && this._hasAction(props, renderContext)) {
+            componentElem.on("click.rs.mimic", () => {
+                this._executeAction(componentElem, component, renderContext);
             });
         }
     }
 
+    // Checks whether an action is set for the component.
     _hasAction(props, renderContext) {
         const ActionType = rs.mimic.ActionType;
         return !renderContext.editMode && props.enabled &&
@@ -4442,6 +4288,7 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
             (props.clickAction.actionType !== ActionType.SEND_COMMAND || renderContext.controlRight);
     }
 
+    // Executes a component action.
     _executeAction(componentElem, component, renderContext) {
         const ActionType = rs.mimic.ActionType;
         const ActionScriptArgs = rs.mimic.ActionScriptArgs;
@@ -4535,12 +4382,14 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         }
     }
 
+    // Shows a wait cursor over the component.
     _showWait(componentElem) {
         const WAIT_DURATION = 1000;
         componentElem.addClass("wait-action");
         setTimeout(() => { componentElem.removeClass("wait-action"); }, WAIT_DURATION);
     }
 
+    // Gets a command value for the component action.
     _getCommandValue(component, defaultValue) {
         try {
             let cmdVal = component.getCommandValue();
@@ -4548,6 +4397,157 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         } catch (ex) {
             console.error("Error getting command value: " + ex.message);
             return Number.NaN;
+        }
+    }
+
+    // Creates a component DOM according to the component model.
+    createDom(component, renderContext) {
+        let componentElem = $("<div></div>")
+            .attr("id", "comp" + renderContext.idPrefix + component.id)
+            .attr("data-id", component.id)
+            .attr("data-name", component.properties.name);
+        this._completeDom(componentElem, component, renderContext);
+        this._setClasses(componentElem, component, renderContext);
+        this._setProps(componentElem, component, renderContext);
+        component.dom = componentElem;
+        return componentElem;
+    }
+
+    // Updates the existing component DOM according to the component model.
+    updateDom(component, renderContext) {
+        let componentElem = component.dom;
+
+        if (componentElem) {
+            this._setClasses(componentElem, component, renderContext);
+            this._setProps(componentElem, component, renderContext);
+        }
+
+        return componentElem;
+    }
+
+    // Sets the location of the component DOM without changing the component model.
+    setLocation(component, x, y) {
+        if (component.dom) {
+            this._setLocation(component.dom, {
+                x: x,
+                y: y
+            });
+        }
+    }
+
+    // Gets the component location from its DOM.
+    getLocation(component) {
+        if (component.dom) {
+            let position = component.dom.position();
+            return {
+                x: parseInt(position.left),
+                y: parseInt(position.top)
+            };
+        } else {
+            return {
+                x: 0,
+                y: 0
+            };
+        }
+    }
+
+    // Updates the location of the component DOM according to the component model.
+    updateLocation(component) {
+        if (component.dom) {
+            this._setLocation(component.dom, component.properties.location);
+        }
+    }
+
+    // Visually selects or deselects the component.
+    updateSelected(component) {
+        if (component.dom) {
+            component.dom.toggleClass("selected", component.isSelected);
+        }
+    }
+
+    // Gets a value indicating whether the component can be resized by a user.
+    allowResizing(component) {
+        return true;
+    }
+};
+
+// Represents a renderer for regular non-faceplate components.
+rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
+    _setClasses(componentElem, component, renderContext) {
+        super._setClasses(componentElem, component, renderContext);
+        let props = component.properties;
+
+        if (props.cssClass) {
+            componentElem.addClass(props.cssClass);
+        }
+    }
+
+    _setProps(componentElem, component, renderContext) {
+        super._setProps(componentElem, component, renderContext);
+        const EventType = rs.mimic.EventType;
+        let props = component.properties;
+        this._setBorder(componentElem, props.border);
+        this._setCornerRadius(componentElem, props.cornerRadius);
+        this._setFont(componentElem, props.font, renderContext.fontMap);
+        this._restoreVisualState(componentElem, props);
+        componentElem.attr("title", props.tooltip);
+
+        if (props.enabled) {
+            if (props.blinkingState.isSet) {
+                componentElem
+                    .on(EventType.BLINK_ON, () => { this._setVisualState(componentElem, props.blinkingState); })
+                    .on(EventType.BLINK_OFF, () => { this._restoreVisualState(componentElem, props); });
+            }
+
+            if (props.hoverState.isSet) {
+                componentElem
+                    .on("mouseenter.rs.mimic", () => { this._setVisualState(componentElem, props.hoverState); })
+                    .on("mouseleave.rs.mimic", () => { this._restoreVisualState(componentElem, props); });
+            }
+        } else {
+            this._setVisualState(componentElem, props.disabledState);
+        }
+
+        // configure component area
+        if (renderContext.editMode) {
+            componentElem.css("--border-width", -props.border.width + "px");
+        }
+    }
+
+    _setVisualState(componentElem, visualState) {
+        if (visualState.backColor) {
+            componentElem.css("background-color", visualState.backColor);
+        }
+
+        if (visualState.foreColor) {
+            componentElem.css("color", visualState.foreColor);
+        }
+
+        if (visualState.borderColor) {
+            componentElem.css("border-color", visualState.borderColor);
+        }
+
+        if (visualState.underline) {
+            componentElem.css("text-decoration", "underline");
+        }
+    }
+
+    _restoreVisualState(componentElem, props) {
+        let isBlinking = props.blinkingState.isSet && componentElem.hasClass("blink-on");
+        let isHovered = props.hoverState.isSet && componentElem.is(":hover");
+
+        if (isBlinking) {
+            this._setVisualState(componentElem, props.blinkingState);
+        } else if (isHovered) {
+            this._setVisualState(componentElem, props.hoverState);
+        } else {
+            // original state
+            componentElem.css({
+                "background-color": props.backColor,
+                "color": props.foreColor,
+                "border-color": props.border.color,
+                "text-decoration": props.font.inherit ? "" : (props.font.underline ? "underline" : "none")
+            });
         }
     }
 };
