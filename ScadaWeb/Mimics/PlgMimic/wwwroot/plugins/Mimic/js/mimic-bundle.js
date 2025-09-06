@@ -2914,13 +2914,18 @@ rs.mimic.Point = class Point {
     x = 0;
     y = 0;
 
+    constructor(source) {
+        Object.assign(this, source);
+    }
+
     get typeName() {
         return "Point";
     }
 
-    static parse(source) {
+    static parse(source, defaultValue) {
         const PropertyParser = rs.mimic.PropertyParser;
         let point = new Point();
+        source ??= defaultValue;
 
         if (source) {
             point.x = PropertyParser.parseInt(source.x);
