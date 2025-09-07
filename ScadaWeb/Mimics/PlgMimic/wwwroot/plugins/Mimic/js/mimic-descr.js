@@ -780,7 +780,7 @@ rs.mimic.CornerRadiusDescriptor = class extends rs.mimic.StructureDescriptor {
             type: BasicType.INT
         }));
     }
-}
+};
 
 // Represents a descriptor for the ImageCondition structure.
 rs.mimic.ImageConditionDescriptor = class extends rs.mimic.ConditionDescriptor {
@@ -797,7 +797,7 @@ rs.mimic.ImageConditionDescriptor = class extends rs.mimic.ConditionDescriptor {
             editor: PropertyEditor.IMAGE_DIALOG
         }));
     }
-}
+};
 
 // Represents a descriptor for the LinkArgs structure.
 rs.mimic.LinkArgsDescriptor = class extends rs.mimic.StructureDescriptor {
@@ -846,7 +846,7 @@ rs.mimic.LinkArgsDescriptor = class extends rs.mimic.StructureDescriptor {
             type: BasicType.INT
         }));
     }
-}
+};
 
 // Represents a descriptor for the Padding structure.
 rs.mimic.PaddingDescriptor = class extends rs.mimic.StructureDescriptor {
