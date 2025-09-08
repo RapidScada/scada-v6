@@ -88,10 +88,10 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Picture">
     <Phrase key="ImageName">Изображение</Phrase>
+    <Phrase key="ImageStretch">Растяжение</Phrase>
     <Phrase key="Rotation">Поворот</Phrase>
     <Phrase key="Conditions">Условия</Phrase>
     <Phrase key="DefaultImage">Изображение по умолчанию</Phrase>
-    <Phrase key="SizeMode">Режим размера</Phrase>
     <Phrase key="Padding">Отступ</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Panel">
@@ -122,10 +122,9 @@
     <Phrase key="Color1">Второй цвет</Phrase>
     <Phrase key="Color2">Цвет фона</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ImageSizeMode">
-    <Phrase key="Normal">Обычный</Phrase>
-    <Phrase key="Center">По центру</Phrase>
-    <Phrase key="Stretch">Растянуть</Phrase>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ImageStretch">
+    <Phrase key="None">Не задано</Phrase>
+    <Phrase key="Fill">Заполнить</Phrase>
     <Phrase key="Zoom">Масштабировать</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.LogicalOperator">

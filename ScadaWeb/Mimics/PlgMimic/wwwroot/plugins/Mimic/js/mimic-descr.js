@@ -37,7 +37,7 @@ rs.mimic.Subtype = class {
     static ACTION_TYPE = "ActionType";
     static COMPARISON_OPERATOR = "ComparisonOperator";
     static DATA_MEMBER = "DataMember";
-    static IMAGE_SIZE_MODE = "ImageSizeMode";
+    static IMAGE_STRETCH = "ImageStretch";
     static LOGICAL_OPERATOR = "LogicalOperator";
     static LINK_TARGET = "LinkTarget";
     static MODAL_WIDTH = "ModalWidth";
@@ -558,6 +558,14 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
         }));
 
         this.add(new PropertyDescriptor({
+            name: "imageStretch",
+            displayName: "Image stretch",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.ENUM,
+            subtype: Subtype.IMAGE_STRETCH
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "rotation",
             displayName: "Rotation",
             category: KnownCategory.APPEARANCE,
@@ -579,14 +587,6 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             category: KnownCategory.BEHAVIOR,
             type: BasicType.STRING,
             editor: PropertyEditor.IMAGE_DIALOG
-        }));
-
-        this.add(new PropertyDescriptor({
-            name: "sizeMode",
-            displayName: "Size mode",
-            category: KnownCategory.BEHAVIOR,
-            type: BasicType.ENUM,
-            subtype: Subtype.IMAGE_SIZE_MODE
         }));
 
         // layout

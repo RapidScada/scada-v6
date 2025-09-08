@@ -337,14 +337,14 @@ rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
         // appearance
         Object.assign(props, {
             imageName: "",
+            imageStretch: rs.mimic.ImageStretch.NONE,
             rotation: 0
         });
 
         // behavior
         Object.assign(props, {
             conditions: new rs.mimic.ImageConditionList(),
-            defaultImage: "",
-            sizeMode: rs.mimic.ImageSizeMode.NORMAL
+            defaultImage: ""
         });
 
         // layout
@@ -363,14 +363,14 @@ rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
         // appearance
         Object.assign(props, {
             imageName: PropertyParser.parseString(sourceProps.imageName),
+            imageStretch: PropertyParser.parseString(sourceProps.imageStretch, rs.mimic.ImageStretch.NONE),
             rotation: PropertyParser.parseFloat(sourceProps.rotation)
         });
 
         // behavior
         Object.assign(props, {
             conditions: rs.mimic.ImageConditionList.parse(sourceProps.conditions),
-            defaultImage: PropertyParser.parseString(sourceProps.defaultImage),
-            sizeMode: PropertyParser.parseString(sourceProps.sizeMode, rs.mimic.ImageSizeMode.NORMAL)
+            defaultImage: PropertyParser.parseString(sourceProps.defaultImage)
         });
 
         // layout

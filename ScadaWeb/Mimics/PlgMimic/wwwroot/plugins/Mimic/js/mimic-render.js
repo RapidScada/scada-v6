@@ -9,6 +9,26 @@ rs.mimic.Renderer = class {
         jqObj.css("background-image", this._imageToDataUrlCss(image));
     }
 
+    // Sets the background size of the specified jQuery object.
+    _setBackgroundStretch(jqObj, imageStretch, innerWidth, innerHeight) {
+        const ImageStretch = rs.mimic.ImageStretch;
+        jqObj.css("background-position", "center center");
+
+        switch (imageStretch) {
+            case ImageStretch.NONE:
+                jqObj.css("background-size", "");
+                break;
+
+            case ImageStretch.FILL:
+                jqObj.css("background-size", `${innerWidth}px ${innerHeight}px`);
+                break;
+
+            case ImageStretch.ZOOM:
+                jqObj.css("background-size", "contain");
+                break;
+        }
+    }
+
     // Sets the border of the specified jQuery object.
     _setBorder(jqObj, border) {
         if (border && border.width > 0) {
@@ -917,42 +937,12 @@ rs.mimic.PictureRenderer = class extends rs.mimic.RegularComponentRenderer {
 
     _setProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
-        const ImageSizeMode = rs.mimic.ImageSizeMode;
         let contentElem = componentElem.find(".picture-content:first");
         let props = component.properties;
         this._setPadding(componentElem, props.padding);
         this._setBackgroundImage(contentElem, renderContext.getImage(props.imageName));
+        this._setBackgroundStretch(contentElem, props.imageStretch, component.innerWidth, component.innerHeight);
         this._setRotation(contentElem, props.rotation);
-
-        switch (props.sizeMode) {
-            case ImageSizeMode.NORMAL:
-                contentElem.css({
-                    "background-position": "top left",
-                    "background-size": ""
-                });
-                break;
-
-            case ImageSizeMode.CENTER:
-                contentElem.css({
-                    "background-position": "center center",
-                    "background-size": ""
-                });
-                break;
-
-            case ImageSizeMode.STRETCH:
-                contentElem.css({
-                    "background-position": "center center",
-                    "background-size": `${component.innerWidth}px ${component.innerHeight}px`
-                });
-                break;
-
-            case ImageSizeMode.ZOOM:
-                contentElem.css({
-                    "background-position": "center center",
-                    "background-size": "contain"
-                });
-                break;
-        }
     }
 };
 

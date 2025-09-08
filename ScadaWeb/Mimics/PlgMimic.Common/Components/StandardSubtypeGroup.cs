@@ -17,7 +17,7 @@ namespace Scada.Web.Plugins.PlgMimic.Components
                 "ActionType",
                 "ComparisonOperator",
                 "DataMember",
-                "ImageSizeMode",
+                "ImageStretch",
                 "LogicalOperator",
                 "LinkTarget",
                 "ModalWidth",

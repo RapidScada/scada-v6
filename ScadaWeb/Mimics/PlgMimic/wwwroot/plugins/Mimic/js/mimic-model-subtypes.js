@@ -1,4 +1,4 @@
-﻿// Enumerations: ActionType, ComparisonOperator, DataMember, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth,
+﻿// Enumerations: ActionType, ComparisonOperator, DataMember, ImageStretch, LogicalOperator, LinkTarget, ModalWidth,
 //     ContentAlignment, TextDirection
 // Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
 //     PropertyBinding, PropertyExport, Size, UrlParams, VisualState
@@ -76,15 +76,14 @@ rs.mimic.DataMember = class {
     static COLOR0 = "Color0";
     static COLOR1 = "Color1";
     static COLOR2 = "Color2";
-}
+};
 
-// Specifies how an image is positioned within a component.
-rs.mimic.ImageSizeMode = class {
-    static NORMAL = "Normal";
-    static CENTER = "Center";
-    static STRETCH = "Stretch";
+// Specifies how an image is stretched.
+rs.mimic.ImageStretch = class {
+    static NONE = "None";
+    static FILL = "Fill";
     static ZOOM = "Zoom";
-}
+};
 
 // Specifies the logical operators.
 rs.mimic.LogicalOperator = class LogicalOperator {
@@ -163,7 +162,7 @@ rs.mimic.TextDirection = class {
     static HORIZONTAL = "Horizontal";
     static VERTICAL90 = "Vertical90";
     static VERTICAL270 = "Vertical270";
-}
+};
 
 // --- Structures ---
 
@@ -477,7 +476,7 @@ rs.mimic.Point = class Point {
 
         return point;
     }
-}
+};
 
 // Represents a property binding.
 rs.mimic.PropertyBinding = class PropertyBinding {
@@ -573,7 +572,7 @@ rs.mimic.Size = class Size {
 
         return size;
     }
-}
+};
 
 // Represents URL parameters.
 rs.mimic.UrlParams = class UrlParams {
@@ -628,7 +627,7 @@ rs.mimic.UrlParams = class UrlParams {
 
         return urlParams;
     }
-}
+};
 
 // Represents a visual state.
 rs.mimic.VisualState = class VisualState {
@@ -673,7 +672,7 @@ rs.mimic.List = class extends Array {
             };
         }
     }
-}
+};
 
 // Represents a list of ImageCondition items.
 rs.mimic.ImageConditionList = class ImageConditionList extends rs.mimic.List {
@@ -695,7 +694,7 @@ rs.mimic.ImageConditionList = class ImageConditionList extends rs.mimic.List {
 
         return imageConditions;
     }
-}
+};
 
 // Represents a list of PropertyBinding items.
 rs.mimic.PropertyBindingList = class PropertyBindingList extends rs.mimic.List {
@@ -717,7 +716,7 @@ rs.mimic.PropertyBindingList = class PropertyBindingList extends rs.mimic.List {
 
         return propertyBindings;
     }
-}
+};
 
 // Represents a list of PropertyExport items.
 rs.mimic.PropertyExportList = class PropertyExportList extends rs.mimic.List {
@@ -739,7 +738,7 @@ rs.mimic.PropertyExportList = class PropertyExportList extends rs.mimic.List {
 
         return propertyExports;
     }
-}
+};
 
 // --- Scripts ---
 
@@ -831,7 +830,7 @@ rs.mimic.PropertyParser = class {
             return String(source);
         }
     }
-}
+};
 
 // Represents an abstract provider of channel data and channel properties.
 rs.mimic.DataProvider = class DataProvider {

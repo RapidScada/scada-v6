@@ -88,10 +88,10 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Picture">
     <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="ImageStretch">Image stretch</Phrase>
     <Phrase key="Rotation">Rotation</Phrase>
     <Phrase key="Conditions">Conditions</Phrase>
     <Phrase key="DefaultImage">Default image</Phrase>
-    <Phrase key="SizeMode">Size mode</Phrase>
     <Phrase key="Padding">Padding</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Panel">
@@ -122,10 +122,9 @@
     <Phrase key="Color1">Second color</Phrase>
     <Phrase key="Color2">Back color</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ImageSizeMode">
-    <Phrase key="Normal">Normal</Phrase>
-    <Phrase key="Center">Center</Phrase>
-    <Phrase key="Stretch">Stretch</Phrase>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ImageStretch">
+    <Phrase key="None">None</Phrase>
+    <Phrase key="Fill">Fill</Phrase>
     <Phrase key="Zoom">Zoom</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.LogicalOperator">
