@@ -92,16 +92,24 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         private void InitColumnMetas(DateTime selectedDate, int tablePeriod)
         {
-            columnMetas1 = new List<ColumnMeta>();
-            columnMetas2 = new List<ColumnMeta>();
-            allColumnMetas = new List<ColumnMeta>();
+            columnMetas1 = [];
+            columnMetas2 = [];
+            allColumnMetas = [];
 
             if (tablePeriod <= 0)
                 tablePeriod = TableOptions.DefaultPeriod;
 
-            DateTime utcSelectedDate = userContext.ConvertTimeToUtc(selectedDate);
-            DateTime utcPrevDate = userContext.ConvertTimeToUtc(selectedDate.AddDays(-1));
-            DateTime utcNextDate = userContext.ConvertTimeToUtc(selectedDate.AddDays(1));
+            DateTime utcSelectedDate = SafeConvertDateToUtc(selectedDate);
+            DateTime utcPrevDate = SafeConvertDateToUtc(selectedDate.AddDays(-1));
+            DateTime utcNextDate = SafeConvertDateToUtc(selectedDate.AddDays(1));
+
+            DateTime SafeConvertDateToUtc(DateTime date)
+            {
+                // in Chile, daylight saving time is switched at 00:00, which causes an error
+                return userContext.TimeZone.IsInvalidTime(date)
+                    ? userContext.ConvertTimeToUtc(date.AddHours(1))
+                    : userContext.ConvertTimeToUtc(date);
+            }
 
             void AddColumnMetas(List<ColumnMeta> columnMetas, DateTime utcStartDate, DateTime utcEndDate)
             {
