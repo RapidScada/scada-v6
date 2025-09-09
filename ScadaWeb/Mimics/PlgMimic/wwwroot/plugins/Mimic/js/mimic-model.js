@@ -956,16 +956,18 @@ rs.mimic.Component = class {
     // Executes the scripts when updating component data. Returns true if any property has changed.
     onDataUpdated(dataProvider) {
         let propertyChanged = false;
-
-        if (this.extraScript) {
-            let args = new rs.mimic.DataUpdateArgs({ component: this, dataProvider });
-            this.extraScript.dataUpdated(args);
-            propertyChanged ||= args.propertyChanged;
-        }
+        let handled = false;
 
         if (this.customScript) {
             let args = new rs.mimic.DataUpdateArgs({ component: this, dataProvider });
             this.customScript.dataUpdated(args);
+            propertyChanged = args.propertyChanged;
+            handled = args.handled;
+        }
+
+        if (this.extraScript && !handled) {
+            let args = new rs.mimic.DataUpdateArgs({ component: this, dataProvider });
+            this.extraScript.dataUpdated(args);
             propertyChanged ||= args.propertyChanged;
         }
 

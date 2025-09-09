@@ -779,6 +779,7 @@ rs.mimic.DataUpdateArgs = class {
         this.component = component;
         this.dataProvider = dataProvider;
         this.propertyChanged = false;
+        this.handled = false;
     }
 };
 
