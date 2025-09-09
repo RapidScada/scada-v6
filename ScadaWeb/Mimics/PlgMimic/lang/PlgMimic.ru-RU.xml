@@ -27,6 +27,7 @@
     <Phrase key="Faceplate">ФЕЙСПЛЕЙТ</Phrase>
     <Phrase key="Layout">МАКЕТ</Phrase>
     <Phrase key="Misc">РАЗНОЕ</Phrase>
+    <Phrase key="Navigation">НАВИГАЦИЯ</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Mimic">
     <!-- Mimic -->

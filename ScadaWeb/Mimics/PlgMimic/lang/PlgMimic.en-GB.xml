@@ -27,6 +27,7 @@
     <Phrase key="Faceplate">FACEPLATE</Phrase>
     <Phrase key="Layout">LAYOUT</Phrase>
     <Phrase key="Misc">MISC</Phrase>
+    <Phrase key="Navigation">NAVIGATION</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Mimic">
     <!-- Mimic -->

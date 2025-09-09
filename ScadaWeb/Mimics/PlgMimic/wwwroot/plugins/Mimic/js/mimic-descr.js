@@ -18,6 +18,7 @@ rs.mimic.KnownCategory = class {
     static FACEPLATE = "faceplate";
     static LAYOUT = "layout";
     static MISC = "misc";
+    static NAVIGATION = "navigation";
 };
 
 // Specifies the basic types.
