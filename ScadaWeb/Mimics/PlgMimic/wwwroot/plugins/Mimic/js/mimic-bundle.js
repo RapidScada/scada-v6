@@ -3096,6 +3096,10 @@ rs.mimic.VisualState = class VisualState {
     borderColor = "";
     underline = false;
 
+    constructor(source) {
+        Object.assign(this, source);
+    }
+
     get typeName() {
         return "VisualState";
     }
@@ -4490,14 +4494,18 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         } else if (isHovered) {
             this._setVisualState(componentElem, props.hoverState);
         } else {
-            // original state
-            componentElem.css({
-                "background-color": props.backColor,
-                "color": props.foreColor,
-                "border-color": props.border.color,
-                "text-decoration": props.font.inherit ? "" : (props.font.underline ? "underline" : "none")
-            });
+            this._setVisualState(componentElem, this._getOriginalState(props));
         }
+    }
+
+    // Gets the original visual state based on the component properties.
+    _getOriginalState(props) {
+        return new rs.mimic.VisualState({
+            backColor: props.backColor,
+            foreColor: props.foreColor,
+            borderColor: props.border.color,
+            underline: props.font.inherit ? false : props.font.underline
+        });
     }
 
     // Binds the visual state events of the component.

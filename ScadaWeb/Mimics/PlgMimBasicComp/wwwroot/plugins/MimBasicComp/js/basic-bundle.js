@@ -533,6 +533,15 @@ rs.mimic.BasicToggleRenderer = class extends rs.mimic.RegularComponentRenderer {
         });
     }
 
+    _setVisualState(componentElem, visualState) {
+        super._setVisualState(componentElem, visualState);
+
+        if (visualState.foreColor) {
+            let leverElem = componentElem.children(".basic-toggle-lever:first");
+            leverElem.css("background-color", visualState.foreColor);
+        }
+    }
+
     setSize(component, width, height) {
         super.setSize(component, width, height);
 
