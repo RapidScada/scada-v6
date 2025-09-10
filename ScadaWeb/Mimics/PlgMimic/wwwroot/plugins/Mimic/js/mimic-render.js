@@ -601,21 +601,23 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
     }
 
     // Sets the component colors and text decoration to the specified ones.
-    _setVisualState(componentElem, visualState) {
-        if (visualState.backColor) {
+    _setVisualState(componentElem, visualState, opt_removeIfEmpty) {
+        if (visualState.backColor || opt_removeIfEmpty) {
             componentElem.css("background-color", visualState.backColor);
         }
 
-        if (visualState.foreColor) {
+        if (visualState.foreColor || opt_removeIfEmpty) {
             componentElem.css("color", visualState.foreColor);
         }
 
-        if (visualState.borderColor) {
+        if (visualState.borderColor || opt_removeIfEmpty) {
             componentElem.css("border-color", visualState.borderColor);
         }
 
         if (visualState.underline) {
             componentElem.css("text-decoration", "underline");
+        } else if (opt_removeIfEmpty) {
+            componentElem.css("text-decoration", "");
         }
     }
 
@@ -629,7 +631,7 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         } else if (isHovered) {
             this._setVisualState(componentElem, props.hoverState);
         } else {
-            this._setVisualState(componentElem, this._getOriginalState(props));
+            this._setVisualState(componentElem, this._getOriginalState(props), true);
         }
     }
 
