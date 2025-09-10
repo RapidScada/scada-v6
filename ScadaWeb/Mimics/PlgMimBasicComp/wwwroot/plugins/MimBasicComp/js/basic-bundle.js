@@ -431,9 +431,11 @@ rs.mimic.BasicButtonRenderer = class extends rs.mimic.RegularComponentRenderer {
         if (props.imageName) {
             this._setBackgroundImage(iconElem, renderContext.getImage(props.imageName));
             this._setSize(iconElem, props.imageSize);
+            iconElem.css("display", "");
         } else {
             this._setBackgroundImage(iconElem, null);
             this._setSize(iconElem, { width: 0, height: 0 });
+            iconElem.css("display", "none");
         }
 
         textElem.text(props.text);

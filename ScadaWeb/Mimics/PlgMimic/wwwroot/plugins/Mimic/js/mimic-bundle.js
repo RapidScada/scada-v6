@@ -2562,7 +2562,7 @@ rs.mimic.LogicalOperator = class LogicalOperator {
         }
     }
 
-    isTrue(oper, val1, val2) {
+    static isTrue(oper, val1, val2) {
         switch (oper) {
             case LogicalOperator.AND:
                 return val1 && val2;
