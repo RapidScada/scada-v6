@@ -538,7 +538,8 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
                 let url;
 
                 if (action.linkArgs.viewID > 0) {
-                    url = viewHub.getViewUrl(action.linkArgs.viewID, action.linkArgs.target === LinkTarget.NEW_MODAL);
+                    url = renderContext.viewHub.getViewUrl(action.linkArgs.viewID,
+                        action.linkArgs.target === LinkTarget.NEW_MODAL);
                 } else if (action.linkArgs.urlParams.enabled) {
                     url = ScadaUtils.formatString(action.linkArgs.url, ...action.linkArgs.urlParams.toArray());
                 } else {
