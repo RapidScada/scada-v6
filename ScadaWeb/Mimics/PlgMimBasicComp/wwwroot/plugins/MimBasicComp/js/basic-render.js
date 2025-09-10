@@ -140,13 +140,19 @@ rs.mimic.BasicToggleRenderer = class extends rs.mimic.RegularComponentRenderer {
         });
     }
 
-    _setVisualState(componentElem, visualState, opt_removeIfEmpty) {
-        super._setVisualState(componentElem, visualState, opt_removeIfEmpty);
+    _setVisualState(componentElem, visualState) {
+        super._setVisualState(componentElem, visualState);
 
-        if (visualState.foreColor || opt_removeIfEmpty) {
-            let leverElem = componentElem.children(".basic-toggle-lever:first");
-            leverElem.css("background-color", visualState.foreColor);
+        if (visualState.foreColor) {
+            componentElem.children(".basic-toggle-lever:first")
+                .css("background-color", visualState.foreColor);
         }
+    }
+
+    _setOriginalState(componentElem, props) {
+        super._setOriginalState(componentElem, props);
+        componentElem.children(".basic-toggle-lever:first")
+            .css("background-color", props.foreColor);
     }
 
     setSize(component, width, height) {

@@ -4466,24 +4466,32 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
     }
 
     // Sets the component colors and text decoration to the specified ones.
-    _setVisualState(componentElem, visualState, opt_removeIfEmpty) {
-        if (visualState.backColor || opt_removeIfEmpty) {
+    _setVisualState(componentElem, visualState) {
+        if (visualState.backColor) {
             componentElem.css("background-color", visualState.backColor);
         }
 
-        if (visualState.foreColor || opt_removeIfEmpty) {
+        if (visualState.foreColor) {
             componentElem.css("color", visualState.foreColor);
         }
 
-        if (visualState.borderColor || opt_removeIfEmpty) {
+        if (visualState.borderColor) {
             componentElem.css("border-color", visualState.borderColor);
         }
 
         if (visualState.underline) {
             componentElem.css("text-decoration", "underline");
-        } else if (opt_removeIfEmpty) {
-            componentElem.css("text-decoration", "");
         }
+    }
+
+    // Sets the component colors and text decoration based on its properties.
+    _setOriginalState(componentElem, props) {
+        componentElem.css({
+            "background-color": props.backColor,
+            "color": props.foreColor,
+            "border-color": props.border.color,
+            "text-decoration": props.font.inherit ? "" : (props.font.underline ? "underline" : "none")
+        });
     }
 
     // Sets the component colors and text decoration according to its actual state.
@@ -4496,18 +4504,8 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         } else if (isHovered) {
             this._setVisualState(componentElem, props.hoverState);
         } else {
-            this._setVisualState(componentElem, this._getOriginalState(props), true);
+            this._setOriginalState(componentElem, props);
         }
-    }
-
-    // Gets the original visual state based on the component properties.
-    _getOriginalState(props) {
-        return new rs.mimic.VisualState({
-            backColor: props.backColor,
-            foreColor: props.foreColor,
-            borderColor: props.border.color,
-            underline: props.font.inherit ? false : props.font.underline
-        });
     }
 
     // Binds the visual state events of the component.
