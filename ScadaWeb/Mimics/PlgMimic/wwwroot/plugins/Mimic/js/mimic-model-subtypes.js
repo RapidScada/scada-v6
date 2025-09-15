@@ -636,10 +636,6 @@ rs.mimic.VisualState = class VisualState {
     borderColor = "";
     underline = false;
 
-    constructor(source) {
-        Object.assign(this, source);
-    }
-
     get typeName() {
         return "VisualState";
     }
