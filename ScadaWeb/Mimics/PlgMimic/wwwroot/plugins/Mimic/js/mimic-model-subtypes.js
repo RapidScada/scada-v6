@@ -645,7 +645,7 @@ rs.mimic.VisualState = class VisualState {
     }
 
     get isSet() {
-        return this.backColor || this.foreColor || this.borderColor || this.underline;
+        return !!(this.backColor || this.foreColor || this.borderColor || this.underline);
     }
 
     static parse(source) {

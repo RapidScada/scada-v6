@@ -448,6 +448,7 @@ rs.mimic.BasicButtonRenderer = class extends rs.mimic.RegularComponentRenderer {
         this._completeDom(buttonElem, component, renderContext);
         this._setClasses(buttonElem, component, renderContext);
         this._setProps(buttonElem, component, renderContext);
+        this._bindEvents(buttonElem, component, renderContext);
         component.dom = buttonElem;
         return buttonElem;
     }
