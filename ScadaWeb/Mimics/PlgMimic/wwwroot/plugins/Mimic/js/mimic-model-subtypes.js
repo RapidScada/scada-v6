@@ -482,7 +482,7 @@ rs.mimic.Point = class Point {
 rs.mimic.PropertyBinding = class PropertyBinding {
     propertyName = "";
     dataSource = "";
-    dataMember = "";
+    dataMember = rs.mimic.DataMember.VALUE;
     format = "";
 
     get typeName() {
