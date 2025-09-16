@@ -865,6 +865,15 @@ rs.mimic.Component = class {
         }
     }
 
+    // Sets the component ID.
+    setID(id) {
+        this.id = id;
+
+        if (this.properties) {
+            this.properties.id = id;
+        }
+    }
+
     // Sets the location property.
     setLocation(x, y) {
         if (this.properties) {

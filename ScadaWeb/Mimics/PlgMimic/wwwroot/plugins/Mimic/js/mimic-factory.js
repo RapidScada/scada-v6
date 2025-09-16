@@ -47,6 +47,7 @@ rs.mimic.ComponentFactory = class {
         component.id = source.id;
         component.typeName = source.typeName;
         component.properties = this.parseProperties(source.properties);
+        component.properties.id = source.id;
         component.properties.typeName = source.typeName;
         component.bindings = source.bindings;
         component.parentID = source.parentID;

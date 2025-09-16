@@ -1322,7 +1322,7 @@ function addComponent(typeName, parentID, point) {
         // create and render component
         let component = factory.createComponent();
         let parent = mimic.getComponentParent(parentID);
-        component.id = getNextComponentID();
+        component.setID(getNextComponentID());
 
         if (mimic.addComponent(component, parent, null, point.x, point.y)) {
             unitedRenderer.createComponentDom(component);
@@ -1392,7 +1392,7 @@ async function pasteComponents(parentID, point) {
     for (let component of topComponents) {
         let newID = getNextComponentID();
         idMap.set(component.id, newID);
-        component.id = newID;
+        component.setID(newID);
         mimic.addComponent(component, parent, null, point.x + component.x, point.y + component.y);
         unitedRenderer.createComponentDom(component);
 
@@ -1409,7 +1409,7 @@ async function pasteComponents(parentID, point) {
         if (parent) {
             let newID = getNextComponentID();
             idMap.set(component.id, newID);
-            component.id = newID;
+            component.setID(newID);
             mimic.addComponent(component, parent, null, component.x, component.y);
             unitedRenderer.createComponentDom(component);
 

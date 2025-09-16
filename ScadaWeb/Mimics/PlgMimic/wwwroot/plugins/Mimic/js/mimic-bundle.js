@@ -2125,6 +2125,15 @@ rs.mimic.Component = class {
         }
     }
 
+    // Sets the component ID.
+    setID(id) {
+        this.id = id;
+
+        if (this.properties) {
+            this.properties.id = id;
+        }
+    }
+
     // Sets the location property.
     setLocation(x, y) {
         if (this.properties) {
@@ -3401,6 +3410,7 @@ rs.mimic.ComponentFactory = class {
         component.id = source.id;
         component.typeName = source.typeName;
         component.properties = this.parseProperties(source.properties);
+        component.properties.id = source.id;
         component.properties.typeName = source.typeName;
         component.bindings = source.bindings;
         component.parentID = source.parentID;
