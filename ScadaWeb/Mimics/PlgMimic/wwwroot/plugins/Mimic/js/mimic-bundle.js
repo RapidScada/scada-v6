@@ -4818,7 +4818,7 @@ rs.mimic.PanelRenderer = class extends rs.mimic.RegularComponentRenderer {
         super._setClasses(componentElem, component, renderContext);
         componentElem.addClass("panel");
 
-        if (component.properties.border.width <= 0) {
+        if (renderContext.editMode && component.properties.border.width <= 0) {
             componentElem.addClass("fiction-border");
         }
     }

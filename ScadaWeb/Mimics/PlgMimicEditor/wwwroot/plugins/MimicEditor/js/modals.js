@@ -254,12 +254,22 @@ class TextEditor extends ModalBase {
     _showLanguage(language) {
         let lblLanguage = $("#textEditor_lblLanguage");
 
-        if (language === "css") {
-            lblLanguage.text("CSS").removeClass("d-none");
-        } else if (language === "js") {
-            lblLanguage.text("JavaScript").removeClass("d-none");
-        } else {
-            lblLanguage.text("Text").addClass("d-none");
+        switch (language) {
+            case "css":
+                lblLanguage.text("CSS").removeClass("d-none");
+                break;
+
+            case "js":
+                lblLanguage.text("JavaScript").removeClass("d-none");
+                break;
+
+            case "markup":
+                lblLanguage.text("HTML/XML").removeClass("d-none");
+                break;
+
+            default:
+                lblLanguage.text("Text").addClass("d-none");
+                break;
         }
     }
 
