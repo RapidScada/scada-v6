@@ -710,9 +710,13 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
         // component scripts
         for (let component of this.components) {
-            if (component.properties.script) {
+            let script = component.isFaceplate
+                ? component.model?.document?.script
+                : component.properties.script;
+
+            if (script) {
                 try {
-                    component.customScript = ComponentScript.createFromSource(component.properties.script);
+                    component.customScript = ComponentScript.createFromSource(script);
                 } catch (ex) {
                     console.error(`Error creating script for the component with ID ${component.id}: ${ex.message}`);
                 }

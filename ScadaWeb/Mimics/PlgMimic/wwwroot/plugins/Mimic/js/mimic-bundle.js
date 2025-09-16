@@ -190,9 +190,8 @@ rs.mimic.ObjectHelper = class ObjectHelper {
 
     // Creates a new value by merging the source value to the base value.
     static mergeValues(baseValue, sourceValue) {
-        if (baseValue === null || baseValue === undefined ||
-            sourceValue === null || sourceValue === undefined) {
-            return baseValue;
+        if (baseValue === null || baseValue === undefined) {
+            return sourceValue;
         }
 
         if (typeof baseValue === "number") {
@@ -1155,6 +1154,12 @@ rs.mimic.PropertyExportDescriptor = class extends rs.mimic.StructureDescriptor {
             displayName: "Path",
             type: BasicType.STRING
         }));
+
+        this.add(new PropertyDescriptor({
+            name: "defaultValue",
+            displayName: "Default value",
+            type: BasicType.STRING
+        }));
     }
 };
 
@@ -1972,9 +1977,13 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
         // component scripts
         for (let component of this.components) {
-            if (component.properties.script) {
+            let script = component.isFaceplate
+                ? component.model?.document?.script
+                : component.properties.script;
+
+            if (script) {
                 try {
-                    component.customScript = ComponentScript.createFromSource(component.properties.script);
+                    component.customScript = ComponentScript.createFromSource(script);
                 } catch (ex) {
                     console.error(`Error creating script for the component with ID ${component.id}: ${ex.message}`);
                 }
@@ -2982,6 +2991,7 @@ rs.mimic.PropertyBinding = class PropertyBinding {
 rs.mimic.PropertyExport = class PropertyExport {
     name = "";
     path = "";
+    defaultValue = "";
 
     constructor(source) {
         Object.assign(this, source);
@@ -3011,6 +3021,7 @@ rs.mimic.PropertyExport = class PropertyExport {
         if (source) {
             propertyExport.name = PropertyParser.parseString(source.name);
             propertyExport.path = PropertyParser.parseString(source.path);
+            propertyExport.defaultValue = PropertyParser.parseString(source.defaultValue);
         }
 
         return propertyExport;
@@ -3805,13 +3816,13 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         sourceProps ??= {};
 
         for (let propertyExport of this.faceplate.propertyExports) {
-            let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport);
+            let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport) ?? propertyExport.defaultValue;
             let sourceValue = sourceProps[propertyExport.name];
 
-            if (sourceValue === undefined) {
-                faceplateInstance.properties[propertyExport.name] = baseValue ?? "";
+            if (sourceValue === null || sourceValue === undefined) {
+                faceplateInstance.properties[propertyExport.name] = baseValue;
             } else {
-                let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue) ?? "";
+                let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);
                 faceplateInstance.properties[propertyExport.name] = mergedValue;
                 faceplateInstance.setTargetPropertyValue(propertyExport, mergedValue);
             }
@@ -4844,7 +4855,7 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
             let modelProps = component.model.document;
 
             if (modelProps.cssClass) {
-                mimicElem.addClass(modelProps.cssClass);
+                componentElem.addClass(modelProps.cssClass);
             }
         }
     }
@@ -4994,13 +5005,14 @@ rs.mimic.UnitedRenderer = class {
         let renderer = rs.mimic.RendererSet.faceplateRenderer;
         faceplateInstance.renderer = renderer;
         renderer.createDom(faceplateInstance, faceplateContext);
-        faceplateInstance.onDomCreated(renderContext);
-        this._appendToParent(faceplateInstance);
         faceplateContext.idPrefix += faceplateInstance.id + "-";
 
         for (let component of faceplateInstance.components) {
             this._createComponentDom(component, faceplateContext);
         }
+
+        faceplateInstance.onDomCreated(renderContext);
+        this._appendToParent(faceplateInstance);
     }
 
     // Updates the component DOM.
@@ -5027,12 +5039,13 @@ rs.mimic.UnitedRenderer = class {
         if (faceplateInstance.model && faceplateInstance.dom && faceplateInstance.renderer) {
             let faceplateContext = this._createFaceplateContext(faceplateInstance, renderContext);
             faceplateInstance.renderer.updateDom(faceplateInstance, faceplateContext);
-            faceplateInstance.onDomUpdated(renderContext);
             faceplateContext.idPrefix += faceplateInstance.id + "-";
 
             for (let component of faceplateInstance.components) {
                 this._updateComponentDom(component, faceplateContext);
             }
+
+            faceplateInstance.onDomUpdated(renderContext);
         }
     }
 

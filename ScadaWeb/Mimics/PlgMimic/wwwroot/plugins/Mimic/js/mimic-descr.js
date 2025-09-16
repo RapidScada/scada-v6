@@ -937,6 +937,12 @@ rs.mimic.PropertyExportDescriptor = class extends rs.mimic.StructureDescriptor {
             displayName: "Path",
             type: BasicType.STRING
         }));
+
+        this.add(new PropertyDescriptor({
+            name: "defaultValue",
+            displayName: "Default value",
+            type: BasicType.STRING
+        }));
     }
 };
 

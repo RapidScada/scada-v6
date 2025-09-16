@@ -973,7 +973,7 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
             let modelProps = component.model.document;
 
             if (modelProps.cssClass) {
-                mimicElem.addClass(modelProps.cssClass);
+                componentElem.addClass(modelProps.cssClass);
             }
         }
     }
@@ -1123,13 +1123,14 @@ rs.mimic.UnitedRenderer = class {
         let renderer = rs.mimic.RendererSet.faceplateRenderer;
         faceplateInstance.renderer = renderer;
         renderer.createDom(faceplateInstance, faceplateContext);
-        faceplateInstance.onDomCreated(renderContext);
-        this._appendToParent(faceplateInstance);
         faceplateContext.idPrefix += faceplateInstance.id + "-";
 
         for (let component of faceplateInstance.components) {
             this._createComponentDom(component, faceplateContext);
         }
+
+        faceplateInstance.onDomCreated(renderContext);
+        this._appendToParent(faceplateInstance);
     }
 
     // Updates the component DOM.
@@ -1156,12 +1157,13 @@ rs.mimic.UnitedRenderer = class {
         if (faceplateInstance.model && faceplateInstance.dom && faceplateInstance.renderer) {
             let faceplateContext = this._createFaceplateContext(faceplateInstance, renderContext);
             faceplateInstance.renderer.updateDom(faceplateInstance, faceplateContext);
-            faceplateInstance.onDomUpdated(renderContext);
             faceplateContext.idPrefix += faceplateInstance.id + "-";
 
             for (let component of faceplateInstance.components) {
                 this._updateComponentDom(component, faceplateContext);
             }
+
+            faceplateInstance.onDomUpdated(renderContext);
         }
     }
 

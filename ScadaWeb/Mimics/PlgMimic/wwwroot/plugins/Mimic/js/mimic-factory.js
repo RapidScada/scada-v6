@@ -441,13 +441,13 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         sourceProps ??= {};
 
         for (let propertyExport of this.faceplate.propertyExports) {
-            let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport);
+            let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport) ?? propertyExport.defaultValue;
             let sourceValue = sourceProps[propertyExport.name];
 
-            if (sourceValue === undefined) {
-                faceplateInstance.properties[propertyExport.name] = baseValue ?? "";
+            if (sourceValue === null || sourceValue === undefined) {
+                faceplateInstance.properties[propertyExport.name] = baseValue;
             } else {
-                let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue) ?? "";
+                let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);
                 faceplateInstance.properties[propertyExport.name] = mergedValue;
                 faceplateInstance.setTargetPropertyValue(propertyExport, mergedValue);
             }

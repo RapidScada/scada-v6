@@ -213,6 +213,7 @@
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.PropertyExport">
     <Phrase key="Name">Property name</Phrase>
     <Phrase key="Path">Path</Phrase>
+    <Phrase key="DefaultValue">Default value</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.UrlParams">
     <Phrase key="Enabled">Enabled</Phrase>
