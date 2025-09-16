@@ -173,6 +173,8 @@ rs.mimic.ObjectHelper = class ObjectHelper {
         if (objectToUpdate instanceof Object && propertyChain.length > chainIndex) {
             let propertyName = propertyChain.at(-1); // last
             return objectToUpdate[propertyName];
+        } else {
+            return undefined;
         }
     }
 

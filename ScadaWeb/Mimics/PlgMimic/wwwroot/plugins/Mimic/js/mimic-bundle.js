@@ -173,6 +173,8 @@ rs.mimic.ObjectHelper = class ObjectHelper {
         if (objectToUpdate instanceof Object && propertyChain.length > chainIndex) {
             let propertyName = propertyChain.at(-1); // last
             return objectToUpdate[propertyName];
+        } else {
+            return undefined;
         }
     }
 
@@ -2012,7 +2014,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
 // Represents a component of a mimic diagram.
 rs.mimic.Component = class {
-    id = 0;              // component ID
+    _id = 0;             // component ID
     typeName = "";       // component type name
     properties = null;   // factory normalized properties
     bindings = null;     // server side prepared bindings, see ComponentBindings.cs
@@ -2028,8 +2030,16 @@ rs.mimic.Component = class {
     customData = null;   // custom component data
     isSelected = false;  // selected in the editor
 
-    constructor(source) {
-        Object.assign(this, source);
+    get id() {
+        return this._id;
+    }
+
+    set id(value) {
+        this._id = value;
+
+        if (this.properties) {
+            this.properties.id = value;
+        }
     }
 
     get isContainer() {
@@ -2122,15 +2132,6 @@ rs.mimic.Component = class {
 
         if (this.isFaceplate) {
             this.handlePropertyChanged(binding.propertyName);
-        }
-    }
-
-    // Sets the component ID.
-    setID(id) {
-        this.id = id;
-
-        if (this.properties) {
-            this.properties.id = id;
         }
     }
 
@@ -3410,7 +3411,6 @@ rs.mimic.ComponentFactory = class {
         component.id = source.id;
         component.typeName = source.typeName;
         component.properties = this.parseProperties(source.properties);
-        component.properties.id = source.id;
         component.properties.typeName = source.typeName;
         component.bindings = source.bindings;
         component.parentID = source.parentID;
@@ -3809,9 +3809,9 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
             let sourceValue = sourceProps[propertyExport.name];
 
             if (sourceValue === undefined) {
-                faceplateInstance.properties[propertyExport.name] = baseValue;
+                faceplateInstance.properties[propertyExport.name] = baseValue ?? "";
             } else {
-                let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);
+                let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue) ?? "";
                 faceplateInstance.properties[propertyExport.name] = mergedValue;
                 faceplateInstance.setTargetPropertyValue(propertyExport, mergedValue);
             }

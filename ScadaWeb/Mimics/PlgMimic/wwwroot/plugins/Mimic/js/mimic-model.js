@@ -752,7 +752,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
 // Represents a component of a mimic diagram.
 rs.mimic.Component = class {
-    id = 0;              // component ID
+    _id = 0;             // component ID
     typeName = "";       // component type name
     properties = null;   // factory normalized properties
     bindings = null;     // server side prepared bindings, see ComponentBindings.cs
@@ -768,8 +768,16 @@ rs.mimic.Component = class {
     customData = null;   // custom component data
     isSelected = false;  // selected in the editor
 
-    constructor(source) {
-        Object.assign(this, source);
+    get id() {
+        return this._id;
+    }
+
+    set id(value) {
+        this._id = value;
+
+        if (this.properties) {
+            this.properties.id = value;
+        }
     }
 
     get isContainer() {
@@ -862,15 +870,6 @@ rs.mimic.Component = class {
 
         if (this.isFaceplate) {
             this.handlePropertyChanged(binding.propertyName);
-        }
-    }
-
-    // Sets the component ID.
-    setID(id) {
-        this.id = id;
-
-        if (this.properties) {
-            this.properties.id = id;
         }
     }
 
