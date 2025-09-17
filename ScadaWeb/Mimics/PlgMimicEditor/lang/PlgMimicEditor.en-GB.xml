@@ -50,6 +50,17 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.FontModal">
+    <Phrase key="PageTitle">Font</Phrase>
+    <Phrase key="lblInherit">Inherit</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblSize">Size</Phrase>
+    <Phrase key="lblBold">Bold</Phrase>
+    <Phrase key="lblItalic">Italic</Phrase>
+    <Phrase key="lblUnderline">Underline</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ImageModal">
     <Phrase key="PageTitle">Image</Phrase>
     <Phrase key="RequiredField">Please fill out this field.</Phrase>

@@ -349,6 +349,15 @@ rs.mimic.Font = class Font {
         return "Font";
     }
 
+    toString() {
+        return this.inherit
+            ? ""
+            : (this.name || "Default") + " " + this.size + " " +
+                (this.bold ? "B" : "") +
+                (this.italic ? "I" : "") +
+                (this.underline ? "U" : "");
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let font = new Font();

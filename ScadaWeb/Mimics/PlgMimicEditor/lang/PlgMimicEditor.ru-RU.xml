@@ -50,6 +50,17 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.FontModal">
+    <Phrase key="PageTitle">Шрифт</Phrase>
+    <Phrase key="lblInherit">Наследовать</Phrase>
+    <Phrase key="lblName">Наименование</Phrase>
+    <Phrase key="lblSize">Размер</Phrase>
+    <Phrase key="lblBold">Жирный</Phrase>
+    <Phrase key="lblItalic">Курсив</Phrase>
+    <Phrase key="lblUnderline">Подчёркнутый</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ImageModal">
     <Phrase key="PageTitle">Изображение</Phrase>
     <Phrase key="RequiredField">Заполните это поле.</Phrase>
