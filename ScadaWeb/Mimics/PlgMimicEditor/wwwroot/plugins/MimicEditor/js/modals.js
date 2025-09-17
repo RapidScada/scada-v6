@@ -144,7 +144,7 @@ class FontModal extends ModalBase {
         font.underline = $("#fontModal_chkUnderline").prop("checked");
     }
 
-    show(font, options, callback) {
+    show(font, callback) {
         let newFont = new rs.mimic.Font(font);
         this._context = new ModalContext({
             oldValue: font,

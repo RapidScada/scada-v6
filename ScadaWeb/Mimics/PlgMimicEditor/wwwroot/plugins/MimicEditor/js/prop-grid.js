@@ -653,27 +653,27 @@ class PropGridDialogs {
 
             switch (propertyDescriptor.editor) {
                 case PropertyEditor.COLOR_DIALOG:
-                    PropGridDialogs.colorModal?.show(propertyValue, options, (modalContext) => {
-                        PropGridDialogs._invokeCallback(modalContext, callback);
-                    });
+                    //PropGridDialogs.colorModal?.show(propertyValue, options, (modalContext) => {
+                    //    PropGridDialogs._invokeCallback(modalContext, callback);
+                    //});
                     break;
 
                 case PropertyEditor.FONT_DIALOG:
-                    PropGridDialogs.fontModal?.show(propertyValue, options, (modalContext) => {
+                    PropGridDialogs.fontModal?.show(propertyValue, (modalContext) => {
                         PropGridDialogs._invokeCallback(modalContext, callback);
                     });
                     break;
 
                 case PropertyEditor.IMAGE_DIALOG:
-                    PropGridDialogs.imageModal?.show(propertyValue, options, (modalContext) => {
-                        PropGridDialogs._invokeCallback(modalContext, callback);
-                    });
+                    //PropGridDialogs.imageModal?.show(propertyValue, options, (modalContext) => {
+                    //    PropGridDialogs._invokeCallback(modalContext, callback);
+                    //});
                     break;
 
                 case PropertyEditor.PROPERTY_DIALOG:
-                    PropGridDialogs.propertyModal?.show(propertyValue, options, (modalContext) => {
-                        PropGridDialogs._invokeCallback(modalContext, callback);
-                    });
+                    //PropGridDialogs.propertyModal?.show(propertyValue, options, (modalContext) => {
+                    //    PropGridDialogs._invokeCallback(modalContext, callback);
+                    //});
                     break;
 
                 case PropertyEditor.TEXT_EDITOR:
