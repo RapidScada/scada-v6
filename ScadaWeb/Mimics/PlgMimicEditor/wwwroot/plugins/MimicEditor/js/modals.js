@@ -111,9 +111,14 @@ class FontModal extends ModalBase {
             this._modal.hide();
         });
 
+        $("#fontModal_chkInherit").on("change", (event) => {
+            let inherit = $(event.target).prop("checked");
+            $("#fontModal_fsProps").prop("disabled", inherit);
+        });
+
         this._elem
             .on("shown.bs.modal", () => {
-                $("#fontModal_txtName").focus();
+                $("#fontModal_chkInherit").focus();
             })
             .on("hidden.bs.modal", () => {
                 this._invokeCallback();
@@ -122,6 +127,7 @@ class FontModal extends ModalBase {
 
     _showFields(font) {
         $("#fontModal_chkInherit").prop("checked", font.inherit);
+        $("#fontModal_fsProps").prop("disabled", font.inherit);
         $("#fontModal_txtName").val(font.name);
         $("#fontModal_txtSize").val(font.size);
         $("#fontModal_chkBold").prop("checked", font.bold);

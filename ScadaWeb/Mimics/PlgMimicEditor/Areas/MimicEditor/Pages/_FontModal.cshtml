@@ -1,4 +1,5 @@
-﻿@{
+﻿@inject EditorManager editorManager
+@{
     dynamic dict = Locale.GetDictionary(typeof(MimicEditModel).FullName + ".FontModal");
 }
 <!-- Font modal -->
@@ -15,26 +16,34 @@
                         <input type="checkbox" id="fontModal_chkInherit" class="form-check-input" value="">
                         <label class="form-check-label" for="fontModal_chkInherit">@dict.lblInherit</label>
                     </div>
-                    <div class="mb-3">
-                        <label id="fontModal_lblName" for="fontModal_txtName" class="form-label">@dict.lblName</label>
-                        <input id="fontModal_txtName" type="text" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label id="fontModal_lblSize" for="fontModal_txtSize" class="form-label">@dict.lblSize</label>
-                        <input id="fontModal_txtSize" type="number" class="form-control">
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" id="fontModal_chkBold" class="form-check-input" value="">
-                        <label id="fontModal_lblBold" class="form-check-label" for="fontModal_chkBold">@dict.lblBold</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" id="fontModal_chkItalic" class="form-check-input" value="">
-                        <label id="fontModal_lblItalic" class="form-check-label" for="fontModal_chkItalic">@dict.lblItalic</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" id="fontModal_chkUnderline" class="form-check-input" value="">
-                        <label id="fontModal_lblUnderline" class="form-check-label" for="fontModal_chkUnderline">@dict.lblUnderline</label>
-                    </div>
+                    <fieldset id="fontModal_fsProps">
+                        <div class="mb-3">
+                            <label id="fontModal_lblName" for="fontModal_txtName" class="form-label">@dict.lblName</label>
+                            <input id="fontModal_txtName" type="text" class="form-control" list="fontModal_dlFonts">
+                            <datalist id="fontModal_dlFonts">
+                                @foreach (var font in editorManager.PluginConfig.Fonts)
+                                {
+                                    <option value="@font.Name"></option>
+                                }
+                            </datalist>
+                        </div>
+                        <div class="mb-3">
+                            <label id="fontModal_lblSize" for="fontModal_txtSize" class="form-label">@dict.lblSize</label>
+                            <input id="fontModal_txtSize" type="number" class="form-control">
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" id="fontModal_chkBold" class="form-check-input" value="">
+                            <label id="fontModal_lblBold" class="form-check-label" for="fontModal_chkBold">@dict.lblBold</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" id="fontModal_chkItalic" class="form-check-input" value="">
+                            <label id="fontModal_lblItalic" class="form-check-label" for="fontModal_chkItalic">@dict.lblItalic</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" id="fontModal_chkUnderline" class="form-check-input" value="">
+                            <label id="fontModal_lblUnderline" class="form-check-label" for="fontModal_chkUnderline">@dict.lblUnderline</label>
+                        </div>
+                    </fieldset>
                     <button type="submit" class="d-none">Submit</button>
                 </form>
             </div>
