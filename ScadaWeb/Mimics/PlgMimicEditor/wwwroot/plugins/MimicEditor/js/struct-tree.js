@@ -76,6 +76,7 @@ class StructTree {
         bootstrap.Popover.getOrCreateInstance(buttonElem[0], {
             html: true,
             placement: "bottom",
+            trigger: "hover",
             content: function () {
                 // called twice by Bootstrap on each show
                 let popoverContent = buttonElem.data("popoverContent");
