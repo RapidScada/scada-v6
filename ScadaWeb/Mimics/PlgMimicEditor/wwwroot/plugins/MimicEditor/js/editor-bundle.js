@@ -897,7 +897,7 @@ class FaceplateModal extends ModalBase {
 
     show(faceplateMeta, callback) {
         let newFaceplateMeta = new rs.mimic.FaceplateMeta();
-        Object.assign(newFaceplateMeta, faceplateMeta);
+        Object.assign(newFaceplateMeta, faceplateMeta); // faceplateMeta can be null
 
         this._context = new ModalContext({
             oldValue: faceplateMeta,
@@ -905,7 +905,7 @@ class FaceplateModal extends ModalBase {
             callback: callback
         });
 
-        this._showFields(faceplateMeta);
+        this._showFields(newFaceplateMeta);
         this._modal.show();
     }
 }
@@ -970,7 +970,7 @@ class FontModal extends ModalBase {
             callback: callback
         });
 
-        this._showFields(font);
+        this._showFields(newFont);
         this._modal.show();
     }
 }
@@ -1088,7 +1088,7 @@ class ImageModal extends ModalBase {
 
     show(image, callback) {
         let newImage = new rs.mimic.Image();
-        Object.assign(newImage, image);
+        Object.assign(newImage, image); // image can be null
 
         this._context = new ModalContext({
             oldValue: image,
@@ -1096,9 +1096,9 @@ class ImageModal extends ModalBase {
             callback: callback
         });
 
-        this._showFields(image);
-        this._showFileSize(this._getFileSize(image.data));
-        this._showImage(image.dataUrl);
+        this._showFields(newImage);
+        this._showFileSize(this._getFileSize(newImage.data));
+        this._showImage(newImage.dataUrl);
         this._modal.show();
     }
 }
