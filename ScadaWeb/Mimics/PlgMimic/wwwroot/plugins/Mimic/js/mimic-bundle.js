@@ -254,12 +254,12 @@ rs.mimic.Subtype = class {
     // Enumerations
     static ACTION_TYPE = "ActionType";
     static COMPARISON_OPERATOR = "ComparisonOperator";
+    static CONTENT_ALIGNMENT = "ContentAlignment";
     static DATA_MEMBER = "DataMember";
     static IMAGE_STRETCH = "ImageStretch";
     static LOGICAL_OPERATOR = "LogicalOperator";
     static LINK_TARGET = "LinkTarget";
     static MODAL_WIDTH = "ModalWidth";
-    static CONTENT_ALIGNMENT = "ContentAlignment";
     static TEXT_DIRECTION = "TextDirection";
 
     // Structures
@@ -2477,8 +2477,8 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
     }
 };
 
-// Enumerations: ActionType, ComparisonOperator, DataMember, ImageStretch, LogicalOperator, LinkTarget, ModalWidth,
-//     ContentAlignment, TextDirection
+// Enumerations: ActionType, ComparisonOperator, ContentAlignment, DataMember, ImageStretch, LogicalOperator, 
+//     LinkTarget, ModalWidth, TextDirection
 // Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
 //     PropertyBinding, PropertyExport, Size, UrlParams, VisualState
 // Lists: List, ImageConditionList, PropertyBindingList, PropertyExportList
@@ -2544,6 +2544,19 @@ rs.mimic.ComparisonOperator = class ComparisonOperator {
                 return false;
         }
     }
+};
+
+// Specifies the alignments of component content.
+rs.mimic.ContentAlignment = class {
+    static TOP_LEFT = "TopLeft";
+    static TOP_CENTER = "TopCenter";
+    static TOP_RIGHT = "TopRight";
+    static MIDDLE_LEFT = "MiddleLeft";
+    static MIDDLE_CENTER = "MiddleCenter";
+    static MIDDLE_RIGHT = "MiddleRight";
+    static BOTTOM_LEFT = "BottomLeft";
+    static BOTTOM_CENTER = "BottomCenter";
+    static BOTTOM_RIGHT = "BottomRight";
 };
 
 // Specifies the data members of a property binding.
@@ -2621,19 +2634,6 @@ rs.mimic.ModalWidth = class ModalWidth {
                 return 0;
         };
     }
-};
-
-// Specifies the alignments of component content.
-rs.mimic.ContentAlignment = class {
-    static TOP_LEFT = "TopLeft";
-    static TOP_CENTER = "TopCenter";
-    static TOP_RIGHT = "TopRight";
-    static MIDDLE_LEFT = "MiddleLeft";
-    static MIDDLE_CENTER = "MiddleCenter";
-    static MIDDLE_RIGHT = "MiddleRight";
-    static BOTTOM_LEFT = "BottomLeft";
-    static BOTTOM_CENTER = "BottomCenter";
-    static BOTTOM_RIGHT = "BottomRight";
 };
 
 // Specifies the text directions.

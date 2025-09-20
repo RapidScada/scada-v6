@@ -37,12 +37,12 @@ rs.mimic.Subtype = class {
     // Enumerations
     static ACTION_TYPE = "ActionType";
     static COMPARISON_OPERATOR = "ComparisonOperator";
+    static CONTENT_ALIGNMENT = "ContentAlignment";
     static DATA_MEMBER = "DataMember";
     static IMAGE_STRETCH = "ImageStretch";
     static LOGICAL_OPERATOR = "LogicalOperator";
     static LINK_TARGET = "LinkTarget";
     static MODAL_WIDTH = "ModalWidth";
-    static CONTENT_ALIGNMENT = "ContentAlignment";
     static TEXT_DIRECTION = "TextDirection";
 
     // Structures

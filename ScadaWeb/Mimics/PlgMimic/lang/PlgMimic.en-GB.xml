@@ -114,6 +114,17 @@
     <Phrase key="GreaterThan">&gt;</Phrase>
     <Phrase key="GreaterThanEqual">&gt;=</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ContentAlignment">
+    <Phrase key="TopLeft">Top left</Phrase>
+    <Phrase key="TopCenter">Top center</Phrase>
+    <Phrase key="TopRight">Top right</Phrase>
+    <Phrase key="MiddleLeft">Middle left</Phrase>
+    <Phrase key="MiddleCenter">Middle center</Phrase>
+    <Phrase key="MiddleRight">Middle right</Phrase>
+    <Phrase key="BottomLeft">Bottom left</Phrase>
+    <Phrase key="BottomCenter">Bottom center</Phrase>
+    <Phrase key="BottomRight">Bottom right</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.DataMember">
     <Phrase key="Value">Value</Phrase>
     <Phrase key="Status">Status</Phrase>
@@ -143,17 +154,6 @@
     <Phrase key="Small">Small</Phrase>
     <Phrase key="Large">Large</Phrase>
     <Phrase key="ExtraLarge">Extra large</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ContentAlignment">
-    <Phrase key="TopLeft">Top left</Phrase>
-    <Phrase key="TopCenter">Top center</Phrase>
-    <Phrase key="TopRight">Top right</Phrase>
-    <Phrase key="MiddleLeft">Middle left</Phrase>
-    <Phrase key="MiddleCenter">Middle center</Phrase>
-    <Phrase key="MiddleRight">Middle right</Phrase>
-    <Phrase key="BottomLeft">Bottom left</Phrase>
-    <Phrase key="BottomCenter">Bottom center</Phrase>
-    <Phrase key="BottomRight">Bottom right</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.TextDirection">
     <Phrase key="Horizontal">Horizontal</Phrase>

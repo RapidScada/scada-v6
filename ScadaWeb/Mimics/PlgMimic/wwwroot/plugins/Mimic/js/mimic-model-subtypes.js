@@ -1,5 +1,5 @@
-﻿// Enumerations: ActionType, ComparisonOperator, DataMember, ImageStretch, LogicalOperator, LinkTarget, ModalWidth,
-//     ContentAlignment, TextDirection
+﻿// Enumerations: ActionType, ComparisonOperator, ContentAlignment, DataMember, ImageStretch, LogicalOperator, 
+//     LinkTarget, ModalWidth, TextDirection
 // Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
 //     PropertyBinding, PropertyExport, Size, UrlParams, VisualState
 // Lists: List, ImageConditionList, PropertyBindingList, PropertyExportList
@@ -65,6 +65,19 @@ rs.mimic.ComparisonOperator = class ComparisonOperator {
                 return false;
         }
     }
+};
+
+// Specifies the alignments of component content.
+rs.mimic.ContentAlignment = class {
+    static TOP_LEFT = "TopLeft";
+    static TOP_CENTER = "TopCenter";
+    static TOP_RIGHT = "TopRight";
+    static MIDDLE_LEFT = "MiddleLeft";
+    static MIDDLE_CENTER = "MiddleCenter";
+    static MIDDLE_RIGHT = "MiddleRight";
+    static BOTTOM_LEFT = "BottomLeft";
+    static BOTTOM_CENTER = "BottomCenter";
+    static BOTTOM_RIGHT = "BottomRight";
 };
 
 // Specifies the data members of a property binding.
@@ -142,19 +155,6 @@ rs.mimic.ModalWidth = class ModalWidth {
                 return 0;
         };
     }
-};
-
-// Specifies the alignments of component content.
-rs.mimic.ContentAlignment = class {
-    static TOP_LEFT = "TopLeft";
-    static TOP_CENTER = "TopCenter";
-    static TOP_RIGHT = "TopRight";
-    static MIDDLE_LEFT = "MiddleLeft";
-    static MIDDLE_CENTER = "MiddleCenter";
-    static MIDDLE_RIGHT = "MiddleRight";
-    static BOTTOM_LEFT = "BottomLeft";
-    static BOTTOM_CENTER = "BottomCenter";
-    static BOTTOM_RIGHT = "BottomRight";
 };
 
 // Specifies the text directions.
