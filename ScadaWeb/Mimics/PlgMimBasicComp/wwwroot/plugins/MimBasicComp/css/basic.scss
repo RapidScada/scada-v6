@@ -6,6 +6,11 @@
         justify-content: center;
         overflow: hidden;
         white-space: nowrap;
+
+        .basic-button-icon {
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
     }
 }
 

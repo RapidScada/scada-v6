@@ -6,6 +6,10 @@
   overflow: hidden;
   white-space: nowrap;
 }
+.basic-button .basic-button-content .basic-button-icon {
+  background-position: center center;
+  background-repeat: no-repeat;
+}
 
 .basic-led {
   border: 0 none black;
