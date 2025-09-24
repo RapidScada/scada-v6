@@ -489,10 +489,12 @@ Değişiklikler, uygulama yeniden başlatıldıktan sonra geçerli olacaktır.</
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmFileNew">
     <Phrase key="this">Yeni dosya</Phrase>
-    <Phrase key="lbFileType.Items[0]">Şema Görünümü</Phrase>
-    <Phrase key="lbFileType.Items[1]">Tablo görünümü</Phrase>
-    <Phrase key="lbFileType.Items[2]">Metin dosyası</Phrase>
-    <Phrase key="lbFileType.Items[3]">XML Dosyası</Phrase>
+    <Phrase key="lbFileType.Items[0]">Akış şeması klasik</Phrase>
+    <Phrase key="lbFileType.Items[1]">Akış şeması (deneysel)</Phrase>
+    <Phrase key="lbFileType.Items[2]">Ön panel (deneysel)</Phrase>
+    <Phrase key="lbFileType.Items[3]">Tablo görünümü</Phrase>
+    <Phrase key="lbFileType.Items[4]">XML Dosyası</Phrase>
+    <Phrase key="lbFileType.Items[5]">Metin dosyası</Phrase>
     <Phrase key="lblFileName">Dosya adı</Phrase>
     <Phrase key="btnOK">TAMAM</Phrase>
     <Phrase key="btnCancel">İptal etmek</Phrase>

@@ -54,7 +54,7 @@ function bindEvents() {
     $(document).on("keydown", function (event) {
         let targetElem = $(event.target);
 
-        if ((targetElem.is("body") || targetElem.closest("#divToolbar").length > 0 ||
+        if ((targetElem.is("body") || targetElem.closest(".mimic, #divToolbar").length > 0 ||
             event.code === "KeyS" && event.ctrlKey) &&
             handleKeyDown(event.code, event.ctrlKey, event.shiftKey)) {
             event.preventDefault();
@@ -303,6 +303,7 @@ function initPropGrid() {
 function initModals() {
     faceplateModal = new FaceplateModal("divFaceplateModal");
     imageModal = new ImageModal("divImageModal");
+    PropGridDialogs.fontModal = new FontModal("divFontModal");
     PropGridDialogs.textEditor = new TextEditor("divTextEditor");
 }
 
@@ -912,7 +913,7 @@ function restoreHistoryPoint(historyPoint) {
                 let documentSource = historyChange.getNewObject();
 
                 if (documentSource) {
-                    Object.assign(mimic.document, MimicFactory.parseProperties(documentSource));
+                    Object.assign(mimic.document, MimicFactory.parseProperties(documentSource, mimic.isFaceplate));
                     mimicHistory.rememberDocument(mimic, true);
                     unitedRenderer.updateMimicDom();
                     changes.push(Change.updateDocument(mimic.document));
@@ -1314,7 +1315,7 @@ function addComponent(typeName, parentID, point) {
         (parentID > 0 ? ` inside component ${parentID}` : ""));
 
     let factory = mimic.getComponentFactory(typeName);
-    let renderer = mimic.isFaceplate(typeName)
+    let renderer = mimic.isFaceplateType(typeName)
         ? rs.mimic.RendererSet.faceplateRenderer
         : rs.mimic.RendererSet.componentRenderers.get(typeName);
 

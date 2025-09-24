@@ -32,10 +32,7 @@ namespace Scada.Web.Plugins.PlgMimBasicComp.Code
         /// Gets the URLs of component scripts.
         /// </summary>
         public List<string> ScriptUrls => [
-            "~/plugins/MimBasicComp/js/basic-descr.js",
-            "~/plugins/MimBasicComp/js/basic-factory.js",
-            "~/plugins/MimBasicComp/js/basic-render.js",
-            "~/plugins/MimBasicComp/js/basic-subtypes.js"
+            "~/plugins/MimBasicComp/js/basic-bundle.js"
         ];
     }
 }

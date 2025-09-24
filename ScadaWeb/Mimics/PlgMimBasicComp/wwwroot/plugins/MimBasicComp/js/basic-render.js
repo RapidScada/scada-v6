@@ -38,9 +38,11 @@ rs.mimic.BasicButtonRenderer = class extends rs.mimic.RegularComponentRenderer {
         if (props.imageName) {
             this._setBackgroundImage(iconElem, renderContext.getImage(props.imageName));
             this._setSize(iconElem, props.imageSize);
+            iconElem.css("display", "");
         } else {
             this._setBackgroundImage(iconElem, null);
             this._setSize(iconElem, { width: 0, height: 0 });
+            iconElem.css("display", "none");
         }
 
         textElem.text(props.text);
@@ -53,6 +55,7 @@ rs.mimic.BasicButtonRenderer = class extends rs.mimic.RegularComponentRenderer {
         this._completeDom(buttonElem, component, renderContext);
         this._setClasses(buttonElem, component, renderContext);
         this._setProps(buttonElem, component, renderContext);
+        this._bindEvents(buttonElem, component, renderContext);
         component.dom = buttonElem;
         return buttonElem;
     }
@@ -126,13 +129,49 @@ rs.mimic.BasicToggleRenderer = class extends rs.mimic.RegularComponentRenderer {
         let props = component.properties;
         this._setPadding(componentElem, props.padding);
 
-        let leverElem = componentElem.children().first();
+        let leverElem = componentElem.children(".basic-toggle-lever:first");
         let minSize = Math.min(component.width, component.height);
         let minInnerSize = Math.min(component.innerWidth, component.innerHeight);
         componentElem.css("border-radius", minSize / 2);
 
         leverElem.css({
             "background-color": props.foreColor,
+            "width": minInnerSize,
+            "height": minInnerSize
+        });
+    }
+
+    _setVisualState(componentElem, visualState) {
+        super._setVisualState(componentElem, visualState);
+
+        if (visualState.foreColor) {
+            componentElem.children(".basic-toggle-lever:first")
+                .css("background-color", visualState.foreColor);
+        }
+    }
+
+    _setOriginalState(componentElem, props) {
+        super._setOriginalState(componentElem, props);
+        componentElem.children(".basic-toggle-lever:first")
+            .css("background-color", props.foreColor);
+    }
+
+    setSize(component, width, height) {
+        super.setSize(component, width, height);
+
+        // update corner radius
+        let componentElem = component.dom;
+        let minSize = Math.min(width, height);
+        componentElem.css("border-radius", minSize / 2);
+
+        // update lever size
+        let leverElem = componentElem.children(".basic-toggle-lever:first");
+        let props = component.properties;
+        let innerWidth = width - props.border.width * 2 - props.padding.left - props.padding.right;
+        let innerHeight = height - props.border.width * 2 - props.padding.top - props.padding.bottom;
+        let minInnerSize = Math.min(innerWidth, innerHeight);
+
+        leverElem.css({
             "width": minInnerSize,
             "height": minInnerSize
         });

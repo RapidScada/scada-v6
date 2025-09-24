@@ -6,17 +6,20 @@
         justify-content: center;
         overflow: hidden;
         white-space: nowrap;
+
+        .basic-button-icon {
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
     }
 }
 
 .basic-led {
-    background-color: silver;
     border: 0 none black;
 
     .basic-led-border {
-        border-color: black;
-        width: 100%;
         height: 100%;
+        width: 100%;
     }
 }
 
@@ -34,7 +37,6 @@
     display: flex;
 
     .basic-toggle-lever {
-        background-color: white;
         border-radius: 50%;
     }
 }

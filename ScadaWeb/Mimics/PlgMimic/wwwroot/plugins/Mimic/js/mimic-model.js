@@ -241,6 +241,7 @@ rs.mimic.MimicHelper = class MimicHelper {
 
 // A base class for mimic diagrams and faceplates.
 rs.mimic.MimicBase = class {
+    isFaceplate;   // mimic is a faceplate
     dependencies;  // meta information about faceplates
     document;      // mimic properties
     components;    // all components
@@ -255,6 +256,7 @@ rs.mimic.MimicBase = class {
 
     // Clears the mimic.
     clear() {
+        this.isFaceplate = false;
         this.dependencies = [];
         this.document = {};
         this.components = [];
@@ -269,7 +271,7 @@ rs.mimic.MimicBase = class {
     }
 
     // Checks whether the specified type name represents a faceplate.
-    isFaceplate(typeName) {
+    isFaceplateType(typeName) {
         return this.faceplateMap?.has(typeName);
     }
 
@@ -309,6 +311,22 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     // Gets the mimic height.
     get height() {
         return this.document ? this.document.size.height : 0;
+    }
+
+    // Gets the inner width excluding the border.
+    get innerWidth() {
+        let props = this.document;
+        return props
+            ? props.size.width - (props.border ? props.border.width * 2 : 0)
+            : 0;
+    }
+
+    // Gets the inner height excluding the border.
+    get innerHeight() {
+        let props = this.document;
+        return props
+            ? props.size.height - (props.border ? props.border.width * 2 : 0)
+            : 0;
     }
 
     // Loads a part of the mimic.
@@ -404,7 +422,8 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                     }
                 }
 
-                this.document = rs.mimic.MimicFactory.parseProperties(dto.data.document);
+                this.isFaceplate = dto.data.isFaceplate;
+                this.document = rs.mimic.MimicFactory.parseProperties(dto.data.document, this.isFaceplate);
             }
 
             return dto;
@@ -691,9 +710,13 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
         // component scripts
         for (let component of this.components) {
-            if (component.properties.script) {
+            let script = component.isFaceplate
+                ? component.model?.document?.script
+                : component.properties.script;
+
+            if (script) {
                 try {
-                    component.customScript = ComponentScript.createFromSource(component.properties.script);
+                    component.customScript = ComponentScript.createFromSource(script);
                 } catch (ex) {
                     console.error(`Error creating script for the component with ID ${component.id}: ${ex.message}`);
                 }
@@ -733,7 +756,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
 // Represents a component of a mimic diagram.
 rs.mimic.Component = class {
-    id = 0;              // component ID
+    _id = 0;             // component ID
     typeName = "";       // component type name
     properties = null;   // factory normalized properties
     bindings = null;     // server side prepared bindings, see ComponentBindings.cs
@@ -746,10 +769,19 @@ rs.mimic.Component = class {
     renderer = null;     // renders the component
     extraScript = null;  // additional component logic
     customScript = null; // custom component logic
+    customData = null;   // custom component data
     isSelected = false;  // selected in the editor
 
-    constructor(source) {
-        Object.assign(this, source);
+    get id() {
+        return this._id;
+    }
+
+    set id(value) {
+        this._id = value;
+
+        if (this.properties) {
+            this.properties.id = value;
+        }
     }
 
     get isContainer() {
@@ -936,16 +968,18 @@ rs.mimic.Component = class {
     // Executes the scripts when updating component data. Returns true if any property has changed.
     onDataUpdated(dataProvider) {
         let propertyChanged = false;
-
-        if (this.extraScript) {
-            let args = new rs.mimic.DataUpdateArgs({ component: this, dataProvider });
-            this.extraScript.dataUpdated(args);
-            propertyChanged ||= args.propertyChanged;
-        }
+        let handled = false;
 
         if (this.customScript) {
             let args = new rs.mimic.DataUpdateArgs({ component: this, dataProvider });
             this.customScript.dataUpdated(args);
+            propertyChanged = args.propertyChanged;
+            handled = args.handled;
+        }
+
+        if (this.extraScript && !handled) {
+            let args = new rs.mimic.DataUpdateArgs({ component: this, dataProvider });
+            this.extraScript.dataUpdated(args);
             propertyChanged ||= args.propertyChanged;
         }
 
@@ -1043,7 +1077,8 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
     constructor(source, typeName) {
         super();
         this.clear();
-        this.document = source.document ?? {};
+        this.isFaceplate = true;
+        this.document = rs.mimic.MimicFactory.parseProperties(source.document, true);
         this.typeName = typeName;
         this._fillDependencies(source);
         this._fillComponents(source);

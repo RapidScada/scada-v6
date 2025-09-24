@@ -67,6 +67,11 @@ $tool-window-font-weight: 500;
             background-color: var(--bs-gray-200);
         }
 
+        &:active {
+            background-color: var(--bs-blue);
+            color: var(--bs-white);
+        }
+
         .component-icon {
             width: 16px;
             height: 16px;

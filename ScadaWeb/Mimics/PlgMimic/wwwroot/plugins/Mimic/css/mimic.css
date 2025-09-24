@@ -5,6 +5,7 @@
 }
 .mimic-wrapper .mimic {
   background-color: white;
+  background-repeat: no-repeat;
   position: absolute;
   transform-origin: left top;
 }
@@ -17,17 +18,19 @@
   overflow: hidden;
 }
 .mimic-wrapper .mimic .comp.picture .picture-content {
-  background-repeat: no-repeat;
   background-clip: content-box;
+  background-repeat: no-repeat;
   height: 100%;
   width: 100%;
 }
+.mimic-wrapper .mimic .comp.panel {
+  background-color: inherit;
+}
 
-.mimic-wrapper.view-mode .mimic .comp.hidden {
+.mimic-wrapper.view-mode .mimic .comp.invisible-state {
   display: none;
 }
-.mimic-wrapper.view-mode .mimic .comp.disabled {
-  cursor: not-allowed;
+.mimic-wrapper.view-mode .mimic .comp.disabled-state {
   pointer-events: none;
 }
 .mimic-wrapper.view-mode .mimic .comp.has-action {
@@ -46,17 +49,23 @@
 .mimic-wrapper.edit-mode .mimic {
   box-shadow: 0 0 0 1px var(--bs-gray-500);
 }
-.mimic-wrapper.edit-mode .mimic .comp.selected {
-  box-shadow: 0 0 0 3px lime;
-}
-.mimic-wrapper.edit-mode .mimic .comp:not(.selected):hover {
-  box-shadow: 0 0 0 1px var(--bs-gray-500);
-}
-.mimic-wrapper.edit-mode .mimic .comp.faceplate .comp:hover {
-  box-shadow: none;
-}
 .mimic-wrapper.edit-mode .mimic .comp::before {
   content: "";
   inset: var(--border-width, 0);
   position: absolute;
+}
+.mimic-wrapper.edit-mode .mimic .comp.selected::before {
+  box-shadow: 0 0 0 3px lime;
+}
+.mimic-wrapper.edit-mode .mimic .comp:not(.selected):hover::before {
+  box-shadow: 0 0 0 1px var(--bs-gray-500);
+}
+.mimic-wrapper.edit-mode .mimic .comp.fiction-border::before {
+  border: 1px dashed var(--bs-gray-600);
+}
+.mimic-wrapper.edit-mode .mimic .comp.picture.blank .picture-content {
+  background-image: url("../images/picture-blank.svg");
+}
+.mimic-wrapper.edit-mode .mimic .comp.faceplate .comp:hover::before {
+  box-shadow: none;
 }

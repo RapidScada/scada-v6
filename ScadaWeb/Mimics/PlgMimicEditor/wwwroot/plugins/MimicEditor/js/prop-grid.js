@@ -67,7 +67,7 @@ class PropGrid {
         this._clearPane();
         let targetObject = PropGridHelper.getTargetObject(obj);
         let descriptor = PropGridHelper.getObjectDescriptor(obj);
-        let folderMap = this._addFolders(descriptor);
+        let folderMap = this._addFolders(targetObject, descriptor);
         this._addBlades(folderMap, targetObject, isChild, descriptor);
     }
 
@@ -184,15 +184,16 @@ class PropGrid {
         return blade;
     }
 
-    _addFolders(objectDescriptor) {
+    _addFolders(targetObject, objectDescriptor) {
         let folderMap = new Map();
 
-        if (objectDescriptor) {
+        if (targetObject && objectDescriptor) {
             // get distinct categories
             let categorySet = new Set();
 
             for (let propertyDescriptor of objectDescriptor.propertyDescriptors.values()) {
-                if (propertyDescriptor.isBrowsable && propertyDescriptor.category) {
+                if (targetObject.hasOwnProperty(propertyDescriptor.name) &&
+                    propertyDescriptor.isBrowsable && propertyDescriptor.category) {
                     categorySet.add(propertyDescriptor.category);
                 }
             }
@@ -618,34 +619,11 @@ class PropGridHelper {
 
 // Calls property editors implemented as modal dialogs.
 class PropGridDialogs {
-    static colorDialog = null;
-    static fontDialog = null;
-    static imageDialog = null;
-    static propertyDialog = null;
+    static colorModal = null;
+    static fontModal = null;
+    static imageModal = null;
+    static propertyModal = null;
     static textEditor = null;
-
-    // Shows the color dialog.
-    static _showColorDialog(value, options, callback) {
-    }
-
-    // Shows the font dialog.
-    static _showFontDialog(value, options, callback) {
-    }
-
-    // Shows the image dialog.
-    static _showImageDialog(value, options, callback) {
-    }
-
-    // Shows the property dialog.
-    static _showPropertyDialog(value, options, callback) {
-    }
-
-    // Shows the text editor.
-    static _showTextEditor(value, options, callback) {
-        PropGridDialogs.textEditor.show(value, options, (modalContext) => {
-            PropGridDialogs._invokeCallback(modalContext, callback);
-        });
-    }
 
     // Invokes the callback function.
     static _invokeCallback(modalContext, callback) {
@@ -659,10 +637,10 @@ class PropGridDialogs {
         const PropertyEditor = rs.mimic.PropertyEditor;
         let editor = propertyDescriptor?.editor;
         return editor &&
-            editor === PropertyEditor.COLOR_DIALOG && PropGridDialogs.colorDialog ||
-            editor === PropertyEditor.FONT_DIALOG && PropGridDialogs.fontDialog ||
-            editor === PropertyEditor.IMAGE_DIALOG && PropGridDialogs.imageDialog ||
-            editor === PropertyEditor.PROPERTY_DIALOG && PropGridDialogs.propertyDialog ||
+            editor === PropertyEditor.COLOR_DIALOG && PropGridDialogs.colorModal ||
+            editor === PropertyEditor.FONT_DIALOG && PropGridDialogs.fontModal ||
+            editor === PropertyEditor.IMAGE_DIALOG && PropGridDialogs.imageModal ||
+            editor === PropertyEditor.PROPERTY_DIALOG && PropGridDialogs.propertyModal ||
             editor === PropertyEditor.TEXT_EDITOR && PropGridDialogs.textEditor;
     }
 
@@ -671,29 +649,38 @@ class PropGridDialogs {
     static showEditor(propertyValue, propertyDescriptor, callback) {
         if (propertyDescriptor) {
             const PropertyEditor = rs.mimic.PropertyEditor;
-            let editor = propertyDescriptor.editor;
             let options = propertyDescriptor.editorOptions;
 
-            if (editor === PropertyEditor.COLOR_DIALOG) {
-                if (PropGridDialogs.colorDialog) {
-                    PropGridDialogs._showColorDialog(propertyValue, options, callback);
-                }
-            } else if (editor === PropertyEditor.FONT_DIALOG) {
-                if (PropGridDialogs.fontDialog) {
-                    PropGridDialogs._showFontDialog(propertyValue, options, callback);
-                }
-            } else if (editor === PropertyEditor.IMAGE_DIALOG) {
-                if (PropGridDialogs.imageDialog) {
-                    PropGridDialogs._showImageDialog(propertyValue, options, callback);
-                }
-            } else if (editor === PropertyEditor.PROPERTY_DIALOG) {
-                if (PropGridDialogs.propertyDialog) {
-                    PropGridDialogs._showPropertyDialog(propertyValue, options, callback);
-                }
-            } else if (editor === PropertyEditor.TEXT_EDITOR) {
-                if (PropGridDialogs.textEditor) {
-                    PropGridDialogs._showTextEditor(propertyValue, options, callback);
-                }
+            switch (propertyDescriptor.editor) {
+                case PropertyEditor.COLOR_DIALOG:
+                    //PropGridDialogs.colorModal?.show(propertyValue, options, (modalContext) => {
+                    //    PropGridDialogs._invokeCallback(modalContext, callback);
+                    //});
+                    break;
+
+                case PropertyEditor.FONT_DIALOG:
+                    PropGridDialogs.fontModal?.show(propertyValue, (modalContext) => {
+                        PropGridDialogs._invokeCallback(modalContext, callback);
+                    });
+                    break;
+
+                case PropertyEditor.IMAGE_DIALOG:
+                    //PropGridDialogs.imageModal?.show(propertyValue, options, (modalContext) => {
+                    //    PropGridDialogs._invokeCallback(modalContext, callback);
+                    //});
+                    break;
+
+                case PropertyEditor.PROPERTY_DIALOG:
+                    //PropGridDialogs.propertyModal?.show(propertyValue, options, (modalContext) => {
+                    //    PropGridDialogs._invokeCallback(modalContext, callback);
+                    //});
+                    break;
+
+                case PropertyEditor.TEXT_EDITOR:
+                    PropGridDialogs.textEditor?.show(propertyValue, options, (modalContext) => {
+                        PropGridDialogs._invokeCallback(modalContext, callback);
+                    });
+                    break;
             }
         }
     }

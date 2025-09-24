@@ -1,5 +1,5 @@
-﻿// Enumerations: ActionType, ComparisonOperator, DataMember, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth,
-//     ContentAlignment, TextDirection
+﻿// Enumerations: ActionType, ComparisonOperator, ContentAlignment, DataMember, ImageStretch, LogicalOperator, 
+//     LinkTarget, ModalWidth, TextDirection
 // Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
 //     PropertyBinding, PropertyExport, Size, UrlParams, VisualState
 // Lists: List, ImageConditionList, PropertyBindingList, PropertyExportList
@@ -67,6 +67,19 @@ rs.mimic.ComparisonOperator = class ComparisonOperator {
     }
 };
 
+// Specifies the alignments of component content.
+rs.mimic.ContentAlignment = class {
+    static TOP_LEFT = "TopLeft";
+    static TOP_CENTER = "TopCenter";
+    static TOP_RIGHT = "TopRight";
+    static MIDDLE_LEFT = "MiddleLeft";
+    static MIDDLE_CENTER = "MiddleCenter";
+    static MIDDLE_RIGHT = "MiddleRight";
+    static BOTTOM_LEFT = "BottomLeft";
+    static BOTTOM_CENTER = "BottomCenter";
+    static BOTTOM_RIGHT = "BottomRight";
+};
+
 // Specifies the data members of a property binding.
 rs.mimic.DataMember = class {
     static VALUE = "Value";
@@ -76,15 +89,14 @@ rs.mimic.DataMember = class {
     static COLOR0 = "Color0";
     static COLOR1 = "Color1";
     static COLOR2 = "Color2";
-}
+};
 
-// Specifies how an image is positioned within a component.
-rs.mimic.ImageSizeMode = class {
-    static NORMAL = "Normal";
-    static CENTER = "Center";
-    static STRETCH = "Stretch";
+// Specifies how an image is stretched.
+rs.mimic.ImageStretch = class {
+    static NONE = "None";
+    static FILL = "Fill";
     static ZOOM = "Zoom";
-}
+};
 
 // Specifies the logical operators.
 rs.mimic.LogicalOperator = class LogicalOperator {
@@ -103,7 +115,7 @@ rs.mimic.LogicalOperator = class LogicalOperator {
         }
     }
 
-    isTrue(oper, val1, val2) {
+    static isTrue(oper, val1, val2) {
         switch (oper) {
             case LogicalOperator.AND:
                 return val1 && val2;
@@ -145,25 +157,12 @@ rs.mimic.ModalWidth = class ModalWidth {
     }
 };
 
-// Specifies the alignments of component content.
-rs.mimic.ContentAlignment = class {
-    static TOP_LEFT = "TopLeft";
-    static TOP_CENTER = "TopCenter";
-    static TOP_RIGHT = "TopRight";
-    static MIDDLE_LEFT = "MiddleLeft";
-    static MIDDLE_CENTER = "MiddleCenter";
-    static MIDDLE_RIGHT = "MiddleRight";
-    static BOTTOM_LEFT = "BottomLeft";
-    static BOTTOM_CENTER = "BottomCenter";
-    static BOTTOM_RIGHT = "BottomRight";
-};
-
 // Specifies the text directions.
 rs.mimic.TextDirection = class {
     static HORIZONTAL = "Horizontal";
     static VERTICAL90 = "Vertical90";
     static VERTICAL270 = "Vertical270";
-}
+};
 
 // --- Structures ---
 
@@ -350,6 +349,15 @@ rs.mimic.Font = class Font {
         return "Font";
     }
 
+    toString() {
+        return this.inherit
+            ? ""
+            : (this.name || "Default") + " " + this.size + " " +
+                (this.bold ? "B" : "") +
+                (this.italic ? "I" : "") +
+                (this.underline ? "U" : "");
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let font = new Font();
@@ -429,6 +437,10 @@ rs.mimic.Padding = class Padding {
     bottom = 0;
     left = 0;
 
+    constructor(source) {
+        Object.assign(this, source);
+    }
+
     get typeName() {
         return "Padding";
     }
@@ -453,13 +465,18 @@ rs.mimic.Point = class Point {
     x = 0;
     y = 0;
 
+    constructor(source) {
+        Object.assign(this, source);
+    }
+
     get typeName() {
         return "Point";
     }
 
-    static parse(source) {
+    static parse(source, defaultValue) {
         const PropertyParser = rs.mimic.PropertyParser;
         let point = new Point();
+        source ??= defaultValue;
 
         if (source) {
             point.x = PropertyParser.parseInt(source.x);
@@ -468,13 +485,13 @@ rs.mimic.Point = class Point {
 
         return point;
     }
-}
+};
 
 // Represents a property binding.
 rs.mimic.PropertyBinding = class PropertyBinding {
     propertyName = "";
     dataSource = "";
-    dataMember = "";
+    dataMember = rs.mimic.DataMember.VALUE;
     format = "";
 
     get typeName() {
@@ -504,6 +521,7 @@ rs.mimic.PropertyBinding = class PropertyBinding {
 rs.mimic.PropertyExport = class PropertyExport {
     name = "";
     path = "";
+    defaultValue = "";
 
     constructor(source) {
         Object.assign(this, source);
@@ -533,6 +551,7 @@ rs.mimic.PropertyExport = class PropertyExport {
         if (source) {
             propertyExport.name = PropertyParser.parseString(source.name);
             propertyExport.path = PropertyParser.parseString(source.path);
+            propertyExport.defaultValue = PropertyParser.parseString(source.defaultValue);
         }
 
         return propertyExport;
@@ -564,7 +583,7 @@ rs.mimic.Size = class Size {
 
         return size;
     }
-}
+};
 
 // Represents URL parameters.
 rs.mimic.UrlParams = class UrlParams {
@@ -619,7 +638,7 @@ rs.mimic.UrlParams = class UrlParams {
 
         return urlParams;
     }
-}
+};
 
 // Represents a visual state.
 rs.mimic.VisualState = class VisualState {
@@ -633,7 +652,7 @@ rs.mimic.VisualState = class VisualState {
     }
 
     get isSet() {
-        return this.backColor || this.foreColor || this.borderColor || this.underline;
+        return !!(this.backColor || this.foreColor || this.borderColor || this.underline);
     }
 
     static parse(source) {
@@ -664,7 +683,7 @@ rs.mimic.List = class extends Array {
             };
         }
     }
-}
+};
 
 // Represents a list of ImageCondition items.
 rs.mimic.ImageConditionList = class ImageConditionList extends rs.mimic.List {
@@ -686,7 +705,7 @@ rs.mimic.ImageConditionList = class ImageConditionList extends rs.mimic.List {
 
         return imageConditions;
     }
-}
+};
 
 // Represents a list of PropertyBinding items.
 rs.mimic.PropertyBindingList = class PropertyBindingList extends rs.mimic.List {
@@ -708,7 +727,7 @@ rs.mimic.PropertyBindingList = class PropertyBindingList extends rs.mimic.List {
 
         return propertyBindings;
     }
-}
+};
 
 // Represents a list of PropertyExport items.
 rs.mimic.PropertyExportList = class PropertyExportList extends rs.mimic.List {
@@ -730,7 +749,7 @@ rs.mimic.PropertyExportList = class PropertyExportList extends rs.mimic.List {
 
         return propertyExports;
     }
-}
+};
 
 // --- Scripts ---
 
@@ -771,6 +790,7 @@ rs.mimic.DataUpdateArgs = class {
         this.component = component;
         this.dataProvider = dataProvider;
         this.propertyChanged = false;
+        this.handled = false;
     }
 };
 
@@ -822,7 +842,7 @@ rs.mimic.PropertyParser = class {
             return String(source);
         }
     }
-}
+};
 
 // Represents an abstract provider of channel data and channel properties.
 rs.mimic.DataProvider = class DataProvider {

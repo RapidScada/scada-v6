@@ -1,5 +1,0 @@
-Language                 : Czech
-Culture name:            : cs-CZ
-Rapid SCADA version      : 6.3.0
-Rapid SCADA applications : All
-Author                   : Machine translate

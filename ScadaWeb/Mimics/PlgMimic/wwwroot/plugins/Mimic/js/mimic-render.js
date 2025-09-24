@@ -9,6 +9,26 @@ rs.mimic.Renderer = class {
         jqObj.css("background-image", this._imageToDataUrlCss(image));
     }
 
+    // Sets the background size of the specified jQuery object.
+    _setBackgroundStretch(jqObj, imageStretch, innerWidth, innerHeight) {
+        const ImageStretch = rs.mimic.ImageStretch;
+        jqObj.css("background-position", "center center");
+
+        switch (imageStretch) {
+            case ImageStretch.NONE:
+                jqObj.css("background-size", "");
+                break;
+
+            case ImageStretch.FILL:
+                jqObj.css("background-size", `${innerWidth}px ${innerHeight}px`);
+                break;
+
+            case ImageStretch.ZOOM:
+                jqObj.css("background-size", "contain");
+                break;
+        }
+    }
+
     // Sets the border of the specified jQuery object.
     _setBorder(jqObj, border) {
         if (border && border.width > 0) {
@@ -166,13 +186,19 @@ rs.mimic.Renderer = class {
 rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
     static _GRID_COLOR = "#dee2e6"; // gray-300
 
+    // Checks whether to display grid.
+    static _gridVisible(renderContext) {
+        return renderContext.editMode && renderContext.editorOptions &&
+            renderContext.editorOptions.showGrid && renderContext.editorOptions.gridStep > 1;
+    }
+
     // Creates a grid canvas and draws grid cells.
-    static _createGrid(gridSize, mimicSize) {
+    static _createGrid(gridSize, mimicWidth, mimicHeight) {
         // create canvas
         let canvasElem = $("<canvas class='grid'></canvas>");
         let canvas = canvasElem[0];
-        let width = canvas.width = mimicSize.width;
-        let height = canvas.height = mimicSize.height;
+        let width = canvas.width = mimicWidth;
+        let height = canvas.height = mimicHeight;
 
         // prepare drawing context
         let context = canvas.getContext("2d");
@@ -236,30 +262,8 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         return 1.0;
     }
 
-    // Sets the CSS properties of the mimic element.
-    _setProps(mimicElem, mimic, renderContext) {
-        let props = mimic.document;
-        this._setBackgroundImage(mimicElem, renderContext.getImage(props.backgroundImage));
-        this._setFont(mimicElem, props.font, renderContext.fontMap);
-        this._setSize(mimicElem, props.size);
-        this._setStyle(props.stylesheet);
-
-        if (!renderContext.editMode) {
-            $("body").css("background-color", props.backColor);
-        }
-
-        mimicElem
-            .attr("title", props.tooltip)
-            .css({
-                "background-color": props.backColor,
-                "background-repeat": "no-repeat",
-                "background-size": props.size.width + "px " + props.size.height + "px",
-                "color": props.foreColor
-            });
-    }
-
-    // Adds a style element to the page head or replaces the existing style element.
-    _setStyle(stylesheet) {
+    // Adds, replaces or removes a style element in the page head.
+    static _updateStyleElem(stylesheet) {
         if (stylesheet) {
             let newStyleElem = $("<style id='mimic-style'></style>").html(stylesheet);
             let oldStyleElem = $("head").find("#mimic-style");
@@ -274,15 +278,85 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         }
     }
 
-    // Creates a mimic DOM according to the mimic model.
-    createDom(mimic, renderContext) {
-        let mimicElem = $("<div class='mimic'></div>");
+    // Updates a style element according to the stylesheets of the mimic and faceplates.
+    static _setStylesheet(mimic) {
+        let stylesheet = mimic.document.stylesheet;
 
-        if (renderContext.editMode && renderContext.editorOptions &&
-            renderContext.editorOptions.showGrid && renderContext.editorOptions.gridStep > 1) {
-            mimicElem.append(MimicRenderer._createGrid(renderContext.editorOptions.gridStep, mimic.document.size));
+        for (let faceplate of mimic.faceplates) {
+            stylesheet += faceplate.document.stylesheet;
         }
 
+        MimicRenderer._updateStyleElem(stylesheet);
+    }
+
+    // Sets the body background color in edit mode.
+    static _setBodyBackColor(mimic, renderContext) {
+        if (!renderContext.editMode) {
+            $("body").css("background-color", mimic.document.backColor);
+        }
+    }
+
+    // Sets the CSS classes of the mimic element.
+    _setClasses(mimicElem, mimic, renderContext) {
+        mimicElem.removeClass(); // clear classes
+        mimicElem.addClass("mimic");
+        let props = mimic.document;
+
+        if (props.cssClass) {
+            mimicElem.addClass(props.cssClass);
+        }
+}
+
+    // Sets the CSS properties of the mimic element.
+    _setProps(mimicElem, mimic, renderContext) {
+        let props = mimic.document;
+        this._setFont(mimicElem, props.font, renderContext.fontMap);
+        this._setSize(mimicElem, props.size);
+
+        if (mimic.isFaceplate) {
+            this._setBorder(mimicElem, props.border);
+            this._setCornerRadius(mimicElem, props.cornerRadius);
+        }
+
+        mimicElem
+            .attr("title", props.tooltip)
+            .css({
+                "background-color": props.backColor,
+                "color": props.foreColor
+            });
+
+        if (props.backgroundImage) {
+            let x = props.backgroundPadding.left;
+            let y = props.backgroundPadding.top;
+            let w = props.size.width - x - props.backgroundPadding.right;
+            let h = props.size.height - y - props.backgroundPadding.bottom;
+
+            mimicElem.css({
+                "background-image": this._imageToDataUrlCss(renderContext.getImage(props.backgroundImage)),
+                "background-position": `${x}px ${y}px`,
+                "background-size": `${w}px ${h}px`
+            });
+        } else {
+            mimicElem.css({
+                "background-image": "",
+                "background-position": "",
+                "background-size": ""
+            });
+        }
+    }
+
+    // Creates a mimic DOM according to the mimic model.
+    createDom(mimic, renderContext) {
+        let mimicElem = $("<div></div>");
+        MimicRenderer._setStylesheet(mimic);
+        MimicRenderer._setBodyBackColor(mimic, renderContext);
+
+        if (MimicRenderer._gridVisible(renderContext)) {
+            mimicElem.append(MimicRenderer._createGrid(
+                renderContext.editorOptions.gridStep, mimic.innerWidth, mimic.innerHeight));
+        }
+
+        this._setClasses(mimicElem, mimic, renderContext);
         this._setProps(mimicElem, mimic, renderContext);
         mimic.dom = mimicElem;
         return mimicElem;
@@ -291,12 +365,25 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
     // Updates the existing mimic DOM according to the mimic model.
     updateDom(mimic, renderContext) {
         let mimicElem = mimic.dom;
+        MimicRenderer._setStylesheet(mimic);
+        MimicRenderer._setBodyBackColor(mimic, renderContext);
 
         if (mimicElem) {
+            if (MimicRenderer._gridVisible(renderContext)) {
+                mimicElem.children(".grid:first").replaceWith(MimicRenderer._createGrid(
+                    renderContext.editorOptions.gridStep, mimic.innerWidth, mimic.innerHeight));
+            }
+
+            this._setClasses(mimicElem, mimic, renderContext);
             this._setProps(mimicElem, mimic, renderContext);
         }
 
         return mimicElem;
+    }
+
+    // Sets the CSS properties of the mimic element.
+    setMimicProps(mimicElem, mimic, renderContext) {
+        this._setProps(mimicElem, mimic, renderContext);
     }
 
     // Sets the scale of the mimic DOM.
@@ -328,27 +415,49 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
 
     // Sets the CSS classes of the component element.
     _setClasses(componentElem, component, renderContext) {
+        let unchangedClasses = this._keepClasses(componentElem);
         componentElem.removeClass(); // clear classes
         componentElem.addClass("comp");
+        componentElem.addClass(unchangedClasses.join(" "));
         let props = component.properties;
 
         if (!props.enabled) {
-            componentElem.addClass("disabled")
+            componentElem.addClass("disabled-state");
+            componentElem.addClass("disabled"); // Bootstrap class
+        }
+
+        if (!props.visible) {
+            componentElem.addClass("invisible-state");
+        }
+
+        if (this._hasAction(props, renderContext)) {
+            componentElem.addClass("has-action");
         }
 
         if (renderContext.editMode) {
             if (!renderContext.faceplateMode && component.isContainer) {
-                componentElem.addClass("container")
+                componentElem.addClass("container");
             }
 
             if (component.isSelected) {
-                componentElem.addClass("selected")
-            }
-        } else {
-            if (!props.visible) {
-                componentElem.addClass("hidden")
+                componentElem.addClass("selected");
             }
         }
+    }
+
+    // Collects classes that should remain unchanged during an update.
+    _keepClasses(componentElem) {
+        let classes = [];
+
+        if (componentElem.hasClass("blink-on")) {
+            classes.push("blink-on");
+        }
+
+        if (componentElem.hasClass("wait-action")) {
+            classes.push("wait-action");
+        }
+
+        return classes;
     }
 
     // Sets the CSS properties of the component element.
@@ -358,14 +467,209 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         this._setSize(componentElem, props.size);
     }
 
+    // Binds events to the component element.
+    _bindEvents(componentElem, component, renderContext) {
+        let props = component.properties;
+        componentElem.off(".rs.mimic");
+
+        if (props.enabled && this._hasAction(props, renderContext)) {
+            componentElem.on("click.rs.mimic", () => {
+                this._executeAction(componentElem, component, renderContext);
+            });
+        }
+    }
+
+    // Checks whether an action is set for the component.
+    _hasAction(props, renderContext) {
+        const ActionType = rs.mimic.ActionType;
+        return !renderContext.editMode && props.enabled &&
+            props.clickAction.actionType !== ActionType.NONE &&
+            (props.clickAction.actionType !== ActionType.SEND_COMMAND || renderContext.controlRight);
+    }
+
+    // Executes a component action.
+    _executeAction(componentElem, component, renderContext) {
+        const ActionType = rs.mimic.ActionType;
+        const ActionScriptArgs = rs.mimic.ActionScriptArgs;
+        const LinkTarget = rs.mimic.LinkTarget;
+        let props = component.properties;
+        let action = props.clickAction;
+
+        if (!renderContext.viewHub) {
+            console.error("View hub is undefined.");
+            return;
+        }
+
+        if (!renderContext.mainApi) {
+            console.error("Main API is undefined.");
+            return;
+        }
+
+        switch (action.actionType) {
+            case ActionType.DRAW_CHART:
+                if (props.inCnlNum > 0) {
+                    renderContext.viewHub.features.chart.show(props.inCnlNum, null, action.chartArgs);
+                } else {
+                    console.warn("Input channel not specified.");
+                }
+                break;
+
+            case ActionType.SEND_COMMAND:
+                if (props.outCnlNum > 0) {
+                    if (action.commandArgs.showDialog) {
+                        renderContext.viewHub.features.command.show(props.outCnlNum);
+                    } else {
+                        this._showWait(componentElem);
+                        let cmdVal = this._getCommandValue(component, action.commandArgs.cmdVal);
+
+                        if (Number.isFinite(cmdVal)) {
+                            console.log(`Send command ${cmdVal} to channel ${props.outCnlNum}`);
+                            renderContext.mainApi.sendCommand(props.outCnlNum, cmdVal, false, null);
+                        } else {
+                            console.warn("Command cancelled.");
+                        }
+                    }
+                } else {
+                    console.warn("Output channel not specified.");
+                }
+                break;
+
+            case ActionType.OPEN_LINK:
+                let url;
+
+                if (action.linkArgs.viewID > 0) {
+                    url = renderContext.viewHub.getViewUrl(action.linkArgs.viewID,
+                        action.linkArgs.target === LinkTarget.NEW_MODAL);
+                } else if (action.linkArgs.urlParams.enabled) {
+                    url = ScadaUtils.formatString(action.linkArgs.url, ...action.linkArgs.urlParams.toArray());
+                } else {
+                    url = action.linkArgs.url;
+                }
+
+                if (url) {
+                    switch (action.linkArgs.target) {
+                        case LinkTarget.SELF:
+                            window.top.location = url;
+                            break;
+                        case LinkTarget.NEW_TAB:
+                            window.open(url);
+                            break;
+                        case LinkTarget.NEW_MODAL:
+                            renderContext.viewHub.modalManager.showModal(url, new ModalOptions({
+                                size: action.linkArgs.getModalSize(),
+                                height: action.linkArgs.modalHeight
+                            }));
+                            break;
+                    }
+                } else {
+                    console.warn("URL is undefined.");
+                }
+
+                break;
+
+            case ActionType.EXECUTE_SCRIPT:
+                if (action.script) {
+                    try {
+                        let actionFunc = new Function("args", `const fn = ${action.script}; return fn(args);`);
+                        actionFunc(new ActionScriptArgs({ component, renderContext }));
+                    } catch (ex) {
+                        console.error("Error executing action script: " + ex.message);
+                    }
+                } else {
+                    console.warn("Script is undefined.");
+                }
+                break;
+        }
+    }
+
+    // Shows a wait cursor over the component.
+    _showWait(componentElem) {
+        const WAIT_DURATION = 1000;
+        componentElem.addClass("wait-action");
+        setTimeout(() => { componentElem.removeClass("wait-action"); }, WAIT_DURATION);
+    }
+
+    // Gets a command value for the component action.
+    _getCommandValue(component, defaultValue) {
+        try {
+            let cmdVal = component.getCommandValue();
+            return Number.isFinite(cmdVal) ? cmdVal : defaultValue;
+        } catch (ex) {
+            console.error("Error getting command value: " + ex.message);
+            return Number.NaN;
+        }
+    }
+
+    // Sets the component colors and text decoration to the specified ones.
+    _setVisualState(componentElem, visualState) {
+        if (visualState.backColor) {
+            componentElem.css("background-color", visualState.backColor);
+        }
+
+        if (visualState.foreColor) {
+            componentElem.css("color", visualState.foreColor);
+        }
+
+        if (visualState.borderColor) {
+            componentElem.css("border-color", visualState.borderColor);
+        }
+
+        if (visualState.underline) {
+            componentElem.css("text-decoration", "underline");
+        }
+    }
+
+    // Sets the component colors and text decoration based on its properties.
+    _setOriginalState(componentElem, props) {
+        componentElem.css({
+            "background-color": props.backColor,
+            "color": props.foreColor,
+            "border-color": props.border.color,
+            "text-decoration": props.font.inherit ? "" : (props.font.underline ? "underline" : "none")
+        });
+    }
+
+    // Sets the component colors and text decoration according to its actual state.
+    _restoreVisualState(componentElem, props) {
+        let isBlinking = props.blinkingState.isSet && componentElem.hasClass("blink-on");
+        let isHovered = props.hoverState.isSet && componentElem.is(":hover");
+
+        if (isBlinking) {
+            this._setVisualState(componentElem, props.blinkingState);
+        } else if (isHovered) {
+            this._setVisualState(componentElem, props.hoverState);
+        } else {
+            this._setOriginalState(componentElem, props);
+        }
+    }
+
+    // Binds the visual state events of the component.
+    _bindVisualStates(componentElem, props) {
+        const EventType = rs.mimic.EventType;
+
+        if (props.blinkingState.isSet) {
+            componentElem
+                .on(EventType.BLINK_ON, () => { this._setVisualState(componentElem, props.blinkingState); })
+                .on(EventType.BLINK_OFF, () => { this._restoreVisualState(componentElem, props); });
+        }
+
+        if (props.hoverState.isSet) {
+            componentElem
+                .on("mouseenter.rs.mimic", () => { this._setVisualState(componentElem, props.hoverState); })
+                .on("mouseleave.rs.mimic", () => { this._restoreVisualState(componentElem, props); });
+        }
+    }
+
     // Creates a component DOM according to the component model.
     createDom(component, renderContext) {
         let componentElem = $("<div></div>")
             .attr("id", "comp" + renderContext.idPrefix + component.id)
-            .attr("data-id", component.id);
+            .attr("data-id", component.id)
+            .attr("data-name", component.properties.name);
         this._completeDom(componentElem, component, renderContext);
         this._setClasses(componentElem, component, renderContext);
         this._setProps(componentElem, component, renderContext);
+        this._bindEvents(componentElem, component, renderContext);
         component.dom = componentElem;
         return componentElem;
     }
@@ -377,6 +681,7 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         if (componentElem) {
             this._setClasses(componentElem, component, renderContext);
             this._setProps(componentElem, component, renderContext);
+            this._bindEvents(componentElem, component, renderContext);
         }
 
         return componentElem;
@@ -431,229 +736,39 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
 // Represents a renderer for regular non-faceplate components.
 rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
     _setClasses(componentElem, component, renderContext) {
-        let classes = this._keepClasses(componentElem);
         super._setClasses(componentElem, component, renderContext);
-        this._restoreClasses(componentElem, classes);
         let props = component.properties;
 
         if (props.cssClass) {
             componentElem.addClass(props.cssClass);
         }
-
-        if (this._hasAction(props, renderContext)) {
-            componentElem.addClass("has-action");
-        }
     }
 
     _setProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
-        const EventType = rs.mimic.EventType;
         let props = component.properties;
         this._setBorder(componentElem, props.border);
         this._setCornerRadius(componentElem, props.cornerRadius);
         this._setFont(componentElem, props.font, renderContext.fontMap);
-        this._restoreVisualState(componentElem, props);
         componentElem.attr("title", props.tooltip);
-        componentElem.off(".rs.mimic");
 
         if (props.enabled) {
-            if (props.blinkingState.isSet) {
-                componentElem
-                    .on(EventType.BLINK_ON, () => { this._setVisualState(componentElem, props.blinkingState); })
-                    .on(EventType.BLINK_OFF, () => { this._restoreVisualState(componentElem, props); });
-            }
-
-            if (props.hoverState.isSet) {
-                componentElem
-                    .on("mouseenter.rs.mimic", () => { this._setVisualState(componentElem, props.hoverState); })
-                    .on("mouseleave.rs.mimic", () => { this._restoreVisualState(componentElem, props); });
-            }
-
-            if (this._hasAction(props, renderContext)) {
-                componentElem.on("click.rs.mimic", () => {
-                    this._executeAction(componentElem, component, renderContext);
-                });
-            }
+            this._restoreVisualState(componentElem, props);
         } else {
             this._setVisualState(componentElem, props.disabledState);
         }
 
-        // configure area outside rounded corners
         if (renderContext.editMode) {
             componentElem.css("--border-width", -props.border.width + "px");
         }
     }
 
-    _keepClasses(componentElem) {
-        let classes = [];
-
-        if (componentElem.hasClass("blink-on")) {
-            classes.push("blink-on");
-        }
-
-        if (componentElem.hasClass("wait-action")) {
-            classes.push("wait-action");
-        }
-
-        return classes;
-    }
-
-    _restoreClasses(componentElem, classes) {
-        for (let c of classes) {
-            componentElem.addClass(c);
-        }
-    }
-
-    _setVisualState(componentElem, visualState) {
-        if (visualState.backColor) {
-            componentElem.css("background-color", visualState.backColor);
-        }
-
-        if (visualState.foreColor) {
-            componentElem.css("color", visualState.foreColor);
-        }
-
-        if (visualState.borderColor) {
-            componentElem.css("border-color", visualState.borderColor);
-        }
-
-        if (visualState.underline) {
-            componentElem.css("text-decoration", "underline");
-        }
-    }
-
-    _restoreVisualState(componentElem, props) {
-        let isBlinking = props.blinkingState.isSet && componentElem.hasClass("blink-on");
-        let isHovered = props.hoverState.isSet && componentElem.is(":hover");
-
-        if (isBlinking) {
-            this._setVisualState(componentElem, props.blinkingState);
-        } else if (isHovered) {
-            this._setVisualState(componentElem, props.hoverState);
-        } else {
-            // original state
-            componentElem.css({
-                "background-color": props.backColor,
-                "color": props.foreColor,
-                "border-color": props.border.color,
-                "text-decoration": props.font.inherit ? "" : (props.font.underline ? "underline" : "none")
-            });
-        }
-    }
-
-    _hasAction(props, renderContext) {
-        const ActionType = rs.mimic.ActionType;
-        return !renderContext.editMode && props.enabled &&
-            props.clickAction.actionType !== ActionType.NONE &&
-            (props.clickAction.actionType !== ActionType.SEND_COMMAND || renderContext.controlRight);
-    }
-
-    _executeAction(componentElem, component, renderContext) {
-        const ActionType = rs.mimic.ActionType;
-        const ActionScriptArgs = rs.mimic.ActionScriptArgs;
-        const LinkTarget = rs.mimic.LinkTarget;
+    _bindEvents(componentElem, component, renderContext) {
+        super._bindEvents(componentElem, component, renderContext);
         let props = component.properties;
-        let action = props.clickAction;
 
-        if (!renderContext.viewHub) {
-            console.error("View hub is undefined.");
-            return;
-        }
-
-        if (!renderContext.mainApi) {
-            console.error("Main API is undefined.");
-            return;
-        }
-
-        switch (action.actionType) {
-            case ActionType.DRAW_CHART:
-                if (props.inCnlNum > 0) {
-                    renderContext.viewHub.features.chart.show(props.inCnlNum, null, action.chartArgs);
-                } else {
-                    console.warn("Input channel not specified.");
-                }
-                break;
-
-            case ActionType.SEND_COMMAND:
-                if (props.outCnlNum > 0) {
-                    if (action.commandArgs.showDialog) {
-                        renderContext.viewHub.features.command.show(props.outCnlNum);
-                    } else {
-                        this._showWait(componentElem);
-                        let cmdVal = this._getCommandValue(component, action.commandArgs.cmdVal);
-
-                        if (Number.isFinite(cmdVal)) {
-                            console.log(`Send command ${cmdVal} to channel ${props.outCnlNum}`);
-                            renderContext.mainApi.sendCommand(props.outCnlNum, cmdVal, false, null);
-                        } else {
-                            console.warn("Command cancelled.");
-                        }
-                    }
-                } else {
-                    console.warn("Output channel not specified.");
-                }
-                break;
-
-            case ActionType.OPEN_LINK:
-                let url;
-
-                if (action.linkArgs.viewID > 0) {
-                    url = viewHub.getViewUrl(action.linkArgs.viewID, action.linkArgs.target === LinkTarget.NEW_MODAL);
-                } else if (action.linkArgs.urlParams.enabled) {
-                    url = ScadaUtils.formatString(action.linkArgs.url, ...action.linkArgs.urlParams.toArray());
-                } else {
-                    url = action.linkArgs.url;
-                }
-
-                if (url) {
-                    switch (action.linkArgs.target) {
-                        case LinkTarget.SELF:
-                            window.top.location = url;
-                            break;
-                        case LinkTarget.NEW_TAB:
-                            window.open(url);
-                            break;
-                        case LinkTarget.NEW_MODAL:
-                            renderContext.viewHub.modalManager.showModal(url, new ModalOptions({
-                                size: action.linkArgs.getModalSize(),
-                                height: action.linkArgs.modalHeight
-                            }));
-                            break;
-                    }
-                } else {
-                    console.warn("URL is undefined.");
-                }
-
-                break;
-
-            case ActionType.EXECUTE_SCRIPT:
-                if (action.script) {
-                    try {
-                        let actionFunc = new Function("args", `const fn = ${action.script}; return fn(args);`);
-                        actionFunc(new ActionScriptArgs({ component, renderContext }));
-                    } catch (ex) {
-                        console.error("Error executing action script: " + ex.message);
-                    }
-                } else {
-                    console.warn("Script is undefined.");
-                }
-                break;
-        }
-    }
-
-    _showWait(componentElem) {
-        const WAIT_DURATION = 1000;
-        componentElem.addClass("wait-action");
-        setTimeout(() => { componentElem.removeClass("wait-action"); }, WAIT_DURATION);
-    }
-
-    _getCommandValue(component, defaultValue) {
-        try {
-            let cmdVal = component.getCommandValue();
-            return Number.isFinite(cmdVal) ? cmdVal : defaultValue;
-        } catch (ex) {
-            console.error("Error getting command value: " + ex.message);
-            return Number.NaN;
+        if (props.enabled) {
+            this._bindVisualStates(componentElem, component.properties);
         }
     }
 };
@@ -819,46 +934,20 @@ rs.mimic.PictureRenderer = class extends rs.mimic.RegularComponentRenderer {
     _setClasses(componentElem, component, renderContext) {
         super._setClasses(componentElem, component, renderContext);
         componentElem.addClass("picture");
+
+        if (renderContext.editMode && !component.properties.imageName) {
+            componentElem.addClass("blank");
+        }
     }
 
     _setProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
-        const ImageSizeMode = rs.mimic.ImageSizeMode;
         let contentElem = componentElem.find(".picture-content:first");
         let props = component.properties;
         this._setPadding(componentElem, props.padding);
         this._setBackgroundImage(contentElem, renderContext.getImage(props.imageName));
+        this._setBackgroundStretch(contentElem, props.imageStretch, component.innerWidth, component.innerHeight);
         this._setRotation(contentElem, props.rotation);
-
-        switch (props.sizeMode) {
-            case ImageSizeMode.NORMAL:
-                contentElem.css({
-                    "background-position": "top left",
-                    "background-size": ""
-                });
-                break;
-
-            case ImageSizeMode.CENTER:
-                contentElem.css({
-                    "background-position": "center center",
-                    "background-size": ""
-                });
-                break;
-
-            case ImageSizeMode.STRETCH:
-                contentElem.css({
-                    "background-position": "center center",
-                    "background-size": `${component.innerWidth}px ${component.innerHeight}px`
-                });
-                break;
-
-            case ImageSizeMode.ZOOM:
-                contentElem.css({
-                    "background-position": "center center",
-                    "background-size": "contain"
-                });
-                break;
-        }
     }
 };
 
@@ -867,6 +956,10 @@ rs.mimic.PanelRenderer = class extends rs.mimic.RegularComponentRenderer {
     _setClasses(componentElem, component, renderContext) {
         super._setClasses(componentElem, component, renderContext);
         componentElem.addClass("panel");
+
+        if (renderContext.editMode && component.properties.border.width <= 0) {
+            componentElem.addClass("fiction-border");
+        }
     }
 };
 
@@ -875,6 +968,44 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
     _setClasses(componentElem, component, renderContext) {
         super._setClasses(componentElem, component, renderContext);
         componentElem.addClass("faceplate");
+
+        if (component.model) {
+            let modelProps = component.model.document;
+
+            if (modelProps.cssClass) {
+                componentElem.addClass(modelProps.cssClass);
+            }
+        }
+    }
+
+    _setProps(componentElem, component, renderContext) {
+        super._setProps(componentElem, component, renderContext);
+        let borderWidth = 0;
+
+        if (component.model) {
+            let compProps = component.properties;
+            let modelProps = component.model.document;
+            rs.mimic.RendererSet.mimicRenderer.setMimicProps(componentElem, component.model, renderContext);
+            borderWidth = modelProps.border.width;
+
+            if (compProps.enabled) {
+                this._restoreVisualState(componentElem, modelProps);
+            } else {
+                this._setVisualState(componentElem, modelProps.disabledState);
+            }
+        }
+
+        if (renderContext.editMode) {
+            componentElem.css("--border-width", -borderWidth + "px");
+        }
+    }
+
+    _bindEvents(componentElem, component, renderContext) {
+        super._bindEvents(componentElem, component, renderContext);
+
+        if (component.model && component.properties.enabled) {
+            this._bindVisualStates(componentElem, component.model.document);
+        }
     }
 };
 
@@ -992,13 +1123,14 @@ rs.mimic.UnitedRenderer = class {
         let renderer = rs.mimic.RendererSet.faceplateRenderer;
         faceplateInstance.renderer = renderer;
         renderer.createDom(faceplateInstance, faceplateContext);
-        faceplateInstance.onDomCreated(renderContext);
-        this._appendToParent(faceplateInstance);
         faceplateContext.idPrefix += faceplateInstance.id + "-";
 
         for (let component of faceplateInstance.components) {
             this._createComponentDom(component, faceplateContext);
         }
+
+        faceplateInstance.onDomCreated(renderContext);
+        this._appendToParent(faceplateInstance);
     }
 
     // Updates the component DOM.
@@ -1025,12 +1157,13 @@ rs.mimic.UnitedRenderer = class {
         if (faceplateInstance.model && faceplateInstance.dom && faceplateInstance.renderer) {
             let faceplateContext = this._createFaceplateContext(faceplateInstance, renderContext);
             faceplateInstance.renderer.updateDom(faceplateInstance, faceplateContext);
-            faceplateInstance.onDomUpdated(renderContext);
             faceplateContext.idPrefix += faceplateInstance.id + "-";
 
             for (let component of faceplateInstance.components) {
                 this._updateComponentDom(component, faceplateContext);
             }
+
+            faceplateInstance.onDomUpdated(renderContext);
         }
     }
 

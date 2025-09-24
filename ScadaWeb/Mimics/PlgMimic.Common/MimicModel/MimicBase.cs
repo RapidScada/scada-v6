@@ -12,8 +12,10 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     /// </summary>
     public abstract class MimicBase : IContainer
     {
-        private string rootElemName = "Mimic"; // the XML root element name
-
+        /// <summary>
+        /// Gets or sets the XML root element name.
+        /// </summary>
+        protected string RootElemName { get; set; } = RootElement.Mimic;
 
         /// <summary>
         /// Gets the dependencies on the faceplates sorted by type name.
@@ -149,7 +151,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 
             XmlDocument xmlDoc = new();
             xmlDoc.Load(stream);
-            rootElemName = xmlDoc.DocumentElement.Name;
+            RootElemName = xmlDoc.DocumentElement.Name;
             LoadFromXml(xmlDoc.DocumentElement, loadContext);
         }
 
@@ -164,7 +166,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
             xmlDoc.AppendChild(xmlDecl);
 
-            XmlElement rootElem = xmlDoc.CreateElement(rootElemName);
+            XmlElement rootElem = xmlDoc.CreateElement(RootElemName);
             xmlDoc.AppendChild(rootElem);
             SaveToXml(rootElem);
 

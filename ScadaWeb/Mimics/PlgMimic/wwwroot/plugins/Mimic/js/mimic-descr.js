@@ -15,8 +15,10 @@ rs.mimic.KnownCategory = class {
     static BEHAVIOR = "behavior";
     static DATA = "data";
     static DESIGN = "design";
+    static FACEPLATE = "faceplate";
     static LAYOUT = "layout";
     static MISC = "misc";
+    static NAVIGATION = "navigation";
 };
 
 // Specifies the basic types.
@@ -35,12 +37,12 @@ rs.mimic.Subtype = class {
     // Enumerations
     static ACTION_TYPE = "ActionType";
     static COMPARISON_OPERATOR = "ComparisonOperator";
+    static CONTENT_ALIGNMENT = "ContentAlignment";
     static DATA_MEMBER = "DataMember";
-    static IMAGE_SIZE_MODE = "ImageSizeMode";
+    static IMAGE_STRETCH = "ImageStretch";
     static LOGICAL_OPERATOR = "LogicalOperator";
     static LINK_TARGET = "LinkTarget";
     static MODAL_WIDTH = "ModalWidth";
-    static CONTENT_ALIGNMENT = "ContentAlignment";
     static TEXT_DIRECTION = "TextDirection";
 
     // Structures
@@ -134,6 +136,21 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
         }));
 
         this.add(new PropertyDescriptor({
+            name: "backgroundPadding",
+            displayName: "Background padding",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.PADDING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "cssClass",
+            displayName: "CSS class",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "font",
             displayName: "Font",
             category: KnownCategory.APPEARANCE,
@@ -176,11 +193,51 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             type: BasicType.STRING
         }));
 
-        // data
+        // faceplate
+        this.add(new PropertyDescriptor({
+            name: "blinkingState",
+            displayName: "When blinking",
+            category: KnownCategory.FACEPLATE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.VISUAL_STATE
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "border",
+            displayName: "Border",
+            category: KnownCategory.FACEPLATE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.BORDER
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "cornerRadius",
+            displayName: "Corner radius",
+            category: KnownCategory.FACEPLATE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.CORNER_RADIUS
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "disabledState",
+            displayName: "On disabled",
+            category: KnownCategory.FACEPLATE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.VISUAL_STATE
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "hoverState",
+            displayName: "On hover",
+            category: KnownCategory.FACEPLATE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.VISUAL_STATE
+        }));
+
         this.add(new PropertyDescriptor({
             name: "propertyExports",
             displayName: "Exported properties",
-            category: KnownCategory.DATA,
+            category: KnownCategory.FACEPLATE,
             type: BasicType.LIST,
             subtype: Subtype.PROPERTY_EXPORT
         }));
@@ -211,6 +268,14 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "Blinking",
             category: KnownCategory.BEHAVIOR,
             type: BasicType.BOOL
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "clickAction",
+            displayName: "On click",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.STRUCT,
+            subtype: Subtype.ACTION
         }));
 
         this.add(new PropertyDescriptor({
@@ -383,14 +448,6 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
         }));
 
         this.add(new PropertyDescriptor({
-            name: "clickAction",
-            displayName: "On click",
-            category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRUCT,
-            subtype: Subtype.ACTION
-        }));
-
-        this.add(new PropertyDescriptor({
             name: "disabledState",
             displayName: "On disabled",
             category: KnownCategory.BEHAVIOR,
@@ -502,6 +559,14 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
         }));
 
         this.add(new PropertyDescriptor({
+            name: "imageStretch",
+            displayName: "Image stretch",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.ENUM,
+            subtype: Subtype.IMAGE_STRETCH
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "rotation",
             displayName: "Rotation",
             category: KnownCategory.APPEARANCE,
@@ -523,14 +588,6 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             category: KnownCategory.BEHAVIOR,
             type: BasicType.STRING,
             editor: PropertyEditor.IMAGE_DIALOG
-        }));
-
-        this.add(new PropertyDescriptor({
-            name: "sizeMode",
-            displayName: "Size mode",
-            category: KnownCategory.BEHAVIOR,
-            type: BasicType.ENUM,
-            subtype: Subtype.IMAGE_SIZE_MODE
         }));
 
         // layout
@@ -724,7 +781,7 @@ rs.mimic.CornerRadiusDescriptor = class extends rs.mimic.StructureDescriptor {
             type: BasicType.INT
         }));
     }
-}
+};
 
 // Represents a descriptor for the ImageCondition structure.
 rs.mimic.ImageConditionDescriptor = class extends rs.mimic.ConditionDescriptor {
@@ -741,7 +798,7 @@ rs.mimic.ImageConditionDescriptor = class extends rs.mimic.ConditionDescriptor {
             editor: PropertyEditor.IMAGE_DIALOG
         }));
     }
-}
+};
 
 // Represents a descriptor for the LinkArgs structure.
 rs.mimic.LinkArgsDescriptor = class extends rs.mimic.StructureDescriptor {
@@ -790,7 +847,7 @@ rs.mimic.LinkArgsDescriptor = class extends rs.mimic.StructureDescriptor {
             type: BasicType.INT
         }));
     }
-}
+};
 
 // Represents a descriptor for the Padding structure.
 rs.mimic.PaddingDescriptor = class extends rs.mimic.StructureDescriptor {
@@ -878,6 +935,12 @@ rs.mimic.PropertyExportDescriptor = class extends rs.mimic.StructureDescriptor {
         this.add(new PropertyDescriptor({
             name: "path",
             displayName: "Path",
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "defaultValue",
+            displayName: "Default value",
             type: BasicType.STRING
         }));
     }

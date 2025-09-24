@@ -94,6 +94,8 @@ rs.mimic.BasicLedFactory = class extends rs.mimic.RegularComponentFactory {
         let props = super.createProperties();
 
         // change inherited properties
+        props.backColor = "Silver";
+        props.border.color = "Black";
         props.border.width = 3;
         props.size.width = 30;
         props.size.height = 30;
@@ -142,14 +144,12 @@ rs.mimic.BasicToggleScript = class extends rs.mimic.ComponentScript {
 
             if (dataProvider.dataChanged(curData, prevData)) {
                 let props = args.component.properties;
-                let position = props.position;
+                let position = BasicTogglePosition.NOT_SET;
 
                 if (curData.d.stat > 0) {
                     position = curData.d.val > 0
                         ? BasicTogglePosition.ON
                         : BasicTogglePosition.OFF;
-                } else {
-                    position = BasicTogglePosition.NOT_SET;
                 }
 
                 if (props.position !== position) {
@@ -208,6 +208,7 @@ rs.mimic.BasicToggleFactory = class extends rs.mimic.RegularComponentFactory {
 
         // change inherited properties
         props.border.width = 2;
+        props.foreColor = "White";
         props.size.width = 60;
         props.size.height = 30;
 

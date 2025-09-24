@@ -1,7 +1,8 @@
 ﻿$mimic-background-color: white;
-$mimic-border-color: var(--bs-gray-500);
-$component-selected-color: lime;
-$component-hover-color: var(--bs-gray-500);
+$mimic-box-shadow: 0 0 0 1px var(--bs-gray-500);
+$component-selected-box-shadow: 0 0 0 3px lime;
+$component-hover-box-shadow: 0 0 0 1px var(--bs-gray-500);
+$component-fiction-border: 1px dashed var(--bs-gray-600);
 
 .mimic-wrapper {
     overflow: auto;
@@ -10,6 +11,7 @@ $component-hover-color: var(--bs-gray-500);
 
     .mimic {
         background-color: $mimic-background-color;
+        background-repeat: no-repeat;
         position: absolute; // affects scaling
         transform-origin: left top; // affects scaling
 
@@ -26,11 +28,15 @@ $component-hover-color: var(--bs-gray-500);
 
             &.picture {
                 .picture-content {
-                    background-repeat: no-repeat;
                     background-clip: content-box;
+                    background-repeat: no-repeat;
                     height: 100%;
                     width: 100%;
                 }
+            }
+
+            &.panel {
+                background-color: inherit; // not transparent
             }
         }
     }
@@ -39,12 +45,11 @@ $component-hover-color: var(--bs-gray-500);
 .mimic-wrapper.view-mode {
     .mimic {
         .comp {
-            &.hidden {
+            &.invisible-state {
                 display: none;
             }
 
-            &.disabled {
-                cursor: not-allowed;
+            &.disabled-state {
                 pointer-events: none;
             }
 
@@ -66,30 +71,37 @@ $component-hover-color: var(--bs-gray-500);
     cursor: default;
 
     .mimic {
-        box-shadow: 0 0 0 1px $mimic-border-color;
+        box-shadow: $mimic-box-shadow;
 
         .comp {
-            &.selected {
-                box-shadow: 0 0 0 3px $component-selected-color;
-            }
-
-            &:not(.selected):hover {
-                box-shadow: 0 0 0 1px $component-hover-color;
-            }
-
-            &.faceplate {
-                .comp {
-                    &:hover {
-                        box-shadow: none;
-                    }
-                }
-            }
-
-            // area outside rounded corners
-            &::before {
+            &::before { // component area
                 content: "";
                 inset: var(--border-width, 0);
                 position: absolute;
+            }
+
+            &.selected::before {
+                box-shadow: $component-selected-box-shadow;
+            }
+
+            &:not(.selected):hover::before {
+                box-shadow: $component-hover-box-shadow;
+            }
+
+            &.fiction-border::before {
+                border: $component-fiction-border;
+            }
+
+            &.picture.blank {
+                .picture-content {
+                    background-image: url("../images/picture-blank.svg");
+                }
+            }
+
+            &.faceplate {
+                .comp:hover::before {
+                    box-shadow: none;
+                }
             }
         }
     }

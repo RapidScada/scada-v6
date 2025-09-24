@@ -20,7 +20,7 @@
     <Phrase key="DefaultColor">Цвет по умолчанию</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimBasicComp.Js.BasicToggle">
-    <Phrase key="Position">Положение</Phrase>
+    <Phrase key="Position">Позиция</Phrase>
     <Phrase key="Padding">Отступ</Phrase>
   </Dictionary>
   <!-- Enumerations -->

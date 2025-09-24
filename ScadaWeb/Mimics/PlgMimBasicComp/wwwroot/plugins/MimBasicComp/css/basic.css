@@ -6,15 +6,17 @@
   overflow: hidden;
   white-space: nowrap;
 }
+.basic-button .basic-button-content .basic-button-icon {
+  background-position: center center;
+  background-repeat: no-repeat;
+}
 
 .basic-led {
-  background-color: silver;
   border: 0 none black;
 }
 .basic-led .basic-led-border {
-  border-color: black;
-  width: 100%;
   height: 100%;
+  width: 100%;
 }
 
 .basic-led.circle {
@@ -30,7 +32,6 @@
   display: flex;
 }
 .basic-toggle .basic-toggle-lever {
-  background-color: white;
   border-radius: 50%;
 }
 

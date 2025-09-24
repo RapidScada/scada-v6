@@ -46,9 +46,21 @@ namespace Scada.Web.Services
         /// </summary>
         public static DateTime ConvertTimeToUtc(this IUserContext userContext, DateTime dateTime)
         {
-            return dateTime.Kind == DateTimeKind.Utc
-                ? dateTime
-                : TimeZoneInfo.ConvertTimeToUtc(dateTime, userContext.TimeZone);
+            if (dateTime.Kind == DateTimeKind.Utc)
+            {
+                return dateTime;
+            }
+            else if (userContext.TimeZone.IsInvalidTime(dateTime))
+            {
+                throw new ScadaException($"Unable to convert invalid time {dateTime} to UTC.")
+                {
+                    MessageIsPublic = true
+                };
+            }
+            else
+            {
+                return TimeZoneInfo.ConvertTimeToUtc(dateTime, userContext.TimeZone);
+            }
         }
 
         /// <summary>

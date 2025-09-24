@@ -173,6 +173,8 @@ rs.mimic.ObjectHelper = class ObjectHelper {
         if (objectToUpdate instanceof Object && propertyChain.length > chainIndex) {
             let propertyName = propertyChain.at(-1); // last
             return objectToUpdate[propertyName];
+        } else {
+            return undefined;
         }
     }
 
@@ -188,9 +190,8 @@ rs.mimic.ObjectHelper = class ObjectHelper {
 
     // Creates a new value by merging the source value to the base value.
     static mergeValues(baseValue, sourceValue) {
-        if (baseValue === null || baseValue === undefined ||
-            sourceValue === null || sourceValue === undefined) {
-            return baseValue;
+        if (baseValue === null || baseValue === undefined) {
+            return sourceValue;
         }
 
         if (typeof baseValue === "number") {

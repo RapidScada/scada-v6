@@ -19,10 +19,16 @@ namespace Scada.Web.Plugins.PlgMimic.Models
             : base(mimicKey)
         {
             ArgumentNullException.ThrowIfNull(mimic, nameof(mimic));
+            IsFaceplate = mimic.IsFaceplate;
             Dependencies = mimic.Dependencies;
             Document = mimic.Document;
         }
 
+
+        /// <summary>
+        /// Indicates that the mimic is a faceplate.
+        /// </summary>
+        public bool IsFaceplate { get; }
 
         /// <summary>
         /// Gets the mimic dependencies.

@@ -24,23 +24,35 @@
     <Phrase key="Behavior">BEHAVIOR</Phrase>
     <Phrase key="Data">DATA</Phrase>
     <Phrase key="Design">DESIGN</Phrase>
+    <Phrase key="Faceplate">FACEPLATE</Phrase>
     <Phrase key="Layout">LAYOUT</Phrase>
     <Phrase key="Misc">MISC</Phrase>
+    <Phrase key="Navigation">NAVIGATION</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Mimic">
+    <!-- Mimic -->
     <Phrase key="BackColor">Background color</Phrase>
     <Phrase key="BackgroundImage">Background image</Phrase>
+    <Phrase key="BackgroundPadding">Background padding</Phrase>
+    <Phrase key="CssClass">CSS class</Phrase>
     <Phrase key="Font">Font</Phrase>
     <Phrase key="ForeColor">Foreground color</Phrase>
     <Phrase key="Stylesheet">Stylesheet</Phrase>
     <Phrase key="Script">Script</Phrase>
     <Phrase key="Tooltip">Tooltip</Phrase>
-    <Phrase key="PropertyExports">Exported properties</Phrase>
     <Phrase key="Size">Size</Phrase>
+    <!-- Faceplate -->
+    <Phrase key="BlinkingState">When blinking</Phrase>
+    <Phrase key="Border">Border</Phrase>
+    <Phrase key="CornerRadius">Corner radius</Phrase>
+    <Phrase key="DisabledState">On disabled</Phrase>
+    <Phrase key="HoverState">On hover</Phrase>
+    <Phrase key="PropertyExports">Exported properties</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Component">
-    <!-- ComponentDescriptor -->
+    <!-- Component-->
     <Phrase key="Blinking">Blinking</Phrase>
+    <Phrase key="ClickAction">On click</Phrase>
     <Phrase key="Enabled">Enabled</Phrase>
     <Phrase key="Visible">Visible</Phrase>
     <Phrase key="CheckRights">Check rights</Phrase>
@@ -54,7 +66,7 @@
     <Phrase key="TypeName">Type name</Phrase>
     <Phrase key="Location">Location</Phrase>
     <Phrase key="Size">Size</Phrase>
-    <!-- RegularComponentDescriptor -->
+    <!-- Regular Component -->
     <Phrase key="BackColor">Background color</Phrase>
     <Phrase key="Border">Border</Phrase>
     <Phrase key="CornerRadius">Corner radius</Phrase>
@@ -62,7 +74,6 @@
     <Phrase key="Font">Font</Phrase>
     <Phrase key="ForeColor">Foreground color</Phrase>
     <Phrase key="BlinkingState">When blinking</Phrase>
-    <Phrase key="ClickAction">On click</Phrase>
     <Phrase key="DisabledState">On disabled</Phrase>
     <Phrase key="HoverState">On hover</Phrase>
     <Phrase key="Script">Script</Phrase>
@@ -78,10 +89,10 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Picture">
     <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="ImageStretch">Image stretch</Phrase>
     <Phrase key="Rotation">Rotation</Phrase>
     <Phrase key="Conditions">Conditions</Phrase>
     <Phrase key="DefaultImage">Default image</Phrase>
-    <Phrase key="SizeMode">Size mode</Phrase>
     <Phrase key="Padding">Padding</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.Panel">
@@ -103,6 +114,17 @@
     <Phrase key="GreaterThan">&gt;</Phrase>
     <Phrase key="GreaterThanEqual">&gt;=</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ContentAlignment">
+    <Phrase key="TopLeft">Top left</Phrase>
+    <Phrase key="TopCenter">Top center</Phrase>
+    <Phrase key="TopRight">Top right</Phrase>
+    <Phrase key="MiddleLeft">Middle left</Phrase>
+    <Phrase key="MiddleCenter">Middle center</Phrase>
+    <Phrase key="MiddleRight">Middle right</Phrase>
+    <Phrase key="BottomLeft">Bottom left</Phrase>
+    <Phrase key="BottomCenter">Bottom center</Phrase>
+    <Phrase key="BottomRight">Bottom right</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.DataMember">
     <Phrase key="Value">Value</Phrase>
     <Phrase key="Status">Status</Phrase>
@@ -112,10 +134,9 @@
     <Phrase key="Color1">Second color</Phrase>
     <Phrase key="Color2">Back color</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ImageSizeMode">
-    <Phrase key="Normal">Normal</Phrase>
-    <Phrase key="Center">Center</Phrase>
-    <Phrase key="Stretch">Stretch</Phrase>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ImageStretch">
+    <Phrase key="None">None</Phrase>
+    <Phrase key="Fill">Fill</Phrase>
     <Phrase key="Zoom">Zoom</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.LogicalOperator">
@@ -133,17 +154,6 @@
     <Phrase key="Small">Small</Phrase>
     <Phrase key="Large">Large</Phrase>
     <Phrase key="ExtraLarge">Extra large</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.ContentAlignment">
-    <Phrase key="TopLeft">Top left</Phrase>
-    <Phrase key="TopCenter">Top center</Phrase>
-    <Phrase key="TopRight">Top right</Phrase>
-    <Phrase key="MiddleLeft">Middle left</Phrase>
-    <Phrase key="MiddleCenter">Middle center</Phrase>
-    <Phrase key="MiddleRight">Middle right</Phrase>
-    <Phrase key="BottomLeft">Bottom left</Phrase>
-    <Phrase key="BottomCenter">Bottom center</Phrase>
-    <Phrase key="BottomRight">Bottom right</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.TextDirection">
     <Phrase key="Horizontal">Horizontal</Phrase>
@@ -203,6 +213,7 @@
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.PropertyExport">
     <Phrase key="Name">Property name</Phrase>
     <Phrase key="Path">Path</Phrase>
+    <Phrase key="DefaultValue">Default value</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.UrlParams">
     <Phrase key="Enabled">Enabled</Phrase>

@@ -5,13 +5,15 @@
 // Create mimic properties.
 rs.mimic.MimicFactory = class {
     // Parses the document properties from the specified source object.
-    static parseProperties(sourceProps) {
+    static parseProperties(sourceProps, isFaceplate) {
         const PropertyParser = rs.mimic.PropertyParser;
         sourceProps ??= {};
-        return {
+        let props = {
             // appearance
             backColor: PropertyParser.parseString(sourceProps.backColor),
             backgroundImage: PropertyParser.parseString(sourceProps.backgroundImage),
+            backgroundPadding: new rs.mimic.Padding(),
+            cssClass: PropertyParser.parseString(sourceProps.cssClass),
             font: rs.mimic.Font.parse(sourceProps.font),
             foreColor: PropertyParser.parseString(sourceProps.foreColor),
             stylesheet: PropertyParser.parseString(sourceProps.stylesheet),
@@ -20,12 +22,21 @@ rs.mimic.MimicFactory = class {
             script: PropertyParser.parseString(sourceProps.script),
             tooltip: PropertyParser.parseString(sourceProps.tooltip),
 
-            // data
-            propertyExports: rs.mimic.PropertyExportList.parse(sourceProps.propertyExports),
-
             // layout
             size: rs.mimic.Size.parse(sourceProps.size, { width: 800, height: 600 })
         };
+
+        // faceplate properties
+        if (isFaceplate) {
+            props.blinkingState = rs.mimic.VisualState.parse(sourceProps.blinkingState);
+            props.border = rs.mimic.Border.parse(sourceProps.border);
+            props.cornerRadius = rs.mimic.CornerRadius.parse(sourceProps.cornerRadius);
+            props.disabledState = rs.mimic.VisualState.parse(sourceProps.disabledState);
+            props.hoverState = rs.mimic.VisualState.parse(sourceProps.hoverState);
+            props.propertyExports = rs.mimic.PropertyExportList.parse(sourceProps.propertyExports);
+        }
+
+        return props;
     }
 }
 
@@ -75,6 +86,7 @@ rs.mimic.ComponentFactory = class {
         return {
             // behavior
             blinking: false,
+            clickAction: new rs.mimic.Action(),
             enabled: true,
             visible: true,
 
@@ -104,6 +116,7 @@ rs.mimic.ComponentFactory = class {
         return {
             // behavior
             blinking: PropertyParser.parseBool(sourceProps.blinking),
+            clickAction: rs.mimic.Action.parse(sourceProps.clickAction),
             enabled: PropertyParser.parseBool(sourceProps.enabled),
             visible: PropertyParser.parseBool(sourceProps.visible),
 
@@ -164,7 +177,6 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
         // behavior
         Object.assign(props, {
             blinkingState: new rs.mimic.VisualState(),
-            clickAction: new rs.mimic.Action(),
             disabledState: new rs.mimic.VisualState(),
             hoverState: new rs.mimic.VisualState(),
             script: "",
@@ -192,7 +204,6 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
         // behavior
         Object.assign(props, {
             blinkingState: rs.mimic.VisualState.parse(sourceProps.blinkingState),
-            clickAction: rs.mimic.Action.parse(sourceProps.clickAction),
             disabledState: rs.mimic.VisualState.parse(sourceProps.disabledState),
             hoverState: rs.mimic.VisualState.parse(sourceProps.hoverState),
             script: PropertyParser.parseString(sourceProps.script),
@@ -326,14 +337,14 @@ rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
         // appearance
         Object.assign(props, {
             imageName: "",
+            imageStretch: rs.mimic.ImageStretch.NONE,
             rotation: 0
         });
 
         // behavior
         Object.assign(props, {
             conditions: new rs.mimic.ImageConditionList(),
-            defaultImage: "",
-            sizeMode: rs.mimic.ImageSizeMode.NORMAL
+            defaultImage: ""
         });
 
         // layout
@@ -352,14 +363,14 @@ rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
         // appearance
         Object.assign(props, {
             imageName: PropertyParser.parseString(sourceProps.imageName),
+            imageStretch: PropertyParser.parseString(sourceProps.imageStretch, rs.mimic.ImageStretch.NONE),
             rotation: PropertyParser.parseFloat(sourceProps.rotation)
         });
 
         // behavior
         Object.assign(props, {
             conditions: rs.mimic.ImageConditionList.parse(sourceProps.conditions),
-            defaultImage: PropertyParser.parseString(sourceProps.defaultImage),
-            sizeMode: PropertyParser.parseString(sourceProps.sizeMode, rs.mimic.ImageSizeMode.NORMAL)
+            defaultImage: PropertyParser.parseString(sourceProps.defaultImage)
         });
 
         // layout
@@ -430,10 +441,10 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         sourceProps ??= {};
 
         for (let propertyExport of this.faceplate.propertyExports) {
-            let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport);
+            let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport) ?? propertyExport.defaultValue;
             let sourceValue = sourceProps[propertyExport.name];
 
-            if (sourceValue === undefined) {
+            if (sourceValue === null || sourceValue === undefined) {
                 faceplateInstance.properties[propertyExport.name] = baseValue;
             } else {
                 let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);

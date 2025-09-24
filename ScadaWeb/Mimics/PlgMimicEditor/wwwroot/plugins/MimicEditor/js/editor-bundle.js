@@ -816,7 +816,7 @@ class MimicClipboard {
     }
 }
 
-// Contains classes: ModalContext, ModalBase, FaceplateModal, ImageModal, TextEditor
+// Contains classes: ModalContext, ModalBase, FaceplateModal, FontModal, ImageModal, TextEditor
 // Depends on jquery, bootstrap, mimic-model.js
 
 // Represents a context of a modal dialog.
@@ -867,7 +867,7 @@ class FaceplateModal extends ModalBase {
             let formElem = $("#frmFaceplateModal");
 
             if (formElem[0].checkValidity()) {
-                this._readFields();
+                this._readFields(this._context.newValue);
                 this._context.result = true;
                 this._modal.hide();
             }
@@ -884,28 +884,93 @@ class FaceplateModal extends ModalBase {
             });
     }
 
-    _readFields() {
-        let obj = this._context.newValue;
+    _showFields(faceplateMeta) {
+        $("#frmFaceplateModal").removeClass("was-validated")
+        $("#faceplateModal_txtTypeName").val(faceplateMeta.typeName);
+        $("#faceplateModal_txtPath").val(faceplateMeta.path);
+    }
 
-        if (obj) {
-            obj.typeName = $("#faceplateModal_txtTypeName").val();
-            obj.path = $("#faceplateModal_txtPath").val();
-        }
+    _readFields(faceplateMeta) {
+        faceplateMeta.typeName = $("#faceplateModal_txtTypeName").val();
+        faceplateMeta.path = $("#faceplateModal_txtPath").val();
     }
 
     show(faceplateMeta, callback) {
-        let obj = new rs.mimic.FaceplateMeta();
-        Object.assign(obj, faceplateMeta);
+        let newFaceplateMeta = new rs.mimic.FaceplateMeta();
+        Object.assign(newFaceplateMeta, faceplateMeta); // faceplateMeta can be null
 
         this._context = new ModalContext({
             oldValue: faceplateMeta,
-            newValue: obj,
+            newValue: newFaceplateMeta,
             callback: callback
         });
 
-        $("#frmFaceplateModal").removeClass("was-validated")
-        $("#faceplateModal_txtTypeName").val(obj.typeName);
-        $("#faceplateModal_txtPath").val(obj.path);
+        this._showFields(newFaceplateMeta);
+        this._modal.show();
+    }
+}
+
+// Represents a modal dialog for editing a font.
+class FontModal extends ModalBase {
+    constructor(elemID) {
+        super(elemID);
+        this._bindEvents();
+    }
+
+    _bindEvents() {
+        $("#frmFontModal").on("submit", () => {
+            $("#fontModal_btnOK").trigger("click");
+            return false;
+        });
+
+        $("#fontModal_btnOK").on("click", () => {
+            this._readFields(this._context.newValue);
+            this._context.result = true;
+            this._modal.hide();
+        });
+
+        $("#fontModal_chkInherit").on("change", (event) => {
+            let inherit = $(event.target).prop("checked");
+            $("#fontModal_fsProps").prop("disabled", inherit);
+        });
+
+        this._elem
+            .on("shown.bs.modal", () => {
+                $("#fontModal_chkInherit").focus();
+            })
+            .on("hidden.bs.modal", () => {
+                this._invokeCallback();
+            });
+    }
+
+    _showFields(font) {
+        $("#fontModal_chkInherit").prop("checked", font.inherit);
+        $("#fontModal_fsProps").prop("disabled", font.inherit);
+        $("#fontModal_txtName").val(font.name);
+        $("#fontModal_txtSize").val(font.size);
+        $("#fontModal_chkBold").prop("checked", font.bold);
+        $("#fontModal_chkItalic").prop("checked", font.italic);
+        $("#fontModal_chkUnderline").prop("checked", font.underline);
+    }
+
+    _readFields(font) {
+        font.inherit = $("#fontModal_chkInherit").prop("checked");
+        font.name = $("#fontModal_txtName").val();
+        font.size = Number.parseInt($("#fontModal_txtSize").val());
+        font.bold = $("#fontModal_chkBold").prop("checked");
+        font.italic = $("#fontModal_chkItalic").prop("checked");
+        font.underline = $("#fontModal_chkUnderline").prop("checked");
+    }
+
+    show(font, callback) {
+        let newFont = new rs.mimic.Font(font);
+        this._context = new ModalContext({
+            oldValue: font,
+            newValue: newFont,
+            callback: callback
+        });
+
+        this._showFields(newFont);
         this._modal.show();
     }
 }
@@ -927,7 +992,7 @@ class ImageModal extends ModalBase {
             let formElem = $("#frmImageModal");
 
             if (formElem[0].checkValidity()) {
-                this._readFields();
+                this._readFields(this._context.newValue);
                 this._context.result = true;
                 this._modal.hide();
             }
@@ -961,13 +1026,15 @@ class ImageModal extends ModalBase {
             });
     }
 
-    _readFields() {
-        let obj = this._context.newValue;
+    _showFields(image) {
+        $("#frmImageModal").removeClass("was-validated")
+        $("#imageModal_txtName").val(image.name);
+        $("#imageModal_file").val("");
+    }
 
-        if (obj) {
-            obj.name = $("#imageModal_txtName").val();
-            obj.dataUrl = $("#imageModal_imgPreview").attr("src");
-        }
+    _readFields(image) {
+        image.name = $("#imageModal_txtName").val();
+        image.dataUrl = $("#imageModal_imgPreview").attr("src");
     }
 
     _showFileSize(size) {
@@ -1020,20 +1087,18 @@ class ImageModal extends ModalBase {
     }
 
     show(image, callback) {
-        let obj = new rs.mimic.Image();
-        Object.assign(obj, image);
+        let newImage = new rs.mimic.Image();
+        Object.assign(newImage, image); // image can be null
 
         this._context = new ModalContext({
             oldValue: image,
-            newValue: obj,
+            newValue: newImage,
             callback: callback
         });
 
-        $("#frmImageModal").removeClass("was-validated")
-        $("#imageModal_txtName").val(obj.name);
-        $("#imageModal_file").val("");
-        this._showFileSize(this._getFileSize(obj.data));
-        this._showImage(obj.dataUrl);
+        this._showFields(newImage);
+        this._showFileSize(this._getFileSize(newImage.data));
+        this._showImage(newImage.dataUrl);
         this._modal.show();
     }
 }
@@ -1072,12 +1137,22 @@ class TextEditor extends ModalBase {
     _showLanguage(language) {
         let lblLanguage = $("#textEditor_lblLanguage");
 
-        if (language === "css") {
-            lblLanguage.text("CSS").removeClass("d-none");
-        } else if (language === "js") {
-            lblLanguage.text("JavaScript").removeClass("d-none");
-        } else {
-            lblLanguage.text("Text").addClass("d-none");
+        switch (language) {
+            case "css":
+                lblLanguage.text("CSS").removeClass("d-none");
+                break;
+
+            case "js":
+                lblLanguage.text("JavaScript").removeClass("d-none");
+                break;
+
+            case "markup":
+                lblLanguage.text("HTML/XML").removeClass("d-none");
+                break;
+
+            default:
+                lblLanguage.text("Text").addClass("d-none");
+                break;
         }
     }
 
@@ -1164,7 +1239,7 @@ class PropGrid {
         this._clearPane();
         let targetObject = PropGridHelper.getTargetObject(obj);
         let descriptor = PropGridHelper.getObjectDescriptor(obj);
-        let folderMap = this._addFolders(descriptor);
+        let folderMap = this._addFolders(targetObject, descriptor);
         this._addBlades(folderMap, targetObject, isChild, descriptor);
     }
 
@@ -1281,15 +1356,16 @@ class PropGrid {
         return blade;
     }
 
-    _addFolders(objectDescriptor) {
+    _addFolders(targetObject, objectDescriptor) {
         let folderMap = new Map();
 
-        if (objectDescriptor) {
+        if (targetObject && objectDescriptor) {
             // get distinct categories
             let categorySet = new Set();
 
             for (let propertyDescriptor of objectDescriptor.propertyDescriptors.values()) {
-                if (propertyDescriptor.isBrowsable && propertyDescriptor.category) {
+                if (targetObject.hasOwnProperty(propertyDescriptor.name) &&
+                    propertyDescriptor.isBrowsable && propertyDescriptor.category) {
                     categorySet.add(propertyDescriptor.category);
                 }
             }
@@ -1715,34 +1791,11 @@ class PropGridHelper {
 
 // Calls property editors implemented as modal dialogs.
 class PropGridDialogs {
-    static colorDialog = null;
-    static fontDialog = null;
-    static imageDialog = null;
-    static propertyDialog = null;
+    static colorModal = null;
+    static fontModal = null;
+    static imageModal = null;
+    static propertyModal = null;
     static textEditor = null;
-
-    // Shows the color dialog.
-    static _showColorDialog(value, options, callback) {
-    }
-
-    // Shows the font dialog.
-    static _showFontDialog(value, options, callback) {
-    }
-
-    // Shows the image dialog.
-    static _showImageDialog(value, options, callback) {
-    }
-
-    // Shows the property dialog.
-    static _showPropertyDialog(value, options, callback) {
-    }
-
-    // Shows the text editor.
-    static _showTextEditor(value, options, callback) {
-        PropGridDialogs.textEditor.show(value, options, (modalContext) => {
-            PropGridDialogs._invokeCallback(modalContext, callback);
-        });
-    }
 
     // Invokes the callback function.
     static _invokeCallback(modalContext, callback) {
@@ -1756,10 +1809,10 @@ class PropGridDialogs {
         const PropertyEditor = rs.mimic.PropertyEditor;
         let editor = propertyDescriptor?.editor;
         return editor &&
-            editor === PropertyEditor.COLOR_DIALOG && PropGridDialogs.colorDialog ||
-            editor === PropertyEditor.FONT_DIALOG && PropGridDialogs.fontDialog ||
-            editor === PropertyEditor.IMAGE_DIALOG && PropGridDialogs.imageDialog ||
-            editor === PropertyEditor.PROPERTY_DIALOG && PropGridDialogs.propertyDialog ||
+            editor === PropertyEditor.COLOR_DIALOG && PropGridDialogs.colorModal ||
+            editor === PropertyEditor.FONT_DIALOG && PropGridDialogs.fontModal ||
+            editor === PropertyEditor.IMAGE_DIALOG && PropGridDialogs.imageModal ||
+            editor === PropertyEditor.PROPERTY_DIALOG && PropGridDialogs.propertyModal ||
             editor === PropertyEditor.TEXT_EDITOR && PropGridDialogs.textEditor;
     }
 
@@ -1768,29 +1821,38 @@ class PropGridDialogs {
     static showEditor(propertyValue, propertyDescriptor, callback) {
         if (propertyDescriptor) {
             const PropertyEditor = rs.mimic.PropertyEditor;
-            let editor = propertyDescriptor.editor;
             let options = propertyDescriptor.editorOptions;
 
-            if (editor === PropertyEditor.COLOR_DIALOG) {
-                if (PropGridDialogs.colorDialog) {
-                    PropGridDialogs._showColorDialog(propertyValue, options, callback);
-                }
-            } else if (editor === PropertyEditor.FONT_DIALOG) {
-                if (PropGridDialogs.fontDialog) {
-                    PropGridDialogs._showFontDialog(propertyValue, options, callback);
-                }
-            } else if (editor === PropertyEditor.IMAGE_DIALOG) {
-                if (PropGridDialogs.imageDialog) {
-                    PropGridDialogs._showImageDialog(propertyValue, options, callback);
-                }
-            } else if (editor === PropertyEditor.PROPERTY_DIALOG) {
-                if (PropGridDialogs.propertyDialog) {
-                    PropGridDialogs._showPropertyDialog(propertyValue, options, callback);
-                }
-            } else if (editor === PropertyEditor.TEXT_EDITOR) {
-                if (PropGridDialogs.textEditor) {
-                    PropGridDialogs._showTextEditor(propertyValue, options, callback);
-                }
+            switch (propertyDescriptor.editor) {
+                case PropertyEditor.COLOR_DIALOG:
+                    //PropGridDialogs.colorModal?.show(propertyValue, options, (modalContext) => {
+                    //    PropGridDialogs._invokeCallback(modalContext, callback);
+                    //});
+                    break;
+
+                case PropertyEditor.FONT_DIALOG:
+                    PropGridDialogs.fontModal?.show(propertyValue, (modalContext) => {
+                        PropGridDialogs._invokeCallback(modalContext, callback);
+                    });
+                    break;
+
+                case PropertyEditor.IMAGE_DIALOG:
+                    //PropGridDialogs.imageModal?.show(propertyValue, options, (modalContext) => {
+                    //    PropGridDialogs._invokeCallback(modalContext, callback);
+                    //});
+                    break;
+
+                case PropertyEditor.PROPERTY_DIALOG:
+                    //PropGridDialogs.propertyModal?.show(propertyValue, options, (modalContext) => {
+                    //    PropGridDialogs._invokeCallback(modalContext, callback);
+                    //});
+                    break;
+
+                case PropertyEditor.TEXT_EDITOR:
+                    PropGridDialogs.textEditor?.show(propertyValue, options, (modalContext) => {
+                        PropGridDialogs._invokeCallback(modalContext, callback);
+                    });
+                    break;
             }
         }
     }
@@ -2042,6 +2104,7 @@ class StructTree {
         bootstrap.Popover.getOrCreateInstance(buttonElem[0], {
             html: true,
             placement: "bottom",
+            trigger: "hover",
             content: function () {
                 // called twice by Bootstrap on each show
                 let popoverContent = buttonElem.data("popoverContent");

@@ -215,7 +215,11 @@ function getBlinkers() {
     let blinkers = [];
 
     for (let component of mimic.components) {
-        if (!(component.properties?.blinkingState?.isEmpty ?? true)) {
+        let blinkingState = component.isFaceplate
+            ? component.model?.document?.blinkingState
+            : component.properties?.blinkingState;
+
+        if (blinkingState?.isSet) {
             blinkers.push(component);
         }
     }
