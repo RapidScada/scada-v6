@@ -17,6 +17,12 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/scada-common.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
+
+    <link href="~/manifest.json" rel="manifest" />
+    <link href="~/images/icon_x512.png" rel="apple-touch-icon" sizes="512x512" />
+    <link href="~/images/icon_x192.png" rel="apple-touch-icon" sizes="192x192" />
+    <link href="~/images/icon_x144.png" rel="apple-touch-icon" sizes="144x144" />
+    <meta name="theme-color" content="#23282d">
 </head>
 <body class="@ViewBag.BodyCssClass">
     @RenderBody()
