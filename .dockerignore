@@ -1,0 +1,71 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build outputs (will be built inside Docker)
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.VisualState.xml
+TestResult.xml
+
+# NuGet
+*.nupkg
+*.snupkg
+[Pp]ackages/
+
+# Documentation (not needed in runtime)
+ScadaDoc/
+*.md
+README*
+LICENSE*
+
+# Windows-only Admin app (not for Docker)
+ScadaAdmin/
+
+# Scripts and build instructions
+Script/
+HowToBuild.txt
+
+# Language packs (copy only needed languages)
+LangPack/
+
+# Docker files themselves
+docker/
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Logs
+*.log
+[Ll]ogs/
+
+# Temporary files
+*.tmp
+*.cache

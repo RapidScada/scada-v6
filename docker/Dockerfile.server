@@ -1,0 +1,144 @@
+# ============================================================
+# Rapid SCADA Server - Optimized Multi-Stage Dockerfile
+# Runtime Image Size: ~180-220 MB
+# ============================================================
+
+# ============================================================
+# Stage 1: Build Base Dependencies
+# ============================================================
+FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim AS build-base
+WORKDIR /src
+
+# Copy only solution and project files first (better layer caching)
+COPY ScadaCommon/ScadaCommon.sln ScadaCommon/
+COPY ScadaCommon/ScadaCommon/ScadaCommon.csproj ScadaCommon/ScadaCommon/
+COPY ScadaCommon/ScadaCommon.Log/ScadaCommon.Log.csproj ScadaCommon/ScadaCommon.Log/
+COPY ScadaCommon/ScadaCommon.Forms/ScadaCommon.Forms.csproj ScadaCommon/ScadaCommon.Forms/
+COPY ScadaCommon/ScadaCommon.MultiDb/ScadaCommon.MultiDb.csproj ScadaCommon/ScadaCommon.MultiDb/
+COPY ScadaCommon/FileStorage/FileStorage.csproj ScadaCommon/FileStorage/
+COPY ScadaCommon/PostgreSqlStorage/PostgreSqlStorage.csproj ScadaCommon/PostgreSqlStorage/
+
+# Restore dependencies
+RUN dotnet restore ScadaCommon/ScadaCommon.sln
+
+# Copy source code
+COPY ScadaCommon/ ScadaCommon/
+
+# Build ScadaCommon
+RUN dotnet build ScadaCommon/ScadaCommon.sln -c Release --no-restore
+
+# ============================================================
+# Stage 2: Build ScadaServer
+# ============================================================
+FROM build-base AS build-server
+WORKDIR /src
+
+# Copy ScadaServer solution and projects
+COPY ScadaServer/ScadaServer/ScadaServer.sln ScadaServer/ScadaServer/
+COPY ScadaServer/ScadaServer/ScadaServerCommon/ScadaServerCommon.csproj ScadaServer/ScadaServer/ScadaServerCommon/
+COPY ScadaServer/ScadaServer/ScadaServerEngine/ScadaServerEngine.csproj ScadaServer/ScadaServer/ScadaServerEngine/
+COPY ScadaServer/ScadaServer/ScadaServerApp/ScadaServerApp.csproj ScadaServer/ScadaServer/ScadaServerApp/
+COPY ScadaServer/ScadaServer/ScadaServerWkr/ScadaServerWkr.csproj ScadaServer/ScadaServer/ScadaServerWkr/
+COPY ScadaServer/ScadaServer/ScadaServerCommon.Forms/ScadaServerCommon.Forms.csproj ScadaServer/ScadaServer/ScadaServerCommon.Forms/
+
+# Restore
+RUN dotnet restore ScadaServer/ScadaServer/ScadaServer.sln
+
+# Copy source
+COPY ScadaServer/ScadaServer/ ScadaServer/ScadaServer/
+
+# Build
+RUN dotnet build ScadaServer/ScadaServer/ScadaServer.sln -c Release --no-restore
+
+# ============================================================
+# Stage 3: Build Server Modules
+# ============================================================
+FROM build-server AS build-modules
+WORKDIR /src
+
+COPY ScadaServer/OpenModules/OpenModules.sln ScadaServer/OpenModules/
+COPY ScadaServer/OpenModules/ModArcBasic.Logic/*.csproj ScadaServer/OpenModules/ModArcBasic.Logic/
+COPY ScadaServer/OpenModules/ModArcBasic.Shared/*.csproj ScadaServer/OpenModules/ModArcBasic.Shared/
+COPY ScadaServer/OpenModules/ModArcPostgreSql.Logic/*.csproj ScadaServer/OpenModules/ModArcPostgreSql.Logic/
+COPY ScadaServer/OpenModules/ModArcPostgreSql.Shared/*.csproj ScadaServer/OpenModules/ModArcPostgreSql.Shared/
+COPY ScadaServer/OpenModules/ModDbExport.Logic/*.csproj ScadaServer/OpenModules/ModDbExport.Logic/
+COPY ScadaServer/OpenModules/ModDbExport.Shared/*.csproj ScadaServer/OpenModules/ModDbExport.Shared/
+
+RUN dotnet restore ScadaServer/OpenModules/OpenModules.sln || true
+
+COPY ScadaServer/OpenModules/ ScadaServer/OpenModules/
+RUN dotnet build ScadaServer/OpenModules/OpenModules.sln -c Release --no-restore || true
+
+# ============================================================
+# Stage 4: Publish ScadaServer
+# ============================================================
+FROM build-modules AS publish
+WORKDIR /src/ScadaServer/ScadaServer/ScadaServerWkr
+
+RUN dotnet publish -c Release -o /app/publish \
+    --no-restore \
+    --no-build \
+    /p:PublishTrimmed=false \
+    /p:PublishSingleFile=false
+
+# Copy modules
+RUN mkdir -p /app/publish/Mod && \
+    find /src/ScadaServer/OpenModules -name "*.Logic.dll" -exec cp {} /app/publish/Mod/ \; 2>/dev/null || true
+
+# ============================================================
+# Stage 5: Runtime Image (MINIMAL)
+# ============================================================
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim AS runtime
+
+# Install only essential runtime dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+# Create non-root user for security
+RUN groupadd -r scada && useradd -r -g scada scada
+
+WORKDIR /app
+
+# Copy published application
+COPY --from=publish --chown=scada:scada /app/publish .
+
+# Copy storage DLLs from build stage (required for FileStorage and PostgreSqlStorage)
+COPY --from=build-base --chown=scada:scada /src/ScadaCommon/FileStorage/bin/Release/netstandard2.0/*.dll /app/
+COPY --from=build-base --chown=scada:scada /src/ScadaCommon/PostgreSqlStorage/bin/Release/net8.0/*.dll /app/
+
+# Create necessary directories (including root /Config for instance config)
+RUN mkdir -p \
+    /Config \
+    /app/Config \
+    /app/Lang \
+    /app/Log \
+    /app/Storage \
+    /app/Mod
+
+# Copy default instance configuration to both locations
+COPY --chown=scada:scada ScadaCommon/ScadaCommon/Config/ScadaInstanceConfig.xml /Config/ScadaInstanceConfig.xml
+COPY --chown=scada:scada ScadaCommon/ScadaCommon/Config/ScadaInstanceConfig.xml /app/Config/ScadaInstanceConfig.xml
+
+# Set ownership
+RUN chown -R scada:scada /app && \
+    chown -R scada:scada /Config
+
+# Switch to non-root user
+USER scada
+
+# Environment variables
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false \
+    DOTNET_RUNNING_IN_CONTAINER=true \
+    ASPNETCORE_URLS=http://+:10000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD dotnet /app/ScadaServerWkr.dll --health || exit 1
+
+# Expose server port
+EXPOSE 10000
+
+ENTRYPOINT ["dotnet", "ScadaServerWkr.dll"]

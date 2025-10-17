@@ -1,0 +1,107 @@
+# ============================================================
+# Rapid SCADA Agent - Optimized Multi-Stage Dockerfile
+# Runtime Image Size: ~170-200 MB
+# ============================================================
+
+# ============================================================
+# Stage 1: Build Base Dependencies
+# ============================================================
+FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim AS build-base
+WORKDIR /src
+
+# Build ScadaCommon
+COPY ScadaCommon/ScadaCommon.sln ScadaCommon/
+COPY ScadaCommon/ScadaCommon/ScadaCommon.csproj ScadaCommon/ScadaCommon/
+COPY ScadaCommon/ScadaCommon.Log/ScadaCommon.Log.csproj ScadaCommon/ScadaCommon.Log/
+COPY ScadaCommon/ScadaCommon.Forms/ScadaCommon.Forms.csproj ScadaCommon/ScadaCommon.Forms/
+COPY ScadaCommon/FileStorage/FileStorage.csproj ScadaCommon/FileStorage/
+COPY ScadaCommon/PostgreSqlStorage/PostgreSqlStorage.csproj ScadaCommon/PostgreSqlStorage/
+COPY ScadaCommon/ScadaCommon.MultiDb/ScadaCommon.MultiDb.csproj ScadaCommon/ScadaCommon.MultiDb/
+
+RUN dotnet restore ScadaCommon/ScadaCommon.sln
+
+COPY ScadaCommon/ ScadaCommon/
+RUN dotnet build ScadaCommon/ScadaCommon.sln -c Release --no-restore
+
+# ============================================================
+# Stage 2: Build ScadaAgent
+# ============================================================
+FROM build-base AS build-agent
+WORKDIR /src
+
+COPY ScadaAgent/ScadaAgent/ScadaAgent.sln ScadaAgent/ScadaAgent/
+COPY ScadaAgent/ScadaAgent/ScadaAgentCommon/ScadaAgentCommon.csproj ScadaAgent/ScadaAgent/ScadaAgentCommon/
+COPY ScadaAgent/ScadaAgent/ScadaAgentEngine/ScadaAgentEngine.csproj ScadaAgent/ScadaAgent/ScadaAgentEngine/
+COPY ScadaAgent/ScadaAgent/ScadaAgentApp/ScadaAgentApp.csproj ScadaAgent/ScadaAgent/ScadaAgentApp/
+COPY ScadaAgent/ScadaAgent/ScadaAgentWkr/ScadaAgentWkr.csproj ScadaAgent/ScadaAgent/ScadaAgentWkr/
+COPY ScadaAgent/ScadaAgent/AgentClient/AgentClient.csproj ScadaAgent/ScadaAgent/AgentClient/
+
+RUN dotnet restore ScadaAgent/ScadaAgent/ScadaAgent.sln
+
+COPY ScadaAgent/ScadaAgent/ ScadaAgent/ScadaAgent/
+RUN dotnet build ScadaAgent/ScadaAgent/ScadaAgent.sln -c Release --no-restore
+
+# ============================================================
+# Stage 3: Publish ScadaAgent
+# ============================================================
+FROM build-agent AS publish
+WORKDIR /src/ScadaAgent/ScadaAgent/ScadaAgentWkr
+
+RUN dotnet publish -c Release -o /app/publish \
+    --no-restore \
+    --no-build \
+    /p:PublishTrimmed=false \
+    /p:PublishSingleFile=false
+
+# ============================================================
+# Stage 4: Runtime Image (MINIMAL)
+# ============================================================
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim AS runtime
+
+# Minimal dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+# Create non-root user
+RUN groupadd -r scada && useradd -r -g scada scada
+
+WORKDIR /app
+
+# Copy published application
+COPY --from=publish --chown=scada:scada /app/publish .
+
+# Create necessary directories (including root /Config for instance config)
+RUN mkdir -p \
+    /Config \
+    /app/Config \
+    /app/Lang \
+    /app/Log \
+    /app/Storage
+
+# Copy default instance configuration to both locations
+COPY --chown=scada:scada ScadaCommon/ScadaCommon/Config/ScadaInstanceConfig.xml /Config/ScadaInstanceConfig.xml
+COPY --chown=scada:scada ScadaCommon/ScadaCommon/Config/ScadaInstanceConfig.xml /app/Config/ScadaInstanceConfig.xml
+
+# Set ownership
+RUN chown -R scada:scada /app && \
+    chown -R scada:scada /Config
+
+# Switch to non-root user
+USER scada
+
+# Environment variables
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false \
+    DOTNET_RUNNING_IN_CONTAINER=true \
+    ASPNETCORE_URLS=http://+:10002
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD dotnet /app/ScadaAgentWkr.dll --health || exit 1
+
+# Expose agent port
+EXPOSE 10002
+
+ENTRYPOINT ["dotnet", "ScadaAgentWkr.dll"]

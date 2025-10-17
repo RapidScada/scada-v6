@@ -1,0 +1,256 @@
+# ============================================================
+# Rapid SCADA v6 - Docker Compose Configuration
+# ============================================================
+# 
+# Quick Start:
+#   docker compose up -d
+#
+# Stop Services:
+#   docker compose down
+#
+# View Logs:
+#   docker compose logs -f
+#
+# Access:
+#   Web Interface: http://localhost:5000
+#   Server API:    http://localhost:10000
+#   Agent API:     http://localhost:10002
+#
+# Configuration:
+#   - Default configs are built into images
+#   - Override by mounting custom configs as volumes
+#   - See .env.example for environment variables
+# ============================================================
+
+services:
+  # ============================================================
+  # ScadaAgent - Remote Management & Deployment
+  # ============================================================
+  scada-agent:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.agent
+    container_name: scada-agent
+    hostname: scada-agent
+    restart: unless-stopped
+    networks:
+      - scada-network
+    ports:
+      - "10002:10002"
+    volumes:
+      # Data persistence
+      - agent-storage:/app/Storage
+      - agent-logs:/app/Log
+      # Optional: Override default configuration
+      # - ./configs/agent/ScadaInstanceConfig.xml:/app/Config/ScadaInstanceConfig.xml:ro
+      # Optional: Mount project files
+      # - ../Projects/HelloWorld:/app/Projects/HelloWorld:ro
+    environment:
+      - TZ=UTC
+      - SCADA_INSTANCE=Default
+    healthcheck:
+      test: ["CMD", "dotnet", "/app/ScadaAgentWkr.dll", "--health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    mem_limit: 512m
+    cpus: 0.5
+
+  # ============================================================
+  # ScadaServer - Data Processing & Archiving
+  # ============================================================
+  scada-server:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.server
+    container_name: scada-server
+    hostname: scada-server
+    restart: unless-stopped
+    networks:
+      - scada-network
+    ports:
+      - "10000:10000"
+    volumes:
+      # Data persistence
+      - server-storage:/app/Storage
+      - server-archive:/app/Archive
+      - server-logs:/app/Log
+      # Optional: Override default configuration
+      # - ./configs/server/ScadaInstanceConfig.xml:/app/Config/ScadaInstanceConfig.xml:ro
+      # - ./configs/server/ScadaServerConfig.xml:/app/Config/ScadaServerConfig.xml:ro
+      # Optional: Mount base configuration database
+      # - ../Projects/HelloWorld/BaseXML:/app/BaseXML:ro
+    environment:
+      - TZ=UTC
+      - SCADA_INSTANCE=Default
+      - DOTNET_gcServer=1
+    depends_on:
+      - scada-agent
+    healthcheck:
+      test: ["CMD", "dotnet", "/app/ScadaServerWkr.dll", "--health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    mem_limit: 1g
+    cpus: 1.0
+
+  # ============================================================
+  # ScadaComm - Device Communication
+  # ============================================================
+  scada-comm:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.comm
+    container_name: scada-comm
+    hostname: scada-comm
+    restart: unless-stopped
+    networks:
+      - scada-network
+    volumes:
+      # Data persistence
+      - comm-storage:/app/Storage
+      - comm-logs:/app/Log
+      # Optional: Override default configuration
+      # - ./configs/comm/ScadaInstanceConfig.xml:/app/Config/ScadaInstanceConfig.xml:ro
+      # - ./configs/comm/ScadaCommConfig.xml:/app/Config/ScadaCommConfig.xml:ro
+    # For serial port access (uncomment if needed)
+    # devices:
+    #   - "/dev/ttyUSB0:/dev/ttyUSB0"
+    #   - "/dev/ttyS0:/dev/ttyS0"
+    # privileged: true  # Or use specific capabilities
+    environment:
+      - TZ=UTC
+      - SCADA_INSTANCE=Default
+      - SCADA_SERVER_HOST=scada-server
+      - SCADA_SERVER_PORT=10000
+    depends_on:
+      - scada-server
+    healthcheck:
+      test: ["CMD", "dotnet", "/app/ScadaCommWkr.dll", "--health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    mem_limit: 768m
+    cpus: 0.75
+
+  # ============================================================
+  # ScadaWeb - Web Interface
+  # ============================================================
+  scada-web:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.web
+    container_name: scada-web
+    hostname: scada-web
+    restart: unless-stopped
+    networks:
+      - scada-network
+    ports:
+      - "5000:5000"
+    volumes:
+      # Data persistence
+      - web-storage:/app/storage
+      - web-logs:/app/log
+      - web-temp:/app/temp
+      # Optional: Override default configuration
+      # - ./configs/web/ScadaInstanceConfig.xml:/app/config/ScadaInstanceConfig.xml:ro
+      # - ./configs/web/ScadaWebConfig.xml:/app/config/ScadaWebConfig.xml:ro
+      # Optional: Mount base configuration database and views
+      # - ../Projects/HelloWorld/BaseXML:/app/BaseXML:ro
+      # - ../Projects/HelloWorld/Views:/app/Views:ro
+    environment:
+      - TZ=UTC
+      - SCADA_INSTANCE=Default
+      - SCADA_SERVER_HOST=scada-server
+      - SCADA_SERVER_PORT=10000
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5000
+    depends_on:
+      - scada-server
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5000/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 45s
+    mem_limit: 1g
+    cpus: 1.0
+
+  # ============================================================
+  # PostgreSQL - Optional Database for Archiving
+  # ============================================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: scada-postgres
+    hostname: postgres
+    restart: unless-stopped
+    networks:
+      - scada-network
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=scada
+      - POSTGRES_USER=scada
+      - POSTGRES_PASSWORD=scada_password_change_me
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U scada"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    mem_limit: 512m
+    cpus: 0.5
+    # Uncomment to disable if not using PostgreSQL archiving
+    # profiles:
+    #   - with-postgres
+
+# ============================================================
+# Networks
+# ============================================================
+networks:
+  scada-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+# ============================================================
+# Persistent Volumes
+# ============================================================
+volumes:
+  # Agent
+  agent-storage:
+    driver: local
+  agent-logs:
+    driver: local
+  
+  # Server
+  server-storage:
+    driver: local
+  server-archive:
+    driver: local
+  server-logs:
+    driver: local
+  
+  # Comm
+  comm-storage:
+    driver: local
+  comm-logs:
+    driver: local
+  
+  # Web
+  web-storage:
+    driver: local
+  web-logs:
+    driver: local
+  web-temp:
+    driver: local
+  
+  # Database
+  postgres-data:
+    driver: local

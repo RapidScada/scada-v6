@@ -1,0 +1,176 @@
+# ============================================================
+# Rapid SCADA v6 - Development Docker Compose
+# ============================================================
+#
+# Features:
+#   - Fast iteration with bind mounts
+#   - Writable configs for testing
+#   - Host-accessible logs
+#   - Lower resource limits
+#   - No restart policy (manual control)
+#   - Optional database for testing
+#
+# Quick Start:
+#   docker compose -f docker-compose.dev.yml up --build
+#
+# Access:
+#   Web: http://localhost:5000
+#   Server API: http://localhost:10000
+#   Agent API: http://localhost:10002
+#
+# ============================================================
+
+services:
+  # ScadaAgent - Remote Management (Optional for dev)
+  scada-agent:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.agent
+    container_name: scada-agent-dev
+    hostname: scada-agent
+    restart: "no"
+    networks:
+      - scada-dev
+    ports:
+      - "10002:10002"
+    volumes:
+      # Development logs on host for easy access
+      - ./dev-data/agent/logs:/app/Log
+      - ./dev-data/agent/storage:/app/Storage
+    environment:
+      - TZ=UTC
+      - SCADA_INSTANCE=Development
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_ENVIRONMENT=Development
+    mem_limit: 256m
+    cpus: 0.25
+    profiles:
+      - full  # Only start with --profile full
+  # ScadaServer - Data Processing & Archiving
+  scada-server:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.server
+    container_name: scada-server-dev
+    hostname: scada-server
+    restart: "no"
+    networks:
+      - scada-dev
+    ports:
+      - "10000:10000"
+    volumes:
+      # Option 1: Use project files (requires HelloWorld project)
+      # - ../Projects/HelloWorld/BaseXML:/app/BaseXML
+      # - ../Projects/HelloWorld/Instances/Default/ScadaServer/Config:/app/Config
+      
+      # Option 2: Use development data directory (independent)
+      - ./dev-data/server/logs:/app/Log
+      - ./dev-data/server/storage:/app/Storage
+      - ./dev-data/server/archive:/app/Archive
+      
+      # Optional: Override configs for testing
+      # - ./configs/dev/server:/app/Config
+    environment:
+      - TZ=UTC
+      - SCADA_INSTANCE=Development
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_ENVIRONMENT=Development
+      - DOTNET_gcServer=0  # Disable server GC for dev
+    mem_limit: 512m
+    cpus: 0.5
+
+  # ScadaComm - Device Communication
+  scada-comm:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.comm
+    container_name: scada-comm-dev
+    hostname: scada-comm
+    restart: "no"
+    networks:
+      - scada-dev
+    volumes:
+      # Development data
+      - ./dev-data/comm/logs:/app/Log
+      - ./dev-data/comm/storage:/app/Storage
+      
+      # Optional: Use project configs
+      # - ../Projects/HelloWorld/Instances/Default/ScadaComm/Config:/app/Config
+    environment:
+      - TZ=UTC
+      - SCADA_INSTANCE=Development
+      - SCADA_SERVER_HOST=scada-server
+      - SCADA_SERVER_PORT=10000
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_ENVIRONMENT=Development
+    depends_on:
+      - scada-server
+    mem_limit: 256m
+    cpus: 0.25
+
+  # ScadaWeb - Web Interface
+  scada-web:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.web
+    container_name: scada-web-dev
+    hostname: scada-web
+    restart: "no"
+    networks:
+      - scada-dev
+    ports:
+      - "5000:5000"
+    volumes:
+      # Development data
+      - ./dev-data/web/logs:/app/log
+      - ./dev-data/web/storage:/app/storage
+      - ./dev-data/web/temp:/app/temp
+      
+      # Optional: Use project files
+      # - ../Projects/HelloWorld/BaseXML:/app/BaseXML
+      # - ../Projects/HelloWorld/Views:/app/Views
+      # - ../Projects/HelloWorld/Instances/Default/ScadaWeb/config:/app/config
+    environment:
+      - TZ=UTC
+      - SCADA_INSTANCE=Development
+      - SCADA_SERVER_HOST=scada-server
+      - SCADA_SERVER_PORT=10000
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+      # Enable detailed errors for development
+      - ASPNETCORE_DETAILEDERRORS=true
+      - Logging__LogLevel__Default=Debug
+    depends_on:
+      - scada-server
+    mem_limit: 512m
+    cpus: 0.5
+
+  # PostgreSQL - Optional Database (for testing DB features)
+  postgres:
+    image: postgres:16-alpine
+    container_name: scada-postgres-dev
+    hostname: postgres
+    restart: "no"
+    networks:
+      - scada-dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./dev-data/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=scada_dev
+      - POSTGRES_USER=scada
+      - POSTGRES_PASSWORD=scada_dev_password
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    mem_limit: 256m
+    cpus: 0.25
+    profiles:
+      - with-db  # Only start with --profile with-db
+
+# ============================================================
+# Networks
+# ============================================================
+networks:
+  scada-dev:
+    driver: bridge

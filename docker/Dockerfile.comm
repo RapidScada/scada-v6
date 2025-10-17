@@ -1,0 +1,143 @@
+# ============================================================
+# Rapid SCADA Communicator - Optimized Multi-Stage Dockerfile
+# Runtime Image Size: ~200-240 MB
+# ============================================================
+
+# ============================================================
+# Stage 1: Build Base Dependencies
+# ============================================================
+FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim AS build-base
+WORKDIR /src
+
+# Copy and build ScadaCommon first
+COPY ScadaCommon/ScadaCommon.sln ScadaCommon/
+COPY ScadaCommon/ScadaCommon/ScadaCommon.csproj ScadaCommon/ScadaCommon/
+COPY ScadaCommon/ScadaCommon.Log/ScadaCommon.Log.csproj ScadaCommon/ScadaCommon.Log/
+COPY ScadaCommon/ScadaCommon.Forms/ScadaCommon.Forms.csproj ScadaCommon/ScadaCommon.Forms/
+COPY ScadaCommon/FileStorage/FileStorage.csproj ScadaCommon/FileStorage/
+COPY ScadaCommon/PostgreSqlStorage/PostgreSqlStorage.csproj ScadaCommon/PostgreSqlStorage/
+COPY ScadaCommon/ScadaCommon.MultiDb/ScadaCommon.MultiDb.csproj ScadaCommon/ScadaCommon.MultiDb/
+
+RUN dotnet restore ScadaCommon/ScadaCommon.sln
+
+COPY ScadaCommon/ ScadaCommon/
+RUN dotnet build ScadaCommon/ScadaCommon.sln -c Release --no-restore
+
+# ============================================================
+# Stage 2: Build ScadaComm
+# ============================================================
+FROM build-base AS build-comm
+WORKDIR /src
+
+COPY ScadaComm/ScadaComm/ScadaComm.sln ScadaComm/ScadaComm/
+COPY ScadaComm/ScadaComm/ScadaCommCommon/ScadaCommCommon.csproj ScadaComm/ScadaComm/ScadaCommCommon/
+COPY ScadaComm/ScadaComm/ScadaCommApp/ScadaCommApp.csproj ScadaComm/ScadaComm/ScadaCommApp/
+COPY ScadaComm/ScadaComm/ScadaCommEngine/ScadaCommEngine.csproj ScadaComm/ScadaComm/ScadaCommEngine/
+COPY ScadaComm/ScadaComm/ScadaCommWkr/ScadaCommWkr.csproj ScadaComm/ScadaComm/ScadaCommWkr/
+
+RUN dotnet restore ScadaComm/ScadaComm/ScadaComm.sln
+
+COPY ScadaComm/ScadaComm/ ScadaComm/ScadaComm/
+RUN dotnet build ScadaComm/ScadaComm/ScadaComm.sln -c Release --no-restore
+
+# ============================================================
+# Stage 3: Build Communication Drivers
+# ============================================================
+FROM build-comm AS build-drivers
+WORKDIR /src
+
+COPY ScadaComm/OpenDrivers/OpenDrivers.sln ScadaComm/OpenDrivers/
+
+# Copy all driver projects
+COPY ScadaComm/OpenDrivers/DrvModbus.Common/*.csproj ScadaComm/OpenDrivers/DrvModbus.Common/
+COPY ScadaComm/OpenDrivers/DrvModbus.Logic/*.csproj ScadaComm/OpenDrivers/DrvModbus.Logic/
+COPY ScadaComm/OpenDrivers/DrvOpcUa.Common/*.csproj ScadaComm/OpenDrivers/DrvOpcUa.Common/
+COPY ScadaComm/OpenDrivers/DrvOpcUa.Logic/*.csproj ScadaComm/OpenDrivers/DrvOpcUa.Logic/
+COPY ScadaComm/OpenDrivers/DrvMqtt.Common/*.csproj ScadaComm/OpenDrivers/DrvMqtt.Common/
+COPY ScadaComm/OpenDrivers/DrvMqttClient.Common/*.csproj ScadaComm/OpenDrivers/DrvMqttClient.Common/
+COPY ScadaComm/OpenDrivers/DrvMqttClient.Logic/*.csproj ScadaComm/OpenDrivers/DrvMqttClient.Logic/
+COPY ScadaComm/OpenDrivers/DrvSimulator.Logic/*.csproj ScadaComm/OpenDrivers/DrvSimulator.Logic/
+COPY ScadaComm/OpenDrivers/DrvSimulator.Shared/*.csproj ScadaComm/OpenDrivers/DrvSimulator.Shared/
+COPY ScadaComm/OpenDrivers/DrvCnlBasic.Logic/*.csproj ScadaComm/OpenDrivers/DrvCnlBasic.Logic/
+COPY ScadaComm/OpenDrivers/DrvCnlBasic.Shared/*.csproj ScadaComm/OpenDrivers/DrvCnlBasic.Shared/
+COPY ScadaComm/OpenDrivers/DrvDbImport.Logic/*.csproj ScadaComm/OpenDrivers/DrvDbImport.Logic/
+COPY ScadaComm/OpenDrivers/DrvDbImport.Shared/*.csproj ScadaComm/OpenDrivers/DrvDbImport.Shared/
+
+RUN dotnet restore ScadaComm/OpenDrivers/OpenDrivers.sln || true
+
+COPY ScadaComm/OpenDrivers/ ScadaComm/OpenDrivers/
+RUN dotnet build ScadaComm/OpenDrivers/OpenDrivers.sln -c Release --no-restore || true
+
+# ============================================================
+# Stage 4: Publish ScadaComm
+# ============================================================
+FROM build-drivers AS publish
+WORKDIR /src/ScadaComm/ScadaComm/ScadaCommWkr
+
+RUN dotnet publish -c Release -o /app/publish \
+    --no-restore \
+    --no-build \
+    /p:PublishTrimmed=false \
+    /p:PublishSingleFile=false
+
+# Copy drivers
+RUN mkdir -p /app/publish/Drv && \
+    find /src/ScadaComm/OpenDrivers -name "*Logic.dll" -exec cp {} /app/publish/Drv/ \; 2>/dev/null || true && \
+    find /src/ScadaComm/OpenDrivers -name "*Common.dll" -exec cp {} /app/publish/Drv/ \; 2>/dev/null || true && \
+    find /src/ScadaComm/OpenDrivers -name "*Shared.dll" -exec cp {} /app/publish/Drv/ \; 2>/dev/null || true
+
+# ============================================================
+# Stage 5: Runtime Image (MINIMAL)
+# ============================================================
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim AS runtime
+
+# Install serial port and communication dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    ca-certificates \
+    libicu72 \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+# Create non-root user
+RUN groupadd -r scada && useradd -r -g scada scada
+
+WORKDIR /app
+
+# Copy published application
+COPY --from=publish --chown=scada:scada /app/publish .
+
+# Copy storage DLLs from build stage (required for FileStorage and PostgreSqlStorage)
+COPY --from=build-base --chown=scada:scada /src/ScadaCommon/FileStorage/bin/Release/netstandard2.0/*.dll /app/
+COPY --from=build-base --chown=scada:scada /src/ScadaCommon/PostgreSqlStorage/bin/Release/net8.0/*.dll /app/
+
+# Create necessary directories (including root /Config for instance config)
+RUN mkdir -p \
+    /Config \
+    /app/Config \
+    /app/Lang \
+    /app/Log \
+    /app/Storage \
+    /app/Drv
+
+# Copy default instance configuration to both locations
+COPY --chown=scada:scada ScadaCommon/ScadaCommon/Config/ScadaInstanceConfig.xml /Config/ScadaInstanceConfig.xml
+COPY --chown=scada:scada ScadaCommon/ScadaCommon/Config/ScadaInstanceConfig.xml /app/Config/ScadaInstanceConfig.xml
+
+# Set ownership
+RUN chown -R scada:scada /app && \
+    chown -R scada:scada /Config
+
+# For serial port access, user needs to be in dialout group
+# This will be handled at runtime via docker-compose
+USER scada
+
+# Environment variables
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false \
+    DOTNET_RUNNING_IN_CONTAINER=true
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD dotnet /app/ScadaCommWkr.dll --health || exit 1
+
+ENTRYPOINT ["dotnet", "ScadaCommWkr.dll"]

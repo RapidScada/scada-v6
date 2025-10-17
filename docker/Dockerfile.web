@@ -1,0 +1,148 @@
+# ============================================================
+# Rapid SCADA Web - Optimized Multi-Stage Dockerfile
+# Runtime Image Size: ~220-260 MB
+# ============================================================
+
+# ============================================================
+# Stage 1: Build Base Dependencies
+# ============================================================
+FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim AS build-base
+WORKDIR /src
+
+# Build ScadaCommon
+COPY ScadaCommon/ScadaCommon.sln ScadaCommon/
+COPY ScadaCommon/ScadaCommon/ScadaCommon.csproj ScadaCommon/ScadaCommon/
+COPY ScadaCommon/ScadaCommon.Log/ScadaCommon.Log.csproj ScadaCommon/ScadaCommon.Log/
+COPY ScadaCommon/ScadaCommon.Forms/ScadaCommon.Forms.csproj ScadaCommon/ScadaCommon.Forms/
+COPY ScadaCommon/FileStorage/FileStorage.csproj ScadaCommon/FileStorage/
+COPY ScadaCommon/PostgreSqlStorage/PostgreSqlStorage.csproj ScadaCommon/PostgreSqlStorage/
+COPY ScadaCommon/ScadaCommon.MultiDb/ScadaCommon.MultiDb.csproj ScadaCommon/ScadaCommon.MultiDb/
+
+RUN dotnet restore ScadaCommon/ScadaCommon.sln
+
+COPY ScadaCommon/ ScadaCommon/
+RUN dotnet build ScadaCommon/ScadaCommon.sln -c Release --no-restore
+
+# ============================================================
+# Stage 2: Build ScadaWeb
+# ============================================================
+FROM build-base AS build-web
+WORKDIR /src
+
+COPY ScadaWeb/ScadaWeb/ScadaWeb.sln ScadaWeb/ScadaWeb/
+COPY ScadaWeb/ScadaWeb/ScadaWebCommon/ScadaWebCommon.csproj ScadaWeb/ScadaWeb/ScadaWebCommon/
+COPY ScadaWeb/ScadaWeb/ScadaWebCommon.Subset/ScadaWebCommon.Subset.csproj ScadaWeb/ScadaWeb/ScadaWebCommon.Subset/
+COPY ScadaWeb/ScadaWeb/ScadaWeb/ScadaWeb.csproj ScadaWeb/ScadaWeb/ScadaWeb/
+
+RUN dotnet restore ScadaWeb/ScadaWeb/ScadaWeb.sln
+
+COPY ScadaWeb/ScadaWeb/ ScadaWeb/ScadaWeb/
+RUN dotnet build ScadaWeb/ScadaWeb/ScadaWeb.sln -c Release --no-restore
+
+# ============================================================
+# Stage 3: Build Web Plugins
+# ============================================================
+FROM build-web AS build-plugins
+WORKDIR /src
+
+COPY ScadaWeb/OpenPlugins/OpenPlugins.sln ScadaWeb/OpenPlugins/
+
+# Copy plugin projects
+COPY ScadaWeb/OpenPlugins/PlgMain/*.csproj ScadaWeb/OpenPlugins/PlgMain/
+COPY ScadaWeb/OpenPlugins/PlgMain.Common/*.csproj ScadaWeb/OpenPlugins/PlgMain.Common/
+COPY ScadaWeb/OpenPlugins/PlgChart/*.csproj ScadaWeb/OpenPlugins/PlgChart/
+COPY ScadaWeb/OpenPlugins/PlgChart.Common/*.csproj ScadaWeb/OpenPlugins/PlgChart.Common/
+COPY ScadaWeb/OpenPlugins/PlgScheme/*.csproj ScadaWeb/OpenPlugins/PlgScheme/
+COPY ScadaWeb/OpenPlugins/PlgScheme.Common/*.csproj ScadaWeb/OpenPlugins/PlgScheme.Common/
+COPY ScadaWeb/OpenPlugins/PlgSchBasicComp/*.csproj ScadaWeb/OpenPlugins/PlgSchBasicComp/
+COPY ScadaWeb/OpenPlugins/PlgSchBasicComp.Shared/*.csproj ScadaWeb/OpenPlugins/PlgSchBasicComp.Shared/
+COPY ScadaWeb/OpenPlugins/PlgWebPage/*.csproj ScadaWeb/OpenPlugins/PlgWebPage/
+COPY ScadaWeb/OpenPlugins/PlgWebPage.Shared/*.csproj ScadaWeb/OpenPlugins/PlgWebPage.Shared/
+
+RUN dotnet restore ScadaWeb/OpenPlugins/OpenPlugins.sln || true
+
+COPY ScadaWeb/OpenPlugins/ ScadaWeb/OpenPlugins/
+RUN dotnet build ScadaWeb/OpenPlugins/OpenPlugins.sln -c Release --no-restore || true
+
+# ============================================================
+# Stage 4: Publish ScadaWeb
+# ============================================================
+FROM build-plugins AS publish
+WORKDIR /src/ScadaWeb/ScadaWeb/ScadaWeb
+
+RUN dotnet publish -c Release -o /app/publish \
+    --no-restore \
+    --no-build \
+    /p:PublishTrimmed=false \
+    /p:PublishSingleFile=false
+
+# Copy plugins
+RUN mkdir -p /app/publish/Plg && \
+    find /src/ScadaWeb/OpenPlugins -name "Plg*.dll" -not -name "*.View.dll" -exec cp {} /app/publish/Plg/ \; 2>/dev/null || true
+
+# Copy wwwroot static files
+COPY --from=build-web /src/ScadaWeb/ScadaWeb/ScadaWeb/wwwroot /app/publish/wwwroot
+
+# ============================================================
+# Stage 5: Runtime Image (MINIMAL)
+# ============================================================
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim AS runtime
+
+# Install SkiaSharp dependencies (for graphics rendering), minimal fonts, and curl for health checks
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    ca-certificates \
+    libfontconfig1 \
+    libfreetype6 \
+    fonts-dejavu-core \
+    curl \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+# Create non-root user
+RUN groupadd -r scada && useradd -r -g scada scada
+
+WORKDIR /app
+
+# Copy published application
+COPY --from=publish --chown=scada:scada /app/publish .
+
+# Copy storage DLLs from build stage (required for FileStorage and PostgreSqlStorage)
+COPY --from=build-base --chown=scada:scada /src/ScadaCommon/FileStorage/bin/Release/netstandard2.0/*.dll /app/
+COPY --from=build-base --chown=scada:scada /src/ScadaCommon/PostgreSqlStorage/bin/Release/net8.0/*.dll /app/
+
+# Create necessary directories (including root /Config for instance config)
+RUN mkdir -p \
+    /Config \
+    /app/config \
+    /app/lang \
+    /app/log \
+    /app/storage \
+    /app/Plg \
+    /app/temp
+
+# Copy default instance configuration to both locations
+COPY --chown=scada:scada ScadaCommon/ScadaCommon/Config/ScadaInstanceConfig.xml /Config/ScadaInstanceConfig.xml
+COPY --chown=scada:scada ScadaCommon/ScadaCommon/Config/ScadaInstanceConfig.xml /app/config/ScadaInstanceConfig.xml
+
+# Set ownership
+RUN chown -R scada:scada /app && \
+    chown -R scada:scada /Config
+
+# Switch to non-root user
+USER scada
+
+# Environment variables
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false \
+    DOTNET_RUNNING_IN_CONTAINER=true \
+    ASPNETCORE_URLS=http://+:5000 \
+    ASPNETCORE_ENVIRONMENT=Production
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:5000/health || exit 1
+
+# Expose web port
+EXPOSE 5000
+
+ENTRYPOINT ["dotnet", "ScadaWeb.dll"]
