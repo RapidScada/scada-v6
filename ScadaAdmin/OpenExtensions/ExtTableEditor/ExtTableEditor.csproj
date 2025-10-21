@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net8.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Scada.Admin.Extensions.ExtTableEditor</RootNamespace>
     <Authors>Mikhail Shiryaev</Authors>
