@@ -1,0 +1,11 @@
+{
+  "solution": {
+    "path": "ScadaServer.sln",
+    "projects": [
+      "ScadaServerCommon\\ScadaServerCommon.csproj",
+      "ScadaServerEngine\\ScadaServerEngine.csproj",
+      "ScadaServerApp\\ScadaServerApp.csproj",
+      "ScadaServerWkr\\ScadaServerWkr.csproj"
+    ]
+  }
+}

@@ -25,15 +25,18 @@ Build with Visual Studio
 
 Build from Command Line
 -----------------------
+
 1. Download and install .NET SDK 8.0 for your operating system.
 
 2. Download the source code of Rapid SCADA from the repository:
    https://github.com/RapidScada/scada-v6
 
 3. Change directory to the source code root.
- 
-4. Execute the following commands:
 
+4. Execute the following commands depending on your platform:
+
+Windows (full build, includes UI and extensions):
+------------------------------------------------
 dotnet build ScadaCommon/ScadaCommon.sln -c Release
 dotnet build ScadaAgent/ScadaAgent/ScadaAgent.sln -c Release
 dotnet build ScadaComm/ScadaComm/ScadaComm.sln -c Release
@@ -47,3 +50,18 @@ dotnet build ScadaServer/OpenModules/OpenModules.sln -c Release
 dotnet build ScadaWeb/Mimics/Mimics.sln -c Release
 dotnet build ScadaWeb/OpenPlugins/OpenPlugins.sln -c Release
 dotnet build ScadaAdmin/OpenExtensions/OpenExtensions.sln -c Release
+
+Linux (cross‑platform build, skips Windows‑only projects):
+----------------------------------------------------------
+dotnet build ScadaCommon/ScadaCommon.slnf -c Release
+dotnet build ScadaAgent/ScadaAgent/ScadaAgent.sln -c Release
+dotnet build ScadaComm/ScadaComm/ScadaComm.sln -c Release
+dotnet build ScadaServer/ScadaServer/ScadaServer.slnf -c Release
+dotnet build ScadaWeb/ScadaWeb/ScadaWeb.sln -c Release
+dotnet build ScadaAdmin/ScadaAdmin/ScadaAdmin.slnf -c Release
+dotnet build ScadaReport/ScadaReport.sln -c Release
+dotnet build ScadaComm/OpenDrivers/OpenDrivers.slnf -c Release
+dotnet build ScadaComm/OpenDrivers2/OpenDrivers2.slnf -c Release
+dotnet build ScadaServer/OpenModules/OpenModules.slnf -c Release
+dotnet build ScadaWeb/Mimics/Mimics.sln -c Release
+dotnet build ScadaWeb/OpenPlugins/OpenPlugins.slnf -c Release

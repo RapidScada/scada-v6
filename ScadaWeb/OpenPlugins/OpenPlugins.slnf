@@ -1,0 +1,17 @@
+{
+  "solution": {
+    "path": "OpenPlugins.sln",
+    "projects": [
+      "PlgMain\\PlgMain.csproj",
+      "PlgMain.Common\\PlgMain.Common.csproj",
+      "PlgChart\\PlgChart.csproj",
+      "PlgChart.Common\\PlgChart.Common.csproj",
+      "PlgScheme\\PlgScheme.csproj",
+      "PlgScheme.Common\\PlgScheme.Common.csproj",
+      "PlgSchBasicComp\\PlgSchBasicComp.csproj",
+      "PlgWebPage\\PlgWebPage.csproj",
+      "PlgMain.Report\\PlgMain.Report.csproj",
+      "PlgScheme.EditorWeb\\PlgScheme.EditorWeb.csproj"
+    ]
+  }
+}

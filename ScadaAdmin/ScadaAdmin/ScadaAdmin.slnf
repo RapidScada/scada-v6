@@ -1,0 +1,8 @@
+{
+  "solution": {
+    "path": "ScadaAdmin.sln",
+    "projects": [
+      "ScadaAdminCommon.Subset\\ScadaAdminCommon.Subset.csproj"
+    ]
+  }
+}

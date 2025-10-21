@@ -1,0 +1,25 @@
+{
+  "solution": {
+    "path": "OpenDrivers.sln",
+    "projects": [
+      "DrvSimulator.Logic\\DrvSimulator.Logic.csproj",
+      "DrvCnlBasic.Logic\\DrvCnlBasic.Logic.csproj",
+      "DrvDsScadaServer.Logic\\DrvDsScadaServer.Logic.csproj",
+      "DrvDsOpcUaServer.Logic\\DrvDsOpcUaServer.Logic.csproj",
+      "DrvDsOpcUaServer.Common\\DrvDsOpcUaServer.Common.csproj",
+      "DrvModbus.Common\\DrvModbus.Common.csproj",
+      "DrvModbus.Logic\\DrvModbus.Logic.csproj",
+      "DrvOpcUa.Logic\\DrvOpcUa.Logic.csproj",
+      "DrvOpcUa.Common\\DrvOpcUa.Common.csproj",
+      "DrvTester.Logic\\DrvTester.Logic.csproj",
+      "DrvMqtt.Common\\DrvMqtt.Common.csproj",
+      "DrvCnlMqtt.Logic\\DrvCnlMqtt.Logic.csproj",
+      "DrvMqttClient.Common\\DrvMqttClient.Common.csproj",
+      "DrvMqttClient.Logic\\DrvMqttClient.Logic.csproj",
+      "DrvMqttPublisher.Logic\\DrvMqttPublisher.Logic.csproj",
+      "DrvDsMqtt.Logic\\DrvDsMqtt.Logic.csproj",
+      "DrvDbImport.Logic\\DrvDbImport.Logic.csproj",
+      "DrvEnronModbus.Logic\\DrvEnronModbus.Logic.csproj"
+    ]
+  }
+}

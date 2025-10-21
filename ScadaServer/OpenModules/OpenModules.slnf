@@ -1,0 +1,13 @@
+{
+  "solution": {
+    "path": "OpenModules.sln",
+    "projects": [
+      "ModArcBasic.Logic\\ModArcBasic.Logic.csproj",
+      "ModArcPostgreSql.Logic\\ModArcPostgreSql.Logic.csproj",
+      "ModArcInfluxDb.Logic\\ModArcInfluxDb.Logic.csproj",
+      "ModActiveDirectory.Logic\\ModActiveDirectory.Logic.csproj",
+      "ModDbExport.Logic\\ModDbExport.Logic.csproj",
+      "ModDiffCalculator.Logic\\ModDiffCalculator.Logic.csproj"
+    ]
+  }
+}
