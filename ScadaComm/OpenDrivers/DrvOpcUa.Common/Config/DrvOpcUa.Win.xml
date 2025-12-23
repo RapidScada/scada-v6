@@ -20,10 +20,10 @@
   <!-- Specifies security related configuration information -->
   <SecurityConfiguration>
     
-    <!-- The location of the application instance certificate in the Windows certificate store -->
+    <!-- The location of the application instance certificate in the certificate store -->
     <ApplicationCertificate>
-      <StoreType>X509Store</StoreType>
-      <StorePath>CurrentUser\UA_MachineDefault</StorePath>
+      <StoreType>Directory</StoreType>
+      <StorePath>%CommonApplicationData%\OPC Foundation\pki\own</StorePath>
 
       <!-- The subject for the certificate 
            Note that subject names are complex structures. Only text that appears here is treated as the CommonName component.

@@ -17,6 +17,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa
     /// </summary>
     public abstract class OpcClientHelperBase
     {
+        /// <summary>
+        /// The ceritficate life time in months.
+        /// </summary>
+        private const ushort CertificateLifeTime = 120;
+
         protected readonly OpcConnectionOptions connectionOptions; // the connection options
         protected readonly ILog log;                               // implements logging
         protected readonly long helperID;                          // the random ID
@@ -169,7 +174,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa
             // check application certificate
             if (connectionOptions.SecurityMode != MessageSecurityMode.None)
             {
-                bool haveAppCertificate = await application.CheckApplicationInstanceCertificate(false, 0);
+                bool haveAppCertificate = await application.CheckApplicationInstanceCertificate(
+                    false, CertificateFactory.DefaultKeySize, CertificateLifeTime);
     
                 if (!haveAppCertificate)
                 {
