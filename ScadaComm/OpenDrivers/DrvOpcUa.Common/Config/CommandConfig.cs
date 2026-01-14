@@ -12,6 +12,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
     public class CommandConfig
     {
         /// <summary>
+        /// Gets the command type.
+        /// </summary>
+        public string CmdType { get; } // TODO: abstract
+
+        /// <summary>
         /// Gets or sets the OPC node ID.
         /// </summary>
         public string NodeID { get; set; } = "";
