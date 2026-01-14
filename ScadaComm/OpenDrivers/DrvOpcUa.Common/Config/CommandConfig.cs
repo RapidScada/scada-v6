@@ -50,7 +50,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// <summary>
         /// Loads the configuration from the XML node.
         /// </summary>
-        public void LoadFromXml(XmlElement xmlElem)
+        public virtual void LoadFromXml(XmlElement xmlElem)
         {
             ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             NodeID = xmlElem.GetAttrAsString("nodeID");
@@ -65,7 +65,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// <summary>
         /// Saves the configuration into the XML node.
         /// </summary>
-        public void SaveToXml(XmlElement xmlElem)
+        public virtual void SaveToXml(XmlElement xmlElem)
         {
             ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             xmlElem.SetAttribute("nodeID", NodeID);
