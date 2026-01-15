@@ -458,7 +458,28 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         private bool ReadHistory(ISession opcSession, ReadHistoryCommandConfig commandConfig, 
             IDictionary<string, string> cmdArgs)
         {
-            return false;
+            try
+            {
+                DateTime startTime = cmdArgs.GetValueAsDateTime("startTime", DateTimeKind.Utc);
+                DateTime endTime = cmdArgs.GetValueAsDateTime("endTime", DateTimeKind.Utc);
+
+                if (!(startTime > DateTime.MinValue && endTime > DateTime.MinValue && startTime <= endTime))
+                {
+                    throw new ScadaException(Locale.IsRussian ?
+                        "Некорректный период времени" :
+                        "Invalid time range");
+                }
+
+                // TODO: read history
+
+                Log.WriteLine(CommPhrases.ResponseOK);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLine(CommPhrases.ErrorPrefix + ex.Message);
+                return false;
+            }
         }
 
 
