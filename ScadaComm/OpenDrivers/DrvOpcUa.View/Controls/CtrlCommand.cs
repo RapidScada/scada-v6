@@ -54,13 +54,25 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
                 txtDisplayName.Text = commandConfig.DisplayName;
                 txtCmdCode.Text = commandConfig.CmdCode;
                 numCmdNum.SetValue(commandConfig.CmdNum);
-                txtNodeID.Text = commandConfig.NodeID;
-                txtParentNodeID.Text = commandConfig.ParentNodeID;
-                cbDataType.Text = commandConfig.DataTypeName;
-                cbDataType.Enabled = !commandConfig.IsMethod;
-                pbDataTypeWarning.Visible = string.IsNullOrWhiteSpace(commandConfig.DataTypeName) &&
-                    !commandConfig.IsMethod;
-                chkIsMethod.Checked = commandConfig.IsMethod;
+
+                if (commandConfig is WriteItemCommandConfig config1)
+                {
+                    txtNodeID.Text = config1.NodeID;
+                    txtParentNodeID.Text = "";
+                    cbDataType.Text = config1.DataTypeName;
+                    cbDataType.Enabled = true;
+                    pbDataTypeWarning.Visible = string.IsNullOrWhiteSpace(config1.DataTypeName);
+                    chkIsMethod.Checked = false;
+                }
+                else if (commandConfig is CallMethodCommandConfig config2)
+                {
+                    txtNodeID.Text = config2.NodeID;
+                    txtParentNodeID.Text = config2.ParentNodeID;
+                    cbDataType.Text = "";
+                    cbDataType.Enabled = false;
+                    pbDataTypeWarning.Visible = false;
+                    chkIsMethod.Checked = true;
+                }
             }
         }
 
@@ -117,11 +129,10 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
 
         private void cbDataType_TextChanged(object sender, EventArgs e)
         {
-            if (commandConfig != null)
+            if (commandConfig is WriteItemCommandConfig cmdConfig)
             {
-                commandConfig.DataTypeName = cbDataType.Text;
-                pbDataTypeWarning.Visible = string.IsNullOrWhiteSpace(commandConfig.DataTypeName) &&
-                    !commandConfig.IsMethod;
+                cmdConfig.DataTypeName = cbDataType.Text;
+                pbDataTypeWarning.Visible = string.IsNullOrWhiteSpace(cmdConfig.DataTypeName);
                 OnObjectChanged(TreeUpdateTypes.None);
             }
         }

@@ -12,6 +12,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
     public class ReadHistoryCommandConfig : CommandConfig
     {
         /// <summary>
+        /// Gets the command type.
+        /// </summary>
+        public override CommandType CmdType => CommandType.ReadHistory;
+
+        /// <summary>
         /// Gets or sets the number of values per node in a read operation.
         /// </summary>
         public int ValuesPerNode { get; set; } = 1000;

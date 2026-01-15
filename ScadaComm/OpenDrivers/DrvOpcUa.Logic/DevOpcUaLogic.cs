@@ -128,7 +128,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                         !string.IsNullOrEmpty(itemConfig.TagCode) &&
                         !cmdByCode.ContainsKey(itemConfig.TagCode))
                     {
-                        cmdByCode.Add(itemConfig.TagCode, new CommandConfig
+                        cmdByCode.Add(itemConfig.TagCode, new WriteItemCommandConfig
                         {
                             NodeID = itemConfig.NodeID,
                             DisplayName = itemConfig.DisplayName,
@@ -284,7 +284,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// <summary>
         /// Writes an item value to the OPC server.
         /// </summary>
-        private bool WriteItemValue(ISession opcSession, CommandConfig commandConfig, double cmdVal, string cmdData)
+        private bool WriteItemValue(ISession opcSession, WriteItemCommandConfig commandConfig,
+            double cmdVal, string cmdData)
         {
             try
             {
@@ -372,7 +373,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// <summary>
         /// Calls a method of the OPC server.
         /// </summary>
-        private bool CallMethod(ISession opcSession, CommandConfig commandConfig, string cmdData)
+        private bool CallMethod(ISession opcSession, CallMethodCommandConfig commandConfig, string cmdData)
         {
             try
             {
@@ -449,6 +450,15 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             }
 
             return args.ToArray();
+        }
+
+        /// <summary>
+        /// Reads a history from the OPC server.
+        /// </summary>
+        private bool ReadHistory(ISession opcSession, ReadHistoryCommandConfig commandConfig, 
+            IDictionary<string, string> cmdArgs)
+        {
+            return false;
         }
 
 
@@ -557,11 +567,21 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 {
                     Log.WriteLine(CommPhrases.InvalidCommand);
                 }
+                else if (commandConfig is WriteItemCommandConfig config1)
+                {
+                    LastRequestOK = WriteItemValue(opcSession, config1, cmd.CmdVal, cmd.GetCmdDataString());
+                }
+                else if (commandConfig is CallMethodCommandConfig config2)
+                {
+                    LastRequestOK = CallMethod(opcSession, config2, cmd.GetCmdDataString());
+                }
+                else if (commandConfig is ReadHistoryCommandConfig config3)
+                {
+                    LastRequestOK = ReadHistory(opcSession, config3, cmd.GetCmdDataArgs());
+                }
                 else
                 {
-                    LastRequestOK = commandConfig.IsMethod
-                        ? CallMethod(opcSession, commandConfig, cmd.GetCmdDataString())
-                        : WriteItemValue(opcSession, commandConfig, cmd.CmdVal, cmd.GetCmdDataString());
+                    Log.WriteLine(CommPhrases.InvalidCommand);
                 }
 
                 FinishCommand();

@@ -559,23 +559,21 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private void AddCommand(ServerNodeTag serverNodeTag, ServerNodeTag parentServerNodeTag)
         {
             // add new command
-            CommandConfig commandConfig = new()
-            {
-                NodeID = serverNodeTag.NodeIdStr,
-                DisplayName = serverNodeTag.DisplayName,
-                CmdCode = GetTagCode(serverNodeTag),
-                IsMethod = serverNodeTag.ClassIs(NodeClass.Method)
-            };
+            CommandConfig commandConfig = serverNodeTag.ClassIs(NodeClass.Method)
+                ? new CallMethodCommandConfig()
+                {
+                    NodeID = serverNodeTag.NodeIdStr,
+                    ParentNodeID = parentServerNodeTag == null ? "" : parentServerNodeTag.NodeIdStr
+                }
+                : new WriteItemCommandConfig()
+                {
+                    NodeID = serverNodeTag.NodeIdStr,
+                    DataTypeName = GetDataType(serverNodeTag.NodeId, out string dataTypeName, out _) ? 
+                        dataTypeName : ""
+                };
 
-            if (commandConfig.IsMethod)
-            {
-                if (parentServerNodeTag != null)
-                    commandConfig.ParentNodeID = parentServerNodeTag.NodeIdStr;
-            }
-            else if (GetDataType(serverNodeTag.NodeId, out string dataTypeName, out _))
-            {
-                commandConfig.DataTypeName = dataTypeName;
-            }
+            commandConfig.DisplayName = serverNodeTag.DisplayName;
+            commandConfig.CmdCode = GetTagCode(serverNodeTag);
 
             tvDevice.Insert(commandsNode, CreateCommandNode(commandConfig), deviceConfig.Commands, commandConfig);
             DeviceConfigModified = true;
@@ -603,14 +601,14 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 
             try
             {
-                ReadValueIdCollection nodesToRead = new()
-                {
+                ReadValueIdCollection nodesToRead =
+                [
                     new ReadValueId
                     {
                         NodeId = nodeId,
                         AttributeId = Attributes.Value
                     }
-                };
+                ];
 
                 opcSession.Read(null, 0, TimestampsToReturn.Neither, nodesToRead,
                     out DataValueCollection results, out DiagnosticInfoCollection diagnosticInfos);
