@@ -386,15 +386,13 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     new NodeId(commandConfig.NodeID),
                     GetMethodArgs(cmdData));
 
-                if (methodResults == null)
-                {
-                    Log.WriteLine(CommPhrases.ResponseOK);
-                }
-                else
+                if (methodResults != null)
                 {
                     for (int i = 0, cnt = methodResults.Count; i < cnt; i++)
                     {
-                        Log.WriteLine("Result[{0}] = {1}", i, methodResults[i]);
+                        Log.WriteLine(Locale.IsRussian ?
+                            "Результат[{0}] = {1}" :
+                            "Result[{0}] = {1}", i, methodResults[i]);
                     }
                 }
 
@@ -470,9 +468,68 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                         "Invalid time range");
                 }
 
-                // TODO: read history
+                ReadRawModifiedDetails details = new()
+                {
+                    StartTime = startTime,
+                    EndTime = endTime,
+                    NumValuesPerNode = commandConfig.ValuesPerNode,
+                    ReturnBounds = true,
+                    IsReadModified = false // false for raw data
+                };
 
-                Log.WriteLine(CommPhrases.ResponseOK);
+                HistoryReadValueIdCollection nodesToRead = [];
+
+                foreach (string nodeID in commandConfig.NodeIDs)
+                {
+                    if (!string.IsNullOrEmpty(nodeID))
+                    {
+                        nodesToRead.Add(new HistoryReadValueId
+                        {
+                            NodeId = new(nodeID)
+                        });
+                    }
+                }
+
+                if (nodesToRead.Count == 0)
+                {
+                    throw new ScadaException(Locale.IsRussian ?
+                        "Элементы для чтения отсутствуют" :
+                        "No items to read");
+                }
+
+                ExtensionObject eo = new(details.TypeId, details);
+                opcSession.HistoryRead(null, eo, TimestampsToReturn.Both, false, nodesToRead, 
+                    out HistoryReadResultCollection results, out DiagnosticInfoCollection diagnosticInfos);
+
+                if (results == null || results.Count == 0)
+                {
+                    throw new ScadaException(Locale.IsRussian ?
+                        "Результаты отсутствуют" :
+                        "No results");
+                }
+
+                for (int resultIndex = 0; resultIndex < results.Count; resultIndex++)
+                {
+                    HistoryReadResult result = results[resultIndex];
+                    HistoryReadValueId node = nodesToRead[resultIndex];
+                    Log.WriteLine(Locale.IsRussian ?
+                        "Получен результат для узла '{0}'. Статус {1}" :
+                        "Result for node '{0}' has been received. Status is {1}", node.NodeId, result.StatusCode);
+
+                    if (StatusCode.IsGood(result.StatusCode))
+                    {
+                        if (result.HistoryData.Body is HistoryData historyData)
+                        {
+                            foreach (DataValue dataValue in historyData.DataValues)
+                            {
+                                Log.WriteLine(
+                                    $"{CommPhrases.ReceiveNotation} {dataValue.SourceTimestamp}, " +
+                                    $"{dataValue.ServerTimestamp}, {dataValue.Value}, {dataValue.StatusCode}");
+                            }
+                        }
+                    }
+                }
+
                 return true;
             }
             catch (Exception ex)
@@ -480,6 +537,19 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 Log.WriteLine(CommPhrases.ErrorPrefix + ex.Message);
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Gets the device tag status according to the OPC status code.
+        /// </summary>
+        private static int GetTagStatus(StatusCode statusCode)
+        {
+            if (StatusCode.IsGood(statusCode))
+                return CnlStatusID.Defined;
+            else if (StatusCode.IsUncertain(statusCode))
+                return CnlStatusID.Unreliable;
+            else
+                return CnlStatusID.Undefined;
         }
 
 
@@ -644,8 +714,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                         if (monitoredItem.Handle is ItemTag itemTag &&
                             itemTag.DeviceTag is DeviceTag deviceTag)
                         {
-                            int tagStatus = StatusCode.IsGood(change.Value.StatusCode) ?
-                                CnlStatusID.Defined : CnlStatusID.Undefined;
+                            int tagStatus = GetTagStatus(change.Value.StatusCode);
 
                             if (itemTag.ItemConfig.IsArray && change.Value.Value is Array arrVal)
                             {

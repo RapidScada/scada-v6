@@ -19,7 +19,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// <summary>
         /// Gets or sets the number of values per node in a read operation.
         /// </summary>
-        public int ValuesPerNode { get; set; } = 1000;
+        public uint ValuesPerNode { get; set; } = 1000;
 
         /// <summary>
         /// Gets the nodes to read.
@@ -33,7 +33,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         public override void LoadFromXml(XmlElement xmlElem)
         {
             base.LoadFromXml(xmlElem);
-            ValuesPerNode = xmlElem.GetAttrAsInt("valuesPerNode", ValuesPerNode);
+            ValuesPerNode = (uint)xmlElem.GetAttrAsInt("valuesPerNode", (int)ValuesPerNode);
 
             foreach (XmlElement itemElem in xmlElem.SelectNodes("Item"))
             {
