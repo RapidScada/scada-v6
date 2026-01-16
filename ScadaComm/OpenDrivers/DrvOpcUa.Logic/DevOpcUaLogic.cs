@@ -45,6 +45,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
         private bool deviceConfigError;                      // indicates that that device configuration is not loaded
         private OpcUaLineData lineData;                      // data common to the communication line
+        private Dictionary<string, DeviceTag> tagByNodeID;   // the device tags accessed by node ID
         private Dictionary<int, CommandConfig> cmdByNum;     // the commands accessed by number
         private Dictionary<string, CommandConfig> cmdByCode; // the commands accessed by code
 
@@ -61,6 +62,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
             deviceConfigError = false;
             lineData = null;
+            tagByNodeID = null;
             cmdByNum = null;
             cmdByCode = null;
 
@@ -512,9 +514,24 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 {
                     HistoryReadResult result = results[resultIndex];
                     HistoryReadValueId node = nodesToRead[resultIndex];
+                    string nodeID = node.NodeId.ToString();
+                    DeviceTag deviceTag = GetDeviceTag(nodeID);
                     Log.WriteLine(Locale.IsRussian ?
                         "Результат для узла '{0}' получен. Статус {1}" :
-                        "Result for node '{0}' has been received. Status is {1}", node.NodeId, result.StatusCode);
+                        "Result for node '{0}' has been received. Status is {1}", nodeID, result.StatusCode);
+
+                    if (deviceTag == null)
+                    {
+                        Log.WriteLine(Locale.IsRussian ?
+                            "Ошибка: тег не найден" :
+                            "Error: tag not found");
+                    }
+                    else
+                    {
+                        Log.WriteLine(Locale.IsRussian ?
+                            "Наименование тега: {0}" :
+                            "Tag name: {0}", deviceTag.Name);
+                    }
 
                     if (StatusCode.IsGood(result.StatusCode))
                     {
@@ -540,9 +557,17 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         }
 
         /// <summary>
+        /// Gets the device tag associated with the specified node ID.
+        /// </summary>
+        private DeviceTag GetDeviceTag(string nodeID)
+        {
+            return tagByNodeID != null && tagByNodeID.TryGetValue(nodeID, out DeviceTag deviceTag) ? deviceTag : null;
+        }
+
+        /// <summary>
         /// Gets the device tag status according to the OPC status code.
         /// </summary>
-        private static int GetTagStatus(StatusCode statusCode)
+        private static int GetDeviceTagStatus(StatusCode statusCode)
         {
             if (StatusCode.IsGood(statusCode))
                 return CnlStatusID.Defined;
@@ -592,6 +617,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             if (deviceConfigError)
                 return;
 
+            tagByNodeID = [];
+
             foreach (SubscriptionConfig subscriptionConfig in deviceConfig.Subscriptions)
             {
                 TagGroup tagGroup = new(subscriptionConfig.DisplayName);
@@ -601,6 +628,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     DeviceTag deviceTag = tagGroup.AddTag(itemConfig.TagCode, itemConfig.DisplayName);
                     deviceTag.Aux = new DeviceTagMeta();
                     itemConfig.Tag = deviceTag;
+                    tagByNodeID.TryAdd(itemConfig.NodeID, deviceTag);
 
                     if (itemConfig.IsString)
                     {
@@ -714,7 +742,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                         if (monitoredItem.Handle is ItemTag itemTag &&
                             itemTag.DeviceTag is DeviceTag deviceTag)
                         {
-                            int tagStatus = GetTagStatus(change.Value.StatusCode);
+                            int tagStatus = GetDeviceTagStatus(change.Value.StatusCode);
 
                             if (itemTag.ItemConfig.IsArray && change.Value.Value is Array arrVal)
                             {
