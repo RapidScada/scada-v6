@@ -513,7 +513,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     HistoryReadResult result = results[resultIndex];
                     HistoryReadValueId node = nodesToRead[resultIndex];
                     Log.WriteLine(Locale.IsRussian ?
-                        "Получен результат для узла '{0}'. Статус {1}" :
+                        "Результат для узла '{0}' получен. Статус {1}" :
                         "Result for node '{0}' has been received. Status is {1}", node.NodeId, result.StatusCode);
 
                     if (StatusCode.IsGood(result.StatusCode))
