@@ -94,7 +94,10 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         private DeviceSlice CreateDeviceSlice(DateTime timestamp)
         {
-            return new DeviceSlice(timestamp, includedDeviceTags, new CnlData[includedDeviceTags.Length]);
+            return new DeviceSlice(timestamp, includedDeviceTags, new CnlData[includedDeviceTags.Length])
+            {
+                Descr = string.Join(", ", includedDeviceTags.Select(t => t.Name))
+            };
         }
 
         /// <summary>
