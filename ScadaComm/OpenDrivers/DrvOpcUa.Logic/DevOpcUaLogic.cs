@@ -7,7 +7,6 @@ using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvOpcUa.Config;
 using Scada.Comm.Lang;
-using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
@@ -571,19 +570,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             return tagByNodeID != null && tagByNodeID.TryGetValue(nodeID, out DeviceTag deviceTag) ? deviceTag : null;
         }
 
-        /// <summary>
-        /// Gets the device tag status according to the OPC status code.
-        /// </summary>
-        private static int GetDeviceTagStatus(StatusCode statusCode)
-        {
-            if (StatusCode.IsGood(statusCode))
-                return CnlStatusID.Defined;
-            else if (StatusCode.IsUncertain(statusCode))
-                return CnlStatusID.Unreliable;
-            else
-                return CnlStatusID.Undefined;
-        }
-
 
         /// <summary>
         /// Performs actions when starting a communication line.
@@ -749,7 +735,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                         if (monitoredItem.Handle is ItemTag itemTag &&
                             itemTag.DeviceTag is DeviceTag deviceTag)
                         {
-                            int tagStatus = GetDeviceTagStatus(change.Value.StatusCode);
+                            int tagStatus = LogicUtils.GetDeviceTagStatus(change.Value.StatusCode);
 
                             if (itemTag.ItemConfig.IsArray && change.Value.Value is Array arrVal)
                             {
