@@ -460,6 +460,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         {
             try
             {
+                // prepare request details
                 DateTime startTime = cmdArgs.GetValueAsDateTime("startTime", DateTimeKind.Utc);
                 DateTime endTime = cmdArgs.GetValueAsDateTime("endTime", DateTimeKind.Utc);
 
@@ -479,16 +480,17 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     IsReadModified = false // false for raw data
                 };
 
+                // prepare nodes to read
                 HistoryReadValueIdCollection nodesToRead = [];
+                List<DeviceTag> deviceTags = [];
 
                 foreach (string nodeID in commandConfig.NodeIDs)
                 {
                     if (!string.IsNullOrEmpty(nodeID))
                     {
-                        nodesToRead.Add(new HistoryReadValueId
-                        {
-                            NodeId = new(nodeID)
-                        });
+                        HistoryReadValueId node = new() { NodeId = new(nodeID) };
+                        nodesToRead.Add(node);
+                        deviceTags.Add(GetDeviceTag(nodeID));
                     }
                 }
 
@@ -499,6 +501,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                         "No items to read");
                 }
 
+                // read history
                 ExtensionObject eo = new(details.TypeId, details);
                 opcSession.HistoryRead(null, eo, TimestampsToReturn.Both, false, nodesToRead, 
                     out HistoryReadResultCollection results, out DiagnosticInfoCollection diagnosticInfos);
@@ -510,15 +513,17 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                         "No results");
                 }
 
+                // obtain results
+                HistoricalSlices historicalSlices = new(deviceTags);
+
                 for (int resultIndex = 0; resultIndex < results.Count; resultIndex++)
                 {
                     HistoryReadResult result = results[resultIndex];
                     HistoryReadValueId node = nodesToRead[resultIndex];
-                    string nodeID = node.NodeId.ToString();
-                    DeviceTag deviceTag = GetDeviceTag(nodeID);
+                    DeviceTag deviceTag = historicalSlices.DeviceTags[resultIndex];
                     Log.WriteLine(Locale.IsRussian ?
                         "Результат для узла '{0}' получен. Статус {1}" :
-                        "Result for node '{0}' has been received. Status is {1}", nodeID, result.StatusCode);
+                        "Result for node '{0}' has been received. Status is {1}", node.NodeId, result.StatusCode);
 
                     if (deviceTag == null)
                     {
@@ -542,11 +547,13 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                                 Log.WriteLine(
                                     $"{CommPhrases.ReceiveNotation} {dataValue.SourceTimestamp}, " +
                                     $"{dataValue.ServerTimestamp}, {dataValue.Value}, {dataValue.StatusCode}");
+                                historicalSlices.AddDataValue(resultIndex, dataValue);
                             }
                         }
                     }
                 }
 
+                historicalSlices.EnqueueSlices(DeviceData);
                 return true;
             }
             catch (Exception ex)
@@ -557,7 +564,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         }
 
         /// <summary>
-        /// Gets the device tag associated with the specified node ID.
+        /// Gets the device tag associated with the specified node ID, or null if the tag is not found.
         /// </summary>
         private DeviceTag GetDeviceTag(string nodeID)
         {
