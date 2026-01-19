@@ -39,6 +39,14 @@
     <Phrase key="lblDisplayName">Наименование</Phrase>
     <Phrase key="lblPublishingInterval">Интервал публикации</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlWriteItemCommand">
+    <Phrase key="gbCommand">Команда записи элемента</Phrase>
+    <Phrase key="lblDisplayName">Наименование</Phrase>
+    <Phrase key="lblCmdCode">Код команды</Phrase>
+    <Phrase key="lblCmdNum">Номер команды</Phrase>
+    <Phrase key="lblNodeID">Идентификатор узла</Phrase>
+    <Phrase key="lblDataType">Тип данных</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmDeviceConfig">
     <Phrase key="this">Свойства устройства {0} - OPC UA</Phrase>
     <Phrase key="pageLine">Линия</Phrase>
