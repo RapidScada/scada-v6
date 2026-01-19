@@ -54,8 +54,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private FrmDeviceConfig()
         {
             InitializeComponent();
-            ctrlSubscription.Top = ctrlItem.Top = ctrlCommand.Top = ctrlEmptyItem.Top;
-            ctrlSubscription.Visible = ctrlItem.Visible = ctrlCommand.Visible = false;
+            HideControls();
+            ctrlSubscription.Top = ctrlItem.Top = ctrlWriteItemCommand.Top = 
+                ctrlCallMethodCommand.Top = ctrlReadHistoryCommand.Top = ctrlEmptyItem.Top;
         }
 
         /// <summary>
@@ -118,6 +119,30 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// </summary>
         private bool Modified => LineConfigModified || DeviceConfigModified;
 
+
+        /// <summary>
+        /// Translates the form.
+        /// </summary>
+        private void TranslateForm()
+        {
+            FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions { ToolTip = toolTip });
+            FormTranslator.Translate(ctrlEmptyItem, ctrlEmptyItem.GetType().FullName);
+            FormTranslator.Translate(ctrlSubscription, ctrlSubscription.GetType().FullName);
+            FormTranslator.Translate(ctrlItem, ctrlItem.GetType().FullName);
+            FormTranslator.Translate(ctrlWriteItemCommand, ctrlWriteItemCommand.GetType().FullName);
+            FormTranslator.Translate(ctrlCallMethodCommand, ctrlCallMethodCommand.GetType().FullName);
+            FormTranslator.Translate(ctrlReadHistoryCommand, ctrlReadHistoryCommand.GetType().FullName);
+            Text = string.Format(Text, deviceNum);
+        }
+
+        /// <summary>
+        /// Hides the controls that display properties of the selected tree node.
+        /// </summary>
+        private void HideControls()
+        {
+            ctrlSubscription.Visible = ctrlItem.Visible = ctrlWriteItemCommand.Visible =
+                ctrlCallMethodCommand.Visible = ctrlReadHistoryCommand.Visible = false;
+        }
 
         /// <summary>
         /// Takes the tree view images and loads them into an image list.
@@ -675,13 +700,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 
         private void FrmDeviceConfig_Load(object sender, EventArgs e)
         {
-            // translate form
-            FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions { ToolTip = toolTip });
-            FormTranslator.Translate(ctrlEmptyItem, ctrlEmptyItem.GetType().FullName);
-            FormTranslator.Translate(ctrlSubscription, ctrlSubscription.GetType().FullName);
-            FormTranslator.Translate(ctrlItem, ctrlItem.GetType().FullName);
-            FormTranslator.Translate(ctrlCommand, ctrlCommand.GetType().FullName);
-            Text = string.Format(Text, deviceNum);
+            TranslateForm();
 
             // load configuration
             lineConfigFileName = Path.Combine(appDirs.ConfigDir, OpcLineConfig.GetFileName(lineNum));
@@ -950,13 +969,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 
         private void tvDevice_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            SetDeviceButtonsEnabled();
-
-            // show parameters of the selected item
-            ctrlEmptyItem.Visible = false;
-            ctrlSubscription.Visible = false;
-            ctrlItem.Visible = false;
-            ctrlCommand.Visible = false;
+            // show parameters of the selected node
+            HideControls();
             object deviceNodeTag = e.Node?.Tag;
 
             if (deviceNodeTag is SubscriptionConfig subscriptionConfig)
@@ -969,15 +983,27 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 ctrlItem.ItemConfig = itemConfig;
                 ctrlItem.Visible = true;
             }
-            else if (deviceNodeTag is CommandConfig commandConfig)
+            else if (deviceNodeTag is WriteItemCommandConfig commandConfig1)
             {
-                ctrlCommand.CommandConfig = commandConfig;
-                ctrlCommand.Visible = true;
+                ctrlWriteItemCommand.CommandConfig = commandConfig1;
+                ctrlWriteItemCommand.Visible = true;
+            }
+            else if (deviceNodeTag is CallMethodCommandConfig commandConfig2)
+            {
+                ctrlCallMethodCommand.CommandConfig = commandConfig2;
+                ctrlCallMethodCommand.Visible = true;
+            }
+            else if (deviceNodeTag is ReadHistoryCommandConfig commandConfig3)
+            {
+                ctrlReadHistoryCommand.CommandConfig = commandConfig3;
+                ctrlReadHistoryCommand.Visible = true;
             }
             else
             {
                 ctrlEmptyItem.Visible = true;
             }
+
+            SetDeviceButtonsEnabled();
         }
 
         private void tvDevice_AfterExpand(object sender, TreeViewEventArgs e)

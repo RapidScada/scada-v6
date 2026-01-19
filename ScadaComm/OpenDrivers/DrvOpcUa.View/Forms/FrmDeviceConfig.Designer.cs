@@ -54,24 +54,26 @@
             toolTip = new ToolTip(components);
             ctrlItem = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem();
             ctrlSubscription = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription();
-            ctrlCommand = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCommand();
             ctrlEmptyItem = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlEmptyItem();
             pnlBottom = new Panel();
             tabControl1 = new TabControl();
             pageLine = new TabPage();
             gbSubscriptionOptions = new GroupBox();
-            cbTagNamingMode = new ComboBox();
-            lblTagNamingMode = new Label();
             numMaxItemCount = new NumericUpDown();
             lblMaxItemCount = new Label();
             lblNodeIdFormatExample = new Label();
             txtNodeIdFormat = new TextBox();
             lblNodeIdFormat = new Label();
+            cbTagNamingMode = new ComboBox();
+            lblTagNamingMode = new Label();
             cbCreationMode = new ComboBox();
             lblCreationMode = new Label();
             pnlLineInfo = new Panel();
             lblLineInfo = new Label();
             pageDevice = new TabPage();
+            ctrlWriteItemCommand = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlWriteItemCommand();
+            ctrlCallMethodCommand = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCallMethodCommand();
+            ctrlReadHistoryCommand = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlReadHistoryCommand();
             gbDevice.SuspendLayout();
             gbServerBrowse.SuspendLayout();
             gbConnectionOptions.SuspendLayout();
@@ -359,15 +361,6 @@
             ctrlSubscription.TabIndex = 4;
             ctrlSubscription.ObjectChanged += ctrlItem_ObjectChanged;
             // 
-            // ctrlCommand
-            // 
-            ctrlCommand.CommandConfig = null;
-            ctrlCommand.Location = new Point(618, 195);
-            ctrlCommand.Name = "ctrlCommand";
-            ctrlCommand.Size = new Size(250, 572);
-            ctrlCommand.TabIndex = 6;
-            ctrlCommand.ObjectChanged += ctrlItem_ObjectChanged;
-            // 
             // ctrlEmptyItem
             // 
             ctrlEmptyItem.Location = new Point(618, 8);
@@ -428,26 +421,6 @@
             gbSubscriptionOptions.TabStop = false;
             gbSubscriptionOptions.Text = "Subscription Options";
             // 
-            // cbTagNamingMode
-            // 
-            cbTagNamingMode.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbTagNamingMode.FormattingEnabled = true;
-            cbTagNamingMode.Items.AddRange(new object[] { "Node ID", "Display name" });
-            cbTagNamingMode.Location = new Point(13, 81);
-            cbTagNamingMode.Name = "cbTagNamingMode";
-            cbTagNamingMode.Size = new Size(200, 23);
-            cbTagNamingMode.TabIndex = 3;
-            cbTagNamingMode.SelectedIndexChanged += cbTagNamingMode_SelectedIndexChanged;
-            // 
-            // lblTagNamingMode
-            // 
-            lblTagNamingMode.AutoSize = true;
-            lblTagNamingMode.Location = new Point(10, 63);
-            lblTagNamingMode.Name = "lblTagNamingMode";
-            lblTagNamingMode.Size = new Size(70, 15);
-            lblTagNamingMode.TabIndex = 2;
-            lblTagNamingMode.Text = "Tag naming";
-            // 
             // numMaxItemCount
             // 
             numMaxItemCount.Location = new Point(13, 169);
@@ -493,6 +466,26 @@
             lblNodeIdFormat.TabIndex = 4;
             lblNodeIdFormat.Text = "Node ID format";
             // 
+            // cbTagNamingMode
+            // 
+            cbTagNamingMode.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbTagNamingMode.FormattingEnabled = true;
+            cbTagNamingMode.Items.AddRange(new object[] { "Node ID", "Display name" });
+            cbTagNamingMode.Location = new Point(13, 81);
+            cbTagNamingMode.Name = "cbTagNamingMode";
+            cbTagNamingMode.Size = new Size(200, 23);
+            cbTagNamingMode.TabIndex = 3;
+            cbTagNamingMode.SelectedIndexChanged += cbTagNamingMode_SelectedIndexChanged;
+            // 
+            // lblTagNamingMode
+            // 
+            lblTagNamingMode.AutoSize = true;
+            lblTagNamingMode.Location = new Point(10, 63);
+            lblTagNamingMode.Name = "lblTagNamingMode";
+            lblTagNamingMode.Size = new Size(70, 15);
+            lblTagNamingMode.TabIndex = 2;
+            lblTagNamingMode.Text = "Tag naming";
+            // 
             // cbCreationMode
             // 
             cbCreationMode.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -536,7 +529,9 @@
             // 
             pageDevice.Controls.Add(gbServerBrowse);
             pageDevice.Controls.Add(gbDevice);
-            pageDevice.Controls.Add(ctrlCommand);
+            pageDevice.Controls.Add(ctrlReadHistoryCommand);
+            pageDevice.Controls.Add(ctrlCallMethodCommand);
+            pageDevice.Controls.Add(ctrlWriteItemCommand);
             pageDevice.Controls.Add(ctrlItem);
             pageDevice.Controls.Add(ctrlSubscription);
             pageDevice.Controls.Add(ctrlEmptyItem);
@@ -547,6 +542,33 @@
             pageDevice.TabIndex = 1;
             pageDevice.Text = "Device";
             pageDevice.UseVisualStyleBackColor = true;
+            // 
+            // ctrlWriteItemCommand
+            // 
+            ctrlWriteItemCommand.CommandConfig = null;
+            ctrlWriteItemCommand.Location = new Point(618, 195);
+            ctrlWriteItemCommand.Name = "ctrlWriteItemCommand";
+            ctrlWriteItemCommand.Size = new Size(250, 500);
+            ctrlWriteItemCommand.TabIndex = 6;
+            ctrlWriteItemCommand.ObjectChanged += ctrlItem_ObjectChanged;
+            // 
+            // ctrlCallMethodCommand
+            // 
+            ctrlCallMethodCommand.CommandConfig = null;
+            ctrlCallMethodCommand.Location = new Point(618, 245);
+            ctrlCallMethodCommand.Name = "ctrlCallMethodCommand";
+            ctrlCallMethodCommand.Size = new Size(250, 500);
+            ctrlCallMethodCommand.TabIndex = 7;
+            ctrlCallMethodCommand.ObjectChanged += ctrlItem_ObjectChanged;
+            // 
+            // ctrlReadHistoryCommand
+            // 
+            ctrlReadHistoryCommand.CommandConfig = null;
+            ctrlReadHistoryCommand.Location = new Point(618, 295);
+            ctrlReadHistoryCommand.Name = "ctrlReadHistoryCommand";
+            ctrlReadHistoryCommand.Size = new Size(250, 500);
+            ctrlReadHistoryCommand.TabIndex = 8;
+            ctrlReadHistoryCommand.ObjectChanged += ctrlItem_ObjectChanged;
             // 
             // FrmDeviceConfig
             // 
@@ -608,7 +630,6 @@
         private Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription ctrlSubscription;
         private Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem ctrlItem;
         private System.Windows.Forms.Button btnViewAttrs;
-        private Controls.CtrlCommand ctrlCommand;
         private Controls.CtrlEmptyItem ctrlEmptyItem;
         private Panel pnlBottom;
         private PictureBox pbConnectionInfo;
@@ -629,5 +650,8 @@
         private Label lblNodeIdFormatExample;
         private NumericUpDown numReconnectIfIdle;
         private Label lblReconnectIfIdle;
+        private Controls.CtrlReadHistoryCommand ctrlReadHistoryCommand;
+        private Controls.CtrlCallMethodCommand ctrlCallMethodCommand;
+        private Controls.CtrlWriteItemCommand ctrlWriteItemCommand;
     }
 }
