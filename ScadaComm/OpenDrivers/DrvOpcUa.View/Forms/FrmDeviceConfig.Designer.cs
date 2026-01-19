@@ -71,9 +71,9 @@
             pnlLineInfo = new Panel();
             lblLineInfo = new Label();
             pageDevice = new TabPage();
-            ctrlWriteItemCommand = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlWriteItemCommand();
-            ctrlCallMethodCommand = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCallMethodCommand();
             ctrlReadHistoryCommand = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlReadHistoryCommand();
+            ctrlCallMethodCommand = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCallMethodCommand();
+            ctrlWriteItemCommand = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlWriteItemCommand();
             gbDevice.SuspendLayout();
             gbServerBrowse.SuspendLayout();
             gbConnectionOptions.SuspendLayout();
@@ -543,32 +543,32 @@
             pageDevice.Text = "Device";
             pageDevice.UseVisualStyleBackColor = true;
             // 
-            // ctrlWriteItemCommand
+            // ctrlReadHistoryCommand
             // 
-            ctrlWriteItemCommand.CommandConfig = null;
-            ctrlWriteItemCommand.Location = new Point(618, 195);
-            ctrlWriteItemCommand.Name = "ctrlWriteItemCommand";
-            ctrlWriteItemCommand.Size = new Size(250, 500);
-            ctrlWriteItemCommand.TabIndex = 6;
-            ctrlWriteItemCommand.ObjectChanged += ctrlItem_ObjectChanged;
+            ctrlReadHistoryCommand.CommandConfig = null;
+            ctrlReadHistoryCommand.Location = new Point(618, 295);
+            ctrlReadHistoryCommand.Name = "ctrlReadHistoryCommand";
+            ctrlReadHistoryCommand.Size = new Size(250, 572);
+            ctrlReadHistoryCommand.TabIndex = 8;
+            ctrlReadHistoryCommand.ObjectChanged += ctrlItem_ObjectChanged;
             // 
             // ctrlCallMethodCommand
             // 
             ctrlCallMethodCommand.CommandConfig = null;
             ctrlCallMethodCommand.Location = new Point(618, 245);
             ctrlCallMethodCommand.Name = "ctrlCallMethodCommand";
-            ctrlCallMethodCommand.Size = new Size(250, 500);
+            ctrlCallMethodCommand.Size = new Size(250, 572);
             ctrlCallMethodCommand.TabIndex = 7;
             ctrlCallMethodCommand.ObjectChanged += ctrlItem_ObjectChanged;
             // 
-            // ctrlReadHistoryCommand
+            // ctrlWriteItemCommand
             // 
-            ctrlReadHistoryCommand.CommandConfig = null;
-            ctrlReadHistoryCommand.Location = new Point(618, 295);
-            ctrlReadHistoryCommand.Name = "ctrlReadHistoryCommand";
-            ctrlReadHistoryCommand.Size = new Size(250, 500);
-            ctrlReadHistoryCommand.TabIndex = 8;
-            ctrlReadHistoryCommand.ObjectChanged += ctrlItem_ObjectChanged;
+            ctrlWriteItemCommand.CommandConfig = null;
+            ctrlWriteItemCommand.Location = new Point(618, 195);
+            ctrlWriteItemCommand.Name = "ctrlWriteItemCommand";
+            ctrlWriteItemCommand.Size = new Size(250, 572);
+            ctrlWriteItemCommand.TabIndex = 6;
+            ctrlWriteItemCommand.ObjectChanged += ctrlItem_ObjectChanged;
             // 
             // FrmDeviceConfig
             // 

@@ -140,7 +140,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// </summary>
         private void HideControls()
         {
-            ctrlSubscription.Visible = ctrlItem.Visible = ctrlWriteItemCommand.Visible =
+            ctrlEmptyItem.Visible = ctrlSubscription.Visible = ctrlItem.Visible = ctrlWriteItemCommand.Visible =
                 ctrlCallMethodCommand.Visible = ctrlReadHistoryCommand.Visible = false;
         }
 
