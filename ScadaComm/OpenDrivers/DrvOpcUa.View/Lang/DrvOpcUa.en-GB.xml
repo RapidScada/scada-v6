@@ -8,16 +8,6 @@
     <Phrase key="lblNodeID">Node ID</Phrase>
     <Phrase key="lblParentNodeID">Parent node ID</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCommand">
-    <Phrase key="gbCommand">Command Parameters</Phrase>
-    <Phrase key="lblDisplayName">Display name</Phrase>
-    <Phrase key="lblCmdCode">Command code</Phrase>
-    <Phrase key="lblCmdNum">Command number</Phrase>
-    <Phrase key="lblNodeID">Node ID</Phrase>
-    <Phrase key="lblParentNodeID">Parent node ID</Phrase>
-    <Phrase key="lblDataType">Data type</Phrase>
-    <Phrase key="chkIsMethod">Is method</Phrase>
-  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlEmptyItem">
     <Phrase key="lblNotSelected">Item not selected</Phrase>
   </Dictionary>
@@ -32,6 +22,15 @@
     <Phrase key="chkIsString">Is string</Phrase>
     <Phrase key="chkIsArray">Is array</Phrase>
     <Phrase key="lblDataLen">String or array length</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlReadHistoryCommand">
+    <Phrase key="gbCommand">History Reading Command</Phrase>
+    <Phrase key="lblDisplayName">Display name</Phrase>
+    <Phrase key="lblCmdCode">Command code</Phrase>
+    <Phrase key="lblCmdNum">Command number</Phrase>
+    <Phrase key="lblNodeIDs">Node IDs</Phrase>
+    <Phrase key="lblNodeIDsHelp">One per line</Phrase>
+    <Phrase key="lblValuesPerNode">Values per node</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription">
     <Phrase key="gbSubscription">Subscription</Phrase>
