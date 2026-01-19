@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <KpOpcUaDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCallMethodCommand">
+    <Phrase key="gbCommand">Команда вызова метода</Phrase>
+    <Phrase key="lblDisplayName">Наименование</Phrase>
+    <Phrase key="lblCmdCode">Код команды</Phrase>
+    <Phrase key="lblCmdNum">Номер команды</Phrase>
+    <Phrase key="lblNodeID">Идентификатор узла</Phrase>
+    <Phrase key="lblParentNodeID">Идентификатор родительского узла</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCommand">
     <Phrase key="gbCommand">Параметры команды</Phrase>
     <Phrase key="lblDisplayName">Наименование</Phrase>
@@ -11,11 +19,10 @@
     <Phrase key="chkIsMethod">Метод</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlEmptyItem">
-    <Phrase key="gbEmptyItem">Параметры элемента</Phrase>
     <Phrase key="lblNotSelected">Элемент не выбран</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem">
-    <Phrase key="gbItem">Параметры элемента</Phrase>
+    <Phrase key="gbItem">Элемент</Phrase>
     <Phrase key="chkItemActive">Активен</Phrase>
     <Phrase key="lblDisplayName">Наименование</Phrase>
     <Phrase key="lblTagCode">Код тега</Phrase>
@@ -27,7 +34,7 @@
     <Phrase key="lblDataLen">Длина строки или массива</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription">
-    <Phrase key="gbSubscription">Параметры подписки</Phrase>
+    <Phrase key="gbSubscription">Подписка</Phrase>
     <Phrase key="chkSubscrActive">Активна</Phrase>
     <Phrase key="lblDisplayName">Наименование</Phrase>
     <Phrase key="lblPublishingInterval">Интервал публикации</Phrase>

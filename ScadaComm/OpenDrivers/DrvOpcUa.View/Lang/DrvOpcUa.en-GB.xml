@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvOpcUaDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCallMethodCommand">
+    <Phrase key="gbCommand">Method Calling Command</Phrase>
+    <Phrase key="lblDisplayName">Display name</Phrase>
+    <Phrase key="lblCmdCode">Command code</Phrase>
+    <Phrase key="lblCmdNum">Command number</Phrase>
+    <Phrase key="lblNodeID">Node ID</Phrase>
+    <Phrase key="lblParentNodeID">Parent node ID</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCommand">
     <Phrase key="gbCommand">Command Parameters</Phrase>
     <Phrase key="lblDisplayName">Display name</Phrase>
@@ -11,11 +19,10 @@
     <Phrase key="chkIsMethod">Is method</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlEmptyItem">
-    <Phrase key="gbEmptyItem">Item Parameters</Phrase>
     <Phrase key="lblNotSelected">Item not selected</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem">
-    <Phrase key="gbItem">Item Parameters</Phrase>
+    <Phrase key="gbItem">Item</Phrase>
     <Phrase key="chkItemActive">Active</Phrase>
     <Phrase key="lblDisplayName">Display name</Phrase>
     <Phrase key="lblTagCode">Tag code</Phrase>
@@ -27,7 +34,7 @@
     <Phrase key="lblDataLen">String or array length</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription">
-    <Phrase key="gbSubscription">Subscription Parameters</Phrase>
+    <Phrase key="gbSubscription">Subscription</Phrase>
     <Phrase key="chkSubscrActive">Active</Phrase>
     <Phrase key="lblDisplayName">Display name</Phrase>
     <Phrase key="lblPublishingInterval">Publishing interval</Phrase>
