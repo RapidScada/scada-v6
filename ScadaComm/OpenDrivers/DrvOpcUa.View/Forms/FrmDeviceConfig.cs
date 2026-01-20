@@ -624,7 +624,16 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// </summary>
         private void AddReadHistoryCommand(ServerNodeTag serverNodeTag)
         {
+            string cmdName = serverNodeTag.DisplayName + ".History";
+            ReadHistoryCommandConfig commandConfig = new()
+            {
+                DisplayName = cmdName,
+                CmdCode = cmdName
+            };
 
+            commandConfig.NodeIDs.Add(serverNodeTag.NodeIdStr);
+            tvDevice.Insert(commandsNode, CreateCommandNode(commandConfig), deviceConfig.Commands, commandConfig);
+            DeviceConfigModified = true;
         }
 
         /// <summary>

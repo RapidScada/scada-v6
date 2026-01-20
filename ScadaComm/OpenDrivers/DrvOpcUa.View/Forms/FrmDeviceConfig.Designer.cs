@@ -79,8 +79,8 @@
             cmsServerItem = new ContextMenuStrip(components);
             miAddItemToSubscription = new ToolStripMenuItem();
             miAddWriteItemCommand = new ToolStripMenuItem();
-            miAddCallMethodCommand = new ToolStripMenuItem();
             miAddReadHistoryCommand = new ToolStripMenuItem();
+            miAddCallMethodCommand = new ToolStripMenuItem();
             gbDevice.SuspendLayout();
             gbServerBrowse.SuspendLayout();
             gbConnectionOptions.SuspendLayout();
@@ -597,36 +597,36 @@
             // 
             cmsServerItem.Items.AddRange(new ToolStripItem[] { miAddItemToSubscription, miAddWriteItemCommand, miAddReadHistoryCommand, miAddCallMethodCommand });
             cmsServerItem.Name = "cmsServerVariable";
-            cmsServerItem.Size = new Size(241, 114);
+            cmsServerItem.Size = new Size(227, 114);
             cmsServerItem.Opening += cmsServerItem_Opening;
             // 
             // miAddItemToSubscription
             // 
             miAddItemToSubscription.Name = "miAddItemToSubscription";
-            miAddItemToSubscription.Size = new Size(240, 22);
+            miAddItemToSubscription.Size = new Size(238, 22);
             miAddItemToSubscription.Text = "Add Item to Subscription";
             miAddItemToSubscription.Click += miAddItemToSubscription_Click;
             // 
             // miAddWriteItemCommand
             // 
             miAddWriteItemCommand.Name = "miAddWriteItemCommand";
-            miAddWriteItemCommand.Size = new Size(240, 22);
-            miAddWriteItemCommand.Text = "Add Command to Write Item";
+            miAddWriteItemCommand.Size = new Size(238, 22);
+            miAddWriteItemCommand.Text = "Add Write Item Command";
             miAddWriteItemCommand.Click += miAddWriteItemCommand_Click;
-            // 
-            // miAddCallMethodCommand
-            // 
-            miAddCallMethodCommand.Name = "miAddCallMethodCommand";
-            miAddCallMethodCommand.Size = new Size(240, 22);
-            miAddCallMethodCommand.Text = "Add Command to Call Method";
-            miAddCallMethodCommand.Click += miAddCallMethodCommand_Click;
             // 
             // miAddReadHistoryCommand
             // 
             miAddReadHistoryCommand.Name = "miAddReadHistoryCommand";
-            miAddReadHistoryCommand.Size = new Size(240, 22);
-            miAddReadHistoryCommand.Text = "Add Command to Read History";
+            miAddReadHistoryCommand.Size = new Size(238, 22);
+            miAddReadHistoryCommand.Text = "Add Read History Command";
             miAddReadHistoryCommand.Click += miAddReadHistoryCommand_Click;
+            // 
+            // miAddCallMethodCommand
+            // 
+            miAddCallMethodCommand.Name = "miAddCallMethodCommand";
+            miAddCallMethodCommand.Size = new Size(226, 22);
+            miAddCallMethodCommand.Text = "Add Call Method Command";
+            miAddCallMethodCommand.Click += miAddCallMethodCommand_Click;
             // 
             // FrmDeviceConfig
             // 
