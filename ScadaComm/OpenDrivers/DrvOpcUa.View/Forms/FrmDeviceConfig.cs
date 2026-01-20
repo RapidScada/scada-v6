@@ -334,8 +334,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private void SetDeviceButtonsEnabled()
         {
             btnAddItem.Enabled = tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag &&
-                (serverNodeTag.ClassIs(NodeClass.Variable) ||
-                serverNodeTag.ClassIs(NodeClass.Method) && tvDevice.SelectedNode == commandsNode);
+                (serverNodeTag.ClassIs(NodeClass.Variable) || serverNodeTag.ClassIs(NodeClass.Method) &&
+                TreeViewExtensions.GetTopParentNode(tvDevice.SelectedNode) == commandsNode);
 
             bool deviceNodeTagDefined = tvDevice.SelectedNode?.Tag != null;
             btnMoveUpItem.Enabled = deviceNodeTagDefined && tvDevice.SelectedNode.PrevNode != null;
