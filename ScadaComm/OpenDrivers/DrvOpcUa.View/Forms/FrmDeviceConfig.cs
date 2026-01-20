@@ -127,7 +127,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// </summary>
         private void TranslateForm()
         {
-            FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions { ToolTip = toolTip });
+            FormTranslator.Translate(this, GetType().FullName,
+                new FormTranslatorOptions { ToolTip = toolTip, ContextMenus = [cmsServerFolder, cmsServerItem] });
             FormTranslator.Translate(ctrlEmptyItem, ctrlEmptyItem.GetType().FullName);
             FormTranslator.Translate(ctrlSubscription, ctrlSubscription.GetType().FullName);
             FormTranslator.Translate(ctrlItem, ctrlItem.GetType().FullName);
@@ -461,7 +462,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// <summary>
         /// Browses the server node.
         /// </summary>
-        private void BrowseServerNode(TreeNode treeNode)
+        private bool BrowseServerNode(TreeNode treeNode)
         {
             try
             {
@@ -478,12 +479,12 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                     serverNodeTag = null;
                     nodeId = ObjectIds.ObjectsFolder;
                 }
-                else if (treeNode.Tag is ServerNodeTag nodeTag)
+                else if (treeNode.Tag is ServerNodeTag tag)
                 {
-                    fillNodeRequired = !nodeTag.IsFilled;
+                    fillNodeRequired = !tag.IsFilled;
                     nodeCollection = treeNode.Nodes;
-                    serverNodeTag = nodeTag;
-                    nodeId = nodeTag.NodeId;
+                    serverNodeTag = tag;
+                    nodeId = tag.NodeId;
                 }
 
                 if (fillNodeRequired && nodeId != null && opcSession != null)
@@ -514,10 +515,13 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                     if (serverNodeTag != null)
                         serverNodeTag.IsFilled = true;
                 }
+
+                return true;
             }
             catch (Exception ex)
             {
                 ScadaUiUtils.ShowError(ex.BuildErrorMessage(DriverPhrases.BrowseServerError));
+                return false;
             }
             finally
             {
@@ -526,7 +530,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         }
 
         /// <summary>
-        /// Adds a new item to the configuration.
+        /// Adds a new subscription item or command to the configuration.
         /// </summary>
         private bool AddItem(TreeNode serverNode)
         {
@@ -547,7 +551,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 }
                 else if (serverNodeTag.ClassIs(NodeClass.Variable))
                 {
-                    AddItemToSubscription(serverNodeTag);
+                    AddItemsToSubscription([serverNodeTag]);
                     return true;
                 }
             }
@@ -556,34 +560,19 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         }
 
         /// <summary>
-        /// Adds a new subscription item to the configuration.
+        /// Adds new subscription items to the configuration.
         /// </summary>
-        private void AddItemToSubscription(ServerNodeTag serverNodeTag)
+        private void AddItemsToSubscription(List<ServerNodeTag> serverNodeTags)
         {
-            // create new monitored item
-            ItemConfig itemConfig = new()
-            {
-                NodeID = serverNodeTag.NodeIdStr,
-                DisplayName = serverNodeTag.DisplayName,
-                TagCode = GetTagCode(serverNodeTag),
-                Tag = new ItemConfigTag(0)
-            };
-
-            if (GetDataType(serverNodeTag.NodeId, out string dataTypeName, out bool isArray))
-            {
-                itemConfig.DataTypeName = dataTypeName;
-                itemConfig.IsArray = isArray;
-            }
-
             // find subscription
             TreeNode deviceNode = tvDevice.SelectedNode;
             TreeNode subscriptionNode = deviceNode?.FindClosest(typeof(SubscriptionConfig)) ??
                 subscriptionsNode.LastNode;
             SubscriptionConfig subscriptionConfig;
 
-            // add new subscription
             if (subscriptionNode == null)
             {
+                // add new subscription
                 subscriptionConfig = new SubscriptionConfig();
                 subscriptionNode = CreateSubscriptionNode(subscriptionConfig);
                 tvDevice.Insert(subscriptionsNode, subscriptionNode,
@@ -594,10 +583,42 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 subscriptionConfig = (SubscriptionConfig)subscriptionNode.Tag;
             }
 
-            // add monitored item
-            TreeNode itemNode = CreateItemNode(itemConfig);
-            tvDevice.Insert(subscriptionNode, itemNode, subscriptionConfig.Items, itemConfig);
-            UpdateTagNums(itemNode);
+            // add items
+            TreeNode startNode = null;
+
+            try
+            {
+                tvDevice.BeginUpdate();
+
+                foreach (ServerNodeTag serverNodeTag in serverNodeTags)
+                {
+                    // create new monitored item
+                    ItemConfig itemConfig = new()
+                    {
+                        NodeID = serverNodeTag.NodeIdStr,
+                        DisplayName = serverNodeTag.DisplayName,
+                        TagCode = GetTagCode(serverNodeTag),
+                        Tag = new ItemConfigTag(0)
+                    };
+
+                    if (GetDataType(serverNodeTag.NodeId, out string dataTypeName, out bool isArray))
+                    {
+                        itemConfig.DataTypeName = dataTypeName;
+                        itemConfig.IsArray = isArray;
+                    }
+
+                    // add monitored item
+                    TreeNode itemNode = CreateItemNode(itemConfig);
+                    tvDevice.Insert(subscriptionNode, itemNode, subscriptionConfig.Items, itemConfig);
+                    startNode ??= itemNode;
+                }
+            }
+            finally
+            {
+                tvDevice.EndUpdate();
+            }
+
+            UpdateTagNums(startNode);
             DeviceConfigModified = true;
         }
 
@@ -926,6 +947,25 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 
         private void miAddAllItems_Click(object sender, EventArgs e)
         {
+            // add all child items to subscription
+            TreeNode selectedNode = tvServer.SelectedNode;
+
+            if (selectedNode?.Tag is ServerNodeTag serverNodeTag &&
+                (serverNodeTag.IsFilled || BrowseServerNode(selectedNode)))
+            {
+                List<ServerNodeTag> childTags = [];
+
+                foreach (TreeNode childNode in selectedNode.Nodes)
+                {
+                    if (childNode.Tag is ServerNodeTag childTag && childTag.ClassIs(NodeClass.Variable))
+                        childTags.Add(childTag);
+                }
+
+                if (childTags.Count > 0)
+                    AddItemsToSubscription(childTags);
+                else
+                    ScadaUiUtils.ShowWarning(DriverPhrases.NoItemsToAdd);
+            }
         }
 
         private void cmsServerItem_Opening(object sender, CancelEventArgs e)
@@ -946,7 +986,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             if (tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag &&
                 serverNodeTag.ClassIs(NodeClass.Variable))
             {
-                AddItemToSubscription(serverNodeTag);
+                AddItemsToSubscription([serverNodeTag]);
             }
         }
 
