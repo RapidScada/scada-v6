@@ -9,6 +9,7 @@ using Scada.Comm.Lang;
 using Scada.Forms;
 using Scada.Lang;
 using Scada.Log;
+using System.ComponentModel;
 
 namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 {
@@ -55,7 +56,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         {
             InitializeComponent();
             HideControls();
-            ctrlSubscription.Top = ctrlItem.Top = ctrlWriteItemCommand.Top = 
+            ctrlEmptyItem.Visible = true;
+            ctrlSubscription.Top = ctrlItem.Top = ctrlWriteItemCommand.Top =
                 ctrlCallMethodCommand.Top = ctrlReadHistoryCommand.Top = ctrlEmptyItem.Top;
         }
 
@@ -295,6 +297,19 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         }
 
         /// <summary>
+        /// Selects a context menu depending on the node class.
+        /// </summary>
+        private ContextMenuStrip SelectContextMenu(NodeClass nodeClass)
+        {
+            if (nodeClass.HasFlag(NodeClass.Object))
+                return cmsServerFolder;
+            else if (nodeClass.HasFlag(NodeClass.Variable) || nodeClass.HasFlag(NodeClass.Method))
+                return cmsServerItem;
+            else
+                return null;
+        }
+
+        /// <summary>
         /// Sets the enabled property of the server browsing buttons.
         /// </summary>
         private void SetServerButtonsEnabled()
@@ -486,6 +501,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                     {
                         TreeNode childNode = TreeViewExtensions.CreateNode(rd.DisplayName, SelectImageKey(rd.NodeClass));
                         childNode.Tag = new ServerNodeTag(rd, opcSession.NamespaceUris);
+                        childNode.ContextMenuStrip = SelectContextMenu(rd.NodeClass);
 
                         // allow to expand any node
                         TreeNode emptyNode = TreeViewExtensions.CreateNode(DriverPhrases.EmptyNode, ImageKey.Empty);
@@ -593,7 +609,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 : new WriteItemCommandConfig()
                 {
                     NodeID = serverNodeTag.NodeIdStr,
-                    DataTypeName = GetDataType(serverNodeTag.NodeId, out string dataTypeName, out _) ? 
+                    DataTypeName = GetDataType(serverNodeTag.NodeId, out string dataTypeName, out _) ?
                         dataTypeName : ""
                 };
 
@@ -861,10 +877,54 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             }
         }
 
+        private void tvServer_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            // select tree node on right click
+            if (e.Button == MouseButtons.Right && e.Node != null)
+                tvServer.SelectedNode = e.Node;
+        }
+
         private void tvServer_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
                 AddItem(tvServer.SelectedNode);
+        }
+
+
+        private void miAddAllItems_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void cmsServerItem_Opening(object sender, CancelEventArgs e)
+        {
+            if (tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag)
+            {
+                bool isVariable = serverNodeTag.ClassIs(NodeClass.Variable);
+                miAddItemToSubscription.Enabled = isVariable;
+                miAddWriteItemCommand.Enabled = isVariable;
+                miAddCallMethodCommand.Enabled = serverNodeTag.ClassIs(NodeClass.Method);
+                miAddReadHistoryCommand.Enabled = isVariable;
+            }
+        }
+
+        private void miAddItemToSubscription_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void miAddWriteItemCommand_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void miAddCallMethodCommand_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void miAddReadHistoryCommand_Click(object sender, EventArgs e)
+        {
+
         }
 
 
