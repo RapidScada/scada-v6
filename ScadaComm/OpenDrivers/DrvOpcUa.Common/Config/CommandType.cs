@@ -10,7 +10,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
     public enum CommandType
     {
         WriteItem,
-        CallMethod,
-        ReadHistory
+        ReadHistory,
+        CallMethod
     }
 }

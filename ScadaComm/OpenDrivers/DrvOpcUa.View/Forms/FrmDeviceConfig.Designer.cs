@@ -595,9 +595,9 @@
             // 
             // cmsServerItem
             // 
-            cmsServerItem.Items.AddRange(new ToolStripItem[] { miAddItemToSubscription, miAddWriteItemCommand, miAddCallMethodCommand, miAddReadHistoryCommand });
+            cmsServerItem.Items.AddRange(new ToolStripItem[] { miAddItemToSubscription, miAddWriteItemCommand, miAddReadHistoryCommand, miAddCallMethodCommand });
             cmsServerItem.Name = "cmsServerVariable";
-            cmsServerItem.Size = new Size(241, 92);
+            cmsServerItem.Size = new Size(241, 114);
             cmsServerItem.Opening += cmsServerItem_Opening;
             // 
             // miAddItemToSubscription

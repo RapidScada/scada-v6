@@ -15,9 +15,9 @@
   </Subscriptions>
   <Commands>
     <Command cmdType="WriteItem" displayName="DoubleDataItem" cmdNum="0" cmdCode="ns=5;s=DoubleDataItem" nodeID="ns=5;s=DoubleDataItem" dataType="System.Double" />
-    <Command cmdType="CallMethod" displayName="MyMethod" cmdNum="0" cmdCode="ns=6;s=MyMethod" nodeID="ns=6;s=MyMethod" parentNodeID="ns=6;s=MyDevice" />
     <Command cmdType="ReadHistory" displayName="Sinusoid.History" cmdNum="0" cmdCode="Sinusoid.History" valuesPerNode="1000">
       <Item nodeID="ns=3;i=1004" />
     </Command>
+    <Command cmdType="CallMethod" displayName="MyMethod" cmdNum="0" cmdCode="ns=6;s=MyMethod" nodeID="ns=6;s=MyMethod" parentNodeID="ns=6;s=MyDevice" />
   </Commands>
 </OpcDeviceConfig>

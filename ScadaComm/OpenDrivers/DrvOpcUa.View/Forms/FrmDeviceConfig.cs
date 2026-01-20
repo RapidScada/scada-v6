@@ -902,8 +902,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 bool isVariable = serverNodeTag.ClassIs(NodeClass.Variable);
                 miAddItemToSubscription.Enabled = isVariable;
                 miAddWriteItemCommand.Enabled = isVariable;
-                miAddCallMethodCommand.Enabled = serverNodeTag.ClassIs(NodeClass.Method);
                 miAddReadHistoryCommand.Enabled = isVariable;
+                miAddCallMethodCommand.Enabled = serverNodeTag.ClassIs(NodeClass.Method);
             }
         }
 
@@ -917,12 +917,12 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 
         }
 
-        private void miAddCallMethodCommand_Click(object sender, EventArgs e)
+        private void miAddReadHistoryCommand_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void miAddReadHistoryCommand_Click(object sender, EventArgs e)
+        private void miAddCallMethodCommand_Click(object sender, EventArgs e)
         {
 
         }
