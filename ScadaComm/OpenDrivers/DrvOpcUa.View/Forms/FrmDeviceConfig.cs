@@ -334,7 +334,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private void SetDeviceButtonsEnabled()
         {
             btnAddItem.Enabled = tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag &&
-                serverNodeTag.ClassIs(NodeClass.Variable, NodeClass.Method);
+                (serverNodeTag.ClassIs(NodeClass.Variable) ||
+                serverNodeTag.ClassIs(NodeClass.Method) && tvDevice.SelectedNode == commandsNode);
 
             bool deviceNodeTagDefined = tvDevice.SelectedNode?.Tag != null;
             btnMoveUpItem.Enabled = deviceNodeTagDefined && tvDevice.SelectedNode.PrevNode != null;
@@ -529,20 +530,26 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// </summary>
         private bool AddItem(TreeNode serverNode)
         {
-            if (serverNode?.Tag is ServerNodeTag serverNodeTag &&
-                serverNodeTag.ClassIs(NodeClass.Variable, NodeClass.Method))
+            if (serverNode?.Tag is ServerNodeTag serverNodeTag)
             {
-                if (TreeViewExtensions.GetTopParentNode(tvDevice.SelectedNode) == commandsNode ||
-                    serverNodeTag.ClassIs(NodeClass.Method))
+                if (TreeViewExtensions.GetTopParentNode(tvDevice.SelectedNode) == commandsNode)
                 {
-                    AddCommand(serverNodeTag, serverNode.Parent?.Tag as ServerNodeTag);
+                    if (serverNodeTag.ClassIs(NodeClass.Method))
+                    {
+                        AddCallMethodCommand(serverNodeTag, serverNode.Parent?.Tag as ServerNodeTag);
+                        return true;
+                    }
+                    else if (serverNodeTag.ClassIs(NodeClass.Variable))
+                    {
+                        AddWriteItemCommand(serverNodeTag);
+                        return true;
+                    }
                 }
-                else
+                else if (serverNodeTag.ClassIs(NodeClass.Variable))
                 {
                     AddItemToSubscription(serverNodeTag);
+                    return true;
                 }
-
-                return true;
             }
 
             return false;
@@ -595,26 +602,43 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         }
 
         /// <summary>
-        /// Adds a new command to the configuration.
+        /// Adds a new command of the WriteItem type to the configuration.
         /// </summary>
-        private void AddCommand(ServerNodeTag serverNodeTag, ServerNodeTag parentServerNodeTag)
+        private void AddWriteItemCommand(ServerNodeTag serverNodeTag)
         {
-            // add new command
-            CommandConfig commandConfig = serverNodeTag.ClassIs(NodeClass.Method)
-                ? new CallMethodCommandConfig()
-                {
-                    NodeID = serverNodeTag.NodeIdStr,
-                    ParentNodeID = parentServerNodeTag == null ? "" : parentServerNodeTag.NodeIdStr
-                }
-                : new WriteItemCommandConfig()
-                {
-                    NodeID = serverNodeTag.NodeIdStr,
-                    DataTypeName = GetDataType(serverNodeTag.NodeId, out string dataTypeName, out _) ?
+            WriteItemCommandConfig commandConfig = new()
+            {
+                DisplayName = serverNodeTag.DisplayName,
+                CmdCode = GetTagCode(serverNodeTag),
+                NodeID = serverNodeTag.NodeIdStr,
+                DataTypeName = GetDataType(serverNodeTag.NodeId, out string dataTypeName, out _) ?
                         dataTypeName : ""
-                };
+            };
 
-            commandConfig.DisplayName = serverNodeTag.DisplayName;
-            commandConfig.CmdCode = GetTagCode(serverNodeTag);
+            tvDevice.Insert(commandsNode, CreateCommandNode(commandConfig), deviceConfig.Commands, commandConfig);
+            DeviceConfigModified = true;
+        }
+
+        /// <summary>
+        /// Adds a new command of the ReadHistory type to the configuration.
+        /// </summary>
+        private void AddReadHistoryCommand(ServerNodeTag serverNodeTag)
+        {
+
+        }
+
+        /// <summary>
+        /// Adds a new command of the CallMethod type to the configuration.
+        /// </summary>
+        private void AddCallMethodCommand(ServerNodeTag serverNodeTag, ServerNodeTag parentServerNodeTag)
+        {
+            CallMethodCommandConfig commandConfig = new()
+            {
+                DisplayName = serverNodeTag.DisplayName,
+                CmdCode = GetTagCode(serverNodeTag),
+                NodeID = serverNodeTag.NodeIdStr,
+                ParentNodeID = parentServerNodeTag == null ? "" : parentServerNodeTag.NodeIdStr
+            };
 
             tvDevice.Insert(commandsNode, CreateCommandNode(commandConfig), deviceConfig.Commands, commandConfig);
             DeviceConfigModified = true;
@@ -897,6 +921,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 
         private void cmsServerItem_Opening(object sender, CancelEventArgs e)
         {
+            // enable or disable menu items
             if (tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag)
             {
                 bool isVariable = serverNodeTag.ClassIs(NodeClass.Variable);
@@ -909,22 +934,38 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 
         private void miAddItemToSubscription_Click(object sender, EventArgs e)
         {
-
+            if (tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag &&
+                serverNodeTag.ClassIs(NodeClass.Variable))
+            {
+                AddItemToSubscription(serverNodeTag);
+            }
         }
 
         private void miAddWriteItemCommand_Click(object sender, EventArgs e)
         {
-
+            if (tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag &&
+                serverNodeTag.ClassIs(NodeClass.Variable))
+            {
+                AddWriteItemCommand(serverNodeTag);
+            }
         }
 
         private void miAddReadHistoryCommand_Click(object sender, EventArgs e)
         {
-
+            if (tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag &&
+                serverNodeTag.ClassIs(NodeClass.Variable))
+            {
+                AddReadHistoryCommand(serverNodeTag);
+            }
         }
 
         private void miAddCallMethodCommand_Click(object sender, EventArgs e)
         {
-
+            if (tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag &&
+                serverNodeTag.ClassIs(NodeClass.Method))
+            {
+                AddCallMethodCommand(serverNodeTag, tvServer.SelectedNode.Parent?.Tag as ServerNodeTag);
+            }
         }
 
 
