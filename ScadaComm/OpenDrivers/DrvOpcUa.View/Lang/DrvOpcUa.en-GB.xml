@@ -78,10 +78,12 @@
     <Phrase key="btnSave">Save</Phrase>
     <Phrase key="btnClose">Close</Phrase>
     <Phrase key="miAddAllItems">Add All Items</Phrase>
+    <Phrase key="miViewFolderAttrs">View Attributes...</Phrase>
     <Phrase key="miAddItemToSubscription">Add Item to Subscription</Phrase>
     <Phrase key="miAddWriteItemCommand">Add Write Item Command</Phrase>
     <Phrase key="miAddReadHistoryCommand">Add Read History Command</Phrase>
     <Phrase key="miAddCallMethodCommand">Add Call Method Command</Phrase>
+    <Phrase key="miViewItemAttrs">View Attributes...</Phrase>
     <Phrase key="ConnectServerError">Error connecting to OPC server</Phrase>
     <Phrase key="DisconnectServerError">Error disconnecting from OPC server</Phrase>
     <Phrase key="BrowseServerError">Error browsing OPC server item</Phrase>

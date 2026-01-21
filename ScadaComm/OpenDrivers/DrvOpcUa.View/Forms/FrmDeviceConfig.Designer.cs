@@ -76,11 +76,14 @@
             ctrlWriteItemCommand = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlWriteItemCommand();
             cmsServerFolder = new ContextMenuStrip(components);
             miAddAllItems = new ToolStripMenuItem();
+            miViewFolderAttrs = new ToolStripMenuItem();
             cmsServerItem = new ContextMenuStrip(components);
             miAddItemToSubscription = new ToolStripMenuItem();
             miAddWriteItemCommand = new ToolStripMenuItem();
             miAddReadHistoryCommand = new ToolStripMenuItem();
             miAddCallMethodCommand = new ToolStripMenuItem();
+            miItemSep1 = new ToolStripSeparator();
+            miViewItemAttrs = new ToolStripMenuItem();
             gbDevice.SuspendLayout();
             gbServerBrowse.SuspendLayout();
             gbConnectionOptions.SuspendLayout();
@@ -582,42 +585,49 @@
             // 
             // cmsServerFolder
             // 
-            cmsServerFolder.Items.AddRange(new ToolStripItem[] { miAddAllItems });
+            cmsServerFolder.Items.AddRange(new ToolStripItem[] { miAddAllItems, miViewFolderAttrs });
             cmsServerFolder.Name = "cmsServerObject";
-            cmsServerFolder.Size = new Size(146, 26);
+            cmsServerFolder.Size = new Size(164, 48);
             // 
             // miAddAllItems
             // 
             miAddAllItems.Name = "miAddAllItems";
-            miAddAllItems.Size = new Size(145, 22);
+            miAddAllItems.Size = new Size(154, 22);
             miAddAllItems.Text = "Add All Items";
             miAddAllItems.Click += miAddAllItems_Click;
             // 
+            // miViewFolderAttrs
+            // 
+            miViewFolderAttrs.Name = "miViewFolderAttrs";
+            miViewFolderAttrs.Size = new Size(163, 22);
+            miViewFolderAttrs.Text = "View Attributes...";
+            miViewFolderAttrs.Click += btnViewAttrs_Click;
+            // 
             // cmsServerItem
             // 
-            cmsServerItem.Items.AddRange(new ToolStripItem[] { miAddItemToSubscription, miAddWriteItemCommand, miAddReadHistoryCommand, miAddCallMethodCommand });
+            cmsServerItem.Items.AddRange(new ToolStripItem[] { miAddItemToSubscription, miAddWriteItemCommand, miAddReadHistoryCommand, miAddCallMethodCommand, miItemSep1, miViewItemAttrs });
             cmsServerItem.Name = "cmsServerVariable";
-            cmsServerItem.Size = new Size(227, 114);
+            cmsServerItem.Size = new Size(227, 142);
             cmsServerItem.Opening += cmsServerItem_Opening;
             // 
             // miAddItemToSubscription
             // 
             miAddItemToSubscription.Name = "miAddItemToSubscription";
-            miAddItemToSubscription.Size = new Size(238, 22);
+            miAddItemToSubscription.Size = new Size(226, 22);
             miAddItemToSubscription.Text = "Add Item to Subscription";
             miAddItemToSubscription.Click += miAddItemToSubscription_Click;
             // 
             // miAddWriteItemCommand
             // 
             miAddWriteItemCommand.Name = "miAddWriteItemCommand";
-            miAddWriteItemCommand.Size = new Size(238, 22);
+            miAddWriteItemCommand.Size = new Size(226, 22);
             miAddWriteItemCommand.Text = "Add Write Item Command";
             miAddWriteItemCommand.Click += miAddWriteItemCommand_Click;
             // 
             // miAddReadHistoryCommand
             // 
             miAddReadHistoryCommand.Name = "miAddReadHistoryCommand";
-            miAddReadHistoryCommand.Size = new Size(238, 22);
+            miAddReadHistoryCommand.Size = new Size(226, 22);
             miAddReadHistoryCommand.Text = "Add Read History Command";
             miAddReadHistoryCommand.Click += miAddReadHistoryCommand_Click;
             // 
@@ -627,6 +637,18 @@
             miAddCallMethodCommand.Size = new Size(226, 22);
             miAddCallMethodCommand.Text = "Add Call Method Command";
             miAddCallMethodCommand.Click += miAddCallMethodCommand_Click;
+            // 
+            // miItemSep1
+            // 
+            miItemSep1.Name = "miItemSep1";
+            miItemSep1.Size = new Size(223, 6);
+            // 
+            // miViewItemAttrs
+            // 
+            miViewItemAttrs.Name = "miViewItemAttrs";
+            miViewItemAttrs.Size = new Size(226, 22);
+            miViewItemAttrs.Text = "View Attributes...";
+            miViewItemAttrs.Click += btnViewAttrs_Click;
             // 
             // FrmDeviceConfig
             // 
@@ -720,5 +742,8 @@
         private ToolStripMenuItem miAddWriteItemCommand;
         private ToolStripMenuItem miAddCallMethodCommand;
         private ToolStripMenuItem miAddReadHistoryCommand;
+        private ToolStripMenuItem miViewFolderAttrs;
+        private ToolStripSeparator miItemSep1;
+        private ToolStripMenuItem miViewItemAttrs;
     }
 }

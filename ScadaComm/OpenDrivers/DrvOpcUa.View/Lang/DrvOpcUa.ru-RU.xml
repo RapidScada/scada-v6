@@ -68,7 +68,7 @@
     <Phrase key="gbServerBrowse">Обзор сервера</Phrase>
     <Phrase key="btnConnect.ToolTip">Соединиться с сервером</Phrase>
     <Phrase key="btnDisconnect.ToolTip">Разъединиться с сервером</Phrase>
-    <Phrase key="btnViewAttrs.ToolTip">Просмотреть атрибуты</Phrase>
+    <Phrase key="btnViewAttrs.ToolTip">Смотреть атрибуты</Phrase>
     <Phrase key="gbDevice">Конфигурация устройства</Phrase>
     <Phrase key="btnAddItem.ToolTip">Добавить выбранный элемент</Phrase>
     <Phrase key="btnAddSubscription.ToolTip">Добавить подписку</Phrase>
@@ -79,10 +79,12 @@
     <Phrase key="btnSave">Сохранить</Phrase>
     <Phrase key="btnClose">Закрыть</Phrase>
     <Phrase key="miAddAllItems">Добавить все элементы</Phrase>
+    <Phrase key="miViewFolderAttrs">Смотреть атрибуты...</Phrase>
     <Phrase key="miAddItemToSubscription">Добавить элемент в подписку</Phrase>
     <Phrase key="miAddWriteItemCommand">Добавить команду записи элемента</Phrase>
     <Phrase key="miAddReadHistoryCommand">Добавить команду чтения истории</Phrase>
     <Phrase key="miAddCallMethodCommand">Добавить команду вызова метода</Phrase>
+    <Phrase key="miViewItemAttrs">Смотреть атрибуты...</Phrase>
     <Phrase key="ConnectServerError">Ошибка при соединении с OPC-сервером</Phrase>
     <Phrase key="DisconnectServerError">Ошибка при разъединении с OPC-сервером</Phrase>
     <Phrase key="BrowseServerError">Ошибка при обзоре элемента OPC-сервера</Phrase>
