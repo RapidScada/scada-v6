@@ -269,22 +269,6 @@ rs.mimic.MimicBase = class {
         this.faceplateMap = new Map();
         this.children = [];
     }
-
-    // Checks whether the specified type name represents a faceplate.
-    isFaceplateType(typeName) {
-        return this.faceplateMap?.has(typeName);
-    }
-
-    // Gets the component factory for the specified type, or null if not found.
-    getComponentFactory(typeName) {
-        return rs.mimic.FactorySet.getComponentFactory(typeName, this.faceplateMap);
-    }
-
-    // Creates a component instance based on the source object. Returns null if the component factory is not found.
-    createComponent(source) {
-        let factory = this.getComponentFactory(source.typeName);
-        return factory?.createComponentFromSource(source);
-    }
 };
 
 // Represents a mimic diagram.
@@ -544,6 +528,13 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         this.script = null;
     }
 
+    // Sets the specified properties of the document.
+    setProperties(sourceProps) {
+        if (this.document) {
+            Object.assign(this.document, sourceProps);
+        }
+    }
+
     // Loads the mimic. Returns a LoadResult.
     async load(controllerUrl, mimicKey) {
         let startTime = Date.now();
@@ -628,6 +619,22 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
             this.images.splice(index, 1); // delete
             this.imageMap.delete(imageName);
         }
+    }
+
+    // Checks whether the specified type name represents a faceplate.
+    isFaceplateType(typeName) {
+        return this.faceplateMap?.has(typeName);
+    }
+
+    // Gets the component factory for the specified type, or null if not found.
+    getComponentFactory(typeName) {
+        return rs.mimic.FactorySet.getComponentFactory(typeName, this.faceplateMap);
+    }
+
+    // Creates a component instance based on the source object. Returns null if the component factory is not found.
+    createComponent(source) {
+        let factory = this.getComponentFactory(source.typeName);
+        return factory?.createComponentFromSource(source);
     }
 
     // Adds the component to the mimic. Returns true if the component was added.
@@ -893,6 +900,13 @@ rs.mimic.Component = class {
         }
     }
 
+    // Sets the specified properties.
+    setProperties(sourceProps) {
+        if (this.properties) {
+            Object.assign(this.properties, sourceProps);
+        }
+    }
+
     // Gets all child components as a flat array.
     getAllChildren() {
         let allChildren = [];
@@ -1141,6 +1155,18 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 
     get isFaceplate() {
         return true;
+    }
+
+    setProperties(sourceProps) {
+        super.setProperties(sourceProps);
+
+        if (this.model) {
+            for (let propertyExport of this.model.propertyExports) {
+                if (Object.hasOwn(sourceProps, propertyExport.name)) {
+                    this.setTargetPropertyValue(propertyExport, sourceProps[propertyExport.name]);
+                }
+            }
+        }
     }
 
     // Gets the value of the target property specified by the export path.
