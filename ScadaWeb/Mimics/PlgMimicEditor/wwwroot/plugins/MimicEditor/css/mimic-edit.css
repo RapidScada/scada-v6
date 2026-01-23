@@ -217,6 +217,7 @@
 .image-preview {
   max-height: 100px;
   max-width: 100px;
+  min-width: 20px;
   width: fit-content;
 }
 
