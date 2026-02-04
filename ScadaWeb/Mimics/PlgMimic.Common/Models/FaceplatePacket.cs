@@ -21,7 +21,7 @@ namespace Scada.Web.Plugins.PlgMimic.Models
             ArgumentNullException.ThrowIfNull(faceplate, nameof(faceplate));
             Dependencies = faceplate.Dependencies;
             Document = faceplate.Document;
-            Components = faceplate.Components;
+            Components = faceplate.EnumerateComponents().ToList();
             Images = faceplate.Images;
         }
 

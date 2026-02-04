@@ -183,5 +183,21 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             Components.Clear();
             Images.Clear();
         }
+
+        /// <summary>
+        /// Enumerates the components recursively.
+        /// </summary>
+        public IEnumerable<Component> EnumerateComponents()
+        {
+            foreach (Component component in Components)
+            {
+                yield return component;
+
+                foreach (Component childComponent in component.GetAllChildren())
+                {
+                    yield return childComponent;
+                }
+            }
+        }
     }
 }
