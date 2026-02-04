@@ -42,6 +42,13 @@
     <Phrase key="ImagesNode">Изображения</Phrase>
     <Phrase key="NoImagePreview">Изображение отсутствует</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ColorModal">
+    <Phrase key="PageTitle">Цвет</Phrase>
+    <Phrase key="RequiredField">Заполните это поле.</Phrase>
+    <Phrase key="lblColor">Наименование или код цвета</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.FaceplateModal">
     <Phrase key="PageTitle">Фейсплейт</Phrase>
     <Phrase key="RequiredField">Заполните это поле.</Phrase>

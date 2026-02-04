@@ -32,6 +32,17 @@ class ModalBase {
     }
 }
 
+// Represents a modal dialog for choosing a color.
+class ColorModal extends ModalBase {
+    constructor(elemID) {
+        super(elemID);
+        this._bindEvents();
+    }
+
+    _bindEvents() {
+    }
+}
+
 // Represents a modal dialog for editing a faceplate meta.
 class FaceplateModal extends ModalBase {
     constructor(elemID) {
