@@ -45,6 +45,18 @@
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ColorModal">
     <Phrase key="PageTitle">Color</Phrase>
     <Phrase key="lblColor">Color name or hex code</Phrase>
+    <Phrase key="lblKnownColors">Known colors</Phrase>
+    <Phrase key="thRecentColors">Recent</Phrase>
+    <Phrase key="thRedColors">Red</Phrase>
+    <Phrase key="thPinkColors">Pink</Phrase>
+    <Phrase key="thOrangeColors">Orange</Phrase>
+    <Phrase key="thYellowColors">Yellow</Phrase>
+    <Phrase key="thPurpleColors">Purple</Phrase>
+    <Phrase key="thGreenColors">Green</Phrase>
+    <Phrase key="thBlueColors">Blue</Phrase>
+    <Phrase key="thBrownColors">Brown</Phrase>
+    <Phrase key="thWhiteColors">White</Phrase>
+    <Phrase key="thGrayColors">Gray</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>

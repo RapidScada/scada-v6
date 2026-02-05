@@ -29,6 +29,16 @@
   min-width: 75px;
 }
 
+#divColorModal .container-fluid {
+  height: 300px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+#divColorModal .rounded-circle {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
 #divImageModal .card img {
   max-height: 200px;
   width: fit-content;

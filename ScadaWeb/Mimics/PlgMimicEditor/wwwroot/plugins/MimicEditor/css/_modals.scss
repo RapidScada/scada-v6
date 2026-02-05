@@ -4,6 +4,19 @@
     }
 }
 
+#divColorModal {
+    .container-fluid {
+        height: 300px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .rounded-circle {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+}
+
 #divImageModal {
     .card img {
         max-height: 200px;

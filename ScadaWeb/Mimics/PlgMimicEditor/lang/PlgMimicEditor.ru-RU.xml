@@ -45,6 +45,18 @@
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ColorModal">
     <Phrase key="PageTitle">Цвет</Phrase>
     <Phrase key="lblColor">Наименование или код цвета</Phrase>
+    <Phrase key="lblKnownColors">Известные цвета</Phrase>
+    <Phrase key="thRecentColors">Недавние</Phrase>
+    <Phrase key="thRedColors">Красные</Phrase>
+    <Phrase key="thPinkColors">Розовые</Phrase>
+    <Phrase key="thOrangeColors">Оранжевые</Phrase>
+    <Phrase key="thYellowColors">Жёлтые</Phrase>
+    <Phrase key="thPurpleColors">Фиолетовые</Phrase>
+    <Phrase key="thGreenColors">Зелёные</Phrase>
+    <Phrase key="thBlueColors">Синие</Phrase>
+    <Phrase key="thBrownColors">Коричнивые</Phrase>
+    <Phrase key="thWhiteColors">Белые</Phrase>
+    <Phrase key="thGrayColors">Серые</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
