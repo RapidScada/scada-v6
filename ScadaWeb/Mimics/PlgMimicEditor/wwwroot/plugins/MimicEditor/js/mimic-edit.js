@@ -303,7 +303,7 @@ function initPropGrid() {
 function initModals() {
     faceplateModal = new FaceplateModal("divFaceplateModal");
     imageModal = new ImageModal("divImageModal");
-    PropGridDialogs.colorModal = new FontModal("divColorModal");
+    PropGridDialogs.colorModal = new ColorModal("divColorModal");
     PropGridDialogs.fontModal = new FontModal("divFontModal");
     PropGridDialogs.textEditor = new TextEditor("divTextEditor");
 }

@@ -839,8 +839,33 @@ class ModalBase {
 
     constructor(elemID) {
         this._elem = $("#" + elemID);
+
+        if (this._elem.length === 0) {
+            throw new Error(`Modal #${elemID} not found.`);
+        }
+
         this._modal = new bootstrap.Modal(this._elem[0]);
         this._context = new ModalContext();
+        this._bindEvents();
+    }
+
+    _bindEvents() {
+        this._elem.find("form:first").on("submit", (event) => {
+            this._elem.find(".modal-footer .btn-primary:first").trigger("click");
+            event.preventDefault();
+        });
+
+        this._elem
+            .on("shown.bs.modal", () => {
+                this._setFocus();
+            })
+            .on("hidden.bs.modal", () => {
+                this._invokeCallback();
+            });
+    }
+
+    _setFocus() {
+        // do nothing
     }
 
     _invokeCallback() {
@@ -852,12 +877,28 @@ class ModalBase {
 
 // Represents a modal dialog for choosing a color.
 class ColorModal extends ModalBase {
-    constructor(elemID) {
-        super(elemID);
-        this._bindEvents();
+    _bindEvents() {
+        super._bindEvents();
+
+        $("#colorModal_btnOK").on("click", () => {
+            this._context.newValue = $("#colorModal_txtColor").val();
+            this._context.result = true;
+            this._modal.hide();
+        });
     }
 
-    _bindEvents() {
+    _setFocus() {
+        $("#colorModal_txtColor").focus();
+    }
+
+    show(color, callback) {
+        this._context = new ModalContext({
+            oldValue: color,
+            callback: callback
+        });
+
+        $("#colorModal_txtColor").val(color);
+        this._modal.show();
     }
 }
 
@@ -1836,9 +1877,9 @@ class PropGridDialogs {
 
             switch (propertyDescriptor.editor) {
                 case PropertyEditor.COLOR_DIALOG:
-                    //PropGridDialogs.colorModal?.show(propertyValue, options, (modalContext) => {
-                    //    PropGridDialogs._invokeCallback(modalContext, callback);
-                    //});
+                    PropGridDialogs.colorModal?.show(propertyValue, (modalContext) => {
+                        PropGridDialogs._invokeCallback(modalContext, callback);
+                    });
                     break;
 
                 case PropertyEditor.FONT_DIALOG:

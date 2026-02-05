@@ -653,9 +653,9 @@ class PropGridDialogs {
 
             switch (propertyDescriptor.editor) {
                 case PropertyEditor.COLOR_DIALOG:
-                    //PropGridDialogs.colorModal?.show(propertyValue, options, (modalContext) => {
-                    //    PropGridDialogs._invokeCallback(modalContext, callback);
-                    //});
+                    PropGridDialogs.colorModal?.show(propertyValue, (modalContext) => {
+                        PropGridDialogs._invokeCallback(modalContext, callback);
+                    });
                     break;
 
                 case PropertyEditor.FONT_DIALOG:
