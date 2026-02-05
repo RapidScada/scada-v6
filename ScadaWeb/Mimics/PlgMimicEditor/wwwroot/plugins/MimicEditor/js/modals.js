@@ -86,16 +86,8 @@ class ColorModal extends ModalBase {
 
 // Represents a modal dialog for editing a faceplate meta.
 class FaceplateModal extends ModalBase {
-    constructor(elemID) {
-        super(elemID);
-        this._bindEvents();
-    }
-
     _bindEvents() {
-        $("#frmFaceplateModal").on("submit", () => {
-            $("#faceplateModal_btnOK").trigger("click");
-            return false;
-        });
+        super._bindEvents();
 
         $("#faceplateModal_btnOK").on("click", () => {
             let formElem = $("#frmFaceplateModal");
@@ -108,14 +100,10 @@ class FaceplateModal extends ModalBase {
 
             formElem.addClass("was-validated");
         });
+    }
 
-        this._elem
-            .on("shown.bs.modal", () => {
-                $("#faceplateModal_txtTypeName").focus();
-            })
-            .on("hidden.bs.modal", () => {
-                this._invokeCallback();
-            });
+    _setFocus() {
+        $("#faceplateModal_txtTypeName").focus();
     }
 
     _showFields(faceplateMeta) {
@@ -146,16 +134,8 @@ class FaceplateModal extends ModalBase {
 
 // Represents a modal dialog for editing a font.
 class FontModal extends ModalBase {
-    constructor(elemID) {
-        super(elemID);
-        this._bindEvents();
-    }
-
     _bindEvents() {
-        $("#frmFontModal").on("submit", () => {
-            $("#fontModal_btnOK").trigger("click");
-            return false;
-        });
+        super._bindEvents();
 
         $("#fontModal_btnOK").on("click", () => {
             this._readFields(this._context.newValue);
@@ -167,14 +147,10 @@ class FontModal extends ModalBase {
             let inherit = $(event.target).prop("checked");
             $("#fontModal_fsProps").prop("disabled", inherit);
         });
+    }
 
-        this._elem
-            .on("shown.bs.modal", () => {
-                $("#fontModal_chkInherit").focus();
-            })
-            .on("hidden.bs.modal", () => {
-                this._invokeCallback();
-            });
+    _setFocus() {
+        $("#fontModal_chkInherit").focus();
     }
 
     _showFields(font) {
@@ -211,16 +187,8 @@ class FontModal extends ModalBase {
 
 // Represents a modal dialog for editing an image.
 class ImageModal extends ModalBase {
-    constructor(elemID) {
-        super(elemID);
-        this._bindEvents();
-    }
-
     _bindEvents() {
-        $("#frmImageModal").on("submit", () => {
-            $("#imageModal_btnOK").trigger("click");
-            return false;
-        });
+        super._bindEvents();
 
         $("#imageModal_btnOK").on("click", () => {
             let formElem = $("#frmImageModal");
@@ -250,14 +218,10 @@ class ImageModal extends ModalBase {
                 this._uploadImage(file);
             }
         });
+    }
 
-        this._elem
-            .on("shown.bs.modal", () => {
-                $("#imageModal_txtName").focus();
-            })
-            .on("hidden.bs.modal", () => {
-                this._invokeCallback();
-            });
+    _setFocus() {
+        $("#imageModal_txtName").focus();
     }
 
     _showFields(image) {
@@ -349,23 +313,20 @@ class TextEditor extends ModalBase {
         super(elemID);
         let editorElem = $("#textEditor_divEditor");
         this._flask = new CodeFlask(editorElem[0], TextEditor.DEFAULT_OPTIONS);
-        this._bindEvents();
     }
 
     _bindEvents() {
+        super._bindEvents();
+
         $("#textEditor_btnOK").on("click", () => {
             this._context.newValue = this._flask.getCode();
             this._context.result = true;
             this._modal.hide();
         });
+    }
 
-        this._elem
-            .on("shown.bs.modal", () => {
-                $("#textEditor_divEditor textarea").focus();
-            })
-            .on("hidden.bs.modal", () => {
-                this._invokeCallback();
-            });
+    _setFocus() {
+        $("#textEditor_divEditor textarea").focus();
     }
 
     _showLanguage(language) {
