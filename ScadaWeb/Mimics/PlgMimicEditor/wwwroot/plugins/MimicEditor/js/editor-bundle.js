@@ -877,15 +877,29 @@ class ModalBase {
 
 // Represents a modal dialog for choosing a color.
 class ColorModal extends ModalBase {
+    static _RECENT_COLOR_COUNT = 5;
+
+    _recentColors = [];
     _colorsFilled = false;
 
     _bindEvents() {
         super._bindEvents();
 
         $("#colorModal_btnOK").on("click", () => {
-            this._context.newValue = $("#colorModal_txtColor").val();
+            let color = $("#colorModal_txtColor").val();
+            this._addRecentColor(color);
+            this._context.newValue = color;
             this._context.result = true;
             this._modal.hide();
+        });
+
+        $("#colorModal_divKnownColors table").on("click", "tr", (event) => {
+            let rowElem = $(event.currentTarget);
+            let color = rowElem.data("color");
+
+            if (color?.name) {
+                $("#colorModal_txtColor").val(color.name);
+            }
         });
     }
 
@@ -894,13 +908,18 @@ class ColorModal extends ModalBase {
     }
 
     _fillRecentColors() {
-
+        this._fillColorTable("colorModal_tblRecentColors",
+            this._recentColors.map(color => {
+                return { name: color, hex: "" };
+            }));
     }
 
     _fillNamedColors() {
         if (this._colorsFilled) {
             return;
         }
+
+        // colors taken from https://htmlcolorcodes.com/color-names/
 
         const redColors = [
             { name: "IndianRed", hex: "#CD5C5C" },
@@ -1090,14 +1109,33 @@ class ColorModal extends ModalBase {
 
     _fillColorTable(tableID, colors) {
         let tableElem = $("#" + tableID);
-        tableElem.remove("tbody"); // remove table body if exists
+        tableElem.prop("hidden", colors.length === 0);
+        tableElem.find("tbody").remove(); // remove table body if exists
         let tbodyElem = $("<tbody></tbody>").appendTo(tableElem);
 
         for (let color of colors) {
-            let rowElem = $("<tr></tr>").appendTo(tbodyElem);
-            $(`<td><div class="rounded-circle" style="background-color:${color.hex}"></div></td>`).appendTo(rowElem);
+            let rowElem = $("<tr></tr>").data("color", color).appendTo(tbodyElem);
+            $(`<td><div class="rounded-circle" style="background-color:${color.name}"></div></td>`).appendTo(rowElem);
             $("<td></td>").text(color.name).appendTo(rowElem);
             $("<td></td>").text(color.hex).appendTo(rowElem);
+        }
+
+    }
+
+    _addRecentColor(color) {
+        if (color) {
+            let newRecentColors = [color];
+            let colorIndex = 0;
+
+            while (colorIndex < this._recentColors.length && newRecentColors.length < ColorModal._RECENT_COLOR_COUNT) {
+                let recentColor = this._recentColors[colorIndex++];
+
+                if (recentColor !== color) {
+                    newRecentColors.push(recentColor);
+                }
+            }
+
+            this._recentColors = newRecentColors;
         }
     }
 

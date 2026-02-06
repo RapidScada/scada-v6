@@ -11,6 +11,20 @@
         overflow-y: auto;
     }
 
+    #colorModal_divKnownColors .table {
+        td:nth-child(1) {
+            width: 10%;
+        }
+
+        td:nth-child(2) {
+            width: 50%;
+        }
+
+        td:nth-child(3) {
+            width: 40%;
+        }
+    }
+
     .rounded-circle {
         width: 1.5rem;
         height: 1.5rem;
