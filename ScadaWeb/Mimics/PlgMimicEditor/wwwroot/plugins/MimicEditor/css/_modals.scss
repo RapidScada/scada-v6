@@ -12,6 +12,15 @@
     }
 
     #colorModal_divKnownColors .table {
+        tr {
+            cursor: default;
+
+            &.rs-selected td {
+                background-color: var(--bs-primary);
+                color: var(--bs-white);
+            }
+        }
+
         td:nth-child(1) {
             width: 10%;
         }

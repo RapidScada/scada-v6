@@ -858,6 +858,7 @@ class ModalBase {
         this._elem
             .on("shown.bs.modal", () => {
                 this._setFocus();
+                this._handleShown();
             })
             .on("hidden.bs.modal", () => {
                 this._invokeCallback();
@@ -865,6 +866,10 @@ class ModalBase {
     }
 
     _setFocus() {
+        // do nothing
+    }
+
+    _handleShown() {
         // do nothing
     }
 
@@ -898,6 +903,7 @@ class ColorModal extends ModalBase {
             let color = rowElem.data("color");
 
             if (color?.name) {
+                this._selectRow(rowElem);
                 $("#colorModal_txtColor").val(color.name);
             }
         });
@@ -905,6 +911,11 @@ class ColorModal extends ModalBase {
 
     _setFocus() {
         $("#colorModal_txtColor").focus();
+    }
+
+    _handleShown() {
+        let color = $("#colorModal_txtColor").val();
+        this._selectColor(color);
     }
 
     _fillRecentColors() {
@@ -1119,7 +1130,35 @@ class ColorModal extends ModalBase {
             $("<td></td>").text(color.name).appendTo(rowElem);
             $("<td></td>").text(color.hex).appendTo(rowElem);
         }
+    }
 
+    _selectColor(color) {
+        let rowToSelect = null;
+
+        if (color) {
+            $("#colorModal_divKnownColors table tr").each((index, element) => {
+                let rowElem = $(element);
+                let colorObj = rowElem.data("color");
+
+                if (colorObj && (colorObj.name === color || colorObj.hex === color)) {
+                    rowToSelect = rowElem;
+                    return false; // break loop
+                }
+            });
+        }
+
+        this._selectRow(rowToSelect);
+
+        if (rowToSelect) {
+            rowToSelect[0].scrollIntoView(false);
+        } else {
+            $("#colorModal_divKnownColors").scrollTop(0);
+        }
+    }
+
+    _selectRow(rowElem) {
+        $("#colorModal_divKnownColors table tr").removeClass("rs-selected");
+        rowElem?.addClass("rs-selected");
     }
 
     _addRecentColor(color) {

@@ -34,6 +34,13 @@
   overflow-x: hidden;
   overflow-y: auto;
 }
+#divColorModal #colorModal_divKnownColors .table tr {
+  cursor: default;
+}
+#divColorModal #colorModal_divKnownColors .table tr.rs-selected td {
+  background-color: var(--bs-primary);
+  color: var(--bs-white);
+}
 #divColorModal #colorModal_divKnownColors .table td:nth-child(1) {
   width: 10%;
 }
