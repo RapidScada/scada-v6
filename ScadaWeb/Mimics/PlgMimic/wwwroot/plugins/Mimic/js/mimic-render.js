@@ -395,9 +395,7 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
                 scale.setValue(scaleValue);
             }
 
-            mimic.dom.css({
-                "transform": `scale(${scale.value})`
-            });
+            mimic.dom.css("zoom", scale.value);
         }
     }
 };
