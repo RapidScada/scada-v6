@@ -593,6 +593,13 @@ class ImageModal extends ModalBase {
 
 // Represents a modal dialog for choosing an image.
 class ImageSelectModal extends ModalBase {
+    _mimic = null;
+
+    constructor(elemID, mimic) {
+        super(elemID);
+        this._mimic = mimic;
+    }
+
     _bindEvents() {
         super._bindEvents();
 

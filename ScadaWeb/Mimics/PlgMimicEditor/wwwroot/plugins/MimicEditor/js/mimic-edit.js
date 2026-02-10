@@ -305,7 +305,7 @@ function initModals() {
     imageModal = new ImageModal("divImageModal");
     PropGridDialogs.colorModal = new ColorModal("divColorModal");
     PropGridDialogs.fontModal = new FontModal("divFontModal");
-    PropGridDialogs.imageSelectModal = new ImageSelectModal("divImageSelectModal");
+    PropGridDialogs.imageSelectModal = new ImageSelectModal("divImageSelectModal", mimic);
     PropGridDialogs.textEditor = new TextEditor("divTextEditor");
 }
 

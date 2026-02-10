@@ -1411,6 +1411,13 @@ class ImageModal extends ModalBase {
 
 // Represents a modal dialog for choosing an image.
 class ImageSelectModal extends ModalBase {
+    _mimic = null;
+
+    constructor(elemID, mimic) {
+        super(elemID);
+        this._mimic = mimic;
+    }
+
     _bindEvents() {
         super._bindEvents();
 
@@ -2155,31 +2162,31 @@ class PropGridDialogs {
 
             switch (propertyDescriptor.editor) {
                 case PropertyEditor.COLOR_DIALOG:
-                    PropGridDialogs.colorModal?.show(propertyValue, (modalContext) => {
+                    PropGridDialogs.colorModal?.show(propertyValue, modalContext => {
                         PropGridDialogs._invokeCallback(modalContext, callback);
                     });
                     break;
 
                 case PropertyEditor.FONT_DIALOG:
-                    PropGridDialogs.fontModal?.show(propertyValue, (modalContext) => {
+                    PropGridDialogs.fontModal?.show(propertyValue, modalContext => {
                         PropGridDialogs._invokeCallback(modalContext, callback);
                     });
                     break;
 
                 case PropertyEditor.IMAGE_DIALOG:
-                    PropGridDialogs.imageSelectModal?.show(propertyValue, (modalContext) => {
+                    PropGridDialogs.imageSelectModal?.show(propertyValue, modalContext => {
                         PropGridDialogs._invokeCallback(modalContext, callback);
                     });
                     break;
 
                 case PropertyEditor.PROPERTY_DIALOG:
-                    //PropGridDialogs.propertyModal?.show(propertyValue, options, (modalContext) => {
+                    //PropGridDialogs.propertyModal?.show(propertyValue, options, modalContext => {
                     //    PropGridDialogs._invokeCallback(modalContext, callback);
                     //});
                     break;
 
                 case PropertyEditor.TEXT_EDITOR:
-                    PropGridDialogs.textEditor?.show(propertyValue, options, (modalContext) => {
+                    PropGridDialogs.textEditor?.show(propertyValue, options, modalContext => {
                         PropGridDialogs._invokeCallback(modalContext, callback);
                     });
                     break;
