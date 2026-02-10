@@ -621,7 +621,7 @@ class PropGridHelper {
 class PropGridDialogs {
     static colorModal = null;
     static fontModal = null;
-    static imageModal = null;
+    static imageSelectModal = null;
     static propertyModal = null;
     static textEditor = null;
 
@@ -639,7 +639,7 @@ class PropGridDialogs {
         return editor &&
             editor === PropertyEditor.COLOR_DIALOG && PropGridDialogs.colorModal ||
             editor === PropertyEditor.FONT_DIALOG && PropGridDialogs.fontModal ||
-            editor === PropertyEditor.IMAGE_DIALOG && PropGridDialogs.imageModal ||
+            editor === PropertyEditor.IMAGE_DIALOG && PropGridDialogs.imageSelectModal ||
             editor === PropertyEditor.PROPERTY_DIALOG && PropGridDialogs.propertyModal ||
             editor === PropertyEditor.TEXT_EDITOR && PropGridDialogs.textEditor;
     }
@@ -665,9 +665,9 @@ class PropGridDialogs {
                     break;
 
                 case PropertyEditor.IMAGE_DIALOG:
-                    //PropGridDialogs.imageModal?.show(propertyValue, options, (modalContext) => {
-                    //    PropGridDialogs._invokeCallback(modalContext, callback);
-                    //});
+                    PropGridDialogs.imageSelectModal?.show(propertyValue, (modalContext) => {
+                        PropGridDialogs._invokeCallback(modalContext, callback);
+                    });
                     break;
 
                 case PropertyEditor.PROPERTY_DIALOG:

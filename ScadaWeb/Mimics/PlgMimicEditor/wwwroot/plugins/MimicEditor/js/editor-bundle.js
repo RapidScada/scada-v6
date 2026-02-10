@@ -816,7 +816,8 @@ class MimicClipboard {
     }
 }
 
-// Contains classes: ModalContext, ModalBase, ColorModal, FaceplateModal, FontModal, ImageModal, TextEditor
+// Contains classes: ModalContext, ModalBase, ColorModal, FaceplateModal, FontModal,
+//     ImageModal, ImageSelectModal, TextEditor
 // Depends on jquery, bootstrap, mimic-model.js
 
 // Represents a context of a modal dialog.
@@ -1404,6 +1405,33 @@ class ImageModal extends ModalBase {
         this._showFields(newImage);
         this._showFileSize(this._getFileSize(newImage.data));
         this._showImage(newImage.dataUrl);
+        this._modal.show();
+    }
+}
+
+// Represents a modal dialog for choosing an image.
+class ImageSelectModal extends ModalBase {
+    _bindEvents() {
+        super._bindEvents();
+
+        $("#imageSelectModal_btnOK").on("click", () => {
+            this._context.newValue = $("#imageSelectModal_txtName").val();
+            this._context.result = true;
+            this._modal.hide();
+        });
+    }
+
+    _setFocus() {
+        $("#imageSelectModal_txtName").focus();
+    }
+
+    show(imageName, callback) {
+        this._context = new ModalContext({
+            oldValue: imageName,
+            callback: callback
+        });
+
+        $("#imageSelectModal_txtName").val(imageName);
         this._modal.show();
     }
 }
@@ -2095,7 +2123,7 @@ class PropGridHelper {
 class PropGridDialogs {
     static colorModal = null;
     static fontModal = null;
-    static imageModal = null;
+    static imageSelectModal = null;
     static propertyModal = null;
     static textEditor = null;
 
@@ -2113,7 +2141,7 @@ class PropGridDialogs {
         return editor &&
             editor === PropertyEditor.COLOR_DIALOG && PropGridDialogs.colorModal ||
             editor === PropertyEditor.FONT_DIALOG && PropGridDialogs.fontModal ||
-            editor === PropertyEditor.IMAGE_DIALOG && PropGridDialogs.imageModal ||
+            editor === PropertyEditor.IMAGE_DIALOG && PropGridDialogs.imageSelectModal ||
             editor === PropertyEditor.PROPERTY_DIALOG && PropGridDialogs.propertyModal ||
             editor === PropertyEditor.TEXT_EDITOR && PropGridDialogs.textEditor;
     }
@@ -2139,9 +2167,9 @@ class PropGridDialogs {
                     break;
 
                 case PropertyEditor.IMAGE_DIALOG:
-                    //PropGridDialogs.imageModal?.show(propertyValue, options, (modalContext) => {
-                    //    PropGridDialogs._invokeCallback(modalContext, callback);
-                    //});
+                    PropGridDialogs.imageSelectModal?.show(propertyValue, (modalContext) => {
+                        PropGridDialogs._invokeCallback(modalContext, callback);
+                    });
                     break;
 
                 case PropertyEditor.PROPERTY_DIALOG:

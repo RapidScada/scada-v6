@@ -1,4 +1,5 @@
-﻿// Contains classes: ModalContext, ModalBase, ColorModal, FaceplateModal, FontModal, ImageModal, TextEditor
+﻿// Contains classes: ModalContext, ModalBase, ColorModal, FaceplateModal, FontModal,
+//     ImageModal, ImageSelectModal, TextEditor
 // Depends on jquery, bootstrap, mimic-model.js
 
 // Represents a context of a modal dialog.
@@ -586,6 +587,33 @@ class ImageModal extends ModalBase {
         this._showFields(newImage);
         this._showFileSize(this._getFileSize(newImage.data));
         this._showImage(newImage.dataUrl);
+        this._modal.show();
+    }
+}
+
+// Represents a modal dialog for choosing an image.
+class ImageSelectModal extends ModalBase {
+    _bindEvents() {
+        super._bindEvents();
+
+        $("#imageSelectModal_btnOK").on("click", () => {
+            this._context.newValue = $("#imageSelectModal_txtName").val();
+            this._context.result = true;
+            this._modal.hide();
+        });
+    }
+
+    _setFocus() {
+        $("#imageSelectModal_txtName").focus();
+    }
+
+    show(imageName, callback) {
+        this._context = new ModalContext({
+            oldValue: imageName,
+            callback: callback
+        });
+
+        $("#imageSelectModal_txtName").val(imageName);
         this._modal.show();
     }
 }

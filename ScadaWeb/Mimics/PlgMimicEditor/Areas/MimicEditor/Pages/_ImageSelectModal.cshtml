@@ -1,0 +1,29 @@
+﻿@{
+    dynamic dict = Locale.GetDictionary(typeof(MimicEditModel).FullName + ".ImageSelectModal");
+}
+<!-- Image select modal -->
+<div id="divImageSelectModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 text-truncate">@dict.PageTitle</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="frmImageSelectModal" spellcheck="false">
+                    <div class="mb-3">
+                        <label id="imageSelectModal_lblName" for="imageSelectModal_txtName" class="form-label">@dict.lblName</label>
+                        <input type="text" id="imageSelectModal_txtName" class="form-control" autocomplete="off">
+                    </div>
+                    <div>
+                    </div>
+                    <button type="submit" class="d-none">Submit</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="imageSelectModal_btnOK" class="btn btn-primary">@dict.btnOK</button>
+                <button type="button" id="imageSelectModal_btnCancel" class="btn btn-secondary" data-bs-dismiss="modal">@dict.btnCancel</button>
+            </div>
+        </div>
+    </div>
+</div>
