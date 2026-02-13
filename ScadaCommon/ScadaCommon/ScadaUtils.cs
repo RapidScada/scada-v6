@@ -311,21 +311,16 @@ namespace Scada
         /// </summary>
         public static T SafeClone<T>(this T obj)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            if (obj == null)
+                return default;
+
+            XmlSerializer serializer = new XmlSerializer(obj.GetType());
 
             using (MemoryStream stream = new MemoryStream())
             {
-                using (XmlWriter writer = XmlWriter.Create(stream))
-                {
-                    serializer.Serialize(writer, obj);
-                }
-
+                serializer.Serialize(stream, obj);
                 stream.Position = 0;
-
-                using (XmlReader reader = XmlReader.Create(stream))
-                {
-                    return (T)serializer.Deserialize(reader);
-                }
+                return (T)serializer.Deserialize(stream);
             }
         }
 
