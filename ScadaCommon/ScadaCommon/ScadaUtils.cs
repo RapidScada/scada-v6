@@ -311,9 +311,6 @@ namespace Scada
         /// </summary>
         public static T SafeClone<T>(this T obj)
         {
-            if (obj == null)
-                return default;
-
             XmlSerializer serializer = new XmlSerializer(obj.GetType());
 
             using (MemoryStream stream = new MemoryStream())
