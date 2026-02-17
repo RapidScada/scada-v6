@@ -16,6 +16,23 @@
                         <input type="text" id="imageSelectModal_txtName" class="form-control" autocomplete="off">
                     </div>
                     <div>
+                        <span id="imageSelectModal_lblAvailableImages" class="form-label d-inline-block">@dict.lblAvailableImages</span>
+                        <div id="imageSelectModal_divAvailableImages" class="container-fluid border rounded">
+                            <div id="imageSelectModal_divRecentImages" class="rs-image-list">
+                                <div class="rs-image-list-header">@dict.RecentImages</div>
+                                <div class="rs-image-item">
+                                    <div class="rs-image-thumb"><img /></div>
+                                    <div class="rs-image-name">test.png</div>
+                                </div>
+                            </div>
+                            <div id="imageSelectModal_divAllImages" class="rs-image-list">
+                                <div class="rs-image-list-header">@dict.AllImages</div>
+                                <div class="rs-image-item">
+                                    <div class="rs-image-thumb"><img src="" /></div>
+                                    <div class="rs-image-name">test.png</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <button type="submit" class="d-none">Submit</button>
                 </form>

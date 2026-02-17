@@ -92,7 +92,10 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ImageSelectModal">
     <Phrase key="PageTitle">Select Image</Phrase>
+    <Phrase key="RecentImages">Recent</Phrase>
+    <Phrase key="AllImages">All</Phrase>
     <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblAvailableImages">Available images</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>

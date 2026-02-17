@@ -46,3 +46,56 @@
         width: fit-content;
     }
 }
+
+#divImageSelectModal {
+    .container-fluid {
+        height: 300px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .rs-image-list {
+        margin-bottom: 1rem;
+
+        .rs-image-list-header {
+            font-weight: bold;
+            padding: 0.5rem;
+        }
+
+        .rs-image-item {
+            cursor: default;
+            padding: 0.5rem;
+
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.075); // similar to tables
+            }
+
+            &.rs-selected {
+                background-color: var(--bs-primary);
+                color: var(--bs-white);
+            }
+
+            .rs-image-thumb,
+            .rs-image-name {
+                display: inline-block;
+                vertical-align: middle;
+                white-space: nowrap;
+            }
+
+            .rs-image-thumb {
+                box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+                margin-right: 0.5rem;
+
+                img {
+                    height: 3rem;
+                    width: 3rem;
+                    object-fit: scale-down;
+
+                    &:not([src]) {
+                        visibility: hidden;
+                    }
+                }
+            }
+        }
+    }
+}
