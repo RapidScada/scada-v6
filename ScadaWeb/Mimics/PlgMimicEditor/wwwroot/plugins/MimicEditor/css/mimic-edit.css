@@ -98,7 +98,7 @@
   width: 3rem;
   object-fit: scale-down;
 }
-#divImageSelectModal .rs-image-list .rs-image-item .rs-image-thumb img:not([src]) {
+#divImageSelectModal .rs-image-list .rs-image-item .rs-image-thumb img[src=""], #divImageSelectModal .rs-image-list .rs-image-item .rs-image-thumb img:not([src]) {
   visibility: hidden;
 }
 

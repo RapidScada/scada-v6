@@ -90,10 +90,10 @@
                     height: 3rem;
                     width: 3rem;
                     object-fit: scale-down;
+                }
 
-                    &:not([src]) {
-                        visibility: hidden;
-                    }
+                img[src=""], img:not([src]) {
+                    visibility: hidden;
                 }
             }
         }

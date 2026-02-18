@@ -871,6 +871,7 @@ function addImage(image, opt_oldImage) {
     showMimic();
     changes.push(Change.addImage(image));
     pushChanges(...changes);
+    PropGridDialogs.imageSelectModal.invalidate();
 }
 
 function removeImage(imageName) {
@@ -879,6 +880,7 @@ function removeImage(imageName) {
     structTree.refreshImages();
     showMimic();
     pushChanges(Change.removeImage(imageName));
+    PropGridDialogs.imageSelectModal.invalidate();
 }
 
 // --- History ---

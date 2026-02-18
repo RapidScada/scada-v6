@@ -1419,10 +1419,12 @@ class ImageSelectModal extends ModalBase {
     _mimic = null;
     _recentImages = [];
     _imagesFilled = false;
+    _lazyObserver = null;
 
     constructor(elemID, mimic) {
         super(elemID);
         this._mimic = mimic;
+        this._initLazyObserver();
     }
 
     _bindEvents() {
@@ -1456,6 +1458,30 @@ class ImageSelectModal extends ModalBase {
         this._selectImage(imageName);
     }
 
+    _initLazyObserver() {
+        this._lazyObserver = new IntersectionObserver(this._handleIntersect, {
+            root: $("#imageSelectModal_divAvailableImages")[0],
+            rootMargin: "100px 0px", // double item height
+            threshold: 0.1
+        });
+    }
+
+    _handleIntersect(entries, observer) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                let itemElem = $(entry.target);
+                let imgElem = itemElem.find("img:first");
+                let image = itemElem.data("image");
+
+                if (imgElem.not("[src]") && image) {
+                    imgElem.attr("src", image.dataUrl);
+                }
+
+                observer.unobserve(entry.target);
+            }
+        });
+    }
+
     _fillRecentImages() {
         this._fillImageList("imageSelectModal_divRecentImages", this._recentImages);
     }
@@ -1474,7 +1500,8 @@ class ImageSelectModal extends ModalBase {
 
         for (let image of images) {
             let itemElem = $("<div class='rs-image-item'></div>").data("image", image).appendTo(contentElem);
-            $("<div class='rs-image-thumb'><img /></div>").appendTo(itemElem);
+            this._lazyObserver.observe(itemElem[0]);
+            $("<div class='rs-image-thumb'><img decoding='async' /></div>").appendTo(itemElem);
             $("<div class='rs-image-name'></div>").text(image.name).appendTo(itemElem);
         }
 
@@ -1511,7 +1538,9 @@ class ImageSelectModal extends ModalBase {
         itemElem?.addClass("rs-selected");
     }
 
-    _addRecentImage(image) {
+    _addRecentImage(imageName) {
+        let image = this._mimic.imageMap.get(imageName);
+
         if (image) {
             let newRecentImages = [image];
             let imageIndex = 0;
@@ -1539,6 +1568,10 @@ class ImageSelectModal extends ModalBase {
         this._fillRecentImages();
         this._fillAllImages();
         this._modal.show();
+    }
+
+    invalidate() {
+        this._imagesFilled = false;
     }
 }
 
