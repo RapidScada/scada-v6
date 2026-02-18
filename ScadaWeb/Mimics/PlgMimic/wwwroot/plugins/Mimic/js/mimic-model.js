@@ -1035,7 +1035,7 @@ rs.mimic.Component = class {
 rs.mimic.Image = class {
     name = "";
     mediaType = "";
-    data = null;
+    data = null; // Base64 string
 
     constructor(source) {
         Object.assign(this, source);

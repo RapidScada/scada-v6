@@ -304,15 +304,18 @@ class ColorModal extends ModalBase {
     _fillColorTable(tableID, colors) {
         let tableElem = $("#" + tableID);
         tableElem.prop("hidden", colors.length === 0);
-        tableElem.find("tbody").remove(); // remove table body if exists
-        let tbodyElem = $("<tbody></tbody>").appendTo(tableElem);
+        let tbodyElem = $("<tbody></tbody>");
 
         for (let color of colors) {
             let rowElem = $("<tr></tr>").data("color", color).appendTo(tbodyElem);
-            $(`<td><div class="rounded-circle" style="background-color:${color.name}"></div></td>`).appendTo(rowElem);
+            let circleElem = $("<div class='rounded-circle'></div>").css("background-color", color.name);
+            $("<td></td>").append(circleElem).appendTo(rowElem);
             $("<td></td>").text(color.name).appendTo(rowElem);
             $("<td></td>").text(color.hex).appendTo(rowElem);
         }
+
+        tableElem.children("tbody").remove(); // remove table body if exists
+        tableElem.append(tbodyElem);
     }
 
     _selectColor(color) {
@@ -593,7 +596,11 @@ class ImageModal extends ModalBase {
 
 // Represents a modal dialog for choosing an image.
 class ImageSelectModal extends ModalBase {
+    static _RECENT_IMAGE_COUNT = 3;
+
     _mimic = null;
+    _recentImages = [];
+    _imagesFilled = false;
 
     constructor(elemID, mimic) {
         super(elemID);
@@ -604,14 +611,104 @@ class ImageSelectModal extends ModalBase {
         super._bindEvents();
 
         $("#imageSelectModal_btnOK").on("click", () => {
-            this._context.newValue = $("#imageSelectModal_txtName").val();
+            let imageName = $("#imageSelectModal_txtName").val();
+            this._addRecentImage(imageName);
+            this._context.newValue = imageName;
             this._context.result = true;
             this._modal.hide();
+        });
+
+        $("#imageSelectModal_divAvailableImages").on("click", ".rs-image-item", (event) => {
+            let itemElem = $(event.currentTarget);
+            let image = itemElem.data("image");
+
+            if (image?.name) {
+                this._selectItem(itemElem);
+                $("#imageSelectModal_txtName").val(image.name);
+            }
         });
     }
 
     _setFocus() {
         $("#imageSelectModal_txtName").focus();
+    }
+
+    _handleShown() {
+        let imageName = $("#imageSelectModal_txtName").val();
+        this._selectImage(imageName);
+    }
+
+    _fillRecentImages() {
+        this._fillImageList("imageSelectModal_divRecentImages", this._recentImages);
+    }
+
+    _fillAllImages() {
+        if (!this._imagesFilled) {
+            this._fillImageList("imageSelectModal_divAllImages", this._mimic.images);
+            this._imagesFilled = true;
+        }
+    }
+
+    _fillImageList(listID, images) {
+        let listElem = $("#" + listID);
+        listElem.prop("hidden", images.length === 0);
+        let contentElem = $("<div class='rs-image-list-content'></div>");
+
+        for (let image of images) {
+            let itemElem = $("<div class='rs-image-item'></div>").data("image", image).appendTo(contentElem);
+            $("<div class='rs-image-thumb'><img /></div>").appendTo(itemElem);
+            $("<div class='rs-image-name'></div>").text(image.name).appendTo(itemElem);
+        }
+
+        listElem.children(".rs-image-list-content").remove(); // remove list content if exists
+        listElem.append(contentElem);
+    }
+
+    _selectImage(imageName) {
+        let itemToSelect = null;
+
+        if (imageName) {
+            $("#imageSelectModal_divAvailableImages div.rs-image-item").each((index, element) => {
+                let itemElem = $(element);
+                let image = itemElem.data("image");
+
+                if (image && image.name === imageName) {
+                    itemToSelect = itemElem;
+                    return false; // break loop
+                }
+            });
+        }
+
+        this._selectItem(itemToSelect);
+
+        if (itemToSelect) {
+            itemToSelect[0].scrollIntoView(false);
+        } else {
+            $("#imageSelectModal_divAvailableImages").scrollTop(0);
+        }
+    }
+
+    _selectItem(itemElem) {
+        $("#imageSelectModal_divAvailableImages div.rs-image-item").removeClass("rs-selected");
+        itemElem?.addClass("rs-selected");
+    }
+
+    _addRecentImage(image) {
+        if (image) {
+            let newRecentImages = [image];
+            let imageIndex = 0;
+
+            while (imageIndex < this._recentImages.length &&
+                newRecentImages.length < ImageSelectModal._RECENT_IMAGE_COUNT) {
+                let recentImage = this._recentImages[imageIndex++];
+
+                if (recentImage !== image) {
+                    newRecentImages.push(recentImage);
+                }
+            }
+
+            this._recentImages = newRecentImages;
+        }
     }
 
     show(imageName, callback) {
@@ -621,6 +718,8 @@ class ImageSelectModal extends ModalBase {
         });
 
         $("#imageSelectModal_txtName").val(imageName);
+        this._fillRecentImages();
+        this._fillAllImages();
         this._modal.show();
     }
 }
