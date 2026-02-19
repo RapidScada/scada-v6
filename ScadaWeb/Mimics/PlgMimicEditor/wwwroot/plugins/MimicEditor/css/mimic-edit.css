@@ -55,7 +55,7 @@
   height: 1.5rem;
 }
 
-#divImageModal .card img {
+#divImageEditModal .card img {
   max-height: 200px;
   width: fit-content;
 }

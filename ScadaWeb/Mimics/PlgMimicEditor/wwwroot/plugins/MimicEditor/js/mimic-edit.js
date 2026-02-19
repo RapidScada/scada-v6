@@ -30,7 +30,7 @@ let splitter = null;
 let propGrid = null;
 let structTree = null;
 let faceplateModal = null;
-let imageModal = null;
+let imageEditModal = null;
 let mimicElem = $();
 let selectedComponents = [];
 let lastUpdateTime = 0;
@@ -238,7 +238,7 @@ function initStructTree() {
 
     // images
     structTree.addEventListener(StructTreeEventType.ADD_IMAGE_CLICK, function () {
-        imageModal.show(null, function (context) {
+        imageEditModal.show(null, function (context) {
             addImage(context.newValue);
         });
     });
@@ -247,7 +247,7 @@ function initStructTree() {
         let image = mimic.imageMap.get(event.detail.name);
 
         if (image) {
-            imageModal.show(image, function (context) {
+            imageEditModal.show(image, function (context) {
                 addImage(context.newValue, context.oldValue);
             });
         } else {
@@ -302,7 +302,7 @@ function initPropGrid() {
 
 function initModals() {
     faceplateModal = new FaceplateModal("divFaceplateModal");
-    imageModal = new ImageModal("divImageModal");
+    imageEditModal = new ImageEditModal("divImageEditModal");
     PropGridDialogs.colorModal = new ColorModal("divColorModal");
     PropGridDialogs.fontModal = new FontModal("divFontModal");
     PropGridDialogs.imageSelectModal = new ImageSelectModal("divImageSelectModal", mimic);

@@ -1,5 +1,5 @@
 ﻿// Contains classes: ModalContext, ModalBase, ColorModal, FaceplateModal, FontModal,
-//     ImageModal, ImageSelectModal, TextEditor
+//     ImageEditModal, ImageSelectModal, TextEditor
 // Depends on jquery, bootstrap, mimic-model.js
 
 // Represents a context of a modal dialog.
@@ -479,12 +479,12 @@ class FontModal extends ModalBase {
 }
 
 // Represents a modal dialog for editing an image.
-class ImageModal extends ModalBase {
+class ImageEditModal extends ModalBase {
     _bindEvents() {
         super._bindEvents();
 
-        $("#imageModal_btnOK").on("click", () => {
-            let formElem = $("#frmImageModal");
+        $("#imageEditModal_btnOK").on("click", () => {
+            let formElem = $("#frmImageEditModal");
 
             if (formElem[0].checkValidity()) {
                 this._readFields(this._context.newValue);
@@ -495,16 +495,16 @@ class ImageModal extends ModalBase {
             formElem.addClass("was-validated");
         });
 
-        $("#imageModal_btnUpload").on("click", () => {
-            $("#imageModal_file").trigger("click");
+        $("#imageEditModal_btnUpload").on("click", () => {
+            $("#imageEditModal_file").trigger("click");
         });
 
-        $("#imageModal_btnDownload").on("click", (event) => {
+        $("#imageEditModal_btnDownload").on("click", (event) => {
             let linkElem = $(event.target);
             this._downloadImage(linkElem);
         });
 
-        $("#imageModal_file").on("change", (event) => {
+        $("#imageEditModal_file").on("change", (event) => {
             let file = event.target.files[0];
 
             if (file) {
@@ -514,22 +514,22 @@ class ImageModal extends ModalBase {
     }
 
     _setFocus() {
-        $("#imageModal_txtName").focus();
+        $("#imageEditModal_txtName").focus();
     }
 
     _showFields(image) {
-        $("#frmImageModal").removeClass("was-validated")
-        $("#imageModal_txtName").val(image.name);
-        $("#imageModal_file").val("");
+        $("#frmImageEditModal").removeClass("was-validated")
+        $("#imageEditModal_txtName").val(image.name);
+        $("#imageEditModal_file").val("");
     }
 
     _readFields(image) {
-        image.name = $("#imageModal_txtName").val();
-        image.dataUrl = $("#imageModal_imgPreview").attr("src");
+        image.name = $("#imageEditModal_txtName").val();
+        image.dataUrl = $("#imageEditModal_imgPreview").attr("src");
     }
 
     _showFileSize(size) {
-        $("#imageModal_spnFileSize").text(size ? "(" + Math.round(size / 1024) + " KB)" : "");
+        $("#imageEditModal_spnFileSize").text(size ? "(" + Math.round(size / 1024) + " KB)" : "");
     }
 
     _getFileSize(imageData) {
@@ -538,13 +538,13 @@ class ImageModal extends ModalBase {
 
     _showImage(dataUrl) {
         if (dataUrl) {
-            $("#imageModal_imgPreview").attr("src", dataUrl).removeClass("d-none");
-            $("#imageModal_divNoImage").addClass("d-none");
-            $("#imageModal_btnDownload").prop("disabled", false);
+            $("#imageEditModal_imgPreview").attr("src", dataUrl).removeClass("d-none");
+            $("#imageEditModal_divNoImage").addClass("d-none");
+            $("#imageEditModal_btnDownload").prop("disabled", false);
         } else {
-            $("#imageModal_imgPreview").attr("src", "").addClass("d-none");
-            $("#imageModal_divNoImage").removeClass("d-none");
-            $("#imageModal_btnDownload").prop("disabled", true);
+            $("#imageEditModal_imgPreview").attr("src", "").addClass("d-none");
+            $("#imageEditModal_divNoImage").removeClass("d-none");
+            $("#imageEditModal_btnDownload").prop("disabled", true);
         }
     }
 
@@ -552,7 +552,7 @@ class ImageModal extends ModalBase {
         let reader = new FileReader();
 
         reader.onload = () => {
-            let txtName = $("#imageModal_txtName");
+            let txtName = $("#imageEditModal_txtName");
 
             if (!txtName.val()) {
                 txtName.val(file.name);
@@ -570,8 +570,8 @@ class ImageModal extends ModalBase {
     }
 
     _downloadImage(linkElem) {
-        let name = $("#imageModal_txtName").val();
-        let dataUrl = $("#imageModal_imgPreview").attr("src");
+        let name = $("#imageEditModal_txtName").val();
+        let dataUrl = $("#imageEditModal_imgPreview").attr("src");
         linkElem
             .attr("download", name)
             .attr("href", dataUrl);
