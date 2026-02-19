@@ -24,10 +24,6 @@ namespace Scada.Web.Plugins.PlgMimBasicComp
             Info = new PluginInfo();
         }
 
-        /// <summary>
-        /// Gets the component library specification.
-        /// </summary>
-        public IComponentSpec ComponentSpec => new BasicComponentSpec();
 
         /// <summary>
         /// Loads language dictionaries.
@@ -38,6 +34,14 @@ namespace Scada.Web.Plugins.PlgMimBasicComp
                 Log.WriteError(WebPhrases.PluginMessage, Code, errMsg);
 
             PluginPhrases.Init();
+        }
+
+        /// <summary>
+        /// Gets the component library specification.
+        /// </summary>
+        public IComponentSpec GetComponentSpec(bool editMode)
+        {
+            return new BasicComponentSpec();
         }
     }
 }

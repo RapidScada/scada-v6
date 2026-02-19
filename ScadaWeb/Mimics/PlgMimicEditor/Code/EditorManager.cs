@@ -118,7 +118,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             foreach (PluginLogic pluginLogic in webContext.PluginHolder.EnumeratePlugins())
             {
                 if (pluginLogic is IComponentPlugin componentPlugin &&
-                    componentPlugin.ComponentSpec is IComponentSpec componentSpec)
+                    componentPlugin.GetComponentSpec(true) is IComponentSpec componentSpec)
                 {
                     ComponentSpecs.Add(componentSpec);
                 }

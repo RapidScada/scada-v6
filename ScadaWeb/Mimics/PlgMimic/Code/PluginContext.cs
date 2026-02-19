@@ -71,14 +71,23 @@ namespace Scada.Web.Plugins.PlgMimic.Code
 
             foreach (PluginLogic pluginLogic in webContext.PluginHolder.EnumeratePlugins())
             {
-                if (pluginLogic is IComponentPlugin componentPlugin &&
-                    componentPlugin.ComponentSpec is IComponentSpec componentSpec)
+                if (pluginLogic is IComponentPlugin componentPlugin)
                 {
-                    log.WriteAction(WebPhrases.PluginMessage, MimicPluginInfo.PluginCode,
-                        string.Format(Locale.IsRussian ?
-                            "Добавление компонентов из плагина {0}" :
-                            "Add components from the {0} plugin", pluginLogic.Code));
-                    ComponentSpecs.Add(componentSpec);
+                    if (componentPlugin.GetComponentSpec(false) is IComponentSpec componentSpec)
+                    {
+                        log.WriteAction(WebPhrases.PluginMessage, MimicPluginInfo.PluginCode,
+                            string.Format(Locale.IsRussian ?
+                                "Добавление компонентов из плагина {0}" :
+                                "Add components from the {0} plugin", pluginLogic.Code));
+                        ComponentSpecs.Add(componentSpec);
+                    }
+                    else
+                    {
+                        log.WriteWarning(WebPhrases.PluginMessage, MimicPluginInfo.PluginCode,
+                            string.Format(Locale.IsRussian ?
+                                "Плагин {0} не предоставил компоненты" :
+                                "The {0} plugin has not provided components", pluginLogic.Code));
+                    }
                 }
             }
         }

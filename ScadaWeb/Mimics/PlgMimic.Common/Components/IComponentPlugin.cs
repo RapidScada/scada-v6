@@ -12,6 +12,6 @@ namespace Scada.Web.Plugins.PlgMimic.Components
         /// <summary>
         /// Gets the component library specification.
         /// </summary>
-        public IComponentSpec ComponentSpec { get; }
+        public IComponentSpec GetComponentSpec(bool editMode);
     }
 }
