@@ -1606,6 +1606,20 @@ class PropertyModal extends ModalBase {
             this._context.result = true;
             this._modal.hide();
         });
+
+        // show properties of the selected object
+        $("#propertyModal_selObject").on("change", (event) => {
+            let selectedVal = $(event.target).val();
+            let componentID = Number.parseInt(selectedVal);
+
+            if (Number.isNaN(componentID)) {
+                this._showObjectProperties(null);
+            } else if (componentID > 0) {
+                this._showObjectProperties(this._mimic.componentMap.get(componentID));
+            } else {
+                this._showObjectProperties(this._mimic);
+            }
+        });
     }
 
     _setFocus() {
@@ -1672,6 +1686,7 @@ class PropertyModal extends ModalBase {
 
         if (options.canSelectObject) {
             this._fillObjectList();
+            this._showObjectProperties(null);
         } else {
             this._showSingleObject(selectedObject);
             this._showObjectProperties(selectedObject);
