@@ -137,12 +137,13 @@ class PropGrid {
                     title: this._getEditButtonText(propertyValue)
                 })
                 .on("click", () => {
-                    PropGridDialogs.showEditor(propertyValue, propertyDescriptor, (newPropertyValue) => {
-                        propertyValue = newPropertyValue;
-                        blade.title = this._getEditButtonText(propertyValue);
-                        targetObject[propertyName] = propertyValue;
-                        this._handleBindingChange(targetObject, propertyName, propertyValue);
-                    });
+                    PropGridDialogs.showEditor(this._topObject, propertyValue, propertyDescriptor,
+                        (newPropertyValue) => {
+                            propertyValue = newPropertyValue;
+                            blade.title = this._getEditButtonText(propertyValue);
+                            targetObject[propertyName] = propertyValue;
+                            this._handleBindingChange(targetObject, propertyName, propertyValue);
+                        });
                 });
         } else if (typeof propertyValue === "number" ||
             typeof propertyValue === "string" ||
@@ -646,7 +647,7 @@ class PropGridDialogs {
 
     // Shows an editor as a modal dialog.
     // callback is a function (newPropertyValue)
-    static showEditor(propertyValue, propertyDescriptor, callback) {
+    static showEditor(topObject, propertyValue, propertyDescriptor, callback) {
         if (propertyDescriptor) {
             const PropertyEditor = rs.mimic.PropertyEditor;
             let options = propertyDescriptor.editorOptions;
@@ -671,7 +672,7 @@ class PropGridDialogs {
                     break;
 
                 case PropertyEditor.PROPERTY_DIALOG:
-                    PropGridDialogs.propertyModal?.show(propertyValue, options, modalContext => {
+                    PropGridDialogs.propertyModal?.show(topObject, propertyValue, options, modalContext => {
                         PropGridDialogs._invokeCallback(modalContext, callback);
                     });
                     break;

@@ -1112,7 +1112,8 @@ rs.mimic.PropertyBindingDescriptor = class extends rs.mimic.StructureDescriptor 
             name: "propertyName",
             displayName: "Property name",
             type: BasicType.STRING,
-            editor: PropertyEditor.PROPERTY_DIALOG
+            editor: PropertyEditor.PROPERTY_DIALOG,
+            editorOptions: { canSelectObject: false }
         }));
 
         this.add(new PropertyDescriptor({
@@ -1141,12 +1142,15 @@ rs.mimic.PropertyExportDescriptor = class extends rs.mimic.StructureDescriptor {
     constructor() {
         super();
         const BasicType = rs.mimic.BasicType;
+        const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
         this.add(new PropertyDescriptor({
             name: "name",
             displayName: "Property name",
-            type: BasicType.STRING
+            type: BasicType.STRING,
+            editor: PropertyEditor.PROPERTY_DIALOG,
+            editorOptions: { canSelectObject: true }
         }));
 
         this.add(new PropertyDescriptor({

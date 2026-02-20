@@ -17,7 +17,10 @@
                     </div>
                     <div>
                         <span id="propertyModal_lblObjectProperties" class="form-label d-inline-block">@dict.lblObjectProperties</span>
-                        <input type="text" id="propertyModal_txtObjectDisplayName" class="form-control" disabled readonly>
+                        <input type="text" id="propertyModal_txtObjectDisplayName" class="form-control mb-3" disabled readonly>
+                        <select id="propertyModal_selObject" class="form-select mb-3">
+                            <option selected>@dict.SelectObjectItem</option>
+                        </select>
                         <div id="propertyModal_divObjectProperties" class="container-fluid border rounded">
                         </div>
                     </div>

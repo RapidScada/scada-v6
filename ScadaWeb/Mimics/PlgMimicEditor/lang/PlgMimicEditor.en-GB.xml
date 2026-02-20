@@ -99,6 +99,14 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.PropertyModal">
+    <Phrase key="PageTitle">Select Property</Phrase>
+    <Phrase key="SelectObjectItem">-- Select an object --</Phrase>
+    <Phrase key="lblPropertyName">Property name</Phrase>
+    <Phrase key="lblObjectProperties">Object properties</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.TextEditor">
     <Phrase key="PageTitle">Text Editor</Phrase>
     <Phrase key="btnOK">OK</Phrase>
