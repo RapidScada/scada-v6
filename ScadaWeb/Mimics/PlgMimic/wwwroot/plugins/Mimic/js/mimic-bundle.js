@@ -1148,15 +1148,15 @@ rs.mimic.PropertyExportDescriptor = class extends rs.mimic.StructureDescriptor {
         this.add(new PropertyDescriptor({
             name: "name",
             displayName: "Property name",
-            type: BasicType.STRING,
-            editor: PropertyEditor.PROPERTY_DIALOG,
-            editorOptions: { canSelectObject: true }
+            type: BasicType.STRING
         }));
 
         this.add(new PropertyDescriptor({
             name: "path",
             displayName: "Path",
-            type: BasicType.STRING
+            type: BasicType.STRING,
+            editor: PropertyEditor.PROPERTY_DIALOG,
+            editorOptions: { canSelectObject: true }
         }));
 
         this.add(new PropertyDescriptor({

@@ -1,6 +1,6 @@
 ﻿// Contains classes: ModalContext, ModalBase, ColorModal, FaceplateModal, FontModal,
 //     ImageEditModal, ImageSelectModal, PropertyModal, TextEditor
-// Depends on jquery, bootstrap, mimic-model.js
+// Depends on jquery, bootstrap, mimic-model.js, prop-grid.js
 
 // Represents a context of a modal dialog.
 class ModalContext {
@@ -794,14 +794,71 @@ class PropertyModal extends ModalBase {
         $("#propertyModal_txtPropertyName").focus();
     }
 
+    _handleShown() {
+        let propertyName = $("#propertyModal_txtPropertyName").val();
+        this._selectProperty(propertyName);
+    }
+
+    _selectProperty(propertyName) {
+
+    }
+
+    _showSingleObject(obj) {
+        $("#propertyModal_txtObjectDisplayName").val(obj?.toString()).prop("hidden", false);
+        $("#propertyModal_selObject").prop("hidden", true);
+    }
+
+    _showObjectProperties(obj) {
+        let listElem = $("<div></div>");
+        let targetObject = PropGridHelper.getTargetObject(obj);
+
+        if (targetObject) {
+            for (let [name, value] of Object.entries(targetObject)) {
+                $("<div></div>").text(name).appendTo(listElem);
+            }
+        }
+
+        $("#propertyModal_divObjectProperties").empty().append(listElem);
+    }
+
+    _fillObjectList() {
+        // clear list
+        let selectElem = $("#propertyModal_selObject");
+        let firstOptionElem = selectElem.children("option:first");
+        firstOptionElem.detach();
+        selectElem.empty();
+
+        // create list options
+        let optionArr = [firstOptionElem];
+        let objectArr = [this._mimic, ...mimic.components].sort((a, b) => a.id - b.id);
+
+        for (let obj of objectArr) {
+            optionArr.push($("<option></option>")
+                .val(obj.id)
+                .text(obj.toString()));
+        }
+
+        firstOptionElem.prop("selected", true);
+        selectElem.append(optionArr).prop("hidden", false);
+        $("#propertyModal_txtObjectDisplayName").prop("hidden", true);
+    }
+
     show(selectedObject, propertyName, options, callback) {
         this._context = new ModalContext({
             oldValue: propertyName,
             callback: callback
         });
 
-        options ??= PropertyModal.DEFAULT_OPTIONS;
         $("#propertyModal_txtPropertyName").val(propertyName);
+        options ??= PropertyModal.DEFAULT_OPTIONS;
+
+        if (options.canSelectObject) {
+            this._fillObjectList();
+        } else {
+            this._showSingleObject(selectedObject);
+            this._showObjectProperties(selectedObject);
+        }
+
         this._modal.show();
     }
 }
