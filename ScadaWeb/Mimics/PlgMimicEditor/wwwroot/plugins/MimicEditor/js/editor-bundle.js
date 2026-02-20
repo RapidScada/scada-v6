@@ -817,7 +817,7 @@ class MimicClipboard {
 }
 
 // Contains classes: ModalContext, ModalBase, ColorModal, FaceplateModal, FontModal,
-//     ImageEditModal, ImageSelectModal, TextEditor
+//     ImageEditModal, ImageSelectModal, PropertyModal, TextEditor
 // Depends on jquery, bootstrap, mimic-model.js
 
 // Represents a context of a modal dialog.
@@ -1416,13 +1416,18 @@ class ImageEditModal extends ModalBase {
 class ImageSelectModal extends ModalBase {
     static _RECENT_IMAGE_COUNT = 3;
 
-    _mimic = null;
+    _mimic;
     _recentImages = [];
     _imagesFilled = false;
     _lazyObserver = null;
 
     constructor(elemID, mimic) {
         super(elemID);
+
+        if (mimic === null || mimic === undefined) {
+            throw new Error("Mimic must not be null.");
+        }
+
         this._mimic = mimic;
         this._initLazyObserver();
     }
@@ -1572,6 +1577,45 @@ class ImageSelectModal extends ModalBase {
 
     invalidate() {
         this._imagesFilled = false;
+    }
+}
+
+// Represents a modal dialog for choosing an object property.
+class PropertyModal extends ModalBase {
+    _mimic;
+
+    constructor(elemID, mimic) {
+        super(elemID);
+
+        if (mimic === null || mimic === undefined) {
+            throw new Error("Mimic must not be null.");
+        }
+
+        this._mimic = mimic;
+    }
+
+    _bindEvents() {
+        super._bindEvents();
+
+        $("#propertyModal_btnOK").on("click", () => {
+            this._context.newValue = $("#propertyModal_txtPropertyName").val();
+            this._context.result = true;
+            this._modal.hide();
+        });
+    }
+
+    _setFocus() {
+        $("#propertyModal_txtPropertyName").focus();
+    }
+
+    show(propertyName, options, callback) {
+        this._context = new ModalContext({
+            oldValue: propertyName,
+            callback: callback
+        });
+
+        $("#propertyModal_txtPropertyName").val(propertyName);
+        this._modal.show();
     }
 }
 
@@ -2312,9 +2356,9 @@ class PropGridDialogs {
                     break;
 
                 case PropertyEditor.PROPERTY_DIALOG:
-                    //PropGridDialogs.propertyModal?.show(propertyValue, options, modalContext => {
-                    //    PropGridDialogs._invokeCallback(modalContext, callback);
-                    //});
+                    PropGridDialogs.propertyModal?.show(propertyValue, options, modalContext => {
+                        PropGridDialogs._invokeCallback(modalContext, callback);
+                    });
                     break;
 
                 case PropertyEditor.TEXT_EDITOR:

@@ -671,9 +671,9 @@ class PropGridDialogs {
                     break;
 
                 case PropertyEditor.PROPERTY_DIALOG:
-                    //PropGridDialogs.propertyModal?.show(propertyValue, options, modalContext => {
-                    //    PropGridDialogs._invokeCallback(modalContext, callback);
-                    //});
+                    PropGridDialogs.propertyModal?.show(propertyValue, options, modalContext => {
+                        PropGridDialogs._invokeCallback(modalContext, callback);
+                    });
                     break;
 
                 case PropertyEditor.TEXT_EDITOR:
