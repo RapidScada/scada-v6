@@ -769,6 +769,7 @@ class PropertyModal extends ModalBase {
     };
 
     _mimic;
+    _options = null;
 
     constructor(elemID, mimic) {
         super(elemID);
@@ -802,6 +803,15 @@ class PropertyModal extends ModalBase {
                 this._showObjectProperties(this._mimic);
             }
         });
+
+        // select clicked property
+        $("#propertyModal_divObjectProperties").on("click", "li", (event) => {
+            let itemElem = $(event.currentTarget);
+            let propertyName = itemElem.attr("data-path");
+            $("#propertyModal_txtPropertyName").val(propertyName);
+            this._selectItem(itemElem);
+            event.stopPropagation();
+        });
     }
 
     _setFocus() {
@@ -817,21 +827,40 @@ class PropertyModal extends ModalBase {
 
     }
 
+    _selectItem(itemElem) {
+        $("#propertyModal_divObjectProperties li").removeClass("rs-selected");
+        itemElem?.addClass("rs-selected");
+    }
+
     _showSingleObject(obj) {
         $("#propertyModal_txtObjectDisplayName").val(obj?.toString()).prop("hidden", false);
         $("#propertyModal_selObject").prop("hidden", true);
     }
 
     _showObjectProperties(obj) {
-        let listElem = $("<div></div>");
-        let targetObject = PropGridHelper.getTargetObject(obj);
+        let appendItemsFunc = (parentElem, obj, parentPath) => {
+            let targetObject = PropGridHelper.getTargetObject(obj);
+            let objectDescriptor = PropGridHelper.getObjectDescriptor(obj);
 
-        if (targetObject) {
-            for (let [name, value] of Object.entries(targetObject)) {
-                $("<div></div>").text(name).appendTo(listElem);
+            if (targetObject) {
+                for (let [name, value] of Object.entries(targetObject)) {
+                    let path = parentPath + name;
+                    let propertyDescriptor = objectDescriptor?.get(name);
+                    let itemText = propertyDescriptor ? `${name} (${propertyDescriptor.displayName})` : name;
+                    let itemElem = $("<li></li>").attr("data-path", path).appendTo(parentElem);
+                    $("<span></span>").text(itemText).appendTo(itemElem);
+
+                    if (value instanceof Object) {
+                        let childListElem = $("<ul></ul>").appendTo(itemElem);
+                        appendItemsFunc(childListElem, value, path + ".");
+                    }
+                }
             }
-        }
+        };
 
+        let listElem = $("<ul></ul>");
+        let rootPath = this._options.canSelectObject ? obj?.name + "." : "";
+        appendItemsFunc(listElem, obj, rootPath);
         $("#propertyModal_divObjectProperties").empty().append(listElem);
     }
 
@@ -864,9 +893,9 @@ class PropertyModal extends ModalBase {
         });
 
         $("#propertyModal_txtPropertyName").val(propertyName);
-        options ??= PropertyModal.DEFAULT_OPTIONS;
+        this._options = options ?? PropertyModal.DEFAULT_OPTIONS;
 
-        if (options.canSelectObject) {
+        if (this._options.canSelectObject) {
             this._fillObjectList();
             this._showObjectProperties(null);
         } else {
