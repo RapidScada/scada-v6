@@ -1548,7 +1548,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     renderer; // renders the mimic
     script;   // custom mimic logic
 
-    // Imitates a component ID to use as a parent ID.
+    // Imitates a component ID for use as a parent ID.
     get id() {
         return 0;
     }

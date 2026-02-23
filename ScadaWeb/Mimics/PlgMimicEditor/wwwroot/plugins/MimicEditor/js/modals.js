@@ -873,7 +873,7 @@ class PropertyModal extends ModalBase {
 
         // create list options
         let optionArr = [firstOptionElem];
-        let objectArr = [this._mimic, ...mimic.components].sort((a, b) => a.id - b.id);
+        let objectArr = [...mimic.components].sort((a, b) => a.id - b.id);
 
         for (let obj of objectArr) {
             optionArr.push($("<option></option>")
