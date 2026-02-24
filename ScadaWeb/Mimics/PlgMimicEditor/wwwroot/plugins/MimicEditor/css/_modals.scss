@@ -1,4 +1,11 @@
-﻿.modal-footer {
+﻿$item-hover-back-color: rgba(0, 0, 0, 0.075); // similar to tables
+
+@mixin item-selected {
+    background-color: var(--bs-primary);
+    color: var(--bs-white);
+}
+
+.modal-footer {
     .btn {
         min-width: 75px;
     }
@@ -16,8 +23,7 @@
             cursor: default;
 
             &.rs-selected td {
-                background-color: var(--bs-primary);
-                color: var(--bs-white);
+                @include item-selected;
             }
         }
 
@@ -67,12 +73,11 @@
             padding: 0.5rem;
 
             &:hover {
-                background-color: rgba(0, 0, 0, 0.075); // similar to tables
+                background-color: $item-hover-back-color;
             }
 
             &.rs-selected {
-                background-color: var(--bs-primary);
-                color: var(--bs-white);
+                @include item-selected;
             }
 
             .rs-image-thumb,
@@ -104,5 +109,33 @@
     .container-fluid {
         height: 300px;
         overflow: auto;
+    }
+
+    ul {
+        list-style-type: none;
+        margin: 0 0 0 20px;
+        padding: 0;
+
+        &:first-child {
+            margin-left: 0;
+        }
+
+        li {
+            white-space: nowrap;
+
+            .rs-item-text {
+                cursor: default;
+                display: inline-block;
+                padding: 0px 5px;
+
+                &.rs-selected {
+                    @include item-selected;
+                }
+
+                &:hover:not(.rs-selected) {
+                    background-color: $item-hover-back-color;
+                }
+            }
+        }
     }
 }

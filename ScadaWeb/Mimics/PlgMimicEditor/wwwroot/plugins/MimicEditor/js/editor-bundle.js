@@ -1646,8 +1646,11 @@ class PropertyModal extends ModalBase {
     }
 
     _selectItem(itemElem) {
-        $("#propertyModal_divObjectProperties li").removeClass("rs-selected");
-        itemElem?.addClass("rs-selected");
+        $("#propertyModal_divObjectProperties span.rs-item-text").removeClass("rs-selected");
+
+        if (itemElem) {
+            itemElem.children(".rs-item-text:first").addClass("rs-selected");
+        }
     }
 
     _showSingleObject(obj) {
@@ -1665,8 +1668,8 @@ class PropertyModal extends ModalBase {
                     let path = parentPath + name;
                     let propertyDescriptor = objectDescriptor?.get(name);
                     let itemText = propertyDescriptor ? `${name} (${propertyDescriptor.displayName})` : name;
-                    let itemElem = $("<li></li>").attr("data-path", path).appendTo(parentElem);
-                    $("<span></span>").text(itemText).appendTo(itemElem);
+                    let itemElem = $("<li class='rs-item'></li>").attr("data-path", path).appendTo(parentElem);
+                    $("<span class='rs-item-text'></span>").text(itemText).appendTo(itemElem);
 
                     if (value instanceof Object) {
                         let childListElem = $("<ul></ul>").appendTo(itemElem);

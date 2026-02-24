@@ -106,6 +106,29 @@
   height: 300px;
   overflow: auto;
 }
+#divPropertyModal ul {
+  list-style-type: none;
+  margin: 0 0 0 20px;
+  padding: 0;
+}
+#divPropertyModal ul:first-child {
+  margin-left: 0;
+}
+#divPropertyModal ul li {
+  white-space: nowrap;
+}
+#divPropertyModal ul li .rs-item-text {
+  cursor: default;
+  display: inline-block;
+  padding: 0px 5px;
+}
+#divPropertyModal ul li .rs-item-text.rs-selected {
+  background-color: var(--bs-primary);
+  color: var(--bs-white);
+}
+#divPropertyModal ul li .rs-item-text:hover:not(.rs-selected) {
+  background-color: rgba(0, 0, 0, 0.075);
+}
 
 #divToolbar {
   border-bottom: 1px solid var(--bs-gray-500);
