@@ -1612,23 +1612,20 @@ class PropertyModal extends ModalBase {
         $("#propertyModal_selObject").on("change", (event) => {
             let selectedVal = $(event.target).val();
             let componentID = Number.parseInt(selectedVal);
-
-            if (Number.isNaN(componentID)) {
-                this._showObjectProperties(null);
-            } else if (componentID > 0) {
-                this._showObjectProperties(this._mimic.componentMap.get(componentID));
-            } else {
-                this._showObjectProperties(this._mimic);
-            }
+            this._showObjectProperties(this._mimic.componentMap.get(componentID));
+            this._selectProperty(null);
         });
 
         // select clicked property
         $("#propertyModal_divObjectProperties").on("click", "li", (event) => {
-            let itemElem = $(event.currentTarget);
-            let propertyName = itemElem.attr("data-path");
-            $("#propertyModal_txtPropertyName").val(propertyName);
-            this._selectItem(itemElem);
             event.stopPropagation();
+            let itemElem = $(event.currentTarget);
+
+            if (!itemElem.hasClass("rs-disabled")) {
+                let propertyName = itemElem.attr("data-path");
+                $("#propertyModal_txtPropertyName").val(propertyName);
+                this._selectItem(itemElem);
+            }
         });
     }
 
@@ -1642,15 +1639,32 @@ class PropertyModal extends ModalBase {
     }
 
     _selectProperty(propertyName) {
+        let itemToSelect = null;
 
+        if (propertyName) {
+            $("#propertyModal_divObjectProperties li.rs-item").each((index, element) => {
+                let itemElem = $(element);
+                let path = itemElem.attr("data-path");
+
+                if (path === propertyName) {
+                    itemToSelect = itemElem;
+                    return false; // break loop
+                }
+            });
+        }
+
+        this._selectItem(itemToSelect);
+
+        if (itemToSelect) {
+            itemToSelect[0].scrollIntoView(false);
+        } else {
+            $("#propertyModal_divObjectProperties").scrollTop(0);
+        }
     }
 
     _selectItem(itemElem) {
-        $("#propertyModal_divObjectProperties span.rs-item-text").removeClass("rs-selected");
-
-        if (itemElem) {
-            itemElem.children(".rs-item-text:first").addClass("rs-selected");
-        }
+        $("#propertyModal_divObjectProperties li.rs-item").removeClass("rs-selected");
+        itemElem?.addClass("rs-selected");
     }
 
     _showSingleObject(obj) {
@@ -1664,16 +1678,21 @@ class PropertyModal extends ModalBase {
             let objectDescriptor = PropGridHelper.getObjectDescriptor(obj);
 
             if (targetObject) {
-                for (let [name, value] of Object.entries(targetObject)) {
+                for (let [name, value] of Object.entries(targetObject).sort(([a], [b]) => a.localeCompare(b))) {
                     let path = parentPath + name;
                     let propertyDescriptor = objectDescriptor?.get(name);
+                    let isBindable = propertyDescriptor?.isBindable ?? true;
                     let itemText = propertyDescriptor ? `${name} (${propertyDescriptor.displayName})` : name;
                     let itemElem = $("<li class='rs-item'></li>").attr("data-path", path).appendTo(parentElem);
                     $("<span class='rs-item-text'></span>").text(itemText).appendTo(itemElem);
 
-                    if (value instanceof Object) {
-                        let childListElem = $("<ul></ul>").appendTo(itemElem);
-                        appendItemsFunc(childListElem, value, path + ".");
+                    if (isBindable) {
+                        if (value instanceof Object) {
+                            let childListElem = $("<ul></ul>").appendTo(itemElem);
+                            appendItemsFunc(childListElem, value, path + ".");
+                        }
+                    } else {
+                        itemElem.addClass("rs-disabled");
                     }
                 }
             }
@@ -1685,7 +1704,16 @@ class PropertyModal extends ModalBase {
         $("#propertyModal_divObjectProperties").empty().append(listElem);
     }
 
-    _fillObjectList() {
+    _findObject(propertyName) {
+        if (propertyName) {
+            let objectName = propertyName.split('.')[0];
+            return objectName ? this._mimic.components.find(c => c.name === objectName) : null;
+        } else {
+            return null;
+        }
+    }
+
+    _fillObjectList(selectedObject) {
         // clear list
         let selectElem = $("#propertyModal_selObject");
         let firstOptionElem = selectElem.children("option:first");
@@ -1694,15 +1722,17 @@ class PropertyModal extends ModalBase {
 
         // create list options
         let optionArr = [firstOptionElem];
-        let objectArr = [...mimic.components].sort((a, b) => a.id - b.id);
+        let objectArr = [...this._mimic.components].sort((a, b) => a.id - b.id);
 
         for (let obj of objectArr) {
             optionArr.push($("<option></option>")
                 .val(obj.id)
-                .text(obj.toString()));
+                .text(obj.toString())
+                .prop("selected", selectedObject === obj)
+            );
         }
 
-        firstOptionElem.prop("selected", true);
+        firstOptionElem.prop("selected", !selectedObject);
         selectElem.append(optionArr).prop("hidden", false);
         $("#propertyModal_txtObjectDisplayName").prop("hidden", true);
     }
@@ -1717,8 +1747,9 @@ class PropertyModal extends ModalBase {
         this._options = options ?? PropertyModal.DEFAULT_OPTIONS;
 
         if (this._options.canSelectObject) {
-            this._fillObjectList();
-            this._showObjectProperties(null);
+            let obj = this._findObject(propertyName);
+            this._fillObjectList(obj);
+            this._showObjectProperties(obj);
         } else {
             this._showSingleObject(selectedObject);
             this._showObjectProperties(selectedObject);

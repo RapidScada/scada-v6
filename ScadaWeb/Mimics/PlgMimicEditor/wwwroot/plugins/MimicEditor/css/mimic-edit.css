@@ -117,17 +117,20 @@
 #divPropertyModal ul li {
   white-space: nowrap;
 }
+#divPropertyModal ul li.rs-selected > .rs-item-text {
+  background-color: var(--bs-primary);
+  color: var(--bs-white);
+}
+#divPropertyModal ul li.rs-disabled > .rs-item-text {
+  color: var(--bs-gray-500);
+}
+#divPropertyModal ul li:not(.rs-selected) > .rs-item-text:hover {
+  background-color: rgba(0, 0, 0, 0.075);
+}
 #divPropertyModal ul li .rs-item-text {
   cursor: default;
   display: inline-block;
   padding: 0px 5px;
-}
-#divPropertyModal ul li .rs-item-text.rs-selected {
-  background-color: var(--bs-primary);
-  color: var(--bs-white);
-}
-#divPropertyModal ul li .rs-item-text:hover:not(.rs-selected) {
-  background-color: rgba(0, 0, 0, 0.075);
 }
 
 #divToolbar {

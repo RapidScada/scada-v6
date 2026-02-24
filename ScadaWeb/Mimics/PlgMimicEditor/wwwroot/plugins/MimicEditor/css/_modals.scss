@@ -123,18 +123,28 @@
         li {
             white-space: nowrap;
 
+            &.rs-selected {
+                & > .rs-item-text {
+                    @include item-selected;
+                }
+            }
+
+            &.rs-disabled {
+                & > .rs-item-text {
+                    color: var(--bs-gray-500);
+                }
+            }
+
+            &:not(.rs-selected) {
+                & > .rs-item-text:hover {
+                    background-color: $item-hover-back-color;
+                }
+            }
+
             .rs-item-text {
                 cursor: default;
                 display: inline-block;
                 padding: 0px 5px;
-
-                &.rs-selected {
-                    @include item-selected;
-                }
-
-                &:hover:not(.rs-selected) {
-                    background-color: $item-hover-back-color;
-                }
             }
         }
     }
