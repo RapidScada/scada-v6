@@ -56,7 +56,7 @@
             lbFileType.FormattingEnabled = true;
             lbFileType.IntegralHeight = false;
             lbFileType.ItemHeight = 15;
-            lbFileType.Items.AddRange(new object[] { "Scheme Classic", "Mimic Diagram (experimental)", "Faceplate (experimental)", "Table View", "XML File", "Text File" });
+            lbFileType.Items.AddRange(new object[] { "Mimic Diagram", "Faceplate", "Scheme Classic", "Table View", "XML File", "Text File" });
             lbFileType.Location = new Point(12, 12);
             lbFileType.Name = "lbFileType";
             lbFileType.Size = new Size(360, 104);

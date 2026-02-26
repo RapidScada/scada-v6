@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2025
+ * Modified : 2026
  */
 
 using Scada.Admin.App.Code;
@@ -79,9 +79,9 @@ namespace Scada.Admin.App.Forms
         {
             return lbFileType.SelectedIndex switch
             {
-                0 => KnownFileType.SchemeView,
-                1 => KnownFileType.MimicView,
-                2 => KnownFileType.Faceplate,
+                0 => KnownFileType.MimicView,
+                1 => KnownFileType.Faceplate,
+                2 => KnownFileType.SchemeView,
                 3 => KnownFileType.TableView,
                 4 => KnownFileType.Xml,
                 _ => KnownFileType.Text
