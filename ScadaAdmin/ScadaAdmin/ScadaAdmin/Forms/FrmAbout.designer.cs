@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmAbout));
-            pbAboutRu = new System.Windows.Forms.PictureBox();
-            lblWebsite = new System.Windows.Forms.Label();
-            lblVersionRu = new System.Windows.Forms.Label();
-            pbAboutEn = new System.Windows.Forms.PictureBox();
-            lblVersionEn = new System.Windows.Forms.Label();
+            pbAboutRu = new PictureBox();
+            lblWebsite = new Label();
+            lblVersionRu = new Label();
+            pbAboutEn = new PictureBox();
+            lblVersionEn = new Label();
             ((System.ComponentModel.ISupportInitialize)pbAboutRu).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbAboutEn).BeginInit();
             SuspendLayout();
@@ -41,73 +41,73 @@
             // pbAboutRu
             // 
             pbAboutRu.Enabled = false;
-            pbAboutRu.Image = (System.Drawing.Image)resources.GetObject("pbAboutRu.Image");
-            pbAboutRu.Location = new System.Drawing.Point(0, 0);
+            pbAboutRu.Image = (Image)resources.GetObject("pbAboutRu.Image");
+            pbAboutRu.Location = new Point(0, 0);
             pbAboutRu.Name = "pbAboutRu";
-            pbAboutRu.Size = new System.Drawing.Size(424, 222);
+            pbAboutRu.Size = new Size(424, 222);
             pbAboutRu.TabIndex = 0;
             pbAboutRu.TabStop = false;
             // 
             // lblWebsite
             // 
-            lblWebsite.Cursor = System.Windows.Forms.Cursors.Hand;
-            lblWebsite.Location = new System.Drawing.Point(220, 174);
+            lblWebsite.Cursor = Cursors.Hand;
+            lblWebsite.Location = new Point(220, 174);
             lblWebsite.Name = "lblWebsite";
-            lblWebsite.Size = new System.Drawing.Size(95, 23);
+            lblWebsite.Size = new Size(95, 23);
             lblWebsite.TabIndex = 2;
             lblWebsite.Click += lblLink_Click;
             // 
             // lblVersionRu
             // 
-            lblVersionRu.BackColor = System.Drawing.Color.White;
-            lblVersionRu.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            lblVersionRu.ForeColor = System.Drawing.Color.Black;
-            lblVersionRu.Location = new System.Drawing.Point(227, 77);
-            lblVersionRu.Margin = new System.Windows.Forms.Padding(0);
+            lblVersionRu.BackColor = Color.White;
+            lblVersionRu.Font = new Font("Arial", 9F, FontStyle.Regular, GraphicsUnit.Pixel);
+            lblVersionRu.ForeColor = Color.Black;
+            lblVersionRu.Location = new Point(227, 77);
+            lblVersionRu.Margin = new Padding(0);
             lblVersionRu.Name = "lblVersionRu";
-            lblVersionRu.Size = new System.Drawing.Size(80, 12);
+            lblVersionRu.Size = new Size(80, 12);
             lblVersionRu.TabIndex = 0;
             lblVersionRu.Text = "Версия 6.0.0.0";
-            lblVersionRu.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            lblVersionRu.TextAlign = ContentAlignment.TopRight;
             lblVersionRu.Click += FrmAbout_Click;
             // 
             // pbAboutEn
             // 
             pbAboutEn.Enabled = false;
-            pbAboutEn.Image = (System.Drawing.Image)resources.GetObject("pbAboutEn.Image");
-            pbAboutEn.Location = new System.Drawing.Point(0, 0);
+            pbAboutEn.Image = (Image)resources.GetObject("pbAboutEn.Image");
+            pbAboutEn.Location = new Point(0, 0);
             pbAboutEn.Name = "pbAboutEn";
-            pbAboutEn.Size = new System.Drawing.Size(424, 222);
+            pbAboutEn.Size = new Size(424, 222);
             pbAboutEn.TabIndex = 3;
             pbAboutEn.TabStop = false;
             // 
             // lblVersionEn
             // 
-            lblVersionEn.BackColor = System.Drawing.Color.White;
-            lblVersionEn.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            lblVersionEn.ForeColor = System.Drawing.Color.Black;
-            lblVersionEn.Location = new System.Drawing.Point(266, 77);
-            lblVersionEn.Margin = new System.Windows.Forms.Padding(0);
+            lblVersionEn.BackColor = Color.White;
+            lblVersionEn.Font = new Font("Arial", 9F, FontStyle.Regular, GraphicsUnit.Pixel);
+            lblVersionEn.ForeColor = Color.Black;
+            lblVersionEn.Location = new Point(266, 77);
+            lblVersionEn.Margin = new Padding(0);
             lblVersionEn.Name = "lblVersionEn";
-            lblVersionEn.Size = new System.Drawing.Size(80, 12);
+            lblVersionEn.Size = new Size(80, 12);
             lblVersionEn.TabIndex = 1;
             lblVersionEn.Text = "Version 6.0.0.0";
             lblVersionEn.Click += FrmAbout_Click;
             // 
             // FrmAbout
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(424, 222);
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(424, 222);
             Controls.Add(lblVersionEn);
             Controls.Add(pbAboutEn);
             Controls.Add(lblVersionRu);
             Controls.Add(pbAboutRu);
             Controls.Add(lblWebsite);
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.None;
             Name = "FrmAbout";
             ShowInTaskbar = false;
-            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            StartPosition = FormStartPosition.CenterParent;
             Text = "About";
             Click += FrmAbout_Click;
             KeyPress += FrmAbout_KeyPress;
