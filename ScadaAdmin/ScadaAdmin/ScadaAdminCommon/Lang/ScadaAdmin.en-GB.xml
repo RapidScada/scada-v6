@@ -579,6 +579,7 @@
     <Phrase key="miFileItemOpenLocation">Open Location in File Explorer</Phrase>
     <Phrase key="miFileItemDelete">Delete</Phrase>
     <Phrase key="miFileItemRename">Rename</Phrase>
+    <Phrase key="miFileItemCopyPath">Copy Path</Phrase>
     <Phrase key="miInstanceAdd">Add Instance...</Phrase>
     <Phrase key="miInstanceMoveUp">Move Instance Up</Phrase>
     <Phrase key="miInstanceMoveDown">Move Instance Down</Phrase>

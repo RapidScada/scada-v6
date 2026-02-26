@@ -762,7 +762,7 @@ namespace Scada.Admin.App.Forms.Tables
         /// <summary>
         /// Indicates that the form contains data of the specified type and with the specified filter.
         /// </summary>
-        public bool Mathes(Type itemType, TableFilter tableFilter)
+        public bool Matches(Type itemType, TableFilter tableFilter)
         {
             return ItemType == itemType &&
                 (this.tableFilter == tableFilter ||

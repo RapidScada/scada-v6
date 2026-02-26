@@ -579,6 +579,7 @@
     <Phrase key="miFileItemOpenLocation">Открыть расположение в проводнике</Phrase>
     <Phrase key="miFileItemDelete">Удалить</Phrase>
     <Phrase key="miFileItemRename">Переименовать</Phrase>
+    <Phrase key="miFileItemCopyPath">Копировать путь</Phrase>
     <Phrase key="miInstanceAdd">Добавить экземпляр...</Phrase>
     <Phrase key="miInstanceMoveUp">Переместить экземпляр вверх</Phrase>
     <Phrase key="miInstanceMoveDown">Переместить экземпляр вниз</Phrase>
