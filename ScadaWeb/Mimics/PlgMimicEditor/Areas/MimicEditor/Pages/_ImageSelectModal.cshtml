@@ -1,0 +1,44 @@
+﻿@{
+    dynamic dict = Locale.GetDictionary(typeof(MimicEditModel).FullName + ".ImageSelectModal");
+}
+<!-- Image select modal -->
+<div id="divImageSelectModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 text-truncate">@dict.PageTitle</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="frmImageSelectModal" spellcheck="false">
+                    <div class="mb-3">
+                        <label id="imageSelectModal_lblName" for="imageSelectModal_txtName" class="form-label">@dict.lblName</label>
+                        <input type="text" id="imageSelectModal_txtName" class="form-control" autocomplete="off">
+                    </div>
+                    <div>
+                        <span id="imageSelectModal_lblAvailableImages" class="form-label d-inline-block">@dict.lblAvailableImages</span>
+                        <div id="imageSelectModal_divAvailableImages" class="container-fluid border rounded">
+                            <div id="imageSelectModal_divRecentImages" class="rs-image-list">
+                                <div class="rs-image-list-header">@dict.RecentImages</div>
+                                @*<div class="rs-image-list-content">
+                                    <div class="rs-image-item">
+                                        <div class="rs-image-thumb"><img /></div>
+                                        <div class="rs-image-name">test.png</div>
+                                    </div>
+                                </div>*@
+                            </div>
+                            <div id="imageSelectModal_divAllImages" class="rs-image-list">
+                                <div class="rs-image-list-header">@dict.AllImages</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="d-none">Submit</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="imageSelectModal_btnOK" class="btn btn-primary">@dict.btnOK</button>
+                <button type="button" id="imageSelectModal_btnCancel" class="btn btn-secondary" data-bs-dismiss="modal">@dict.btnCancel</button>
+            </div>
+        </div>
+    </div>
+</div>

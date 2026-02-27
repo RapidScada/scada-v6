@@ -143,7 +143,7 @@ rs.mimic.ComponentFactory = class {
     createComponent(typeName) {
         let component = new rs.mimic.Component();
         component.typeName = typeName;
-        component.properties = this.createProperties(typeName);
+        component.properties = this.createProperties();
         component.properties.typeName = typeName;
         component.extraScript = this._createExtraScript();
         return component;
@@ -459,6 +459,18 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         faceplateInstance.model = this.faceplate;
         this._createComponents(faceplateInstance);
         this._createCustomProperties(faceplateInstance, source?.properties);
+    }
+
+    parseProperties(sourceProps) {
+        let props = super.parseProperties(sourceProps);
+
+        if (this.faceplate) {
+            for (let propertyExport of this.faceplate.propertyExports) {
+                props[propertyExport.name] = sourceProps[propertyExport.name];
+            }
+        }
+
+        return props;
     }
 
     createComponent() {

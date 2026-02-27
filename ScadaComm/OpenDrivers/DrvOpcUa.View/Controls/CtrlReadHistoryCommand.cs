@@ -8,28 +8,27 @@ using System.ComponentModel;
 namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
 {
     /// <summary>
-    /// Represents a control for editing a command.
-    /// <para>Представляет элемент управления для редактирования команды.</para>
+    /// Represents a control for editing a history reading command.
+    /// <para>Представляет элемент управления для редактирования команды чтения истории.</para>
     /// </summary>
-    public partial class CtrlCommand : UserControl
+    public partial class CtrlReadHistoryCommand : UserControl
     {
-        private CommandConfig commandConfig;
+        private ReadHistoryCommandConfig commandConfig;
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CtrlCommand()
+        public CtrlReadHistoryCommand()
         {
             InitializeComponent();
-            cbDataType.Items.AddRange(KnownTypes.TypeNames);
         }
 
 
         /// <summary>
         /// Gets or sets the edited command.
         /// </summary>
-        public CommandConfig CommandConfig
+        public ReadHistoryCommandConfig CommandConfig
         {
             get
             {
@@ -47,20 +46,15 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
         /// <summary>
         /// Shows the command properties.
         /// </summary>
-        private void ShowCommandProps(CommandConfig commandConfig)
+        private void ShowCommandProps(ReadHistoryCommandConfig commandConfig)
         {
             if (commandConfig != null)
             {
                 txtDisplayName.Text = commandConfig.DisplayName;
                 txtCmdCode.Text = commandConfig.CmdCode;
                 numCmdNum.SetValue(commandConfig.CmdNum);
-                txtNodeID.Text = commandConfig.NodeID;
-                txtParentNodeID.Text = commandConfig.ParentNodeID;
-                cbDataType.Text = commandConfig.DataTypeName;
-                cbDataType.Enabled = !commandConfig.IsMethod;
-                pbDataTypeWarning.Visible = string.IsNullOrWhiteSpace(commandConfig.DataTypeName) &&
-                    !commandConfig.IsMethod;
-                chkIsMethod.Checked = commandConfig.IsMethod;
+                txtNodeIDs.Lines = commandConfig.NodeIDs.ToArray();
+                numValuesPerNode.SetValue(commandConfig.ValuesPerNode);
             }
         }
 
@@ -115,13 +109,21 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
             }
         }
 
-        private void cbDataType_TextChanged(object sender, EventArgs e)
+        private void txtNodeID_TextChanged(object sender, EventArgs e)
         {
             if (commandConfig != null)
             {
-                commandConfig.DataTypeName = cbDataType.Text;
-                pbDataTypeWarning.Visible = string.IsNullOrWhiteSpace(commandConfig.DataTypeName) &&
-                    !commandConfig.IsMethod;
+                commandConfig.NodeIDs.Clear();
+                commandConfig.NodeIDs.AddRange(txtNodeIDs.Lines);
+                OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+
+        private void numValuesPerNode_ValueChanged(object sender, EventArgs e)
+        {
+            if (commandConfig != null)
+            {
+                commandConfig.ValuesPerNode = Convert.ToUInt32(numValuesPerNode.Value);
                 OnObjectChanged(TreeUpdateTypes.None);
             }
         }

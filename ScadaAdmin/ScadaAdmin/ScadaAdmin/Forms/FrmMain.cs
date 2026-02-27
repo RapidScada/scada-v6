@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2025 Rapid Software LLC
+ * Copyright 2026 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2024
+ * Modified : 2026
  */
 
 using Scada.Admin.App.Code;
@@ -987,7 +987,7 @@ namespace Scada.Admin.App.Forms
             {
                 foreach (Form form in wctrlMain.Forms)
                 {
-                    if (form is FrmBaseTable baseTableForm && baseTableForm.Mathes(itemType, tableFilter))
+                    if (form is FrmBaseTable baseTableForm && baseTableForm.Matches(itemType, tableFilter))
                     {
                         // activate existing form
                         wctrlMain.ActivateForm(baseTableForm);
@@ -1843,6 +1843,13 @@ namespace Scada.Admin.App.Forms
                     ScadaUiUtils.ShowError(CommonPhrases.FileNotFound);
                 }
             }
+        }
+
+        private void miFileItemCopyPath_Click(object sender, EventArgs e)
+        {
+            // copy absolute path to clipboard
+            if (TryGetFilePath(tvExplorer.SelectedNode, out string path))
+                Clipboard.SetText(path);
         }
 
         private void cmsInstance_Opening(object sender, CancelEventArgs e)

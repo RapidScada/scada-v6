@@ -146,22 +146,6 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         }
 
         /// <summary>
-        /// Enumerates the components recursively.
-        /// </summary>
-        public IEnumerable<Component> EnumerateComponents()
-        {
-            foreach (Component component in Components)
-            {
-                yield return component;
-
-                foreach (Component childComponent in component.GetAllChildren())
-                {
-                    yield return childComponent;
-                }
-            }
-        }
-
-        /// <summary>
         /// Enumerates the components recursively, checking access rights.
         /// </summary>
         public IEnumerable<Component> EnumerateComponents(Func<Component, bool> checkRightsFunc)

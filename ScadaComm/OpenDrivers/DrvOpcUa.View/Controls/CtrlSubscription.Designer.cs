@@ -52,7 +52,7 @@
             gbSubscription.Size = new Size(250, 500);
             gbSubscription.TabIndex = 0;
             gbSubscription.TabStop = false;
-            gbSubscription.Text = "Subscription Parameters";
+            gbSubscription.Text = "Subscription";
             // 
             // numPublishingInterval
             // 

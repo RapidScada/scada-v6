@@ -488,9 +488,9 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmFileNew">
     <Phrase key="this">New File</Phrase>
-    <Phrase key="lbFileType.Items[0]">Scheme Classic</Phrase>
-    <Phrase key="lbFileType.Items[1]">Mimic Diagram (experimental)</Phrase>
-    <Phrase key="lbFileType.Items[2]">Faceplate (experimental)</Phrase>
+    <Phrase key="lbFileType.Items[0]">Mimic Diagram</Phrase>
+    <Phrase key="lbFileType.Items[1]">Faceplate</Phrase>
+    <Phrase key="lbFileType.Items[2]">Scheme Classic</Phrase>
     <Phrase key="lbFileType.Items[3]">Table View</Phrase>
     <Phrase key="lbFileType.Items[4]">XML File</Phrase>
     <Phrase key="lbFileType.Items[5]">Text File</Phrase>
@@ -579,6 +579,7 @@
     <Phrase key="miFileItemOpenLocation">Open Location in File Explorer</Phrase>
     <Phrase key="miFileItemDelete">Delete</Phrase>
     <Phrase key="miFileItemRename">Rename</Phrase>
+    <Phrase key="miFileItemCopyPath">Copy Path</Phrase>
     <Phrase key="miInstanceAdd">Add Instance...</Phrase>
     <Phrase key="miInstanceMoveUp">Move Instance Up</Phrase>
     <Phrase key="miInstanceMoveDown">Move Instance Down</Phrase>

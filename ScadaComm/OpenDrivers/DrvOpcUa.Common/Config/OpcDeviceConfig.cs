@@ -55,7 +55,14 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
             {
                 foreach (XmlElement commandElem in commandsNode.SelectNodes("Command"))
                 {
-                    CommandConfig commandConfig = new();
+                    CommandType cmdType = commandElem.GetAttrAsEnum("cmdType", CommandType.WriteItem);
+                    CommandConfig commandConfig = cmdType switch
+                    {
+                        CommandType.WriteItem => new WriteItemCommandConfig(),
+                        CommandType.ReadHistory => new ReadHistoryCommandConfig(),
+                        CommandType.CallMethod => new CallMethodCommandConfig(),
+                        _ => throw new NotImplementedException()
+                    };
                     commandConfig.LoadFromXml(commandElem);
                     Commands.Add(commandConfig);
                 }

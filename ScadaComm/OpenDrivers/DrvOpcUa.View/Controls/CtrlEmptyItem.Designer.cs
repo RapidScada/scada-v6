@@ -43,7 +43,6 @@
             gbEmptyItem.Size = new Size(250, 500);
             gbEmptyItem.TabIndex = 4;
             gbEmptyItem.TabStop = false;
-            gbEmptyItem.Text = "Item Parameters";
             // 
             // lblNotSelected
             // 

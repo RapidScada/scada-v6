@@ -54,24 +54,36 @@
             toolTip = new ToolTip(components);
             ctrlItem = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem();
             ctrlSubscription = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription();
-            ctrlCommand = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCommand();
             ctrlEmptyItem = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlEmptyItem();
             pnlBottom = new Panel();
             tabControl1 = new TabControl();
             pageLine = new TabPage();
             gbSubscriptionOptions = new GroupBox();
-            cbTagNamingMode = new ComboBox();
-            lblTagNamingMode = new Label();
             numMaxItemCount = new NumericUpDown();
             lblMaxItemCount = new Label();
             lblNodeIdFormatExample = new Label();
             txtNodeIdFormat = new TextBox();
             lblNodeIdFormat = new Label();
+            cbTagNamingMode = new ComboBox();
+            lblTagNamingMode = new Label();
             cbCreationMode = new ComboBox();
             lblCreationMode = new Label();
             pnlLineInfo = new Panel();
             lblLineInfo = new Label();
             pageDevice = new TabPage();
+            ctrlReadHistoryCommand = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlReadHistoryCommand();
+            ctrlCallMethodCommand = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCallMethodCommand();
+            ctrlWriteItemCommand = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlWriteItemCommand();
+            cmsServerFolder = new ContextMenuStrip(components);
+            miAddAllItems = new ToolStripMenuItem();
+            miViewFolderAttrs = new ToolStripMenuItem();
+            cmsServerItem = new ContextMenuStrip(components);
+            miAddItemToSubscription = new ToolStripMenuItem();
+            miAddWriteItemCommand = new ToolStripMenuItem();
+            miAddReadHistoryCommand = new ToolStripMenuItem();
+            miAddCallMethodCommand = new ToolStripMenuItem();
+            miItemSep1 = new ToolStripSeparator();
+            miViewItemAttrs = new ToolStripMenuItem();
             gbDevice.SuspendLayout();
             gbServerBrowse.SuspendLayout();
             gbConnectionOptions.SuspendLayout();
@@ -84,6 +96,8 @@
             ((System.ComponentModel.ISupportInitialize)numMaxItemCount).BeginInit();
             pnlLineInfo.SuspendLayout();
             pageDevice.SuspendLayout();
+            cmsServerFolder.SuspendLayout();
+            cmsServerItem.SuspendLayout();
             SuspendLayout();
             // 
             // btnClose
@@ -231,6 +245,7 @@
             tvServer.TabIndex = 3;
             tvServer.BeforeExpand += tvServer_BeforeExpand;
             tvServer.AfterSelect += tvServer_AfterSelect;
+            tvServer.NodeMouseClick += tvServer_NodeMouseClick;
             tvServer.NodeMouseDoubleClick += tvServer_NodeMouseDoubleClick;
             tvServer.KeyDown += tvServer_KeyDown;
             // 
@@ -359,15 +374,6 @@
             ctrlSubscription.TabIndex = 4;
             ctrlSubscription.ObjectChanged += ctrlItem_ObjectChanged;
             // 
-            // ctrlCommand
-            // 
-            ctrlCommand.CommandConfig = null;
-            ctrlCommand.Location = new Point(618, 195);
-            ctrlCommand.Name = "ctrlCommand";
-            ctrlCommand.Size = new Size(250, 572);
-            ctrlCommand.TabIndex = 6;
-            ctrlCommand.ObjectChanged += ctrlItem_ObjectChanged;
-            // 
             // ctrlEmptyItem
             // 
             ctrlEmptyItem.Location = new Point(618, 8);
@@ -428,26 +434,6 @@
             gbSubscriptionOptions.TabStop = false;
             gbSubscriptionOptions.Text = "Subscription Options";
             // 
-            // cbTagNamingMode
-            // 
-            cbTagNamingMode.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbTagNamingMode.FormattingEnabled = true;
-            cbTagNamingMode.Items.AddRange(new object[] { "Node ID", "Display name" });
-            cbTagNamingMode.Location = new Point(13, 81);
-            cbTagNamingMode.Name = "cbTagNamingMode";
-            cbTagNamingMode.Size = new Size(200, 23);
-            cbTagNamingMode.TabIndex = 3;
-            cbTagNamingMode.SelectedIndexChanged += cbTagNamingMode_SelectedIndexChanged;
-            // 
-            // lblTagNamingMode
-            // 
-            lblTagNamingMode.AutoSize = true;
-            lblTagNamingMode.Location = new Point(10, 63);
-            lblTagNamingMode.Name = "lblTagNamingMode";
-            lblTagNamingMode.Size = new Size(70, 15);
-            lblTagNamingMode.TabIndex = 2;
-            lblTagNamingMode.Text = "Tag naming";
-            // 
             // numMaxItemCount
             // 
             numMaxItemCount.Location = new Point(13, 169);
@@ -493,6 +479,26 @@
             lblNodeIdFormat.TabIndex = 4;
             lblNodeIdFormat.Text = "Node ID format";
             // 
+            // cbTagNamingMode
+            // 
+            cbTagNamingMode.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbTagNamingMode.FormattingEnabled = true;
+            cbTagNamingMode.Items.AddRange(new object[] { "Node ID", "Display name" });
+            cbTagNamingMode.Location = new Point(13, 81);
+            cbTagNamingMode.Name = "cbTagNamingMode";
+            cbTagNamingMode.Size = new Size(200, 23);
+            cbTagNamingMode.TabIndex = 3;
+            cbTagNamingMode.SelectedIndexChanged += cbTagNamingMode_SelectedIndexChanged;
+            // 
+            // lblTagNamingMode
+            // 
+            lblTagNamingMode.AutoSize = true;
+            lblTagNamingMode.Location = new Point(10, 63);
+            lblTagNamingMode.Name = "lblTagNamingMode";
+            lblTagNamingMode.Size = new Size(70, 15);
+            lblTagNamingMode.TabIndex = 2;
+            lblTagNamingMode.Text = "Tag naming";
+            // 
             // cbCreationMode
             // 
             cbCreationMode.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -536,7 +542,9 @@
             // 
             pageDevice.Controls.Add(gbServerBrowse);
             pageDevice.Controls.Add(gbDevice);
-            pageDevice.Controls.Add(ctrlCommand);
+            pageDevice.Controls.Add(ctrlReadHistoryCommand);
+            pageDevice.Controls.Add(ctrlCallMethodCommand);
+            pageDevice.Controls.Add(ctrlWriteItemCommand);
             pageDevice.Controls.Add(ctrlItem);
             pageDevice.Controls.Add(ctrlSubscription);
             pageDevice.Controls.Add(ctrlEmptyItem);
@@ -547,6 +555,100 @@
             pageDevice.TabIndex = 1;
             pageDevice.Text = "Device";
             pageDevice.UseVisualStyleBackColor = true;
+            // 
+            // ctrlReadHistoryCommand
+            // 
+            ctrlReadHistoryCommand.CommandConfig = null;
+            ctrlReadHistoryCommand.Location = new Point(618, 295);
+            ctrlReadHistoryCommand.Name = "ctrlReadHistoryCommand";
+            ctrlReadHistoryCommand.Size = new Size(250, 572);
+            ctrlReadHistoryCommand.TabIndex = 8;
+            ctrlReadHistoryCommand.ObjectChanged += ctrlItem_ObjectChanged;
+            // 
+            // ctrlCallMethodCommand
+            // 
+            ctrlCallMethodCommand.CommandConfig = null;
+            ctrlCallMethodCommand.Location = new Point(618, 245);
+            ctrlCallMethodCommand.Name = "ctrlCallMethodCommand";
+            ctrlCallMethodCommand.Size = new Size(250, 572);
+            ctrlCallMethodCommand.TabIndex = 7;
+            ctrlCallMethodCommand.ObjectChanged += ctrlItem_ObjectChanged;
+            // 
+            // ctrlWriteItemCommand
+            // 
+            ctrlWriteItemCommand.CommandConfig = null;
+            ctrlWriteItemCommand.Location = new Point(618, 195);
+            ctrlWriteItemCommand.Name = "ctrlWriteItemCommand";
+            ctrlWriteItemCommand.Size = new Size(250, 572);
+            ctrlWriteItemCommand.TabIndex = 6;
+            ctrlWriteItemCommand.ObjectChanged += ctrlItem_ObjectChanged;
+            // 
+            // cmsServerFolder
+            // 
+            cmsServerFolder.Items.AddRange(new ToolStripItem[] { miAddAllItems, miViewFolderAttrs });
+            cmsServerFolder.Name = "cmsServerObject";
+            cmsServerFolder.Size = new Size(164, 48);
+            // 
+            // miAddAllItems
+            // 
+            miAddAllItems.Name = "miAddAllItems";
+            miAddAllItems.Size = new Size(154, 22);
+            miAddAllItems.Text = "Add All Items";
+            miAddAllItems.Click += miAddAllItems_Click;
+            // 
+            // miViewFolderAttrs
+            // 
+            miViewFolderAttrs.Name = "miViewFolderAttrs";
+            miViewFolderAttrs.Size = new Size(163, 22);
+            miViewFolderAttrs.Text = "View Attributes...";
+            miViewFolderAttrs.Click += btnViewAttrs_Click;
+            // 
+            // cmsServerItem
+            // 
+            cmsServerItem.Items.AddRange(new ToolStripItem[] { miAddItemToSubscription, miAddWriteItemCommand, miAddReadHistoryCommand, miAddCallMethodCommand, miItemSep1, miViewItemAttrs });
+            cmsServerItem.Name = "cmsServerVariable";
+            cmsServerItem.Size = new Size(227, 142);
+            cmsServerItem.Opening += cmsServerItem_Opening;
+            // 
+            // miAddItemToSubscription
+            // 
+            miAddItemToSubscription.Name = "miAddItemToSubscription";
+            miAddItemToSubscription.Size = new Size(226, 22);
+            miAddItemToSubscription.Text = "Add Item to Subscription";
+            miAddItemToSubscription.Click += miAddItemToSubscription_Click;
+            // 
+            // miAddWriteItemCommand
+            // 
+            miAddWriteItemCommand.Name = "miAddWriteItemCommand";
+            miAddWriteItemCommand.Size = new Size(226, 22);
+            miAddWriteItemCommand.Text = "Add Write Item Command";
+            miAddWriteItemCommand.Click += miAddWriteItemCommand_Click;
+            // 
+            // miAddReadHistoryCommand
+            // 
+            miAddReadHistoryCommand.Name = "miAddReadHistoryCommand";
+            miAddReadHistoryCommand.Size = new Size(226, 22);
+            miAddReadHistoryCommand.Text = "Add Read History Command";
+            miAddReadHistoryCommand.Click += miAddReadHistoryCommand_Click;
+            // 
+            // miAddCallMethodCommand
+            // 
+            miAddCallMethodCommand.Name = "miAddCallMethodCommand";
+            miAddCallMethodCommand.Size = new Size(226, 22);
+            miAddCallMethodCommand.Text = "Add Call Method Command";
+            miAddCallMethodCommand.Click += miAddCallMethodCommand_Click;
+            // 
+            // miItemSep1
+            // 
+            miItemSep1.Name = "miItemSep1";
+            miItemSep1.Size = new Size(223, 6);
+            // 
+            // miViewItemAttrs
+            // 
+            miViewItemAttrs.Name = "miViewItemAttrs";
+            miViewItemAttrs.Size = new Size(226, 22);
+            miViewItemAttrs.Text = "View Attributes...";
+            miViewItemAttrs.Click += btnViewAttrs_Click;
             // 
             // FrmDeviceConfig
             // 
@@ -581,6 +683,8 @@
             pnlLineInfo.ResumeLayout(false);
             pnlLineInfo.PerformLayout();
             pageDevice.ResumeLayout(false);
+            cmsServerFolder.ResumeLayout(false);
+            cmsServerItem.ResumeLayout(false);
             ResumeLayout(false);
 
         }
@@ -608,7 +712,6 @@
         private Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription ctrlSubscription;
         private Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem ctrlItem;
         private System.Windows.Forms.Button btnViewAttrs;
-        private Controls.CtrlCommand ctrlCommand;
         private Controls.CtrlEmptyItem ctrlEmptyItem;
         private Panel pnlBottom;
         private PictureBox pbConnectionInfo;
@@ -629,5 +732,18 @@
         private Label lblNodeIdFormatExample;
         private NumericUpDown numReconnectIfIdle;
         private Label lblReconnectIfIdle;
+        private Controls.CtrlReadHistoryCommand ctrlReadHistoryCommand;
+        private Controls.CtrlCallMethodCommand ctrlCallMethodCommand;
+        private Controls.CtrlWriteItemCommand ctrlWriteItemCommand;
+        private ContextMenuStrip cmsServerFolder;
+        private ContextMenuStrip cmsServerItem;
+        private ToolStripMenuItem miAddAllItems;
+        private ToolStripMenuItem miAddItemToSubscription;
+        private ToolStripMenuItem miAddWriteItemCommand;
+        private ToolStripMenuItem miAddCallMethodCommand;
+        private ToolStripMenuItem miAddReadHistoryCommand;
+        private ToolStripMenuItem miViewFolderAttrs;
+        private ToolStripSeparator miItemSep1;
+        private ToolStripMenuItem miViewItemAttrs;
     }
 }

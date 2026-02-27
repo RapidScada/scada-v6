@@ -42,6 +42,24 @@
     <Phrase key="ImagesNode">Изображения</Phrase>
     <Phrase key="NoImagePreview">Изображение отсутствует</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ColorModal">
+    <Phrase key="PageTitle">Цвет</Phrase>
+    <Phrase key="lblColor">Наименование или код цвета</Phrase>
+    <Phrase key="lblKnownColors">Известные цвета</Phrase>
+    <Phrase key="thRecentColors">Недавние</Phrase>
+    <Phrase key="thRedColors">Красные</Phrase>
+    <Phrase key="thPinkColors">Розовые</Phrase>
+    <Phrase key="thOrangeColors">Оранжевые</Phrase>
+    <Phrase key="thYellowColors">Жёлтые</Phrase>
+    <Phrase key="thPurpleColors">Фиолетовые</Phrase>
+    <Phrase key="thGreenColors">Зелёные</Phrase>
+    <Phrase key="thBlueColors">Синие</Phrase>
+    <Phrase key="thBrownColors">Коричнивые</Phrase>
+    <Phrase key="thWhiteColors">Белые</Phrase>
+    <Phrase key="thGrayColors">Серые</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.FaceplateModal">
     <Phrase key="PageTitle">Фейсплейт</Phrase>
     <Phrase key="RequiredField">Заполните это поле.</Phrase>
@@ -61,7 +79,7 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ImageModal">
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ImageEditModal">
     <Phrase key="PageTitle">Изображение</Phrase>
     <Phrase key="RequiredField">Заполните это поле.</Phrase>
     <Phrase key="NoImage">Изображение отсутствует</Phrase>
@@ -69,6 +87,23 @@
     <Phrase key="lblData">Данные</Phrase>
     <Phrase key="btnUpload">Загрузить</Phrase>
     <Phrase key="btnDownload">Скачать</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ImageSelectModal">
+    <Phrase key="PageTitle">Выбор изображения</Phrase>
+    <Phrase key="RecentImages">Недавние</Phrase>
+    <Phrase key="AllImages">Все</Phrase>
+    <Phrase key="lblName">Наименование</Phrase>
+    <Phrase key="lblAvailableImages">Доступные изображения</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.PropertyModal">
+    <Phrase key="PageTitle">Выбор свойства</Phrase>
+    <Phrase key="SelectObjectItem">-- Выберите объект --</Phrase>
+    <Phrase key="lblPropertyName">Имя свойства</Phrase>
+    <Phrase key="lblObjectProperties">Свойства объекта</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>

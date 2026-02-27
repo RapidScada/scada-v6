@@ -42,6 +42,24 @@
     <Phrase key="ImagesNode">Images</Phrase>
     <Phrase key="NoImagePreview">No image</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ColorModal">
+    <Phrase key="PageTitle">Color</Phrase>
+    <Phrase key="lblColor">Color name or hex code</Phrase>
+    <Phrase key="lblKnownColors">Known colors</Phrase>
+    <Phrase key="thRecentColors">Recent</Phrase>
+    <Phrase key="thRedColors">Red</Phrase>
+    <Phrase key="thPinkColors">Pink</Phrase>
+    <Phrase key="thOrangeColors">Orange</Phrase>
+    <Phrase key="thYellowColors">Yellow</Phrase>
+    <Phrase key="thPurpleColors">Purple</Phrase>
+    <Phrase key="thGreenColors">Green</Phrase>
+    <Phrase key="thBlueColors">Blue</Phrase>
+    <Phrase key="thBrownColors">Brown</Phrase>
+    <Phrase key="thWhiteColors">White</Phrase>
+    <Phrase key="thGrayColors">Gray</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.FaceplateModal">
     <Phrase key="PageTitle">Faceplate</Phrase>
     <Phrase key="RequiredField">Please fill out this field.</Phrase>
@@ -61,7 +79,7 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ImageModal">
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ImageEditModal">
     <Phrase key="PageTitle">Image</Phrase>
     <Phrase key="RequiredField">Please fill out this field.</Phrase>
     <Phrase key="NoImage">No image</Phrase>
@@ -69,6 +87,23 @@
     <Phrase key="lblData">Data</Phrase>
     <Phrase key="btnUpload">Upload</Phrase>
     <Phrase key="btnDownload">Download</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ImageSelectModal">
+    <Phrase key="PageTitle">Select Image</Phrase>
+    <Phrase key="RecentImages">Recent</Phrase>
+    <Phrase key="AllImages">All</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblAvailableImages">Available images</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.PropertyModal">
+    <Phrase key="PageTitle">Select Property</Phrase>
+    <Phrase key="SelectObjectItem">-- Select an object --</Phrase>
+    <Phrase key="lblPropertyName">Property name</Phrase>
+    <Phrase key="lblObjectProperties">Object properties</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>

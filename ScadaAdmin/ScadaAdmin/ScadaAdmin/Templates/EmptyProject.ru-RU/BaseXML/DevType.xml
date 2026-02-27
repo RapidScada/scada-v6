@@ -142,7 +142,7 @@
     <DevTypeID>224</DevTypeID>
     <Name>Telegram</Name>
     <Driver>DrvTelegram</Driver>
-    <Descr>Отправляет уведомления через Telegram</Descr>
+    <Descr>Отправляет уведомления через мессенджер Telegram</Descr>
   </DevType>
   <DevType>
     <DevTypeID>225</DevTypeID>
@@ -221,6 +221,12 @@
     <Name>CSV-считыватель</Name>
     <Driver>DrvCsvReader</Driver>
     <Descr>Считывает данные из CSV-файла</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>238</DevTypeID>
+    <Name>Мессенджер Max</Name>
+    <Driver>DrvMaxMessenger</Driver>
+    <Descr>Отправляет уведомления через мессенджер Max</Descr>
   </DevType>
   <DevType>
     <DevTypeID>1001</DevTypeID>

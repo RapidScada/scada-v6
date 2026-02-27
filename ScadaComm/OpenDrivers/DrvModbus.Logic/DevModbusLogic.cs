@@ -239,7 +239,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
         public override void OnConnectionSet()
         {
             // set new line for the ASCII mode, called before OnCommLineStart()
-            if (Connection != null)
+            if (Connection != null && transMode == TransMode.ASCII)
                 Connection.NewLine = ModbusUtils.CRLF;
 
             // update connection reference

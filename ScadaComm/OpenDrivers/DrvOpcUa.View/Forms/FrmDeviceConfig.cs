@@ -9,6 +9,7 @@ using Scada.Comm.Lang;
 using Scada.Forms;
 using Scada.Lang;
 using Scada.Log;
+using System.ComponentModel;
 
 namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 {
@@ -54,8 +55,10 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private FrmDeviceConfig()
         {
             InitializeComponent();
-            ctrlSubscription.Top = ctrlItem.Top = ctrlCommand.Top = ctrlEmptyItem.Top;
-            ctrlSubscription.Visible = ctrlItem.Visible = ctrlCommand.Visible = false;
+            HideControls();
+            ctrlEmptyItem.Visible = true;
+            ctrlSubscription.Top = ctrlItem.Top = ctrlWriteItemCommand.Top =
+                ctrlCallMethodCommand.Top = ctrlReadHistoryCommand.Top = ctrlEmptyItem.Top;
         }
 
         /// <summary>
@@ -118,6 +121,31 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// </summary>
         private bool Modified => LineConfigModified || DeviceConfigModified;
 
+
+        /// <summary>
+        /// Translates the form.
+        /// </summary>
+        private void TranslateForm()
+        {
+            FormTranslator.Translate(this, GetType().FullName,
+                new FormTranslatorOptions { ToolTip = toolTip, ContextMenus = [cmsServerFolder, cmsServerItem] });
+            FormTranslator.Translate(ctrlEmptyItem, ctrlEmptyItem.GetType().FullName);
+            FormTranslator.Translate(ctrlSubscription, ctrlSubscription.GetType().FullName);
+            FormTranslator.Translate(ctrlItem, ctrlItem.GetType().FullName);
+            FormTranslator.Translate(ctrlWriteItemCommand, ctrlWriteItemCommand.GetType().FullName);
+            FormTranslator.Translate(ctrlCallMethodCommand, ctrlCallMethodCommand.GetType().FullName);
+            FormTranslator.Translate(ctrlReadHistoryCommand, ctrlReadHistoryCommand.GetType().FullName);
+            Text = string.Format(Text, deviceNum);
+        }
+
+        /// <summary>
+        /// Hides the controls that display properties of the selected tree node.
+        /// </summary>
+        private void HideControls()
+        {
+            ctrlEmptyItem.Visible = ctrlSubscription.Visible = ctrlItem.Visible = ctrlWriteItemCommand.Visible =
+                ctrlCallMethodCommand.Visible = ctrlReadHistoryCommand.Visible = false;
+        }
 
         /// <summary>
         /// Takes the tree view images and loads them into an image list.
@@ -270,6 +298,19 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         }
 
         /// <summary>
+        /// Selects a context menu depending on the node class.
+        /// </summary>
+        private ContextMenuStrip SelectContextMenu(NodeClass nodeClass)
+        {
+            if (nodeClass.HasFlag(NodeClass.Object))
+                return cmsServerFolder;
+            else if (nodeClass.HasFlag(NodeClass.Variable) || nodeClass.HasFlag(NodeClass.Method))
+                return cmsServerItem;
+            else
+                return null;
+        }
+
+        /// <summary>
         /// Sets the enabled property of the server browsing buttons.
         /// </summary>
         private void SetServerButtonsEnabled()
@@ -294,7 +335,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private void SetDeviceButtonsEnabled()
         {
             btnAddItem.Enabled = tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag &&
-                serverNodeTag.ClassIs(NodeClass.Variable, NodeClass.Method);
+                (serverNodeTag.ClassIs(NodeClass.Variable) || serverNodeTag.ClassIs(NodeClass.Method) &&
+                TreeViewExtensions.GetTopParentNode(tvDevice.SelectedNode) == commandsNode);
 
             bool deviceNodeTagDefined = tvDevice.SelectedNode?.Tag != null;
             btnMoveUpItem.Enabled = deviceNodeTagDefined && tvDevice.SelectedNode.PrevNode != null;
@@ -420,7 +462,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// <summary>
         /// Browses the server node.
         /// </summary>
-        private void BrowseServerNode(TreeNode treeNode)
+        private bool BrowseServerNode(TreeNode treeNode)
         {
             try
             {
@@ -437,12 +479,12 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                     serverNodeTag = null;
                     nodeId = ObjectIds.ObjectsFolder;
                 }
-                else if (treeNode.Tag is ServerNodeTag nodeTag)
+                else if (treeNode.Tag is ServerNodeTag tag)
                 {
-                    fillNodeRequired = !nodeTag.IsFilled;
+                    fillNodeRequired = !tag.IsFilled;
                     nodeCollection = treeNode.Nodes;
-                    serverNodeTag = nodeTag;
-                    nodeId = nodeTag.NodeId;
+                    serverNodeTag = tag;
+                    nodeId = tag.NodeId;
                 }
 
                 if (fillNodeRequired && nodeId != null && opcSession != null)
@@ -461,6 +503,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                     {
                         TreeNode childNode = TreeViewExtensions.CreateNode(rd.DisplayName, SelectImageKey(rd.NodeClass));
                         childNode.Tag = new ServerNodeTag(rd, opcSession.NamespaceUris);
+                        childNode.ContextMenuStrip = SelectContextMenu(rd.NodeClass);
 
                         // allow to expand any node
                         TreeNode emptyNode = TreeViewExtensions.CreateNode(DriverPhrases.EmptyNode, ImageKey.Empty);
@@ -472,10 +515,13 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                     if (serverNodeTag != null)
                         serverNodeTag.IsFilled = true;
                 }
+
+                return true;
             }
             catch (Exception ex)
             {
                 ScadaUiUtils.ShowError(ex.BuildErrorMessage(DriverPhrases.BrowseServerError));
+                return false;
             }
             finally
             {
@@ -484,58 +530,49 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         }
 
         /// <summary>
-        /// Adds a new item to the configuration.
+        /// Adds a new subscription item or command to the configuration.
         /// </summary>
         private bool AddItem(TreeNode serverNode)
         {
-            if (serverNode?.Tag is ServerNodeTag serverNodeTag &&
-                serverNodeTag.ClassIs(NodeClass.Variable, NodeClass.Method))
+            if (serverNode?.Tag is ServerNodeTag serverNodeTag)
             {
-                if (TreeViewExtensions.GetTopParentNode(tvDevice.SelectedNode) == commandsNode ||
-                    serverNodeTag.ClassIs(NodeClass.Method))
+                if (TreeViewExtensions.GetTopParentNode(tvDevice.SelectedNode) == commandsNode)
                 {
-                    AddCommand(serverNodeTag, serverNode.Parent?.Tag as ServerNodeTag);
+                    if (serverNodeTag.ClassIs(NodeClass.Method))
+                    {
+                        AddCallMethodCommand(serverNodeTag, serverNode.Parent?.Tag as ServerNodeTag);
+                        return true;
+                    }
+                    else if (serverNodeTag.ClassIs(NodeClass.Variable))
+                    {
+                        AddWriteItemCommand(serverNodeTag);
+                        return true;
+                    }
                 }
-                else
+                else if (serverNodeTag.ClassIs(NodeClass.Variable))
                 {
-                    AddItemToSubscription(serverNodeTag);
+                    AddItemsToSubscription([serverNodeTag]);
+                    return true;
                 }
-
-                return true;
             }
 
             return false;
         }
 
         /// <summary>
-        /// Adds a new subscription item to the configuration.
+        /// Adds new subscription items to the configuration.
         /// </summary>
-        private void AddItemToSubscription(ServerNodeTag serverNodeTag)
+        private void AddItemsToSubscription(List<ServerNodeTag> serverNodeTags)
         {
-            // create new monitored item
-            ItemConfig itemConfig = new()
-            {
-                NodeID = serverNodeTag.NodeIdStr,
-                DisplayName = serverNodeTag.DisplayName,
-                TagCode = GetTagCode(serverNodeTag),
-                Tag = new ItemConfigTag(0)
-            };
-
-            if (GetDataType(serverNodeTag.NodeId, out string dataTypeName, out bool isArray))
-            {
-                itemConfig.DataTypeName = dataTypeName;
-                itemConfig.IsArray = isArray;
-            }
-
             // find subscription
             TreeNode deviceNode = tvDevice.SelectedNode;
             TreeNode subscriptionNode = deviceNode?.FindClosest(typeof(SubscriptionConfig)) ??
                 subscriptionsNode.LastNode;
             SubscriptionConfig subscriptionConfig;
 
-            // add new subscription
             if (subscriptionNode == null)
             {
+                // add new subscription
                 subscriptionConfig = new SubscriptionConfig();
                 subscriptionNode = CreateSubscriptionNode(subscriptionConfig);
                 tvDevice.Insert(subscriptionsNode, subscriptionNode,
@@ -546,36 +583,92 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 subscriptionConfig = (SubscriptionConfig)subscriptionNode.Tag;
             }
 
-            // add monitored item
-            TreeNode itemNode = CreateItemNode(itemConfig);
-            tvDevice.Insert(subscriptionNode, itemNode, subscriptionConfig.Items, itemConfig);
-            UpdateTagNums(itemNode);
+            // add items
+            TreeNode startNode = null;
+
+            try
+            {
+                tvDevice.BeginUpdate();
+
+                foreach (ServerNodeTag serverNodeTag in serverNodeTags)
+                {
+                    // create new monitored item
+                    ItemConfig itemConfig = new()
+                    {
+                        NodeID = serverNodeTag.NodeIdStr,
+                        DisplayName = serverNodeTag.DisplayName,
+                        TagCode = GetTagCode(serverNodeTag),
+                        Tag = new ItemConfigTag(0)
+                    };
+
+                    if (GetDataType(serverNodeTag.NodeId, out string dataTypeName, out bool isArray))
+                    {
+                        itemConfig.DataTypeName = dataTypeName;
+                        itemConfig.IsArray = isArray;
+                    }
+
+                    // add monitored item
+                    TreeNode itemNode = CreateItemNode(itemConfig);
+                    tvDevice.Insert(subscriptionNode, itemNode, subscriptionConfig.Items, itemConfig);
+                    startNode ??= itemNode;
+                }
+            }
+            finally
+            {
+                tvDevice.EndUpdate();
+            }
+
+            UpdateTagNums(startNode);
             DeviceConfigModified = true;
         }
 
         /// <summary>
-        /// Adds a new command to the configuration.
+        /// Adds a new command of the WriteItem type to the configuration.
         /// </summary>
-        private void AddCommand(ServerNodeTag serverNodeTag, ServerNodeTag parentServerNodeTag)
+        private void AddWriteItemCommand(ServerNodeTag serverNodeTag)
         {
-            // add new command
-            CommandConfig commandConfig = new()
+            WriteItemCommandConfig commandConfig = new()
             {
-                NodeID = serverNodeTag.NodeIdStr,
                 DisplayName = serverNodeTag.DisplayName,
                 CmdCode = GetTagCode(serverNodeTag),
-                IsMethod = serverNodeTag.ClassIs(NodeClass.Method)
+                NodeID = serverNodeTag.NodeIdStr,
+                DataTypeName = GetDataType(serverNodeTag.NodeId, out string dataTypeName, out _) ?
+                        dataTypeName : ""
             };
 
-            if (commandConfig.IsMethod)
+            tvDevice.Insert(commandsNode, CreateCommandNode(commandConfig), deviceConfig.Commands, commandConfig);
+            DeviceConfigModified = true;
+        }
+
+        /// <summary>
+        /// Adds a new command of the ReadHistory type to the configuration.
+        /// </summary>
+        private void AddReadHistoryCommand(ServerNodeTag serverNodeTag)
+        {
+            string cmdName = serverNodeTag.DisplayName + ".History";
+            ReadHistoryCommandConfig commandConfig = new()
             {
-                if (parentServerNodeTag != null)
-                    commandConfig.ParentNodeID = parentServerNodeTag.NodeIdStr;
-            }
-            else if (GetDataType(serverNodeTag.NodeId, out string dataTypeName, out _))
+                DisplayName = cmdName,
+                CmdCode = cmdName
+            };
+
+            commandConfig.NodeIDs.Add(serverNodeTag.NodeIdStr);
+            tvDevice.Insert(commandsNode, CreateCommandNode(commandConfig), deviceConfig.Commands, commandConfig);
+            DeviceConfigModified = true;
+        }
+
+        /// <summary>
+        /// Adds a new command of the CallMethod type to the configuration.
+        /// </summary>
+        private void AddCallMethodCommand(ServerNodeTag serverNodeTag, ServerNodeTag parentServerNodeTag)
+        {
+            CallMethodCommandConfig commandConfig = new()
             {
-                commandConfig.DataTypeName = dataTypeName;
-            }
+                DisplayName = serverNodeTag.DisplayName,
+                CmdCode = GetTagCode(serverNodeTag),
+                NodeID = serverNodeTag.NodeIdStr,
+                ParentNodeID = parentServerNodeTag == null ? "" : parentServerNodeTag.NodeIdStr
+            };
 
             tvDevice.Insert(commandsNode, CreateCommandNode(commandConfig), deviceConfig.Commands, commandConfig);
             DeviceConfigModified = true;
@@ -603,14 +696,14 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 
             try
             {
-                ReadValueIdCollection nodesToRead = new()
-                {
+                ReadValueIdCollection nodesToRead =
+                [
                     new ReadValueId
                     {
                         NodeId = nodeId,
                         AttributeId = Attributes.Value
                     }
-                };
+                ];
 
                 opcSession.Read(null, 0, TimestampsToReturn.Neither, nodesToRead,
                     out DataValueCollection results, out DiagnosticInfoCollection diagnosticInfos);
@@ -677,13 +770,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 
         private void FrmDeviceConfig_Load(object sender, EventArgs e)
         {
-            // translate form
-            FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions { ToolTip = toolTip });
-            FormTranslator.Translate(ctrlEmptyItem, ctrlEmptyItem.GetType().FullName);
-            FormTranslator.Translate(ctrlSubscription, ctrlSubscription.GetType().FullName);
-            FormTranslator.Translate(ctrlItem, ctrlItem.GetType().FullName);
-            FormTranslator.Translate(ctrlCommand, ctrlCommand.GetType().FullName);
-            Text = string.Format(Text, deviceNum);
+            TranslateForm();
 
             // load configuration
             lineConfigFileName = Path.Combine(appDirs.ConfigDir, OpcLineConfig.GetFileName(lineNum));
@@ -844,10 +931,90 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             }
         }
 
+        private void tvServer_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            // select tree node on right click
+            if (e.Button == MouseButtons.Right && e.Node != null)
+                tvServer.SelectedNode = e.Node;
+        }
+
         private void tvServer_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
                 AddItem(tvServer.SelectedNode);
+        }
+
+
+        private void miAddAllItems_Click(object sender, EventArgs e)
+        {
+            // add all child items to subscription
+            TreeNode selectedNode = tvServer.SelectedNode;
+
+            if (selectedNode?.Tag is ServerNodeTag serverNodeTag &&
+                (serverNodeTag.IsFilled || BrowseServerNode(selectedNode)))
+            {
+                List<ServerNodeTag> childTags = [];
+
+                foreach (TreeNode childNode in selectedNode.Nodes)
+                {
+                    if (childNode.Tag is ServerNodeTag childTag && childTag.ClassIs(NodeClass.Variable))
+                        childTags.Add(childTag);
+                }
+
+                if (childTags.Count > 0)
+                    AddItemsToSubscription(childTags);
+                else
+                    ScadaUiUtils.ShowWarning(DriverPhrases.NoItemsToAdd);
+            }
+        }
+
+        private void cmsServerItem_Opening(object sender, CancelEventArgs e)
+        {
+            // enable or disable menu items
+            if (tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag)
+            {
+                bool isVariable = serverNodeTag.ClassIs(NodeClass.Variable);
+                miAddItemToSubscription.Enabled = isVariable;
+                miAddWriteItemCommand.Enabled = isVariable;
+                miAddReadHistoryCommand.Enabled = isVariable;
+                miAddCallMethodCommand.Enabled = serverNodeTag.ClassIs(NodeClass.Method);
+            }
+        }
+
+        private void miAddItemToSubscription_Click(object sender, EventArgs e)
+        {
+            if (tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag &&
+                serverNodeTag.ClassIs(NodeClass.Variable))
+            {
+                AddItemsToSubscription([serverNodeTag]);
+            }
+        }
+
+        private void miAddWriteItemCommand_Click(object sender, EventArgs e)
+        {
+            if (tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag &&
+                serverNodeTag.ClassIs(NodeClass.Variable))
+            {
+                AddWriteItemCommand(serverNodeTag);
+            }
+        }
+
+        private void miAddReadHistoryCommand_Click(object sender, EventArgs e)
+        {
+            if (tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag &&
+                serverNodeTag.ClassIs(NodeClass.Variable))
+            {
+                AddReadHistoryCommand(serverNodeTag);
+            }
+        }
+
+        private void miAddCallMethodCommand_Click(object sender, EventArgs e)
+        {
+            if (tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag &&
+                serverNodeTag.ClassIs(NodeClass.Method))
+            {
+                AddCallMethodCommand(serverNodeTag, tvServer.SelectedNode.Parent?.Tag as ServerNodeTag);
+            }
         }
 
 
@@ -952,13 +1119,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 
         private void tvDevice_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            SetDeviceButtonsEnabled();
-
-            // show parameters of the selected item
-            ctrlEmptyItem.Visible = false;
-            ctrlSubscription.Visible = false;
-            ctrlItem.Visible = false;
-            ctrlCommand.Visible = false;
+            // show parameters of the selected node
+            HideControls();
             object deviceNodeTag = e.Node?.Tag;
 
             if (deviceNodeTag is SubscriptionConfig subscriptionConfig)
@@ -971,15 +1133,27 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 ctrlItem.ItemConfig = itemConfig;
                 ctrlItem.Visible = true;
             }
-            else if (deviceNodeTag is CommandConfig commandConfig)
+            else if (deviceNodeTag is WriteItemCommandConfig commandConfig1)
             {
-                ctrlCommand.CommandConfig = commandConfig;
-                ctrlCommand.Visible = true;
+                ctrlWriteItemCommand.CommandConfig = commandConfig1;
+                ctrlWriteItemCommand.Visible = true;
+            }
+            else if (deviceNodeTag is CallMethodCommandConfig commandConfig2)
+            {
+                ctrlCallMethodCommand.CommandConfig = commandConfig2;
+                ctrlCallMethodCommand.Visible = true;
+            }
+            else if (deviceNodeTag is ReadHistoryCommandConfig commandConfig3)
+            {
+                ctrlReadHistoryCommand.CommandConfig = commandConfig3;
+                ctrlReadHistoryCommand.Visible = true;
             }
             else
             {
                 ctrlEmptyItem.Visible = true;
             }
+
+            SetDeviceButtonsEnabled();
         }
 
         private void tvDevice_AfterExpand(object sender, TreeViewEventArgs e)

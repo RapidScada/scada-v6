@@ -79,6 +79,7 @@ rs.mimic.PropertyDescriptor = class {
     category = "";
     isReadOnly = false;
     isBrowsable = true;
+    isBindable = true;
     type = "";
     subtype = "";
     editor = "";
@@ -297,6 +298,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "checkRights",
             displayName: "Check rights",
             category: KnownCategory.DATA,
+            isBindable: false,
             type: BasicType.BOOL
         }));
 
@@ -304,6 +306,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "deviceNum",
             displayName: "Device number",
             category: KnownCategory.DATA,
+            isBindable: false,
             type: BasicType.INT
         }));
 
@@ -311,6 +314,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "inCnlNum",
             displayName: "Input channel",
             category: KnownCategory.DATA,
+            isBindable: false,
             type: BasicType.INT
         }));
 
@@ -318,6 +322,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "objNum",
             displayName: "Object number",
             category: KnownCategory.DATA,
+            isBindable: false,
             type: BasicType.INT
         }));
 
@@ -325,6 +330,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "outCnlNum",
             displayName: "Output channel",
             category: KnownCategory.DATA,
+            isBindable: false,
             type: BasicType.INT
         }));
 
@@ -332,6 +338,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "propertyBindings",
             displayName: "Property bindings",
             category: KnownCategory.DATA,
+            isBindable: false,
             type: BasicType.LIST,
             subtype: Subtype.PROPERTY_BINDING
         }));
@@ -342,6 +349,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "ID",
             category: KnownCategory.DESIGN,
             isReadOnly: true,
+            isBindable: false,
             type: BasicType.INT
         }));
 
@@ -349,6 +357,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "name",
             displayName: "Name",
             category: KnownCategory.DESIGN,
+            isBindable: false,
             type: BasicType.STRING
         }));
 
@@ -357,6 +366,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "Type name",
             category: KnownCategory.DESIGN,
             isReadOnly: true,
+            isBindable: false,
             type: BasicType.STRING
         }));
 
@@ -467,6 +477,7 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
             name: "script",
             displayName: "Script",
             category: KnownCategory.BEHAVIOR,
+            isBindable: false,
             type: BasicType.STRING,
             editor: PropertyEditor.TEXT_EDITOR,
             editorOptions: { language: "js" }
@@ -656,6 +667,7 @@ rs.mimic.ActionDescriptor = class extends rs.mimic.StructureDescriptor {
         this.add(new PropertyDescriptor({
             name: "script",
             displayName: "Script",
+            isBindable: false,
             type: BasicType.STRING,
             editor: PropertyEditor.TEXT_EDITOR,
             editorOptions: { language: "js" }
@@ -895,7 +907,8 @@ rs.mimic.PropertyBindingDescriptor = class extends rs.mimic.StructureDescriptor 
             name: "propertyName",
             displayName: "Property name",
             type: BasicType.STRING,
-            editor: PropertyEditor.PROPERTY_DIALOG
+            editor: PropertyEditor.PROPERTY_DIALOG,
+            editorOptions: { canSelectObject: false }
         }));
 
         this.add(new PropertyDescriptor({
@@ -924,6 +937,7 @@ rs.mimic.PropertyExportDescriptor = class extends rs.mimic.StructureDescriptor {
     constructor() {
         super();
         const BasicType = rs.mimic.BasicType;
+        const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
         this.add(new PropertyDescriptor({
@@ -935,7 +949,9 @@ rs.mimic.PropertyExportDescriptor = class extends rs.mimic.StructureDescriptor {
         this.add(new PropertyDescriptor({
             name: "path",
             displayName: "Path",
-            type: BasicType.STRING
+            type: BasicType.STRING,
+            editor: PropertyEditor.PROPERTY_DIALOG,
+            editorOptions: { canSelectObject: true }
         }));
 
         this.add(new PropertyDescriptor({

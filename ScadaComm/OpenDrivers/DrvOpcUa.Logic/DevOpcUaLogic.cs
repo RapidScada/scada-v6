@@ -7,7 +7,6 @@ using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvOpcUa.Config;
 using Scada.Comm.Lang;
-using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
@@ -45,6 +44,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
         private bool deviceConfigError;                      // indicates that that device configuration is not loaded
         private OpcUaLineData lineData;                      // data common to the communication line
+        private Dictionary<string, DeviceTag> tagByNodeID;   // the device tags accessed by node ID
         private Dictionary<int, CommandConfig> cmdByNum;     // the commands accessed by number
         private Dictionary<string, CommandConfig> cmdByCode; // the commands accessed by code
 
@@ -61,6 +61,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
             deviceConfigError = false;
             lineData = null;
+            tagByNodeID = null;
             cmdByNum = null;
             cmdByCode = null;
 
@@ -128,7 +129,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                         !string.IsNullOrEmpty(itemConfig.TagCode) &&
                         !cmdByCode.ContainsKey(itemConfig.TagCode))
                     {
-                        cmdByCode.Add(itemConfig.TagCode, new CommandConfig
+                        cmdByCode.Add(itemConfig.TagCode, new WriteItemCommandConfig
                         {
                             NodeID = itemConfig.NodeID,
                             DisplayName = itemConfig.DisplayName,
@@ -284,7 +285,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// <summary>
         /// Writes an item value to the OPC server.
         /// </summary>
-        private bool WriteItemValue(ISession opcSession, CommandConfig commandConfig, double cmdVal, string cmdData)
+        private bool WriteItemValue(ISession opcSession, WriteItemCommandConfig commandConfig,
+            double cmdVal, string cmdData)
         {
             try
             {
@@ -372,7 +374,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// <summary>
         /// Calls a method of the OPC server.
         /// </summary>
-        private bool CallMethod(ISession opcSession, CommandConfig commandConfig, string cmdData)
+        private bool CallMethod(ISession opcSession, CallMethodCommandConfig commandConfig, string cmdData)
         {
             try
             {
@@ -385,15 +387,13 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     new NodeId(commandConfig.NodeID),
                     GetMethodArgs(cmdData));
 
-                if (methodResults == null)
-                {
-                    Log.WriteLine(CommPhrases.ResponseOK);
-                }
-                else
+                if (methodResults != null)
                 {
                     for (int i = 0, cnt = methodResults.Count; i < cnt; i++)
                     {
-                        Log.WriteLine("Result[{0}] = {1}", i, methodResults[i]);
+                        Log.WriteLine(Locale.IsRussian ?
+                            "Результат[{0}] = {1}" :
+                            "Result[{0}] = {1}", i, methodResults[i]);
                     }
                 }
 
@@ -451,6 +451,125 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             return args.ToArray();
         }
 
+        /// <summary>
+        /// Reads a history from the OPC server.
+        /// </summary>
+        private bool ReadHistory(ISession opcSession, ReadHistoryCommandConfig commandConfig, 
+            IDictionary<string, string> cmdArgs)
+        {
+            try
+            {
+                // prepare request details
+                DateTime startTime = cmdArgs.GetValueAsDateTime("startTime", DateTimeKind.Utc);
+                DateTime endTime = cmdArgs.GetValueAsDateTime("endTime", DateTimeKind.Utc);
+
+                if (!(startTime > DateTime.MinValue && endTime > DateTime.MinValue && startTime <= endTime))
+                {
+                    throw new ScadaException(Locale.IsRussian ?
+                        "Некорректный период времени" :
+                        "Invalid time range");
+                }
+
+                ReadRawModifiedDetails details = new()
+                {
+                    StartTime = startTime,
+                    EndTime = endTime,
+                    NumValuesPerNode = commandConfig.ValuesPerNode,
+                    ReturnBounds = true,
+                    IsReadModified = false // false for raw data
+                };
+
+                // prepare nodes to read
+                HistoryReadValueIdCollection nodesToRead = [];
+                List<DeviceTag> deviceTags = [];
+
+                foreach (string nodeID in commandConfig.NodeIDs)
+                {
+                    if (!string.IsNullOrEmpty(nodeID))
+                    {
+                        HistoryReadValueId node = new() { NodeId = new(nodeID) };
+                        nodesToRead.Add(node);
+                        deviceTags.Add(GetDeviceTag(nodeID));
+                    }
+                }
+
+                if (nodesToRead.Count == 0)
+                {
+                    throw new ScadaException(Locale.IsRussian ?
+                        "Элементы для чтения отсутствуют" :
+                        "No items to read");
+                }
+
+                // read history
+                ExtensionObject eo = new(details.TypeId, details);
+                opcSession.HistoryRead(null, eo, TimestampsToReturn.Both, false, nodesToRead, 
+                    out HistoryReadResultCollection results, out DiagnosticInfoCollection diagnosticInfos);
+
+                if (results == null || results.Count == 0)
+                {
+                    throw new ScadaException(Locale.IsRussian ?
+                        "Результаты отсутствуют" :
+                        "No results");
+                }
+
+                // obtain results
+                HistoricalSlices historicalSlices = new(deviceTags);
+
+                for (int resultIndex = 0; resultIndex < results.Count; resultIndex++)
+                {
+                    HistoryReadResult result = results[resultIndex];
+                    HistoryReadValueId node = nodesToRead[resultIndex];
+                    DeviceTag deviceTag = historicalSlices.DeviceTags[resultIndex];
+                    Log.WriteLine(Locale.IsRussian ?
+                        "Результат для узла '{0}' получен. Статус {1}" :
+                        "Result for node '{0}' has been received. Status is {1}", node.NodeId, result.StatusCode);
+
+                    if (deviceTag == null)
+                    {
+                        Log.WriteLine(Locale.IsRussian ?
+                            "Ошибка: тег не найден" :
+                            "Error: tag not found");
+                    }
+                    else
+                    {
+                        Log.WriteLine(Locale.IsRussian ?
+                            "Наименование тега: {0}" :
+                            "Tag name: {0}", deviceTag.Name);
+                    }
+
+                    if (StatusCode.IsGood(result.StatusCode))
+                    {
+                        if (result.HistoryData.Body is HistoryData historyData)
+                        {
+                            foreach (DataValue dataValue in historyData.DataValues)
+                            {
+                                Log.WriteLine(
+                                    $"{CommPhrases.ReceiveNotation} {dataValue.SourceTimestamp}, " +
+                                    $"{dataValue.ServerTimestamp}, {dataValue.Value}, {dataValue.StatusCode}");
+                                historicalSlices.AddDataValue(resultIndex, dataValue);
+                            }
+                        }
+                    }
+                }
+
+                historicalSlices.EnqueueSlices(DeviceData);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLine(CommPhrases.ErrorPrefix + ex.Message);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets the device tag associated with the specified node ID, or null if the tag is not found.
+        /// </summary>
+        private DeviceTag GetDeviceTag(string nodeID)
+        {
+            return tagByNodeID != null && tagByNodeID.TryGetValue(nodeID, out DeviceTag deviceTag) ? deviceTag : null;
+        }
+
 
         /// <summary>
         /// Performs actions when starting a communication line.
@@ -491,6 +610,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             if (deviceConfigError)
                 return;
 
+            tagByNodeID = [];
+
             foreach (SubscriptionConfig subscriptionConfig in deviceConfig.Subscriptions)
             {
                 TagGroup tagGroup = new(subscriptionConfig.DisplayName);
@@ -500,6 +621,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     DeviceTag deviceTag = tagGroup.AddTag(itemConfig.TagCode, itemConfig.DisplayName);
                     deviceTag.Aux = new DeviceTagMeta();
                     itemConfig.Tag = deviceTag;
+                    tagByNodeID.TryAdd(itemConfig.NodeID, deviceTag);
 
                     if (itemConfig.IsString)
                     {
@@ -557,11 +679,21 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 {
                     Log.WriteLine(CommPhrases.InvalidCommand);
                 }
+                else if (commandConfig is WriteItemCommandConfig config1)
+                {
+                    LastRequestOK = WriteItemValue(opcSession, config1, cmd.CmdVal, cmd.GetCmdDataString());
+                }
+                else if (commandConfig is CallMethodCommandConfig config2)
+                {
+                    LastRequestOK = CallMethod(opcSession, config2, cmd.GetCmdDataString());
+                }
+                else if (commandConfig is ReadHistoryCommandConfig config3)
+                {
+                    LastRequestOK = ReadHistory(opcSession, config3, cmd.GetCmdDataArgs());
+                }
                 else
                 {
-                    LastRequestOK = commandConfig.IsMethod
-                        ? CallMethod(opcSession, commandConfig, cmd.GetCmdDataString())
-                        : WriteItemValue(opcSession, commandConfig, cmd.CmdVal, cmd.GetCmdDataString());
+                    Log.WriteLine(CommPhrases.InvalidCommand);
                 }
 
                 FinishCommand();
@@ -603,8 +735,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                         if (monitoredItem.Handle is ItemTag itemTag &&
                             itemTag.DeviceTag is DeviceTag deviceTag)
                         {
-                            int tagStatus = StatusCode.IsGood(change.Value.StatusCode) ?
-                                CnlStatusID.Defined : CnlStatusID.Undefined;
+                            int tagStatus = LogicUtils.GetDeviceTagStatus(change.Value.StatusCode);
 
                             if (itemTag.ItemConfig.IsArray && change.Value.Value is Array arrVal)
                             {

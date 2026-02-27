@@ -30,7 +30,7 @@ let splitter = null;
 let propGrid = null;
 let structTree = null;
 let faceplateModal = null;
-let imageModal = null;
+let imageEditModal = null;
 let mimicElem = $();
 let selectedComponents = [];
 let lastUpdateTime = 0;
@@ -238,7 +238,7 @@ function initStructTree() {
 
     // images
     structTree.addEventListener(StructTreeEventType.ADD_IMAGE_CLICK, function () {
-        imageModal.show(null, function (context) {
+        imageEditModal.show(null, function (context) {
             addImage(context.newValue);
         });
     });
@@ -247,7 +247,7 @@ function initStructTree() {
         let image = mimic.imageMap.get(event.detail.name);
 
         if (image) {
-            imageModal.show(image, function (context) {
+            imageEditModal.show(image, function (context) {
                 addImage(context.newValue, context.oldValue);
             });
         } else {
@@ -302,8 +302,11 @@ function initPropGrid() {
 
 function initModals() {
     faceplateModal = new FaceplateModal("divFaceplateModal");
-    imageModal = new ImageModal("divImageModal");
+    imageEditModal = new ImageEditModal("divImageEditModal");
+    PropGridDialogs.colorModal = new ColorModal("divColorModal");
     PropGridDialogs.fontModal = new FontModal("divFontModal");
+    PropGridDialogs.imageSelectModal = new ImageSelectModal("divImageSelectModal", mimic);
+    PropGridDialogs.propertyModal = new PropertyModal("divPropertyModal", mimic);
     PropGridDialogs.textEditor = new TextEditor("divTextEditor");
 }
 
@@ -869,6 +872,7 @@ function addImage(image, opt_oldImage) {
     showMimic();
     changes.push(Change.addImage(image));
     pushChanges(...changes);
+    PropGridDialogs.imageSelectModal.invalidate();
 }
 
 function removeImage(imageName) {
@@ -877,6 +881,7 @@ function removeImage(imageName) {
     structTree.refreshImages();
     showMimic();
     pushChanges(Change.removeImage(imageName));
+    PropGridDialogs.imageSelectModal.invalidate();
 }
 
 // --- History ---
@@ -913,7 +918,7 @@ function restoreHistoryPoint(historyPoint) {
                 let documentSource = historyChange.getNewObject();
 
                 if (documentSource) {
-                    Object.assign(mimic.document, MimicFactory.parseProperties(documentSource, mimic.isFaceplate));
+                    mimic.setProperties(MimicFactory.parseProperties(documentSource, mimic.isFaceplate));
                     mimicHistory.rememberDocument(mimic, true);
                     unitedRenderer.updateMimicDom();
                     changes.push(Change.updateDocument(mimic.document));
@@ -948,7 +953,7 @@ function restoreHistoryPoint(historyPoint) {
                 let factory = mimic.getComponentFactory(componentSource?.typeName);
 
                 if (component && componentSource && factory) {
-                    Object.assign(component.properties, factory.parseProperties(componentSource.properties));
+                    component.setProperties(factory.parseProperties(componentSource.properties));
                     mimicHistory.rememberComponent(component, true);
                     unitedRenderer.updateComponentDom(component);
                     structTree.updateComponent(component);

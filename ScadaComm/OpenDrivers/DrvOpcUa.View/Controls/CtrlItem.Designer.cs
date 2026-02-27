@@ -75,7 +75,7 @@
             gbItem.Size = new Size(250, 500);
             gbItem.TabIndex = 0;
             gbItem.TabStop = false;
-            gbItem.Text = "Item Parameters";
+            gbItem.Text = "Item";
             // 
             // numDataLen
             // 

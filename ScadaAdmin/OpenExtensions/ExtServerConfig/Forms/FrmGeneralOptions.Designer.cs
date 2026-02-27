@@ -140,7 +140,7 @@
             lblTimeout.AutoSize = true;
             lblTimeout.Location = new Point(10, 55);
             lblTimeout.Name = "lblTimeout";
-            lblTimeout.Size = new Size(73, 15);
+            lblTimeout.Size = new Size(74, 15);
             lblTimeout.TabIndex = 2;
             lblTimeout.Text = "Timeout, ms";
             // 
@@ -160,7 +160,7 @@
             lblPort.AutoSize = true;
             lblPort.Location = new Point(10, 26);
             lblPort.Name = "lblPort";
-            lblPort.Size = new Size(52, 15);
+            lblPort.Size = new Size(53, 15);
             lblPort.TabIndex = 0;
             lblPort.Text = "TCP port";
             // 
@@ -224,7 +224,7 @@
             lblDisableFormulas.AutoSize = true;
             lblDisableFormulas.Location = new Point(10, 200);
             lblDisableFormulas.Name = "lblDisableFormulas";
-            lblDisableFormulas.Size = new Size(219, 15);
+            lblDisableFormulas.Size = new Size(218, 15);
             lblDisableFormulas.TabIndex = 12;
             lblDisableFormulas.Text = "Disable channel formulas except objects";
             // 
@@ -243,7 +243,7 @@
             lblMaxLogSize.AutoSize = true;
             lblMaxLogSize.Location = new Point(10, 171);
             lblMaxLogSize.Name = "lblMaxLogSize";
-            lblMaxLogSize.Size = new Size(147, 15);
+            lblMaxLogSize.Size = new Size(146, 15);
             lblMaxLogSize.TabIndex = 10;
             lblMaxLogSize.Text = "Maximum log file size, MB";
             // 
@@ -325,7 +325,7 @@
             // numUnrelIfInactive
             // 
             numUnrelIfInactive.Location = new Point(387, 22);
-            numUnrelIfInactive.Maximum = new decimal(new int[] { 3600, 0, 0, 0 });
+            numUnrelIfInactive.Maximum = new decimal(new int[] { 86400, 0, 0, 0 });
             numUnrelIfInactive.Name = "numUnrelIfInactive";
             numUnrelIfInactive.Size = new Size(100, 23);
             numUnrelIfInactive.TabIndex = 1;

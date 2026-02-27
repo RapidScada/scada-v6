@@ -29,9 +29,108 @@
   min-width: 75px;
 }
 
-#divImageModal .card img {
+#divColorModal .container-fluid {
+  height: 300px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+#divColorModal #colorModal_divKnownColors .table tr {
+  cursor: default;
+}
+#divColorModal #colorModal_divKnownColors .table tr.rs-selected td {
+  background-color: var(--bs-primary);
+  color: var(--bs-white);
+}
+#divColorModal #colorModal_divKnownColors .table td:nth-child(1) {
+  width: 10%;
+}
+#divColorModal #colorModal_divKnownColors .table td:nth-child(2) {
+  width: 50%;
+}
+#divColorModal #colorModal_divKnownColors .table td:nth-child(3) {
+  width: 40%;
+}
+#divColorModal .rounded-circle {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+#divImageEditModal .card img {
   max-height: 200px;
   width: fit-content;
+}
+
+#divImageSelectModal .container-fluid {
+  height: 300px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+#divImageSelectModal .rs-image-list {
+  margin-bottom: 1rem;
+}
+#divImageSelectModal .rs-image-list .rs-image-list-header {
+  font-weight: bold;
+  padding: 0.5rem;
+}
+#divImageSelectModal .rs-image-list .rs-image-item {
+  cursor: default;
+  padding: 0.5rem;
+}
+#divImageSelectModal .rs-image-list .rs-image-item:hover {
+  background-color: rgba(0, 0, 0, 0.075);
+}
+#divImageSelectModal .rs-image-list .rs-image-item.rs-selected {
+  background-color: var(--bs-primary);
+  color: var(--bs-white);
+}
+#divImageSelectModal .rs-image-list .rs-image-item .rs-image-thumb,
+#divImageSelectModal .rs-image-list .rs-image-item .rs-image-name {
+  display: inline-block;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+#divImageSelectModal .rs-image-list .rs-image-item .rs-image-thumb {
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  margin-right: 0.5rem;
+}
+#divImageSelectModal .rs-image-list .rs-image-item .rs-image-thumb img {
+  height: 3rem;
+  width: 3rem;
+  object-fit: scale-down;
+}
+#divImageSelectModal .rs-image-list .rs-image-item .rs-image-thumb img[src=""], #divImageSelectModal .rs-image-list .rs-image-item .rs-image-thumb img:not([src]) {
+  visibility: hidden;
+}
+
+#divPropertyModal .container-fluid {
+  height: 300px;
+  overflow: auto;
+}
+#divPropertyModal ul {
+  list-style-type: none;
+  margin: 0 0 0 20px;
+  padding: 0;
+}
+#divPropertyModal ul:first-child {
+  margin-left: 0;
+}
+#divPropertyModal ul li {
+  white-space: nowrap;
+}
+#divPropertyModal ul li.rs-selected > .rs-item-text {
+  background-color: var(--bs-primary);
+  color: var(--bs-white);
+}
+#divPropertyModal ul li.rs-disabled > .rs-item-text {
+  color: var(--bs-gray-500);
+}
+#divPropertyModal ul li:not(.rs-selected) > .rs-item-text:hover {
+  background-color: rgba(0, 0, 0, 0.075);
+}
+#divPropertyModal ul li .rs-item-text {
+  cursor: default;
+  display: inline-block;
+  padding: 0px 5px;
 }
 
 #divToolbar {
@@ -217,6 +316,7 @@
 .image-preview {
   max-height: 100px;
   max-width: 100px;
+  min-width: 20px;
   width: fit-content;
 }
 

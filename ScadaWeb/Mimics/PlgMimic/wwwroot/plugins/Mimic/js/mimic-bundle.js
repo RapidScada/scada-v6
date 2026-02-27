@@ -296,6 +296,7 @@ rs.mimic.PropertyDescriptor = class {
     category = "";
     isReadOnly = false;
     isBrowsable = true;
+    isBindable = true;
     type = "";
     subtype = "";
     editor = "";
@@ -514,6 +515,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "checkRights",
             displayName: "Check rights",
             category: KnownCategory.DATA,
+            isBindable: false,
             type: BasicType.BOOL
         }));
 
@@ -521,6 +523,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "deviceNum",
             displayName: "Device number",
             category: KnownCategory.DATA,
+            isBindable: false,
             type: BasicType.INT
         }));
 
@@ -528,6 +531,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "inCnlNum",
             displayName: "Input channel",
             category: KnownCategory.DATA,
+            isBindable: false,
             type: BasicType.INT
         }));
 
@@ -535,6 +539,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "objNum",
             displayName: "Object number",
             category: KnownCategory.DATA,
+            isBindable: false,
             type: BasicType.INT
         }));
 
@@ -542,6 +547,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "outCnlNum",
             displayName: "Output channel",
             category: KnownCategory.DATA,
+            isBindable: false,
             type: BasicType.INT
         }));
 
@@ -549,6 +555,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "propertyBindings",
             displayName: "Property bindings",
             category: KnownCategory.DATA,
+            isBindable: false,
             type: BasicType.LIST,
             subtype: Subtype.PROPERTY_BINDING
         }));
@@ -559,6 +566,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "ID",
             category: KnownCategory.DESIGN,
             isReadOnly: true,
+            isBindable: false,
             type: BasicType.INT
         }));
 
@@ -566,6 +574,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "name",
             displayName: "Name",
             category: KnownCategory.DESIGN,
+            isBindable: false,
             type: BasicType.STRING
         }));
 
@@ -574,6 +583,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "Type name",
             category: KnownCategory.DESIGN,
             isReadOnly: true,
+            isBindable: false,
             type: BasicType.STRING
         }));
 
@@ -684,6 +694,7 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
             name: "script",
             displayName: "Script",
             category: KnownCategory.BEHAVIOR,
+            isBindable: false,
             type: BasicType.STRING,
             editor: PropertyEditor.TEXT_EDITOR,
             editorOptions: { language: "js" }
@@ -873,6 +884,7 @@ rs.mimic.ActionDescriptor = class extends rs.mimic.StructureDescriptor {
         this.add(new PropertyDescriptor({
             name: "script",
             displayName: "Script",
+            isBindable: false,
             type: BasicType.STRING,
             editor: PropertyEditor.TEXT_EDITOR,
             editorOptions: { language: "js" }
@@ -1112,7 +1124,8 @@ rs.mimic.PropertyBindingDescriptor = class extends rs.mimic.StructureDescriptor 
             name: "propertyName",
             displayName: "Property name",
             type: BasicType.STRING,
-            editor: PropertyEditor.PROPERTY_DIALOG
+            editor: PropertyEditor.PROPERTY_DIALOG,
+            editorOptions: { canSelectObject: false }
         }));
 
         this.add(new PropertyDescriptor({
@@ -1141,6 +1154,7 @@ rs.mimic.PropertyExportDescriptor = class extends rs.mimic.StructureDescriptor {
     constructor() {
         super();
         const BasicType = rs.mimic.BasicType;
+        const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
         this.add(new PropertyDescriptor({
@@ -1152,7 +1166,9 @@ rs.mimic.PropertyExportDescriptor = class extends rs.mimic.StructureDescriptor {
         this.add(new PropertyDescriptor({
             name: "path",
             displayName: "Path",
-            type: BasicType.STRING
+            type: BasicType.STRING,
+            editor: PropertyEditor.PROPERTY_DIALOG,
+            editorOptions: { canSelectObject: true }
         }));
 
         this.add(new PropertyDescriptor({
@@ -1536,22 +1552,6 @@ rs.mimic.MimicBase = class {
         this.faceplateMap = new Map();
         this.children = [];
     }
-
-    // Checks whether the specified type name represents a faceplate.
-    isFaceplateType(typeName) {
-        return this.faceplateMap?.has(typeName);
-    }
-
-    // Gets the component factory for the specified type, or null if not found.
-    getComponentFactory(typeName) {
-        return rs.mimic.FactorySet.getComponentFactory(typeName, this.faceplateMap);
-    }
-
-    // Creates a component instance based on the source object. Returns null if the component factory is not found.
-    createComponent(source) {
-        let factory = this.getComponentFactory(source.typeName);
-        return factory?.createComponentFromSource(source);
-    }
 };
 
 // Represents a mimic diagram.
@@ -1560,7 +1560,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     renderer; // renders the mimic
     script;   // custom mimic logic
 
-    // Imitates a component ID to use as a parent ID.
+    // Imitates a component ID for use as a parent ID.
     get id() {
         return 0;
     }
@@ -1811,6 +1811,13 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         this.script = null;
     }
 
+    // Sets the specified properties of the document.
+    setProperties(sourceProps) {
+        if (this.document) {
+            Object.assign(this.document, sourceProps);
+        }
+    }
+
     // Loads the mimic. Returns a LoadResult.
     async load(controllerUrl, mimicKey) {
         let startTime = Date.now();
@@ -1895,6 +1902,22 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
             this.images.splice(index, 1); // delete
             this.imageMap.delete(imageName);
         }
+    }
+
+    // Checks whether the specified type name represents a faceplate.
+    isFaceplateType(typeName) {
+        return this.faceplateMap?.has(typeName);
+    }
+
+    // Gets the component factory for the specified type, or null if not found.
+    getComponentFactory(typeName) {
+        return rs.mimic.FactorySet.getComponentFactory(typeName, this.faceplateMap);
+    }
+
+    // Creates a component instance based on the source object. Returns null if the component factory is not found.
+    createComponent(source) {
+        let factory = this.getComponentFactory(source.typeName);
+        return factory?.createComponentFromSource(source);
     }
 
     // Adds the component to the mimic. Returns true if the component was added.
@@ -2160,6 +2183,13 @@ rs.mimic.Component = class {
         }
     }
 
+    // Sets the specified properties.
+    setProperties(sourceProps) {
+        if (this.properties) {
+            Object.assign(this.properties, sourceProps);
+        }
+    }
+
     // Gets all child components as a flat array.
     getAllChildren() {
         let allChildren = [];
@@ -2288,7 +2318,7 @@ rs.mimic.Component = class {
 rs.mimic.Image = class {
     name = "";
     mediaType = "";
-    data = null;
+    data = null; // Base64 string
 
     constructor(source) {
         Object.assign(this, source);
@@ -2408,6 +2438,18 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 
     get isFaceplate() {
         return true;
+    }
+
+    setProperties(sourceProps) {
+        super.setProperties(sourceProps);
+
+        if (this.model) {
+            for (let propertyExport of this.model.propertyExports) {
+                if (Object.hasOwn(sourceProps, propertyExport.name)) {
+                    this.setTargetPropertyValue(propertyExport, sourceProps[propertyExport.name]);
+                }
+            }
+        }
     }
 
     // Gets the value of the target property specified by the export path.
@@ -3527,7 +3569,7 @@ rs.mimic.ComponentFactory = class {
     createComponent(typeName) {
         let component = new rs.mimic.Component();
         component.typeName = typeName;
-        component.properties = this.createProperties(typeName);
+        component.properties = this.createProperties();
         component.properties.typeName = typeName;
         component.extraScript = this._createExtraScript();
         return component;
@@ -3843,6 +3885,18 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         faceplateInstance.model = this.faceplate;
         this._createComponents(faceplateInstance);
         this._createCustomProperties(faceplateInstance, source?.properties);
+    }
+
+    parseProperties(sourceProps) {
+        let props = super.parseProperties(sourceProps);
+
+        if (this.faceplate) {
+            for (let propertyExport of this.faceplate.propertyExports) {
+                props[propertyExport.name] = sourceProps[propertyExport.name];
+            }
+        }
+
+        return props;
     }
 
     createComponent() {
@@ -4286,9 +4340,7 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
                 scale.setValue(scaleValue);
             }
 
-            mimic.dom.css({
-                "transform": `scale(${scale.value})`
-            });
+            mimic.dom.css("zoom", scale.value);
         }
     }
 };
