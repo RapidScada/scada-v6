@@ -205,6 +205,7 @@ function updateLayout() {
     $("#divMain").outerHeight(mainHeight);
     $("#divLeftPanel .tab-content").outerHeight(mainHeight - tabHeight);
     $("#divMimicWrapper").outerWidth(windowWidth - leftPanelWidth - splitterWidth);
+    centerMimic();
 }
 
 function initStructTree() {
@@ -779,6 +780,23 @@ function showStructure() {
 function showMimic() {
     mimicElem = unitedRenderer.createMimicDom();
     $("#divMimicWrapper").empty().append(mimicElem);
+    centerMimic();
+}
+
+function centerMimic() {
+    let mimicWrapperElem = $("#divMimicWrapper");
+    let paddingLeft = 0;
+    let paddingTop = 0;
+
+    if (mimicElem.length > 0) {
+        paddingLeft = Math.max(0, Number.parseInt((mimicWrapperElem.innerWidth() - mimicElem.outerWidth()) / 2));
+        paddingTop = Math.max(0, Number.parseInt((mimicWrapperElem.innerHeight() - mimicElem.outerHeight()) / 2));
+    }
+
+    mimicWrapperElem.css({
+        "padding-left": paddingLeft,
+        "padding-top": paddingTop
+    });
 }
 
 function showToast(message, opt_messageType, opt_toastOptions) {
