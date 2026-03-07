@@ -1240,8 +1240,8 @@ function getComponentByDom(compElem) {
 
 function getMimicPoint(event, elem, opt_alignToGrid) {
     let offset = elem.offset();
-    let x = parseInt(event.pageX - offset.left);
-    let y = parseInt(event.pageY - offset.top);
+    let x = Number.parseInt(event.pageX - offset.left);
+    let y = Number.parseInt(event.pageY - offset.top);
 
     if (opt_alignToGrid) {
         let gridStep = getGridStep();

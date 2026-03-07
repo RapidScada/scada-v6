@@ -274,7 +274,7 @@ function alignHorizontally() {
         let wrapperWidth = mimicWrapperElem.innerWidth();
 
         if (wrapperWidth > mimicWidth) {
-            wrapperPadding = parseInt((wrapperWidth - mimicWidth) / 2);
+            wrapperPadding = Number.parseInt((wrapperWidth - mimicWidth) / 2);
         }
     }
 

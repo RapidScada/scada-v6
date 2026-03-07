@@ -2528,7 +2528,7 @@ class ProxyObject {
 // Represents a proxy object for editing point as a Point2d.
 class PointProxy extends ProxyObject {
     get x() {
-        return parseInt(this.target.x) || 0;
+        return Number.parseInt(this.target.x) || 0;
     }
 
     set x(value) {
@@ -2536,7 +2536,7 @@ class PointProxy extends ProxyObject {
     }
 
     get y() {
-        return parseInt(this.target.y) || 0;
+        return Number.parseInt(this.target.y) || 0;
     }
 
     set y(value) {
@@ -2547,7 +2547,7 @@ class PointProxy extends ProxyObject {
 // Represents a proxy object for editing size as a Point2d.
 class SizeProxy extends ProxyObject {
     get x() {
-        return parseInt(this.target.width) || 0;
+        return Number.parseInt(this.target.width) || 0;
     }
 
     set x(value) {
@@ -2555,7 +2555,7 @@ class SizeProxy extends ProxyObject {
     }
 
     get y() {
-        return parseInt(this.target.height) || 0;
+        return Number.parseInt(this.target.height) || 0;
     }
 
     set y(value) {

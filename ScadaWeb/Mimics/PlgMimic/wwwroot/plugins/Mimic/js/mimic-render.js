@@ -140,8 +140,8 @@ rs.mimic.Renderer = class {
     getSize(component) {
         if (component.dom) {
             return {
-                width: parseInt(component.dom.outerWidth()),
-                height: parseInt(component.dom.outerHeight())
+                width: Number.parseInt(component.dom.outerWidth()),
+                height: Number.parseInt(component.dom.outerHeight())
             };
         } else {
             return {
@@ -700,8 +700,8 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         if (component.dom) {
             let position = component.dom.position();
             return {
-                x: parseInt(position.left),
-                y: parseInt(position.top)
+                x: Number.parseInt(position.left),
+                y: Number.parseInt(position.top)
             };
         } else {
             return {

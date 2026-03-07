@@ -97,8 +97,8 @@ rs.mimic.Scale = class Scale {
     }
 
     load(storage) {
-        this.type = parseInt(ScadaUtils.getStorageItem(storage, Scale._TYPE_KEY)) || this.type;
-        this.value = parseFloat(ScadaUtils.getStorageItem(storage, Scale._VALUE_KEY)) || this.value;
+        this.type = Number.parseInt(ScadaUtils.getStorageItem(storage, Scale._TYPE_KEY)) || this.type;
+        this.value = Number.parseFloat(ScadaUtils.getStorageItem(storage, Scale._VALUE_KEY)) || this.value;
     }
 
     getPrev() {
@@ -2098,7 +2098,7 @@ rs.mimic.Component = class {
 
     set x(value) {
         if (this.properties) {
-            this.properties.location.x = parseInt(value) || 0;
+            this.properties.location.x = Number.parseInt(value) || 0;
         }
     }
 
@@ -2108,7 +2108,7 @@ rs.mimic.Component = class {
 
     set y(value) {
         if (this.properties) {
-            this.properties.location.y = parseInt(value) || 0;
+            this.properties.location.y = Number.parseInt(value) || 0;
         }
     }
 
@@ -2118,7 +2118,7 @@ rs.mimic.Component = class {
 
     set width(value) {
         if (this.properties) {
-            this.properties.size.width = parseInt(value) || 0;
+            this.properties.size.width = Number.parseInt(value) || 0;
         }
     }
 
@@ -2128,7 +2128,7 @@ rs.mimic.Component = class {
 
     set height(value) {
         if (this.properties) {
-            this.properties.size.height = parseInt(value) || 0;
+            this.properties.size.height = Number.parseInt(value) || 0;
         }
     }
 
@@ -2170,16 +2170,16 @@ rs.mimic.Component = class {
     // Sets the location property.
     setLocation(x, y) {
         if (this.properties) {
-            this.properties.location.x = parseInt(x) || 0;
-            this.properties.location.y = parseInt(y) || 0;
+            this.properties.location.x = Number.parseInt(x) || 0;
+            this.properties.location.y = Number.parseInt(y) || 0;
         }
     }
 
     // Sets the size property.
     setSize(width, height) {
         if (this.properties) {
-            this.properties.size.width = parseInt(width) || 0;
-            this.properties.size.height = parseInt(height) || 0;
+            this.properties.size.width = Number.parseInt(width) || 0;
+            this.properties.size.height = Number.parseInt(height) || 0;
         }
     }
 
@@ -4085,8 +4085,8 @@ rs.mimic.Renderer = class {
     getSize(component) {
         if (component.dom) {
             return {
-                width: parseInt(component.dom.outerWidth()),
-                height: parseInt(component.dom.outerHeight())
+                width: Number.parseInt(component.dom.outerWidth()),
+                height: Number.parseInt(component.dom.outerHeight())
             };
         } else {
             return {
@@ -4645,8 +4645,8 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         if (component.dom) {
             let position = component.dom.position();
             return {
-                x: parseInt(position.left),
-                y: parseInt(position.top)
+                x: Number.parseInt(position.left),
+                y: Number.parseInt(position.top)
             };
         } else {
             return {

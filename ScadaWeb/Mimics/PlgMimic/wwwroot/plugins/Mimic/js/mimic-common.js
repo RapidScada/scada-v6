@@ -97,8 +97,8 @@ rs.mimic.Scale = class Scale {
     }
 
     load(storage) {
-        this.type = parseInt(ScadaUtils.getStorageItem(storage, Scale._TYPE_KEY)) || this.type;
-        this.value = parseFloat(ScadaUtils.getStorageItem(storage, Scale._VALUE_KEY)) || this.value;
+        this.type = Number.parseInt(ScadaUtils.getStorageItem(storage, Scale._TYPE_KEY)) || this.type;
+        this.value = Number.parseFloat(ScadaUtils.getStorageItem(storage, Scale._VALUE_KEY)) || this.value;
     }
 
     getPrev() {
