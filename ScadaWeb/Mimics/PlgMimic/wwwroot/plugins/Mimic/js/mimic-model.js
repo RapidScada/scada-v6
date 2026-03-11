@@ -276,6 +276,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     dom;      // mimic DOM as a jQuery object
     renderer; // renders the mimic
     script;   // custom mimic logic
+    title;    // view title
 
     // Imitates a component ID for use as a parent ID.
     get id() {
@@ -408,6 +409,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
                 this.isFaceplate = dto.data.isFaceplate;
                 this.document = rs.mimic.MimicFactory.parseProperties(dto.data.document, this.isFaceplate);
+                this.title = dto.data.title;
             }
 
             return dto;
@@ -526,6 +528,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         this.dom = null;
         this.renderer = null;
         this.script = null;
+        this.title = "";
     }
 
     // Sets the specified properties of the document.

@@ -58,7 +58,7 @@ namespace Scada.Web.Plugins.PlgMimic.Controllers
             try
             {
                 return viewLoader.GetView((int)key, true, out MimicView mimicView, out string errMsg)
-                    ? Dto<MimicPacket>.Success(new MimicPacket(key, mimicView.Mimic))
+                    ? Dto<MimicPacket>.Success(new MimicPacket(key, mimicView.Mimic) { Title = mimicView.Title })
                     : Dto<MimicPacket>.Fail(errMsg);
             }
             catch (Exception ex)
