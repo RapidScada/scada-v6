@@ -304,11 +304,13 @@ function initPropGrid() {
 function initModals() {
     faceplateModal = new FaceplateModal("divFaceplateModal");
     imageEditModal = new ImageEditModal("divImageEditModal");
-    PropGridDialogs.colorModal = new ColorModal("divColorModal");
-    PropGridDialogs.fontModal = new FontModal("divFontModal");
-    PropGridDialogs.imageSelectModal = new ImageSelectModal("divImageSelectModal", mimic);
-    PropGridDialogs.propertyModal = new PropertyModal("divPropertyModal", mimic);
-    PropGridDialogs.textEditor = new TextEditor("divTextEditor");
+
+    const PropertyEditor = rs.mimic.PropertyEditor;
+    PropGridDialogs.addEditor(PropertyEditor.COLOR_DIALOG, new ColorModal("divColorModal"));
+    PropGridDialogs.addEditor(PropertyEditor.FONT_DIALOG, new FontModal("divFontModal"));
+    PropGridDialogs.addEditor(PropertyEditor.IMAGE_DIALOG, new ImageSelectModal("divImageSelectModal", mimic));
+    PropGridDialogs.addEditor(PropertyEditor.PROPERTY_DIALOG, new PropertyModal("divPropertyModal", mimic));
+    PropGridDialogs.addEditor(PropertyEditor.TEXT_EDITOR, new TextEditor("divTextEditor"));
 }
 
 async function loadMimic() {

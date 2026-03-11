@@ -1,5 +1,5 @@
-﻿// Contains classes: ModalContext, ModalBase, ColorModal, FaceplateModal, FontModal,
-//     ImageEditModal, ImageSelectModal, PropertyModal, TextEditor
+﻿// Contains classes: ModalContext, ModalBase, ModalShowArgs, ColorModal, FaceplateModal,
+//     FontModal, ImageEditModal, ImageSelectModal, PropertyModal, TextEditor
 // Depends on jquery, bootstrap, mimic-model.js, prop-grid.js
 
 // Represents a context of a modal dialog.
@@ -49,17 +49,32 @@ class ModalBase {
     }
 
     _setFocus() {
-        // do nothing
+        // implement in derived classes
     }
 
     _handleShown() {
-        // do nothing
+        // implement in derived classes
     }
 
     _invokeCallback() {
         if (this._context.result && this._context.callback instanceof Function) {
             this._context.callback.call(this, this._context);
         }
+    }
+
+    show(showArgs, callback) {
+        // implement in derived classes
+    }
+}
+
+// Represents arguments for the show method.
+class ModalShowArgs {
+    topObject = null;
+    value = null;
+    options = null;
+
+    constructor(source) {
+        Object.assign(this, source);
     }
 }
 
@@ -364,7 +379,8 @@ class ColorModal extends ModalBase {
         }
     }
 
-    show(color, callback) {
+    show(showArgs, callback) {
+        let color = showArgs.value;
         this._context = new ModalContext({
             oldValue: color,
             callback: callback
@@ -410,7 +426,8 @@ class FaceplateModal extends ModalBase {
         faceplateMeta.path = $("#faceplateModal_txtPath").val();
     }
 
-    show(faceplateMeta, callback) {
+    show(showArgs, callback) {
+        let faceplateMeta = showArgs.value;
         let newFaceplateMeta = new rs.mimic.FaceplateMeta();
         Object.assign(newFaceplateMeta, faceplateMeta); // faceplateMeta can be null
 
@@ -465,7 +482,8 @@ class FontModal extends ModalBase {
         font.underline = $("#fontModal_chkUnderline").prop("checked");
     }
 
-    show(font, callback) {
+    show(showArgs, callback) {
+        let font = showArgs.value;
         let newFont = new rs.mimic.Font(font);
         this._context = new ModalContext({
             oldValue: font,
@@ -577,7 +595,8 @@ class ImageEditModal extends ModalBase {
             .attr("href", dataUrl);
     }
 
-    show(image, callback) {
+    show(showArgs, callback) {
+        let image = showArgs.value;
         let newImage = new rs.mimic.Image();
         Object.assign(newImage, image); // image can be null
 
@@ -745,7 +764,8 @@ class ImageSelectModal extends ModalBase {
         }
     }
 
-    show(imageName, callback) {
+    show(showArgs, callback) {
+        let imageName = showArgs.value;
         this._context = new ModalContext({
             oldValue: imageName,
             callback: callback
@@ -919,22 +939,23 @@ class PropertyModal extends ModalBase {
         $("#propertyModal_txtObjectDisplayName").prop("hidden", true);
     }
 
-    show(selectedObject, propertyName, options, callback) {
+    show(showArgs, callback) {
+        let propertyName = showArgs.value;
         this._context = new ModalContext({
             oldValue: propertyName,
             callback: callback
         });
 
         $("#propertyModal_txtPropertyName").val(propertyName);
-        this._options = options ?? PropertyModal.DEFAULT_OPTIONS;
+        this._options = showArgs.options ?? PropertyModal.DEFAULT_OPTIONS;
 
         if (this._options.canSelectObject) {
             let obj = this._findObject(propertyName);
             this._fillObjectList(obj);
             this._showObjectProperties(obj);
         } else {
-            this._showSingleObject(selectedObject);
-            this._showObjectProperties(selectedObject);
+            this._showSingleObject(showArgs.topObject);
+            this._showObjectProperties(showArgs.topObject);
         }
 
         this._modal.show();
@@ -991,13 +1012,14 @@ class TextEditor extends ModalBase {
         }
     }
 
-    show(text, options, callback) {
+    show(showArgs, callback) {
+        let text = showArgs.value;
         this._context = new ModalContext({
             oldValue: text,
             callback: callback
         });
 
-        options ??= TextEditor.DEFAULT_OPTIONS;
+        let options = showArgs.options ?? TextEditor.DEFAULT_OPTIONS;
         this._showLanguage(options.language);
         this._flask.updateLanguage(options.language);
         this._flask.updateCode(text);

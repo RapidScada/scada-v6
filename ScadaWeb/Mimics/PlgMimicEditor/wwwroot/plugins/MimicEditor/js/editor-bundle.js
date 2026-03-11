@@ -816,8 +816,8 @@ class MimicClipboard {
     }
 }
 
-// Contains classes: ModalContext, ModalBase, ColorModal, FaceplateModal, FontModal,
-//     ImageEditModal, ImageSelectModal, PropertyModal, TextEditor
+// Contains classes: ModalContext, ModalBase, ModalShowArgs, ColorModal, FaceplateModal,
+//     FontModal, ImageEditModal, ImageSelectModal, PropertyModal, TextEditor
 // Depends on jquery, bootstrap, mimic-model.js, prop-grid.js
 
 // Represents a context of a modal dialog.
@@ -867,17 +867,32 @@ class ModalBase {
     }
 
     _setFocus() {
-        // do nothing
+        // implement in derived classes
     }
 
     _handleShown() {
-        // do nothing
+        // implement in derived classes
     }
 
     _invokeCallback() {
         if (this._context.result && this._context.callback instanceof Function) {
             this._context.callback.call(this, this._context);
         }
+    }
+
+    show(showArgs, callback) {
+        // implement in derived classes
+    }
+}
+
+// Represents arguments for the show method.
+class ModalShowArgs {
+    topObject = null;
+    value = null;
+    options = null;
+
+    constructor(source) {
+        Object.assign(this, source);
     }
 }
 
@@ -1182,7 +1197,8 @@ class ColorModal extends ModalBase {
         }
     }
 
-    show(color, callback) {
+    show(showArgs, callback) {
+        let color = showArgs.value;
         this._context = new ModalContext({
             oldValue: color,
             callback: callback
@@ -1228,7 +1244,8 @@ class FaceplateModal extends ModalBase {
         faceplateMeta.path = $("#faceplateModal_txtPath").val();
     }
 
-    show(faceplateMeta, callback) {
+    show(showArgs, callback) {
+        let faceplateMeta = showArgs.value;
         let newFaceplateMeta = new rs.mimic.FaceplateMeta();
         Object.assign(newFaceplateMeta, faceplateMeta); // faceplateMeta can be null
 
@@ -1283,7 +1300,8 @@ class FontModal extends ModalBase {
         font.underline = $("#fontModal_chkUnderline").prop("checked");
     }
 
-    show(font, callback) {
+    show(showArgs, callback) {
+        let font = showArgs.value;
         let newFont = new rs.mimic.Font(font);
         this._context = new ModalContext({
             oldValue: font,
@@ -1395,7 +1413,8 @@ class ImageEditModal extends ModalBase {
             .attr("href", dataUrl);
     }
 
-    show(image, callback) {
+    show(showArgs, callback) {
+        let image = showArgs.value;
         let newImage = new rs.mimic.Image();
         Object.assign(newImage, image); // image can be null
 
@@ -1563,7 +1582,8 @@ class ImageSelectModal extends ModalBase {
         }
     }
 
-    show(imageName, callback) {
+    show(showArgs, callback) {
+        let imageName = showArgs.value;
         this._context = new ModalContext({
             oldValue: imageName,
             callback: callback
@@ -1737,22 +1757,23 @@ class PropertyModal extends ModalBase {
         $("#propertyModal_txtObjectDisplayName").prop("hidden", true);
     }
 
-    show(selectedObject, propertyName, options, callback) {
+    show(showArgs, callback) {
+        let propertyName = showArgs.value;
         this._context = new ModalContext({
             oldValue: propertyName,
             callback: callback
         });
 
         $("#propertyModal_txtPropertyName").val(propertyName);
-        this._options = options ?? PropertyModal.DEFAULT_OPTIONS;
+        this._options = showArgs.options ?? PropertyModal.DEFAULT_OPTIONS;
 
         if (this._options.canSelectObject) {
             let obj = this._findObject(propertyName);
             this._fillObjectList(obj);
             this._showObjectProperties(obj);
         } else {
-            this._showSingleObject(selectedObject);
-            this._showObjectProperties(selectedObject);
+            this._showSingleObject(showArgs.topObject);
+            this._showObjectProperties(showArgs.topObject);
         }
 
         this._modal.show();
@@ -1809,13 +1830,14 @@ class TextEditor extends ModalBase {
         }
     }
 
-    show(text, options, callback) {
+    show(showArgs, callback) {
+        let text = showArgs.value;
         this._context = new ModalContext({
             oldValue: text,
             callback: callback
         });
 
-        options ??= TextEditor.DEFAULT_OPTIONS;
+        let options = showArgs.options ?? TextEditor.DEFAULT_OPTIONS;
         this._showLanguage(options.language);
         this._flask.updateLanguage(options.language);
         this._flask.updateCode(text);
@@ -2445,70 +2467,34 @@ class PropGridHelper {
 
 // Calls property editors implemented as modal dialogs.
 class PropGridDialogs {
-    static colorModal = null;
-    static fontModal = null;
-    static imageSelectModal = null;
-    static propertyModal = null;
-    static textEditor = null;
+    static editorMap = new Map();
 
-    // Invokes the callback function.
-    static _invokeCallback(modalContext, callback) {
-        if (modalContext.result && callback instanceof Function) {
-            callback(modalContext.newValue);
-        }
+    // Adds the modal to the editor map.
+    static addEditor(key, modal) {
+        PropGridDialogs.editorMap.set(key, modal);
     }
 
     // Checks whether an editor for the specified property is supported.
     static editorSupported(propertyDescriptor) {
-        const PropertyEditor = rs.mimic.PropertyEditor;
-        let editor = propertyDescriptor?.editor;
-        return editor &&
-            editor === PropertyEditor.COLOR_DIALOG && PropGridDialogs.colorModal ||
-            editor === PropertyEditor.FONT_DIALOG && PropGridDialogs.fontModal ||
-            editor === PropertyEditor.IMAGE_DIALOG && PropGridDialogs.imageSelectModal ||
-            editor === PropertyEditor.PROPERTY_DIALOG && PropGridDialogs.propertyModal ||
-            editor === PropertyEditor.TEXT_EDITOR && PropGridDialogs.textEditor;
+        return !!PropGridDialogs.editorMap.get(propertyDescriptor?.editor);
     }
 
     // Shows an editor as a modal dialog.
     // callback is a function (newPropertyValue)
     static showEditor(topObject, propertyValue, propertyDescriptor, callback) {
-        if (propertyDescriptor) {
-            const PropertyEditor = rs.mimic.PropertyEditor;
-            let options = propertyDescriptor.editorOptions;
-
-            switch (propertyDescriptor.editor) {
-                case PropertyEditor.COLOR_DIALOG:
-                    PropGridDialogs.colorModal?.show(propertyValue, modalContext => {
-                        PropGridDialogs._invokeCallback(modalContext, callback);
-                    });
-                    break;
-
-                case PropertyEditor.FONT_DIALOG:
-                    PropGridDialogs.fontModal?.show(propertyValue, modalContext => {
-                        PropGridDialogs._invokeCallback(modalContext, callback);
-                    });
-                    break;
-
-                case PropertyEditor.IMAGE_DIALOG:
-                    PropGridDialogs.imageSelectModal?.show(propertyValue, modalContext => {
-                        PropGridDialogs._invokeCallback(modalContext, callback);
-                    });
-                    break;
-
-                case PropertyEditor.PROPERTY_DIALOG:
-                    PropGridDialogs.propertyModal?.show(topObject, propertyValue, options, modalContext => {
-                        PropGridDialogs._invokeCallback(modalContext, callback);
-                    });
-                    break;
-
-                case PropertyEditor.TEXT_EDITOR:
-                    PropGridDialogs.textEditor?.show(propertyValue, options, modalContext => {
-                        PropGridDialogs._invokeCallback(modalContext, callback);
-                    });
-                    break;
+        let modal = PropGridDialogs.editorMap.get(propertyDescriptor?.editor);
+        modal?.show(
+            new ModalShowArgs({
+                topObject: topObject,
+                value: propertyValue,
+                options: propertyDescriptor?.editorOptions
+            }),
+            modalContext => {
+                if (modalContext.result && callback instanceof Function) {
+                    callback(modalContext.newValue);
+                }
             }
-        }
+        );
     }
 }
 

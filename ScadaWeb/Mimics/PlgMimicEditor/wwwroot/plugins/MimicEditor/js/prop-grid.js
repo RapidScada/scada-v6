@@ -620,70 +620,34 @@ class PropGridHelper {
 
 // Calls property editors implemented as modal dialogs.
 class PropGridDialogs {
-    static colorModal = null;
-    static fontModal = null;
-    static imageSelectModal = null;
-    static propertyModal = null;
-    static textEditor = null;
+    static editorMap = new Map();
 
-    // Invokes the callback function.
-    static _invokeCallback(modalContext, callback) {
-        if (modalContext.result && callback instanceof Function) {
-            callback(modalContext.newValue);
-        }
+    // Adds the modal to the editor map.
+    static addEditor(key, modal) {
+        PropGridDialogs.editorMap.set(key, modal);
     }
 
     // Checks whether an editor for the specified property is supported.
     static editorSupported(propertyDescriptor) {
-        const PropertyEditor = rs.mimic.PropertyEditor;
-        let editor = propertyDescriptor?.editor;
-        return editor &&
-            editor === PropertyEditor.COLOR_DIALOG && PropGridDialogs.colorModal ||
-            editor === PropertyEditor.FONT_DIALOG && PropGridDialogs.fontModal ||
-            editor === PropertyEditor.IMAGE_DIALOG && PropGridDialogs.imageSelectModal ||
-            editor === PropertyEditor.PROPERTY_DIALOG && PropGridDialogs.propertyModal ||
-            editor === PropertyEditor.TEXT_EDITOR && PropGridDialogs.textEditor;
+        return !!PropGridDialogs.editorMap.get(propertyDescriptor?.editor);
     }
 
     // Shows an editor as a modal dialog.
     // callback is a function (newPropertyValue)
     static showEditor(topObject, propertyValue, propertyDescriptor, callback) {
-        if (propertyDescriptor) {
-            const PropertyEditor = rs.mimic.PropertyEditor;
-            let options = propertyDescriptor.editorOptions;
-
-            switch (propertyDescriptor.editor) {
-                case PropertyEditor.COLOR_DIALOG:
-                    PropGridDialogs.colorModal?.show(propertyValue, modalContext => {
-                        PropGridDialogs._invokeCallback(modalContext, callback);
-                    });
-                    break;
-
-                case PropertyEditor.FONT_DIALOG:
-                    PropGridDialogs.fontModal?.show(propertyValue, modalContext => {
-                        PropGridDialogs._invokeCallback(modalContext, callback);
-                    });
-                    break;
-
-                case PropertyEditor.IMAGE_DIALOG:
-                    PropGridDialogs.imageSelectModal?.show(propertyValue, modalContext => {
-                        PropGridDialogs._invokeCallback(modalContext, callback);
-                    });
-                    break;
-
-                case PropertyEditor.PROPERTY_DIALOG:
-                    PropGridDialogs.propertyModal?.show(topObject, propertyValue, options, modalContext => {
-                        PropGridDialogs._invokeCallback(modalContext, callback);
-                    });
-                    break;
-
-                case PropertyEditor.TEXT_EDITOR:
-                    PropGridDialogs.textEditor?.show(propertyValue, options, modalContext => {
-                        PropGridDialogs._invokeCallback(modalContext, callback);
-                    });
-                    break;
+        let modal = PropGridDialogs.editorMap.get(propertyDescriptor?.editor);
+        modal?.show(
+            new ModalShowArgs({
+                topObject: topObject,
+                value: propertyValue,
+                options: propertyDescriptor?.editorOptions
+            }),
+            modalContext => {
+                if (modalContext.result && callback instanceof Function) {
+                    callback(modalContext.newValue);
+                }
             }
-        }
+        );
     }
 }
 
