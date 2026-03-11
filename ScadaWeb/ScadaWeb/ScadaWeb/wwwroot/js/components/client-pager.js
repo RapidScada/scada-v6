@@ -97,7 +97,7 @@ class ClientPager {
             if (pageNumber <= 0) {
                 $("<li class='page-item disabled'><span class='page-link'>...</span></li>")
                     .appendTo(listElem);
-            } else if (pageNumber == activePage) {
+            } else if (pageNumber === activePage) {
                 $(`<li class='page-item active'><span class='page-link'>${pageNumber}</span></li>`)
                     .appendTo(listElem);
             } else {
