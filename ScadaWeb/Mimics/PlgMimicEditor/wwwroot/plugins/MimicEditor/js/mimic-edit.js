@@ -213,9 +213,9 @@ function initStructTree() {
 
     // dependencies
     structTree.addEventListener(StructTreeEventType.ADD_DEPENDENCY_CLICK, function () {
-        faceplateModal.show(null, function (context) {
-            addDependency(context.newValue);
-        });
+        faceplateModal.show(
+            new ModalShowArgs(),
+            context => addDependency(context.newValue));
     });
 
     structTree.addEventListener(StructTreeEventType.EDIT_DEPENDENCY_CLICK, function (event) {
@@ -223,9 +223,9 @@ function initStructTree() {
         let faceplateMeta = mimic.dependencyMap.get(eventData.name);
 
         if (faceplateMeta) {
-            faceplateModal.show(faceplateMeta, function (context) {
-                addDependency(context.newValue, context.oldValue);
-            });
+            faceplateModal.show(
+                new ModalShowArgs({ value: faceplateMeta }),
+                context => addDependency(context.newValue, context.oldValue));
         } else {
             console.error("Dependency not found.");
         }
@@ -239,18 +239,18 @@ function initStructTree() {
 
     // images
     structTree.addEventListener(StructTreeEventType.ADD_IMAGE_CLICK, function () {
-        imageEditModal.show(null, function (context) {
-            addImage(context.newValue);
-        });
+        imageEditModal.show(
+            new ModalShowArgs(),
+            context => addImage(context.newValue));
     });
 
     structTree.addEventListener(StructTreeEventType.EDIT_IMAGE_CLICK, function (event) {
         let image = mimic.imageMap.get(event.detail.name);
 
         if (image) {
-            imageEditModal.show(image, function (context) {
-                addImage(context.newValue, context.oldValue);
-            });
+            imageEditModal.show(
+                new ModalShowArgs({ value: image }),
+                context => addImage(context.newValue, context.oldValue));
         } else {
             console.error("Image not found.");
         }
