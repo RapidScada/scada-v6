@@ -719,19 +719,31 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         }
 
         // component scripts
-        for (let component of this.components) {
-            let script = component.isFaceplate
-                ? component.model?.document?.script
-                : component.properties.script;
-
-            if (script) {
+        let initScriptsInternal = (components, throwOnError) => {
+            for (let component of components) {
                 try {
-                    component.customScript = ComponentScript.createFromSource(script);
+                    let script = component.isFaceplate
+                        ? component.model?.document?.script
+                        : component.properties.script;
+
+                    if (script) {
+                        component.customScript = ComponentScript.createFromSource(script);
+
+                        if (component.isFaceplate) {
+                            initScriptsInternal(component.components, true);
+                        }
+                    }
                 } catch (ex) {
-                    console.error(`Error creating script for the component with ID ${component.id}: ${ex.message}`);
+                    if (throwOnError) {
+                        throw ex;
+                    } else {
+                        console.error(`Error creating script for the component with ID ${component.id}: ${ex.message}`);
+                    }
                 }
             }
-        }
+        };
+
+        initScriptsInternal(this.components, false);
     }
 
     // Executes the custom script when the mimic DOM has been created.
