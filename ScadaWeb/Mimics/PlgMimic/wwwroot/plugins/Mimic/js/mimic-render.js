@@ -1102,7 +1102,7 @@ rs.mimic.UnitedRenderer = class {
             if (renderer) {
                 component.renderer = renderer;
                 renderer.createDom(component, renderContext);
-                component.onDomCreated(renderContext);
+                this._execDomCreated(component, renderContext);
                 this._appendToParent(component);
             } else {
                 renderContext.unknownTypes?.add(component.typeName);
@@ -1127,7 +1127,7 @@ rs.mimic.UnitedRenderer = class {
             this._createComponentDom(component, faceplateContext);
         }
 
-        faceplateInstance.onDomCreated(renderContext);
+        this._execDomCreated(faceplateInstance, renderContext);
         this._appendToParent(faceplateInstance);
     }
 
@@ -1145,7 +1145,7 @@ rs.mimic.UnitedRenderer = class {
                     oldDom.replaceWith(component.dom);
                 }
 
-                component.onDomUpdated(renderContext);
+                this._execDomUpdated(component, renderContext);
             }
         }
     }
@@ -1161,7 +1161,41 @@ rs.mimic.UnitedRenderer = class {
                 this._updateComponentDom(component, faceplateContext);
             }
 
-            faceplateInstance.onDomUpdated(renderContext);
+            this._execDomUpdated(faceplateInstance, renderContext);
+        }
+    }
+
+    // Executes 'domCreated' script for the mimic or component.
+    _execDomCreated(target, renderContext) {
+        if (typeof target?.onDomCreated === "function") {
+            try {
+                target.onDomCreated(renderContext);
+            } catch (ex) {
+                console.error(`Error executing 'domCreated' script for ${target.toString()}: ${ex.message}`);
+            }
+        }
+    }
+
+    // Executes 'domUpdated' script for the mimic or component.
+    _execDomUpdated(target, renderContext) {
+        if (typeof target?.onDomUpdated === "function") {
+            try {
+                target.onDomUpdated(renderContext);
+            } catch (ex) {
+                console.error(`Error executing 'domUpdated' script for ${target.toString()}: ${ex.message}`);
+            }
+        }
+    }
+
+    // Executes 'dataUpdated' script for the mimic or component.
+    _execDataUpdated(target, dataProvider) {
+        if (typeof target?.onDataUpdated === "function") {
+            try {
+                return target.onDataUpdated(dataProvider);
+            } catch (ex) {
+                console.error(`Error executing 'dataUpdated' script for ${target.toString()}: ${ex.message}`);
+                return false;
+            }
         }
     }
 
@@ -1187,7 +1221,7 @@ rs.mimic.UnitedRenderer = class {
         let renderer = rs.mimic.RendererSet.mimicRenderer;
         this.mimic.renderer = renderer;
         renderer.createDom(this.mimic, renderContext);
-        this.mimic.onDomCreated(renderContext);
+        this._execDomCreated(this.mimic, renderContext);
 
         for (let component of this.mimic.components) {
             this._createComponentDom(component, renderContext);
@@ -1211,7 +1245,7 @@ rs.mimic.UnitedRenderer = class {
     updateMimicDom() {
         let renderContext = this._createRenderContext();
         rs.mimic.RendererSet.mimicRenderer.updateDom(this.mimic, renderContext);
-        this.mimic.onDomUpdated(renderContext);
+        this._execDomUpdated(this.mimic, renderContext);
     }
 
     // Creates a component DOM according to the component model. Returns a jQuery object.
@@ -1237,7 +1271,7 @@ rs.mimic.UnitedRenderer = class {
                     updateDomNeeded = true;
                 }
 
-                if (component.onDataUpdated(dataProvider)) {
+                if (this._execDataUpdated(component, dataProvider)) {
                     updateDomNeeded = true;
                 }
 
@@ -1245,10 +1279,10 @@ rs.mimic.UnitedRenderer = class {
                     this._updateComponentDom(component, renderContext);
                 }
             } catch (ex) {
-                console.error(`Error updating data of the component with ID ${component.id}: ${ex.message}`);
+                console.error(`Error updating component ${component.id}: ${ex.message}`);
             }
         }
 
-        this.mimic.onDataUpdated(dataProvider);
+        this._execDataUpdated(this.mimic, dataProvider);
     }
 };

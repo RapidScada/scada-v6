@@ -737,7 +737,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                     if (throwOnError) {
                         throw ex;
                     } else {
-                        console.error(`Error creating script for the component with ID ${component.id}: ${ex.message}`);
+                        console.error(`Error creating script for component ${component.id}: ${ex.message}`);
                     }
                 }
             }

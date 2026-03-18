@@ -1105,7 +1105,7 @@ function addToSelection(component) {
     structTree.addToSelection(component);
     propGrid.selectedObjects = selectedComponents;
     mimicHistory.rememberComponent(component, false);
-    console.log(`Component with ID ${component.id} selected`);
+    console.log(`Component ${component.id} selected`);
 }
 
 function removeFromSelection(component) {
@@ -1120,7 +1120,7 @@ function removeFromSelection(component) {
     setButtonsEnabled(EnabledDependsOn.SELECTION);
     structTree.removeFromSelection(component);
     propGrid.selectedObjects = selectedComponents;
-    console.log(`Component with ID ${component.id} removed from selection`);
+    console.log(`Component ${component.id} removed from selection`);
 }
 
 function selectComponents(components) {
