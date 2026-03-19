@@ -2739,14 +2739,14 @@ rs.mimic.Border = class Border {
         return "Border";
     }
 
-    get isSet() {
-        return this.width > 0 || this.color;
+    get displayValue() {
+        return this.isSet
+            ? (this.color ? `${this.width}, ${this.color}` : `${this.width}`)
+            : "";
     }
 
-    toString() {
-        return this.isSet
-            ? (this.color ? `${this.width}, ${this.color}` : this.width.toString())
-            : "";
+    get isSet() {
+        return this.width > 0 || this.color;
     }
 
     static parse(source) {
@@ -2859,14 +2859,14 @@ rs.mimic.CornerRadius = class CornerRadius {
         return "CornerRadius";
     }
 
-    get isSet() {
-        return this.topLeft > 0 || this.topRight > 0 || this.bottomRight > 0 || this.bottomLeft > 0;
-    }
-
-    toString() {
+    get displayValue() {
         return this.isSet ?
             `${this.topLeft}, ${this.topRight}, ${this.bottomRight}, ${this.bottomLeft}`
             : "";
+    }
+
+    get isSet() {
+        return this.topLeft > 0 || this.topRight > 0 || this.bottomRight > 0 || this.bottomLeft > 0;
     }
 
     static parse(source) {
@@ -2901,7 +2901,7 @@ rs.mimic.Font = class Font {
         return "Font";
     }
 
-    toString() {
+    get displayValue() {
         if (this.inherit) {
             return "";
         } else {
@@ -2950,6 +2950,10 @@ rs.mimic.ImageCondition = class ImageCondition extends rs.mimic.Condition {
         return "ImageCondition";
     }
 
+    get displayValue() {
+        return this.imageName;
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let imageCondition = new ImageCondition();
@@ -2960,10 +2964,6 @@ rs.mimic.ImageCondition = class ImageCondition extends rs.mimic.Condition {
         }
 
         return imageCondition;
-    }
-
-    toString() {
-        return this.imageName;
     }
 };
 
@@ -3016,14 +3016,14 @@ rs.mimic.Padding = class Padding {
         return "Padding";
     }
 
-    get isSet() {
-        return this.top > 0 || this.right > 0 || this.bottom > 0 || this.left > 0;
-    }
-
-    toString() {
+    get displayValue() {
         return this.isSet ?
             `${this.top}, ${this.right}, ${this.bottom}, ${this.left}`
             : "";
+    }
+
+    get isSet() {
+        return this.top > 0 || this.right > 0 || this.bottom > 0 || this.left > 0;
     }
 
     static parse(source) {
