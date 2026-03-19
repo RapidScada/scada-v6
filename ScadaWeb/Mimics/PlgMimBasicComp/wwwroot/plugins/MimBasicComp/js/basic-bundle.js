@@ -612,6 +612,10 @@ rs.mimic.BasicColorCondition = class extends rs.mimic.Condition {
 
         return colorCondition;
     }
+
+    toString() {
+        return this.color;
+    }
 };
 
 rs.mimic.BasicColorConditionList = class extends rs.mimic.List {
