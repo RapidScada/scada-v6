@@ -217,8 +217,12 @@ class PropGrid {
     }
 
     _getEditButtonText(propertyValue) {
-        if (propertyValue?.toString && propertyValue.toString !== Object.prototype.toString) {
-            const MaxLength = 20;
+        const MaxLength = 20;
+        let showValue = propertyValue instanceof Object
+            ? propertyValue.toString !== Object.prototype.toString && Object.hasOwn(propertyValue, "toString")
+            : !!propertyValue?.toString;
+
+        if (showValue) {
             let text = propertyValue.toString()?.trimStart();
             return text
                 ? (text.length <= MaxLength ? text : text.substring(0, MaxLength) + "...")
