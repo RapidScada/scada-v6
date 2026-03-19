@@ -135,7 +135,7 @@ rs.mimic.ObjectHelper = class ObjectHelper {
         for (let i = chainIndex; i < propertyChain.length - 1; i++) {
             let propertyName = propertyChain[i];
 
-            if (objectToUpdate instanceof Object && objectToUpdate.hasOwnProperty(propertyName)) {
+            if (objectToUpdate instanceof Object && Object.hasOwn(objectToUpdate, propertyName)) {
                 objectToUpdate = objectToUpdate[propertyName];
             } else {
                 objectToUpdate = null;
@@ -2851,6 +2851,12 @@ rs.mimic.CornerRadius = class CornerRadius {
 
     get isSet() {
         return this.topLeft > 0 || this.topRight > 0 || this.bottomRight > 0 || this.bottomLeft > 0;
+    }
+
+    toString() {
+        return this.isSet ?
+            `${this.topLeft}, ${this.topRight}, ${this.bottomRight}, ${this.bottomLeft}`
+            : "";
     }
 
     static parse(source) {

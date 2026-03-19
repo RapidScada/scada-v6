@@ -135,7 +135,7 @@ rs.mimic.ObjectHelper = class ObjectHelper {
         for (let i = chainIndex; i < propertyChain.length - 1; i++) {
             let propertyName = propertyChain[i];
 
-            if (objectToUpdate instanceof Object && objectToUpdate.hasOwnProperty(propertyName)) {
+            if (objectToUpdate instanceof Object && Object.hasOwn(objectToUpdate, propertyName)) {
                 objectToUpdate = objectToUpdate[propertyName];
             } else {
                 objectToUpdate = null;

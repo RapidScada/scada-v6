@@ -317,6 +317,12 @@ rs.mimic.CornerRadius = class CornerRadius {
         return this.topLeft > 0 || this.topRight > 0 || this.bottomRight > 0 || this.bottomLeft > 0;
     }
 
+    toString() {
+        return this.isSet ?
+            `${this.topLeft}, ${this.topRight}, ${this.bottomRight}, ${this.bottomLeft}`
+            : "";
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let cornerRadius = new CornerRadius();

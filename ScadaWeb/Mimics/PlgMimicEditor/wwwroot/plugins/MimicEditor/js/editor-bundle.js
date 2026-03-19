@@ -2021,7 +2021,7 @@ class PropGrid {
                 blade = container
                     .addButton({
                         label: propertyDescriptor ? propertyDescriptor.displayName : propertyName,
-                        title: this._phrases.editButton
+                        title: this._getEditButtonText(propertyValue)
                     })
                     .on("click", () => {
                         this._selectChildObject(propertyName, propertyValue);
@@ -2040,7 +2040,7 @@ class PropGrid {
             let categorySet = new Set();
 
             for (let propertyDescriptor of objectDescriptor.propertyDescriptors.values()) {
-                if (targetObject.hasOwnProperty(propertyDescriptor.name) &&
+                if (Object.hasOwn(targetObject, propertyDescriptor.name) &&
                     propertyDescriptor.isBrowsable && propertyDescriptor.category) {
                     categorySet.add(propertyDescriptor.category);
                 }
@@ -2064,16 +2064,15 @@ class PropGrid {
     }
 
     _getEditButtonText(propertyValue) {
-        const MaxLength = 20;
-        let text = propertyValue ? propertyValue.toString().trimStart() : "";
-
-        if (text) {
-            return text.length > MaxLength
-                ? text.substring(0, MaxLength) + "..."
-                : text;
+        if (propertyValue?.toString && propertyValue.toString !== Object.prototype.toString) {
+            const MaxLength = 20;
+            let text = propertyValue.toString()?.trimStart();
+            return text
+                ? (text.length <= MaxLength ? text : text.substring(0, MaxLength) + "...")
+                : this._phrases.notSet;
+        } else {
+            return this._phrases.editButton;
         }
-
-        return this._phrases.editButton;
     }
 
     _createProxyObject(propertyValue, propertyDescriptor) {
@@ -2589,7 +2588,7 @@ class UnionObject {
                     let descriptor1 = this.descriptor.get(name);
                     let descriptor2 = targetDescriptor.get(name);
 
-                    if (editableObj.hasOwnProperty(name) && this._sameProperties(descriptor1, descriptor2)) {
+                    if (Object.hasOwn(editableObj, name) && this._sameProperties(descriptor1, descriptor2)) {
                         let value2 = editableObj[name];
 
                         if (!this._sameValues(value, value2)) {
