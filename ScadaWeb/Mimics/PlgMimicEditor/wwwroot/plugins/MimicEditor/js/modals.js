@@ -625,7 +625,7 @@ class ImageSelectModal extends ModalBase {
     constructor(elemID, mimic) {
         super(elemID);
 
-        if (mimic === null || mimic === undefined) {
+        if (mimic == null) {
             throw new Error("Mimic must not be null.");
         }
 
@@ -794,7 +794,7 @@ class PropertyModal extends ModalBase {
     constructor(elemID, mimic) {
         super(elemID);
 
-        if (mimic === null || mimic === undefined) {
+        if (mimic == null) {
             throw new Error("Mimic must not be null.");
         }
 

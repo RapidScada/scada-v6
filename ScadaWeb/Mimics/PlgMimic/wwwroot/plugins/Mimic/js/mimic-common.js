@@ -190,7 +190,7 @@ rs.mimic.ObjectHelper = class ObjectHelper {
 
     // Creates a new value by merging the source value to the base value.
     static mergeValues(baseValue, sourceValue) {
-        if (baseValue === null || baseValue === undefined) {
+        if (baseValue == null) {
             return sourceValue;
         }
 

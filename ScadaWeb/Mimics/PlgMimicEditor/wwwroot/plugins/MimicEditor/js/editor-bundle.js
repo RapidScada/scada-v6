@@ -1443,7 +1443,7 @@ class ImageSelectModal extends ModalBase {
     constructor(elemID, mimic) {
         super(elemID);
 
-        if (mimic === null || mimic === undefined) {
+        if (mimic == null) {
             throw new Error("Mimic must not be null.");
         }
 
@@ -1612,7 +1612,7 @@ class PropertyModal extends ModalBase {
     constructor(elemID, mimic) {
         super(elemID);
 
-        if (mimic === null || mimic === undefined) {
+        if (mimic == null) {
             throw new Error("Mimic must not be null.");
         }
 
@@ -2503,11 +2503,11 @@ class ProxyObject {
     target;
 
     constructor(target) {
-        if (target) {
-            this.target = target;
-        } else {
+        if (target == null) {
             throw new Error("Target must not be null.");
         }
+
+        this.target = target;
     }
 }
 
@@ -2556,12 +2556,11 @@ class UnionObject {
     descriptor; // describes the union properties
 
     constructor(targets) {
-        if (Array.isArray(targets)) {
-            this.targets = targets;
-        } else {
+        if (!Array.isArray(targets)) {
             throw new Error("Targets must be an array.");
         }
 
+        this.targets = targets;
         this._buildProperties();
     }
 

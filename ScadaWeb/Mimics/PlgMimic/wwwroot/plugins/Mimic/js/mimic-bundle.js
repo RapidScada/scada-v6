@@ -190,7 +190,7 @@ rs.mimic.ObjectHelper = class ObjectHelper {
 
     // Creates a new value by merging the source value to the base value.
     static mergeValues(baseValue, sourceValue) {
-        if (baseValue === null || baseValue === undefined) {
+        if (baseValue == null) {
             return sourceValue;
         }
 
@@ -3370,7 +3370,7 @@ rs.mimic.PropertyParser = class {
     }
 
     static parseString(source, defaultValue = "") {
-        if (source === undefined || source === null) {
+        if (source == null) {
             return defaultValue;
         } else if (typeof source === "string") {
             return source;
@@ -3885,7 +3885,7 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
             let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport) ?? propertyExport.defaultValue;
             let sourceValue = sourceProps[propertyExport.name];
 
-            if (sourceValue === null || sourceValue === undefined) {
+            if (sourceValue == null) {
                 faceplateInstance.properties[propertyExport.name] = baseValue;
             } else {
                 let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);
@@ -5011,6 +5011,10 @@ rs.mimic.UnitedRenderer = class {
     controlRight = false;
 
     constructor(mimic, editMode) {
+        if (mimic == null) {
+            throw new Error("Mimic must not be null.");
+        }
+
         this.mimic = mimic;
         this.editMode = editMode;
     }
@@ -5127,35 +5131,29 @@ rs.mimic.UnitedRenderer = class {
 
     // Executes 'domCreated' script for the mimic or component.
     _execDomCreated(target, renderContext) {
-        if (typeof target?.onDomCreated === "function") {
-            try {
-                target.onDomCreated(renderContext);
-            } catch (ex) {
-                console.error(`Error executing 'domCreated' script for ${target.toString()}: ${ex.message}`);
-            }
+        try {
+            target.onDomCreated(renderContext);
+        } catch (ex) {
+            console.error(`Error executing 'domCreated' script for ${target.toString()}: ${ex.message}`);
         }
     }
 
     // Executes 'domUpdated' script for the mimic or component.
     _execDomUpdated(target, renderContext) {
-        if (typeof target?.onDomUpdated === "function") {
-            try {
-                target.onDomUpdated(renderContext);
-            } catch (ex) {
-                console.error(`Error executing 'domUpdated' script for ${target.toString()}: ${ex.message}`);
-            }
+        try {
+            target.onDomUpdated(renderContext);
+        } catch (ex) {
+            console.error(`Error executing 'domUpdated' script for ${target.toString()}: ${ex.message}`);
         }
     }
 
     // Executes 'dataUpdated' script for the mimic or component.
     _execDataUpdated(target, dataProvider) {
-        if (typeof target?.onDataUpdated === "function") {
-            try {
-                return target.onDataUpdated(dataProvider);
-            } catch (ex) {
-                console.error(`Error executing 'dataUpdated' script for ${target.toString()}: ${ex.message}`);
-                return false;
-            }
+        try {
+            return target.onDataUpdated(dataProvider);
+        } catch (ex) {
+            console.error(`Error executing 'dataUpdated' script for ${target.toString()}: ${ex.message}`);
+            return false;
         }
     }
 

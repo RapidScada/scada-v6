@@ -834,7 +834,7 @@ rs.mimic.PropertyParser = class {
     }
 
     static parseString(source, defaultValue = "") {
-        if (source === undefined || source === null) {
+        if (source == null) {
             return defaultValue;
         } else if (typeof source === "string") {
             return source;

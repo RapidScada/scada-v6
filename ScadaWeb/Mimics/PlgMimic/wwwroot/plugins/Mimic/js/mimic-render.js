@@ -1051,6 +1051,10 @@ rs.mimic.UnitedRenderer = class {
     controlRight = false;
 
     constructor(mimic, editMode) {
+        if (mimic == null) {
+            throw new Error("Mimic must not be null.");
+        }
+
         this.mimic = mimic;
         this.editMode = editMode;
     }
@@ -1167,35 +1171,29 @@ rs.mimic.UnitedRenderer = class {
 
     // Executes 'domCreated' script for the mimic or component.
     _execDomCreated(target, renderContext) {
-        if (typeof target?.onDomCreated === "function") {
-            try {
-                target.onDomCreated(renderContext);
-            } catch (ex) {
-                console.error(`Error executing 'domCreated' script for ${target.toString()}: ${ex.message}`);
-            }
+        try {
+            target.onDomCreated(renderContext);
+        } catch (ex) {
+            console.error(`Error executing 'domCreated' script for ${target.toString()}: ${ex.message}`);
         }
     }
 
     // Executes 'domUpdated' script for the mimic or component.
     _execDomUpdated(target, renderContext) {
-        if (typeof target?.onDomUpdated === "function") {
-            try {
-                target.onDomUpdated(renderContext);
-            } catch (ex) {
-                console.error(`Error executing 'domUpdated' script for ${target.toString()}: ${ex.message}`);
-            }
+        try {
+            target.onDomUpdated(renderContext);
+        } catch (ex) {
+            console.error(`Error executing 'domUpdated' script for ${target.toString()}: ${ex.message}`);
         }
     }
 
     // Executes 'dataUpdated' script for the mimic or component.
     _execDataUpdated(target, dataProvider) {
-        if (typeof target?.onDataUpdated === "function") {
-            try {
-                return target.onDataUpdated(dataProvider);
-            } catch (ex) {
-                console.error(`Error executing 'dataUpdated' script for ${target.toString()}: ${ex.message}`);
-                return false;
-            }
+        try {
+            return target.onDataUpdated(dataProvider);
+        } catch (ex) {
+            console.error(`Error executing 'dataUpdated' script for ${target.toString()}: ${ex.message}`);
+            return false;
         }
     }
 

@@ -444,7 +444,7 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
             let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport) ?? propertyExport.defaultValue;
             let sourceValue = sourceProps[propertyExport.name];
 
-            if (sourceValue === null || sourceValue === undefined) {
+            if (sourceValue == null) {
                 faceplateInstance.properties[propertyExport.name] = baseValue;
             } else {
                 let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);
