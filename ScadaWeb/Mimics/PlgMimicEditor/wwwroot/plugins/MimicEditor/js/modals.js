@@ -448,9 +448,15 @@ class FontModal extends ModalBase {
         super._bindEvents();
 
         $("#fontModal_btnOK").on("click", () => {
-            this._readFields(this._context.newValue);
-            this._context.result = true;
-            this._modal.hide();
+            let formElem = $("#frmFontModal");
+
+            if (formElem[0].checkValidity()) {
+                this._readFields(this._context.newValue);
+                this._context.result = true;
+                this._modal.hide();
+            }
+
+            formElem.addClass("was-validated");
         });
 
         $("#fontModal_chkInherit").on("change", (event) => {
@@ -464,6 +470,7 @@ class FontModal extends ModalBase {
     }
 
     _showFields(font) {
+        $("#frmFontModal").removeClass("was-validated")
         $("#fontModal_chkInherit").prop("checked", font.inherit);
         $("#fontModal_fsProps").prop("disabled", font.inherit);
         $("#fontModal_txtName").val(font.name);
@@ -476,7 +483,7 @@ class FontModal extends ModalBase {
     _readFields(font) {
         font.inherit = $("#fontModal_chkInherit").prop("checked");
         font.name = $("#fontModal_txtName").val();
-        font.size = Number.parseInt($("#fontModal_txtSize").val());
+        font.size = Number.parseInt($("#fontModal_txtSize").val()) || 0;
         font.bold = $("#fontModal_chkBold").prop("checked");
         font.italic = $("#fontModal_chkItalic").prop("checked");
         font.underline = $("#fontModal_chkUnderline").prop("checked");

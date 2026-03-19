@@ -2733,10 +2733,20 @@ rs.mimic.Action = class Action {
 // Represents a border.
 rs.mimic.Border = class Border {
     width = 0;
-    color = ""
+    color = "";
 
     get typeName() {
         return "Border";
+    }
+
+    get isSet() {
+        return this.width > 0 || this.color;
+    }
+
+    toString() {
+        return this.isSet
+            ? (this.color ? `${this.width}, ${this.color}` : this.width.toString())
+            : "";
     }
 
     static parse(source) {
@@ -2892,12 +2902,27 @@ rs.mimic.Font = class Font {
     }
 
     toString() {
-        return this.inherit
-            ? ""
-            : (this.name || "Default") + " " + this.size + " " +
+        if (this.inherit) {
+            return "";
+        } else {
+            let parts = [];
+
+            if (this.name) {
+                parts.push(this.name);
+            }
+
+            parts.push(this.size);
+            let style =
                 (this.bold ? "B" : "") +
                 (this.italic ? "I" : "") +
                 (this.underline ? "U" : "");
+
+            if (style) {
+                parts.push(style);
+            }
+
+            return parts.join(", ");
+        }
     }
 
     static parse(source) {
@@ -2935,6 +2960,10 @@ rs.mimic.ImageCondition = class ImageCondition extends rs.mimic.Condition {
         }
 
         return imageCondition;
+    }
+
+    toString() {
+        return this.imageName;
     }
 };
 
@@ -2985,6 +3014,16 @@ rs.mimic.Padding = class Padding {
 
     get typeName() {
         return "Padding";
+    }
+
+    get isSet() {
+        return this.top > 0 || this.right > 0 || this.bottom > 0 || this.left > 0;
+    }
+
+    toString() {
+        return this.isSet ?
+            `${this.top}, ${this.right}, ${this.bottom}, ${this.left}`
+            : "";
     }
 
     static parse(source) {
