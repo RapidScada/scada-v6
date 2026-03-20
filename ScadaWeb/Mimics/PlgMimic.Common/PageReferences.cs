@@ -15,11 +15,6 @@ namespace Scada.Web.Plugins.PlgMimic
     /// </summary>
     public class PageReferences
     {
-        /// <summary>
-        /// The path to the custom stylesheet.
-        /// </summary>
-        private const string CustomStylesheet = "~/plugins/Mimic/css/mimic-custom.css";
-
         private HashSet<string> styleUrls = [];
         private HashSet<string> scriptUrls = [];
 
@@ -51,23 +46,31 @@ namespace Scada.Web.Plugins.PlgMimic
         }
 
         /// <summary>
-        /// Adds the font URLs to the page references.
+        /// Adds the references from the plugin configuration.
         /// </summary>
-        public void RegisterFonts(List<FontOptions> fonts)
+        public void AddConfigReferences(MimicPluginConfig pluginConfig)
         {
-            ArgumentNullException.ThrowIfNull(fonts, nameof(fonts));
+            ArgumentNullException.ThrowIfNull(pluginConfig, nameof(pluginConfig));
 
-            foreach (FontOptions font in fonts)
+            // custom URLs
+            if (!string.IsNullOrEmpty(pluginConfig.GeneralOptions.CustomCss))
+                styleUrls.Add(pluginConfig.GeneralOptions.CustomCss);
+
+            if (!string.IsNullOrEmpty(pluginConfig.GeneralOptions.CustomJs))
+                scriptUrls.Add(pluginConfig.GeneralOptions.CustomJs);
+
+            // font URLs
+            foreach (FontOptions font in pluginConfig.Fonts)
             {
-                if (font != null && !string.IsNullOrEmpty(font.Url))
+                if (!string.IsNullOrEmpty(font.Url))
                     styleUrls.Add(font.Url);
             }
         }
 
         /// <summary>
-        /// Adds the styles and scripts of the components to the page references.
+        /// Adds the references to the components.
         /// </summary>
-        public void RegisterComponents(List<IComponentSpec> componentSpecs)
+        public void AddComponentReferences(List<IComponentSpec> componentSpecs)
         {
             ArgumentNullException.ThrowIfNull(componentSpecs, nameof(componentSpecs));
 
@@ -93,7 +96,6 @@ namespace Scada.Web.Plugins.PlgMimic
                 AppendLinkTag(sbHtml, urlHelper, url);
             }
 
-            AppendLinkTag(sbHtml, urlHelper, CustomStylesheet);
             return sbHtml.ToHtmlString();
         }
 

@@ -152,8 +152,8 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         private void FillPageReferences()
         {
             PageReferences.Clear();
-            PageReferences.RegisterFonts(PluginConfig.Fonts);
-            PageReferences.RegisterComponents(ComponentSpecs);
+            PageReferences.AddConfigReferences(PluginConfig);
+            PageReferences.AddComponentReferences(ComponentSpecs);
         }
 
         /// <summary>
