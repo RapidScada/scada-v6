@@ -269,10 +269,10 @@ rs.mimic.Condition = class Condition {
         let displayName = "";
 
         if (co1) {
-            displayName += `X ${co1} ${this.comparisonArg1}`;
+            displayName = `x ${co1} ${this.comparisonArg1}`;
 
             if (co2 && lo) {
-                displayName += ` ${lo} X ${co2} ${this.comparisonArg2}`;
+                displayName += ` ${lo} x ${co2} ${this.comparisonArg2}`;
             }
         }
 
@@ -537,6 +537,7 @@ rs.mimic.PropertyBinding = class PropertyBinding {
     propertyName = "";
     dataSource = "";
     dataMember = rs.mimic.DataMember.VALUE;
+    expression = "";
     format = "";
 
     get typeName() {
@@ -547,6 +548,15 @@ rs.mimic.PropertyBinding = class PropertyBinding {
         return this.propertyName;
     }
 
+    get expressionFunc() {
+        if (this.expression) {
+            this.expressionFuncCache ??= new Function("x", `const fn = x => ${binding.expression}; return fn(x);`);
+            return this.expressionFuncCache;
+        } else {
+            return null;
+        }
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let propertyBinding = new PropertyBinding();
@@ -555,6 +565,7 @@ rs.mimic.PropertyBinding = class PropertyBinding {
             propertyBinding.propertyName = PropertyParser.parseString(source.propertyName);
             propertyBinding.dataSource = PropertyParser.parseString(source.dataSource);
             propertyBinding.dataMember = PropertyParser.parseString(source.dataMember, rs.mimic.DataMember.VALUE);
+            propertyBinding.expression = PropertyParser.parseString(source.expression);
             propertyBinding.format = PropertyParser.parseString(source.format);
         }
 
@@ -899,23 +910,11 @@ rs.mimic.DataProvider = class DataProvider {
     curDataMap = null;
     prevDataMap = null;
 
-    getCurData(cnlNum, opt_joinLen) {
-        return DataProvider.EMPTY_DATA;
-    }
-
-    getPrevData(cnlNum, opt_joinLen) {
-        return DataProvider.EMPTY_DATA;
-    }
-
-    dataChanged(curData, prevData) {
-        return !DataProvider.dataEqual(curData, prevData) || !this.prevDataMap;
-    }
-
-    static dataEqual(data1, data2) {
+    static _dataEqual(data1, data2) {
         return data1.d.val === data2.d.val && data1.d.stat === data2.d.stat;
     }
 
-    static getFieldValue(data, dataMember, opt_unit) {
+    static _getFieldValue(data, dataMember, opt_unit) {
         const DataMember = rs.mimic.DataMember;
 
         switch (dataMember) {
@@ -945,5 +944,32 @@ rs.mimic.DataProvider = class DataProvider {
             default:
                 return null;
         }
+    }
+
+    getCurData(cnlNum, opt_joinLen) {
+        return DataProvider.EMPTY_DATA;
+    }
+
+    getPrevData(cnlNum, opt_joinLen) {
+        return DataProvider.EMPTY_DATA;
+    }
+
+    dataChanged(curData, prevData) {
+        return !DataProvider._dataEqual(curData, prevData) || !this.prevDataMap;
+    }
+
+    static calculatePropertyValue(data, binding) {
+        let value = DataProvider._getFieldValue(data, binding.dataMember, binding.cnlProps.unit);
+        let expressionFunc = binding.expressionFunc;
+
+        if (expressionFunc) {
+            value = expressionFunc(value);
+        }
+
+        if (binding.format) {
+            value = binding.format.replace("{0}", String(value));
+        }
+
+        return value;
     }
 };

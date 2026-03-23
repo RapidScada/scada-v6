@@ -208,6 +208,7 @@
     <Phrase key="PropertyName">Имя свойства</Phrase>
     <Phrase key="DataSource">Источник данных</Phrase>
     <Phrase key="DataMember">Элемент данных</Phrase>
+    <Phrase key="Expression">Выражение</Phrase>
     <Phrase key="Format">Формат</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.PropertyExport">

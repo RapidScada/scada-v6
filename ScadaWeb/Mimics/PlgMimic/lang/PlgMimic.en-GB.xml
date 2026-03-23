@@ -208,6 +208,7 @@
     <Phrase key="PropertyName">Property name</Phrase>
     <Phrase key="DataSource">Data source</Phrase>
     <Phrase key="DataMember">Data member</Phrase>
+    <Phrase key="Expression">Expression</Phrase>
     <Phrase key="Format">Format</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.PropertyExport">

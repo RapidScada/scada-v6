@@ -925,6 +925,12 @@ rs.mimic.PropertyBindingDescriptor = class extends rs.mimic.StructureDescriptor 
         }));
 
         this.add(new PropertyDescriptor({
+            name: "expression",
+            displayName: "Expression",
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "format",
             displayName: "Format",
             type: BasicType.STRING

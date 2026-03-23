@@ -884,15 +884,8 @@ rs.mimic.Component = class {
 
     // Sets the property according to the current data.
     _setProperty(binding, curData) {
-        const DataProvider = rs.mimic.DataProvider;
-        const ObjectHelper = rs.mimic.ObjectHelper;
-        let fieldValue = DataProvider.getFieldValue(curData, binding.dataMember, binding.cnlProps.unit);
-
-        if (binding.format) {
-            fieldValue = binding.format.replace("{0}", String(fieldValue));
-        }
-
-        ObjectHelper.setPropertyValue(this.properties, binding.propertyChain, 0, fieldValue);
+        let value = rs.mimic.DataProvider.calculatePropertyValue(curData, binding);
+        rs.mimic.ObjectHelper.setPropertyValue(this.properties, binding.propertyChain, 0, value);
 
         if (this.isFaceplate) {
             this.handlePropertyChanged(binding.propertyName);
