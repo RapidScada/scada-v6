@@ -2615,6 +2615,7 @@ rs.mimic.ContentAlignment = class {
 rs.mimic.DataMember = class {
     static VALUE = "Value";
     static STATUS = "Status";
+    static DATA = "Data";
     static DISPLAY_VALUE = "DisplayValue";
     static DISPLAY_VALUE_WITH_UNIT = "DisplayValueWithUnit";
     static COLOR0 = "Color0";
@@ -3532,6 +3533,9 @@ rs.mimic.DataProvider = class DataProvider {
 
             case DataMember.STATUS:
                 return data.d.stat;
+
+            case DataMember.DATA:
+                return data.d;
 
             case DataMember.DISPLAY_VALUE:
                 return data.df.dispVal;

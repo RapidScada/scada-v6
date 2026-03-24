@@ -128,6 +128,7 @@
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.DataMember">
     <Phrase key="Value">Значение</Phrase>
     <Phrase key="Status">Статус</Phrase>
+    <Phrase key="Data">Данные</Phrase>
     <Phrase key="DisplayValue">Отображаемое значение</Phrase>
     <Phrase key="DisplayValueWithUnit">Значение и размерность</Phrase>
     <Phrase key="Color0">Основной цвет</Phrase>
