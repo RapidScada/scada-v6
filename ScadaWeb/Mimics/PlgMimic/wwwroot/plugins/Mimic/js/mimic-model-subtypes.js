@@ -1,7 +1,7 @@
-﻿// Enumerations: ActionType, ComparisonOperator, ContentAlignment, DataMember, ImageStretch, LogicalOperator, 
+﻿// Enumerations: ActionType, ComparisonOperator, ContentAlignment, DataMember, ImageStretch, LogicalOperator,
 //     LinkTarget, ModalWidth, TextDirection
-// Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
-//     PropertyBinding, PropertyExport, Size, UrlParams, VisualState
+// Structures: Action, Border, CnlProps, CommandArgs, ComponentBindings, Condition, CornerRadius, Font, ImageCondition,
+//     LinkArgs, Padding, Point, PropertyBinding, PropertyBindingEx, PropertyExport, Size, UrlParams, VisualState
 // Lists: List, ImageConditionList, PropertyBindingList, PropertyExportList
 // Scripts: ComponentScript, DomUpdateArgs, DataUpdateArgs, CommandSendArgs, ActionScriptArgs
 // Misc: PropertyParser, DataProvider
@@ -226,6 +226,24 @@ rs.mimic.Border = class Border {
     }
 };
 
+// Represents channel properties used when displaying data. Prepared on the server side in runtime mode.
+rs.mimic.CnlProps = class CnlProps {
+    joinLen = 0;
+    unit = "";
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let cnlProps = new CnlProps();
+
+        if (source) {
+            cnlProps.joinLen = PropertyParser.parseInt(source.joinLen);
+            cnlProps.unit = PropertyParser.parseString(source.unit);
+        }
+
+        return cnlProps;
+    }
+}
+
 // Represents arguments of the SEND_COMMAND action.
 rs.mimic.CommandArgs = class CommandArgs {
     showDialog = true;
@@ -245,6 +263,43 @@ rs.mimic.CommandArgs = class CommandArgs {
         }
 
         return commandArgs;
+    }
+};
+
+// Represents data bindings of a component. Prepared on the server side in runtime mode.
+rs.mimic.ComponentBindings = class ComponentBindings {
+    inCnlNum = 0;
+    outCnlNum = 0;
+    objNum = 0;
+    deviceNum = 0;
+    checkRights = false;
+    inCnlProps = null;
+    outCnlProps = null;
+    propertyBindings = null;
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        const PropertyBindingEx = rs.mimic.PropertyBindingEx;
+        let componentBindings = new ComponentBindings();
+
+        if (source) {
+            componentBindings.inCnlNum = PropertyParser.parseInt(source.inCnlNum);
+            componentBindings.outCnlNum = PropertyParser.parseInt(source.outCnlNum);
+            componentBindings.objNum = PropertyParser.parseInt(source.objNum);
+            componentBindings.deviceNum = PropertyParser.parseInt(source.deviceNum);
+            componentBindings.checkRights = PropertyParser.parseBool(source.checkRights);
+            componentBindings.inCnlProps = rs.mimic.CnlProps.parse(source.inCnlProps);
+            componentBindings.outCnlProps = rs.mimic.CnlProps.parse(source.outCnlProps);
+            componentBindings.propertyBindings = [];
+
+            if (Array.isArray(source.propertyBindings)) {
+                for (let sourceItem of source.propertyBindings) {
+                    componentBindings.propertyBindings.push(PropertyBindingEx.parse(sourceItem));
+                }
+            }
+        }
+
+        return componentBindings;
     }
 };
 
@@ -423,8 +478,8 @@ rs.mimic.ImageCondition = class ImageCondition extends rs.mimic.Condition {
         let imageCondition = new ImageCondition();
 
         if (source) {
-            imageCondition.imageName = PropertyParser.parseString(source.imageName);
             imageCondition._copyFrom(source);
+            imageCondition.imageName = PropertyParser.parseString(source.imageName);
         }
 
         return imageCondition;
@@ -548,9 +603,34 @@ rs.mimic.PropertyBinding = class PropertyBinding {
         return this.propertyName;
     }
 
+    _copyFrom(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        this.propertyName = PropertyParser.parseString(source.propertyName);
+        this.dataSource = PropertyParser.parseString(source.dataSource);
+        this.dataMember = PropertyParser.parseString(source.dataMember, rs.mimic.DataMember.VALUE);
+        this.expression = PropertyParser.parseString(source.expression);
+        this.format = PropertyParser.parseString(source.format);
+    }
+
+    static parse(source) {
+        let propertyBinding = new PropertyBinding();
+
+        if (source) {
+            propertyBinding._copyFrom(source);
+        }
+        return propertyBinding;
+    }
+};
+
+// Represents an extended property binding. Prepared on the server side in runtime mode.
+rs.mimic.PropertyBindingEx = class PropertyBindingEx extends rs.mimic.PropertyBinding {
+    propertyChain = null; // array of strings
+    cnlNum = 0;
+    cnlProps = null;
+
     get expressionFunc() {
         if (this.expression) {
-            this.expressionFuncCache ??= new Function("x", `const fn = x => ${binding.expression}; return fn(x);`);
+            this.expressionFuncCache ??= new Function("x", `const fn = x => ${this.expression}; return fn(x);`);
             return this.expressionFuncCache;
         } else {
             return null;
@@ -558,18 +638,16 @@ rs.mimic.PropertyBinding = class PropertyBinding {
     }
 
     static parse(source) {
-        const PropertyParser = rs.mimic.PropertyParser;
-        let propertyBinding = new PropertyBinding();
+        let propertyBindingEx = new PropertyBindingEx();
 
         if (source) {
-            propertyBinding.propertyName = PropertyParser.parseString(source.propertyName);
-            propertyBinding.dataSource = PropertyParser.parseString(source.dataSource);
-            propertyBinding.dataMember = PropertyParser.parseString(source.dataMember, rs.mimic.DataMember.VALUE);
-            propertyBinding.expression = PropertyParser.parseString(source.expression);
-            propertyBinding.format = PropertyParser.parseString(source.format);
+            propertyBindingEx._copyFrom(source);
+            propertyBindingEx.propertyChain = Array.isArray(source.propertyChain) ? source.propertyChain : [];
+            propertyBindingEx.cnlNum = rs.mimic.PropertyParser.parseInt(source.cnlNum);
+            propertyBindingEx.cnlProps = rs.mimic.CnlProps.parse(source.cnlProps);
         }
 
-        return propertyBinding;
+        return propertyBindingEx;
     }
 };
 
@@ -919,7 +997,7 @@ rs.mimic.DataProvider = class DataProvider {
 
         switch (dataMember) {
             case DataMember.VALUE:
-                return data.d.val;
+                return data.d.stat > 0 ? data.d.val : Number.NaN;
 
             case DataMember.STATUS:
                 return data.d.stat;

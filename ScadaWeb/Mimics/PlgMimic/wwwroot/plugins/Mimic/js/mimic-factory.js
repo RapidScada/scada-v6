@@ -44,12 +44,13 @@ rs.mimic.MimicFactory = class {
 rs.mimic.ComponentFactory = class {
     // Copies the properties from the source object.
     _copyProperties(component, source) {
-        component.id = source.id;
-        component.typeName = source.typeName;
+        const PropertyParser = rs.mimic.PropertyParser;
+        component.id = PropertyParser.parseInt(source.id);
+        component.typeName = PropertyParser.parseString(source.typeName);
         component.properties = this.parseProperties(source.properties);
-        component.properties.typeName = source.typeName;
-        component.bindings = source.bindings;
-        component.parentID = source.parentID;
+        component.properties.typeName = component.typeName;
+        component.bindings = rs.mimic.ComponentBindings.parse(source.bindings);
+        component.parentID = PropertyParser.parseInt(source.parentID);
     }
 
     // Creates and adds default property bindings.

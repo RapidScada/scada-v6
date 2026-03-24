@@ -781,7 +781,7 @@ rs.mimic.Component = class {
     _id = 0;             // component ID
     typeName = "";       // component type name
     properties = null;   // factory normalized properties
-    bindings = null;     // server side prepared bindings, see ComponentBindings.cs
+    bindings = null;     // server side prepared bindings
     parentID = 0;        // parent ID
     index = -1;          // sibling index
 
@@ -947,10 +947,6 @@ rs.mimic.Component = class {
 
     // Updates the properties according to the current data. Returns true if any property has changed.
     updateData(dataProvider) {
-        // component bindings are
-        // { inCnlNum, outCnlNum, objNum, deviceNum, checkRights, inCnlProps, outCnlProps, propertyBindings }
-        // property binding is { propertyName, dataSource, dataMember, format, propertyChain, cnlNum, cnlProps }
-        // channel properties are { joinLen, unit }
         let propertyChanged = false;
 
         if (this.bindings && Array.isArray(this.bindings.propertyBindings) &&
