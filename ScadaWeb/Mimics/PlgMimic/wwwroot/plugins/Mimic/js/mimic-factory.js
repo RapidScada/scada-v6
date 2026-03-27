@@ -458,6 +458,7 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
     _applyModel(faceplateInstance, source) {
         faceplateInstance.typeName = faceplateInstance.properties.typeName = this.faceplate.typeName;
         faceplateInstance.model = this.faceplate;
+        faceplateInstance.document = rs.mimic.MimicFactory.parseProperties(this.faceplate.document, true);
         this._createComponents(faceplateInstance);
         this._createCustomProperties(faceplateInstance, source?.properties);
     }

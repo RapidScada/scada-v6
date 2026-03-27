@@ -723,8 +723,8 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
             for (let component of components) {
                 try {
                     let script = component.isFaceplate
-                        ? component.model?.document?.script
-                        : component.properties.script;
+                        ? component.document?.script
+                        : component.properties?.script;
 
                     if (script) {
                         component.customScript = ComponentScript.createFromSource(script);
@@ -1149,6 +1149,7 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
 // Represents a faceplate instance.
 rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
     model = null;                // model of the Faceplate type
+    document = null;             // model document copy
     components = [];             // all components created according to the model
     componentByName = new Map(); // all components accessible by name
 

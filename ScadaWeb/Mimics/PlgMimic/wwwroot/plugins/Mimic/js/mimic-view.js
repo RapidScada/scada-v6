@@ -217,7 +217,7 @@ function getBlinkers() {
 
     for (let component of mimic.components) {
         let blinkingState = component.isFaceplate
-            ? component.model?.document?.blinkingState
+            ? component.document?.blinkingState
             : component.properties?.blinkingState;
 
         if (blinkingState?.isSet) {

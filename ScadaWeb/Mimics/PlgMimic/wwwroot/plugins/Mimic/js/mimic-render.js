@@ -309,11 +309,15 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
 
     // Sets the CSS properties of the mimic element.
     _setProps(mimicElem, mimic, renderContext) {
-        let props = mimic.document;
+        this._setElemProps(mimicElem, mimic.document, mimic.isFaceplate, renderContext);
+    }
+
+    // Sets the CSS properties of the mimic element.
+    _setElemProps(mimicElem, props, isFaceplate, renderContext) {
         this._setFont(mimicElem, props.font, renderContext.fontMap);
         this._setSize(mimicElem, props.size);
 
-        if (mimic.isFaceplate) {
+        if (isFaceplate) {
             this._setBorder(mimicElem, props.border);
             this._setCornerRadius(mimicElem, props.cornerRadius);
         }
@@ -381,9 +385,9 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         return mimicElem;
     }
 
-    // Sets the CSS properties of the mimic element.
-    setMimicProps(mimicElem, mimic, renderContext) {
-        this._setProps(mimicElem, mimic, renderContext);
+    // Sets the CSS properties of the faceplate element.
+    setFaceplateProps(faceplateElem, document, renderContext) {
+        this._setElemProps(faceplateElem, document, true, renderContext);
     }
 
     // Sets the scale of the mimic DOM.
@@ -966,30 +970,27 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
     _setClasses(componentElem, component, renderContext) {
         super._setClasses(componentElem, component, renderContext);
         componentElem.addClass("faceplate");
+        let doc = component.document;
 
-        if (component.model) {
-            let modelProps = component.model.document;
-
-            if (modelProps.cssClass) {
-                componentElem.addClass(modelProps.cssClass);
-            }
+        if (doc?.cssClass) {
+            componentElem.addClass(doc.cssClass);
         }
     }
 
     _setProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
+        let props = component.properties;
+        let doc = component.document;
         let borderWidth = 0;
 
-        if (component.model) {
-            let compProps = component.properties;
-            let modelProps = component.model.document;
-            rs.mimic.RendererSet.mimicRenderer.setMimicProps(componentElem, component.model, renderContext);
-            borderWidth = modelProps.border.width;
+        if (doc) {
+            rs.mimic.RendererSet.mimicRenderer.setFaceplateProps(componentElem, doc, renderContext);
+            borderWidth = doc.border.width;
 
-            if (compProps.enabled) {
-                this._restoreVisualState(componentElem, modelProps);
+            if (props.enabled) {
+                this._restoreVisualState(componentElem, doc);
             } else {
-                this._setVisualState(componentElem, modelProps.disabledState);
+                this._setVisualState(componentElem, doc.disabledState);
             }
         }
 
@@ -1001,8 +1002,8 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
     _bindEvents(componentElem, component, renderContext) {
         super._bindEvents(componentElem, component, renderContext);
 
-        if (component.model && component.properties.enabled) {
-            this._bindVisualStates(componentElem, component.model.document);
+        if (component.document && component.properties.enabled) {
+            this._bindVisualStates(componentElem, component.document);
         }
     }
 };
