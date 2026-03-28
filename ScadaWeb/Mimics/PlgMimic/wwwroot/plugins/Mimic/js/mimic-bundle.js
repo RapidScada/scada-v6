@@ -2488,12 +2488,12 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
         let propertyChain = propertyExport.propertyChain;
 
         if (propertyChain.length >= 2) {
-            let componentName = propertyChain[0];
+            let objectName = propertyChain[0];
 
-            if (componentName === rs.mimic.Mimic.NAME) {
+            if (objectName === rs.mimic.Mimic.NAME) {
                 return ObjectHelper.getPropertyValue(this.document, propertyChain, 1);
             } else {
-                let component = this.componentByName.get(componentName);
+                let component = this.componentByName.get(objectName);
 
                 if (component) {
                     if (component.isFaceplate) {
@@ -2518,12 +2518,12 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
         let propertyChain = propertyExport.propertyChain;
 
         if (propertyChain.length >= 2) {
-            let componentName = propertyChain[0];
+            let objectName = propertyChain[0];
 
-            if (componentName === rs.mimic.Mimic.NAME) {
+            if (objectName === rs.mimic.Mimic.NAME) {
                 ObjectHelper.setPropertyValue(this.document, propertyChain, 1, value);
             } else {
-                let component = this.componentByName.get(componentName);
+                let component = this.componentByName.get(objectName);
 
                 if (component) {
                     if (component.isFaceplate) {
