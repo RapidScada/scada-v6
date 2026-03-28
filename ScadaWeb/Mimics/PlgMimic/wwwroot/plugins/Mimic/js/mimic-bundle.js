@@ -168,6 +168,10 @@ rs.mimic.ObjectHelper = class ObjectHelper {
 
     // Gets the value of the object property. Property chain is an array of property names.
     static getPropertyValue(obj, propertyChain, chainIndex) {
+        if (obj == null) {
+            return undefined;
+        }
+
         let objectToUpdate = ObjectHelper._getObjectToUpdate(obj, propertyChain, chainIndex);
 
         if (objectToUpdate instanceof Object && propertyChain.length > chainIndex) {
@@ -180,6 +184,10 @@ rs.mimic.ObjectHelper = class ObjectHelper {
 
     // Sets the object property to the specified value keeping the data type unchanged.
     static setPropertyValue(obj, propertyChain, chainIndex, value) {
+        if (obj == null) {
+            return;
+        }
+
         let objectToUpdate = ObjectHelper._getObjectToUpdate(obj, propertyChain, chainIndex);
 
         if (objectToUpdate instanceof Object && propertyChain.length > chainIndex) {
@@ -389,6 +397,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "stylesheet",
             displayName: "Stylesheet",
             category: KnownCategory.APPEARANCE,
+            isBindable: false,
             type: BasicType.STRING,
             editor: PropertyEditor.TEXT_EDITOR,
             editorOptions: { language: "css" }
@@ -399,6 +408,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "script",
             displayName: "Script",
             category: KnownCategory.BEHAVIOR,
+            isBindable: false,
             type: BasicType.STRING,
             editor: PropertyEditor.TEXT_EDITOR,
             editorOptions: { language: "js" }
@@ -456,6 +466,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "propertyExports",
             displayName: "Exported properties",
             category: KnownCategory.FACEPLATE,
+            isBindable: false,
             type: BasicType.LIST,
             subtype: Subtype.PROPERTY_EXPORT
         }));
@@ -465,6 +476,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "size",
             displayName: "Size",
             category: KnownCategory.LAYOUT,
+            isBindable: false,
             type: BasicType.STRUCT,
             subtype: Subtype.SIZE
         }));
@@ -1561,7 +1573,9 @@ rs.mimic.MimicBase = class {
 };
 
 // Represents a mimic diagram.
-rs.mimic.Mimic = class extends rs.mimic.MimicBase {
+rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
+    static NAME = "mimic"; // identifies the mimic by name
+
     dom;      // mimic DOM as a jQuery object
     renderer; // renders the mimic
     script;   // custom mimic logic
@@ -1570,6 +1584,11 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     // Imitates a component ID for use as a parent ID.
     get id() {
         return 0;
+    }
+
+    // Get the mimic name to identify it like a component.
+    get name() {
+        return Mimic.NAME;
     }
 
     // Indicates that a mimic can contain child components.
@@ -2061,7 +2080,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
     // Returns a string that represents the current object.
     toString() {
-        return "Mimic";
+        return Mimic.NAME;
     }
 };
 
@@ -2470,17 +2489,22 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 
         if (propertyChain.length >= 2) {
             let componentName = propertyChain[0];
-            let component = this.componentByName.get(componentName);
 
-            if (component) {
-                if (component.isFaceplate) {
-                    let topPropertyName = propertyChain[1];
-                    let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
-                    return childPropertyExport
-                        ? component.getTargetPropertyValue(childPropertyExport)
-                        : ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
-                } else {
-                    return ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
+            if (componentName === rs.mimic.Mimic.NAME) {
+                return ObjectHelper.getPropertyValue(this.document, propertyChain, 1);
+            } else {
+                let component = this.componentByName.get(componentName);
+
+                if (component) {
+                    if (component.isFaceplate) {
+                        let topPropertyName = propertyChain[1];
+                        let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
+                        return childPropertyExport
+                            ? component.getTargetPropertyValue(childPropertyExport)
+                            : ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
+                    } else {
+                        return ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
+                    }
                 }
             }
         }
@@ -2495,20 +2519,25 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 
         if (propertyChain.length >= 2) {
             let componentName = propertyChain[0];
-            let component = this.componentByName.get(componentName);
 
-            if (component) {
-                if (component.isFaceplate) {
-                    let topPropertyName = propertyChain[1];
-                    let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
+            if (componentName === rs.mimic.Mimic.NAME) {
+                ObjectHelper.setPropertyValue(this.document, propertyChain, 1, value);
+            } else {
+                let component = this.componentByName.get(componentName);
 
-                    if (childPropertyExport) {
-                        component.setTargetPropertyValue(childPropertyExport, value);
+                if (component) {
+                    if (component.isFaceplate) {
+                        let topPropertyName = propertyChain[1];
+                        let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
+
+                        if (childPropertyExport) {
+                            component.setTargetPropertyValue(childPropertyExport, value);
+                        } else {
+                            ObjectHelper.setPropertyValue(component.properties, propertyChain, 1, value);
+                        }
                     } else {
                         ObjectHelper.setPropertyValue(component.properties, propertyChain, 1, value);
                     }
-                } else {
-                    ObjectHelper.setPropertyValue(component.properties, propertyChain, 1, value);
                 }
             }
         }
@@ -3134,6 +3163,10 @@ rs.mimic.PropertyBinding = class PropertyBinding {
 
     get displayName() {
         return this.propertyName;
+    }
+
+    get displayValue() {
+        return this.dataSource;
     }
 
     _copyFrom(source) {

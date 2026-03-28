@@ -604,6 +604,10 @@ rs.mimic.PropertyBinding = class PropertyBinding {
         return this.propertyName;
     }
 
+    get displayValue() {
+        return this.dataSource;
+    }
+
     _copyFrom(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         this.propertyName = PropertyParser.parseString(source.propertyName);

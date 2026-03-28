@@ -1638,8 +1638,8 @@ class PropertyModal extends ModalBase {
         // show properties of the selected object
         $("#propertyModal_selObject").on("change", (event) => {
             let selectedVal = $(event.target).val();
-            let componentID = Number.parseInt(selectedVal);
-            this._showObjectProperties(this._mimic.componentMap.get(componentID));
+            let selectedObj = this._findObjectById(selectedVal);
+            this._showObjectProperties(selectedObj);
             this._selectProperty(null);
         });
 
@@ -1731,10 +1731,20 @@ class PropertyModal extends ModalBase {
         $("#propertyModal_divObjectProperties").empty().append(listElem);
     }
 
-    _findObject(propertyName) {
-        if (propertyName) {
-            let objectName = propertyName.split('.')[0];
-            return objectName ? this._mimic.components.find(c => c.name === objectName) : null;
+    _findObjectById(optionValue) {
+        let componentID = Number.parseInt(optionValue);
+        return Number.isFinite(componentID)
+            ? (componentID > 0 ? this._mimic.componentMap.get(componentID) : this._mimic)
+            : null;
+    }
+
+    _findObjectByProperty(propertyName) {
+        let objectName = propertyName ? propertyName.split('.')[0] : null;
+
+        if (objectName) {
+            return objectName === this._mimic.name
+                ? this._mimic
+                : this._mimic.components.find(c => c.name === objectName);
         } else {
             return null;
         }
@@ -1749,7 +1759,7 @@ class PropertyModal extends ModalBase {
 
         // create list options
         let optionArr = [firstOptionElem];
-        let objectArr = [...this._mimic.components].sort((a, b) => a.id - b.id);
+        let objectArr = [this._mimic, ...this._mimic.components].sort((a, b) => a.id - b.id);
 
         for (let obj of objectArr) {
             optionArr.push($("<option></option>")
@@ -1775,7 +1785,7 @@ class PropertyModal extends ModalBase {
         this._options = showArgs.options ?? PropertyModal.DEFAULT_OPTIONS;
 
         if (this._options.canSelectObject) {
-            let obj = this._findObject(propertyName);
+            let obj = this._findObjectByProperty(propertyName);
             this._fillObjectList(obj);
             this._showObjectProperties(obj);
         } else {

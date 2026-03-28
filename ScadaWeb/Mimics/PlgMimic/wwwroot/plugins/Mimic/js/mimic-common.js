@@ -168,6 +168,10 @@ rs.mimic.ObjectHelper = class ObjectHelper {
 
     // Gets the value of the object property. Property chain is an array of property names.
     static getPropertyValue(obj, propertyChain, chainIndex) {
+        if (obj == null) {
+            return undefined;
+        }
+
         let objectToUpdate = ObjectHelper._getObjectToUpdate(obj, propertyChain, chainIndex);
 
         if (objectToUpdate instanceof Object && propertyChain.length > chainIndex) {
@@ -180,6 +184,10 @@ rs.mimic.ObjectHelper = class ObjectHelper {
 
     // Sets the object property to the specified value keeping the data type unchanged.
     static setPropertyValue(obj, propertyChain, chainIndex, value) {
+        if (obj == null) {
+            return;
+        }
+
         let objectToUpdate = ObjectHelper._getObjectToUpdate(obj, propertyChain, chainIndex);
 
         if (objectToUpdate instanceof Object && propertyChain.length > chainIndex) {

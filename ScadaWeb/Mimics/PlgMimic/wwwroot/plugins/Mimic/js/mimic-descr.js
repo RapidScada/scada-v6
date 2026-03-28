@@ -172,6 +172,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "stylesheet",
             displayName: "Stylesheet",
             category: KnownCategory.APPEARANCE,
+            isBindable: false,
             type: BasicType.STRING,
             editor: PropertyEditor.TEXT_EDITOR,
             editorOptions: { language: "css" }
@@ -182,6 +183,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "script",
             displayName: "Script",
             category: KnownCategory.BEHAVIOR,
+            isBindable: false,
             type: BasicType.STRING,
             editor: PropertyEditor.TEXT_EDITOR,
             editorOptions: { language: "js" }
@@ -239,6 +241,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "propertyExports",
             displayName: "Exported properties",
             category: KnownCategory.FACEPLATE,
+            isBindable: false,
             type: BasicType.LIST,
             subtype: Subtype.PROPERTY_EXPORT
         }));
@@ -248,6 +251,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "size",
             displayName: "Size",
             category: KnownCategory.LAYOUT,
+            isBindable: false,
             type: BasicType.STRUCT,
             subtype: Subtype.SIZE
         }));

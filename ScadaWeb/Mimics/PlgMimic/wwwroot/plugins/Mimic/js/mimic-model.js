@@ -272,7 +272,9 @@ rs.mimic.MimicBase = class {
 };
 
 // Represents a mimic diagram.
-rs.mimic.Mimic = class extends rs.mimic.MimicBase {
+rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
+    static NAME = "mimic"; // identifies the mimic by name
+
     dom;      // mimic DOM as a jQuery object
     renderer; // renders the mimic
     script;   // custom mimic logic
@@ -281,6 +283,11 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     // Imitates a component ID for use as a parent ID.
     get id() {
         return 0;
+    }
+
+    // Get the mimic name to identify it like a component.
+    get name() {
+        return Mimic.NAME;
     }
 
     // Indicates that a mimic can contain child components.
@@ -772,7 +779,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
     // Returns a string that represents the current object.
     toString() {
-        return "Mimic";
+        return Mimic.NAME;
     }
 };
 
@@ -1181,17 +1188,22 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 
         if (propertyChain.length >= 2) {
             let componentName = propertyChain[0];
-            let component = this.componentByName.get(componentName);
 
-            if (component) {
-                if (component.isFaceplate) {
-                    let topPropertyName = propertyChain[1];
-                    let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
-                    return childPropertyExport
-                        ? component.getTargetPropertyValue(childPropertyExport)
-                        : ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
-                } else {
-                    return ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
+            if (componentName === rs.mimic.Mimic.NAME) {
+                return ObjectHelper.getPropertyValue(this.document, propertyChain, 1);
+            } else {
+                let component = this.componentByName.get(componentName);
+
+                if (component) {
+                    if (component.isFaceplate) {
+                        let topPropertyName = propertyChain[1];
+                        let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
+                        return childPropertyExport
+                            ? component.getTargetPropertyValue(childPropertyExport)
+                            : ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
+                    } else {
+                        return ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
+                    }
                 }
             }
         }
@@ -1206,20 +1218,25 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 
         if (propertyChain.length >= 2) {
             let componentName = propertyChain[0];
-            let component = this.componentByName.get(componentName);
 
-            if (component) {
-                if (component.isFaceplate) {
-                    let topPropertyName = propertyChain[1];
-                    let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
+            if (componentName === rs.mimic.Mimic.NAME) {
+                ObjectHelper.setPropertyValue(this.document, propertyChain, 1, value);
+            } else {
+                let component = this.componentByName.get(componentName);
 
-                    if (childPropertyExport) {
-                        component.setTargetPropertyValue(childPropertyExport, value);
+                if (component) {
+                    if (component.isFaceplate) {
+                        let topPropertyName = propertyChain[1];
+                        let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
+
+                        if (childPropertyExport) {
+                            component.setTargetPropertyValue(childPropertyExport, value);
+                        } else {
+                            ObjectHelper.setPropertyValue(component.properties, propertyChain, 1, value);
+                        }
                     } else {
                         ObjectHelper.setPropertyValue(component.properties, propertyChain, 1, value);
                     }
-                } else {
-                    ObjectHelper.setPropertyValue(component.properties, propertyChain, 1, value);
                 }
             }
         }
