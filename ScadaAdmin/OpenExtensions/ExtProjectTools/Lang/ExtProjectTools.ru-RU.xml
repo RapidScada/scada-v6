@@ -118,6 +118,9 @@
     <Phrase key="this">Экспорт таблицы</Phrase>
     <Phrase key="lblTable">Таблица</Phrase>
     <Phrase key="lblFormat">Формат</Phrase>
+    <Phrase key="cbFormat.Items[0]">Таблицы времени выполнения (*.dat)</Phrase>
+    <Phrase key="cbFormat.Items[1]">Таблицы проекта (*.xml)</Phrase>
+    <Phrase key="cbFormat.Items[2]">Значения, разделённые запятыми (*.csv)</Phrase>
     <Phrase key="gbIDs">Идентификаторы</Phrase>
     <Phrase key="lblStartID">Начальный</Phrase>
     <Phrase key="lblEndID">Конечный</Phrase>
