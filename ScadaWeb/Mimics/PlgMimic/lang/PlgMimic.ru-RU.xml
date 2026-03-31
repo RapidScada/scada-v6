@@ -216,6 +216,7 @@
     <Phrase key="Name">Имя свойства</Phrase>
     <Phrase key="Path">Путь</Phrase>
     <Phrase key="DefaultValue">Значение по умолчанию</Phrase>
+    <Phrase key="DefaultBinding">Привязка по умолчанию</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.UrlParams">
     <Phrase key="Enabled">Включены</Phrase>

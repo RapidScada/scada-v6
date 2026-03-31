@@ -947,6 +947,7 @@ rs.mimic.PropertyExportDescriptor = class extends rs.mimic.StructureDescriptor {
     constructor() {
         super();
         const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
         const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
@@ -968,6 +969,13 @@ rs.mimic.PropertyExportDescriptor = class extends rs.mimic.StructureDescriptor {
             name: "defaultValue",
             displayName: "Default value",
             type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "defaultBinding",
+            displayName: "Default binding",
+            type: BasicType.STRUCT,
+            subtype: Subtype.PROPERTY_BINDING
         }));
     }
 };

@@ -661,6 +661,7 @@ rs.mimic.PropertyExport = class PropertyExport {
     name = "";
     path = "";
     defaultValue = "";
+    defaultBinding = new rs.mimic.PropertyBinding();
 
     constructor(source) {
         Object.assign(this, source);
@@ -691,6 +692,8 @@ rs.mimic.PropertyExport = class PropertyExport {
             propertyExport.name = PropertyParser.parseString(source.name);
             propertyExport.path = PropertyParser.parseString(source.path);
             propertyExport.defaultValue = PropertyParser.parseString(source.defaultValue);
+            propertyExport.defaultBinding = rs.mimic.PropertyBinding.parse(source.defaultBinding);
+            propertyExport.defaultBinding.propertyName = propertyExport.name; // property names must match
         }
 
         return propertyExport;

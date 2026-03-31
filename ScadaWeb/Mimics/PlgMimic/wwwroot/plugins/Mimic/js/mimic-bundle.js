@@ -1172,6 +1172,7 @@ rs.mimic.PropertyExportDescriptor = class extends rs.mimic.StructureDescriptor {
     constructor() {
         super();
         const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
         const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
@@ -1193,6 +1194,13 @@ rs.mimic.PropertyExportDescriptor = class extends rs.mimic.StructureDescriptor {
             name: "defaultValue",
             displayName: "Default value",
             type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "defaultBinding",
+            displayName: "Default binding",
+            type: BasicType.STRUCT,
+            subtype: Subtype.PROPERTY_BINDING
         }));
     }
 };
@@ -2442,13 +2450,10 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
     }
 
     _fillPropertyExports() {
-        if (Array.isArray(this.document.propertyExports)) {
-            for (let sourcePropertyExport of this.document.propertyExports) {
-                if (sourcePropertyExport.name) {
-                    let propertyExport = new rs.mimic.PropertyExport(sourcePropertyExport);
-                    this.propertyExports.push(propertyExport);
-                    this.propertyExportMap.set(propertyExport.name, propertyExport);
-                }
+        for (let propertyExport of this.document.propertyExports) {
+            if (propertyExport.name) {
+                this.propertyExports.push(propertyExport);
+                this.propertyExportMap.set(propertyExport.name, propertyExport);
             }
         }
     }
@@ -3222,6 +3227,7 @@ rs.mimic.PropertyExport = class PropertyExport {
     name = "";
     path = "";
     defaultValue = "";
+    defaultBinding = new rs.mimic.PropertyBinding();
 
     constructor(source) {
         Object.assign(this, source);
@@ -3252,6 +3258,8 @@ rs.mimic.PropertyExport = class PropertyExport {
             propertyExport.name = PropertyParser.parseString(source.name);
             propertyExport.path = PropertyParser.parseString(source.path);
             propertyExport.defaultValue = PropertyParser.parseString(source.defaultValue);
+            propertyExport.defaultBinding = rs.mimic.PropertyBinding.parse(source.defaultBinding);
+            propertyExport.defaultBinding.propertyName = propertyExport.name; // property names must match
         }
 
         return propertyExport;
@@ -4038,6 +4046,15 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         faceplateInstance.properties.size = rs.mimic.Size.parse(this.faceplate.document.size);
     }
 
+    _createBindings(faceplateInstance) {
+        for (let propertyExport of this.faceplate.propertyExports) {
+            if (propertyExport.defaultBinding.dataSource) {
+                let propertyBinding = rs.mimic.PropertyBinding.parse(propertyExport.defaultBinding);
+                faceplateInstance.properties.propertyBindings.push(propertyBinding);
+            }
+        }
+    }
+
     _createComponents(faceplateInstance) {
         const FactorySet = rs.mimic.FactorySet;
         const MimicHelper = rs.mimic.MimicHelper;
@@ -4104,6 +4121,7 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
 
         if (this.faceplate) {
             this._updateSize(faceplateInstance);
+            this._createBindings(faceplateInstance);
             this._applyModel(faceplateInstance, null);
         }
 

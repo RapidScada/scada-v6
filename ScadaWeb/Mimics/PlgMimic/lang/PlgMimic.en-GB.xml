@@ -216,6 +216,7 @@
     <Phrase key="Name">Property name</Phrase>
     <Phrase key="Path">Path</Phrase>
     <Phrase key="DefaultValue">Default value</Phrase>
+    <Phrase key="DefaultBinding">Default binding</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.UrlParams">
     <Phrase key="Enabled">Enabled</Phrase>

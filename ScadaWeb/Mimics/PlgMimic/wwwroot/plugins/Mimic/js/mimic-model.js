@@ -1141,13 +1141,10 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
     }
 
     _fillPropertyExports() {
-        if (Array.isArray(this.document.propertyExports)) {
-            for (let sourcePropertyExport of this.document.propertyExports) {
-                if (sourcePropertyExport.name) {
-                    let propertyExport = new rs.mimic.PropertyExport(sourcePropertyExport);
-                    this.propertyExports.push(propertyExport);
-                    this.propertyExportMap.set(propertyExport.name, propertyExport);
-                }
+        for (let propertyExport of this.document.propertyExports) {
+            if (propertyExport.name) {
+                this.propertyExports.push(propertyExport);
+                this.propertyExportMap.set(propertyExport.name, propertyExport);
             }
         }
     }

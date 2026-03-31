@@ -415,6 +415,15 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         faceplateInstance.properties.size = rs.mimic.Size.parse(this.faceplate.document.size);
     }
 
+    _createBindings(faceplateInstance) {
+        for (let propertyExport of this.faceplate.propertyExports) {
+            if (propertyExport.defaultBinding.dataSource) {
+                let propertyBinding = rs.mimic.PropertyBinding.parse(propertyExport.defaultBinding);
+                faceplateInstance.properties.propertyBindings.push(propertyBinding);
+            }
+        }
+    }
+
     _createComponents(faceplateInstance) {
         const FactorySet = rs.mimic.FactorySet;
         const MimicHelper = rs.mimic.MimicHelper;
@@ -481,6 +490,7 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
 
         if (this.faceplate) {
             this._updateSize(faceplateInstance);
+            this._createBindings(faceplateInstance);
             this._applyModel(faceplateInstance, null);
         }
 
