@@ -84,6 +84,8 @@
     <Phrase key="TextAlign">Text alignment</Phrase>
     <Phrase key="TextDirection">Text direction</Phrase>
     <Phrase key="WordWrap">Word wrap</Phrase>
+    <Phrase key="Conditions">Conditions</Phrase>
+    <Phrase key="DefaultText">Default text</Phrase>
     <Phrase key="AutoSize">Auto size</Phrase>
     <Phrase key="Padding">Padding</Phrase>
   </Dictionary>
@@ -217,6 +219,14 @@
     <Phrase key="Path">Path</Phrase>
     <Phrase key="DefaultValue">Default value</Phrase>
     <Phrase key="DefaultBinding">Default binding</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.TextCondition">
+    <Phrase key="ComparisonOper1">Comparison 1</Phrase>
+    <Phrase key="ComparisonArg1">Argument 1</Phrase>
+    <Phrase key="LogicalOper">Logical operator</Phrase>
+    <Phrase key="ComparisonOper2">Comparison 2</Phrase>
+    <Phrase key="ComparisonArg2">Argument 2</Phrase>
+    <Phrase key="Text">Text</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.UrlParams">
     <Phrase key="Enabled">Enabled</Phrase>

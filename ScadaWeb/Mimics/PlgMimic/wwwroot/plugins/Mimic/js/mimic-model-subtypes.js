@@ -1,8 +1,9 @@
 ﻿// Enumerations: ActionType, ComparisonOperator, ContentAlignment, DataMember, ImageStretch, LogicalOperator,
 //     LinkTarget, ModalWidth, TextDirection
-// Structures: Action, Border, CnlProps, CommandArgs, ComponentBindings, Condition, CornerRadius, Font, ImageCondition,
-//     LinkArgs, Padding, Point, PropertyBinding, PropertyBindingEx, PropertyExport, Size, UrlParams, VisualState
-// Lists: List, ImageConditionList, PropertyBindingList, PropertyExportList
+// Structures: Action, Border, CnlProps, CommandArgs, ComponentBindings, Condition, CornerRadius,
+//     Font, ImageCondition, LinkArgs, Padding, Point, PropertyBinding, PropertyBindingEx, PropertyExport,
+//     Size, TextCondition, UrlParams, VisualState
+// Lists: List, ImageConditionList, PropertyBindingList, PropertyExportList, TextConditionList
 // Scripts: ComponentScript, DomUpdateArgs, DataUpdateArgs, CommandSendArgs, ActionScriptArgs
 // Misc: PropertyParser, DataProvider
 // No dependencies
@@ -727,6 +728,31 @@ rs.mimic.Size = class Size {
     }
 };
 
+// Represents a text condition.
+rs.mimic.TextCondition = class TextCondition extends rs.mimic.Condition {
+    text = "";
+
+    get typeName() {
+        return "TextCondition";
+    }
+
+    get displayValue() {
+        return this.text;
+    }
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let textCondition = new TextCondition();
+
+        if (source) {
+            textCondition._copyFrom(source);
+            textCondition.text = PropertyParser.parseString(source.text);
+        }
+
+        return textCondition;
+    }
+};
+
 // Represents URL parameters.
 rs.mimic.UrlParams = class UrlParams {
     enabled = false;
@@ -890,6 +916,28 @@ rs.mimic.PropertyExportList = class PropertyExportList extends rs.mimic.List {
         }
 
         return propertyExports;
+    }
+};
+
+// Represents a list of TextCondition items.
+rs.mimic.TextConditionList = class TextConditionList extends rs.mimic.List {
+    constructor() {
+        super(() => {
+            return new rs.mimic.TextCondition();
+        });
+    }
+
+    static parse(source) {
+        const TextCondition = rs.mimic.TextCondition;
+        let textConditions = new TextConditionList();
+
+        if (Array.isArray(source)) {
+            for (let sourceItem of source) {
+                textConditions.push(TextCondition.parse(sourceItem));
+            }
+        }
+
+        return textConditions;
     }
 };
 

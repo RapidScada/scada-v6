@@ -229,8 +229,8 @@ rs.mimic.ObjectHelper = class ObjectHelper {
 //     TextDescriptor, PictureDescriptor, PanelDescriptor, FaceplateDescriptor,
 //     StructureDescriptor, ActionDescriptor, BorderDescriptor, CommandArgsDescriptor, ConditionDescriptor,
 //     CornerRadiusDescriptor, ImageConditionDescriptor, LinkArgsDescriptor, PaddingDescriptor,
-//     PropertyBindingDescriptor, PropertyExportDescriptor, UrlParamsDescriptor, VisualStateDescriptor,
-//     DescriptorSet
+//     PropertyBindingDescriptor, PropertyExportDescriptor, TextConditionDescriptor, UrlParamsDescriptor,
+//     VisualStateDescriptor, DescriptorSet
 // Depends on scada-common.js, mimic-common.js
 
 // Specifies the known categories.
@@ -284,6 +284,7 @@ rs.mimic.Subtype = class {
     static PROPERTY_BINDING = "PropertyBinding";
     static PROPERTY_EXPORT = "PropertyExport";
     static SIZE = "Size";
+    static TEXT_CONDITION = "TextCondition";
     static URL_PARAMS = "UrlParams";
     static VISUAL_STATE = "VisualState";
 };
@@ -761,6 +762,22 @@ rs.mimic.TextDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             type: BasicType.BOOL
         }));
 
+        // behavior
+        this.add(new PropertyDescriptor({
+            name: "conditions",
+            displayName: "Conditions",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.LIST,
+            subtype: Subtype.TEXT_CONDITION
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "defaultText",
+            displayName: "Default text",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.STRING
+        }));
+
         // layout
         this.add(new PropertyDescriptor({
             name: "autoSize",
@@ -1205,6 +1222,21 @@ rs.mimic.PropertyExportDescriptor = class extends rs.mimic.StructureDescriptor {
     }
 };
 
+// Represents a descriptor for the TextCondition structure.
+rs.mimic.TextConditionDescriptor = class extends rs.mimic.ConditionDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "text",
+            displayName: "Text",
+            type: BasicType.STRING
+        }));
+    }
+};
+
 // Represents a descriptor for the UrlParams structure.
 rs.mimic.UrlParamsDescriptor = class extends rs.mimic.StructureDescriptor {
     constructor() {
@@ -1302,6 +1334,7 @@ rs.mimic.DescriptorSet = class {
         ["Padding", new rs.mimic.PaddingDescriptor()],
         ["PropertyBinding", new rs.mimic.PropertyBindingDescriptor()],
         ["PropertyExport", new rs.mimic.PropertyExportDescriptor()],
+        ["TextCondition", new rs.mimic.TextConditionDescriptor()],
         ["UrlParams", new rs.mimic.UrlParamsDescriptor()],
         ["VisualState", new rs.mimic.VisualStateDescriptor()]
     ]);
@@ -2566,9 +2599,10 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 
 // Enumerations: ActionType, ComparisonOperator, ContentAlignment, DataMember, ImageStretch, LogicalOperator,
 //     LinkTarget, ModalWidth, TextDirection
-// Structures: Action, Border, CnlProps, CommandArgs, ComponentBindings, Condition, CornerRadius, Font, ImageCondition,
-//     LinkArgs, Padding, Point, PropertyBinding, PropertyBindingEx, PropertyExport, Size, UrlParams, VisualState
-// Lists: List, ImageConditionList, PropertyBindingList, PropertyExportList
+// Structures: Action, Border, CnlProps, CommandArgs, ComponentBindings, Condition, CornerRadius,
+//     Font, ImageCondition, LinkArgs, Padding, Point, PropertyBinding, PropertyBindingEx, PropertyExport,
+//     Size, TextCondition, UrlParams, VisualState
+// Lists: List, ImageConditionList, PropertyBindingList, PropertyExportList, TextConditionList
 // Scripts: ComponentScript, DomUpdateArgs, DataUpdateArgs, CommandSendArgs, ActionScriptArgs
 // Misc: PropertyParser, DataProvider
 // No dependencies
@@ -3293,6 +3327,31 @@ rs.mimic.Size = class Size {
     }
 };
 
+// Represents a text condition.
+rs.mimic.TextCondition = class TextCondition extends rs.mimic.Condition {
+    text = "";
+
+    get typeName() {
+        return "TextCondition";
+    }
+
+    get displayValue() {
+        return this.text;
+    }
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let textCondition = new TextCondition();
+
+        if (source) {
+            textCondition._copyFrom(source);
+            textCondition.text = PropertyParser.parseString(source.text);
+        }
+
+        return textCondition;
+    }
+};
+
 // Represents URL parameters.
 rs.mimic.UrlParams = class UrlParams {
     enabled = false;
@@ -3456,6 +3515,28 @@ rs.mimic.PropertyExportList = class PropertyExportList extends rs.mimic.List {
         }
 
         return propertyExports;
+    }
+};
+
+// Represents a list of TextCondition items.
+rs.mimic.TextConditionList = class TextConditionList extends rs.mimic.List {
+    constructor() {
+        super(() => {
+            return new rs.mimic.TextCondition();
+        });
+    }
+
+    static parse(source) {
+        const TextCondition = rs.mimic.TextCondition;
+        let textConditions = new TextConditionList();
+
+        if (Array.isArray(source)) {
+            for (let sourceItem of source) {
+                textConditions.push(TextCondition.parse(sourceItem));
+            }
+        }
+
+        return textConditions;
     }
 };
 
@@ -3846,21 +3927,58 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
     }
 };
 
+// Implements logic for Text type components.
+rs.mimic.TextScript = class extends rs.mimic.ComponentScript {
+    dataUpdated(args) {
+        // select text according to conditions
+        let cnlNum = args.component.bindings?.inCnlNum;
+        let props = args.component.properties;
+        let conditions = props.conditions;
+
+        if (cnlNum > 0 && conditions.length > 0) {
+            let curData = args.dataProvider.getCurData(cnlNum);
+            let prevData = args.dataProvider.getPrevData(cnlNum);
+
+            if (dataProvider.dataChanged(curData, prevData)) {
+                let text = props.defaultText;
+
+                if (curData.d.stat > 0) {
+                    for (let condition of conditions) {
+                        if (condition.satisfied(curData.d.val)) {
+                            text = condition.text;
+                            break;
+                        }
+                    }
+                }
+
+                if (props.text !== text) {
+                    props.text = text;
+                    args.propertyChanged = true;
+                }
+            }
+        }
+    }
+};
+
 // Creates components of the Text type.
 rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
     _createDefaultBindings(component) {
         const DataMember = rs.mimic.DataMember;
         let cnlNum = component.bindings.inCnlNum;
         let cnlProps = component.bindings.inCnlProps;
-        let bindings = [{
-            propertyName: "text",
-            dataSource: String(cnlNum),
-            dataMember: DataMember.DISPLAY_VALUE_WITH_UNIT,
-            format: "",
-            propertyChain: ["text"],
-            cnlNum: cnlNum,
-            cnlProps: cnlProps
-        }];
+        let bindings = [];
+
+        if (component.properties.conditions.length === 0) {
+            bindings.push({
+                propertyName: "text",
+                dataSource: String(cnlNum),
+                dataMember: DataMember.DISPLAY_VALUE_WITH_UNIT,
+                format: "",
+                propertyChain: ["text"],
+                cnlNum: cnlNum,
+                cnlProps: cnlProps
+            });
+        }
 
         if (!component.properties.foreColor) {
             bindings.push({
@@ -3877,6 +3995,10 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
         return bindings;
     }
 
+    _createExtraScript() {
+        return new rs.mimic.TextScript();
+    }
+
     createProperties() {
         let props = super.createProperties();
 
@@ -3886,6 +4008,12 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
             textAlign: rs.mimic.ContentAlignment.TOP_LEFT,
             textDirection: rs.mimic.TextDirection.HORIZONTAL,
             wordWrap: false
+        });
+
+        // behavior
+        Object.assign(props, {
+            conditions: new rs.mimic.TextConditionList(),
+            defaultText: ""
         });
 
         // layout
@@ -3908,6 +4036,12 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
             textAlign: PropertyParser.parseString(sourceProps.textAlign, rs.mimic.ContentAlignment.TOP_LEFT),
             textDirection: PropertyParser.parseString(sourceProps.textDirection, rs.mimic.TextDirection.HORIZONTAL),
             wordWrap: PropertyParser.parseBool(sourceProps.wordWrap)
+        });
+
+        // behavior
+        Object.assign(props, {
+            conditions: rs.mimic.TextConditionList.parse(sourceProps.conditions),
+            defaultText: PropertyParser.parseString(sourceProps.defaultText)
         });
 
         // layout

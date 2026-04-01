@@ -4,8 +4,8 @@
 //     TextDescriptor, PictureDescriptor, PanelDescriptor, FaceplateDescriptor,
 //     StructureDescriptor, ActionDescriptor, BorderDescriptor, CommandArgsDescriptor, ConditionDescriptor,
 //     CornerRadiusDescriptor, ImageConditionDescriptor, LinkArgsDescriptor, PaddingDescriptor,
-//     PropertyBindingDescriptor, PropertyExportDescriptor, UrlParamsDescriptor, VisualStateDescriptor,
-//     DescriptorSet
+//     PropertyBindingDescriptor, PropertyExportDescriptor, TextConditionDescriptor, UrlParamsDescriptor,
+//     VisualStateDescriptor, DescriptorSet
 // Depends on scada-common.js, mimic-common.js
 
 // Specifies the known categories.
@@ -59,6 +59,7 @@ rs.mimic.Subtype = class {
     static PROPERTY_BINDING = "PropertyBinding";
     static PROPERTY_EXPORT = "PropertyExport";
     static SIZE = "Size";
+    static TEXT_CONDITION = "TextCondition";
     static URL_PARAMS = "UrlParams";
     static VISUAL_STATE = "VisualState";
 };
@@ -536,6 +537,22 @@ rs.mimic.TextDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             type: BasicType.BOOL
         }));
 
+        // behavior
+        this.add(new PropertyDescriptor({
+            name: "conditions",
+            displayName: "Conditions",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.LIST,
+            subtype: Subtype.TEXT_CONDITION
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "defaultText",
+            displayName: "Default text",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.STRING
+        }));
+
         // layout
         this.add(new PropertyDescriptor({
             name: "autoSize",
@@ -980,6 +997,21 @@ rs.mimic.PropertyExportDescriptor = class extends rs.mimic.StructureDescriptor {
     }
 };
 
+// Represents a descriptor for the TextCondition structure.
+rs.mimic.TextConditionDescriptor = class extends rs.mimic.ConditionDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "text",
+            displayName: "Text",
+            type: BasicType.STRING
+        }));
+    }
+};
+
 // Represents a descriptor for the UrlParams structure.
 rs.mimic.UrlParamsDescriptor = class extends rs.mimic.StructureDescriptor {
     constructor() {
@@ -1077,6 +1109,7 @@ rs.mimic.DescriptorSet = class {
         ["Padding", new rs.mimic.PaddingDescriptor()],
         ["PropertyBinding", new rs.mimic.PropertyBindingDescriptor()],
         ["PropertyExport", new rs.mimic.PropertyExportDescriptor()],
+        ["TextCondition", new rs.mimic.TextConditionDescriptor()],
         ["UrlParams", new rs.mimic.UrlParamsDescriptor()],
         ["VisualState", new rs.mimic.VisualStateDescriptor()]
     ]);

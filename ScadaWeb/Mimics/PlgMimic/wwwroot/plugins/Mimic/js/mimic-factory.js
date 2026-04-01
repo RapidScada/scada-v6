@@ -215,21 +215,58 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
     }
 };
 
+// Implements logic for Text type components.
+rs.mimic.TextScript = class extends rs.mimic.ComponentScript {
+    dataUpdated(args) {
+        // select text according to conditions
+        let cnlNum = args.component.bindings?.inCnlNum;
+        let props = args.component.properties;
+        let conditions = props.conditions;
+
+        if (cnlNum > 0 && conditions.length > 0) {
+            let curData = args.dataProvider.getCurData(cnlNum);
+            let prevData = args.dataProvider.getPrevData(cnlNum);
+
+            if (dataProvider.dataChanged(curData, prevData)) {
+                let text = props.defaultText;
+
+                if (curData.d.stat > 0) {
+                    for (let condition of conditions) {
+                        if (condition.satisfied(curData.d.val)) {
+                            text = condition.text;
+                            break;
+                        }
+                    }
+                }
+
+                if (props.text !== text) {
+                    props.text = text;
+                    args.propertyChanged = true;
+                }
+            }
+        }
+    }
+};
+
 // Creates components of the Text type.
 rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
     _createDefaultBindings(component) {
         const DataMember = rs.mimic.DataMember;
         let cnlNum = component.bindings.inCnlNum;
         let cnlProps = component.bindings.inCnlProps;
-        let bindings = [{
-            propertyName: "text",
-            dataSource: String(cnlNum),
-            dataMember: DataMember.DISPLAY_VALUE_WITH_UNIT,
-            format: "",
-            propertyChain: ["text"],
-            cnlNum: cnlNum,
-            cnlProps: cnlProps
-        }];
+        let bindings = [];
+
+        if (component.properties.conditions.length === 0) {
+            bindings.push({
+                propertyName: "text",
+                dataSource: String(cnlNum),
+                dataMember: DataMember.DISPLAY_VALUE_WITH_UNIT,
+                format: "",
+                propertyChain: ["text"],
+                cnlNum: cnlNum,
+                cnlProps: cnlProps
+            });
+        }
 
         if (!component.properties.foreColor) {
             bindings.push({
@@ -246,6 +283,10 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
         return bindings;
     }
 
+    _createExtraScript() {
+        return new rs.mimic.TextScript();
+    }
+
     createProperties() {
         let props = super.createProperties();
 
@@ -255,6 +296,12 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
             textAlign: rs.mimic.ContentAlignment.TOP_LEFT,
             textDirection: rs.mimic.TextDirection.HORIZONTAL,
             wordWrap: false
+        });
+
+        // behavior
+        Object.assign(props, {
+            conditions: new rs.mimic.TextConditionList(),
+            defaultText: ""
         });
 
         // layout
@@ -277,6 +324,12 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
             textAlign: PropertyParser.parseString(sourceProps.textAlign, rs.mimic.ContentAlignment.TOP_LEFT),
             textDirection: PropertyParser.parseString(sourceProps.textDirection, rs.mimic.TextDirection.HORIZONTAL),
             wordWrap: PropertyParser.parseBool(sourceProps.wordWrap)
+        });
+
+        // behavior
+        Object.assign(props, {
+            conditions: rs.mimic.TextConditionList.parse(sourceProps.conditions),
+            defaultText: PropertyParser.parseString(sourceProps.defaultText)
         });
 
         // layout
