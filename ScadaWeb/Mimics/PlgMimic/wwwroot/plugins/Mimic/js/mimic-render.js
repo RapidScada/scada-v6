@@ -1132,7 +1132,7 @@ rs.mimic.UnitedRenderer = class {
             this._createComponentDom(component, faceplateContext);
         }
 
-        this._execDomCreated(faceplateInstance, renderContext);
+        this._execDomCreated(faceplateInstance, faceplateContext);
         this._appendToParent(faceplateInstance);
     }
 
@@ -1166,7 +1166,7 @@ rs.mimic.UnitedRenderer = class {
                 this._updateComponentDom(component, faceplateContext);
             }
 
-            this._execDomUpdated(faceplateInstance, renderContext);
+            this._execDomUpdated(faceplateInstance, faceplateContext);
         }
     }
 
