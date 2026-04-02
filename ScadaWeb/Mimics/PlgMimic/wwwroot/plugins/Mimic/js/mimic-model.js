@@ -922,11 +922,25 @@ rs.mimic.Component = class {
         }
     }
 
+    // Retrieves the mimic that the component is on.
+    getMimic() {
+        let current = this;
+
+        while (current) {
+            current = current.parent;
+
+            if (current instanceof rs.mimic.MimicBase) {
+                return current;
+            }
+        }
+
+        return null;
+    }
+
     // Gets all child components as a flat array.
     getAllChildren() {
         let allChildren = [];
-
-        function appendChildren(component) {
+        let appendChildren = (component) => {
             if (component.isContainer) {
                 for (let child of component.children) {
                     allChildren.push(child);
