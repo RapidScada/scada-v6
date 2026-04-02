@@ -5516,7 +5516,10 @@ rs.mimic.UnitedRenderer = class {
         let renderer = rs.mimic.RendererSet.mimicRenderer;
         this.mimic.renderer = renderer;
         renderer.createDom(this.mimic, renderContext);
-        this._execDomCreated(this.mimic, renderContext);
+
+        if (!mimic.isFaceplate) {
+            this._execDomCreated(this.mimic, renderContext);
+        }
 
         for (let component of this.mimic.components) {
             this._createComponentDom(component, renderContext);
@@ -5540,7 +5543,10 @@ rs.mimic.UnitedRenderer = class {
     updateMimicDom() {
         let renderContext = this._createRenderContext();
         rs.mimic.RendererSet.mimicRenderer.updateDom(this.mimic, renderContext);
-        this._execDomUpdated(this.mimic, renderContext);
+
+        if (!mimic.isFaceplate) {
+            this._execDomUpdated(this.mimic, renderContext);
+        }
     }
 
     // Creates a component DOM according to the component model. Returns a jQuery object.
