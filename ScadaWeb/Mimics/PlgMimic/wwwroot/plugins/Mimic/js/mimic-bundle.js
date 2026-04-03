@@ -2056,7 +2056,7 @@ rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
         return parentID > 0 ? this.componentMap.get(parentID) : this;
     }
 
-    // Finds a component by ID or name. Called by custom scripts.
+    // Finds a component by ID or name. Called from custom scripts.
     findComponent(idOrName) {
         if (typeof idOrName === "number") {
             return this.componentMap?.get(idOrName);
@@ -2288,7 +2288,7 @@ rs.mimic.Component = class {
         }
     }
 
-    // Retrieves the mimic that the component is on. Called by custom scripts.
+    // Retrieves the mimic that the component is on. Called from custom scripts.
     getMimic() {
         let current = this;
 
