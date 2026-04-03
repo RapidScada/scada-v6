@@ -1597,7 +1597,7 @@ rs.mimic.MimicBase = class {
     children;      // top-level components
 
     // Clears the mimic.
-    clear() {
+    _clear() {
         this.isFaceplate = false;
         this.dependencies = [];
         this.document = {};
@@ -1617,10 +1617,11 @@ rs.mimic.MimicBase = class {
 rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
     static NAME = "mimic"; // identifies the mimic by name
 
-    dom;      // mimic DOM as a jQuery object
-    renderer; // renders the mimic
-    script;   // custom mimic logic
-    title;    // view title
+    dom;             // mimic DOM as a jQuery object
+    renderer;        // renders the mimic
+    script;          // custom mimic logic
+    componentByName; // components accessible by name in runtime mode
+    title;           // view title
 
     // Imitates a component ID for use as a parent ID.
     get id() {
@@ -1661,6 +1662,16 @@ rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
         return props
             ? props.size.height - (props.border ? props.border.width * 2 : 0)
             : 0;
+    }
+
+    // Clears the mimic.
+    _clear() {
+        super._clear();
+        this.dom = null;
+        this.renderer = null;
+        this.script = null;
+        this.componentByName = new Map();
+        this.title = "";
     }
 
     // Loads a part of the mimic.
@@ -1871,15 +1882,6 @@ rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
         rs.mimic.MimicHelper.defineNesting(this, this.components, this.componentMap);
     }
 
-    // Clears the mimic.
-    clear() {
-        super.clear();
-        this.dom = null;
-        this.renderer = null;
-        this.script = null;
-        this.title = "";
-    }
-
     // Sets the specified properties of the document.
     setProperties(sourceProps) {
         if (this.document) {
@@ -1891,7 +1893,7 @@ rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
     async load(controllerUrl, mimicKey) {
         let startTime = Date.now();
         console.log(ScadaUtils.getCurrentTime() + " Load mimic with key " + mimicKey)
-        this.clear();
+        this._clear();
         let loadContext = new rs.mimic.LoadContext(controllerUrl, mimicKey);
 
         try {
@@ -2054,6 +2056,17 @@ rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
         return parentID > 0 ? this.componentMap.get(parentID) : this;
     }
 
+    // Finds a component by ID or name. Called by custom scripts.
+    findComponent(idOrName) {
+        if (typeof idOrName === "number") {
+            return this.componentMap?.get(idOrName);
+        } else if (typeof idOrName === "string") {
+            return this.componentByName?.get(idOrName);
+        } else {
+            return null;
+        }
+    }
+
     // Initializes the custom scripts of the mimic and components.
     initCustomScripts() {
         const ComponentScript = rs.mimic.ComponentScript;
@@ -2093,6 +2106,17 @@ rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
         };
 
         initScriptsInternal(this.components, false);
+    }
+
+    // Populates a component map to search for components by name.
+    mapComponentsByName() {
+        this.componentByName = new Map();
+
+        for (let component of this.components) {
+            if (component.name) {
+                this.componentByName.set(component.name, component);
+            }
+        }
     }
 
     // Executes the custom script when the mimic DOM has been created.
@@ -2264,7 +2288,7 @@ rs.mimic.Component = class {
         }
     }
 
-    // Retrieves the mimic that the component is on.
+    // Retrieves the mimic that the component is on. Called by custom scripts.
     getMimic() {
         let current = this;
 
@@ -2457,7 +2481,7 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
 
     constructor(source, typeName) {
         super();
-        this.clear();
+        this._clear();
         this.isFaceplate = true;
         this.document = rs.mimic.MimicFactory.parseProperties(source.document, true);
         this.typeName = typeName;

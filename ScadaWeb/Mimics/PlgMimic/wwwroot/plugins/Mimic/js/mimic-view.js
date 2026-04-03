@@ -155,6 +155,7 @@ async function loadMimic() {
         try {
             viewHub.setViewTitle(window, mimic.title);
             mimic.initCustomScripts();
+            mimic.mapComponentsByName();
             mimicWrapperElem.append(unitedRenderer.createMimicDom());
             toolbarElem.removeClass("d-none");
             initScale();
