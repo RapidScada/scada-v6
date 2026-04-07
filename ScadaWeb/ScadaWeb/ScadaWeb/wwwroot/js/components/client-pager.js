@@ -70,8 +70,8 @@ class ClientPager {
         }
 
         if (pageNumbers.at(-1) != pageCount && pageNumbers.at(-1) != activePage) {
-            pageNumbers.at(-1) = pageCount;
-            pageNumbers.at(-2) = 0;
+            pageNumbers[pageNumbers.length - 1] = pageCount;
+            pageNumbers[pageNumbers.length - 2] = 0;
         }
 
         return pageNumbers;
