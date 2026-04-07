@@ -707,7 +707,7 @@ async function saveMimic() {
 // --- Display ---
 
 function showSpinner() {
-    $("#divMimicWrapper").append("<div class='mimic-spinner fs-2 text-secondary'>" +
+    $("#divMimicWrapper").append("<div class='mimic-spinner box-center fs-2 text-secondary'>" +
         "<i class='fa-solid fa-spinner fa-spin-pulse fa-3x'></i></div>");
 }
 
