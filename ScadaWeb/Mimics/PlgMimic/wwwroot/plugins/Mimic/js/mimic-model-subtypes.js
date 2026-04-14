@@ -1,8 +1,9 @@
-﻿// Enumerations: ActionType, ComparisonOperator, ContentAlignment, DataMember, ImageStretch, LogicalOperator, 
+﻿// Enumerations: ActionType, ComparisonOperator, ContentAlignment, DataMember, ImageStretch, LogicalOperator,
 //     LinkTarget, ModalWidth, TextDirection
-// Structures: Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Padding, Point,
-//     PropertyBinding, PropertyExport, Size, UrlParams, VisualState
-// Lists: List, ImageConditionList, PropertyBindingList, PropertyExportList
+// Structures: Action, Border, CnlProps, CommandArgs, ComponentBindings, Condition, CornerRadius,
+//     Font, ImageCondition, LinkArgs, Padding, Point, PropertyBinding, PropertyBindingEx, PropertyExport,
+//     Size, TextCondition, UrlParams, VisualState
+// Lists: List, ImageConditionList, PropertyBindingList, PropertyExportList, TextConditionList
 // Scripts: ComponentScript, DomUpdateArgs, DataUpdateArgs, CommandSendArgs, ActionScriptArgs
 // Misc: PropertyParser, DataProvider
 // No dependencies
@@ -84,6 +85,7 @@ rs.mimic.ContentAlignment = class {
 rs.mimic.DataMember = class {
     static VALUE = "Value";
     static STATUS = "Status";
+    static DATA = "Data";
     static DISPLAY_VALUE = "DisplayValue";
     static DISPLAY_VALUE_WITH_UNIT = "DisplayValueWithUnit";
     static COLOR0 = "Color0";
@@ -197,10 +199,20 @@ rs.mimic.Action = class Action {
 // Represents a border.
 rs.mimic.Border = class Border {
     width = 0;
-    color = ""
+    color = "";
 
     get typeName() {
         return "Border";
+    }
+
+    get displayValue() {
+        return this.isSet
+            ? (this.color ? `${this.width}, ${this.color}` : `${this.width}`)
+            : "";
+    }
+
+    get isSet() {
+        return this.width > 0 || this.color;
     }
 
     static parse(source) {
@@ -215,6 +227,24 @@ rs.mimic.Border = class Border {
         return border;
     }
 };
+
+// Represents channel properties used when displaying data. Prepared on the server side in runtime mode.
+rs.mimic.CnlProps = class CnlProps {
+    joinLen = 0;
+    unit = "";
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let cnlProps = new CnlProps();
+
+        if (source) {
+            cnlProps.joinLen = PropertyParser.parseInt(source.joinLen);
+            cnlProps.unit = PropertyParser.parseString(source.unit);
+        }
+
+        return cnlProps;
+    }
+}
 
 // Represents arguments of the SEND_COMMAND action.
 rs.mimic.CommandArgs = class CommandArgs {
@@ -235,6 +265,43 @@ rs.mimic.CommandArgs = class CommandArgs {
         }
 
         return commandArgs;
+    }
+};
+
+// Represents data bindings of a component. Prepared on the server side in runtime mode.
+rs.mimic.ComponentBindings = class ComponentBindings {
+    inCnlNum = 0;
+    outCnlNum = 0;
+    objNum = 0;
+    deviceNum = 0;
+    checkRights = false;
+    inCnlProps = null;
+    outCnlProps = null;
+    propertyBindings = null;
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        const PropertyBindingEx = rs.mimic.PropertyBindingEx;
+        let componentBindings = new ComponentBindings();
+
+        if (source) {
+            componentBindings.inCnlNum = PropertyParser.parseInt(source.inCnlNum);
+            componentBindings.outCnlNum = PropertyParser.parseInt(source.outCnlNum);
+            componentBindings.objNum = PropertyParser.parseInt(source.objNum);
+            componentBindings.deviceNum = PropertyParser.parseInt(source.deviceNum);
+            componentBindings.checkRights = PropertyParser.parseBool(source.checkRights);
+            componentBindings.inCnlProps = rs.mimic.CnlProps.parse(source.inCnlProps);
+            componentBindings.outCnlProps = rs.mimic.CnlProps.parse(source.outCnlProps);
+            componentBindings.propertyBindings = [];
+
+            if (Array.isArray(source.propertyBindings)) {
+                for (let sourceItem of source.propertyBindings) {
+                    componentBindings.propertyBindings.push(PropertyBindingEx.parse(sourceItem));
+                }
+            }
+        }
+
+        return componentBindings;
     }
 };
 
@@ -259,10 +326,10 @@ rs.mimic.Condition = class Condition {
         let displayName = "";
 
         if (co1) {
-            displayName += `X ${co1} ${this.comparisonArg1}`;
+            displayName = `x ${co1} ${this.comparisonArg1}`;
 
             if (co2 && lo) {
-                displayName += ` ${lo} X ${co2} ${this.comparisonArg2}`;
+                displayName += ` ${lo} x ${co2} ${this.comparisonArg2}`;
             }
         }
 
@@ -313,6 +380,12 @@ rs.mimic.CornerRadius = class CornerRadius {
         return "CornerRadius";
     }
 
+    get displayValue() {
+        return this.isSet ?
+            `${this.topLeft}, ${this.topRight}, ${this.bottomRight}, ${this.bottomLeft}`
+            : "";
+    }
+
     get isSet() {
         return this.topLeft > 0 || this.topRight > 0 || this.bottomRight > 0 || this.bottomLeft > 0;
     }
@@ -349,13 +422,28 @@ rs.mimic.Font = class Font {
         return "Font";
     }
 
-    toString() {
-        return this.inherit
-            ? ""
-            : (this.name || "Default") + " " + this.size + " " +
+    get displayValue() {
+        if (this.inherit) {
+            return "";
+        } else {
+            let parts = [];
+
+            if (this.name) {
+                parts.push(this.name);
+            }
+
+            parts.push(this.size);
+            let style =
                 (this.bold ? "B" : "") +
                 (this.italic ? "I" : "") +
                 (this.underline ? "U" : "");
+
+            if (style) {
+                parts.push(style);
+            }
+
+            return parts.join(", ");
+        }
     }
 
     static parse(source) {
@@ -383,13 +471,17 @@ rs.mimic.ImageCondition = class ImageCondition extends rs.mimic.Condition {
         return "ImageCondition";
     }
 
+    get displayValue() {
+        return this.imageName;
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let imageCondition = new ImageCondition();
 
         if (source) {
-            imageCondition.imageName = PropertyParser.parseString(source.imageName);
             imageCondition._copyFrom(source);
+            imageCondition.imageName = PropertyParser.parseString(source.imageName);
         }
 
         return imageCondition;
@@ -445,6 +537,16 @@ rs.mimic.Padding = class Padding {
         return "Padding";
     }
 
+    get displayValue() {
+        return this.isSet ?
+            `${this.top}, ${this.right}, ${this.bottom}, ${this.left}`
+            : "";
+    }
+
+    get isSet() {
+        return this.top > 0 || this.right > 0 || this.bottom > 0 || this.left > 0;
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let padding = new Padding();
@@ -492,6 +594,7 @@ rs.mimic.PropertyBinding = class PropertyBinding {
     propertyName = "";
     dataSource = "";
     dataMember = rs.mimic.DataMember.VALUE;
+    expression = "";
     format = "";
 
     get typeName() {
@@ -502,18 +605,55 @@ rs.mimic.PropertyBinding = class PropertyBinding {
         return this.propertyName;
     }
 
-    static parse(source) {
+    get displayValue() {
+        return this.dataSource;
+    }
+
+    _copyFrom(source) {
         const PropertyParser = rs.mimic.PropertyParser;
+        this.propertyName = PropertyParser.parseString(source.propertyName);
+        this.dataSource = PropertyParser.parseString(source.dataSource);
+        this.dataMember = PropertyParser.parseString(source.dataMember, rs.mimic.DataMember.VALUE);
+        this.expression = PropertyParser.parseString(source.expression);
+        this.format = PropertyParser.parseString(source.format);
+    }
+
+    static parse(source) {
         let propertyBinding = new PropertyBinding();
 
         if (source) {
-            propertyBinding.propertyName = PropertyParser.parseString(source.propertyName);
-            propertyBinding.dataSource = PropertyParser.parseString(source.dataSource);
-            propertyBinding.dataMember = PropertyParser.parseString(source.dataMember, rs.mimic.DataMember.VALUE);
-            propertyBinding.format = PropertyParser.parseString(source.format);
+            propertyBinding._copyFrom(source);
+        }
+        return propertyBinding;
+    }
+};
+
+// Represents an extended property binding. Prepared on the server side in runtime mode.
+rs.mimic.PropertyBindingEx = class PropertyBindingEx extends rs.mimic.PropertyBinding {
+    propertyChain = null; // array of strings
+    cnlNum = 0;
+    cnlProps = null;
+
+    get expressionFunc() {
+        if (this.expression) {
+            this.expressionFuncCache ??= new Function("x", `const fn = x => ${this.expression}; return fn(x);`);
+            return this.expressionFuncCache;
+        } else {
+            return null;
+        }
+    }
+
+    static parse(source) {
+        let propertyBindingEx = new PropertyBindingEx();
+
+        if (source) {
+            propertyBindingEx._copyFrom(source);
+            propertyBindingEx.propertyChain = Array.isArray(source.propertyChain) ? source.propertyChain : [];
+            propertyBindingEx.cnlNum = rs.mimic.PropertyParser.parseInt(source.cnlNum);
+            propertyBindingEx.cnlProps = rs.mimic.CnlProps.parse(source.cnlProps);
         }
 
-        return propertyBinding;
+        return propertyBindingEx;
     }
 };
 
@@ -522,6 +662,7 @@ rs.mimic.PropertyExport = class PropertyExport {
     name = "";
     path = "";
     defaultValue = "";
+    defaultBinding = new rs.mimic.PropertyBinding();
 
     constructor(source) {
         Object.assign(this, source);
@@ -552,6 +693,8 @@ rs.mimic.PropertyExport = class PropertyExport {
             propertyExport.name = PropertyParser.parseString(source.name);
             propertyExport.path = PropertyParser.parseString(source.path);
             propertyExport.defaultValue = PropertyParser.parseString(source.defaultValue);
+            propertyExport.defaultBinding = rs.mimic.PropertyBinding.parse(source.defaultBinding);
+            propertyExport.defaultBinding.propertyName = propertyExport.name; // property names must match
         }
 
         return propertyExport;
@@ -582,6 +725,31 @@ rs.mimic.Size = class Size {
         }
 
         return size;
+    }
+};
+
+// Represents a text condition.
+rs.mimic.TextCondition = class TextCondition extends rs.mimic.Condition {
+    text = "";
+
+    get typeName() {
+        return "TextCondition";
+    }
+
+    get displayValue() {
+        return this.text;
+    }
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let textCondition = new TextCondition();
+
+        if (source) {
+            textCondition._copyFrom(source);
+            textCondition.text = PropertyParser.parseString(source.text);
+        }
+
+        return textCondition;
     }
 };
 
@@ -751,6 +919,28 @@ rs.mimic.PropertyExportList = class PropertyExportList extends rs.mimic.List {
     }
 };
 
+// Represents a list of TextCondition items.
+rs.mimic.TextConditionList = class TextConditionList extends rs.mimic.List {
+    constructor() {
+        super(() => {
+            return new rs.mimic.TextCondition();
+        });
+    }
+
+    static parse(source) {
+        const TextCondition = rs.mimic.TextCondition;
+        let textConditions = new TextConditionList();
+
+        if (Array.isArray(source)) {
+            for (let sourceItem of source) {
+                textConditions.push(TextCondition.parse(sourceItem));
+            }
+        }
+
+        return textConditions;
+    }
+};
+
 // --- Scripts ---
 
 // A base class for mimic or component logic.
@@ -834,7 +1024,7 @@ rs.mimic.PropertyParser = class {
     }
 
     static parseString(source, defaultValue = "") {
-        if (source === undefined || source === null) {
+        if (source == null) {
             return defaultValue;
         } else if (typeof source === "string") {
             return source;
@@ -854,31 +1044,22 @@ rs.mimic.DataProvider = class DataProvider {
     curDataMap = null;
     prevDataMap = null;
 
-    getCurData(cnlNum, opt_joinLen) {
-        return DataProvider.EMPTY_DATA;
-    }
-
-    getPrevData(cnlNum, opt_joinLen) {
-        return DataProvider.EMPTY_DATA;
-    }
-
-    dataChanged(curData, prevData) {
-        return !DataProvider.dataEqual(curData, prevData) || !this.prevDataMap;
-    }
-
-    static dataEqual(data1, data2) {
+    static _dataEqual(data1, data2) {
         return data1.d.val === data2.d.val && data1.d.stat === data2.d.stat;
     }
 
-    static getFieldValue(data, dataMember, opt_unit) {
+    static _getFieldValue(data, dataMember, opt_unit) {
         const DataMember = rs.mimic.DataMember;
 
         switch (dataMember) {
             case DataMember.VALUE:
-                return data.d.val;
+                return data.d.stat > 0 ? data.d.val : Number.NaN;
 
             case DataMember.STATUS:
                 return data.d.stat;
+
+            case DataMember.DATA:
+                return data.d;
 
             case DataMember.DISPLAY_VALUE:
                 return data.df.dispVal;
@@ -900,5 +1081,32 @@ rs.mimic.DataProvider = class DataProvider {
             default:
                 return null;
         }
+    }
+
+    getCurData(cnlNum, opt_joinLen) {
+        return DataProvider.EMPTY_DATA;
+    }
+
+    getPrevData(cnlNum, opt_joinLen) {
+        return DataProvider.EMPTY_DATA;
+    }
+
+    dataChanged(curData, prevData) {
+        return !DataProvider._dataEqual(curData, prevData) || !this.prevDataMap;
+    }
+
+    static calculatePropertyValue(data, binding) {
+        let value = DataProvider._getFieldValue(data, binding.dataMember, binding.cnlProps.unit);
+        let expressionFunc = binding.expressionFunc;
+
+        if (expressionFunc) {
+            value = expressionFunc(value);
+        }
+
+        if (binding.format) {
+            value = binding.format.replace("{0}", String(value));
+        }
+
+        return value;
     }
 };

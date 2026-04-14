@@ -153,7 +153,9 @@ async function loadMimic() {
 
     if (result.ok) {
         try {
+            viewHub.setViewTitle(window, mimic.title);
             mimic.initCustomScripts();
+            mimic.mapComponentsByName();
             mimicWrapperElem.append(unitedRenderer.createMimicDom());
             toolbarElem.removeClass("d-none");
             initScale();
@@ -216,7 +218,7 @@ function getBlinkers() {
 
     for (let component of mimic.components) {
         let blinkingState = component.isFaceplate
-            ? component.model?.document?.blinkingState
+            ? component.document?.blinkingState
             : component.properties?.blinkingState;
 
         if (blinkingState?.isSet) {
@@ -274,7 +276,7 @@ function alignHorizontally() {
         let wrapperWidth = mimicWrapperElem.innerWidth();
 
         if (wrapperWidth > mimicWidth) {
-            wrapperPadding = parseInt((wrapperWidth - mimicWidth) / 2);
+            wrapperPadding = Number.parseInt((wrapperWidth - mimicWidth) / 2);
         }
     }
 

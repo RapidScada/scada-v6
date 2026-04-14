@@ -27,6 +27,11 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         public string DataMember { get; set; } = "";
 
         /// <summary>
+        /// Gets or sets the expression applied to the data member before display.
+        /// </summary>
+        public string Expression { get; set; } = "";
+
+        /// <summary>
         /// Gets or sets the format that determines how a value is to be displayed.
         /// </summary>
         public string Format { get; set; } = "";
@@ -56,6 +61,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             PropertyName = xmlNode.GetChildAsString("PropertyName");
             DataSource = xmlNode.GetChildAsString("DataSource");
             DataMember = xmlNode.GetChildAsString("DataMember");
+            Expression = xmlNode.GetChildAsString("Expression");
             Format = xmlNode.GetChildAsString("Format");
             PropertyChain = PropertyName.Split('.');
         }

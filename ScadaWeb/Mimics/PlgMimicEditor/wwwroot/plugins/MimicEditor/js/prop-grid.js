@@ -174,7 +174,7 @@ class PropGrid {
                 blade = container
                     .addButton({
                         label: propertyDescriptor ? propertyDescriptor.displayName : propertyName,
-                        title: this._phrases.editButton
+                        title: this._getEditButtonText(propertyValue)
                     })
                     .on("click", () => {
                         this._selectChildObject(propertyName, propertyValue);
@@ -193,7 +193,7 @@ class PropGrid {
             let categorySet = new Set();
 
             for (let propertyDescriptor of objectDescriptor.propertyDescriptors.values()) {
-                if (targetObject.hasOwnProperty(propertyDescriptor.name) &&
+                if (Object.hasOwn(targetObject, propertyDescriptor.name) &&
                     propertyDescriptor.isBrowsable && propertyDescriptor.category) {
                     categorySet.add(propertyDescriptor.category);
                 }
@@ -218,15 +218,25 @@ class PropGrid {
 
     _getEditButtonText(propertyValue) {
         const MaxLength = 20;
-        let text = propertyValue ? propertyValue.toString().trimStart() : "";
+        let showValue = false;
+        let displayValue = "";
 
-        if (text) {
-            return text.length > MaxLength
-                ? text.substring(0, MaxLength) + "..."
-                : text;
+        if (propertyValue instanceof Object) {
+            showValue = "displayValue" in propertyValue;
+            displayValue = propertyValue.displayValue;
+        } else {
+            showValue = !!propertyValue?.toString;
+            displayValue = propertyValue?.toString?.();
         }
 
-        return this._phrases.editButton;
+        if (showValue) {
+            let text = displayValue?.trimStart();
+            return text
+                ? (text.length <= MaxLength ? text : text.substring(0, MaxLength) + "...")
+                : this._phrases.notSet;
+        } else {
+            return this._phrases.editButton;
+        }
     }
 
     _createProxyObject(propertyValue, propertyDescriptor) {
@@ -620,70 +630,34 @@ class PropGridHelper {
 
 // Calls property editors implemented as modal dialogs.
 class PropGridDialogs {
-    static colorModal = null;
-    static fontModal = null;
-    static imageSelectModal = null;
-    static propertyModal = null;
-    static textEditor = null;
+    static editorMap = new Map();
 
-    // Invokes the callback function.
-    static _invokeCallback(modalContext, callback) {
-        if (modalContext.result && callback instanceof Function) {
-            callback(modalContext.newValue);
-        }
+    // Adds the modal to the editor map.
+    static addEditor(key, modal) {
+        PropGridDialogs.editorMap.set(key, modal);
     }
 
     // Checks whether an editor for the specified property is supported.
     static editorSupported(propertyDescriptor) {
-        const PropertyEditor = rs.mimic.PropertyEditor;
-        let editor = propertyDescriptor?.editor;
-        return editor &&
-            editor === PropertyEditor.COLOR_DIALOG && PropGridDialogs.colorModal ||
-            editor === PropertyEditor.FONT_DIALOG && PropGridDialogs.fontModal ||
-            editor === PropertyEditor.IMAGE_DIALOG && PropGridDialogs.imageSelectModal ||
-            editor === PropertyEditor.PROPERTY_DIALOG && PropGridDialogs.propertyModal ||
-            editor === PropertyEditor.TEXT_EDITOR && PropGridDialogs.textEditor;
+        return !!PropGridDialogs.editorMap.get(propertyDescriptor?.editor);
     }
 
     // Shows an editor as a modal dialog.
     // callback is a function (newPropertyValue)
     static showEditor(topObject, propertyValue, propertyDescriptor, callback) {
-        if (propertyDescriptor) {
-            const PropertyEditor = rs.mimic.PropertyEditor;
-            let options = propertyDescriptor.editorOptions;
-
-            switch (propertyDescriptor.editor) {
-                case PropertyEditor.COLOR_DIALOG:
-                    PropGridDialogs.colorModal?.show(propertyValue, modalContext => {
-                        PropGridDialogs._invokeCallback(modalContext, callback);
-                    });
-                    break;
-
-                case PropertyEditor.FONT_DIALOG:
-                    PropGridDialogs.fontModal?.show(propertyValue, modalContext => {
-                        PropGridDialogs._invokeCallback(modalContext, callback);
-                    });
-                    break;
-
-                case PropertyEditor.IMAGE_DIALOG:
-                    PropGridDialogs.imageSelectModal?.show(propertyValue, modalContext => {
-                        PropGridDialogs._invokeCallback(modalContext, callback);
-                    });
-                    break;
-
-                case PropertyEditor.PROPERTY_DIALOG:
-                    PropGridDialogs.propertyModal?.show(topObject, propertyValue, options, modalContext => {
-                        PropGridDialogs._invokeCallback(modalContext, callback);
-                    });
-                    break;
-
-                case PropertyEditor.TEXT_EDITOR:
-                    PropGridDialogs.textEditor?.show(propertyValue, options, modalContext => {
-                        PropGridDialogs._invokeCallback(modalContext, callback);
-                    });
-                    break;
+        let modal = PropGridDialogs.editorMap.get(propertyDescriptor?.editor);
+        modal?.show(
+            new ModalShowArgs({
+                topObject: topObject,
+                value: propertyValue,
+                options: propertyDescriptor?.editorOptions
+            }),
+            modalContext => {
+                if (modalContext.result && callback instanceof Function) {
+                    callback(modalContext.newValue);
+                }
             }
-        }
+        );
     }
 }
 
@@ -692,18 +666,18 @@ class ProxyObject {
     target;
 
     constructor(target) {
-        if (target) {
-            this.target = target;
-        } else {
+        if (target == null) {
             throw new Error("Target must not be null.");
         }
+
+        this.target = target;
     }
 }
 
 // Represents a proxy object for editing point as a Point2d.
 class PointProxy extends ProxyObject {
     get x() {
-        return parseInt(this.target.x) || 0;
+        return Number.parseInt(this.target.x) || 0;
     }
 
     set x(value) {
@@ -711,7 +685,7 @@ class PointProxy extends ProxyObject {
     }
 
     get y() {
-        return parseInt(this.target.y) || 0;
+        return Number.parseInt(this.target.y) || 0;
     }
 
     set y(value) {
@@ -722,7 +696,7 @@ class PointProxy extends ProxyObject {
 // Represents a proxy object for editing size as a Point2d.
 class SizeProxy extends ProxyObject {
     get x() {
-        return parseInt(this.target.width) || 0;
+        return Number.parseInt(this.target.width) || 0;
     }
 
     set x(value) {
@@ -730,7 +704,7 @@ class SizeProxy extends ProxyObject {
     }
 
     get y() {
-        return parseInt(this.target.height) || 0;
+        return Number.parseInt(this.target.height) || 0;
     }
 
     set y(value) {
@@ -745,12 +719,11 @@ class UnionObject {
     descriptor; // describes the union properties
 
     constructor(targets) {
-        if (Array.isArray(targets)) {
-            this.targets = targets;
-        } else {
+        if (!Array.isArray(targets)) {
             throw new Error("Targets must be an array.");
         }
 
+        this.targets = targets;
         this._buildProperties();
     }
 
@@ -779,7 +752,7 @@ class UnionObject {
                     let descriptor1 = this.descriptor.get(name);
                     let descriptor2 = targetDescriptor.get(name);
 
-                    if (editableObj.hasOwnProperty(name) && this._sameProperties(descriptor1, descriptor2)) {
+                    if (Object.hasOwn(editableObj, name) && this._sameProperties(descriptor1, descriptor2)) {
                         let value2 = editableObj[name];
 
                         if (!this._sameValues(value, value2)) {

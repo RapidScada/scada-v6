@@ -39,5 +39,10 @@ namespace Scada.Web.Plugins.PlgMimic.Models
         /// Gets or sets the mimic document.
         /// </summary>
         public ExpandoObject Document { get; }
+
+        /// <summary>
+        /// Gets the view title.
+        /// </summary>
+        public string Title { get; init; }
     }
 }

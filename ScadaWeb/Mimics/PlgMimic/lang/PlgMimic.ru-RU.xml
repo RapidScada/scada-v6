@@ -84,6 +84,8 @@
     <Phrase key="TextAlign">Выравнивание текста</Phrase>
     <Phrase key="TextDirection">Направление текста</Phrase>
     <Phrase key="WordWrap">Перенос по словам</Phrase>
+    <Phrase key="Conditions">Условия</Phrase>
+    <Phrase key="DefaultText">Текст по умолчанию</Phrase>
     <Phrase key="AutoSize">Авто размер</Phrase>
     <Phrase key="Padding">Отступ</Phrase>
   </Dictionary>
@@ -128,6 +130,7 @@
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.DataMember">
     <Phrase key="Value">Значение</Phrase>
     <Phrase key="Status">Статус</Phrase>
+    <Phrase key="Data">Данные</Phrase>
     <Phrase key="DisplayValue">Отображаемое значение</Phrase>
     <Phrase key="DisplayValueWithUnit">Значение и размерность</Phrase>
     <Phrase key="Color0">Основной цвет</Phrase>
@@ -208,12 +211,22 @@
     <Phrase key="PropertyName">Имя свойства</Phrase>
     <Phrase key="DataSource">Источник данных</Phrase>
     <Phrase key="DataMember">Элемент данных</Phrase>
+    <Phrase key="Expression">Выражение</Phrase>
     <Phrase key="Format">Формат</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.PropertyExport">
     <Phrase key="Name">Имя свойства</Phrase>
     <Phrase key="Path">Путь</Phrase>
     <Phrase key="DefaultValue">Значение по умолчанию</Phrase>
+    <Phrase key="DefaultBinding">Привязка по умолчанию</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.TextCondition">
+    <Phrase key="ComparisonOper1">Сравнение 1</Phrase>
+    <Phrase key="ComparisonArg1">Аргумент 1</Phrase>
+    <Phrase key="LogicalOper">Логический оператор</Phrase>
+    <Phrase key="ComparisonOper2">Сравнение 2</Phrase>
+    <Phrase key="ComparisonArg2">Аргумент 2</Phrase>
+    <Phrase key="Text">Текст</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimic.MimicModel.Js.UrlParams">
     <Phrase key="Enabled">Включены</Phrase>

@@ -44,12 +44,13 @@ rs.mimic.MimicFactory = class {
 rs.mimic.ComponentFactory = class {
     // Copies the properties from the source object.
     _copyProperties(component, source) {
-        component.id = source.id;
-        component.typeName = source.typeName;
+        const PropertyParser = rs.mimic.PropertyParser;
+        component.id = PropertyParser.parseInt(source.id);
+        component.typeName = PropertyParser.parseString(source.typeName);
         component.properties = this.parseProperties(source.properties);
-        component.properties.typeName = source.typeName;
-        component.bindings = source.bindings;
-        component.parentID = source.parentID;
+        component.properties.typeName = component.typeName;
+        component.bindings = rs.mimic.ComponentBindings.parse(source.bindings);
+        component.parentID = PropertyParser.parseInt(source.parentID);
     }
 
     // Creates and adds default property bindings.
@@ -214,21 +215,58 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
     }
 };
 
+// Implements logic for Text type components.
+rs.mimic.TextScript = class extends rs.mimic.ComponentScript {
+    dataUpdated(args) {
+        // select text according to conditions
+        let cnlNum = args.component.bindings?.inCnlNum;
+        let props = args.component.properties;
+        let conditions = props.conditions;
+
+        if (cnlNum > 0 && conditions.length > 0) {
+            let curData = args.dataProvider.getCurData(cnlNum);
+            let prevData = args.dataProvider.getPrevData(cnlNum);
+
+            if (dataProvider.dataChanged(curData, prevData)) {
+                let text = props.defaultText;
+
+                if (curData.d.stat > 0) {
+                    for (let condition of conditions) {
+                        if (condition.satisfied(curData.d.val)) {
+                            text = condition.text;
+                            break;
+                        }
+                    }
+                }
+
+                if (props.text !== text) {
+                    props.text = text;
+                    args.propertyChanged = true;
+                }
+            }
+        }
+    }
+};
+
 // Creates components of the Text type.
 rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
     _createDefaultBindings(component) {
         const DataMember = rs.mimic.DataMember;
         let cnlNum = component.bindings.inCnlNum;
         let cnlProps = component.bindings.inCnlProps;
-        let bindings = [{
-            propertyName: "text",
-            dataSource: String(cnlNum),
-            dataMember: DataMember.DISPLAY_VALUE_WITH_UNIT,
-            format: "",
-            propertyChain: ["text"],
-            cnlNum: cnlNum,
-            cnlProps: cnlProps
-        }];
+        let bindings = [];
+
+        if (component.properties.conditions.length === 0) {
+            bindings.push({
+                propertyName: "text",
+                dataSource: String(cnlNum),
+                dataMember: DataMember.DISPLAY_VALUE_WITH_UNIT,
+                format: "",
+                propertyChain: ["text"],
+                cnlNum: cnlNum,
+                cnlProps: cnlProps
+            });
+        }
 
         if (!component.properties.foreColor) {
             bindings.push({
@@ -245,6 +283,10 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
         return bindings;
     }
 
+    _createExtraScript() {
+        return new rs.mimic.TextScript();
+    }
+
     createProperties() {
         let props = super.createProperties();
 
@@ -254,6 +296,12 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
             textAlign: rs.mimic.ContentAlignment.TOP_LEFT,
             textDirection: rs.mimic.TextDirection.HORIZONTAL,
             wordWrap: false
+        });
+
+        // behavior
+        Object.assign(props, {
+            conditions: new rs.mimic.TextConditionList(),
+            defaultText: ""
         });
 
         // layout
@@ -276,6 +324,12 @@ rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
             textAlign: PropertyParser.parseString(sourceProps.textAlign, rs.mimic.ContentAlignment.TOP_LEFT),
             textDirection: PropertyParser.parseString(sourceProps.textDirection, rs.mimic.TextDirection.HORIZONTAL),
             wordWrap: PropertyParser.parseBool(sourceProps.wordWrap)
+        });
+
+        // behavior
+        Object.assign(props, {
+            conditions: rs.mimic.TextConditionList.parse(sourceProps.conditions),
+            defaultText: PropertyParser.parseString(sourceProps.defaultText)
         });
 
         // layout
@@ -414,6 +468,15 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         faceplateInstance.properties.size = rs.mimic.Size.parse(this.faceplate.document.size);
     }
 
+    _createBindings(faceplateInstance) {
+        for (let propertyExport of this.faceplate.propertyExports) {
+            if (propertyExport.defaultBinding.dataSource) {
+                let propertyBinding = rs.mimic.PropertyBinding.parse(propertyExport.defaultBinding);
+                faceplateInstance.properties.propertyBindings.push(propertyBinding);
+            }
+        }
+    }
+
     _createComponents(faceplateInstance) {
         const FactorySet = rs.mimic.FactorySet;
         const MimicHelper = rs.mimic.MimicHelper;
@@ -444,7 +507,7 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
             let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport) ?? propertyExport.defaultValue;
             let sourceValue = sourceProps[propertyExport.name];
 
-            if (sourceValue === null || sourceValue === undefined) {
+            if (sourceValue == null) {
                 faceplateInstance.properties[propertyExport.name] = baseValue;
             } else {
                 let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);
@@ -457,6 +520,7 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
     _applyModel(faceplateInstance, source) {
         faceplateInstance.typeName = faceplateInstance.properties.typeName = this.faceplate.typeName;
         faceplateInstance.model = this.faceplate;
+        faceplateInstance.document = rs.mimic.MimicFactory.parseProperties(this.faceplate.document, true);
         this._createComponents(faceplateInstance);
         this._createCustomProperties(faceplateInstance, source?.properties);
     }
@@ -479,6 +543,7 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
 
         if (this.faceplate) {
             this._updateSize(faceplateInstance);
+            this._createBindings(faceplateInstance);
             this._applyModel(faceplateInstance, null);
         }
 

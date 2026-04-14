@@ -255,7 +255,7 @@ rs.mimic.MimicBase = class {
     children;      // top-level components
 
     // Clears the mimic.
-    clear() {
+    _clear() {
         this.isFaceplate = false;
         this.dependencies = [];
         this.document = {};
@@ -272,14 +272,23 @@ rs.mimic.MimicBase = class {
 };
 
 // Represents a mimic diagram.
-rs.mimic.Mimic = class extends rs.mimic.MimicBase {
-    dom;      // mimic DOM as a jQuery object
-    renderer; // renders the mimic
-    script;   // custom mimic logic
+rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
+    static NAME = "mimic"; // identifies the mimic by name
+
+    dom;             // mimic DOM as a jQuery object
+    renderer;        // renders the mimic
+    script;          // custom mimic logic
+    componentByName; // components accessible by name in runtime mode
+    title;           // view title
 
     // Imitates a component ID for use as a parent ID.
     get id() {
         return 0;
+    }
+
+    // Get the mimic name to identify it like a component.
+    get name() {
+        return Mimic.NAME;
     }
 
     // Indicates that a mimic can contain child components.
@@ -311,6 +320,16 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         return props
             ? props.size.height - (props.border ? props.border.width * 2 : 0)
             : 0;
+    }
+
+    // Clears the mimic.
+    _clear() {
+        super._clear();
+        this.dom = null;
+        this.renderer = null;
+        this.script = null;
+        this.componentByName = new Map();
+        this.title = "";
     }
 
     // Loads a part of the mimic.
@@ -408,6 +427,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
                 this.isFaceplate = dto.data.isFaceplate;
                 this.document = rs.mimic.MimicFactory.parseProperties(dto.data.document, this.isFaceplate);
+                this.title = dto.data.title;
             }
 
             return dto;
@@ -520,14 +540,6 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         rs.mimic.MimicHelper.defineNesting(this, this.components, this.componentMap);
     }
 
-    // Clears the mimic.
-    clear() {
-        super.clear();
-        this.dom = null;
-        this.renderer = null;
-        this.script = null;
-    }
-
     // Sets the specified properties of the document.
     setProperties(sourceProps) {
         if (this.document) {
@@ -539,7 +551,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     async load(controllerUrl, mimicKey) {
         let startTime = Date.now();
         console.log(ScadaUtils.getCurrentTime() + " Load mimic with key " + mimicKey)
-        this.clear();
+        this._clear();
         let loadContext = new rs.mimic.LoadContext(controllerUrl, mimicKey);
 
         try {
@@ -702,6 +714,17 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         return parentID > 0 ? this.componentMap.get(parentID) : this;
     }
 
+    // Finds a component by ID or name. Called from custom scripts.
+    findComponent(idOrName) {
+        if (typeof idOrName === "number") {
+            return this.componentMap?.get(idOrName);
+        } else if (typeof idOrName === "string") {
+            return this.componentByName?.get(idOrName);
+        } else {
+            return null;
+        }
+    }
+
     // Initializes the custom scripts of the mimic and components.
     initCustomScripts() {
         const ComponentScript = rs.mimic.ComponentScript;
@@ -716,17 +739,40 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         }
 
         // component scripts
-        for (let component of this.components) {
-            let script = component.isFaceplate
-                ? component.model?.document?.script
-                : component.properties.script;
-
-            if (script) {
+        let initScriptsInternal = (components, throwOnError) => {
+            for (let component of components) {
                 try {
-                    component.customScript = ComponentScript.createFromSource(script);
+                    let script = component.isFaceplate
+                        ? component.document?.script
+                        : component.properties?.script;
+
+                    if (script) {
+                        component.customScript = ComponentScript.createFromSource(script);
+
+                        if (component.isFaceplate) {
+                            initScriptsInternal(component.components, true);
+                        }
+                    }
                 } catch (ex) {
-                    console.error(`Error creating script for the component with ID ${component.id}: ${ex.message}`);
+                    if (throwOnError) {
+                        throw ex;
+                    } else {
+                        console.error(`Error creating script for component ${component.id}: ${ex.message}`);
+                    }
                 }
+            }
+        };
+
+        initScriptsInternal(this.components, false);
+    }
+
+    // Populates a component map to search for components by name.
+    mapComponentsByName() {
+        this.componentByName = new Map();
+
+        for (let component of this.components) {
+            if (component.name) {
+                this.componentByName.set(component.name, component);
             }
         }
     }
@@ -757,7 +803,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
     // Returns a string that represents the current object.
     toString() {
-        return "Mimic";
+        return Mimic.NAME;
     }
 };
 
@@ -766,7 +812,7 @@ rs.mimic.Component = class {
     _id = 0;             // component ID
     typeName = "";       // component type name
     properties = null;   // factory normalized properties
-    bindings = null;     // server side prepared bindings, see ComponentBindings.cs
+    bindings = null;     // server side prepared bindings
     parentID = 0;        // parent ID
     index = -1;          // sibling index
 
@@ -815,7 +861,7 @@ rs.mimic.Component = class {
 
     set x(value) {
         if (this.properties) {
-            this.properties.location.x = parseInt(value) || 0;
+            this.properties.location.x = Number.parseInt(value) || 0;
         }
     }
 
@@ -825,7 +871,7 @@ rs.mimic.Component = class {
 
     set y(value) {
         if (this.properties) {
-            this.properties.location.y = parseInt(value) || 0;
+            this.properties.location.y = Number.parseInt(value) || 0;
         }
     }
 
@@ -835,7 +881,7 @@ rs.mimic.Component = class {
 
     set width(value) {
         if (this.properties) {
-            this.properties.size.width = parseInt(value) || 0;
+            this.properties.size.width = Number.parseInt(value) || 0;
         }
     }
 
@@ -845,7 +891,7 @@ rs.mimic.Component = class {
 
     set height(value) {
         if (this.properties) {
-            this.properties.size.height = parseInt(value) || 0;
+            this.properties.size.height = Number.parseInt(value) || 0;
         }
     }
 
@@ -869,15 +915,8 @@ rs.mimic.Component = class {
 
     // Sets the property according to the current data.
     _setProperty(binding, curData) {
-        const DataProvider = rs.mimic.DataProvider;
-        const ObjectHelper = rs.mimic.ObjectHelper;
-        let fieldValue = DataProvider.getFieldValue(curData, binding.dataMember, binding.cnlProps.unit);
-
-        if (binding.format) {
-            fieldValue = binding.format.replace("{0}", String(fieldValue));
-        }
-
-        ObjectHelper.setPropertyValue(this.properties, binding.propertyChain, 0, fieldValue);
+        let value = rs.mimic.DataProvider.calculatePropertyValue(curData, binding);
+        rs.mimic.ObjectHelper.setPropertyValue(this.properties, binding.propertyChain, 0, value);
 
         if (this.isFaceplate) {
             this.handlePropertyChanged(binding.propertyName);
@@ -887,16 +926,16 @@ rs.mimic.Component = class {
     // Sets the location property.
     setLocation(x, y) {
         if (this.properties) {
-            this.properties.location.x = parseInt(x) || 0;
-            this.properties.location.y = parseInt(y) || 0;
+            this.properties.location.x = Number.parseInt(x) || 0;
+            this.properties.location.y = Number.parseInt(y) || 0;
         }
     }
 
     // Sets the size property.
     setSize(width, height) {
         if (this.properties) {
-            this.properties.size.width = parseInt(width) || 0;
-            this.properties.size.height = parseInt(height) || 0;
+            this.properties.size.width = Number.parseInt(width) || 0;
+            this.properties.size.height = Number.parseInt(height) || 0;
         }
     }
 
@@ -907,11 +946,25 @@ rs.mimic.Component = class {
         }
     }
 
+    // Retrieves the mimic that the component is on. Called from custom scripts.
+    getMimic() {
+        let current = this;
+
+        while (current) {
+            current = current.parent;
+
+            if (current instanceof rs.mimic.MimicBase) {
+                return current;
+            }
+        }
+
+        return null;
+    }
+
     // Gets all child components as a flat array.
     getAllChildren() {
         let allChildren = [];
-
-        function appendChildren(component) {
+        let appendChildren = (component) => {
             if (component.isContainer) {
                 for (let child of component.children) {
                     allChildren.push(child);
@@ -939,10 +992,6 @@ rs.mimic.Component = class {
 
     // Updates the properties according to the current data. Returns true if any property has changed.
     updateData(dataProvider) {
-        // component bindings are
-        // { inCnlNum, outCnlNum, objNum, deviceNum, checkRights, inCnlProps, outCnlProps, propertyBindings }
-        // property binding is { propertyName, dataSource, dataMember, format, propertyChain, cnlNum, cnlProps }
-        // channel properties are { joinLen, unit }
         let propertyChanged = false;
 
         if (this.bindings && Array.isArray(this.bindings.propertyBindings) &&
@@ -1090,7 +1139,7 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
 
     constructor(source, typeName) {
         super();
-        this.clear();
+        this._clear();
         this.isFaceplate = true;
         this.document = rs.mimic.MimicFactory.parseProperties(source.document, true);
         this.typeName = typeName;
@@ -1130,13 +1179,10 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
     }
 
     _fillPropertyExports() {
-        if (Array.isArray(this.document.propertyExports)) {
-            for (let sourcePropertyExport of this.document.propertyExports) {
-                if (sourcePropertyExport.name) {
-                    let propertyExport = new rs.mimic.PropertyExport(sourcePropertyExport);
-                    this.propertyExports.push(propertyExport);
-                    this.propertyExportMap.set(propertyExport.name, propertyExport);
-                }
+        for (let propertyExport of this.document.propertyExports) {
+            if (propertyExport.name) {
+                this.propertyExports.push(propertyExport);
+                this.propertyExportMap.set(propertyExport.name, propertyExport);
             }
         }
     }
@@ -1145,8 +1191,9 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
 // Represents a faceplate instance.
 rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
     model = null;                // model of the Faceplate type
-    components = [];             // components created according to the model
-    componentByName = new Map(); // components accessible by name
+    document = null;             // model document copy
+    components = [];             // all components created according to the model
+    componentByName = new Map(); // all components accessible by name
 
     get isContainer() {
         // child components are essential part of the faceplate, it does not accept additional components
@@ -1175,18 +1222,23 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
         let propertyChain = propertyExport.propertyChain;
 
         if (propertyChain.length >= 2) {
-            let componentName = propertyChain[0];
-            let component = this.componentByName.get(componentName);
+            let objectName = propertyChain[0];
 
-            if (component) {
-                if (component.isFaceplate) {
-                    let topPropertyName = propertyChain[1];
-                    let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
-                    return childPropertyExport
-                        ? component.getTargetPropertyValue(childPropertyExport)
-                        : ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
-                } else {
-                    return ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
+            if (objectName === rs.mimic.Mimic.NAME) {
+                return ObjectHelper.getPropertyValue(this.document, propertyChain, 1);
+            } else {
+                let component = this.componentByName.get(objectName);
+
+                if (component) {
+                    if (component.isFaceplate) {
+                        let topPropertyName = propertyChain[1];
+                        let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
+                        return childPropertyExport
+                            ? component.getTargetPropertyValue(childPropertyExport)
+                            : ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
+                    } else {
+                        return ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
+                    }
                 }
             }
         }
@@ -1200,21 +1252,26 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
         let propertyChain = propertyExport.propertyChain;
 
         if (propertyChain.length >= 2) {
-            let componentName = propertyChain[0];
-            let component = this.componentByName.get(componentName);
+            let objectName = propertyChain[0];
 
-            if (component) {
-                if (component.isFaceplate) {
-                    let topPropertyName = propertyChain[1];
-                    let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
+            if (objectName === rs.mimic.Mimic.NAME) {
+                ObjectHelper.setPropertyValue(this.document, propertyChain, 1, value);
+            } else {
+                let component = this.componentByName.get(objectName);
 
-                    if (childPropertyExport) {
-                        component.setTargetPropertyValue(childPropertyExport, value);
+                if (component) {
+                    if (component.isFaceplate) {
+                        let topPropertyName = propertyChain[1];
+                        let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
+
+                        if (childPropertyExport) {
+                            component.setTargetPropertyValue(childPropertyExport, value);
+                        } else {
+                            ObjectHelper.setPropertyValue(component.properties, propertyChain, 1, value);
+                        }
                     } else {
                         ObjectHelper.setPropertyValue(component.properties, propertyChain, 1, value);
                     }
-                } else {
-                    ObjectHelper.setPropertyValue(component.properties, propertyChain, 1, value);
                 }
             }
         }

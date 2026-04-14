@@ -205,6 +205,7 @@ function updateLayout() {
     $("#divMain").outerHeight(mainHeight);
     $("#divLeftPanel .tab-content").outerHeight(mainHeight - tabHeight);
     $("#divMimicWrapper").outerWidth(windowWidth - leftPanelWidth - splitterWidth);
+    centerMimic();
 }
 
 function initStructTree() {
@@ -212,9 +213,9 @@ function initStructTree() {
 
     // dependencies
     structTree.addEventListener(StructTreeEventType.ADD_DEPENDENCY_CLICK, function () {
-        faceplateModal.show(null, function (context) {
-            addDependency(context.newValue);
-        });
+        faceplateModal.show(
+            new ModalShowArgs(),
+            context => addDependency(context.newValue));
     });
 
     structTree.addEventListener(StructTreeEventType.EDIT_DEPENDENCY_CLICK, function (event) {
@@ -222,9 +223,9 @@ function initStructTree() {
         let faceplateMeta = mimic.dependencyMap.get(eventData.name);
 
         if (faceplateMeta) {
-            faceplateModal.show(faceplateMeta, function (context) {
-                addDependency(context.newValue, context.oldValue);
-            });
+            faceplateModal.show(
+                new ModalShowArgs({ value: faceplateMeta }),
+                context => addDependency(context.newValue, context.oldValue));
         } else {
             console.error("Dependency not found.");
         }
@@ -238,18 +239,18 @@ function initStructTree() {
 
     // images
     structTree.addEventListener(StructTreeEventType.ADD_IMAGE_CLICK, function () {
-        imageEditModal.show(null, function (context) {
-            addImage(context.newValue);
-        });
+        imageEditModal.show(
+            new ModalShowArgs(),
+            context => addImage(context.newValue));
     });
 
     structTree.addEventListener(StructTreeEventType.EDIT_IMAGE_CLICK, function (event) {
         let image = mimic.imageMap.get(event.detail.name);
 
         if (image) {
-            imageEditModal.show(image, function (context) {
-                addImage(context.newValue, context.oldValue);
-            });
+            imageEditModal.show(
+                new ModalShowArgs({ value: image }),
+                context => addImage(context.newValue, context.oldValue));
         } else {
             console.error("Image not found.");
         }
@@ -303,17 +304,20 @@ function initPropGrid() {
 function initModals() {
     faceplateModal = new FaceplateModal("divFaceplateModal");
     imageEditModal = new ImageEditModal("divImageEditModal");
-    PropGridDialogs.colorModal = new ColorModal("divColorModal");
-    PropGridDialogs.fontModal = new FontModal("divFontModal");
-    PropGridDialogs.imageSelectModal = new ImageSelectModal("divImageSelectModal", mimic);
-    PropGridDialogs.propertyModal = new PropertyModal("divPropertyModal", mimic);
-    PropGridDialogs.textEditor = new TextEditor("divTextEditor");
+
+    const PropertyEditor = rs.mimic.PropertyEditor;
+    PropGridDialogs.addEditor(PropertyEditor.COLOR_DIALOG, new ColorModal("divColorModal"));
+    PropGridDialogs.addEditor(PropertyEditor.FONT_DIALOG, new FontModal("divFontModal"));
+    PropGridDialogs.addEditor(PropertyEditor.IMAGE_DIALOG, new ImageSelectModal("divImageSelectModal", mimic));
+    PropGridDialogs.addEditor(PropertyEditor.PROPERTY_DIALOG, new PropertyModal("divPropertyModal", mimic));
+    PropGridDialogs.addEditor(PropertyEditor.TEXT_EDITOR, new TextEditor("divTextEditor"));
 }
 
 async function loadMimic() {
     // load
     showSpinner();
     let result = await mimic.load(getLoaderUrl(), mimicKey);
+    mimic.initCustomScripts();
 
     if (!result.ok) {
         showToast(phrases.loadMimicError, MessageType.ERROR);
@@ -703,7 +707,7 @@ async function saveMimic() {
 // --- Display ---
 
 function showSpinner() {
-    $("#divMimicWrapper").append("<div class='mimic-spinner fs-2 text-secondary'>" +
+    $("#divMimicWrapper").append("<div class='mimic-spinner box-center fs-2 text-secondary'>" +
         "<i class='fa-solid fa-spinner fa-spin-pulse fa-3x'></i></div>");
 }
 
@@ -779,6 +783,23 @@ function showStructure() {
 function showMimic() {
     mimicElem = unitedRenderer.createMimicDom();
     $("#divMimicWrapper").empty().append(mimicElem);
+    centerMimic();
+}
+
+function centerMimic() {
+    let mimicWrapperElem = $("#divMimicWrapper");
+    let paddingLeft = 0;
+    let paddingTop = 0;
+
+    if (mimicElem.length > 0) {
+        paddingLeft = Math.max(0, Number.parseInt((mimicWrapperElem.innerWidth() - mimicElem.outerWidth()) / 2));
+        paddingTop = Math.max(0, Number.parseInt((mimicWrapperElem.innerHeight() - mimicElem.outerHeight()) / 2));
+    }
+
+    mimicWrapperElem.css({
+        "padding-left": paddingLeft,
+        "padding-top": paddingTop
+    });
 }
 
 function showToast(message, opt_messageType, opt_toastOptions) {
@@ -1085,7 +1106,7 @@ function addToSelection(component) {
     structTree.addToSelection(component);
     propGrid.selectedObjects = selectedComponents;
     mimicHistory.rememberComponent(component, false);
-    console.log(`Component with ID ${component.id} selected`);
+    console.log(`Component ${component.id} selected`);
 }
 
 function removeFromSelection(component) {
@@ -1100,7 +1121,7 @@ function removeFromSelection(component) {
     setButtonsEnabled(EnabledDependsOn.SELECTION);
     structTree.removeFromSelection(component);
     propGrid.selectedObjects = selectedComponents;
-    console.log(`Component with ID ${component.id} removed from selection`);
+    console.log(`Component ${component.id} removed from selection`);
 }
 
 function selectComponents(components) {
@@ -1222,8 +1243,8 @@ function getComponentByDom(compElem) {
 
 function getMimicPoint(event, elem, opt_alignToGrid) {
     let offset = elem.offset();
-    let x = parseInt(event.pageX - offset.left);
-    let y = parseInt(event.pageY - offset.top);
+    let x = Number.parseInt(event.pageX - offset.left);
+    let y = Number.parseInt(event.pageY - offset.top);
 
     if (opt_alignToGrid) {
         let gridStep = getGridStep();

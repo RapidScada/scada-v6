@@ -140,8 +140,8 @@ rs.mimic.Renderer = class {
     getSize(component) {
         if (component.dom) {
             return {
-                width: parseInt(component.dom.outerWidth()),
-                height: parseInt(component.dom.outerHeight())
+                width: Number.parseInt(component.dom.outerWidth()),
+                height: Number.parseInt(component.dom.outerHeight())
             };
         } else {
             return {
@@ -309,11 +309,15 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
 
     // Sets the CSS properties of the mimic element.
     _setProps(mimicElem, mimic, renderContext) {
-        let props = mimic.document;
+        this._setElemProps(mimicElem, mimic.document, mimic.isFaceplate, renderContext);
+    }
+
+    // Sets the CSS properties of the mimic element.
+    _setElemProps(mimicElem, props, isFaceplate, renderContext) {
         this._setFont(mimicElem, props.font, renderContext.fontMap);
         this._setSize(mimicElem, props.size);
 
-        if (mimic.isFaceplate) {
+        if (isFaceplate) {
             this._setBorder(mimicElem, props.border);
             this._setCornerRadius(mimicElem, props.cornerRadius);
         }
@@ -381,9 +385,9 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         return mimicElem;
     }
 
-    // Sets the CSS properties of the mimic element.
-    setMimicProps(mimicElem, mimic, renderContext) {
-        this._setProps(mimicElem, mimic, renderContext);
+    // Sets the CSS properties of the faceplate element.
+    setFaceplateProps(faceplateElem, document, renderContext) {
+        this._setElemProps(faceplateElem, document, true, renderContext);
     }
 
     // Sets the scale of the mimic DOM.
@@ -700,8 +704,8 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         if (component.dom) {
             let position = component.dom.position();
             return {
-                x: parseInt(position.left),
-                y: parseInt(position.top)
+                x: Number.parseInt(position.left),
+                y: Number.parseInt(position.top)
             };
         } else {
             return {
@@ -966,30 +970,27 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
     _setClasses(componentElem, component, renderContext) {
         super._setClasses(componentElem, component, renderContext);
         componentElem.addClass("faceplate");
+        let doc = component.document;
 
-        if (component.model) {
-            let modelProps = component.model.document;
-
-            if (modelProps.cssClass) {
-                componentElem.addClass(modelProps.cssClass);
-            }
+        if (doc?.cssClass) {
+            componentElem.addClass(doc.cssClass);
         }
     }
 
     _setProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
+        let props = component.properties;
+        let doc = component.document;
         let borderWidth = 0;
 
-        if (component.model) {
-            let compProps = component.properties;
-            let modelProps = component.model.document;
-            rs.mimic.RendererSet.mimicRenderer.setMimicProps(componentElem, component.model, renderContext);
-            borderWidth = modelProps.border.width;
+        if (doc) {
+            rs.mimic.RendererSet.mimicRenderer.setFaceplateProps(componentElem, doc, renderContext);
+            borderWidth = doc.border.width;
 
-            if (compProps.enabled) {
-                this._restoreVisualState(componentElem, modelProps);
+            if (props.enabled) {
+                this._restoreVisualState(componentElem, doc);
             } else {
-                this._setVisualState(componentElem, modelProps.disabledState);
+                this._setVisualState(componentElem, doc.disabledState);
             }
         }
 
@@ -1001,8 +1002,8 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
     _bindEvents(componentElem, component, renderContext) {
         super._bindEvents(componentElem, component, renderContext);
 
-        if (component.model && component.properties.enabled) {
-            this._bindVisualStates(componentElem, component.model.document);
+        if (component.document && component.properties.enabled) {
+            this._bindVisualStates(componentElem, component.document);
         }
     }
 };
@@ -1051,6 +1052,10 @@ rs.mimic.UnitedRenderer = class {
     controlRight = false;
 
     constructor(mimic, editMode) {
+        if (mimic == null) {
+            throw new Error("Mimic must not be null.");
+        }
+
         this.mimic = mimic;
         this.editMode = editMode;
     }
@@ -1102,7 +1107,7 @@ rs.mimic.UnitedRenderer = class {
             if (renderer) {
                 component.renderer = renderer;
                 renderer.createDom(component, renderContext);
-                component.onDomCreated(renderContext);
+                this._execDomCreated(component, renderContext);
                 this._appendToParent(component);
             } else {
                 renderContext.unknownTypes?.add(component.typeName);
@@ -1127,7 +1132,7 @@ rs.mimic.UnitedRenderer = class {
             this._createComponentDom(component, faceplateContext);
         }
 
-        faceplateInstance.onDomCreated(renderContext);
+        this._execDomCreated(faceplateInstance, faceplateContext);
         this._appendToParent(faceplateInstance);
     }
 
@@ -1145,7 +1150,7 @@ rs.mimic.UnitedRenderer = class {
                     oldDom.replaceWith(component.dom);
                 }
 
-                component.onDomUpdated(renderContext);
+                this._execDomUpdated(component, renderContext);
             }
         }
     }
@@ -1161,7 +1166,35 @@ rs.mimic.UnitedRenderer = class {
                 this._updateComponentDom(component, faceplateContext);
             }
 
-            faceplateInstance.onDomUpdated(renderContext);
+            this._execDomUpdated(faceplateInstance, faceplateContext);
+        }
+    }
+
+    // Executes 'domCreated' script for the mimic or component.
+    _execDomCreated(target, renderContext) {
+        try {
+            target.onDomCreated(renderContext);
+        } catch (ex) {
+            console.error(`Error executing 'domCreated' script for ${target.toString()}: ${ex.message}`);
+        }
+    }
+
+    // Executes 'domUpdated' script for the mimic or component.
+    _execDomUpdated(target, renderContext) {
+        try {
+            target.onDomUpdated(renderContext);
+        } catch (ex) {
+            console.error(`Error executing 'domUpdated' script for ${target.toString()}: ${ex.message}`);
+        }
+    }
+
+    // Executes 'dataUpdated' script for the mimic or component.
+    _execDataUpdated(target, dataProvider) {
+        try {
+            return target.onDataUpdated(dataProvider);
+        } catch (ex) {
+            console.error(`Error executing 'dataUpdated' script for ${target.toString()}: ${ex.message}`);
+            return false;
         }
     }
 
@@ -1187,7 +1220,10 @@ rs.mimic.UnitedRenderer = class {
         let renderer = rs.mimic.RendererSet.mimicRenderer;
         this.mimic.renderer = renderer;
         renderer.createDom(this.mimic, renderContext);
-        this.mimic.onDomCreated(renderContext);
+
+        if (!mimic.isFaceplate) {
+            this._execDomCreated(this.mimic, renderContext);
+        }
 
         for (let component of this.mimic.components) {
             this._createComponentDom(component, renderContext);
@@ -1211,7 +1247,10 @@ rs.mimic.UnitedRenderer = class {
     updateMimicDom() {
         let renderContext = this._createRenderContext();
         rs.mimic.RendererSet.mimicRenderer.updateDom(this.mimic, renderContext);
-        this.mimic.onDomUpdated(renderContext);
+
+        if (!mimic.isFaceplate) {
+            this._execDomUpdated(this.mimic, renderContext);
+        }
     }
 
     // Creates a component DOM according to the component model. Returns a jQuery object.
@@ -1237,7 +1276,7 @@ rs.mimic.UnitedRenderer = class {
                     updateDomNeeded = true;
                 }
 
-                if (component.onDataUpdated(dataProvider)) {
+                if (this._execDataUpdated(component, dataProvider)) {
                     updateDomNeeded = true;
                 }
 
@@ -1245,10 +1284,10 @@ rs.mimic.UnitedRenderer = class {
                     this._updateComponentDom(component, renderContext);
                 }
             } catch (ex) {
-                console.error(`Error updating data of the component with ID ${component.id}: ${ex.message}`);
+                console.error(`Error updating component ${component.id}: ${ex.message}`);
             }
         }
 
-        this.mimic.onDataUpdated(dataProvider);
+        this._execDataUpdated(this.mimic, dataProvider);
     }
 };

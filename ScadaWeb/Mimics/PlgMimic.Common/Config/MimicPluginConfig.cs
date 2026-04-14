@@ -19,6 +19,11 @@ namespace Scada.Web.Plugins.PlgMimic.Config
 
 
         /// <summary>
+        /// Gets the general options.
+        /// </summary>
+        public GeneralOptions GeneralOptions { get; private set; }
+
+        /// <summary>
         /// Gets the fonts.
         /// </summary>
         public List<FontOptions> Fonts { get; private set; }
@@ -39,6 +44,7 @@ namespace Scada.Web.Plugins.PlgMimic.Config
         /// </summary>
         protected override void SetToDefault()
         {
+            GeneralOptions = new GeneralOptions();
             Fonts = [];
             RuntimeOptions = new RuntimeOptions();
             EditorOptions = new EditorOptions();
@@ -52,6 +58,9 @@ namespace Scada.Web.Plugins.PlgMimic.Config
             XmlDocument xmlDoc = new();
             xmlDoc.Load(reader);
             XmlElement rootElem = xmlDoc.DocumentElement;
+
+            if (rootElem.SelectSingleNode("GeneralOptions") is XmlNode generalOptionsNode)
+                GeneralOptions.LoadFromXml(generalOptionsNode);
 
             if (rootElem.SelectSingleNode("Fonts") is XmlNode fontsNode)
             {

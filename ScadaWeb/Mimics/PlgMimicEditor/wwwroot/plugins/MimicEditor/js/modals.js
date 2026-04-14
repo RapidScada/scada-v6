@@ -1,5 +1,5 @@
-﻿// Contains classes: ModalContext, ModalBase, ColorModal, FaceplateModal, FontModal,
-//     ImageEditModal, ImageSelectModal, PropertyModal, TextEditor
+﻿// Contains classes: ModalContext, ModalBase, ModalShowArgs, ColorModal, FaceplateModal,
+//     FontModal, ImageEditModal, ImageSelectModal, PropertyModal, TextEditor
 // Depends on jquery, bootstrap, mimic-model.js, prop-grid.js
 
 // Represents a context of a modal dialog.
@@ -49,17 +49,32 @@ class ModalBase {
     }
 
     _setFocus() {
-        // do nothing
+        // implement in derived classes
     }
 
     _handleShown() {
-        // do nothing
+        // implement in derived classes
     }
 
     _invokeCallback() {
         if (this._context.result && this._context.callback instanceof Function) {
             this._context.callback.call(this, this._context);
         }
+    }
+
+    show(showArgs, callback) {
+        // implement in derived classes
+    }
+}
+
+// Represents arguments for the show method.
+class ModalShowArgs {
+    topObject = null;
+    value = null;
+    options = null;
+
+    constructor(source) {
+        Object.assign(this, source);
     }
 }
 
@@ -364,7 +379,8 @@ class ColorModal extends ModalBase {
         }
     }
 
-    show(color, callback) {
+    show(showArgs, callback) {
+        let color = showArgs.value;
         this._context = new ModalContext({
             oldValue: color,
             callback: callback
@@ -410,7 +426,8 @@ class FaceplateModal extends ModalBase {
         faceplateMeta.path = $("#faceplateModal_txtPath").val();
     }
 
-    show(faceplateMeta, callback) {
+    show(showArgs, callback) {
+        let faceplateMeta = showArgs.value;
         let newFaceplateMeta = new rs.mimic.FaceplateMeta();
         Object.assign(newFaceplateMeta, faceplateMeta); // faceplateMeta can be null
 
@@ -431,9 +448,15 @@ class FontModal extends ModalBase {
         super._bindEvents();
 
         $("#fontModal_btnOK").on("click", () => {
-            this._readFields(this._context.newValue);
-            this._context.result = true;
-            this._modal.hide();
+            let formElem = $("#frmFontModal");
+
+            if (formElem[0].checkValidity()) {
+                this._readFields(this._context.newValue);
+                this._context.result = true;
+                this._modal.hide();
+            }
+
+            formElem.addClass("was-validated");
         });
 
         $("#fontModal_chkInherit").on("change", (event) => {
@@ -447,6 +470,7 @@ class FontModal extends ModalBase {
     }
 
     _showFields(font) {
+        $("#frmFontModal").removeClass("was-validated")
         $("#fontModal_chkInherit").prop("checked", font.inherit);
         $("#fontModal_fsProps").prop("disabled", font.inherit);
         $("#fontModal_txtName").val(font.name);
@@ -459,13 +483,14 @@ class FontModal extends ModalBase {
     _readFields(font) {
         font.inherit = $("#fontModal_chkInherit").prop("checked");
         font.name = $("#fontModal_txtName").val();
-        font.size = Number.parseInt($("#fontModal_txtSize").val());
+        font.size = Number.parseInt($("#fontModal_txtSize").val()) || 0;
         font.bold = $("#fontModal_chkBold").prop("checked");
         font.italic = $("#fontModal_chkItalic").prop("checked");
         font.underline = $("#fontModal_chkUnderline").prop("checked");
     }
 
-    show(font, callback) {
+    show(showArgs, callback) {
+        let font = showArgs.value;
         let newFont = new rs.mimic.Font(font);
         this._context = new ModalContext({
             oldValue: font,
@@ -577,7 +602,8 @@ class ImageEditModal extends ModalBase {
             .attr("href", dataUrl);
     }
 
-    show(image, callback) {
+    show(showArgs, callback) {
+        let image = showArgs.value;
         let newImage = new rs.mimic.Image();
         Object.assign(newImage, image); // image can be null
 
@@ -606,7 +632,7 @@ class ImageSelectModal extends ModalBase {
     constructor(elemID, mimic) {
         super(elemID);
 
-        if (mimic === null || mimic === undefined) {
+        if (mimic == null) {
             throw new Error("Mimic must not be null.");
         }
 
@@ -745,7 +771,8 @@ class ImageSelectModal extends ModalBase {
         }
     }
 
-    show(imageName, callback) {
+    show(showArgs, callback) {
+        let imageName = showArgs.value;
         this._context = new ModalContext({
             oldValue: imageName,
             callback: callback
@@ -774,7 +801,7 @@ class PropertyModal extends ModalBase {
     constructor(elemID, mimic) {
         super(elemID);
 
-        if (mimic === null || mimic === undefined) {
+        if (mimic == null) {
             throw new Error("Mimic must not be null.");
         }
 
@@ -793,8 +820,8 @@ class PropertyModal extends ModalBase {
         // show properties of the selected object
         $("#propertyModal_selObject").on("change", (event) => {
             let selectedVal = $(event.target).val();
-            let componentID = Number.parseInt(selectedVal);
-            this._showObjectProperties(this._mimic.componentMap.get(componentID));
+            let selectedObj = this._findObjectById(selectedVal);
+            this._showObjectProperties(selectedObj);
             this._selectProperty(null);
         });
 
@@ -886,10 +913,20 @@ class PropertyModal extends ModalBase {
         $("#propertyModal_divObjectProperties").empty().append(listElem);
     }
 
-    _findObject(propertyName) {
-        if (propertyName) {
-            let objectName = propertyName.split('.')[0];
-            return objectName ? this._mimic.components.find(c => c.name === objectName) : null;
+    _findObjectById(optionValue) {
+        let componentID = Number.parseInt(optionValue);
+        return Number.isFinite(componentID)
+            ? (componentID > 0 ? this._mimic.componentMap.get(componentID) : this._mimic)
+            : null;
+    }
+
+    _findObjectByProperty(propertyName) {
+        let objectName = propertyName ? propertyName.split('.')[0] : null;
+
+        if (objectName) {
+            return objectName === this._mimic.name
+                ? this._mimic
+                : this._mimic.components.find(c => c.name === objectName);
         } else {
             return null;
         }
@@ -904,7 +941,7 @@ class PropertyModal extends ModalBase {
 
         // create list options
         let optionArr = [firstOptionElem];
-        let objectArr = [...this._mimic.components].sort((a, b) => a.id - b.id);
+        let objectArr = [this._mimic, ...this._mimic.components].sort((a, b) => a.id - b.id);
 
         for (let obj of objectArr) {
             optionArr.push($("<option></option>")
@@ -919,22 +956,23 @@ class PropertyModal extends ModalBase {
         $("#propertyModal_txtObjectDisplayName").prop("hidden", true);
     }
 
-    show(selectedObject, propertyName, options, callback) {
+    show(showArgs, callback) {
+        let propertyName = showArgs.value;
         this._context = new ModalContext({
             oldValue: propertyName,
             callback: callback
         });
 
         $("#propertyModal_txtPropertyName").val(propertyName);
-        this._options = options ?? PropertyModal.DEFAULT_OPTIONS;
+        this._options = showArgs.options ?? PropertyModal.DEFAULT_OPTIONS;
 
         if (this._options.canSelectObject) {
-            let obj = this._findObject(propertyName);
+            let obj = this._findObjectByProperty(propertyName);
             this._fillObjectList(obj);
             this._showObjectProperties(obj);
         } else {
-            this._showSingleObject(selectedObject);
-            this._showObjectProperties(selectedObject);
+            this._showSingleObject(showArgs.topObject);
+            this._showObjectProperties(showArgs.topObject);
         }
 
         this._modal.show();
@@ -991,13 +1029,14 @@ class TextEditor extends ModalBase {
         }
     }
 
-    show(text, options, callback) {
+    show(showArgs, callback) {
+        let text = showArgs.value;
         this._context = new ModalContext({
             oldValue: text,
             callback: callback
         });
 
-        options ??= TextEditor.DEFAULT_OPTIONS;
+        let options = showArgs.options ?? TextEditor.DEFAULT_OPTIONS;
         this._showLanguage(options.language);
         this._flask.updateLanguage(options.language);
         this._flask.updateCode(text);

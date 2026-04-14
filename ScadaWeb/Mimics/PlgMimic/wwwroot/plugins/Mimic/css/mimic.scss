@@ -64,9 +64,6 @@ $component-fiction-border: 1px dashed var(--bs-gray-600);
 }
 
 .mimic-wrapper.edit-mode {
-    display: flex;
-    align-items: center; // center vertically
-    justify-content: center; // center horizontally
     cursor: default;
 
     .mimic {

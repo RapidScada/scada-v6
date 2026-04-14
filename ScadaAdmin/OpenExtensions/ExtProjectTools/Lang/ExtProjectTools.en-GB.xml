@@ -118,6 +118,9 @@
     <Phrase key="this">Export Table</Phrase>
     <Phrase key="lblTable">Table</Phrase>
     <Phrase key="lblFormat">Format</Phrase>
+    <Phrase key="cbFormat.Items[0]">Runtime tables (*.dat)</Phrase>
+    <Phrase key="cbFormat.Items[1]">Project tables (*.xml)</Phrase>
+    <Phrase key="cbFormat.Items[2]">Comma-separated values (*.csv)</Phrase>
     <Phrase key="gbIDs">IDs</Phrase>
     <Phrase key="lblStartID">Start</Phrase>
     <Phrase key="lblEndID">End</Phrase>

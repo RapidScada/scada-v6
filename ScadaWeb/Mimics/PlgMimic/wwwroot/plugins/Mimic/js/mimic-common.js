@@ -97,8 +97,8 @@ rs.mimic.Scale = class Scale {
     }
 
     load(storage) {
-        this.type = parseInt(ScadaUtils.getStorageItem(storage, Scale._TYPE_KEY)) || this.type;
-        this.value = parseFloat(ScadaUtils.getStorageItem(storage, Scale._VALUE_KEY)) || this.value;
+        this.type = Number.parseInt(ScadaUtils.getStorageItem(storage, Scale._TYPE_KEY)) || this.type;
+        this.value = Number.parseFloat(ScadaUtils.getStorageItem(storage, Scale._VALUE_KEY)) || this.value;
     }
 
     getPrev() {
@@ -135,7 +135,7 @@ rs.mimic.ObjectHelper = class ObjectHelper {
         for (let i = chainIndex; i < propertyChain.length - 1; i++) {
             let propertyName = propertyChain[i];
 
-            if (objectToUpdate instanceof Object && objectToUpdate.hasOwnProperty(propertyName)) {
+            if (objectToUpdate instanceof Object && Object.hasOwn(objectToUpdate, propertyName)) {
                 objectToUpdate = objectToUpdate[propertyName];
             } else {
                 objectToUpdate = null;
@@ -168,6 +168,10 @@ rs.mimic.ObjectHelper = class ObjectHelper {
 
     // Gets the value of the object property. Property chain is an array of property names.
     static getPropertyValue(obj, propertyChain, chainIndex) {
+        if (obj == null) {
+            return undefined;
+        }
+
         let objectToUpdate = ObjectHelper._getObjectToUpdate(obj, propertyChain, chainIndex);
 
         if (objectToUpdate instanceof Object && propertyChain.length > chainIndex) {
@@ -180,6 +184,10 @@ rs.mimic.ObjectHelper = class ObjectHelper {
 
     // Sets the object property to the specified value keeping the data type unchanged.
     static setPropertyValue(obj, propertyChain, chainIndex, value) {
+        if (obj == null) {
+            return;
+        }
+
         let objectToUpdate = ObjectHelper._getObjectToUpdate(obj, propertyChain, chainIndex);
 
         if (objectToUpdate instanceof Object && propertyChain.length > chainIndex) {
@@ -190,7 +198,7 @@ rs.mimic.ObjectHelper = class ObjectHelper {
 
     // Creates a new value by merging the source value to the base value.
     static mergeValues(baseValue, sourceValue) {
-        if (baseValue === null || baseValue === undefined) {
+        if (baseValue == null) {
             return sourceValue;
         }
 

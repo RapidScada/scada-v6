@@ -18,13 +18,17 @@ rs.mimic.BasicColorCondition = class extends rs.mimic.Condition {
         return "BasicColorCondition";
     }
 
+    get displayValue() {
+        return this.color;
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let colorCondition = new rs.mimic.BasicColorCondition();
 
         if (source) {
-            colorCondition.color = PropertyParser.parseString(source.color);
             colorCondition._copyFrom(source);
+            colorCondition.color = PropertyParser.parseString(source.color);
         }
 
         return colorCondition;
