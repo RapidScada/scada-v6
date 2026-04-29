@@ -1082,6 +1082,7 @@ rs.mimic.DescriptorSet = class {
     ]);
     static getFaceplateDescriptor(faceplate) {
         const KnownCategory = rs.mimic.KnownCategory;
+        const BasicType = rs.mimic.BasicType;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
         let descriptor = new rs.mimic.FaceplateDescriptor();
 
@@ -1091,7 +1092,8 @@ rs.mimic.DescriptorSet = class {
                     descriptor.add(new PropertyDescriptor({
                         name: propertyExport.name,
                         displayName: propertyExport.name,
-                        category: KnownCategory.MISC
+                        category: KnownCategory.MISC,
+                        type: BasicType.STRING
                     }));
                 }
             }
