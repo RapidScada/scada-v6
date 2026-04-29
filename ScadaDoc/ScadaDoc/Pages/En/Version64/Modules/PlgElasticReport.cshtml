@@ -96,6 +96,7 @@
 
     <h3 id="report-styling">Styling</h3>
     <p>You can customize your own report styles, including fonts, colors, cell sizes, etc. For each report format, styles are configured separately.</p>
+    <p>To load custom styles, in the <code>OutputOptions</code> section of the report configuration, set the <code>StyleSheet</code> parameter to <code>Custom</code>. It is possible to create multiple custom style files with different suffixes. The <code>StyleSheet</code> parameter contains the suffix of the stylesheet file to load.</p>
 
     <h4>PDF Styles</h4>
     <p>The <code>PdfStyleDefault.xml</code> and <code>PdfStyleCustom.xml</code> files specify the formatting of reports in PDF format. These files are located in the web application directory <code>ScadaWeb\wwwroot\plugins\ElasticReport\templates</code>. The <code>PdfStyleDefault.xml</code> file contains the default styles and should remain unchanged. Custom styles are added to the <code>PdfStyleCustom.xml</code> file. When creating custom styles, you can inherit new styles from existing ones or override existing styles.</p>

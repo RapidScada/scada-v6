@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Mimic editorVersion="6.0.0.0" xmlns:basic="urn:rapidscada:mimic:basic">
+<Mimic editorVersion="6.0.0.0">
   <Dependencies>
     <Faceplate typeName="MyFaceplate" path="FaceplateExample.fp" />
   </Dependencies>
@@ -15,6 +15,8 @@
     <Text>
       <ID>1</ID>
       <Name />
+      <Enabled>True</Enabled>
+      <Visible>True</Visible>
       <Location>
         <X>100</X>
         <Y>100</Y>
@@ -28,6 +30,8 @@
     <Picture>
       <ID>2</ID>
       <Name />
+      <Enabled>True</Enabled>
+      <Visible>True</Visible>
       <Location>
         <X>200</X>
         <Y>100</Y>
@@ -41,6 +45,8 @@
     <Panel>
       <ID>3</ID>
       <Name />
+      <Enabled>True</Enabled>
+      <Visible>True</Visible>
       <Location>
         <X>100</X>
         <Y>250</Y>
@@ -53,6 +59,8 @@
         <Text>
           <ID>4</ID>
           <Name />
+          <Enabled>True</Enabled>
+          <Visible>True</Visible>
           <Location>
             <X>10</X>
             <Y>10</Y>
@@ -66,6 +74,8 @@
         <Text>
           <ID>5</ID>
           <Name />
+          <Enabled>True</Enabled>
+          <Visible>True</Visible>
           <Location>
             <X>10</X>
             <Y>50</Y>
@@ -81,6 +91,8 @@
     <MyFaceplate>
       <ID>6</ID>
       <Name />
+      <Enabled>True</Enabled>
+      <Visible>True</Visible>
       <Location>
         <X>350</X>
         <Y>100</Y>

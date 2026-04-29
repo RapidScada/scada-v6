@@ -13,6 +13,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using static Scada.Server.Archives.ArchiveUtils;
 
 namespace Scada.Server.Modules.ModArcBasic.Logic
 {
@@ -118,8 +119,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                     lock (archiveLock)
                     {
                         Stopwatch stopwatch = Stopwatch.StartNew();
-                        InitCnlIndexes(curData, ref cnlIndexes);
-                        CopyCnlData(curData, slice, cnlIndexes);
+                        InitCnlIndexes(curData, CnlNums, ref cnlIndexes);
+                        CopyCnlData(curData, slice, CnlNums, cnlIndexes);
                         slice.Timestamp = curData.Timestamp;
                         adapter.WriteSingleSlice(slice);
                         LastWriteTime = curData.Timestamp;

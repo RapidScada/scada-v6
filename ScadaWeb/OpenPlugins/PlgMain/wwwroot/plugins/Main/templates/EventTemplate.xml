@@ -102,8 +102,8 @@
     <Cell><Data ss:Type="String">repVal=Gen</Data></Cell>
    </Row>
    <Row>
-    <Cell><Data ss:Type="String">repVal=TzCaption</Data></Cell>
-    <Cell><Data ss:Type="String">repVal=Tz</Data></Cell>
+    <Cell><Data ss:Type="String">repVal=UserCaption</Data></Cell>
+    <Cell><Data ss:Type="String">repVal=User</Data></Cell>
    </Row>
    <Row>
     <Cell><Data ss:Type="String">repVal=ArcCaption</Data></Cell>

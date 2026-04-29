@@ -2,9 +2,15 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.ComponentModel;
+using Scada.Data.Models;
 using System.Collections;
 using System.Xml;
 using NCM = System.ComponentModel;
+
+#if WINFORMS
+using Scada.Forms.ComponentModel;
+using System.Drawing.Design;
+#endif
 
 namespace Scada.Comm.Drivers.DrvMqttPublisher.Config
 {
@@ -13,12 +19,17 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Config
     /// <para>Представляет конфигурацию элемента.</para>
     /// </summary>
     [Serializable]
-    internal class ItemConfig : ITreeNode
+    internal class ItemConfig : ITreeNode, IConfigDatasetAccessor
     {
         /// <summary>
         /// Gets or sets the number of the published channel.
         /// </summary>
+        #region Attributes
         [DisplayName, Category, Description]
+#if WINFORMS
+        [NCM.Editor(typeof(CnlNumEditor), typeof(UITypeEditor))]
+#endif
+        #endregion
         public int CnlNum { get; set; } = 0;
 
         /// <summary>
@@ -63,6 +74,12 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Config
         /// </summary>
         [NCM.Browsable(false)]
         public IList Children => null;
+
+        /// <summary>
+        /// Gets the configuration database.
+        /// </summary>
+        [NCM.Browsable(false)]
+        public ConfigDataset ConfigDataset => DriverUtils.ConfigDataset;
 
 
         /// <summary>

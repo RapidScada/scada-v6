@@ -7,23 +7,59 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js">
     <Phrase key="FaceplateGroup">ФЕЙСПЛЕЙТЫ</Phrase>
-    <Phrase key="DependenciesNode">Зависимости</Phrase>
-    <Phrase key="MimicNode">Мнемосхема</Phrase>
-    <Phrase key="ImagesNode">Изображения</Phrase>
-    <Phrase key="NoImagePreview">Изображение отсутствует</Phrase>
-    <Phrase key="MimicReload">Перезагрузка схемы.</Phrase>
+    <Phrase key="MimicReloading">Перезагрузка схемы.</Phrase>
+    <Phrase key="MimicReloaded">Мнемосхема перезагружена на сервере.</Phrase>
     <Phrase key="MimicSaved">Мнемосхема сохранена успешно.</Phrase>
     <Phrase key="LoadMimicError">Ошибка при загрузке мнемосхемы.</Phrase>
     <Phrase key="SaveMimicError">Ошибка при сохранении мнемосхемы.</Phrase>
     <Phrase key="PostUpdateError">Ошибка при передаче обновления.</Phrase>
+    <Phrase key="DisplayMimicError">Ошибка при отображении мнемосхемы.</Phrase>
     <Phrase key="UnableAddComponent">Невозможно добавить компонент.</Phrase>
     <Phrase key="UnableChangeParent">Невозможно изменить родителя.</Phrase>
     <Phrase key="UnableRestoreHistory">Невозможно восстановить точку истории.</Phrase>
     <Phrase key="SameParentRequired">Выбранные компоненты должны иметь общего родителя.</Phrase>
     <Phrase key="ComponentNotSpecified">Компонент не указан.</Phrase>
     <Phrase key="ClipboardEmpty">Буфер обмена пуст.</Phrase>
+    <Phrase key="ConfirmReload">Изменения могут не сохраниться. Вы уверены?</Phrase>
     <Phrase key="ConfirmDeleteDependency">Вы уверены, что хотите удалить зависимость?</Phrase>
     <Phrase key="ConfirmDeleteImage">Вы уверены, что хотите удалить изображение?</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js.PropGrid">
+    <Phrase key="EditButton">Редактировать</Phrase>
+    <Phrase key="BackButton">Назад к родителю</Phrase>
+    <Phrase key="AddButton">Добавить</Phrase>
+    <Phrase key="UpButton">Вверх</Phrase>
+    <Phrase key="DownButton">Вниз</Phrase>
+    <Phrase key="DeleteButton">Удалить</Phrase>
+    <Phrase key="NotSet">Не задано</Phrase>
+    <Phrase key="ArrayItem">Элемент </Phrase>
+    <Phrase key="UnableAddItem">Невозможно добавить элемент массива.</Phrase>
+    <Phrase key="UnableMoveItem">Невозможно переместить элемент массива.</Phrase>
+    <Phrase key="UnableDeleteItem">Невозможно удалить элемент массива.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js.StructTree">
+    <Phrase key="DependenciesNode">Зависимости</Phrase>
+    <Phrase key="MimicNode">Мнемосхема</Phrase>
+    <Phrase key="ImagesNode">Изображения</Phrase>
+    <Phrase key="NoImagePreview">Изображение отсутствует</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ColorModal">
+    <Phrase key="PageTitle">Цвет</Phrase>
+    <Phrase key="lblColor">Наименование или код цвета</Phrase>
+    <Phrase key="lblKnownColors">Известные цвета</Phrase>
+    <Phrase key="thRecentColors">Недавние</Phrase>
+    <Phrase key="thRedColors">Красные</Phrase>
+    <Phrase key="thPinkColors">Розовые</Phrase>
+    <Phrase key="thOrangeColors">Оранжевые</Phrase>
+    <Phrase key="thYellowColors">Жёлтые</Phrase>
+    <Phrase key="thPurpleColors">Фиолетовые</Phrase>
+    <Phrase key="thGreenColors">Зелёные</Phrase>
+    <Phrase key="thBlueColors">Синие</Phrase>
+    <Phrase key="thBrownColors">Коричнивые</Phrase>
+    <Phrase key="thWhiteColors">Белые</Phrase>
+    <Phrase key="thGrayColors">Серые</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.FaceplateModal">
     <Phrase key="PageTitle">Фейсплейт</Phrase>
@@ -33,7 +69,19 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ImageModal">
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.FontModal">
+    <Phrase key="PageTitle">Шрифт</Phrase>
+    <Phrase key="RequiredField">Заполните это поле.</Phrase>
+    <Phrase key="lblInherit">Наследовать</Phrase>
+    <Phrase key="lblName">Наименование</Phrase>
+    <Phrase key="lblSize">Размер</Phrase>
+    <Phrase key="lblBold">Жирный</Phrase>
+    <Phrase key="lblItalic">Курсив</Phrase>
+    <Phrase key="lblUnderline">Подчёркнутый</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ImageEditModal">
     <Phrase key="PageTitle">Изображение</Phrase>
     <Phrase key="RequiredField">Заполните это поле.</Phrase>
     <Phrase key="NoImage">Изображение отсутствует</Phrase>
@@ -44,7 +92,30 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ImageSelectModal">
+    <Phrase key="PageTitle">Выбор изображения</Phrase>
+    <Phrase key="RecentImages">Недавние</Phrase>
+    <Phrase key="AllImages">Все</Phrase>
+    <Phrase key="lblName">Наименование</Phrase>
+    <Phrase key="lblAvailableImages">Доступные изображения</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.PropertyModal">
+    <Phrase key="PageTitle">Выбор свойства</Phrase>
+    <Phrase key="SelectObjectItem">-- Выберите объект --</Phrase>
+    <Phrase key="lblPropertyName">Имя свойства</Phrase>
+    <Phrase key="lblObjectProperties">Свойства объекта</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.TextEditor">
+    <Phrase key="PageTitle">Редактор текста</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ToolbarContents">
+    <Phrase key="btnReload">Перезагрузить</Phrase>
     <Phrase key="btnSave">Сохранить (Ctrl + S)</Phrase>
     <Phrase key="btnUndo">Отменить (Ctrl + Z)</Phrase>
     <Phrase key="btnRedo">Вернуть (Ctrl + Y)</Phrase>

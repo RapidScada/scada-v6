@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Data.Const;
 using Scada.Lang;
@@ -12,6 +13,7 @@ namespace Scada.Web.Pages
     /// Represents a page for reloading application configuration.
     /// <para>Представляет страницу для перезагрузки конфигурации приложения.</para>
     /// </summary>
+    [AllowAnonymous]
     public class ConfigReloadModel : PageModel
     {
         private const string ConfirmationFileName = "webreload";

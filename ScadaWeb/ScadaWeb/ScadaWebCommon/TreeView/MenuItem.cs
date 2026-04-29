@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2023
+ * Modified : 2025
  */
 
 using Scada.Web.Lang;
@@ -45,7 +45,7 @@ namespace Scada.Web.TreeView
             Level = -1;
 
             SortOrder = MenuItemSortOrder.First;
-            Subitems = new List<MenuItem>();
+            Subitems = [];
         }
 
 

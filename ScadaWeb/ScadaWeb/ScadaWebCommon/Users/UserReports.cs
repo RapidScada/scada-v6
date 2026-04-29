@@ -67,7 +67,7 @@ namespace Scada.Web.Users
         /// </summary>
         public List<MenuItem> ToFlatList()
         {
-            List<MenuItem> reportItems = new();
+            List<MenuItem> reportItems = [];
 
             void AddItems(List<MenuItem> items)
             {

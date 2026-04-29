@@ -31,24 +31,12 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// <summary>
         /// Gets the module code.
         /// </summary>
-        public override string Code
-        {
-            get
-            {
-                return ModuleUtils.ModuleCode;
-            }
-        }
+        public override string Code => ModuleUtils.ModuleCode;
 
         /// <summary>
         /// Gets the module purposes.
         /// </summary>
-        public override ModulePurposes ModulePurposes
-        {
-            get
-            {
-                return ModulePurposes.Archive;
-            }
-        }
+        public override ModulePurposes ModulePurposes => ModulePurposes.Archive;
 
 
         /// <summary>
@@ -57,17 +45,13 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         public override ArchiveLogic CreateArchive(IArchiveContext archiveContext, ArchiveConfig archiveConfig,
             int[] cnlNums)
         {
-            switch (archiveConfig.Kind)
+            return archiveConfig.Kind switch
             {
-                case ArchiveKind.Current:
-                    return new PostgreCAL(archiveContext, archiveConfig, cnlNums, moduleConfig);
-                case ArchiveKind.Historical:
-                    return new PostgreHAL(archiveContext, archiveConfig, cnlNums, moduleConfig);
-                case ArchiveKind.Events:
-                    return new PostgreEAL(archiveContext, archiveConfig, cnlNums, moduleConfig);
-                default:
-                    return null;
-            }
+                ArchiveKind.Current => new PostgreCAL(archiveContext, archiveConfig, cnlNums, moduleConfig),
+                ArchiveKind.Historical => new PostgreHAL(archiveContext, archiveConfig, cnlNums, moduleConfig),
+                ArchiveKind.Events => new PostgreEAL(archiveContext, archiveConfig, cnlNums, moduleConfig),
+                _ => null,
+            };
         }
 
         /// <summary>

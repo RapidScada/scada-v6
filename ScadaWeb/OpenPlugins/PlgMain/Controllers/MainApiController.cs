@@ -579,8 +579,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             {
                 int cnlNum = commandDTO.CnlNum;
 
-                if (!webContext.AppConfig.GeneralOptions.EnableCommands ||
-                    !pluginContext.Options.AllowCommandApi)
+                if (!webContext.AppConfig.GeneralOptions.EnableCommands)
                 {
                     message = WebPhrases.CommandsDisabled;
                 }

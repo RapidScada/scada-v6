@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2025
  */
 
 namespace Scada.Web.Components
@@ -32,41 +32,28 @@ namespace Scada.Web.Components
     public class ModalPostbackArgs
     {
         /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public ModalPostbackArgs()
-        {
-            CloseModal = false;
-            CloseDelay = 0;
-            ModalResult = null;
-            UpdateHeight = false;
-            GrowOnly = false;
-        }
-
-
-        /// <summary>
         /// Gets or sets a value indicating whether a modal dialog should be closed.
         /// </summary>
-        public bool CloseModal { get; set; }
+        public bool CloseModal { get; set; } = false;
 
         /// <summary>
         /// Gets or sets the delay before closing, seconds.
         /// </summary>
-        public int CloseDelay { get; set; }
+        public int CloseDelay { get; set; } = 0;
 
         /// <summary>
         /// Gets or sets the result of the modal dialog.
         /// </summary>
-        public object ModalResult { get; set; }
+        public object ModalResult { get; set; } = null;
 
         /// <summary>
         /// Gets or sets a value indicating whether to update the height of the modal dialog.
         /// </summary>
-        public bool UpdateHeight { get; set; }
+        public bool UpdateHeight { get; set; } = false;
 
         /// <summary>
         /// Gets or sets a value indicating whether the height of the modal dialog can only be increased.
         /// </summary>
-        public bool GrowOnly { get; set; }
+        public bool GrowOnly { get; set; } = false;
     }
 }

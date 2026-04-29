@@ -12,45 +12,29 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
     public class ItemConfig
     {
         /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public ItemConfig()
-        {
-            Active = true;
-            NodeID = "";
-            DisplayName = "";
-            TagCode = "";
-            DataTypeName = "";
-            IsArray = false;
-            DataLen = 0;
-            Tag = null;
-        }
-
-
-        /// <summary>
         /// Gets or sets a value indicating that the item is active.
         /// </summary>
-        public bool Active { get; set; }
+        public bool Active { get; set; } = true;
 
         /// <summary>
         /// Gets or sets the OPC UA node ID.
         /// </summary>
-        public string NodeID { get; set; }
+        public string NodeID { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the display name.
         /// </summary>
-        public string DisplayName { get; set; }
+        public string DisplayName { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the tag code associated with the item.
         /// </summary>
-        public string TagCode { get; set; }
+        public string TagCode { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the data type name of an OPC variable.
         /// </summary>
-        public string DataTypeName { get; set; }
+        public string DataTypeName { get; set; } = "";
 
         /// <summary>
         /// Gets or sets a value indicating that the item data type is a string.
@@ -66,12 +50,12 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// <summary>
         /// Gets or sets a value indicating that the item data type is an array.
         /// </summary>
-        public bool IsArray { get; set; }
+        public bool IsArray { get; set; } = false;
 
         /// <summary>
         /// Get or sets the data length if the item represents a string or an array.
         /// </summary>
-        public int DataLen { get; set; }
+        public int DataLen { get; set; } = 0;
 
         /// <summary>
         /// Gets the normalized data length.
@@ -87,7 +71,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// <summary>
         /// Gets or sets the object that contains data related to the item.
         /// </summary>
-        public object Tag { get; set; }
+        public object Tag { get; set; } = null;
 
 
         /// <summary>

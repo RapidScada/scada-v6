@@ -1,0 +1,12 @@
+﻿@page
+@model ErrorModel
+@{
+    dynamic dict = Locale.GetDictionary("Scada.Web.Pages.Errors.Error");
+    ViewBag.Title = dict.PageTitle;
+    Model.WriteError(); // on get and post
+}
+
+<div class="container text-center">
+    <h1 class="text-danger">@dict.PageTitle</h1>
+    <p>@WebUtils.HtmlEncodeWithBreak(Model.ErrorMessage ?? dict.ErrorMessage)</p>
+</div>

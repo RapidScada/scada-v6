@@ -79,8 +79,8 @@ namespace Scada.Web.Plugins.PlgMain.Report
         {
             return string.Format(dict.TitleFormat,
                 reportArgs.TableView.Title,
-                ReportContext.DateTimeToString(reportArgs.StartTime),
-                ReportContext.DateTimeToString(reportArgs.EndTime));
+                ReportContext.FormatDateTime(reportArgs.StartTime),
+                ReportContext.FormatDateTime(reportArgs.EndTime));
         }
 
         /// <summary>
@@ -282,15 +282,15 @@ namespace Scada.Web.Plugins.PlgMain.Report
                 else if (e.DirectiveValue == "GenCaption")
                     cellText = reportDict.GenCaption;
                 else if (e.DirectiveValue == "Gen")
-                    cellText = ReportContext.DateTimeToString(GenerateTime);
+                    cellText = ReportContext.FormatDateTimeWithOffset(GenerateTime);
+                else if (e.DirectiveValue == "UserCaption")
+                    cellText = reportDict.UserCaption;
+                else if (e.DirectiveValue == "User")
+                    cellText = ReportContext.Username;
                 else if (e.DirectiveValue == "ArcCaption")
                     cellText = reportDict.ArcCaption;
                 else if (e.DirectiveValue == "Arc")
                     cellText = archiveEntity.Name;
-                else if (e.DirectiveValue == "TzCaption")
-                    cellText = reportDict.TzCaption;
-                else if (e.DirectiveValue == "Tz")
-                    cellText = ReportContext.TimeZone.DisplayName;
                 else if (e.DirectiveValue == "ItemCol")
                     cellText = dict.ItemCol;
                 else if (e.DirectiveValue == "DataCol")

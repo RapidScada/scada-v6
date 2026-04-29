@@ -78,6 +78,9 @@ namespace Scada.Comm.Devices
         /// <summary>
         /// Gets the device tags whose data is included in the slice.
         /// </summary>
+        /// <remarks>
+        /// An array element cannot be null.
+        /// </remarks>
         public DeviceTag[] DeviceTags { get; }
 
         /// <summary>

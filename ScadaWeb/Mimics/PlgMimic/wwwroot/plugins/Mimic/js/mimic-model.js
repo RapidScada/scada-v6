@@ -1,6 +1,5 @@
-﻿// Contains classes: MimicHelper, MimicBase, Mimic, Component, Panel, Image, 
-//     FaceplateMeta, Faceplate, FaceplateInstance
-// Depends on scada-common.js, mimic-common.js, mimic-factory.js
+﻿// Contains classes: MimicHelper, MimicBase, Mimic, Component, Image, FaceplateMeta, Faceplate, FaceplateInstance
+// Depends on scada-common.js, mimic-common.js, mimic-model-subtypes.js, mimic-factory.js
 
 // Provides helper methods for mimics and components.
 rs.mimic.MimicHelper = class MimicHelper {
@@ -242,6 +241,7 @@ rs.mimic.MimicHelper = class MimicHelper {
 
 // A base class for mimic diagrams and faceplates.
 rs.mimic.MimicBase = class {
+    isFaceplate;   // mimic is a faceplate
     dependencies;  // meta information about faceplates
     document;      // mimic properties
     components;    // all components
@@ -255,7 +255,8 @@ rs.mimic.MimicBase = class {
     children;      // top-level components
 
     // Clears the mimic.
-    clear() {
+    _clear() {
+        this.isFaceplate = false;
         this.dependencies = [];
         this.document = {};
         this.components = [];
@@ -268,46 +269,67 @@ rs.mimic.MimicBase = class {
         this.faceplateMap = new Map();
         this.children = [];
     }
-
-    // Checks whether the specified type name represents a faceplate.
-    isFaceplate(typeName) {
-        return this.dependencyMap?.has(typeName);
-    }
-
-    // Creates a component instance based on the source object. Returns null if the component factory is not found.
-    createComponent(source) {
-        const FactorySet = rs.mimic.FactorySet;
-
-        if (this.isFaceplate(source.typeName)) {
-            let faceplate = this.faceplateMap.get(source.typeName); // can be null
-            return FactorySet.faceplateFactory.createComponentFromSource(source, faceplate);
-        } else {
-            let factory = FactorySet.componentFactories.get(source.typeName);
-            return factory ? factory.createComponentFromSource(source) : null;
-        }
-    }
-
-    // Creates a copy of the component containing only the main properties.
-    copyComponent(source) {
-        return source instanceof rs.mimic.Component
-            ? this.createComponent(source.toPlainObject())
-            : this.createComponent(source);
-    }
 };
 
 // Represents a mimic diagram.
-rs.mimic.Mimic = class extends rs.mimic.MimicBase {
-    dom;      // mimic DOM as a jQuery object
-    renderer; // renders the mimic
+rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
+    static NAME = "mimic"; // identifies the mimic by name
 
-    // Imitates a component ID to use as a parent ID.
+    dom;             // mimic DOM as a jQuery object
+    renderer;        // renders the mimic
+    script;          // custom mimic logic
+    componentByName; // components accessible by name in runtime mode
+    title;           // view title
+
+    // Imitates a component ID for use as a parent ID.
     get id() {
         return 0;
+    }
+
+    // Get the mimic name to identify it like a component.
+    get name() {
+        return Mimic.NAME;
     }
 
     // Indicates that a mimic can contain child components.
     get isContainer() {
         return true;
+    }
+
+    // Gets the mimic width.
+    get width() {
+        return this.document ? this.document.size.width : 0;
+    }
+
+    // Gets the mimic height.
+    get height() {
+        return this.document ? this.document.size.height : 0;
+    }
+
+    // Gets the inner width excluding the border.
+    get innerWidth() {
+        let props = this.document;
+        return props
+            ? props.size.width - (props.border ? props.border.width * 2 : 0)
+            : 0;
+    }
+
+    // Gets the inner height excluding the border.
+    get innerHeight() {
+        let props = this.document;
+        return props
+            ? props.size.height - (props.border ? props.border.width * 2 : 0)
+            : 0;
+    }
+
+    // Clears the mimic.
+    _clear() {
+        super._clear();
+        this.dom = null;
+        this.renderer = null;
+        this.script = null;
+        this.componentByName = new Map();
+        this.title = "";
     }
 
     // Loads a part of the mimic.
@@ -327,20 +349,6 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                 loadContext.step++;
                 break;
 
-            case LoadStep.COMPONENTS:
-                dto = await this._loadComponents(loadContext);
-                if (dto.ok && dto.data.endOfComponents) {
-                    loadContext.step++;
-                }
-                break;
-
-            case LoadStep.IMAGES:
-                dto = await this._loadImages(loadContext);
-                if (dto.ok && dto.data.endOfImages) {
-                    loadContext.step++;
-                }
-                break;
-
             case LoadStep.FACEPLATES:
                 if (this.dependencies.length > 0) {
                     let faceplateMeta = this.dependencies[loadContext.faceplateIndex];
@@ -352,11 +360,26 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                     }
 
                     if (++loadContext.faceplateIndex >= this.dependencies.length) {
+                        this._prepareFaceplates();
                         loadContext.step++;
                     }
                 } else {
                     loadContext.step++;
                     continueLoading = true;
+                }
+                break;
+
+            case LoadStep.COMPONENTS:
+                dto = await this._loadComponents(loadContext);
+                if (dto.ok && dto.data.endOfComponents) {
+                    loadContext.step++;
+                }
+                break;
+
+            case LoadStep.IMAGES:
+                dto = await this._loadImages(loadContext);
+                if (dto.ok && dto.data.endOfImages) {
+                    loadContext.step++;
                 }
                 break;
 
@@ -402,7 +425,33 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                     }
                 }
 
-                this.document = rs.mimic.MimicFactory.parseProperties(dto.data.document);
+                this.isFaceplate = dto.data.isFaceplate;
+                this.document = rs.mimic.MimicFactory.parseProperties(dto.data.document, this.isFaceplate);
+                this.title = dto.data.title;
+            }
+
+            return dto;
+        } else {
+            return Dto.fail(response.statusText);
+        }
+    }
+
+    // Loads a faceplate.
+    async _loadFaceplate(loadContext, typeName) {
+        console.log(ScadaUtils.getCurrentTime() + ` Load '${typeName}' faceplate`);
+        let response = await fetch(loadContext.controllerUrl +
+            "GetFaceplate?key=" + loadContext.mimicKey +
+            "&typeName=" + typeName);
+
+        if (response.ok) {
+            let dto = await response.json();
+
+            if (dto.ok) {
+                let faceplate = new rs.mimic.Faceplate(dto.data, typeName);
+                this.faceplates.push(faceplate);
+                this.faceplateMap.set(typeName, faceplate);
+            } else {
+                this.faceplateMap.set(typeName, null);
             }
 
             return dto;
@@ -433,6 +482,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                         this.componentMap.set(component.id, component);
                     } else if (sourceComponent.typeName) {
                         loadContext.unknownTypes.add(sourceComponent.typeName);
+                        loadContext.result.warn = true;
                     }
                 }
             }
@@ -471,25 +521,17 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         }
     }
 
-    // Loads a faceplate.
-    async _loadFaceplate(loadContext, typeName) {
-        console.log(ScadaUtils.getCurrentTime() + ` Load '${typeName}' faceplate`);
-        let response = await fetch(loadContext.controllerUrl +
-            "GetFaceplate?key=" + loadContext.mimicKey +
-            "&typeName=" + typeName);
+    // Prepares the faceplates for use.
+    _prepareFaceplates() {
+        for (let faceplate of this.faceplates) {
+            for (let childFaceplateMeta of faceplate.dependencies) {
+                let childFaceplate = this.faceplateMap.get(childFaceplateMeta.typeName);
 
-        if (response.ok) {
-            let dto = await response.json();
-
-            if (dto.ok) {
-                let faceplate = new rs.mimic.Faceplate(dto.data, typeName);
-                this.faceplates.push(faceplate);
-                this.faceplateMap.set(typeName, faceplate);
+                if (childFaceplate) {
+                    faceplate.faceplates.push(childFaceplate);
+                    faceplate.faceplateMap.set(childFaceplateMeta.typeName, childFaceplate);
+                }
             }
-
-            return dto;
-        } else {
-            return Dto.fail(response.statusText);
         }
     }
 
@@ -498,56 +540,31 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         rs.mimic.MimicHelper.defineNesting(this, this.components, this.componentMap);
     }
 
-    // Prepares the faceplates for use.
-    _prepareFaceplates() {
-        for (let faceplate of this.faceplates) {
-            for (let faceplateMeta of faceplate.dependencies) {
-                let childFaceplate = this.faceplateMap.get(faceplateMeta.typeName);
-
-                if (childFaceplate) {
-                    faceplate.faceplates.push(childFaceplate);
-                    faceplate.faceplateMap.set(faceplateMeta.typeName, childFaceplate);
-                }
-            }
+    // Sets the specified properties of the document.
+    setProperties(sourceProps) {
+        if (this.document) {
+            Object.assign(this.document, sourceProps);
         }
-    }
-
-    // Prepares the faceplates instances for use.
-    _prepareFaceplateInstances() {
-        for (let component of this.components) {
-            if (component.isFaceplate) {
-                let faceplate = mimic.faceplateMap.get(component.typeName);
-
-                if (faceplate) {
-                    component.applyModel(faceplate);
-                }
-            }
-        }
-    }
-
-    // Clears the mimic.
-    clear() {
-        super.clear();
-        this.dom = null;
-        this.renderer = null;
     }
 
     // Loads the mimic. Returns a LoadResult.
     async load(controllerUrl, mimicKey) {
         let startTime = Date.now();
         console.log(ScadaUtils.getCurrentTime() + " Load mimic with key " + mimicKey)
-        this.clear();
+        this._clear();
         let loadContext = new rs.mimic.LoadContext(controllerUrl, mimicKey);
 
-        while (await this._loadPart(loadContext)) {
-            // do nothing
+        try {
+            while (await this._loadPart(loadContext)) {
+                // do nothing
+            }
+        } catch (ex) {
+            console.error(ex);
+            loadContext.result.msg = "Unhandled exception.";
         }
 
         if (loadContext.result.ok) {
             this._defineNesting();
-            this._prepareFaceplates();
-            this._prepareFaceplateInstances();
-
             let endTime = Date.now();
             let endTimeStr = ScadaUtils.getCurrentTime();
 
@@ -616,6 +633,22 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         }
     }
 
+    // Checks whether the specified type name represents a faceplate.
+    isFaceplateType(typeName) {
+        return this.faceplateMap?.has(typeName);
+    }
+
+    // Gets the component factory for the specified type, or null if not found.
+    getComponentFactory(typeName) {
+        return rs.mimic.FactorySet.getComponentFactory(typeName, this.faceplateMap);
+    }
+
+    // Creates a component instance based on the source object. Returns null if the component factory is not found.
+    createComponent(source) {
+        let factory = this.getComponentFactory(source.typeName);
+        return factory?.createComponentFromSource(source);
+    }
+
     // Adds the component to the mimic. Returns true if the component was added.
     addComponent(component, parent, opt_index, opt_x, opt_y) {
         if (!component || !parent || !parent.isContainer ||
@@ -681,31 +714,127 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         return parentID > 0 ? this.componentMap.get(parentID) : this;
     }
 
+    // Finds a component by ID or name. Called from custom scripts.
+    findComponent(idOrName) {
+        if (typeof idOrName === "number") {
+            return this.componentMap?.get(idOrName);
+        } else if (typeof idOrName === "string") {
+            return this.componentByName?.get(idOrName);
+        } else {
+            return null;
+        }
+    }
+
+    // Initializes the custom scripts of the mimic and components.
+    initCustomScripts() {
+        const ComponentScript = rs.mimic.ComponentScript;
+
+        // mimic script
+        if (this.document.script) {
+            try {
+                this.script = ComponentScript.createFromSource(this.document.script);
+            } catch (ex) {
+                console.error("Error creating mimic script: " + ex.message);
+            }
+        }
+
+        // component scripts
+        let initScriptsInternal = (components, throwOnError) => {
+            for (let component of components) {
+                try {
+                    let script = component.isFaceplate
+                        ? component.document?.script
+                        : component.properties?.script;
+
+                    if (script) {
+                        component.customScript = ComponentScript.createFromSource(script);
+
+                        if (component.isFaceplate) {
+                            initScriptsInternal(component.components, true);
+                        }
+                    }
+                } catch (ex) {
+                    if (throwOnError) {
+                        throw ex;
+                    } else {
+                        console.error(`Error creating script for component ${component.id}: ${ex.message}`);
+                    }
+                }
+            }
+        };
+
+        initScriptsInternal(this.components, false);
+    }
+
+    // Populates a component map to search for components by name.
+    mapComponentsByName() {
+        this.componentByName = new Map();
+
+        for (let component of this.components) {
+            if (component.name) {
+                this.componentByName.set(component.name, component);
+            }
+        }
+    }
+
+    // Executes the custom script when the mimic DOM has been created.
+    onDomCreated(renderContext) {
+        if (this.script) {
+            let args = new rs.mimic.DomUpdateArgs({ mimic: this, renderContext });
+            this.script.domCreated(args);
+        }
+    }
+
+    // Executes the custom script when the mimic DOM has been updated.
+    onDomUpdated(renderContext) {
+        if (this.script) {
+            let args = new rs.mimic.DomUpdateArgs({ mimic: this, renderContext });
+            this.script.domUpdated(args);
+        }
+    }
+
+    // Executes the custom script when updating data.
+    onDataUpdated(dataProvider) {
+        if (this.script) {
+            let args = new rs.mimic.DataUpdateArgs({ mimic: this, dataProvider });
+            this.script.dataUpdated(args);
+        }
+    }
+
     // Returns a string that represents the current object.
     toString() {
-        return "Mimic";
+        return Mimic.NAME;
     }
 };
 
 // Represents a component of a mimic diagram.
 rs.mimic.Component = class {
-    id = 0;
-    name = "";
-    typeName = "";
-    properties = null;
-    bindings = null;
-    access = null;
-    parentID = 0;
-    index = -1;
+    _id = 0;             // component ID
+    typeName = "";       // component type name
+    properties = null;   // factory normalized properties
+    bindings = null;     // server side prepared bindings
+    parentID = 0;        // parent ID
+    index = -1;          // sibling index
 
-    parent = null;      // mimic or panel
-    children = null;    // top-level child components
-    dom = null;         // jQuery objects representing DOM content
-    renderer = null;    // renders the component
-    isSelected = false; // selected in the editor
+    parent = null;       // mimic or component
+    children = null;     // top-level child components
+    dom = null;          // jQuery objects representing DOM content
+    renderer = null;     // renders the component
+    extraScript = null;  // additional component logic
+    customScript = null; // custom component logic
+    customData = null;   // custom component data
+    isSelected = false;  // selected in the editor
 
-    constructor(source) {
-        Object.assign(this, source);
+    get id() {
+        return this._id;
+    }
+
+    set id(value) {
+        this._id = value;
+
+        if (this.properties) {
+            this.properties.id = value;
+        }
     }
 
     get isContainer() {
@@ -714,6 +843,10 @@ rs.mimic.Component = class {
 
     get isFaceplate() {
         return false;
+    }
+
+    get name() {
+        return this.properties?.name ?? "";
     }
 
     get displayName() {
@@ -728,7 +861,7 @@ rs.mimic.Component = class {
 
     set x(value) {
         if (this.properties) {
-            this.properties.location.x = parseInt(value) || 0;
+            this.properties.location.x = Number.parseInt(value) || 0;
         }
     }
 
@@ -738,7 +871,7 @@ rs.mimic.Component = class {
 
     set y(value) {
         if (this.properties) {
-            this.properties.location.y = parseInt(value) || 0;
+            this.properties.location.y = Number.parseInt(value) || 0;
         }
     }
 
@@ -748,7 +881,7 @@ rs.mimic.Component = class {
 
     set width(value) {
         if (this.properties) {
-            this.properties.size.width = parseInt(value) || 0;
+            this.properties.size.width = Number.parseInt(value) || 0;
         }
     }
 
@@ -758,28 +891,80 @@ rs.mimic.Component = class {
 
     set height(value) {
         if (this.properties) {
-            this.properties.size.height = parseInt(value) || 0;
+            this.properties.size.height = Number.parseInt(value) || 0;
         }
     }
 
+    get innerWidth() {
+        let props = this.properties;
+        return props
+            ? props.size.width -
+                (props.border ? props.border.width * 2 : 0) -
+                (props.padding ? props.padding.left + props.padding.right : 0)
+            : 0;
+    }
+
+    get innerHeight() {
+        let props = this.properties;
+        return props
+            ? props.size.height -
+                (props.border ? props.border.width * 2 : 0) -
+                (props.padding ? props.padding.top + props.padding.bottom : 0)
+            : 0;
+    }
+
+    // Sets the property according to the current data.
+    _setProperty(binding, curData) {
+        let value = rs.mimic.DataProvider.calculatePropertyValue(curData, binding);
+        rs.mimic.ObjectHelper.setPropertyValue(this.properties, binding.propertyChain, 0, value);
+
+        if (this.isFaceplate) {
+            this.handlePropertyChanged(binding.propertyName);
+        }
+    }
+
+    // Sets the location property.
     setLocation(x, y) {
         if (this.properties) {
-            this.properties.location.x = parseInt(x) || 0;
-            this.properties.location.y = parseInt(y) || 0;
+            this.properties.location.x = Number.parseInt(x) || 0;
+            this.properties.location.y = Number.parseInt(y) || 0;
         }
     }
 
+    // Sets the size property.
     setSize(width, height) {
         if (this.properties) {
-            this.properties.size.width = parseInt(width) || 0;
-            this.properties.size.height = parseInt(height) || 0;
+            this.properties.size.width = Number.parseInt(width) || 0;
+            this.properties.size.height = Number.parseInt(height) || 0;
         }
     }
 
+    // Sets the specified properties.
+    setProperties(sourceProps) {
+        if (this.properties) {
+            Object.assign(this.properties, sourceProps);
+        }
+    }
+
+    // Retrieves the mimic that the component is on. Called from custom scripts.
+    getMimic() {
+        let current = this;
+
+        while (current) {
+            current = current.parent;
+
+            if (current instanceof rs.mimic.MimicBase) {
+                return current;
+            }
+        }
+
+        return null;
+    }
+
+    // Gets all child components as a flat array.
     getAllChildren() {
         let allChildren = [];
-
-        function appendChildren(component) {
+        let appendChildren = (component) => {
             if (component.isContainer) {
                 for (let child of component.children) {
                     allChildren.push(child);
@@ -792,20 +977,104 @@ rs.mimic.Component = class {
         return allChildren;
     }
 
+    // Creates a plain object containing the main component properties.
     toPlainObject() {
         return {
             id: this.id,
             name: this.name,
             typeName: this.typeName,
             properties: this.properties,
-            bindings: this.bindings,
-            access: this.access,
             parentID: this.parentID,
             index: this.index,
             children: this.children ? [] : null
         };
     }
 
+    // Updates the properties according to the current data. Returns true if any property has changed.
+    updateData(dataProvider) {
+        let propertyChanged = false;
+
+        if (this.bindings && Array.isArray(this.bindings.propertyBindings) &&
+            this.bindings.propertyBindings.length > 0) {
+            for (let binding of this.bindings.propertyBindings) {
+                if (binding.propertyName && binding.cnlNum > 0 && binding.cnlProps) {
+                    let curData = dataProvider.getCurData(binding.cnlNum, binding.cnlProps.joinLen);
+                    let prevData = dataProvider.getPrevData(binding.cnlNum, binding.cnlProps.joinLen);
+
+                    if (dataProvider.dataChanged(curData, prevData)) {
+                        this._setProperty(binding, curData);
+                        propertyChanged = true;
+                    }
+                }
+            }
+        }
+
+        return propertyChanged;
+    }
+
+    // Executes the custom script when the component DOM has been created.
+    onDomCreated(renderContext) {
+        if (this.customScript) {
+            let args = new rs.mimic.DomUpdateArgs({ component: this, renderContext });
+            this.customScript.domCreated(args);
+        }
+    }
+
+    // Executes the custom script when the component DOM has been updated.
+    onDomUpdated(renderContext) {
+        if (this.customScript) {
+            let args = new rs.mimic.DomUpdateArgs({ component: this, renderContext });
+            this.customScript.domUpdated(args);
+        }
+    }
+
+    // Executes the scripts when updating component data. Returns true if any property has changed.
+    onDataUpdated(dataProvider) {
+        let propertyChanged = false;
+        let handled = false;
+
+        if (this.customScript) {
+            let args = new rs.mimic.DataUpdateArgs({ component: this, dataProvider });
+            this.customScript.dataUpdated(args);
+            propertyChanged = args.propertyChanged;
+            handled = args.handled;
+        }
+
+        if (this.extraScript && !handled) {
+            let args = new rs.mimic.DataUpdateArgs({ component: this, dataProvider });
+            this.extraScript.dataUpdated(args);
+            propertyChanged ||= args.propertyChanged;
+        }
+
+        return propertyChanged;
+    }
+
+    // Gets a command value by executes the scripts.
+    getCommandValue() {
+        // custom logic first
+        if (this.customScript) {
+            let args = new rs.mimic.CommandSendArgs(this);
+            let cmdVal = this.customScript.getCommandValue(args);
+
+            if (Number.isFinite(cmdVal)) {
+                return cmdVal;
+            }
+        }
+
+        // then additional logic
+        if (this.extraScript) {
+            let args = new rs.mimic.CommandSendArgs(this);
+            let cmdVal = this.extraScript.getCommandValue(args);
+
+            if (Number.isFinite(cmdVal)) {
+                return cmdVal;
+            }
+        }
+
+        return Number.NaN;
+    }
+
+    // Returns a string that represents the current object.
     toString() {
         return this.displayName;
     }
@@ -815,7 +1084,7 @@ rs.mimic.Component = class {
 rs.mimic.Image = class {
     name = "";
     mediaType = "";
-    data = null;
+    data = null; // Base64 string
 
     constructor(source) {
         Object.assign(this, source);
@@ -865,13 +1134,22 @@ rs.mimic.FaceplateMeta = class {
 // Represents a faceplate, i.e. a user component.
 rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
     typeName = "";
+    propertyExports = [];
+    propertyExportMap = new Map();
 
     constructor(source, typeName) {
         super();
-        this.clear();
-        this.document = source.document ?? {};
+        this._clear();
+        this.isFaceplate = true;
+        this.document = rs.mimic.MimicFactory.parseProperties(source.document, true);
         this.typeName = typeName;
+        this._fillDependencies(source);
+        this._fillComponents(source);
+        this._fillImages(source);
+        this._fillPropertyExports();
+    }
 
+    _fillDependencies(source) {
         if (Array.isArray(source.dependencies)) {
             for (let sourceDependency of source.dependencies) {
                 let faceplateMeta = new rs.mimic.FaceplateMeta(sourceDependency);
@@ -879,14 +1157,18 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
                 this.dependencyMap.set(faceplateMeta.typeName, faceplateMeta);
             }
         }
+    }
 
+    _fillComponents(source) {
         if (Array.isArray(source.components)) {
             for (let sourceComponent of source.components) {
                 this.components.push(sourceComponent);
                 this.componentMap.set(sourceComponent.id, sourceComponent);
             }
         }
+    }
 
+    _fillImages(source) {
         if (Array.isArray(source.images)) {
             for (let sourceImage of source.images) {
                 let image = new rs.mimic.Image(sourceImage);
@@ -895,12 +1177,23 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
             }
         }
     }
+
+    _fillPropertyExports() {
+        for (let propertyExport of this.document.propertyExports) {
+            if (propertyExport.name) {
+                this.propertyExports.push(propertyExport);
+                this.propertyExportMap.set(propertyExport.name, propertyExport);
+            }
+        }
+    }
 };
 
 // Represents a faceplate instance.
 rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
-    model = null;      // model of the Faceplate type
-    components = null; // copy of the model components
+    model = null;                // model of the Faceplate type
+    document = null;             // model document copy
+    components = [];             // all components created according to the model
+    componentByName = new Map(); // all components accessible by name
 
     get isContainer() {
         // child components are essential part of the faceplate, it does not accept additional components
@@ -911,26 +1204,91 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
         return true;
     }
 
-    applyModel(faceplate) {
-        if (faceplate instanceof rs.mimic.Faceplate) {
-            this.properties ??= {};
-            this.properties.size ??= ScadaUtils.deepClone(faceplate.document.size);
+    setProperties(sourceProps) {
+        super.setProperties(sourceProps);
 
-            this.model = faceplate;
-            this.components = [];
-
-            for (let sourceComponent of faceplate.components) {
-                let componentCopy = faceplate.copyComponent(sourceComponent);
-                componentCopy.parent = this;
-                this.components.push(componentCopy);
-
-                if (componentCopy.isFaceplate) {
-                    let childFaceplate = faceplate.faceplateMap.get(componentCopy.typeName);
-                    componentCopy.applyModel(childFaceplate);
+        if (this.model) {
+            for (let propertyExport of this.model.propertyExports) {
+                if (Object.hasOwn(sourceProps, propertyExport.name)) {
+                    this.setTargetPropertyValue(propertyExport, sourceProps[propertyExport.name]);
                 }
             }
+        }
+    }
 
-            rs.mimic.MimicHelper.defineNesting(this, this.components);
+    // Gets the value of the target property specified by the export path.
+    getTargetPropertyValue(propertyExport) {
+        const ObjectHelper = rs.mimic.ObjectHelper;
+        let propertyChain = propertyExport.propertyChain;
+
+        if (propertyChain.length >= 2) {
+            let objectName = propertyChain[0];
+
+            if (objectName === rs.mimic.Mimic.NAME) {
+                return ObjectHelper.getPropertyValue(this.document, propertyChain, 1);
+            } else {
+                let component = this.componentByName.get(objectName);
+
+                if (component) {
+                    if (component.isFaceplate) {
+                        let topPropertyName = propertyChain[1];
+                        let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
+                        return childPropertyExport
+                            ? component.getTargetPropertyValue(childPropertyExport)
+                            : ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
+                    } else {
+                        return ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
+                    }
+                }
+            }
+        }
+
+        return undefined;
+    }
+
+    // Sets the value of the target property specified by the export path.
+    setTargetPropertyValue(propertyExport, value) {
+        const ObjectHelper = rs.mimic.ObjectHelper;
+        let propertyChain = propertyExport.propertyChain;
+
+        if (propertyChain.length >= 2) {
+            let objectName = propertyChain[0];
+
+            if (objectName === rs.mimic.Mimic.NAME) {
+                ObjectHelper.setPropertyValue(this.document, propertyChain, 1, value);
+            } else {
+                let component = this.componentByName.get(objectName);
+
+                if (component) {
+                    if (component.isFaceplate) {
+                        let topPropertyName = propertyChain[1];
+                        let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
+
+                        if (childPropertyExport) {
+                            component.setTargetPropertyValue(childPropertyExport, value);
+                        } else {
+                            ObjectHelper.setPropertyValue(component.properties, propertyChain, 1, value);
+                        }
+                    } else {
+                        ObjectHelper.setPropertyValue(component.properties, propertyChain, 1, value);
+                    }
+                }
+            }
+        }
+    }
+
+    // Handles a change to the faceplate property.
+    handlePropertyChanged(propertyName) {
+        let propertyExport = this.model?.propertyExportMap.get(propertyName);
+
+        if (propertyExport) {
+            // update target property corresponding to changed property
+            let value = this.properties[propertyName];
+            this.setTargetPropertyValue(propertyExport, value);
+        } else if (propertyName === "blinking" || propertyName === "enabled") {
+            // propagate property to components
+            let value = this.properties[propertyName];
+            this.components.forEach(c => { c.properties[propertyName] = value; });
         }
     }
 };

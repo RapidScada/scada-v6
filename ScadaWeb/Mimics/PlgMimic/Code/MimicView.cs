@@ -13,12 +13,16 @@ namespace Scada.Web.Plugins.PlgMimic.Code
     /// </summary>
     public class MimicView : ViewBase
     {
+        private readonly MimicViewArgs viewArgs; // the view arguments
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public MimicView(View viewEntity)
             : base(viewEntity)
         {
+            viewArgs = new MimicViewArgs(Args);
             Mimic = new Mimic();
         }
 
@@ -46,7 +50,7 @@ namespace Scada.Web.Plugins.PlgMimic.Code
         /// </summary>
         public override void LoadView(Stream stream)
         {
-            Mimic.Load(stream);
+            Mimic.Load(stream, new LoadContext { EditMode = false });
             Mimic.Dependencies.ForEach(AddToResources);
         }
 
@@ -59,7 +63,7 @@ namespace Scada.Web.Plugins.PlgMimic.Code
                 !Mimic.FaceplateMap.ContainsKey(resource.TypeCode))
             {
                 Faceplate faceplate = new();
-                faceplate.Load(stream);
+                faceplate.Load(stream, new LoadContext { EditMode = false });
                 Mimic.FaceplateMap.Add(resource.TypeCode, faceplate);
 
                 foreach (FaceplateMeta dependency in faceplate.Dependencies)
@@ -72,11 +76,34 @@ namespace Scada.Web.Plugins.PlgMimic.Code
         }
 
         /// <summary>
+        /// Builds the view after loading the view itself and all required resources.
+        /// </summary>
+        public override void Build()
+        {
+            // set title in template mode
+            if (viewArgs.TitleCompID > 0 &&
+                Mimic.ComponentMap.TryGetValue(viewArgs.TitleCompID, out Component component) &&
+                component.TypeName == "Text")
+            {
+                component.Properties.SetValue("Text", Title);
+            }
+        }
+
+        /// <summary>
         /// Binds the view to the configuration database.
         /// </summary>
         public override void Bind(ConfigDataset configDataset)
         {
-
+            foreach (Component component in Mimic.EnumerateComponents())
+            {
+                if (component.Bindings != null)
+                {
+                    component.Bindings.BindChannels(configDataset);
+                    component.Bindings.OffsetCnlNums(viewArgs.CnlOffset);
+                    component.Bindings.GetAllCnlNums().ForEach(cnlNum =>
+                        AddCnl(configDataset.CnlTable.GetItem(cnlNum)));
+                }
+            }
         }
     }
 }

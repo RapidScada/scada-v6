@@ -373,7 +373,6 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 
             if (currentConn != null && Behavior == ChannelBehavior.Slave)
                 Monitor.Enter(currentConn.SyncRoot);
-
         }
 
         /// <summary>

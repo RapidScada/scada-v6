@@ -20,9 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2025
  */
 
+using System;
 using System.Collections.Generic;
 
 namespace Scada.Server.Engine
@@ -36,10 +37,11 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CnlListItem(long cnlListID, int capacity)
+        public CnlListItem(long cnlListID, int[] cnlNums)
         {
             CnlListID = cnlListID;
-            CnlTags = new List<CnlTag>(capacity);
+            CnlNums = cnlNums ?? throw new ArgumentNullException(nameof(cnlNums));
+            CnlTags = new List<CnlTag>(cnlNums.Length);
         }
 
 
@@ -47,6 +49,11 @@ namespace Scada.Server.Engine
         /// Gets the channel list ID.
         /// </summary>
         public long CnlListID { get; }
+
+        /// <summary>
+        /// Gets the channel numbers.
+        /// </summary>
+        public int[] CnlNums { get; }
 
         /// <summary>
         /// Gets the channel tags.

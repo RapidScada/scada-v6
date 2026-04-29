@@ -26,6 +26,16 @@ namespace Scada.Web.Plugins.PlgMimic.Config
         /// </summary>
         public bool RememberScale { get; set; } = true;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to show the mimic toolbar.
+        /// </summary>
+        public bool ShowToolbar { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets the blinking rate in milliseconds.
+        /// </summary>
+        public int BlinkingRate { get; set; } = 1000;
+
 
         /// <summary>
         /// Loads the options from the XML node.
@@ -36,6 +46,8 @@ namespace Scada.Web.Plugins.PlgMimic.Config
             ScaleType = xmlNode.GetChildAsEnum("ScaleType", ScaleType);
             ScaleValue = xmlNode.GetChildAsDouble("ScaleValue", ScaleValue);
             RememberScale = xmlNode.GetChildAsBool("RememberScale", RememberScale);
+            ShowToolbar = xmlNode.GetChildAsBool("ShowToolbar", ShowToolbar);
+            BlinkingRate = xmlNode.GetChildAsInt("BlinkingRate", BlinkingRate);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Scada.Web.Plugins.PlgScheme
         /// <summary>
         /// Gets the view specifications.
         /// </summary>
-        public override ICollection<ViewSpec> ViewSpecs => new ViewSpec[] { new SchemeViewSpec() };
+        public override List<ViewSpec> ViewSpecs => [new SchemeViewSpec()];
 
 
         /// <summary>

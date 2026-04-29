@@ -18,6 +18,11 @@ namespace Scada.Web.Plugins.PlgMimic.Controllers
         Dto<MimicPacket> GetMimicProperties(long key);
 
         /// <summary>
+        /// Gets the faceplate.
+        /// </summary>
+        Dto<FaceplatePacket> GetFaceplate(long key, string typeName);
+
+        /// <summary>
         /// Gets a range of components.
         /// </summary>
         Dto<ComponentPacket> GetComponents(long key, int index, int count);
@@ -26,10 +31,5 @@ namespace Scada.Web.Plugins.PlgMimic.Controllers
         /// Gets a range of images.
         /// </summary>
         Dto<ImagePacket> GetImages(long key, int index, int count, int size);
-
-        /// <summary>
-        /// Gets the faceplate.
-        /// </summary>
-        Dto<FaceplatePacket> GetFaceplate(long key, string typeName);
     }
 }

@@ -1,4 +1,5 @@
-﻿// Depends on jquery, tweakpane, scada-common.js,
+﻿// Handles the main page of the mimic editor.
+// Depends on jquery, tweakpane, scada-common.js,
 //     mimic-common.js, mimic-factory.js, mimic-model.js, mimic-render.js,
 //     editor-common.js, mimic-descr.js, modals.js, prop-grid.js, struct-tree.js
 
@@ -12,29 +13,32 @@ const IMAGES_PATH = "../../plugins/MimicEditor/images/";
 const mimic = new rs.mimic.Mimic();
 const unitedRenderer = new rs.mimic.UnitedRenderer(mimic, true);
 const updateQueue = [];
-const toastMessages = new Set();
+const queueEmptyFlags = new QueueEmptyFlags();
 const mimicHistory = new MimicHistory();
 const mimicClipboard = new MimicClipboard();
+const permanentMessages = new Set();
 
 // Set in MimicEdit.cshtml and MimicEditLang.cshtml
 var rootPath = "/";
 var mimicKey = "0";
+var fonts = [];
 var editorOptions = {};
-var phrases = {};
 var translation = {};
 
+let phrases = null;
 let splitter = null;
 let propGrid = null;
 let structTree = null;
 let faceplateModal = null;
-let imageModal = null;
+let imageEditModal = null;
 let mimicElem = $();
 let selectedComponents = [];
 let lastUpdateTime = 0;
 let longAction = null;
 let mimicModified = false;
-let mimicReloadRequired = false;
 let maxComponentID = null;
+
+// --- Startup ---
 
 function bindEvents() {
     $(window)
@@ -50,10 +54,16 @@ function bindEvents() {
     $(document).on("keydown", function (event) {
         let targetElem = $(event.target);
 
-        if ((targetElem.is("body") || targetElem.closest("#divToolbar").length > 0 ||
+        if ((targetElem.is("body") || targetElem.closest(".mimic, #divToolbar").length > 0 ||
             event.code === "KeyS" && event.ctrlKey) &&
             handleKeyDown(event.code, event.ctrlKey, event.shiftKey)) {
             event.preventDefault();
+        }
+    });
+
+    $(ToolbarButton.RELOAD).on("click", async function () {
+        if (!mimicModified || confirm(phrases.confirmReload)) {
+            await reload();
         }
     });
 
@@ -173,7 +183,7 @@ function bindEvents() {
         })
         .on("mouseup mouseleave", function () {
             // finish dragging
-            if (longAction?.actionType == LongActionType.DRAG) {
+            if (longAction?.actionType === LongActionType.DRAG) {
                 finishDragging();
                 clearLongAction();
             }
@@ -195,16 +205,17 @@ function updateLayout() {
     $("#divMain").outerHeight(mainHeight);
     $("#divLeftPanel .tab-content").outerHeight(mainHeight - tabHeight);
     $("#divMimicWrapper").outerWidth(windowWidth - leftPanelWidth - splitterWidth);
+    centerMimic();
 }
 
 function initStructTree() {
-    structTree = new StructTree("divStructure", mimic, phrases);
+    structTree = new StructTree("divStructure", mimic, translation.structTree);
 
     // dependencies
     structTree.addEventListener(StructTreeEventType.ADD_DEPENDENCY_CLICK, function () {
-        faceplateModal.show(null, function (context) {
-            addDependency(context.newObject);
-        });
+        faceplateModal.show(
+            new ModalShowArgs(),
+            context => addDependency(context.newValue));
     });
 
     structTree.addEventListener(StructTreeEventType.EDIT_DEPENDENCY_CLICK, function (event) {
@@ -212,9 +223,9 @@ function initStructTree() {
         let faceplateMeta = mimic.dependencyMap.get(eventData.name);
 
         if (faceplateMeta) {
-            faceplateModal.show(faceplateMeta, function (context) {
-                addDependency(context.newObject, context.oldObject);
-            });
+            faceplateModal.show(
+                new ModalShowArgs({ value: faceplateMeta }),
+                context => addDependency(context.newValue, context.oldValue));
         } else {
             console.error("Dependency not found.");
         }
@@ -228,18 +239,18 @@ function initStructTree() {
 
     // images
     structTree.addEventListener(StructTreeEventType.ADD_IMAGE_CLICK, function () {
-        imageModal.show(null, function (context) {
-            addImage(context.newObject);
-        });
+        imageEditModal.show(
+            new ModalShowArgs(),
+            context => addImage(context.newValue));
     });
 
     structTree.addEventListener(StructTreeEventType.EDIT_IMAGE_CLICK, function (event) {
         let image = mimic.imageMap.get(event.detail.name);
 
         if (image) {
-            imageModal.show(image, function (context) {
-                addImage(context.newObject, context.oldObject);
-            });
+            imageEditModal.show(
+                new ModalShowArgs({ value: image }),
+                context => addImage(context.newValue, context.oldValue));
         } else {
             console.error("Image not found.");
         }
@@ -278,7 +289,13 @@ function initStructTree() {
 }
 
 function initPropGrid() {
-    propGrid = new PropGrid("tweakpane");
+    propGrid = new PropGrid("tweakpane", translation.propGrid);
+    PropGridHelper.translateDescriptors(translation.model);
+
+    propGrid.addEventListener(PropGridEventType.ERROR, function (event) {
+        showToast(event.detail.message, MessageType.ERROR);
+    });
+
     propGrid.addEventListener(PropGridEventType.PROPERTY_CHANGED, function (event) {
         handlePropertyChanged(event.detail);
     });
@@ -286,54 +303,40 @@ function initPropGrid() {
 
 function initModals() {
     faceplateModal = new FaceplateModal("divFaceplateModal");
-    imageModal = new ImageModal("divImageModal");
-}
+    imageEditModal = new ImageEditModal("divImageEditModal");
 
-function translateProperties() {
-    const DescriptorSet = rs.mimic.DescriptorSet;
-
-    // translate mimic and faceplates
-    translateObject(DescriptorSet.mimicDescriptor, translation.mimic);
-    translateObject(DescriptorSet.faceplateDescriptor, translation.component);
-
-    // translate components
-    for (let [typeName, componentDescriptor] of DescriptorSet.componentDescriptors) {
-        translateObject(componentDescriptor, translation.components.get(typeName));
-    }
-
-    // translate object
-    function translateObject(objectDescriptor, dictionary) {
-        if (!dictionary) {
-            return;
-        }
-
-        for (let propertyDescriptor of objectDescriptor.propertyDescriptors.values()) {
-            let displayName = dictionary[propertyDescriptor.name] ?? translation.component[propertyDescriptor.name];
-            let category = translation.category[propertyDescriptor.category];
-
-            if (displayName) {
-                propertyDescriptor.displayName = displayName;
-            }
-
-            if (category) {
-                propertyDescriptor.category = category;
-            }
-        }
-    }
+    const PropertyEditor = rs.mimic.PropertyEditor;
+    PropGridDialogs.addEditor(PropertyEditor.COLOR_DIALOG, new ColorModal("divColorModal"));
+    PropGridDialogs.addEditor(PropertyEditor.FONT_DIALOG, new FontModal("divFontModal"));
+    PropGridDialogs.addEditor(PropertyEditor.IMAGE_DIALOG, new ImageSelectModal("divImageSelectModal", mimic));
+    PropGridDialogs.addEditor(PropertyEditor.PROPERTY_DIALOG, new PropertyModal("divPropertyModal", mimic));
+    PropGridDialogs.addEditor(PropertyEditor.TEXT_EDITOR, new TextEditor("divTextEditor"));
 }
 
 async function loadMimic() {
+    // load
+    showSpinner();
     let result = await mimic.load(getLoaderUrl(), mimicKey);
+    mimic.initCustomScripts();
 
-    if (result.ok) {
-        setButtonsEnabled();
+    if (!result.ok) {
+        showToast(phrases.loadMimicError, MessageType.ERROR);
+    } else if (result.warn) {
+        showToast(phrases.loadMimicError, MessageType.WARNING);
+    }
+
+    // display
+    try {
         showFaceplates();
         showStructure();
         showMimic();
         selectMimic();
-    } else {
-        selectNone();
-        showToast(phrases.loadMimicError, MessageType.ERROR);
+    } catch (ex) {
+        console.error(ex);
+        showToast(phrases.displayMimicError, MessageType.ERROR);
+    } finally {
+        setButtonsEnabled();
+        hideSpinner();
     }
 }
 
@@ -342,20 +345,21 @@ async function startUpdatingBackend() {
     setTimeout(startUpdatingBackend, UPDATE_RATE);
 }
 
+// --- Toolbar ---
+
+async function reload() {
+    if (updateQueue.length > 0) {
+        queueEmptyFlags.fullReloadRequired = true;
+    } else {
+        await fullReloadMimic();
+    }
+}
+
 async function save() {
-    let response = await fetch(getUpdaterUrl() + "SaveMimic?key=" + mimicKey, { method: "POST" });
-
-    if (response.ok) {
-        let dto = await response.json();
-
-        if (dto.ok) {
-            mimicModified = false;
-            console.log(phrases.mimicSaved);
-            showToast(phrases.mimicSaved, MessageType.SUCCESS);
-        } else {
-            console.error(dto.msg);
-            showToast(phrases.saveMimicError, MessageType.ERROR);
-        }
+    if (updateQueue.length > 0) {
+        queueEmptyFlags.saveRequired = true;
+    } else {
+        await saveMimic();
     }
 }
 
@@ -411,7 +415,7 @@ function remove() {
     for (let componentID of componentIDs) {
         // remove component from model and DOM
         let component = mimic.removeComponent(componentID);
-        rs.mimic.Renderer.remove(component);
+        component.renderer?.remove(component);
 
         // update structure tree
         structTree.removeComponent(componentID);
@@ -594,6 +598,7 @@ function align(actionType) {
 
 function arrange(actionType) {
     const MimicHelper = rs.mimic.MimicHelper;
+    const Renderer = rs.mimic.Renderer;
 
     if (selectedComponents.length === 0) {
         return;
@@ -617,32 +622,97 @@ function arrange(actionType) {
     switch (actionType) {
         case ArrangeActionType.BRING_TO_FRONT:
             MimicHelper.bringToFront(parent, selectedComponents);
-            unitedRenderer.arrangeChildren(parent);
+            Renderer.arrangeChildren(parent);
             structTree.refreshComponents(parent);
             pushChanges(Change.arrangeComponent(parent.id, getComponentIDs(), Change.MAX_SHIFT));
             break;
 
         case ArrangeActionType.BRING_FORWARD:
             MimicHelper.bringForward(parent, selectedComponents);
-            unitedRenderer.arrangeChildren(parent);
+            Renderer.arrangeChildren(parent);
             structTree.refreshComponents(parent);
             pushChanges(Change.arrangeComponent(parent.id, getComponentIDs(), 1));
             break;
 
         case ArrangeActionType.SEND_BACKWARD:
             MimicHelper.sendBackward(parent, selectedComponents);
-            unitedRenderer.arrangeChildren(parent);
+            Renderer.arrangeChildren(parent);
             structTree.refreshComponents(parent);
             pushChanges(Change.arrangeComponent(parent.id, getComponentIDs(), -1));
             break;
 
         case ArrangeActionType.SEND_TO_BACK:
             MimicHelper.sendToBack(parent, selectedComponents);
-            unitedRenderer.arrangeChildren(parent);
+            Renderer.arrangeChildren(parent);
             structTree.refreshComponents(parent);
             pushChanges(Change.arrangeComponent(parent.id, getComponentIDs(), -Change.MAX_SHIFT));
             break;
     }
+}
+
+// --- Reload and Save ---
+
+async function reloadMimic() {
+    showToast(phrases.mimicReloading, MessageType.WARNING);
+    clearSelection();
+    clearLongAction();
+    clearHistory();
+    await loadMimic();
+}
+
+async function fullReloadMimic() {
+    if (await reloadOnServer()) {
+        await reloadMimic();
+    } else {
+        showToast(phrases.loadMimicError, MessageType.ERROR);
+    }
+}
+
+async function reloadOnServer() {
+    let response = await fetch(getUpdaterUrl() + "ReloadMimic?key=" + mimicKey, { method: "POST" });
+
+    if (response.ok) {
+        let dto = await response.json();
+
+        if (dto.ok) {
+            mimicModified = false;
+            console.log(phrases.mimicReloaded);
+            return true;
+        } else {
+            console.error(dto.msg);
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
+async function saveMimic() {
+    let response = await fetch(getUpdaterUrl() + "SaveMimic?key=" + mimicKey, { method: "POST" });
+
+    if (response.ok) {
+        let dto = await response.json();
+
+        if (dto.ok) {
+            mimicModified = false;
+            console.log(phrases.mimicSaved);
+            showToast(phrases.mimicSaved, MessageType.SUCCESS);
+        } else {
+            console.error(dto.msg);
+            showToast(phrases.saveMimicError, MessageType.ERROR);
+        }
+    }
+}
+
+// --- Display ---
+
+function showSpinner() {
+    $("#divMimicWrapper").append("<div class='mimic-spinner box-center fs-2 text-secondary'>" +
+        "<i class='fa-solid fa-spinner fa-spin-pulse fa-3x'></i></div>");
+}
+
+function hideSpinner() {
+    $("#divMimicWrapper .mimic-spinner").remove();
 }
 
 function setButtonsEnabled(opt_dependsOn) {
@@ -713,7 +783,75 @@ function showStructure() {
 function showMimic() {
     mimicElem = unitedRenderer.createMimicDom();
     $("#divMimicWrapper").empty().append(mimicElem);
+    centerMimic();
 }
+
+function centerMimic() {
+    let mimicWrapperElem = $("#divMimicWrapper");
+    let paddingLeft = 0;
+    let paddingTop = 0;
+
+    if (mimicElem.length > 0) {
+        paddingLeft = Math.max(0, Number.parseInt((mimicWrapperElem.innerWidth() - mimicElem.outerWidth()) / 2));
+        paddingTop = Math.max(0, Number.parseInt((mimicWrapperElem.innerHeight() - mimicElem.outerHeight()) / 2));
+    }
+
+    mimicWrapperElem.css({
+        "padding-left": paddingLeft,
+        "padding-top": paddingTop
+    });
+}
+
+function showToast(message, opt_messageType, opt_toastOptions) {
+    // construct toast
+    let toastElem = $("<div class='toast align-items-center'></div>");
+
+    if (opt_messageType) {
+        switch (opt_messageType) {
+            case MessageType.INFO:
+                toastElem.addClass("text-bg-info");
+                break;
+            case MessageType.SUCCESS:
+                toastElem.addClass("text-bg-success");
+                break;
+            case MessageType.WARNING:
+                toastElem.addClass("text-bg-warning");
+                break;
+            case MessageType.ERROR:
+                toastElem.addClass("text-bg-danger");
+                break;
+        }
+    }
+
+    let contentsElem = $("<div class='d-flex'></div>").appendTo(toastElem);
+    $("<div class='toast-body'></div>").text(message).appendTo(contentsElem);
+    $("<button type='button' class='btn-close me-2 m-auto' data-bs-dismiss='toast'></button>").appendTo(contentsElem);
+    $("#divToastContainer").prepend(toastElem);
+
+    // show toast
+    let toast = bootstrap.Toast.getOrCreateInstance(toastElem[0], opt_toastOptions);
+    toast.show();
+
+    // delete hidden toast
+    toastElem.on("hidden.bs.toast", function () {
+        if (toastElem.data("permanent")) {
+            permanentMessages.delete(message);
+        }
+
+        toastElem.remove();
+    });
+
+    return toastElem;
+}
+
+function showPermanentToast(message, opt_messageType) {
+    if (!permanentMessages.has(message)) {
+        permanentMessages.add(message);
+        showToast(message, opt_messageType, { autohide: false }).data("permanent", true);
+    }
+}
+
+// --- Edit Structure ---
 
 function addDependency(faceplateMeta, opt_oldfaceplateMeta) {
     console.log(`Add '${faceplateMeta.typeName}' dependency`);
@@ -722,13 +860,13 @@ function addDependency(faceplateMeta, opt_oldfaceplateMeta) {
 
     if (oldTypeName && oldTypeName !== faceplateMeta.typeName) {
         mimic.removeDependency(oldTypeName);
-        changes.push(Change.removeDependency(typeName));
+        changes.push(Change.removeDependency(oldTypeName));
     }
 
     mimic.addDependency(faceplateMeta);
     structTree.refreshDependencies();
     changes.push(Change.addDependency(faceplateMeta));
-    mimicReloadRequired = true;
+    queueEmptyFlags.reloadRequired = true; // before pushing changes
     pushChanges(...changes);
 }
 
@@ -736,7 +874,7 @@ function removeDependency(typeName) {
     console.log(`Remove '${typeName}' dependency`);
     mimic.removeDependency(typeName);
     structTree.refreshDependencies();
-    mimicReloadRequired = true;
+    queueEmptyFlags.reloadRequired = true; // before pushing changes
     pushChanges(Change.removeDependency(typeName));
 }
 
@@ -755,6 +893,7 @@ function addImage(image, opt_oldImage) {
     showMimic();
     changes.push(Change.addImage(image));
     pushChanges(...changes);
+    PropGridDialogs.imageSelectModal.invalidate();
 }
 
 function removeImage(imageName) {
@@ -763,7 +902,10 @@ function removeImage(imageName) {
     structTree.refreshImages();
     showMimic();
     pushChanges(Change.removeImage(imageName));
+    PropGridDialogs.imageSelectModal.invalidate();
 }
+
+// --- History ---
 
 function addToHistory(changes) {
     mimicHistory.addPoint(mimic, changes);
@@ -781,8 +923,10 @@ function restoreHistoryPoint(historyPoint) {
     }
 
     console.log("Restore history point");
+    const MimicFactory = rs.mimic.MimicFactory;
     const MimicHelper = rs.mimic.MimicHelper;
     const Renderer = rs.mimic.Renderer;
+
     let changes = [];
     let componentsToArrange = [];
     let componentIDs = [];
@@ -795,7 +939,8 @@ function restoreHistoryPoint(historyPoint) {
                 let documentSource = historyChange.getNewObject();
 
                 if (documentSource) {
-                    Object.assign(mimic.document, documentSource);
+                    mimic.setProperties(MimicFactory.parseProperties(documentSource, mimic.isFaceplate));
+                    mimicHistory.rememberDocument(mimic, true);
                     unitedRenderer.updateMimicDom();
                     changes.push(Change.updateDocument(mimic.document));
                 } else {
@@ -826,19 +971,14 @@ function restoreHistoryPoint(historyPoint) {
             case ChangeType.UPDATE_COMPONENT: {
                 let component = mimic.componentMap.get(historyChange.objectID);
                 let componentSource = historyChange.getNewObject();
+                let factory = mimic.getComponentFactory(componentSource?.typeName);
 
-                if (component && componentSource) {
-                    Object.assign(component.properties, componentSource.properties);
-                    let change = Change.updateComponent(component.id, component.properties);
-
-                    if (component.name !== componentSource.name) {
-                        component.name = componentSource.name;
-                        change.properties.name = component.name;
-                    }
-
+                if (component && componentSource && factory) {
+                    component.setProperties(factory.parseProperties(componentSource.properties));
+                    mimicHistory.rememberComponent(component, true);
                     unitedRenderer.updateComponentDom(component);
                     structTree.updateComponent(component);
-                    changes.push(change);
+                    changes.push(Change.updateComponent(component.id, component.properties));
                 } else {
                     hasError = true;
                 }
@@ -854,7 +994,7 @@ function restoreHistoryPoint(historyPoint) {
                         removeFromSelection(component);
                     }
 
-                    Renderer.remove(component);
+                    component.renderer?.remove(component);
                     structTree.removeComponent(componentID);
                     changes.push(Change.removeComponent(componentID));
                 } else {
@@ -876,9 +1016,9 @@ function restoreHistoryPoint(historyPoint) {
                         componentIndexes.push(componentSource.index);
 
                         component.properties.location = componentSource.properties.location;
-                        Renderer.detach(component);
+                        component.renderer?.detach(component);
                         component.renderer?.updateLocation(component);
-                        Renderer.appendChild(parent, component);
+                        parent.renderer?.appendChild(parent, component);
 
                         structTree.removeComponent(component.id);
                         changes.push(Change.updateParent(component));
@@ -917,7 +1057,7 @@ function restoreHistoryPoint(historyPoint) {
         changes.push(Change.arrangeByIndexes(parent.id, componentIDs, componentIndexes));
     }
 
-    propGrid.refresh();
+    propGrid.refresh(true);
     pushChangesNoHistory(...changes);
 
     if (hasError) {
@@ -925,6 +1065,8 @@ function restoreHistoryPoint(historyPoint) {
         showToast(phrases.unableRestoreHistory, MessageType.ERROR);
     }
 }
+
+// --- Selection ---
 
 function selectMimic() {
     clearSelection();
@@ -964,7 +1106,7 @@ function addToSelection(component) {
     structTree.addToSelection(component);
     propGrid.selectedObjects = selectedComponents;
     mimicHistory.rememberComponent(component, false);
-    console.log(`Component with ID ${component.id} selected`);
+    console.log(`Component ${component.id} selected`);
 }
 
 function removeFromSelection(component) {
@@ -979,7 +1121,7 @@ function removeFromSelection(component) {
     setButtonsEnabled(EnabledDependsOn.SELECTION);
     structTree.removeFromSelection(component);
     propGrid.selectedObjects = selectedComponents;
-    console.log(`Component with ID ${component.id} removed from selection`);
+    console.log(`Component ${component.id} removed from selection`);
 }
 
 function selectComponents(components) {
@@ -999,6 +1141,90 @@ function selectComponents(components) {
     console.log(`Components with IDs ${componentIDs.join(", ")} selected`);
 }
 
+// --- Update Queue ---
+
+function pushChanges(...changes) {
+    if (changes.length > 0) {
+        updateQueue.push(new UpdateDto(mimicKey, changes));
+        addToHistory(changes);
+    }
+}
+
+function pushChangesNoHistory(...changes) {
+    if (changes.length > 0) {
+        updateQueue.push(new UpdateDto(mimicKey, changes));
+    }
+}
+
+async function postUpdates() {
+    if (updateQueue.length > 0) {
+        // send changes
+        while (updateQueue.length > 0) {
+            let updateDto = updateQueue.shift();
+            let result = await postUpdate(updateDto);
+
+            if (result) {
+                mimicModified = true;
+
+                if (updateQueue.length === 0) {
+                    await handleQueueEmpty();
+                }
+            } else {
+                updateQueue.unshift(updateDto);
+                break;
+            }
+        }
+    } else if (Date.now() - lastUpdateTime >= KEEP_ALIVE_INTERVAL) {
+        // heartbeat
+        await postUpdate(new UpdateDto(mimicKey));
+    }
+}
+
+async function postUpdate(updateDto) {
+    try {
+        let response = await fetch(getUpdaterUrl() + "UpdateMimic", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: updateDto.json
+        });
+
+        if (response.ok) {
+            let dto = await response.json();
+
+            if (!dto.ok) {
+                console.error(dto.msg);
+                showPermanentToast(shortenMessage(dto.msg), MessageType.ERROR);
+            }
+        } else {
+            showPermanentToast(phrases.postUpdateError, MessageType.ERROR);
+        }
+
+        lastUpdateTime = Date.now();
+        return true;
+    } catch {
+        showPermanentToast(phrases.postUpdateError, MessageType.ERROR);
+        return false;
+    }
+}
+
+async function handleQueueEmpty() {
+    if (queueEmptyFlags.saveRequired) {
+        queueEmptyFlags.saveRequired = false;
+        await saveMimic();
+    }
+
+    if (queueEmptyFlags.fullReloadRequired) {
+        queueEmptyFlags.fullReloadRequired = false;
+        queueEmptyFlags.reloadRequired = false;
+        await fullReloadMimic();
+    } else if (queueEmptyFlags.reloadRequired) {
+        queueEmptyFlags.reloadRequired = false;
+        await reloadMimic();
+    }
+}
+
+// --- Misc ---
+
 function closestCompElem(clickedElem) {
     let faceplateElem = clickedElem.parents(".comp.faceplate").last();
     return faceplateElem.length > 0 ? faceplateElem : clickedElem.closest(".comp");
@@ -1017,8 +1243,8 @@ function getComponentByDom(compElem) {
 
 function getMimicPoint(event, elem, opt_alignToGrid) {
     let offset = elem.offset();
-    let x = parseInt(event.pageX - offset.left);
-    let y = parseInt(event.pageY - offset.top);
+    let x = Number.parseInt(event.pageX - offset.left);
+    let y = Number.parseInt(event.pageY - offset.top);
 
     if (opt_alignToGrid) {
         let gridStep = getGridStep();
@@ -1036,7 +1262,7 @@ function getDragType(event, compElem) {
     if (selectedComponents.length === 1) {
         let component = getComponentByDom(compElem);
 
-        if (component?.renderer?.allowResizing(component)) {
+        if (component && component.isSelected && component.renderer?.allowResizing(component)) {
             let compW = compElem.outerWidth();
             let compH = compElem.outerHeight();
 
@@ -1114,17 +1340,10 @@ function addComponent(typeName, parentID, point) {
     console.log(`Add ${typeName} component at ${point.x}, ${point.y}` +
         (parentID > 0 ? ` inside component ${parentID}` : ""));
 
-    let factory;
-    let renderer;
-
-    if (mimic.isFaceplate(typeName)) {
-        let faceplate = mimic.faceplateMap.get(typeName);
-        factory = rs.mimic.FactorySet.getFaceplateFactory(faceplate);
-        renderer = rs.mimic.RendererSet.faceplateRenderer;
-    } else {
-        factory = rs.mimic.FactorySet.componentFactories.get(typeName);
-        renderer = rs.mimic.RendererSet.componentRenderers.get(typeName);
-    }
+    let factory = mimic.getComponentFactory(typeName);
+    let renderer = mimic.isFaceplateType(typeName)
+        ? rs.mimic.RendererSet.faceplateRenderer
+        : rs.mimic.RendererSet.componentRenderers.get(typeName);
 
     if (factory && renderer) {
         // create and render component
@@ -1201,11 +1420,6 @@ async function pasteComponents(parentID, point) {
         let newID = getNextComponentID();
         idMap.set(component.id, newID);
         component.id = newID;
-
-        if (component.isFaceplate) {
-            component.applyModel(mimic.faceplateMap.get(component.typeName));
-        }
-
         mimic.addComponent(component, parent, null, point.x + component.x, point.y + component.y);
         unitedRenderer.createComponentDom(component);
 
@@ -1253,7 +1467,7 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
     console.log("Arrange components");
     let errorMessage = "";
 
-    if (arrangeType == ArrangeActionType.PLACE_BEFORE || arrangeType == ArrangeActionType.PLACE_AFTER) {
+    if (arrangeType === ArrangeActionType.PLACE_BEFORE || arrangeType === ArrangeActionType.PLACE_AFTER) {
         let parent = selectedComponents[0].parent;
         let siblingID = componentID;
         let sibling = siblingID > 0 ? mimic.componentMap.get(siblingID) : null;
@@ -1262,7 +1476,7 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
             if (sibling.parent === parent) {
                 let selectedIDs = selectedComponents.map(c => c.id);
 
-                if (arrangeType == ArrangeActionType.PLACE_BEFORE) {
+                if (arrangeType === ArrangeActionType.PLACE_BEFORE) {
                     MimicHelper.placeBefore(parent, selectedComponents, sibling);
                     pushChanges(Change.arrangeComponent(parent.id, selectedIDs, -1, siblingID));
                 } else {
@@ -1270,7 +1484,7 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
                     pushChanges(Change.arrangeComponent(parent.id, selectedIDs, 1, siblingID));
                 }
 
-                unitedRenderer.arrangeChildren(parent);
+                Renderer.arrangeChildren(parent);
                 structTree.refreshComponents(parent);
             } else {
                 errorMessage = phrases.sameParentRequired;
@@ -1278,7 +1492,7 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
         } else {
             errorMessage = phrases.componentNotSpecified;
         }
-    } else if (arrangeType == ArrangeActionType.SELECT_PARENT) {
+    } else if (arrangeType === ArrangeActionType.SELECT_PARENT) {
         let parentID = componentID;
         let parent = mimic.getComponentParent(parentID);
         let minLocation = MimicHelper.getMinLocation(selectedComponents);
@@ -1290,9 +1504,9 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
             let y = component.y - minLocation.y + offset.y;
 
             if (mimic.updateParent(component, parent, null, x, y)) {
-                Renderer.detach(component);
+                component.renderer?.detach(component);
                 component.renderer?.updateLocation(component);
-                Renderer.appendChild(parent, component);
+                parent.renderer?.appendChild(parent, component);
                 structTree.removeComponent(component.id);
                 changes.push(Change.updateParent(component));
             } else {
@@ -1462,113 +1676,36 @@ function resizeComponents(offsetW, offsetH) {
     pushChanges(...changes);
 }
 
-function getLoaderUrl() {
-    return rootPath + "Api/MimicEditor/Loader/";
-}
-
-function getUpdaterUrl() {
-    return rootPath + "Api/MimicEditor/Updater/";
-}
-
-function pushChanges(...changes) {
-    if (changes.length > 0) {
-        updateQueue.push(new UpdateDto(mimicKey, changes));
-        addToHistory(changes);
-    }
-}
-
-function pushChangesNoHistory(...changes) {
-    if (changes.length > 0) {
-        updateQueue.push(new UpdateDto(mimicKey, changes));
-    }
-}
-
-async function postUpdates() {
-    if (updateQueue.length > 0) {
-        // send changes
-        while (updateQueue.length > 0) {
-            let updateDto = updateQueue.shift();
-            let result = await postUpdate(updateDto);
-
-            if (result) {
-                mimicModified = true;
-
-                if (updateQueue.length === 0) {
-                    await handleQueueEmpty();
-                }
-            } else {
-                updateQueue.unshift(updateDto);
-                break;
-            }
-        }
-    } else if (Date.now() - lastUpdateTime >= KEEP_ALIVE_INTERVAL) {
-        // heartbeat
-        await postUpdate(new UpdateDto(mimicKey));
-    }
-}
-
-async function postUpdate(updateDto) {
-    try {
-        let response = await fetch(getUpdaterUrl() + "UpdateMimic", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: updateDto.json
-        });
-
-        if (response.ok) {
-            let dto = await response.json();
-
-            if (!dto.ok) {
-                console.error(dto.msg);
-                showPermanentToast(shortenMessage(dto.msg), MessageType.ERROR);
-            }
-        } else {
-            showPermanentToast(phrases.postUpdateError, MessageType.ERROR);
-        }
-
-        lastUpdateTime = Date.now();
-        return true;
-    } catch {
-        showPermanentToast(phrases.postUpdateError, MessageType.ERROR);
-        return false;
-    }
-}
-
-async function handleQueueEmpty() {
-    if (mimicReloadRequired) {
-        mimicReloadRequired = false;
-        showToast(phrases.mimicReload, MessageType.WARNING);
-        clearSelection();
-        clearLongAction();
-        clearHistory();
-        await loadMimic();
-    }
-}
-
 function handlePropertyChanged(eventData) {
-    let selectedObject = eventData.selectedObject;
-    let propertyName = eventData.propertyName;
-    let value = eventData.value;
-    console.log(`Update ${selectedObject.toString()}: ${propertyName} = ${JSON.stringify(value) }`);
+    let changedObject = eventData.topObject;
+    let propertyName = eventData.topPropertyName;
+    let propertyValue = eventData.topPropertyValue;
+    console.log(`Update ${changedObject.toString()}: ${propertyName} = ${JSON.stringify(propertyValue)}`);
 
-    if (selectedObject instanceof rs.mimic.Mimic) {
+    if (changedObject instanceof rs.mimic.Mimic) {
         // update mimic
         unitedRenderer.updateMimicDom();
-        pushChanges(Change.updateDocument().setProperty(propertyName, value));
-    } else if (selectedObject instanceof rs.mimic.Component || selectedObject instanceof UnionObject) {
+        pushChanges(Change.updateDocument().setProperty(propertyName, propertyValue));
+    } else if (changedObject instanceof rs.mimic.Component || changedObject instanceof UnionObject) {
         // update selected components
-        let components = selectedObject instanceof rs.mimic.Component
-            ? [selectedObject]
-            : selectedObject.targets.filter(t => t instanceof rs.mimic.Component);
+        let components = changedObject instanceof rs.mimic.Component
+            ? [changedObject]
+            : changedObject.targets.filter(t => t instanceof rs.mimic.Component);
 
         for (let component of components) {
+            if (component.isFaceplate) {
+                component.handlePropertyChanged(propertyName);
+            }
+
             unitedRenderer.updateComponentDom(component);
             structTree.updateComponent(component);
         }
 
         pushChanges(Change
             .updateComponent(components.map(c => c.id))
-            .setProperty(propertyName, value));
+            .setProperty(propertyName, propertyValue));
+    } else {
+        console.error("Unable to handle property change.");
     }
 }
 
@@ -1652,6 +1789,14 @@ function handleKeyDown(code, ctrlKey, shiftKey) {
     return false;
 }
 
+function getLoaderUrl() {
+    return rootPath + "Api/MimicEditor/Loader/";
+}
+
+function getUpdaterUrl() {
+    return rootPath + "Api/MimicEditor/Updater/";
+}
+
 function setEnabled(selector, enabled) {
     $(selector).prop("disabled", !enabled);
 }
@@ -1662,57 +1807,9 @@ function shortenMessage(message) {
         : message;
 }
 
-function showToast(message, opt_messageType, opt_toastOptions) {
-    // construct toast
-    let toastElem = $("<div class='toast align-items-center'></div>");
-
-    if (opt_messageType) {
-        switch (opt_messageType) {
-            case MessageType.INFO:
-                toastElem.addClass("text-bg-info");
-                break;
-            case MessageType.SUCCESS:
-                toastElem.addClass("text-bg-success");
-                break;
-            case MessageType.WARNING:
-                toastElem.addClass("text-bg-warning");
-                break;
-            case MessageType.ERROR:
-                toastElem.addClass("text-bg-danger");
-                break;
-        }
-    }
-
-    let contentsElem = $("<div class='d-flex'></div>").appendTo(toastElem);
-    $("<div class='toast-body'></div>").text(message).appendTo(contentsElem);
-    $("<button type='button' class='btn-close me-2 m-auto' data-bs-dismiss='toast'></button>").appendTo(contentsElem);
-    $("#divToastContainer").prepend(toastElem);
-
-    // show toast
-    let toast = bootstrap.Toast.getOrCreateInstance(toastElem[0], opt_toastOptions);
-    toast.show();
-
-    // delete hidden toast
-    toastElem.on("hidden.bs.toast", function () {
-        if (toastElem.data("permanent")) {
-            toastMessages.delete(message);
-        }
-
-        toastElem.remove();
-    });
-
-    return toastElem;
-}
-
-function showPermanentToast(message, opt_messageType) {
-    if (!toastMessages.has(message)) {
-        toastMessages.add(message);
-        showToast(message, opt_messageType, { autohide: false }).data("permanent", true);
-    }
-}
-
 $(async function () {
-    unitedRenderer.editorOptions = editorOptions;
+    unitedRenderer.configure({ fonts, editorOptions });
+    phrases = translation.editor;
     splitter = new Splitter("divSplitter");
 
     bindEvents();
@@ -1720,7 +1817,6 @@ $(async function () {
     initStructTree();
     initPropGrid();
     initModals();
-    translateProperties();
     await mimicClipboard.defineEmptiness();
     await loadMimic();
     await startUpdatingBackend();

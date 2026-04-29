@@ -17,6 +17,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// </summary>
         public OpcConnectionOptions ConnectionOptions { get; private set; }
 
+        /// <summary>
+        /// Gets the subscription options.
+        /// </summary>
+        public LineSubscriptionOptions SubscriptionOptions { get; private set; }
+
 
         /// <summary>
         /// Sets the default values.
@@ -24,6 +29,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         protected override void SetToDefault()
         {
             ConnectionOptions = new OpcConnectionOptions();
+            SubscriptionOptions = new LineSubscriptionOptions();
         }
 
         /// <summary>
@@ -37,6 +43,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
 
             if (rootElem.SelectSingleNode("ConnectionOptions") is XmlNode connectionOptionsNode)
                 ConnectionOptions.LoadFromXml(connectionOptionsNode);
+
+            if (rootElem.SelectSingleNode("SubscriptionOptions") is XmlNode subscriptionOptionsNode)
+                SubscriptionOptions.LoadFromXml(subscriptionOptionsNode);
         }
 
         /// <summary>
@@ -52,6 +61,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
             xmlDoc.AppendChild(rootElem);
 
             ConnectionOptions.SaveToXml(rootElem.AppendElem("ConnectionOptions"));
+            SubscriptionOptions.SaveToXml(rootElem.AppendElem("SubscriptionOptions"));
             xmlDoc.Save(writer);
         }
 

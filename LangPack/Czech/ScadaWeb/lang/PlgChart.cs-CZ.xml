@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<PlgMainDictionaries>
-  <Dictionary key="Scada.Web.Plugins.PlgChart.Areas.Chart.Pages.Chart">
-    <Phrase key="Title">{0} – Graf</Phrase>
-    <Phrase key="Generated">Vygenerováno</Phrase>
-  </Dictionary>
-</PlgMainDictionaries>

@@ -7,23 +7,59 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js">
     <Phrase key="FaceplateGroup">FACEPLATES</Phrase>
-    <Phrase key="DependenciesNode">Dependencies</Phrase>
-    <Phrase key="MimicNode">Mimic</Phrase>
-    <Phrase key="ImagesNode">Images</Phrase>
-    <Phrase key="NoImagePreview">No image</Phrase>
-    <Phrase key="MimicReload">Reloading mimic.</Phrase>
+    <Phrase key="MimicReloading">Reloading mimic.</Phrase>
+    <Phrase key="MimicReloaded">Mimic reloaded on server.</Phrase>
     <Phrase key="MimicSaved">Mimic saved successfully.</Phrase>
     <Phrase key="LoadMimicError">Error loading mimic.</Phrase>
     <Phrase key="SaveMimicError">Error saving mimic.</Phrase>
     <Phrase key="PostUpdateError">Error posting update.</Phrase>
+    <Phrase key="DisplayMimicError">Error displaying mimic.</Phrase>
     <Phrase key="UnableAddComponent">Unable to add component.</Phrase>
     <Phrase key="UnableChangeParent">Unable to change parent.</Phrase>
     <Phrase key="UnableRestoreHistory">Unable to restore history point.</Phrase>
     <Phrase key="SameParentRequired">Selected components must have the same parent.</Phrase>
     <Phrase key="ComponentNotSpecified">Component not specified.</Phrase>
     <Phrase key="ClipboardEmpty">Clipboard is empty.</Phrase>
+    <Phrase key="ConfirmReload">The changes may not be saved. Are you sure?</Phrase>
     <Phrase key="ConfirmDeleteDependency">Are you sure you want to delete the dependency?</Phrase>
     <Phrase key="ConfirmDeleteImage">Are you sure you want to delete the image?</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js.PropGrid">
+    <Phrase key="EditButton">Edit</Phrase>
+    <Phrase key="BackButton">Back to Parent</Phrase>
+    <Phrase key="AddButton">Add</Phrase>
+    <Phrase key="UpButton">Up</Phrase>
+    <Phrase key="DownButton">Down</Phrase>
+    <Phrase key="DeleteButton">Delete</Phrase>
+    <Phrase key="NotSet">Not Set</Phrase>
+    <Phrase key="ArrayItem">Item </Phrase>
+    <Phrase key="UnableAddItem">Unable to add array element.</Phrase>
+    <Phrase key="UnableMoveItem">Unable to move array element.</Phrase>
+    <Phrase key="UnableDeleteItem">Unable to delete array element.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js.StructTree">
+    <Phrase key="DependenciesNode">Dependencies</Phrase>
+    <Phrase key="MimicNode">Mimic</Phrase>
+    <Phrase key="ImagesNode">Images</Phrase>
+    <Phrase key="NoImagePreview">No image</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ColorModal">
+    <Phrase key="PageTitle">Color</Phrase>
+    <Phrase key="lblColor">Color name or hex code</Phrase>
+    <Phrase key="lblKnownColors">Known colors</Phrase>
+    <Phrase key="thRecentColors">Recent</Phrase>
+    <Phrase key="thRedColors">Red</Phrase>
+    <Phrase key="thPinkColors">Pink</Phrase>
+    <Phrase key="thOrangeColors">Orange</Phrase>
+    <Phrase key="thYellowColors">Yellow</Phrase>
+    <Phrase key="thPurpleColors">Purple</Phrase>
+    <Phrase key="thGreenColors">Green</Phrase>
+    <Phrase key="thBlueColors">Blue</Phrase>
+    <Phrase key="thBrownColors">Brown</Phrase>
+    <Phrase key="thWhiteColors">White</Phrase>
+    <Phrase key="thGrayColors">Gray</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.FaceplateModal">
     <Phrase key="PageTitle">Faceplate</Phrase>
@@ -33,7 +69,19 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ImageModal">
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.FontModal">
+    <Phrase key="PageTitle">Font</Phrase>
+    <Phrase key="RequiredField">Please fill out this field.</Phrase>
+    <Phrase key="lblInherit">Inherit</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblSize">Size</Phrase>
+    <Phrase key="lblBold">Bold</Phrase>
+    <Phrase key="lblItalic">Italic</Phrase>
+    <Phrase key="lblUnderline">Underline</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ImageEditModal">
     <Phrase key="PageTitle">Image</Phrase>
     <Phrase key="RequiredField">Please fill out this field.</Phrase>
     <Phrase key="NoImage">No image</Phrase>
@@ -44,7 +92,30 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ImageSelectModal">
+    <Phrase key="PageTitle">Select Image</Phrase>
+    <Phrase key="RecentImages">Recent</Phrase>
+    <Phrase key="AllImages">All</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblAvailableImages">Available images</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.PropertyModal">
+    <Phrase key="PageTitle">Select Property</Phrase>
+    <Phrase key="SelectObjectItem">-- Select an object --</Phrase>
+    <Phrase key="lblPropertyName">Property name</Phrase>
+    <Phrase key="lblObjectProperties">Object properties</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.TextEditor">
+    <Phrase key="PageTitle">Text Editor</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ToolbarContents">
+    <Phrase key="btnReload">Reload</Phrase>
     <Phrase key="btnSave">Save (Ctrl + S)</Phrase>
     <Phrase key="btnUndo">Undo (Ctrl + Z)</Phrase>
     <Phrase key="btnRedo">Redo (Ctrl + Y)</Phrase>

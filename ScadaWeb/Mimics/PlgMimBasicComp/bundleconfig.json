@@ -1,0 +1,11 @@
+[
+  {
+    "outputFileName": "wwwroot/plugins/MimBasicComp/js/basic-bundle.js",
+    "inputFiles": [
+      "wwwroot/plugins/MimBasicComp/js/basic-descr.js",
+      "wwwroot/plugins/MimBasicComp/js/basic-factory.js",
+      "wwwroot/plugins/MimBasicComp/js/basic-render.js",
+      "wwwroot/plugins/MimBasicComp/js/basic-subtypes.js"
+    ]
+  }
+]

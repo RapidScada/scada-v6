@@ -47,6 +47,38 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
         }
 
         /// <summary>
+        /// Gets the faceplate.
+        /// </summary>
+        public Dto<FaceplatePacket> GetFaceplate(long key, string typeName)
+        {
+            try
+            {
+                if (editorManager.FindMimic(key, out MimicInstance mimicInstance, out string errMsg))
+                {
+                    if (mimicInstance.Mimic.FaceplateMap.TryGetValue(typeName, out Faceplate faceplate))
+                    {
+                        return Dto<FaceplatePacket>.Success(new FaceplatePacket(key, faceplate));
+                    }
+                    else
+                    {
+                        return Dto<FaceplatePacket>.Fail(Locale.IsRussian ?
+                            "Фейсплейт не найден." :
+                            "Faceplate not found.");
+                    }
+                }
+                else
+                {
+                    return Dto<FaceplatePacket>.Fail(errMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetFaceplate)));
+                return Dto<FaceplatePacket>.Fail(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Gets a range of components.
         /// </summary>
         public Dto<ComponentPacket> GetComponents(long key, int index, int count)
@@ -79,38 +111,6 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
             {
                 webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetImages)));
                 return Dto<ImagePacket>.Fail(ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Gets the faceplate.
-        /// </summary>
-        public Dto<FaceplatePacket> GetFaceplate(long key, string typeName)
-        {
-            try
-            {
-                if (editorManager.FindMimic(key, out MimicInstance mimicInstance, out string errMsg))
-                {
-                    if (mimicInstance.Mimic.FaceplateMap.TryGetValue(typeName, out Faceplate faceplate))
-                    {
-                        return Dto<FaceplatePacket>.Success(new FaceplatePacket(key, faceplate));
-                    }
-                    else
-                    {
-                        return Dto<FaceplatePacket>.Fail(Locale.IsRussian ?
-                            "Фейсплейт не найден." :
-                            "Faceplate not found.");
-                    }
-                }
-                else
-                {
-                    return Dto<FaceplatePacket>.Fail(errMsg);
-                }
-            }
-            catch (Exception ex)
-            {
-                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetFaceplate)));
-                return Dto<FaceplatePacket>.Fail(ex.Message);
             }
         }
     }

@@ -28,6 +28,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.View
         /// </summary>
         public override bool ShowProperties()
         {
+            DriverUtils.ConfigDataset = ConfigDataset;
             new FrmModuleConfig(new MqttPublisherConfigProvider(AppDirs.ConfigDir, DeviceNum)).ShowDialog();
             return false;
         }

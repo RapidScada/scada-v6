@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2023
+ * Modified : 2025
  */
 
 using System.Collections;
@@ -57,7 +57,7 @@ namespace Scada.Web.TreeView
             ViewFrameUrl = "";
             ShortPath = "";
             SortOrder = 0;
-            ChildNodes = new List<ViewNode>();
+            ChildNodes = [];
         }
 
 

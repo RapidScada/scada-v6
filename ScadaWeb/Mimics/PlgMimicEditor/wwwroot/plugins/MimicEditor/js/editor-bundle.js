@@ -1,6 +1,6 @@
 // Contains classes: AlingActionType, ArrangeActionType, ChangeType, DragType, EnabledDependsOn, LongActionType,
-//     MessageType, ToolbarButton, Change, UpdateDto, LongAction, MimicClipboard, 
-//     HistoryChange, HistoryPoint, MimicHistory
+//     MessageType, ToolbarButton, Change, UpdateDto, LongAction, QueueEmptyFlags,
+//     HistoryChange, HistoryPoint, MimicHistory, MimicClipboard
 // Depends on mimic-model.js
 
 // Specifies the action types for component alignment.
@@ -151,9 +151,9 @@ class LongActionType {
     static ARRANGE = 4;
 
     static isPointing(actionType) {
-        return actionType == LongActionType.ADD ||
-            actionType == LongActionType.PASTE ||
-            actionType == LongActionType.ARRANGE;
+        return actionType === LongActionType.ADD ||
+            actionType === LongActionType.PASTE ||
+            actionType === LongActionType.ARRANGE;
     }
 }
 
@@ -167,6 +167,7 @@ class MessageType {
 
 // Specifies the toolbar button selectors.
 class ToolbarButton {
+    static RELOAD = "#btnReload";
     static SAVE = "#btnSave";
     static UNDO = "#btnUndo";
     static REDO = "#btnRedo";
@@ -215,9 +216,9 @@ class Change {
             : (this.objectIDs ?? []);
     }
 
-    setProperty(propertyName, value) {
+    setProperty(name, value) {
         this.properties ??= {};
-        this.properties[propertyName] = value;
+        this.properties[name] = value;
         return this;
     }
 
@@ -395,110 +396,11 @@ class LongAction {
     }
 }
 
-// Represents a clipboard for copying and pasting components.
-class MimicClipboard {
-    static MARKER = "MimicEditor";
-
-    _isEmpty;
-    _clipboardData;
-    _componentJsons;
-    _rootID;
-    _offset;
-
-    constructor() {
-        this._clear();
-    }
-
-    get rootID() {
-        return this._clipboardData ? this._clipboardData.rootID : this._rootID;
-    }
-
-    get offset() {
-        return this._clipboardData ? this._clipboardData.offset : this._offset;
-    }
-
-    get isEmpty() {
-        return this._isEmpty;
-    }
-
-    _clear() {
-        this._isEmpty = true;
-        this._clipboardData = null;
-        this._componentJsons = [];
-        this._rootID = 0;
-        this._offset = { x: 0, y: 0 };
-    }
-
-    static _validate(clipboardData) {
-        return clipboardData &&
-            clipboardData.marker === MimicClipboard.MARKER &&
-            Array.isArray(clipboardData.components) &&
-            Number.isInteger(clipboardData.rootID) &&
-            clipboardData.offset instanceof Object;
-    }
-
-    async defineEmptiness() {
-        if (this._componentJsons.length > 0) {
-            this._isEmpty = false;
-        } else {
-            try { this._isEmpty = !await navigator.clipboard.readText(); }
-            catch { this._isEmpty = true; }
-        }
-    }
-
-    async writeComponents(components) {
-        // extract information from components
-        let plainObjects = [];
-        this._clear();
-
-        if (Array.isArray(components) && components.length > 0) {
-            this._isEmpty = false;
-            this._rootID = components[0].parentID; // assuming that parents are the same
-            this._offset = rs.mimic.MimicHelper.getMinLocation(components);
-
-            for (let component of components) {
-                plainObjects.push(component.toPlainObject())
-
-                if (component.isContainer) {
-                    plainObjects.push(...component.getAllChildren().map(c => c.toPlainObject()));
-                }
-            }
-
-            this._componentJsons = plainObjects.map(o => JSON.stringify(o));
-        }
-
-        // write to system buffer
-        try {
-            await navigator.clipboard.writeText(JSON.stringify({
-                marker: MimicClipboard.MARKER,
-                components: plainObjects,
-                rootID: this._rootID,
-                offset: this._offset
-            }));
-        } catch (ex) {
-            console.error("Error writing to clipboard: " + ex.message);
-        }
-    }
-
-    async readComponents() {
-        // read from system buffer first
-        try {
-            let text = await navigator.clipboard.readText();
-            let data;
-            try { data = JSON.parse(text); }
-            catch { data = null; }
-
-            if (MimicClipboard._validate(data)) {
-                this._clipboardData = data;
-                return data.components;
-            }
-        } catch (ex) {
-            console.error("Error reading from clipboard: " + ex.message);
-        }
-
-        // return plain objects that are not instances of Component
-        return this._componentJsons.map(j => JSON.parse(j));
-    }
+// Represents flags to process when the update queue is empty.
+class QueueEmptyFlags {
+    saveRequired = false;
+    reloadRequired = false;
+    fullReloadRequired = false;
 }
 
 // Represents a change in history.
@@ -636,7 +538,7 @@ class MimicHistory {
             case ChangeType.ADD_COMPONENT: {
                 let componentID = mimicChange.objectID;
                 let componentJson = this._getComponentJsonFromMimic(componentID, mimic);
-                this._componentJsonMap.set(componentID, componentJson);
+                this._updateComponentCache(componentID, componentJson);
 
                 historyChanges.push(new HistoryChange({
                     changeType: ChangeType.ADD_COMPONENT,
@@ -650,7 +552,7 @@ class MimicHistory {
                 for (let componentID of mimicChange.getObjectIDs()) {
                     let oldComponentJson = this._getComponentJsonFromCache(componentID);
                     let newComponentJson = this._getComponentJsonFromMimic(componentID, mimic);
-                    this._componentJsonMap.set(componentID, newComponentJson);
+                    this._updateComponentCache(componentID, newComponentJson);
 
                     historyChanges.push(new HistoryChange({
                         changeType: ChangeType.UPDATE_COMPONENT,
@@ -669,6 +571,7 @@ class MimicHistory {
                         objectID: componentID,
                         oldObjectJson: this._getComponentJsonFromCache(componentID)
                     }));
+                    this._removeComponentFromCache(componentID);
                 }
 
                 break;
@@ -677,7 +580,7 @@ class MimicHistory {
                 let componentID = mimicChange.objectID;
                 let oldComponentJson = this._getComponentJsonFromCache(componentID);
                 let newComponentJson = this._getComponentJsonFromMimic(componentID, mimic);
-                this._componentJsonMap.set(componentID, newComponentJson);
+                this._updateComponentCache(componentID, newComponentJson);
 
                 historyChanges.push(new HistoryChange({
                     changeType: ChangeType.UPDATE_PARENT,
@@ -722,11 +625,17 @@ class MimicHistory {
     }
 
     _updateComponentCache(componentID, component) {
-        if (component) {
-            this._componentJsonMap.set(componentID, null);
+        if (component instanceof rs.mimic.Component) {
+            this._componentJsonMap.set(componentID, JSON.stringify(component.toPlainObject()));
+        } else if (typeof component === "string" && component) {
+            this._componentJsonMap.set(componentID, component);
         } else {
-            this._componentJsonMap.set(componentID, JSON.stringify(newComponent.toPlainObject()));
+            this._componentJsonMap.delete(componentID);
         }
+    }
+
+    _removeComponentFromCache(componentID) {
+        this._componentJsonMap.delete(componentID);
     }
 
     clear() {
@@ -744,7 +653,7 @@ class MimicHistory {
 
     rememberComponent(component, overwriteExisting) {
         if (overwriteExisting || !this._componentJsonMap.has(component.id)) {
-            this._componentJsonMap.set(component.id, JSON.stringify(component.toPlainObject()));
+            this._updateComponentCache(component.id, component);
         }
     }
 
@@ -801,13 +710,120 @@ class MimicHistory {
     }
 }
 
-// Contains classes: ModalContext, ModalBase, FaceplateModal, ImageModal
-// Depends on jquery, bootstrap, mimic-model.js
+// Represents a clipboard for copying and pasting components.
+class MimicClipboard {
+    static MARKER = "MimicEditor";
+
+    _isEmpty;
+    _clipboardData;
+    _componentJsons;
+    _rootID;
+    _offset;
+
+    constructor() {
+        this._clear();
+    }
+
+    get rootID() {
+        return this._clipboardData ? this._clipboardData.rootID : this._rootID;
+    }
+
+    get offset() {
+        return this._clipboardData ? this._clipboardData.offset : this._offset;
+    }
+
+    get isEmpty() {
+        return this._isEmpty;
+    }
+
+    _clear() {
+        this._isEmpty = true;
+        this._clipboardData = null;
+        this._componentJsons = [];
+        this._rootID = 0;
+        this._offset = { x: 0, y: 0 };
+    }
+
+    static _validate(clipboardData) {
+        return clipboardData &&
+            clipboardData.marker === MimicClipboard.MARKER &&
+            Array.isArray(clipboardData.components) &&
+            Number.isInteger(clipboardData.rootID) &&
+            clipboardData.offset instanceof Object;
+    }
+
+    async defineEmptiness() {
+        if (this._componentJsons.length > 0) {
+            this._isEmpty = false;
+        } else {
+            try { this._isEmpty = !await navigator.clipboard.readText(); }
+            catch { this._isEmpty = true; }
+        }
+    }
+
+    async writeComponents(components) {
+        // extract information from components
+        let plainObjects = [];
+        this._clear();
+
+        if (Array.isArray(components) && components.length > 0) {
+            this._isEmpty = false;
+            this._rootID = components[0].parentID; // assuming that parents are the same
+            this._offset = rs.mimic.MimicHelper.getMinLocation(components);
+
+            for (let component of components) {
+                plainObjects.push(component.toPlainObject())
+
+                if (component.isContainer) {
+                    plainObjects.push(...component.getAllChildren().map(c => c.toPlainObject()));
+                }
+            }
+
+            this._componentJsons = plainObjects.map(o => JSON.stringify(o));
+        }
+
+        // write to system buffer
+        try {
+            await navigator.clipboard.writeText(JSON.stringify({
+                marker: MimicClipboard.MARKER,
+                components: plainObjects,
+                rootID: this._rootID,
+                offset: this._offset
+            }));
+        } catch (ex) {
+            console.error("Error writing to clipboard: " + ex.message);
+        }
+    }
+
+    async readComponents() {
+        // read from system buffer first
+        try {
+            let text = await navigator.clipboard.readText();
+            let data;
+            try { data = JSON.parse(text); }
+            catch { data = null; }
+
+            if (MimicClipboard._validate(data)) {
+                this._clipboardData = data;
+                return data.components;
+            }
+        } catch (ex) {
+            console.error("Error reading from clipboard: " + ex.message);
+        }
+
+        // return plain objects that are not instances of Component
+        return this._componentJsons.map(j => JSON.parse(j));
+    }
+}
+
+// Contains classes: ModalContext, ModalBase, ModalShowArgs, ColorModal, FaceplateModal,
+//     FontModal, ImageEditModal, ImageSelectModal, PropertyModal, TextEditor
+// Depends on jquery, bootstrap, mimic-model.js, prop-grid.js
 
 // Represents a context of a modal dialog.
 class ModalContext {
-    oldObject = null;
-    newObject = null;
+    oldValue = null;
+    newValue = null;
     result = false;
     callback = null;
 
@@ -824,29 +840,436 @@ class ModalBase {
 
     constructor(elemID) {
         this._elem = $("#" + elemID);
+
+        if (this._elem.length === 0) {
+            throw new Error(`Modal #${elemID} not found.`);
+        }
+
         this._modal = new bootstrap.Modal(this._elem[0]);
         this._context = new ModalContext();
+        this._bindEvents();
+    }
+
+    _bindEvents() {
+        this._elem.find("form:first").on("submit", (event) => {
+            this._elem.find(".modal-footer .btn-primary:first").trigger("click");
+            event.preventDefault();
+        });
+
+        this._elem
+            .on("shown.bs.modal", () => {
+                this._setFocus();
+                this._handleShown();
+            })
+            .on("hidden.bs.modal", () => {
+                this._invokeCallback();
+            });
+    }
+
+    _setFocus() {
+        // implement in derived classes
+    }
+
+    _handleShown() {
+        // implement in derived classes
+    }
+
+    _invokeCallback() {
+        if (this._context.result && this._context.callback instanceof Function) {
+            this._context.callback.call(this, this._context);
+        }
+    }
+
+    show(showArgs, callback) {
+        // implement in derived classes
+    }
+}
+
+// Represents arguments for the show method.
+class ModalShowArgs {
+    topObject = null;
+    value = null;
+    options = null;
+
+    constructor(source) {
+        Object.assign(this, source);
+    }
+}
+
+// Represents a modal dialog for choosing a color.
+class ColorModal extends ModalBase {
+    static _RECENT_COLOR_COUNT = 5;
+
+    _recentColors = [];
+    _colorsFilled = false;
+
+    _bindEvents() {
+        super._bindEvents();
+
+        $("#colorModal_btnOK").on("click", () => {
+            let color = $("#colorModal_txtColor").val();
+            this._addRecentColor(color);
+            this._context.newValue = color;
+            this._context.result = true;
+            this._modal.hide();
+        });
+
+        $("#colorModal_divKnownColors table").on("click", "tr", (event) => {
+            let rowElem = $(event.currentTarget);
+            let color = rowElem.data("color");
+
+            if (color?.name) {
+                this._selectRow(rowElem);
+                $("#colorModal_txtColor").val(color.name);
+            }
+        });
+    }
+
+    _setFocus() {
+        $("#colorModal_txtColor").focus();
+    }
+
+    _handleShown() {
+        let color = $("#colorModal_txtColor").val();
+        this._selectColor(color);
+    }
+
+    _fillRecentColors() {
+        this._fillColorTable("colorModal_tblRecentColors",
+            this._recentColors.map(color => {
+                return { name: color, hex: "" };
+            }));
+    }
+
+    _fillNamedColors() {
+        if (this._colorsFilled) {
+            return;
+        }
+
+        // colors taken from https://htmlcolorcodes.com/color-names/
+
+        const redColors = [
+            { name: "IndianRed", hex: "#CD5C5C" },
+            { name: "LightCoral", hex: "#F08080" },
+            { name: "Salmon", hex: "#FA8072" },
+            { name: "DarkSalmon", hex: "#E9967A" },
+            { name: "LightSalmon", hex: "#FFA07A" },
+            { name: "Crimson", hex: "#DC143C" },
+            { name: "Red", hex: "#FF0000" },
+            { name: "FireBrick", hex: "#B22222" },
+            { name: "DarkRed", hex: "#8B0000" },
+        ];
+
+        const pinkColors = [
+            { name: "Pink", hex: "#FFC0CB" },
+            { name: "LightPink", hex: "#FFB6C1" },
+            { name: "HotPink", hex: "#FF69B4" },
+            { name: "DeepPink", hex: "#FF1493" },
+            { name: "MediumVioletRed", hex: "#C71585" },
+            { name: "PaleVioletRed", hex: "#DB7093" },
+        ];
+
+        const orangeColors = [
+            { name: "LightSalmon", hex: "#FFA07A" },
+            { name: "Coral", hex: "#FF7F50" },
+            { name: "Tomato", hex: "#FF6347" },
+            { name: "OrangeRed", hex: "#FF4500" },
+            { name: "DarkOrange", hex: "#FF8C00" },
+            { name: "Orange", hex: "#FFA500" },
+        ];
+
+        const yellowColors = [
+            { name: "Gold", hex: "#FFD700" },
+            { name: "Yellow", hex: "#FFFF00" },
+            { name: "LightYellow", hex: "#FFFFE0" },
+            { name: "LemonChiffon", hex: "#FFFACD" },
+            { name: "LightGoldenrodYellow", hex: "#FAFAD2" },
+            { name: "PapayaWhip", hex: "#FFEFD5" },
+            { name: "Moccasin", hex: "#FFE4B5" },
+            { name: "PeachPuff", hex: "#FFDAB9" },
+            { name: "PaleGoldenrod", hex: "#EEE8AA" },
+            { name: "Khaki", hex: "#F0E68C" },
+            { name: "DarkKhaki", hex: "#BDB76B" },
+        ];
+
+        const purpleColors = [
+            { name: "Lavender", hex: "#E6E6FA" },
+            { name: "Thistle", hex: "#D8BFD8" },
+            { name: "Plum", hex: "#DDA0DD" },
+            { name: "Violet", hex: "#EE82EE" },
+            { name: "Orchid", hex: "#DA70D6" },
+            { name: "Fuchsia", hex: "#FF00FF" },
+            { name: "Magenta", hex: "#FF00FF" },
+            { name: "MediumOrchid", hex: "#BA55D3" },
+            { name: "MediumPurple", hex: "#9370DB" },
+            { name: "RebeccaPurple", hex: "#663399" },
+            { name: "BlueViolet", hex: "#8A2BE2" },
+            { name: "DarkViolet", hex: "#9400D3" },
+            { name: "DarkOrchid", hex: "#9932CC" },
+            { name: "DarkMagenta", hex: "#8B008B" },
+            { name: "Purple", hex: "#800080" },
+            { name: "Indigo", hex: "#4B0082" },
+            { name: "SlateBlue", hex: "#6A5ACD" },
+            { name: "DarkSlateBlue", hex: "#483D8B" },
+            { name: "MediumSlateBlue", hex: "#7B68EE" },
+        ];
+
+        const greenColors = [
+            { name: "GreenYellow", hex: "#ADFF2F" },
+            { name: "Chartreuse", hex: "#7FFF00" },
+            { name: "LawnGreen", hex: "#7CFC00" },
+            { name: "Lime", hex: "#00FF00" },
+            { name: "LimeGreen", hex: "#32CD32" },
+            { name: "PaleGreen", hex: "#98FB98" },
+            { name: "LightGreen", hex: "#90EE90" },
+            { name: "MediumSpringGreen", hex: "#00FA9A" },
+            { name: "SpringGreen", hex: "#00FF7F" },
+            { name: "MediumSeaGreen", hex: "#3CB371" },
+            { name: "SeaGreen", hex: "#2E8B57" },
+            { name: "ForestGreen", hex: "#228B22" },
+            { name: "Green", hex: "#008000" },
+            { name: "DarkGreen", hex: "#006400" },
+            { name: "YellowGreen", hex: "#9ACD32" },
+            { name: "OliveDrab", hex: "#6B8E23" },
+            { name: "Olive", hex: "#808000" },
+            { name: "DarkOliveGreen", hex: "#556B2F" },
+            { name: "MediumAquamarine", hex: "#66CDAA" },
+            { name: "DarkSeaGreen", hex: "#8FBC8B" },
+            { name: "LightSeaGreen", hex: "#20B2AA" },
+            { name: "DarkCyan", hex: "#008B8B" },
+            { name: "Teal", hex: "#008080" },
+        ];
+
+        const blueColors = [
+            { name: "Aqua", hex: "#00FFFF" },
+            { name: "Cyan", hex: "#00FFFF" },
+            { name: "LightCyan", hex: "#E0FFFF" },
+            { name: "PaleTurquoise", hex: "#AFEEEE" },
+            { name: "Aquamarine", hex: "#7FFFD4" },
+            { name: "Turquoise", hex: "#40E0D0" },
+            { name: "MediumTurquoise", hex: "#48D1CC" },
+            { name: "DarkTurquoise", hex: "#00CED1" },
+            { name: "CadetBlue", hex: "#5F9EA0" },
+            { name: "SteelBlue", hex: "#4682B4" },
+            { name: "LightSteelBlue", hex: "#B0C4DE" },
+            { name: "PowderBlue", hex: "#B0E0E6" },
+            { name: "LightBlue", hex: "#ADD8E6" },
+            { name: "SkyBlue", hex: "#87CEEB" },
+            { name: "LightSkyBlue", hex: "#87CEFA" },
+            { name: "DeepSkyBlue", hex: "#00BFFF" },
+            { name: "DodgerBlue", hex: "#1E90FF" },
+            { name: "CornflowerBlue", hex: "#6495ED" },
+            { name: "MediumSlateBlue", hex: "#7B68EE" },
+            { name: "RoyalBlue", hex: "#4169E1" },
+            { name: "Blue", hex: "#0000FF" },
+            { name: "MediumBlue", hex: "#0000CD" },
+            { name: "DarkBlue", hex: "#00008B" },
+            { name: "Navy", hex: "#000080" },
+            { name: "MidnightBlue", hex: "#191970" },
+        ];
+
+        const brownColors = [
+            { name: "Cornsilk", hex: "#FFF8DC" },
+            { name: "BlanchedAlmond", hex: "#FFEBCD" },
+            { name: "Bisque", hex: "#FFE4C4" },
+            { name: "NavajoWhite", hex: "#FFDEAD" },
+            { name: "Wheat", hex: "#F5DEB3" },
+            { name: "BurlyWood", hex: "#DEB887" },
+            { name: "Tan", hex: "#D2B48C" },
+            { name: "RosyBrown", hex: "#BC8F8F" },
+            { name: "SandyBrown", hex: "#F4A460" },
+            { name: "Goldenrod", hex: "#DAA520" },
+            { name: "DarkGoldenrod", hex: "#B8860B" },
+            { name: "Peru", hex: "#CD853F" },
+            { name: "Chocolate", hex: "#D2691E" },
+            { name: "SaddleBrown", hex: "#8B4513" },
+            { name: "Sienna", hex: "#A0522D" },
+            { name: "Brown", hex: "#A52A2A" },
+            { name: "Maroon", hex: "#800000" },
+        ];
+
+        const whiteColors = [
+            { name: "White", hex: "#FFFFFF" },
+            { name: "Snow", hex: "#FFFAFA" },
+            { name: "HoneyDew", hex: "#F0FFF0" },
+            { name: "MintCream", hex: "#F5FFFA" },
+            { name: "Azure", hex: "#F0FFFF" },
+            { name: "AliceBlue", hex: "#F0F8FF" },
+            { name: "GhostWhite", hex: "#F8F8FF" },
+            { name: "WhiteSmoke", hex: "#F5F5F5" },
+            { name: "SeaShell", hex: "#FFF5EE" },
+            { name: "Beige", hex: "#F5F5DC" },
+            { name: "OldLace", hex: "#FDF5E6" },
+            { name: "FloralWhite", hex: "#FFFAF0" },
+            { name: "Ivory", hex: "#FFFFF0" },
+            { name: "AntiqueWhite", hex: "#FAEBD7" },
+            { name: "Linen", hex: "#FAF0E6" },
+            { name: "LavenderBlush", hex: "#FFF0F5" },
+            { name: "MistyRose", hex: "#FFE4E1" },
+        ];
+
+        const grayColors = [
+            { name: "Gainsboro", hex: "#DCDCDC" },
+            { name: "LightGray", hex: "#D3D3D3" },
+            { name: "Silver", hex: "#C0C0C0" },
+            { name: "DarkGray", hex: "#A9A9A9" },
+            { name: "Gray", hex: "#808080" },
+            { name: "DimGray", hex: "#696969" },
+            { name: "LightSlateGray", hex: "#778899" },
+            { name: "SlateGray", hex: "#708090" },
+            { name: "DarkSlateGray", hex: "#2F4F4F" },
+            { name: "Black", hex: "#000000" },
+        ];
+
+        this._fillColorTable("colorModal_tblRedColors", redColors);
+        this._fillColorTable("colorModal_tblPinkColors", pinkColors);
+        this._fillColorTable("colorModal_tblOrangeColors", orangeColors);
+        this._fillColorTable("colorModal_tblYellowColors", yellowColors);
+        this._fillColorTable("colorModal_tblPurpleColors", purpleColors);
+        this._fillColorTable("colorModal_tblGreenColors", greenColors);
+        this._fillColorTable("colorModal_tblBlueColors", blueColors);
+        this._fillColorTable("colorModal_tblBrownColors", brownColors);
+        this._fillColorTable("colorModal_tblWhiteColors", whiteColors);
+        this._fillColorTable("colorModal_tblGrayColors", grayColors);
+        this._colorsFilled = true;
+    }
+
+    _fillColorTable(tableID, colors) {
+        let tableElem = $("#" + tableID);
+        tableElem.prop("hidden", colors.length === 0);
+        let tbodyElem = $("<tbody></tbody>");
+
+        for (let color of colors) {
+            let rowElem = $("<tr></tr>").data("color", color).appendTo(tbodyElem);
+            let circleElem = $("<div class='rounded-circle'></div>").css("background-color", color.name);
+            $("<td></td>").append(circleElem).appendTo(rowElem);
+            $("<td></td>").text(color.name).appendTo(rowElem);
+            $("<td></td>").text(color.hex).appendTo(rowElem);
+        }
+
+        tableElem.children("tbody").remove(); // remove table body if exists
+        tableElem.append(tbodyElem);
+    }
+
+    _selectColor(color) {
+        let rowToSelect = null;
+
+        if (color) {
+            $("#colorModal_divKnownColors table tr").each((index, element) => {
+                let rowElem = $(element);
+                let colorObj = rowElem.data("color");
+
+                if (colorObj && (colorObj.name === color || colorObj.hex === color)) {
+                    rowToSelect = rowElem;
+                    return false; // break loop
+                }
+            });
+        }
+
+        this._selectRow(rowToSelect);
+
+        if (rowToSelect) {
+            rowToSelect[0].scrollIntoView(false);
+        } else {
+            $("#colorModal_divKnownColors").scrollTop(0);
+        }
+    }
+
+    _selectRow(rowElem) {
+        $("#colorModal_divKnownColors table tr").removeClass("rs-selected");
+        rowElem?.addClass("rs-selected");
+    }
+
+    _addRecentColor(color) {
+        if (color) {
+            let newRecentColors = [color];
+            let colorIndex = 0;
+
+            while (colorIndex < this._recentColors.length && newRecentColors.length < ColorModal._RECENT_COLOR_COUNT) {
+                let recentColor = this._recentColors[colorIndex++];
+
+                if (recentColor !== color) {
+                    newRecentColors.push(recentColor);
+                }
+            }
+
+            this._recentColors = newRecentColors;
+        }
+    }
+
+    show(showArgs, callback) {
+        let color = showArgs.value;
+        this._context = new ModalContext({
+            oldValue: color,
+            callback: callback
+        });
+
+        $("#colorModal_txtColor").val(color);
+        this._fillRecentColors();
+        this._fillNamedColors();
+        this._modal.show();
     }
 }
 
 // Represents a modal dialog for editing a faceplate meta.
 class FaceplateModal extends ModalBase {
-    constructor(elemID) {
-        super(elemID);
-        this._bindEvents();
-    }
-
     _bindEvents() {
-        $("#frmFaceplateModal").on("submit", () => {
-            $("#faceplateModal_btnOK").trigger("click");
-            return false;
-        });
+        super._bindEvents();
 
         $("#faceplateModal_btnOK").on("click", () => {
             let formElem = $("#frmFaceplateModal");
 
             if (formElem[0].checkValidity()) {
-                this._readFields();
+                this._readFields(this._context.newValue);
+                this._context.result = true;
+                this._modal.hide();
+            }
+
+            formElem.addClass("was-validated");
+        });
+    }
+
+    _setFocus() {
+        $("#faceplateModal_txtTypeName").focus();
+    }
+
+    _showFields(faceplateMeta) {
+        $("#frmFaceplateModal").removeClass("was-validated")
+        $("#faceplateModal_txtTypeName").val(faceplateMeta.typeName);
+        $("#faceplateModal_txtPath").val(faceplateMeta.path);
+    }
+
+    _readFields(faceplateMeta) {
+        faceplateMeta.typeName = $("#faceplateModal_txtTypeName").val();
+        faceplateMeta.path = $("#faceplateModal_txtPath").val();
+    }
+
+    show(showArgs, callback) {
+        let faceplateMeta = showArgs.value;
+        let newFaceplateMeta = new rs.mimic.FaceplateMeta();
+        Object.assign(newFaceplateMeta, faceplateMeta); // faceplateMeta can be null
+
+        this._context = new ModalContext({
+            oldValue: faceplateMeta,
+            newValue: newFaceplateMeta,
+            callback: callback
+        });
+
+        this._showFields(newFaceplateMeta);
+        this._modal.show();
+    }
+}
+
+// Represents a modal dialog for editing a font.
+class FontModal extends ModalBase {
+    _bindEvents() {
+        super._bindEvents();
+
+        $("#fontModal_btnOK").on("click", () => {
+            let formElem = $("#frmFontModal");
+
+            if (formElem[0].checkValidity()) {
+                this._readFields(this._context.newValue);
                 this._context.result = true;
                 this._modal.hide();
             }
@@ -854,61 +1277,60 @@ class FaceplateModal extends ModalBase {
             formElem.addClass("was-validated");
         });
 
-        this._elem
-            .on("shown.bs.modal", () => {
-                $("#faceplateModal_txtTypeName").focus();
-            })
-            .on("hidden.bs.modal", () => {
-                if (this._context.result && this._context.callback instanceof Function) {
-                    this._context.callback.call(this, this._context);
-                }
-            });
+        $("#fontModal_chkInherit").on("change", (event) => {
+            let inherit = $(event.target).prop("checked");
+            $("#fontModal_fsProps").prop("disabled", inherit);
+        });
     }
 
-    _readFields() {
-        let obj = this._context.newObject;
-
-        if (obj) {
-            obj.typeName = $("#faceplateModal_txtTypeName").val();
-            obj.path = $("#faceplateModal_txtPath").val();
-        }
+    _setFocus() {
+        $("#fontModal_chkInherit").focus();
     }
 
-    show(faceplateMeta, callback) {
-        let obj = new rs.mimic.FaceplateMeta();
-        Object.assign(obj, faceplateMeta);
+    _showFields(font) {
+        $("#frmFontModal").removeClass("was-validated")
+        $("#fontModal_chkInherit").prop("checked", font.inherit);
+        $("#fontModal_fsProps").prop("disabled", font.inherit);
+        $("#fontModal_txtName").val(font.name);
+        $("#fontModal_txtSize").val(font.size);
+        $("#fontModal_chkBold").prop("checked", font.bold);
+        $("#fontModal_chkItalic").prop("checked", font.italic);
+        $("#fontModal_chkUnderline").prop("checked", font.underline);
+    }
 
+    _readFields(font) {
+        font.inherit = $("#fontModal_chkInherit").prop("checked");
+        font.name = $("#fontModal_txtName").val();
+        font.size = Number.parseInt($("#fontModal_txtSize").val()) || 0;
+        font.bold = $("#fontModal_chkBold").prop("checked");
+        font.italic = $("#fontModal_chkItalic").prop("checked");
+        font.underline = $("#fontModal_chkUnderline").prop("checked");
+    }
+
+    show(showArgs, callback) {
+        let font = showArgs.value;
+        let newFont = new rs.mimic.Font(font);
         this._context = new ModalContext({
-            oldObject: faceplateMeta,
-            newObject: obj,
+            oldValue: font,
+            newValue: newFont,
             callback: callback
         });
 
-        $("#frmFaceplateModal").removeClass("was-validated")
-        $("#faceplateModal_txtTypeName").val(obj.typeName);
-        $("#faceplateModal_txtPath").val(obj.path);
+        this._showFields(newFont);
         this._modal.show();
     }
 }
 
 // Represents a modal dialog for editing an image.
-class ImageModal extends ModalBase {
-    constructor(elemID) {
-        super(elemID);
-        this._bindEvents();
-    }
-
+class ImageEditModal extends ModalBase {
     _bindEvents() {
-        $("#frmImageModal").on("submit", () => {
-            $("#imageModal_btnOK").trigger("click");
-            return false;
-        });
+        super._bindEvents();
 
-        $("#imageModal_btnOK").on("click", () => {
-            let formElem = $("#frmImageModal");
+        $("#imageEditModal_btnOK").on("click", () => {
+            let formElem = $("#frmImageEditModal");
 
             if (formElem[0].checkValidity()) {
-                this._readFields();
+                this._readFields(this._context.newValue);
                 this._context.result = true;
                 this._modal.hide();
             }
@@ -916,45 +1338,41 @@ class ImageModal extends ModalBase {
             formElem.addClass("was-validated");
         });
 
-        $("#imageModal_btnUpload").on("click", () => {
-            $("#imageModal_file").trigger("click");
+        $("#imageEditModal_btnUpload").on("click", () => {
+            $("#imageEditModal_file").trigger("click");
         });
 
-        $("#imageModal_btnDownload").on("click", (event) => {
+        $("#imageEditModal_btnDownload").on("click", (event) => {
             let linkElem = $(event.target);
             this._downloadImage(linkElem);
         });
 
-        $("#imageModal_file").on("change", (event) => {
+        $("#imageEditModal_file").on("change", (event) => {
             let file = event.target.files[0];
 
             if (file) {
                 this._uploadImage(file);
             }
         });
-
-        this._elem
-            .on("shown.bs.modal", () => {
-                $("#imageModal_txtName").focus();
-            })
-            .on("hidden.bs.modal", () => {
-                if (this._context.result && this._context.callback instanceof Function) {
-                    this._context.callback.call(this, this._context);
-                }
-            });
     }
 
-    _readFields() {
-        let obj = this._context.newObject;
+    _setFocus() {
+        $("#imageEditModal_txtName").focus();
+    }
 
-        if (obj) {
-            obj.name = $("#imageModal_txtName").val();
-            obj.dataUrl = $("#imageModal_imgPreview").attr("src");
-        }
+    _showFields(image) {
+        $("#frmImageEditModal").removeClass("was-validated")
+        $("#imageEditModal_txtName").val(image.name);
+        $("#imageEditModal_file").val("");
+    }
+
+    _readFields(image) {
+        image.name = $("#imageEditModal_txtName").val();
+        image.dataUrl = $("#imageEditModal_imgPreview").attr("src");
     }
 
     _showFileSize(size) {
-        $("#imageModal_spnFileSize").text(size ? "(" + Math.round(size / 1024) + " KB)" : "");
+        $("#imageEditModal_spnFileSize").text(size ? "(" + Math.round(size / 1024) + " KB)" : "");
     }
 
     _getFileSize(imageData) {
@@ -963,13 +1381,13 @@ class ImageModal extends ModalBase {
 
     _showImage(dataUrl) {
         if (dataUrl) {
-            $("#imageModal_imgPreview").attr("src", dataUrl).removeClass("d-none");
-            $("#imageModal_divNoImage").addClass("d-none");
-            $("#imageModal_btnDownload").prop("disabled", false);
+            $("#imageEditModal_imgPreview").attr("src", dataUrl).removeClass("d-none");
+            $("#imageEditModal_divNoImage").addClass("d-none");
+            $("#imageEditModal_btnDownload").prop("disabled", false);
         } else {
-            $("#imageModal_imgPreview").attr("src", "").addClass("d-none");
-            $("#imageModal_divNoImage").removeClass("d-none");
-            $("#imageModal_btnDownload").prop("disabled", true);
+            $("#imageEditModal_imgPreview").attr("src", "").addClass("d-none");
+            $("#imageEditModal_divNoImage").removeClass("d-none");
+            $("#imageEditModal_btnDownload").prop("disabled", true);
         }
     }
 
@@ -977,7 +1395,7 @@ class ImageModal extends ModalBase {
         let reader = new FileReader();
 
         reader.onload = () => {
-            let txtName = $("#imageModal_txtName");
+            let txtName = $("#imageEditModal_txtName");
 
             if (!txtName.val()) {
                 txtName.val(file.name);
@@ -995,133 +1413,611 @@ class ImageModal extends ModalBase {
     }
 
     _downloadImage(linkElem) {
-        let name = $("#imageModal_txtName").val();
-        let dataUrl = $("#imageModal_imgPreview").attr("src");
+        let name = $("#imageEditModal_txtName").val();
+        let dataUrl = $("#imageEditModal_imgPreview").attr("src");
         linkElem
             .attr("download", name)
             .attr("href", dataUrl);
     }
 
-    show(image, callback) {
-        let obj = new rs.mimic.Image();
-        Object.assign(obj, image);
+    show(showArgs, callback) {
+        let image = showArgs.value;
+        let newImage = new rs.mimic.Image();
+        Object.assign(newImage, image); // image can be null
 
         this._context = new ModalContext({
-            oldObject: image,
-            newObject: obj,
+            oldValue: image,
+            newValue: newImage,
             callback: callback
         });
 
-        $("#frmImageModal").removeClass("was-validated")
-        $("#imageModal_txtName").val(obj.name);
-        $("#imageModal_file").val("");
-        this._showFileSize(this._getFileSize(obj.data));
-        this._showImage(obj.dataUrl);
+        this._showFields(newImage);
+        this._showFileSize(this._getFileSize(newImage.data));
+        this._showImage(newImage.dataUrl);
         this._modal.show();
     }
 }
 
-// Contains classes: PropGrid, PropGridEventType, PropGridHelper, ProxyObject, PointProxy, SizeProxy, UnionObject
-// Depends on jquery, tweakpane, scada-common.js, mimic-model.js, mimic-descr.js
+// Represents a modal dialog for choosing an image.
+class ImageSelectModal extends ModalBase {
+    static _RECENT_IMAGE_COUNT = 3;
+
+    _mimic;
+    _recentImages = [];
+    _imagesFilled = false;
+    _lazyObserver = null;
+
+    constructor(elemID, mimic) {
+        super(elemID);
+
+        if (mimic == null) {
+            throw new Error("Mimic must not be null.");
+        }
+
+        this._mimic = mimic;
+        this._initLazyObserver();
+    }
+
+    _bindEvents() {
+        super._bindEvents();
+
+        $("#imageSelectModal_btnOK").on("click", () => {
+            let imageName = $("#imageSelectModal_txtName").val();
+            this._addRecentImage(imageName);
+            this._context.newValue = imageName;
+            this._context.result = true;
+            this._modal.hide();
+        });
+
+        $("#imageSelectModal_divAvailableImages").on("click", ".rs-image-item", (event) => {
+            let itemElem = $(event.currentTarget);
+            let image = itemElem.data("image");
+
+            if (image?.name) {
+                this._selectItem(itemElem);
+                $("#imageSelectModal_txtName").val(image.name);
+            }
+        });
+    }
+
+    _setFocus() {
+        $("#imageSelectModal_txtName").focus();
+    }
+
+    _handleShown() {
+        let imageName = $("#imageSelectModal_txtName").val();
+        this._selectImage(imageName);
+    }
+
+    _initLazyObserver() {
+        this._lazyObserver = new IntersectionObserver(this._handleIntersect, {
+            root: $("#imageSelectModal_divAvailableImages")[0],
+            rootMargin: "100px 0px", // double item height
+            threshold: 0.1
+        });
+    }
+
+    _handleIntersect(entries, observer) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                let itemElem = $(entry.target);
+                let imgElem = itemElem.find("img:first");
+                let image = itemElem.data("image");
+
+                if (imgElem.not("[src]") && image) {
+                    imgElem.attr("src", image.dataUrl);
+                }
+
+                observer.unobserve(entry.target);
+            }
+        });
+    }
+
+    _fillRecentImages() {
+        this._fillImageList("imageSelectModal_divRecentImages", this._recentImages);
+    }
+
+    _fillAllImages() {
+        if (!this._imagesFilled) {
+            this._fillImageList("imageSelectModal_divAllImages", this._mimic.images);
+            this._imagesFilled = true;
+        }
+    }
+
+    _fillImageList(listID, images) {
+        let listElem = $("#" + listID);
+        listElem.prop("hidden", images.length === 0);
+        let contentElem = $("<div class='rs-image-list-content'></div>");
+
+        for (let image of images) {
+            let itemElem = $("<div class='rs-image-item'></div>").data("image", image).appendTo(contentElem);
+            this._lazyObserver.observe(itemElem[0]);
+            $("<div class='rs-image-thumb'><img decoding='async' /></div>").appendTo(itemElem);
+            $("<div class='rs-image-name'></div>").text(image.name).appendTo(itemElem);
+        }
+
+        listElem.children(".rs-image-list-content").remove(); // remove list content if exists
+        listElem.append(contentElem);
+    }
+
+    _selectImage(imageName) {
+        let itemToSelect = null;
+
+        if (imageName) {
+            $("#imageSelectModal_divAvailableImages div.rs-image-item").each((index, element) => {
+                let itemElem = $(element);
+                let image = itemElem.data("image");
+
+                if (image && image.name === imageName) {
+                    itemToSelect = itemElem;
+                    return false; // break loop
+                }
+            });
+        }
+
+        this._selectItem(itemToSelect);
+
+        if (itemToSelect) {
+            itemToSelect[0].scrollIntoView(false);
+        } else {
+            $("#imageSelectModal_divAvailableImages").scrollTop(0);
+        }
+    }
+
+    _selectItem(itemElem) {
+        $("#imageSelectModal_divAvailableImages div.rs-image-item").removeClass("rs-selected");
+        itemElem?.addClass("rs-selected");
+    }
+
+    _addRecentImage(imageName) {
+        let image = this._mimic.imageMap.get(imageName);
+
+        if (image) {
+            let newRecentImages = [image];
+            let imageIndex = 0;
+
+            while (imageIndex < this._recentImages.length &&
+                newRecentImages.length < ImageSelectModal._RECENT_IMAGE_COUNT) {
+                let recentImage = this._recentImages[imageIndex++];
+
+                if (recentImage !== image) {
+                    newRecentImages.push(recentImage);
+                }
+            }
+
+            this._recentImages = newRecentImages;
+        }
+    }
+
+    show(showArgs, callback) {
+        let imageName = showArgs.value;
+        this._context = new ModalContext({
+            oldValue: imageName,
+            callback: callback
+        });
+
+        $("#imageSelectModal_txtName").val(imageName);
+        this._fillRecentImages();
+        this._fillAllImages();
+        this._modal.show();
+    }
+
+    invalidate() {
+        this._imagesFilled = false;
+    }
+}
+
+// Represents a modal dialog for choosing an object property.
+class PropertyModal extends ModalBase {
+    static DEFAULT_OPTIONS = {
+        canSelectObject: false
+    };
+
+    _mimic;
+    _options = null;
+
+    constructor(elemID, mimic) {
+        super(elemID);
+
+        if (mimic == null) {
+            throw new Error("Mimic must not be null.");
+        }
+
+        this._mimic = mimic;
+    }
+
+    _bindEvents() {
+        super._bindEvents();
+
+        $("#propertyModal_btnOK").on("click", () => {
+            this._context.newValue = $("#propertyModal_txtPropertyName").val();
+            this._context.result = true;
+            this._modal.hide();
+        });
+
+        // show properties of the selected object
+        $("#propertyModal_selObject").on("change", (event) => {
+            let selectedVal = $(event.target).val();
+            let selectedObj = this._findObjectById(selectedVal);
+            this._showObjectProperties(selectedObj);
+            this._selectProperty(null);
+        });
+
+        // select clicked property
+        $("#propertyModal_divObjectProperties").on("click", "li", (event) => {
+            event.stopPropagation();
+            let itemElem = $(event.currentTarget);
+
+            if (!itemElem.hasClass("rs-disabled")) {
+                let propertyName = itemElem.attr("data-path");
+                $("#propertyModal_txtPropertyName").val(propertyName);
+                this._selectItem(itemElem);
+            }
+        });
+    }
+
+    _setFocus() {
+        $("#propertyModal_txtPropertyName").focus();
+    }
+
+    _handleShown() {
+        let propertyName = $("#propertyModal_txtPropertyName").val();
+        this._selectProperty(propertyName);
+    }
+
+    _selectProperty(propertyName) {
+        let itemToSelect = null;
+
+        if (propertyName) {
+            $("#propertyModal_divObjectProperties li.rs-item").each((index, element) => {
+                let itemElem = $(element);
+                let path = itemElem.attr("data-path");
+
+                if (path === propertyName) {
+                    itemToSelect = itemElem;
+                    return false; // break loop
+                }
+            });
+        }
+
+        this._selectItem(itemToSelect);
+
+        if (itemToSelect) {
+            itemToSelect[0].scrollIntoView(false);
+        } else {
+            $("#propertyModal_divObjectProperties").scrollTop(0);
+        }
+    }
+
+    _selectItem(itemElem) {
+        $("#propertyModal_divObjectProperties li.rs-item").removeClass("rs-selected");
+        itemElem?.addClass("rs-selected");
+    }
+
+    _showSingleObject(obj) {
+        $("#propertyModal_txtObjectDisplayName").val(obj?.toString()).prop("hidden", false);
+        $("#propertyModal_selObject").prop("hidden", true);
+    }
+
+    _showObjectProperties(obj) {
+        let appendItemsFunc = (parentElem, obj, parentPath) => {
+            let targetObject = PropGridHelper.getTargetObject(obj);
+            let objectDescriptor = PropGridHelper.getObjectDescriptor(obj);
+
+            if (targetObject) {
+                for (let [name, value] of Object.entries(targetObject).sort(([a], [b]) => a.localeCompare(b))) {
+                    let path = parentPath + name;
+                    let propertyDescriptor = objectDescriptor?.get(name);
+                    let isBindable = propertyDescriptor?.isBindable ?? true;
+                    let itemText = propertyDescriptor ? `${name} (${propertyDescriptor.displayName})` : name;
+                    let itemElem = $("<li class='rs-item'></li>").attr("data-path", path).appendTo(parentElem);
+                    $("<span class='rs-item-text'></span>").text(itemText).appendTo(itemElem);
+
+                    if (isBindable) {
+                        if (value instanceof Object) {
+                            let childListElem = $("<ul></ul>").appendTo(itemElem);
+                            appendItemsFunc(childListElem, value, path + ".");
+                        }
+                    } else {
+                        itemElem.addClass("rs-disabled");
+                    }
+                }
+            }
+        };
+
+        let listElem = $("<ul></ul>");
+        let rootPath = this._options.canSelectObject ? obj?.name + "." : "";
+        appendItemsFunc(listElem, obj, rootPath);
+        $("#propertyModal_divObjectProperties").empty().append(listElem);
+    }
+
+    _findObjectById(optionValue) {
+        let componentID = Number.parseInt(optionValue);
+        return Number.isFinite(componentID)
+            ? (componentID > 0 ? this._mimic.componentMap.get(componentID) : this._mimic)
+            : null;
+    }
+
+    _findObjectByProperty(propertyName) {
+        let objectName = propertyName ? propertyName.split('.')[0] : null;
+
+        if (objectName) {
+            return objectName === this._mimic.name
+                ? this._mimic
+                : this._mimic.components.find(c => c.name === objectName);
+        } else {
+            return null;
+        }
+    }
+
+    _fillObjectList(selectedObject) {
+        // clear list
+        let selectElem = $("#propertyModal_selObject");
+        let firstOptionElem = selectElem.children("option:first");
+        firstOptionElem.detach();
+        selectElem.empty();
+
+        // create list options
+        let optionArr = [firstOptionElem];
+        let objectArr = [this._mimic, ...this._mimic.components].sort((a, b) => a.id - b.id);
+
+        for (let obj of objectArr) {
+            optionArr.push($("<option></option>")
+                .val(obj.id)
+                .text(obj.toString())
+                .prop("selected", selectedObject === obj)
+            );
+        }
+
+        firstOptionElem.prop("selected", !selectedObject);
+        selectElem.append(optionArr).prop("hidden", false);
+        $("#propertyModal_txtObjectDisplayName").prop("hidden", true);
+    }
+
+    show(showArgs, callback) {
+        let propertyName = showArgs.value;
+        this._context = new ModalContext({
+            oldValue: propertyName,
+            callback: callback
+        });
+
+        $("#propertyModal_txtPropertyName").val(propertyName);
+        this._options = showArgs.options ?? PropertyModal.DEFAULT_OPTIONS;
+
+        if (this._options.canSelectObject) {
+            let obj = this._findObjectByProperty(propertyName);
+            this._fillObjectList(obj);
+            this._showObjectProperties(obj);
+        } else {
+            this._showSingleObject(showArgs.topObject);
+            this._showObjectProperties(showArgs.topObject);
+        }
+
+        this._modal.show();
+    }
+}
+
+// Represents a modal dialog for editing text.
+class TextEditor extends ModalBase {
+    static DEFAULT_OPTIONS = {
+        language: "none"
+    };
+
+    _flask;
+
+    constructor(elemID) {
+        super(elemID);
+        let editorElem = $("#textEditor_divEditor");
+        this._flask = new CodeFlask(editorElem[0], TextEditor.DEFAULT_OPTIONS);
+    }
+
+    _bindEvents() {
+        super._bindEvents();
+
+        $("#textEditor_btnOK").on("click", () => {
+            this._context.newValue = this._flask.getCode();
+            this._context.result = true;
+            this._modal.hide();
+        });
+    }
+
+    _setFocus() {
+        $("#textEditor_divEditor textarea").focus();
+    }
+
+    _showLanguage(language) {
+        let lblLanguage = $("#textEditor_lblLanguage");
+
+        switch (language) {
+            case "css":
+                lblLanguage.text("CSS").removeClass("d-none");
+                break;
+
+            case "js":
+                lblLanguage.text("JavaScript").removeClass("d-none");
+                break;
+
+            case "markup":
+                lblLanguage.text("HTML/XML").removeClass("d-none");
+                break;
+
+            default:
+                lblLanguage.text("Text").addClass("d-none");
+                break;
+        }
+    }
+
+    show(showArgs, callback) {
+        let text = showArgs.value;
+        this._context = new ModalContext({
+            oldValue: text,
+            callback: callback
+        });
+
+        let options = showArgs.options ?? TextEditor.DEFAULT_OPTIONS;
+        this._showLanguage(options.language);
+        this._flask.updateLanguage(options.language);
+        this._flask.updateCode(text);
+        this._modal.show();
+    }
+}
+
+// Contains classes: PropGrid, PropGridEventType, PropGridHelper, PropGridDialogs,
+//     ProxyObject, PointProxy, SizeProxy, UnionObject
+// Depends on jquery, tweakpane, tweakpane-plugin-essentials, scada-common.js, mimic-model.js, mimic-descr.js
 
 // Interacts with Tweakpane to provide property grid functionality.
 class PropGrid {
-    _pane; // Tweakpane
-    _eventSource = document.createElement("propgrid");
+    _tweakpaneElem;
+    _tweakpane;
+    _phrases;
+    _eventSource = document.createElement("prop-grid");
     _selectedObject = null;
+    _topObject = null;
+    _topPropertyName = "";
     _parentStack = [];
 
-    constructor(elemID) {
-        let containerElem = $("#" + elemID);
-        this._pane = new Pane({
-            container: containerElem[0]
+    constructor(elemID, phrases) {
+        this._tweakpaneElem = $("#" + elemID);
+        this._tweakpane = new Tweakpane({
+            container: this._tweakpaneElem[0]
+        });
+        this._tweakpane.registerPlugin(TweakpaneEssentialsPlugin);
+        this._phrases = phrases ?? {};
+        this._bindEvents();
+    }
+
+    _bindEvents() {
+        this._tweakpaneElem.on("click", ".rs-array-item", (event) => {
+            // select the clicked array item
+            this._tweakpaneElem.find(".rs-array-item").removeClass("rs-selected");
+            $(event.currentTarget).addClass("rs-selected");
         });
     }
 
     _selectObject(obj) {
         this._selectedObject = obj;
         this._parentStack = [];
-        this._showObjectProperties(obj, null);
+        this._topObject = obj;
+        this._topPropertyName = "";
+        this._showObjectProperties(obj, false);
     }
 
-    _selectChildObject(obj, parent) {
+    _selectChildObject(propertyName, obj) {
+        let parent = this._selectedObject;
+
+        if (parent === this._topObject) {
+            this._topPropertyName = propertyName;
+        }
+
         this._selectedObject = obj;
         this._parentStack.push(parent);
-        this._showObjectProperties(obj, parent);
+        this._showObjectProperties(obj, true);
     }
 
     _selectParentObject() {
         let parent = this._parentStack.pop();
-        let grandParent = this._parentStack.at(-1); // last
+        let isChild = this._parentStack.length > 0;
+
+        if (!isChild) {
+            this._topPropertyName = "";
+        }
+
         this._selectedObject = parent;
-        this._showObjectProperties(parent, grandParent);
+        this._showObjectProperties(parent, isChild);
     }
 
-    _showObjectProperties(obj, parent) {
+    _showObjectProperties(obj, isChild) {
         this._clearPane();
+        let targetObject = PropGridHelper.getTargetObject(obj);
         let descriptor = PropGridHelper.getObjectDescriptor(obj);
-        let folderMap = this._addFolders(descriptor);
-
-        if (obj instanceof rs.mimic.Mimic) {
-            this._addBlades(folderMap, obj.document, parent, descriptor);
-        } else if (obj instanceof rs.mimic.Component) {
-            this._addBlade(folderMap, obj, "id", obj.id, descriptor);
-            this._addBlade(folderMap, obj, "name", obj.name, descriptor);
-            this._addBlade(folderMap, obj, "typeName", obj.typeName, descriptor);
-            this._addBlades(folderMap, obj.properties, parent, descriptor);
-        } else if (obj instanceof UnionObject) {
-            this._addBlades(folderMap, obj.properties, parent, descriptor);
-        } else if (obj instanceof Object) {
-            this._addBlades(folderMap, obj, parent, descriptor);
-        }
+        let folderMap = this._addFolders(targetObject, descriptor);
+        this._addBlades(folderMap, targetObject, isChild, descriptor);
     }
 
     _clearPane() {
-        for (let child of this._pane.children) {
+        for (let child of this._tweakpane.children) {
             child.dispose();
         }
     }
 
-    _addBlades(folderMap, target, parent, objectDescriptor) {
-        const thisObj = this;
+    _addBlades(folderMap, targetObject, isChild, objectDescriptor) {
+        if (targetObject) {
+            if (Array.isArray(targetObject)) {
+                // show array elements
+                this._addArrayToolbar(targetObject);
+                let index = 0;
 
-        if (target) {
-            for (let [name, value] of Object.entries(target)) {
-                this._addBlade(folderMap, target, name, value, objectDescriptor);
+                for (let [name, value] of Object.entries(targetObject)) {
+                    let blade = this._addBlade(folderMap, targetObject, name, value, objectDescriptor);
+                    this._prepareArrayBlade(blade, value, index);
+                    index++;
+                }
+            } else {
+                // show object properties
+                let entries = Object.entries(targetObject);
+
+                if (objectDescriptor && objectDescriptor.sorted) {
+                    entries.sort(([nameA], [nameB]) => {
+                        let displayNameA = objectDescriptor.get(nameA)?.displayName ?? nameA;
+                        let displayNameB = objectDescriptor.get(nameB)?.displayName ?? nameB;
+                        return displayNameA.localeCompare(displayNameB);
+                    });
+                }
+
+                for (let [name, value] of entries) {
+                    this._addBlade(folderMap, targetObject, name, value, objectDescriptor);
+                }
             }
         }
 
-        if (parent) {
-            this._pane
+        // add the Back button
+        if (isChild) {
+            this._tweakpane
                 .addButton({
-                    title: "Return to Parent"
+                    title: this._phrases.backButton
                 })
-                .on("click", function () {
-                    thisObj._selectParentObject();
+                .on("click", () => {
+                    this._selectParentObject();
                 });
         }
     }
 
-    _addBlade(folderMap, target, propertyName, propertyValue, objectDescriptor) {
+    _addBlade(folderMap, targetObject, propertyName, propertyValue, objectDescriptor) {
         let propertyDescriptor = objectDescriptor?.get(propertyName);
 
         if (propertyDescriptor && !propertyDescriptor.isBrowsable) {
             return;
         }
 
-        const thisObj = this;
-        const selObj = this._selectedObject;
+        let blade = null;
         let container = this._selectContainer(folderMap, propertyDescriptor);
 
-        if (typeof propertyValue === "number" ||
+        if (PropGridDialogs.editorSupported(propertyDescriptor)) {
+            // property editor called by button click
+            blade = container
+                .addButton({
+                    label: propertyDescriptor.displayName,
+                    title: this._getEditButtonText(propertyValue)
+                })
+                .on("click", () => {
+                    PropGridDialogs.showEditor(this._topObject, propertyValue, propertyDescriptor,
+                        (newPropertyValue) => {
+                            propertyValue = newPropertyValue;
+                            blade.title = this._getEditButtonText(propertyValue);
+                            targetObject[propertyName] = propertyValue;
+                            this._handleBindingChange(targetObject, propertyName, propertyValue);
+                        });
+                });
+        } else if (typeof propertyValue === "number" ||
             typeof propertyValue === "string" ||
             typeof propertyValue === "boolean") {
             // simple property is editable in row
-            container
-                .addBinding(target, propertyName, this._getBindingOptions(propertyDescriptor))
-                .on("change", function (event) {
+            blade = container
+                .addBinding(targetObject, propertyName, this._getBindingOptions(propertyDescriptor))
+                .on("change", (event) => {
                     if (event.last) {
-                        thisObj._handleBindingChange(selObj, target, propertyName, event.value);
+                        this._handleBindingChange(targetObject, propertyName, event.value);
                     }
                 });
         } else if (propertyValue instanceof Object) {
@@ -1129,44 +2025,47 @@ class PropGrid {
 
             if (proxyObject) {
                 // use proxy object
-                container
+                blade = container
                     .addBinding({ [propertyName]: proxyObject }, propertyName,
                         this._getBindingOptions(propertyDescriptor))
-                    .on("change", function (event) {
+                    .on("change", (event) => {
                         if (event.last) {
-                            thisObj._handleBindingChange(selObj, target, propertyName, event.value);
+                            this._handleBindingChange(targetObject, propertyName, event.value);
                         }
                     });
             } else {
                 // complex property requires braking into simple properties
-                container
+                blade = container
                     .addButton({
-                        label: propertyDescriptor?.displayName ?? propertyName,
-                        title: "Edit"
+                        label: propertyDescriptor ? propertyDescriptor.displayName : propertyName,
+                        title: this._getEditButtonText(propertyValue)
                     })
-                    .on("click", function () {
-                        thisObj._selectChildObject(propertyValue, selObj);
+                    .on("click", () => {
+                        this._selectChildObject(propertyName, propertyValue);
                     });
             }
         }
+
+        return blade;
     }
 
-    _addFolders(objectDescriptor) {
+    _addFolders(targetObject, objectDescriptor) {
         let folderMap = new Map();
 
-        if (objectDescriptor) {
+        if (targetObject && objectDescriptor) {
             // get distinct categories
             let categorySet = new Set();
 
             for (let propertyDescriptor of objectDescriptor.propertyDescriptors.values()) {
-                if (propertyDescriptor.isBrowsable && propertyDescriptor.category) {
+                if (Object.hasOwn(targetObject, propertyDescriptor.name) &&
+                    propertyDescriptor.isBrowsable && propertyDescriptor.category) {
                     categorySet.add(propertyDescriptor.category);
                 }
             }
 
             // create folders
             for (let category of Array.from(categorySet).sort()) {
-                folderMap.set(category, this._pane.addFolder({
+                folderMap.set(category, this._tweakpane.addFolder({
                     title: category
                 }));
             }
@@ -1177,22 +2076,50 @@ class PropGrid {
 
     _selectContainer(folderMap, propertyDescriptor) {
         return propertyDescriptor && propertyDescriptor.category
-            ? folderMap.get(propertyDescriptor.category) ?? this._pane
-            : this._pane;
+            ? folderMap.get(propertyDescriptor.category) ?? this._tweakpane
+            : this._tweakpane;
     }
 
-    _createProxyObject(target, propertyDescriptor) {
+    _getEditButtonText(propertyValue) {
+        const MaxLength = 20;
+        let showValue = false;
+        let displayValue = "";
+
+        if (propertyValue instanceof Object) {
+            showValue = "displayValue" in propertyValue;
+            displayValue = propertyValue.displayValue;
+        } else {
+            showValue = !!propertyValue?.toString;
+            displayValue = propertyValue?.toString?.();
+        }
+
+        if (showValue) {
+            let text = displayValue?.trimStart();
+            return text
+                ? (text.length <= MaxLength ? text : text.substring(0, MaxLength) + "...")
+                : this._phrases.notSet;
+        } else {
+            return this._phrases.editButton;
+        }
+    }
+
+    _createProxyObject(propertyValue, propertyDescriptor) {
+        if (!propertyDescriptor) {
+            return null;
+        }
+
         const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
         let proxy = null;
 
-        if (propertyDescriptor) {
-            switch (propertyDescriptor.type) {
-                case BasicType.POINT:
-                    proxy = new PointProxy(target);
+        if (propertyDescriptor.type === BasicType.STRUCT) {
+            switch (propertyDescriptor.subtype) {
+                case Subtype.POINT:
+                    proxy = new PointProxy(propertyValue);
                     break;
 
-                case BasicType.SIZE:
-                    proxy = new SizeProxy(target);
+                case Subtype.SIZE:
+                    proxy = new SizeProxy(propertyValue);
                     break;
             }
         }
@@ -1201,54 +2128,210 @@ class PropGrid {
     }
 
     _getBindingOptions(propertyDescriptor) {
-        const BasicType = rs.mimic.BasicType;
-        let bindingOptions = null;
-
-        if (propertyDescriptor) {
-            bindingOptions = {
-                label: propertyDescriptor.displayName
-            };
-
-            if (propertyDescriptor.isReadOnly) {
-                bindingOptions.readonly = true;
-                bindingOptions.interval = ScadaUtils.MS_PER_DAY;
-            }
-
-            switch (propertyDescriptor.type) {
-                case BasicType.INT:
-                    bindingOptions.format = (v) => v.toFixed();
-                    break;
-
-                case BasicType.POINT:
-                case BasicType.SIZE:
-                    bindingOptions.x = { step: 1 };
-                    bindingOptions.y = { step: 1 };
-                    break;
-            }
-
-            if (propertyDescriptor.format instanceof Object) {
-                Object.assign(bindingOptions, propertyDescriptor.format);
-            }
+        if (!propertyDescriptor) {
+            return null;
         }
 
+        const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
+
+        let bindingOptions = {
+            label: propertyDescriptor.displayName
+        };
+
+        if (propertyDescriptor.isReadOnly) {
+            bindingOptions.readonly = true;
+            bindingOptions.interval = 0;
+        }
+
+        switch (propertyDescriptor.type) {
+            case BasicType.INT:
+                bindingOptions.format = (v) => v.toFixed();
+                bindingOptions.step = 1;
+                break;
+
+            case BasicType.STRING:
+                bindingOptions.view = "text";
+                break;
+
+            case BasicType.STRUCT:
+                if (propertyDescriptor.subtype === Subtype.POINT ||
+                    propertyDescriptor.subtype === Subtype.SIZE) {
+                    bindingOptions.x = { step: 1 };
+                    bindingOptions.y = { step: 1 };
+                }
+                break;
+        }
+
+        Object.assign(bindingOptions, propertyDescriptor.tweakpaneOptions);
         return bindingOptions;
     }
 
-    _handleBindingChange(selectedObject, changedObject, propertyName, value) {
-        let targetValue = value instanceof ProxyObject ? value.target : value;
-
-        if (selectedObject instanceof UnionObject) {
-            selectedObject.setProperty(propertyName, targetValue);
+    _handleBindingChange(targetObject, propertyName, propertyValue) {
+        // get value from proxy object
+        if (propertyValue instanceof ProxyObject) {
+            propertyValue = propertyValue.target;
         }
 
+        // get top property name and value
+        let topTargetObject = PropGridHelper.getTargetObject(this._topObject);
+        let topPropertyName = "";
+        let topPropertyValue = null;
+
+        if (topTargetObject === targetObject) {
+            topPropertyName = propertyName;
+            topPropertyValue = propertyValue;
+        } else if (topTargetObject) {
+            topPropertyName = this._topPropertyName;
+            topPropertyValue = topTargetObject[this._topPropertyName];
+        }
+
+        // update union object
+        if (this._topObject instanceof UnionObject) {
+            this._topObject.setProperty(topPropertyName, topPropertyValue);
+        }
+
+        // call event
         this._eventSource.dispatchEvent(new CustomEvent(PropGridEventType.PROPERTY_CHANGED, {
             detail: {
-                selectedObject: selectedObject,
-                changedObject: changedObject,
+                selectedObject: this._selectedObject,
+                topObject: this._topObject,
+                targetObject: targetObject,
                 propertyName: propertyName,
-                value: targetValue
+                propertyValue: propertyValue,
+                topPropertyName: topPropertyName,
+                topPropertyValue: topPropertyValue
             }
         }));
+    }
+
+    _handleError(message) {
+        console.error(message);
+
+        this._eventSource.dispatchEvent(new CustomEvent(PropGridEventType.ERROR, {
+            detail: {
+                message: message
+            }
+        }));
+    }
+
+    _addArrayToolbar(array) {
+        this._tweakpane.addBlade({
+            view: "buttongrid",
+            size: [4, 1],
+            cells: (x, y) => ({
+                title: [[
+                    this._phrases.addButton,
+                    this._phrases.upButton,
+                    this._phrases.downButton,
+                    this._phrases.deleteButton
+                ]][y][x]
+            })
+        }).on("click", (event) => {
+            switch (event.index[0]) {
+                case 0:
+                    this._addArrayItem(array);
+                    break;
+                case 1:
+                    this._moveUpArrayItem(array);
+                    break;
+                case 2:
+                    this._moveDownArrayItem(array);
+                    break;
+                case 3:
+                    this._deleteArrayItem(array);
+                    break;
+            }
+        });
+    }
+
+    _prepareArrayBlade(blade, item, index) {
+        if (blade) {
+            blade.label = item.displayName || this._phrases.arrayItem + index;
+            $(blade.element).addClass("rs-array-item").attr("data-rs-index", index);
+        }
+    }
+
+    _getSelectedIndex() {
+        let index = this._tweakpaneElem.find(".rs-array-item.rs-selected:first").data("rs-index");
+        return index >= 0 ? index : -1;
+    }
+
+    _setSelectedIndex(index) {
+        let itemElems = this._tweakpaneElem.find(".rs-array-item");
+        itemElems.removeClass("rs-selected");
+        itemElems.filter(`[data-rs-index="${index}"]`).addClass("rs-selected");
+    }
+
+    _addArrayItem(array) {
+        let itemAdded = false;
+
+        if (array.createItem instanceof Function) {
+            let item = array.createItem();
+
+            if (item !== undefined && item !== null) {
+                let index = this._getSelectedIndex();
+
+                if (index < 0) {
+                    index = array.length;
+                    array.push(item);
+                } else {
+                    index++;
+                    array.splice(index, 0, item);
+                }
+
+                this._handleArrayChange(array);
+                this.refresh();
+                this._setSelectedIndex(index);
+                itemAdded = true;
+            }
+        }
+
+        if (!itemAdded) {
+            this._handleError(this._phrases.unableAddItem);
+        }
+    }
+
+    _moveUpArrayItem(array) {
+        let index = this._getSelectedIndex();
+
+        if (index > 0) {
+            [array[index - 1], array[index]] = [array[index], array[index - 1]];
+            this._handleArrayChange(array);
+            this.refresh();
+            this._setSelectedIndex(index - 1);
+        } else {
+            this._handleError(this._phrases.unableMoveItem);
+        }
+    }
+
+    _moveDownArrayItem(array) {
+        let index = this._getSelectedIndex();
+
+        if (0 <= index && index < array.length - 1) {
+            [array[index], array[index + 1]] = [array[index + 1], array[index]];
+            this._handleArrayChange(array);
+            this.refresh();
+            this._setSelectedIndex(index + 1);
+        } else {
+            this._handleError(this._phrases.unableMoveItem);
+        }
+    }
+
+    _deleteArrayItem(array) {
+        let index = this._getSelectedIndex();
+
+        if (index >= 0) {
+            array.splice(index, 1);
+            this._handleArrayChange(array);
+            this.refresh();
+        } else {
+            this._handleError(this._phrases.unableDeleteItem);
+        }
+    }
+
+    _handleArrayChange(array) {
+        this._handleBindingChange(array, "", null);
     }
 
     get selectedObject() {
@@ -1284,7 +2367,7 @@ class PropGrid {
     }
 
     refreshProperty(propertyName) {
-        for (let folder of this._pane.children) {
+        for (let folder of this._tweakpane.children) {
             for (let binding of folder.children) {
                 if (binding.key === propertyName) {
                     binding.refresh();
@@ -1294,41 +2377,151 @@ class PropGrid {
         }
     }
 
-    refresh() {
+    refresh(opt_backToTop) {
         if (this._selectedObject instanceof UnionObject) {
             let newUnion = new UnionObject(this._selectedObject.targets);
             this._selectObject(newUnion);
+        } else if (opt_backToTop) {
+            this._selectObject(this._topObject);
         } else {
-            this._selectObject(this._selectedObject);
+            let isChild = this._selectedObject !== this._topObject;
+            this._showObjectProperties(this._selectedObject, isChild);
         }
     }
 }
 
 // Specifies the event types for property grid.
 class PropGridEventType {
+    static ERROR = "error";
     static PROPERTY_CHANGED = "propertyChanged";
 }
 
 // Provides helper methods for property grid.
 class PropGridHelper {
+    static _translationRef = null;
+
+    static _translateObject(objectDescriptor, translation, objectDict, opt_fallbackDict) {
+        if (!objectDict) {
+            return;
+        }
+
+        const BasicType = rs.mimic.BasicType;
+
+        for (let propertyDescriptor of objectDescriptor.propertyDescriptors.values()) {
+            // translate display name and category
+            let displayName = objectDict[propertyDescriptor.name] ??
+                (opt_fallbackDict ? opt_fallbackDict[propertyDescriptor.name] : "");
+            let category = translation.category[propertyDescriptor.category];
+
+            if (displayName) {
+                propertyDescriptor.displayName = displayName;
+            }
+
+            if (category) {
+                propertyDescriptor.category = category;
+            }
+
+            // translate enumeration
+            if (propertyDescriptor.type === BasicType.ENUM) {
+                let enumDict = translation.enumerations.get(propertyDescriptor.subtype);
+
+                if (enumDict) {
+                    propertyDescriptor.tweakpaneOptions ??= {};
+                    propertyDescriptor.tweakpaneOptions.options ??= enumDict;
+                }
+            }
+        }
+    }
+
+    static translateDescriptors(translation) {
+        const DescriptorSet = rs.mimic.DescriptorSet;
+        PropGridHelper._translationRef = translation;
+
+        // translate mimic
+        PropGridHelper._translateObject(DescriptorSet.mimicDescriptor, translation, translation.mimic);
+
+        // translate components
+        for (let [typeName, descriptor] of DescriptorSet.componentDescriptors) {
+            PropGridHelper._translateObject(descriptor, translation,
+                translation.components.get(typeName), translation.component);
+        }
+
+        // translate structures
+        for (let [typeName, descriptor] of DescriptorSet.structureDescriptors) {
+            PropGridHelper._translateObject(descriptor, translation, translation.structures.get(typeName));
+        }
+    }
+
+    static getTargetObject(obj) {
+        if (obj instanceof rs.mimic.Mimic) {
+            return obj.document;
+        } else if (obj instanceof rs.mimic.Component) {
+            return obj.properties;
+        } else if (obj instanceof UnionObject) {
+            return obj.properties;
+        } else if (obj instanceof Object) {
+            return obj;
+        } else {
+            return null;
+        }
+    }
+
     static getObjectDescriptor(obj) {
         const DescriptorSet = rs.mimic.DescriptorSet;
 
         if (obj instanceof rs.mimic.FaceplateInstance) {
-            return DescriptorSet.faceplateDescriptor;
+            let descriptor = DescriptorSet.getFaceplateDescriptor(obj.model);
+            let translation = PropGridHelper._translationRef;
+
+            if (translation) {
+                PropGridHelper._translateObject(descriptor, translation, translation.component);
+            }
+
+            return descriptor;
         } else if (obj instanceof rs.mimic.Component) {
             return DescriptorSet.componentDescriptors.get(obj.typeName);
         } else if (obj instanceof rs.mimic.Mimic) {
             return DescriptorSet.mimicDescriptor;
         } else if (obj instanceof UnionObject) {
             return obj.descriptor;
+        } else if (obj instanceof Object && obj.typeName) {
+            return DescriptorSet.structureDescriptors.get(obj.typeName);
         } else {
             return null;
         }
     }
+}
 
-    static translateDescriptors(translation) {
+// Calls property editors implemented as modal dialogs.
+class PropGridDialogs {
+    static editorMap = new Map();
 
+    // Adds the modal to the editor map.
+    static addEditor(key, modal) {
+        PropGridDialogs.editorMap.set(key, modal);
+    }
+
+    // Checks whether an editor for the specified property is supported.
+    static editorSupported(propertyDescriptor) {
+        return !!PropGridDialogs.editorMap.get(propertyDescriptor?.editor);
+    }
+
+    // Shows an editor as a modal dialog.
+    // callback is a function (newPropertyValue)
+    static showEditor(topObject, propertyValue, propertyDescriptor, callback) {
+        let modal = PropGridDialogs.editorMap.get(propertyDescriptor?.editor);
+        modal?.show(
+            new ModalShowArgs({
+                topObject: topObject,
+                value: propertyValue,
+                options: propertyDescriptor?.editorOptions
+            }),
+            modalContext => {
+                if (modalContext.result && callback instanceof Function) {
+                    callback(modalContext.newValue);
+                }
+            }
+        );
     }
 }
 
@@ -1337,18 +2530,18 @@ class ProxyObject {
     target;
 
     constructor(target) {
-        if (target) {
-            this.target = target;
-        } else {
+        if (target == null) {
             throw new Error("Target must not be null.");
         }
+
+        this.target = target;
     }
 }
 
 // Represents a proxy object for editing point as a Point2d.
 class PointProxy extends ProxyObject {
     get x() {
-        return parseInt(this.target.x) || 0;
+        return Number.parseInt(this.target.x) || 0;
     }
 
     set x(value) {
@@ -1356,7 +2549,7 @@ class PointProxy extends ProxyObject {
     }
 
     get y() {
-        return parseInt(this.target.y) || 0;
+        return Number.parseInt(this.target.y) || 0;
     }
 
     set y(value) {
@@ -1367,7 +2560,7 @@ class PointProxy extends ProxyObject {
 // Represents a proxy object for editing size as a Point2d.
 class SizeProxy extends ProxyObject {
     get x() {
-        return parseInt(this.target.width) || 0;
+        return Number.parseInt(this.target.width) || 0;
     }
 
     set x(value) {
@@ -1375,7 +2568,7 @@ class SizeProxy extends ProxyObject {
     }
 
     get y() {
-        return parseInt(this.target.height) || 0;
+        return Number.parseInt(this.target.height) || 0;
     }
 
     set y(value) {
@@ -1390,12 +2583,11 @@ class UnionObject {
     descriptor; // describes the union properties
 
     constructor(targets) {
-        if (Array.isArray(targets)) {
-            this.targets = targets;
-        } else {
+        if (!Array.isArray(targets)) {
             throw new Error("Targets must be an array.");
         }
 
+        this.targets = targets;
         this._buildProperties();
     }
 
@@ -1411,10 +2603,10 @@ class UnionObject {
             if (index === 0) {
                 // add properties of the 1st object
                 for (let [name, value] of Object.entries(editableObj)) {
-                    this.properties[name] = ScadaUtils.deepClone(value);
+                    this.properties[name] = ScadaUtils.deepClone(value, true);
                     let propertyDescriptor = targetDescriptor.get(name);
 
-                    if (propertyDescriptor) {
+                    if (propertyDescriptor && propertyDescriptor.type !== rs.mimic.BasicType.LIST) {
                         this.descriptor.add(propertyDescriptor);
                     }
                 }
@@ -1424,7 +2616,7 @@ class UnionObject {
                     let descriptor1 = this.descriptor.get(name);
                     let descriptor2 = targetDescriptor.get(name);
 
-                    if (editableObj.hasOwnProperty(name) && this._sameProperties(descriptor1, descriptor2)) {
+                    if (Object.hasOwn(editableObj, name) && this._sameProperties(descriptor1, descriptor2)) {
                         let value2 = editableObj[name];
 
                         if (!this._sameValues(value, value2)) {
@@ -1443,20 +2635,21 @@ class UnionObject {
     }
 
     _getEditableObject(target) {
-        if (target instanceof rs.mimic.Component) {
-            return target.properties;
-        } else if (target instanceof rs.mimic.Mimic) {
+        if (target instanceof rs.mimic.Mimic) {
             return target.document;
+        } else if (target instanceof rs.mimic.Component) {
+            return target.properties;
         } else if (target instanceof Object) {
             return target;
         } else {
-            return null;
+            return {};
         }
     }
 
     _sameProperties(descriptor1, descriptor2) {
         return descriptor1 === descriptor2 ||
-            descriptor1 && descriptor2 && descriptor1.type === descriptor2.type;
+            descriptor1 && descriptor2 && descriptor1.type === descriptor2.type &&
+            descriptor1.subtype === descriptor2.subtype;
     }
 
     _sameValues(value1, value2) {
@@ -1466,10 +2659,14 @@ class UnionObject {
     }
 
     _mergeValues(value1, value2) {
-        if (typeof value1 === "number") {
+        if (Array.isArray(value1)) {
+            return null; // do not display array properties
+        } else if (typeof value1 === "number") {
             return value1 === value2 ? value1 : 0;
         } else if (typeof value1 === "string") {
             return value1 === value2 ? value1 : "";
+        } else if (typeof value1 === "boolean") {
+            return value1 === value2 ? value1 : false;
         } else if (value1 instanceof Object) {
             let result = {};
 
@@ -1486,7 +2683,7 @@ class UnionObject {
     setProperty(name, value) {
         for (let target of this.targets) {
             let editableObj = this._getEditableObject(target);
-            editableObj[name] = ScadaUtils.deepClone(value);
+            editableObj[name] = ScadaUtils.deepClone(value, true);
         }
     }
 
@@ -1500,7 +2697,7 @@ class UnionObject {
 
 // Represents a component for displaying mimic structure.
 class StructTree {
-    _eventSource = document.createElement("structtree");
+    _eventSource = document.createElement("struct-tree");
 
     structElem;
     mimic;
@@ -1509,7 +2706,7 @@ class StructTree {
     constructor(elemID, mimic, phrases) {
         this.structElem = $("#" + elemID);
         this.mimic = mimic;
-        this.phrases = phrases;
+        this.phrases = phrases ?? {};
     }
 
     _prepareDependencies(listElem) {
@@ -1573,6 +2770,7 @@ class StructTree {
         bootstrap.Popover.getOrCreateInstance(buttonElem[0], {
             html: true,
             placement: "bottom",
+            trigger: "hover",
             content: function () {
                 // called twice by Bootstrap on each show
                 let popoverContent = buttonElem.data("popoverContent");

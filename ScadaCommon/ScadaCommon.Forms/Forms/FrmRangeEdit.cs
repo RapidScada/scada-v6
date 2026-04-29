@@ -43,7 +43,7 @@ namespace Scada.Forms.Forms
         private void FrmRangeEdit_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
-            Range ??= new List<int>();
+            Range ??= [];
             txtRange.Text = Range.ToRangeString();
         }
 

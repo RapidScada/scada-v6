@@ -1,0 +1,57 @@
+﻿// Contains subtypes for basic components.
+
+rs.mimic.BasicTogglePosition = class {
+    static NOT_SET = "NotSet";
+    static OFF = "Off";
+    static ON = "On";
+}
+
+rs.mimic.BasicColorCondition = class extends rs.mimic.Condition {
+    color = "";
+
+    constructor(source) {
+        super();
+        Object.assign(this, source);
+    }
+
+    get typeName() {
+        return "BasicColorCondition";
+    }
+
+    get displayValue() {
+        return this.color;
+    }
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let colorCondition = new rs.mimic.BasicColorCondition();
+
+        if (source) {
+            colorCondition._copyFrom(source);
+            colorCondition.color = PropertyParser.parseString(source.color);
+        }
+
+        return colorCondition;
+    }
+};
+
+rs.mimic.BasicColorConditionList = class extends rs.mimic.List {
+    constructor() {
+        super(() => {
+            return new rs.mimic.BasicColorCondition();
+        });
+    }
+
+    static parse(source) {
+        const BasicColorCondition = rs.mimic.BasicColorCondition;
+        let colorConditions = new rs.mimic.BasicColorConditionList();
+
+        if (Array.isArray(source)) {
+            for (let sourceItem of source) {
+                colorConditions.push(BasicColorCondition.parse(sourceItem));
+            }
+        }
+
+        return colorConditions;
+    }
+}

@@ -222,7 +222,7 @@ function startUpdatingCurData() {
 }
 
 function startUpdatingHistData() {
-    undateHistData(function () {
+    updateHistData(function () {
         setTimeout(startUpdatingHistData, pluginOptions.refreshRate);
     });
 }
@@ -241,7 +241,7 @@ function updateCurData(callback) {
     });
 }
 
-function undateHistData(callback) {
+function updateHistData(callback) {
     if (timeRange && archiveBit >= 0) {
         mainApi.getArcWriteTime(archiveBit, function (dto) {
             if (dto.ok) {

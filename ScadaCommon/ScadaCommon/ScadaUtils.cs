@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2007
- * Modified : 2024
+ * Modified : 2025
  */
 
 using Scada.Lang;
@@ -56,6 +56,10 @@ namespace Scada
         /// The delay in case of an operation error, ms.
         /// </summary>
         public const int ErrorDelay = 1000;
+        /// <summary>
+        /// The number of characters to preview a string.
+        /// </summary>
+        public const int StringPreviewLength = 100;
         /// <summary>
         /// The ending of a registration key file name.
         /// </summary>
@@ -307,21 +311,13 @@ namespace Scada
         /// </summary>
         public static T SafeClone<T>(this T obj)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            XmlSerializer serializer = new XmlSerializer(obj.GetType());
 
             using (MemoryStream stream = new MemoryStream())
             {
-                using (XmlWriter writer = XmlWriter.Create(stream))
-                {
-                    serializer.Serialize(writer, obj);
-                }
-
+                serializer.Serialize(stream, obj);
                 stream.Position = 0;
-
-                using (XmlReader reader = XmlReader.Create(stream))
-                {
-                    return (T)serializer.Deserialize(reader);
-                }
+                return (T)serializer.Deserialize(stream);
             }
         }
 
@@ -522,7 +518,7 @@ namespace Scada
         /// <summary>
         /// Gets the beginning of the string that does not exceed the specified length.
         /// </summary>
-        public static string GetPreview(this string s, int maxLength)
+        public static string GetPreview(this string s, int maxLength = StringPreviewLength)
         {
             if (s == null)
                 return "";

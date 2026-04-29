@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2025 Rapid Software LLC
+ * Copyright 2026 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,21 +20,23 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2018
+ * Modified : 2025
  */
 
 namespace Scada.Admin.App.Code
 {
     /// <summary>
     /// Specifies the file types supported by the application.
-    /// <para>Задает типы файлов, поддерживаемые приложением.</para>
+    /// <para>Задаёт типы файлов, поддерживаемые приложением.</para>
     /// </summary>
     public enum KnownFileType
     {
         None,
         SchemeView,
+        MimicView,
+        Faceplate,
         TableView,
-        TextFile,
-        XmlFile
+        Xml,
+        Text
     }
 }

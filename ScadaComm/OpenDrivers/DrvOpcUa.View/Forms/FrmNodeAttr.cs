@@ -4,6 +4,7 @@
 using Opc.Ua;
 using Opc.Ua.Client;
 using Scada.Forms;
+using System.ComponentModel;
 
 namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 {
@@ -46,7 +47,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             try
             {
                 // request attributes
-                ReadValueIdCollection nodesToRead = new();
+                ReadValueIdCollection nodesToRead = [];
 
                 foreach (uint attributeId in Attributes.GetIdentifiers())
                 {
@@ -70,10 +71,10 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 
                     if (dataValue.StatusCode != StatusCodes.BadAttributeIdInvalid)
                     {
-                        listView.Items.Add(new ListViewItem(new string[] {
-                        Attributes.GetBrowseName(readValueId.AttributeId),
-                        FormatAttribute(readValueId.AttributeId, dataValue.Value)
-                    }));
+                        listView.Items.Add(new ListViewItem([
+                            Attributes.GetBrowseName(readValueId.AttributeId),
+                            FormatAttribute(readValueId.AttributeId, dataValue.Value)
+                        ]));
                     }
                 }
             }
@@ -133,7 +134,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 case Attributes.AccessLevel:
                 case Attributes.UserAccessLevel:
                     byte accessLevel = Convert.ToByte(value);
-                    List<string> accessList = new();
+                    List<string> accessList = [];
 
                     if ((accessLevel & AccessLevels.CurrentRead) != 0)
                         accessList.Add("Readable");
@@ -154,7 +155,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 
                 case Attributes.EventNotifier:
                     byte notifier = Convert.ToByte(value);
-                    List<string> bits = new();
+                    List<string> bits = [];
 
                     if ((notifier & EventNotifiers.SubscribeToEvents) != 0)
                         bits.Add("Subscribe");
@@ -178,12 +179,29 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 
         private void FrmNodeAttr_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName);
+            FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions { ContextMenus = [cmsAttr] });
         }
 
         private async void FrmNodeAttr_Shown(object sender, EventArgs e)
         {
-            await Task.Run(() => ReadAttributes());
+            await Task.Run(ReadAttributes);
+        }
+
+        private void cmsAttr_Opening(object sender, CancelEventArgs e)
+        {
+            miCopyName.Enabled = miCopyValue.Enabled = listView.SelectedItems.Count > 0;
+        }
+
+        private void miCopyName_Click(object sender, EventArgs e)
+        {
+            if (listView.GetSelectedItem() is ListViewItem item)
+                Clipboard.SetText(item.SubItems[0].Text);
+        }
+
+        private void miCopyValue_Click(object sender, EventArgs e)
+        {
+            if (listView.GetSelectedItem() is ListViewItem item)
+                Clipboard.SetText(item.SubItems[1].Text);
         }
     }
 }

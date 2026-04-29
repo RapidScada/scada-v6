@@ -1,104 +1,159 @@
-﻿// Contains classes: PropGrid, PropGridEventType, PropGridHelper, ProxyObject, PointProxy, SizeProxy, UnionObject
-// Depends on jquery, tweakpane, scada-common.js, mimic-model.js, mimic-descr.js
+﻿// Contains classes: PropGrid, PropGridEventType, PropGridHelper, PropGridDialogs,
+//     ProxyObject, PointProxy, SizeProxy, UnionObject
+// Depends on jquery, tweakpane, tweakpane-plugin-essentials, scada-common.js, mimic-model.js, mimic-descr.js
 
 // Interacts with Tweakpane to provide property grid functionality.
 class PropGrid {
-    _pane; // Tweakpane
-    _eventSource = document.createElement("propgrid");
+    _tweakpaneElem;
+    _tweakpane;
+    _phrases;
+    _eventSource = document.createElement("prop-grid");
     _selectedObject = null;
+    _topObject = null;
+    _topPropertyName = "";
     _parentStack = [];
 
-    constructor(elemID) {
-        let containerElem = $("#" + elemID);
-        this._pane = new Pane({
-            container: containerElem[0]
+    constructor(elemID, phrases) {
+        this._tweakpaneElem = $("#" + elemID);
+        this._tweakpane = new Tweakpane({
+            container: this._tweakpaneElem[0]
+        });
+        this._tweakpane.registerPlugin(TweakpaneEssentialsPlugin);
+        this._phrases = phrases ?? {};
+        this._bindEvents();
+    }
+
+    _bindEvents() {
+        this._tweakpaneElem.on("click", ".rs-array-item", (event) => {
+            // select the clicked array item
+            this._tweakpaneElem.find(".rs-array-item").removeClass("rs-selected");
+            $(event.currentTarget).addClass("rs-selected");
         });
     }
 
     _selectObject(obj) {
         this._selectedObject = obj;
         this._parentStack = [];
-        this._showObjectProperties(obj, null);
+        this._topObject = obj;
+        this._topPropertyName = "";
+        this._showObjectProperties(obj, false);
     }
 
-    _selectChildObject(obj, parent) {
+    _selectChildObject(propertyName, obj) {
+        let parent = this._selectedObject;
+
+        if (parent === this._topObject) {
+            this._topPropertyName = propertyName;
+        }
+
         this._selectedObject = obj;
         this._parentStack.push(parent);
-        this._showObjectProperties(obj, parent);
+        this._showObjectProperties(obj, true);
     }
 
     _selectParentObject() {
         let parent = this._parentStack.pop();
-        let grandParent = this._parentStack.at(-1); // last
+        let isChild = this._parentStack.length > 0;
+
+        if (!isChild) {
+            this._topPropertyName = "";
+        }
+
         this._selectedObject = parent;
-        this._showObjectProperties(parent, grandParent);
+        this._showObjectProperties(parent, isChild);
     }
 
-    _showObjectProperties(obj, parent) {
+    _showObjectProperties(obj, isChild) {
         this._clearPane();
+        let targetObject = PropGridHelper.getTargetObject(obj);
         let descriptor = PropGridHelper.getObjectDescriptor(obj);
-        let folderMap = this._addFolders(descriptor);
-
-        if (obj instanceof rs.mimic.Mimic) {
-            this._addBlades(folderMap, obj.document, parent, descriptor);
-        } else if (obj instanceof rs.mimic.Component) {
-            this._addBlade(folderMap, obj, "id", obj.id, descriptor);
-            this._addBlade(folderMap, obj, "name", obj.name, descriptor);
-            this._addBlade(folderMap, obj, "typeName", obj.typeName, descriptor);
-            this._addBlades(folderMap, obj.properties, parent, descriptor);
-        } else if (obj instanceof UnionObject) {
-            this._addBlades(folderMap, obj.properties, parent, descriptor);
-        } else if (obj instanceof Object) {
-            this._addBlades(folderMap, obj, parent, descriptor);
-        }
+        let folderMap = this._addFolders(targetObject, descriptor);
+        this._addBlades(folderMap, targetObject, isChild, descriptor);
     }
 
     _clearPane() {
-        for (let child of this._pane.children) {
+        for (let child of this._tweakpane.children) {
             child.dispose();
         }
     }
 
-    _addBlades(folderMap, target, parent, objectDescriptor) {
-        const thisObj = this;
+    _addBlades(folderMap, targetObject, isChild, objectDescriptor) {
+        if (targetObject) {
+            if (Array.isArray(targetObject)) {
+                // show array elements
+                this._addArrayToolbar(targetObject);
+                let index = 0;
 
-        if (target) {
-            for (let [name, value] of Object.entries(target)) {
-                this._addBlade(folderMap, target, name, value, objectDescriptor);
+                for (let [name, value] of Object.entries(targetObject)) {
+                    let blade = this._addBlade(folderMap, targetObject, name, value, objectDescriptor);
+                    this._prepareArrayBlade(blade, value, index);
+                    index++;
+                }
+            } else {
+                // show object properties
+                let entries = Object.entries(targetObject);
+
+                if (objectDescriptor && objectDescriptor.sorted) {
+                    entries.sort(([nameA], [nameB]) => {
+                        let displayNameA = objectDescriptor.get(nameA)?.displayName ?? nameA;
+                        let displayNameB = objectDescriptor.get(nameB)?.displayName ?? nameB;
+                        return displayNameA.localeCompare(displayNameB);
+                    });
+                }
+
+                for (let [name, value] of entries) {
+                    this._addBlade(folderMap, targetObject, name, value, objectDescriptor);
+                }
             }
         }
 
-        if (parent) {
-            this._pane
+        // add the Back button
+        if (isChild) {
+            this._tweakpane
                 .addButton({
-                    title: "Return to Parent"
+                    title: this._phrases.backButton
                 })
-                .on("click", function () {
-                    thisObj._selectParentObject();
+                .on("click", () => {
+                    this._selectParentObject();
                 });
         }
     }
 
-    _addBlade(folderMap, target, propertyName, propertyValue, objectDescriptor) {
+    _addBlade(folderMap, targetObject, propertyName, propertyValue, objectDescriptor) {
         let propertyDescriptor = objectDescriptor?.get(propertyName);
 
         if (propertyDescriptor && !propertyDescriptor.isBrowsable) {
             return;
         }
 
-        const thisObj = this;
-        const selObj = this._selectedObject;
+        let blade = null;
         let container = this._selectContainer(folderMap, propertyDescriptor);
 
-        if (typeof propertyValue === "number" ||
+        if (PropGridDialogs.editorSupported(propertyDescriptor)) {
+            // property editor called by button click
+            blade = container
+                .addButton({
+                    label: propertyDescriptor.displayName,
+                    title: this._getEditButtonText(propertyValue)
+                })
+                .on("click", () => {
+                    PropGridDialogs.showEditor(this._topObject, propertyValue, propertyDescriptor,
+                        (newPropertyValue) => {
+                            propertyValue = newPropertyValue;
+                            blade.title = this._getEditButtonText(propertyValue);
+                            targetObject[propertyName] = propertyValue;
+                            this._handleBindingChange(targetObject, propertyName, propertyValue);
+                        });
+                });
+        } else if (typeof propertyValue === "number" ||
             typeof propertyValue === "string" ||
             typeof propertyValue === "boolean") {
             // simple property is editable in row
-            container
-                .addBinding(target, propertyName, this._getBindingOptions(propertyDescriptor))
-                .on("change", function (event) {
+            blade = container
+                .addBinding(targetObject, propertyName, this._getBindingOptions(propertyDescriptor))
+                .on("change", (event) => {
                     if (event.last) {
-                        thisObj._handleBindingChange(selObj, target, propertyName, event.value);
+                        this._handleBindingChange(targetObject, propertyName, event.value);
                     }
                 });
         } else if (propertyValue instanceof Object) {
@@ -106,44 +161,47 @@ class PropGrid {
 
             if (proxyObject) {
                 // use proxy object
-                container
+                blade = container
                     .addBinding({ [propertyName]: proxyObject }, propertyName,
                         this._getBindingOptions(propertyDescriptor))
-                    .on("change", function (event) {
+                    .on("change", (event) => {
                         if (event.last) {
-                            thisObj._handleBindingChange(selObj, target, propertyName, event.value);
+                            this._handleBindingChange(targetObject, propertyName, event.value);
                         }
                     });
             } else {
                 // complex property requires braking into simple properties
-                container
+                blade = container
                     .addButton({
-                        label: propertyDescriptor?.displayName ?? propertyName,
-                        title: "Edit"
+                        label: propertyDescriptor ? propertyDescriptor.displayName : propertyName,
+                        title: this._getEditButtonText(propertyValue)
                     })
-                    .on("click", function () {
-                        thisObj._selectChildObject(propertyValue, selObj);
+                    .on("click", () => {
+                        this._selectChildObject(propertyName, propertyValue);
                     });
             }
         }
+
+        return blade;
     }
 
-    _addFolders(objectDescriptor) {
+    _addFolders(targetObject, objectDescriptor) {
         let folderMap = new Map();
 
-        if (objectDescriptor) {
+        if (targetObject && objectDescriptor) {
             // get distinct categories
             let categorySet = new Set();
 
             for (let propertyDescriptor of objectDescriptor.propertyDescriptors.values()) {
-                if (propertyDescriptor.isBrowsable && propertyDescriptor.category) {
+                if (Object.hasOwn(targetObject, propertyDescriptor.name) &&
+                    propertyDescriptor.isBrowsable && propertyDescriptor.category) {
                     categorySet.add(propertyDescriptor.category);
                 }
             }
 
             // create folders
             for (let category of Array.from(categorySet).sort()) {
-                folderMap.set(category, this._pane.addFolder({
+                folderMap.set(category, this._tweakpane.addFolder({
                     title: category
                 }));
             }
@@ -154,22 +212,50 @@ class PropGrid {
 
     _selectContainer(folderMap, propertyDescriptor) {
         return propertyDescriptor && propertyDescriptor.category
-            ? folderMap.get(propertyDescriptor.category) ?? this._pane
-            : this._pane;
+            ? folderMap.get(propertyDescriptor.category) ?? this._tweakpane
+            : this._tweakpane;
     }
 
-    _createProxyObject(target, propertyDescriptor) {
+    _getEditButtonText(propertyValue) {
+        const MaxLength = 20;
+        let showValue = false;
+        let displayValue = "";
+
+        if (propertyValue instanceof Object) {
+            showValue = "displayValue" in propertyValue;
+            displayValue = propertyValue.displayValue;
+        } else {
+            showValue = !!propertyValue?.toString;
+            displayValue = propertyValue?.toString?.();
+        }
+
+        if (showValue) {
+            let text = displayValue?.trimStart();
+            return text
+                ? (text.length <= MaxLength ? text : text.substring(0, MaxLength) + "...")
+                : this._phrases.notSet;
+        } else {
+            return this._phrases.editButton;
+        }
+    }
+
+    _createProxyObject(propertyValue, propertyDescriptor) {
+        if (!propertyDescriptor) {
+            return null;
+        }
+
         const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
         let proxy = null;
 
-        if (propertyDescriptor) {
-            switch (propertyDescriptor.type) {
-                case BasicType.POINT:
-                    proxy = new PointProxy(target);
+        if (propertyDescriptor.type === BasicType.STRUCT) {
+            switch (propertyDescriptor.subtype) {
+                case Subtype.POINT:
+                    proxy = new PointProxy(propertyValue);
                     break;
 
-                case BasicType.SIZE:
-                    proxy = new SizeProxy(target);
+                case Subtype.SIZE:
+                    proxy = new SizeProxy(propertyValue);
                     break;
             }
         }
@@ -178,54 +264,210 @@ class PropGrid {
     }
 
     _getBindingOptions(propertyDescriptor) {
-        const BasicType = rs.mimic.BasicType;
-        let bindingOptions = null;
-
-        if (propertyDescriptor) {
-            bindingOptions = {
-                label: propertyDescriptor.displayName
-            };
-
-            if (propertyDescriptor.isReadOnly) {
-                bindingOptions.readonly = true;
-                bindingOptions.interval = ScadaUtils.MS_PER_DAY;
-            }
-
-            switch (propertyDescriptor.type) {
-                case BasicType.INT:
-                    bindingOptions.format = (v) => v.toFixed();
-                    break;
-
-                case BasicType.POINT:
-                case BasicType.SIZE:
-                    bindingOptions.x = { step: 1 };
-                    bindingOptions.y = { step: 1 };
-                    break;
-            }
-
-            if (propertyDescriptor.format instanceof Object) {
-                Object.assign(bindingOptions, propertyDescriptor.format);
-            }
+        if (!propertyDescriptor) {
+            return null;
         }
 
+        const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
+
+        let bindingOptions = {
+            label: propertyDescriptor.displayName
+        };
+
+        if (propertyDescriptor.isReadOnly) {
+            bindingOptions.readonly = true;
+            bindingOptions.interval = 0;
+        }
+
+        switch (propertyDescriptor.type) {
+            case BasicType.INT:
+                bindingOptions.format = (v) => v.toFixed();
+                bindingOptions.step = 1;
+                break;
+
+            case BasicType.STRING:
+                bindingOptions.view = "text";
+                break;
+
+            case BasicType.STRUCT:
+                if (propertyDescriptor.subtype === Subtype.POINT ||
+                    propertyDescriptor.subtype === Subtype.SIZE) {
+                    bindingOptions.x = { step: 1 };
+                    bindingOptions.y = { step: 1 };
+                }
+                break;
+        }
+
+        Object.assign(bindingOptions, propertyDescriptor.tweakpaneOptions);
         return bindingOptions;
     }
 
-    _handleBindingChange(selectedObject, changedObject, propertyName, value) {
-        let targetValue = value instanceof ProxyObject ? value.target : value;
-
-        if (selectedObject instanceof UnionObject) {
-            selectedObject.setProperty(propertyName, targetValue);
+    _handleBindingChange(targetObject, propertyName, propertyValue) {
+        // get value from proxy object
+        if (propertyValue instanceof ProxyObject) {
+            propertyValue = propertyValue.target;
         }
 
+        // get top property name and value
+        let topTargetObject = PropGridHelper.getTargetObject(this._topObject);
+        let topPropertyName = "";
+        let topPropertyValue = null;
+
+        if (topTargetObject === targetObject) {
+            topPropertyName = propertyName;
+            topPropertyValue = propertyValue;
+        } else if (topTargetObject) {
+            topPropertyName = this._topPropertyName;
+            topPropertyValue = topTargetObject[this._topPropertyName];
+        }
+
+        // update union object
+        if (this._topObject instanceof UnionObject) {
+            this._topObject.setProperty(topPropertyName, topPropertyValue);
+        }
+
+        // call event
         this._eventSource.dispatchEvent(new CustomEvent(PropGridEventType.PROPERTY_CHANGED, {
             detail: {
-                selectedObject: selectedObject,
-                changedObject: changedObject,
+                selectedObject: this._selectedObject,
+                topObject: this._topObject,
+                targetObject: targetObject,
                 propertyName: propertyName,
-                value: targetValue
+                propertyValue: propertyValue,
+                topPropertyName: topPropertyName,
+                topPropertyValue: topPropertyValue
             }
         }));
+    }
+
+    _handleError(message) {
+        console.error(message);
+
+        this._eventSource.dispatchEvent(new CustomEvent(PropGridEventType.ERROR, {
+            detail: {
+                message: message
+            }
+        }));
+    }
+
+    _addArrayToolbar(array) {
+        this._tweakpane.addBlade({
+            view: "buttongrid",
+            size: [4, 1],
+            cells: (x, y) => ({
+                title: [[
+                    this._phrases.addButton,
+                    this._phrases.upButton,
+                    this._phrases.downButton,
+                    this._phrases.deleteButton
+                ]][y][x]
+            })
+        }).on("click", (event) => {
+            switch (event.index[0]) {
+                case 0:
+                    this._addArrayItem(array);
+                    break;
+                case 1:
+                    this._moveUpArrayItem(array);
+                    break;
+                case 2:
+                    this._moveDownArrayItem(array);
+                    break;
+                case 3:
+                    this._deleteArrayItem(array);
+                    break;
+            }
+        });
+    }
+
+    _prepareArrayBlade(blade, item, index) {
+        if (blade) {
+            blade.label = item.displayName || this._phrases.arrayItem + index;
+            $(blade.element).addClass("rs-array-item").attr("data-rs-index", index);
+        }
+    }
+
+    _getSelectedIndex() {
+        let index = this._tweakpaneElem.find(".rs-array-item.rs-selected:first").data("rs-index");
+        return index >= 0 ? index : -1;
+    }
+
+    _setSelectedIndex(index) {
+        let itemElems = this._tweakpaneElem.find(".rs-array-item");
+        itemElems.removeClass("rs-selected");
+        itemElems.filter(`[data-rs-index="${index}"]`).addClass("rs-selected");
+    }
+
+    _addArrayItem(array) {
+        let itemAdded = false;
+
+        if (array.createItem instanceof Function) {
+            let item = array.createItem();
+
+            if (item !== undefined && item !== null) {
+                let index = this._getSelectedIndex();
+
+                if (index < 0) {
+                    index = array.length;
+                    array.push(item);
+                } else {
+                    index++;
+                    array.splice(index, 0, item);
+                }
+
+                this._handleArrayChange(array);
+                this.refresh();
+                this._setSelectedIndex(index);
+                itemAdded = true;
+            }
+        }
+
+        if (!itemAdded) {
+            this._handleError(this._phrases.unableAddItem);
+        }
+    }
+
+    _moveUpArrayItem(array) {
+        let index = this._getSelectedIndex();
+
+        if (index > 0) {
+            [array[index - 1], array[index]] = [array[index], array[index - 1]];
+            this._handleArrayChange(array);
+            this.refresh();
+            this._setSelectedIndex(index - 1);
+        } else {
+            this._handleError(this._phrases.unableMoveItem);
+        }
+    }
+
+    _moveDownArrayItem(array) {
+        let index = this._getSelectedIndex();
+
+        if (0 <= index && index < array.length - 1) {
+            [array[index], array[index + 1]] = [array[index + 1], array[index]];
+            this._handleArrayChange(array);
+            this.refresh();
+            this._setSelectedIndex(index + 1);
+        } else {
+            this._handleError(this._phrases.unableMoveItem);
+        }
+    }
+
+    _deleteArrayItem(array) {
+        let index = this._getSelectedIndex();
+
+        if (index >= 0) {
+            array.splice(index, 1);
+            this._handleArrayChange(array);
+            this.refresh();
+        } else {
+            this._handleError(this._phrases.unableDeleteItem);
+        }
+    }
+
+    _handleArrayChange(array) {
+        this._handleBindingChange(array, "", null);
     }
 
     get selectedObject() {
@@ -261,7 +503,7 @@ class PropGrid {
     }
 
     refreshProperty(propertyName) {
-        for (let folder of this._pane.children) {
+        for (let folder of this._tweakpane.children) {
             for (let binding of folder.children) {
                 if (binding.key === propertyName) {
                     binding.refresh();
@@ -271,41 +513,151 @@ class PropGrid {
         }
     }
 
-    refresh() {
+    refresh(opt_backToTop) {
         if (this._selectedObject instanceof UnionObject) {
             let newUnion = new UnionObject(this._selectedObject.targets);
             this._selectObject(newUnion);
+        } else if (opt_backToTop) {
+            this._selectObject(this._topObject);
         } else {
-            this._selectObject(this._selectedObject);
+            let isChild = this._selectedObject !== this._topObject;
+            this._showObjectProperties(this._selectedObject, isChild);
         }
     }
 }
 
 // Specifies the event types for property grid.
 class PropGridEventType {
+    static ERROR = "error";
     static PROPERTY_CHANGED = "propertyChanged";
 }
 
 // Provides helper methods for property grid.
 class PropGridHelper {
+    static _translationRef = null;
+
+    static _translateObject(objectDescriptor, translation, objectDict, opt_fallbackDict) {
+        if (!objectDict) {
+            return;
+        }
+
+        const BasicType = rs.mimic.BasicType;
+
+        for (let propertyDescriptor of objectDescriptor.propertyDescriptors.values()) {
+            // translate display name and category
+            let displayName = objectDict[propertyDescriptor.name] ??
+                (opt_fallbackDict ? opt_fallbackDict[propertyDescriptor.name] : "");
+            let category = translation.category[propertyDescriptor.category];
+
+            if (displayName) {
+                propertyDescriptor.displayName = displayName;
+            }
+
+            if (category) {
+                propertyDescriptor.category = category;
+            }
+
+            // translate enumeration
+            if (propertyDescriptor.type === BasicType.ENUM) {
+                let enumDict = translation.enumerations.get(propertyDescriptor.subtype);
+
+                if (enumDict) {
+                    propertyDescriptor.tweakpaneOptions ??= {};
+                    propertyDescriptor.tweakpaneOptions.options ??= enumDict;
+                }
+            }
+        }
+    }
+
+    static translateDescriptors(translation) {
+        const DescriptorSet = rs.mimic.DescriptorSet;
+        PropGridHelper._translationRef = translation;
+
+        // translate mimic
+        PropGridHelper._translateObject(DescriptorSet.mimicDescriptor, translation, translation.mimic);
+
+        // translate components
+        for (let [typeName, descriptor] of DescriptorSet.componentDescriptors) {
+            PropGridHelper._translateObject(descriptor, translation,
+                translation.components.get(typeName), translation.component);
+        }
+
+        // translate structures
+        for (let [typeName, descriptor] of DescriptorSet.structureDescriptors) {
+            PropGridHelper._translateObject(descriptor, translation, translation.structures.get(typeName));
+        }
+    }
+
+    static getTargetObject(obj) {
+        if (obj instanceof rs.mimic.Mimic) {
+            return obj.document;
+        } else if (obj instanceof rs.mimic.Component) {
+            return obj.properties;
+        } else if (obj instanceof UnionObject) {
+            return obj.properties;
+        } else if (obj instanceof Object) {
+            return obj;
+        } else {
+            return null;
+        }
+    }
+
     static getObjectDescriptor(obj) {
         const DescriptorSet = rs.mimic.DescriptorSet;
 
         if (obj instanceof rs.mimic.FaceplateInstance) {
-            return DescriptorSet.faceplateDescriptor;
+            let descriptor = DescriptorSet.getFaceplateDescriptor(obj.model);
+            let translation = PropGridHelper._translationRef;
+
+            if (translation) {
+                PropGridHelper._translateObject(descriptor, translation, translation.component);
+            }
+
+            return descriptor;
         } else if (obj instanceof rs.mimic.Component) {
             return DescriptorSet.componentDescriptors.get(obj.typeName);
         } else if (obj instanceof rs.mimic.Mimic) {
             return DescriptorSet.mimicDescriptor;
         } else if (obj instanceof UnionObject) {
             return obj.descriptor;
+        } else if (obj instanceof Object && obj.typeName) {
+            return DescriptorSet.structureDescriptors.get(obj.typeName);
         } else {
             return null;
         }
     }
+}
 
-    static translateDescriptors(translation) {
+// Calls property editors implemented as modal dialogs.
+class PropGridDialogs {
+    static editorMap = new Map();
 
+    // Adds the modal to the editor map.
+    static addEditor(key, modal) {
+        PropGridDialogs.editorMap.set(key, modal);
+    }
+
+    // Checks whether an editor for the specified property is supported.
+    static editorSupported(propertyDescriptor) {
+        return !!PropGridDialogs.editorMap.get(propertyDescriptor?.editor);
+    }
+
+    // Shows an editor as a modal dialog.
+    // callback is a function (newPropertyValue)
+    static showEditor(topObject, propertyValue, propertyDescriptor, callback) {
+        let modal = PropGridDialogs.editorMap.get(propertyDescriptor?.editor);
+        modal?.show(
+            new ModalShowArgs({
+                topObject: topObject,
+                value: propertyValue,
+                options: propertyDescriptor?.editorOptions
+            }),
+            modalContext => {
+                if (modalContext.result && callback instanceof Function) {
+                    callback(modalContext.newValue);
+                }
+            }
+        );
     }
 }
 
@@ -314,18 +666,18 @@ class ProxyObject {
     target;
 
     constructor(target) {
-        if (target) {
-            this.target = target;
-        } else {
+        if (target == null) {
             throw new Error("Target must not be null.");
         }
+
+        this.target = target;
     }
 }
 
 // Represents a proxy object for editing point as a Point2d.
 class PointProxy extends ProxyObject {
     get x() {
-        return parseInt(this.target.x) || 0;
+        return Number.parseInt(this.target.x) || 0;
     }
 
     set x(value) {
@@ -333,7 +685,7 @@ class PointProxy extends ProxyObject {
     }
 
     get y() {
-        return parseInt(this.target.y) || 0;
+        return Number.parseInt(this.target.y) || 0;
     }
 
     set y(value) {
@@ -344,7 +696,7 @@ class PointProxy extends ProxyObject {
 // Represents a proxy object for editing size as a Point2d.
 class SizeProxy extends ProxyObject {
     get x() {
-        return parseInt(this.target.width) || 0;
+        return Number.parseInt(this.target.width) || 0;
     }
 
     set x(value) {
@@ -352,7 +704,7 @@ class SizeProxy extends ProxyObject {
     }
 
     get y() {
-        return parseInt(this.target.height) || 0;
+        return Number.parseInt(this.target.height) || 0;
     }
 
     set y(value) {
@@ -367,12 +719,11 @@ class UnionObject {
     descriptor; // describes the union properties
 
     constructor(targets) {
-        if (Array.isArray(targets)) {
-            this.targets = targets;
-        } else {
+        if (!Array.isArray(targets)) {
             throw new Error("Targets must be an array.");
         }
 
+        this.targets = targets;
         this._buildProperties();
     }
 
@@ -388,10 +739,10 @@ class UnionObject {
             if (index === 0) {
                 // add properties of the 1st object
                 for (let [name, value] of Object.entries(editableObj)) {
-                    this.properties[name] = ScadaUtils.deepClone(value);
+                    this.properties[name] = ScadaUtils.deepClone(value, true);
                     let propertyDescriptor = targetDescriptor.get(name);
 
-                    if (propertyDescriptor) {
+                    if (propertyDescriptor && propertyDescriptor.type !== rs.mimic.BasicType.LIST) {
                         this.descriptor.add(propertyDescriptor);
                     }
                 }
@@ -401,7 +752,7 @@ class UnionObject {
                     let descriptor1 = this.descriptor.get(name);
                     let descriptor2 = targetDescriptor.get(name);
 
-                    if (editableObj.hasOwnProperty(name) && this._sameProperties(descriptor1, descriptor2)) {
+                    if (Object.hasOwn(editableObj, name) && this._sameProperties(descriptor1, descriptor2)) {
                         let value2 = editableObj[name];
 
                         if (!this._sameValues(value, value2)) {
@@ -420,20 +771,21 @@ class UnionObject {
     }
 
     _getEditableObject(target) {
-        if (target instanceof rs.mimic.Component) {
-            return target.properties;
-        } else if (target instanceof rs.mimic.Mimic) {
+        if (target instanceof rs.mimic.Mimic) {
             return target.document;
+        } else if (target instanceof rs.mimic.Component) {
+            return target.properties;
         } else if (target instanceof Object) {
             return target;
         } else {
-            return null;
+            return {};
         }
     }
 
     _sameProperties(descriptor1, descriptor2) {
         return descriptor1 === descriptor2 ||
-            descriptor1 && descriptor2 && descriptor1.type === descriptor2.type;
+            descriptor1 && descriptor2 && descriptor1.type === descriptor2.type &&
+            descriptor1.subtype === descriptor2.subtype;
     }
 
     _sameValues(value1, value2) {
@@ -443,10 +795,14 @@ class UnionObject {
     }
 
     _mergeValues(value1, value2) {
-        if (typeof value1 === "number") {
+        if (Array.isArray(value1)) {
+            return null; // do not display array properties
+        } else if (typeof value1 === "number") {
             return value1 === value2 ? value1 : 0;
         } else if (typeof value1 === "string") {
             return value1 === value2 ? value1 : "";
+        } else if (typeof value1 === "boolean") {
+            return value1 === value2 ? value1 : false;
         } else if (value1 instanceof Object) {
             let result = {};
 
@@ -463,7 +819,7 @@ class UnionObject {
     setProperty(name, value) {
         for (let target of this.targets) {
             let editableObj = this._getEditableObject(target);
-            editableObj[name] = ScadaUtils.deepClone(value);
+            editableObj[name] = ScadaUtils.deepClone(value, true);
         }
     }
 

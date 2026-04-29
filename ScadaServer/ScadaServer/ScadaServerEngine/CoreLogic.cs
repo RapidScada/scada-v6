@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2024
+ * Modified : 2025
  */
 
 using Scada.Config;
@@ -526,6 +526,7 @@ namespace Scada.Server.Engine
                 archiveHolder.ReadCurrentData(curData);
                 calc.InitScripts();
                 serviceStatus = ServiceStatus.Normal;
+                moduleHolder.OnServiceReady();
 
                 while (!terminated)
                 {
@@ -817,14 +818,22 @@ namespace Scada.Server.Engine
                 int prevStat = prevCnlData.Stat;
 
                 // take deadband into account
-                if (deadband != 0.0 && (
-                    prevStat != CnlStatusID.Normal && newStat == CnlStatusID.Normal ||
-                    prevStat == CnlStatusID.HiHi && newStat == CnlStatusID.High ||
-                    prevStat == CnlStatusID.LoLo && newStat == CnlStatusID.Low))
+                if (deadband != 0.0)
                 {
-                    newStat = GetCnlStatus(cnlData.Val,
-                        lolo + deadband, low + deadband,
-                        high - deadband, hihi - deadband);
+                    // increasing value
+                    if (prevStat == CnlStatusID.LoLo && newStat == CnlStatusID.Low ||
+                        prevStat == CnlStatusID.LoLo && newStat == CnlStatusID.Normal ||
+                        prevStat == CnlStatusID.Low && newStat == CnlStatusID.Normal)
+                    {
+                        newStat = GetCnlStatus(cnlData.Val, lolo + deadband, low + deadband, high, hihi);
+                    }
+                    // decreasing value
+                    else if (prevStat == CnlStatusID.HiHi && newStat == CnlStatusID.High ||
+                        prevStat == CnlStatusID.HiHi && newStat == CnlStatusID.Normal ||
+                        prevStat == CnlStatusID.High && newStat == CnlStatusID.Normal)
+                    {
+                        newStat = GetCnlStatus(cnlData.Val, lolo, low, high - deadband, hihi - deadband);
+                    }
                 }
 
                 cnlData.Stat = newStat;
@@ -1212,13 +1221,12 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the current data of the specified channels.
         /// </summary>
-        public CnlData[] GetCurrentData(int[] cnlNums, bool useCache, out long cnlListID)
+        public Slice GetCurrentData(int[] cnlNums, bool useCache, out long cnlListID)
         {
             if (cnlNums == null)
                 throw new ArgumentNullException(nameof(cnlNums));
 
-            int cnlCnt = cnlNums.Length;
-            CnlData[] cnlDataArr = new CnlData[cnlCnt];
+            Slice slice = new Slice(DateTime.MinValue, cnlNums);
             cnlListID = 0;
 
             try
@@ -1228,7 +1236,7 @@ namespace Scada.Server.Engine
                 if (useCache)
                 {
                     cnlListID = ScadaUtils.GenerateUniqueID();
-                    cnlListItem = new CnlListItem(cnlListID, cnlCnt);
+                    cnlListItem = new CnlListItem(cnlListID, cnlNums);
 
                     if (!serverCache.CnlListCache.Add(cnlListID, cnlListItem))
                         cnlListID = 0;
@@ -1236,16 +1244,18 @@ namespace Scada.Server.Engine
 
                 lock (curData)
                 {
-                    for (int i = 0; i < cnlCnt; i++)
+                    slice.Timestamp = curData.Timestamp;
+
+                    for (int i = 0, cnlCnt = cnlNums.Length; i < cnlCnt; i++)
                     {
                         if (cnlTags.TryGetValue(cnlNums[i], out CnlTag cnlTag))
                         {
-                            cnlDataArr[i] = curData.CnlData[cnlTag.Index];
+                            slice.CnlData[i] = curData.CnlData[cnlTag.Index];
                             cnlListItem?.CnlTags.Add(cnlTag);
                         }
                         else
                         {
-                            cnlDataArr[i] = CnlData.Empty;
+                            slice.CnlData[i] = CnlData.Empty;
                             cnlListItem?.CnlTags.Add(new CnlTag());
                         }
                     }
@@ -1258,29 +1268,36 @@ namespace Scada.Server.Engine
                     "Error getting current data of the channels");
             }
 
-            return cnlDataArr;
+            return slice;
         }
 
         /// <summary>
         /// Gets the current data of the cached channel list.
         /// </summary>
-        public CnlData[] GetCurrentData(long cnlListID)
+        public Slice GetCurrentData(long cnlListID)
         {
+            DateTime timestamp = DateTime.MinValue;
+            CnlListItem cnlListItem = null;
             CnlData[] cnlDataArr = null;
 
             try
             {
-                CnlListItem cnlListItem = serverCache.CnlListCache.Get(cnlListID);
+                cnlListItem = serverCache.CnlListCache.Get(cnlListID);
 
                 if (cnlListItem != null)
                 {
-                    int cnlCnt = cnlListItem.CnlTags.Count;
+                    int cnlCnt = cnlListItem.CnlNums.Length;
                     cnlDataArr = new CnlData[cnlCnt];
 
-                    for (int i = 0; i < cnlCnt; i++)
+                    lock (curData)
                     {
-                        CnlTag cnlTag = cnlListItem.CnlTags[i];
-                        cnlDataArr[i] = cnlTag.Index >= 0 ? curData.CnlData[cnlTag.Index] : CnlData.Empty;
+                        timestamp = curData.Timestamp;
+
+                        for (int i = 0; i < cnlCnt; i++)
+                        {
+                            CnlTag cnlTag = cnlListItem.CnlTags[i];
+                            cnlDataArr[i] = cnlTag.Index >= 0 ? curData.CnlData[cnlTag.Index] : CnlData.Empty;
+                        }
                     }
                 }
             }
@@ -1291,7 +1308,9 @@ namespace Scada.Server.Engine
                     "Error getting current data of the cached channel list");
             }
 
-            return cnlDataArr;
+            return cnlListItem == null
+                ? new Slice(timestamp, 0)
+                : new Slice(timestamp, cnlListItem.CnlNums, cnlDataArr);
         }
 
         /// <summary>

@@ -38,7 +38,7 @@ namespace Scada.Web.Pages
         public void OnGet(int? id)
         {
             ViewID = id ?? userContext.Views.GetFirstViewID() ?? 0;
-            ViewData["SelectedViewID"] = ViewID; // used by _MainLayout
+            ViewData[ViewDataKey.SelectedViewID] = ViewID; // used by _MainLayout
 
             if (viewLoader.GetViewSpec(ViewID, out ViewSpec viewSpec, out string errMsg))
             {

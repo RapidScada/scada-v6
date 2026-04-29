@@ -1,11 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaWebDictionaries>
+  <!-- Common phrases -->
   <Dictionary key="Scada.Web">
     <Phrase key="CorrectErrors">Пожалуйста исправьте следующие ошибки:</Phrase>
+    <Phrase key="IllegalRole">Недопустимая роль пользователя.</Phrase>
     <Phrase key="ClientError">Ошибка при взаимодействии с сервером</Phrase>
     <Phrase key="UnknownUsername">Неизвестный</Phrase>
     <Phrase key="AccessDenied">Доступ запрещен</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.TableForms">
+    <Phrase key="SearchPlaceholder">Поиск</Phrase>
+    <Phrase key="NewItem">Новая запись</Phrase>
+    <Phrase key="ViewItem">Просмотреть запись</Phrase>
+    <Phrase key="EditItem">Редактировать запись</Phrase>
+    <Phrase key="DeleteItem">Удалить запись</Phrase>
+    <Phrase key="DeleteItemConfirm">Вы уверены, что хотите удалить запись?</Phrase>
+    <Phrase key="NoData">Нет данных</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.TableForms.Js">
+    <Phrase key="LoadDataError">Ошибка при загрузке данных.</Phrase>
+    <Phrase key="DeleteItemConfirm">Вы уверены, что хотите удалить запись?</Phrase>
+    <Phrase key="ItemExists">Запись уже существует.</Phrase>
+    <Phrase key="FillOutFields">Пожалуйста, заполните обязательные поля.</Phrase>
+    <Phrase key="ValidJsonRequired">Требуется корректный JSON.</Phrase>
+  </Dictionary>
+  <!-- ScadaWeb.dll -->
   <Dictionary key="Scada.Web.Code.ViewLoader">
     <Phrase key="ViewNotSpecified">Запрошенное представление не задано.</Phrase>
     <Phrase key="ViewNotExists">Запрошенное представление не существует.</Phrase>
@@ -14,6 +33,24 @@
     <Phrase key="UnableLoadView">Не удалось загрузить представление.</Phrase>
     <Phrase key="ViewMissingFromCache">Представление отсутствует в кэше.</Phrase>
     <Phrase key="ViewUndefined">Представление не определено.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Errors.AccessDenied">
+    <Phrase key="PageTitle">Доступ запрещен</Phrase>
+    <Phrase key="ErrorMessage">У вас недостаточно прав для доступа к запрошенному ресурсу.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Errors.Error">
+    <Phrase key="PageTitle">Ошибка</Phrase>
+    <Phrase key="ErrorMessage">При обработке вашего запроса произошла ошибка. Подробности ошибки записаны в журнал приложения.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Errors.StatusCode">
+    <Phrase key="PageTitle">Ошибка {0}</Phrase>
+    <Phrase key="Error401Header">Требуется авторизация</Phrase>
+    <Phrase key="Error403Header">Доступ запрещен</Phrase>
+    <Phrase key="Error404Header">Не найдено</Phrase>
+    <Phrase key="ErrorMessage">При обработке вашего запроса произошла ошибка.</Phrase>
+    <Phrase key="Error401Message">Пожалуйста, войдите в систему.</Phrase>
+    <Phrase key="Error403Message">У вас недостаточно прав для доступа к запрошенному ресурсу.</Phrase>
+    <Phrase key="Error404Message">Страница или объект не найдены.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout">
     <Phrase key="spanMenuBtn_ToolTip">Показать/скрыть меню</Phrase>
@@ -43,10 +80,6 @@
   <Dictionary key="Scada.Web.Pages.About">
     <Phrase key="PageTitle">О приложении</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Web.Pages.AccessDenied">
-    <Phrase key="PageTitle">Доступ запрещен</Phrase>
-    <Phrase key="ErrorMessage">У вас недостаточно прав для доступа к запрошенному ресурсу.</Phrase>
-  </Dictionary>
   <Dictionary key="Scada.Web.Pages.CnlSelect">
     <Phrase key="PageTitle">Выбор каналов</Phrase>
     <Phrase key="lblObj">Объект</Phrase>
@@ -57,10 +90,6 @@
     <Phrase key="SelectObjectItem">-- Выберите объект --</Phrase>
     <Phrase key="FilterRequired">Укажите фильтр, пожалуйста.</Phrase>
     <Phrase key="NoChannels">Каналы, удовлетворяющие фильтру, отсутствуют.</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Web.Pages.Error">
-    <Phrase key="PageTitle">Ошибка</Phrase>
-    <Phrase key="ErrorMessage">При обработке вашего запроса произошла ошибка.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Login">
     <Phrase key="PageTitle">Вход в систему</Phrase>

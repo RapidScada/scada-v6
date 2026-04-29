@@ -1,0 +1,16 @@
+﻿@page
+@model AccessDeniedModel
+@{
+    dynamic dict = Locale.GetDictionary("Scada.Web.Pages.Errors.AccessDenied");
+    ViewBag.Title = dict.PageTitle;
+}
+
+<div class="container text-center">
+    <h1 class="text-danger">@dict.PageTitle</h1>
+    <p>@WebUtils.HtmlEncodeWithBreak(Model.ErrorMessage ?? dict.ErrorMessage)
+    @if (!string.IsNullOrEmpty(Model.ReturnUrl))
+    {
+        <a href="@Model.ReturnUrl"><i class="fa-solid fa-link"></i></a>
+    }
+    </p>
+</div>

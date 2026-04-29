@@ -204,7 +204,7 @@ var viewPage = {
     }
 };
 
-$(document).ready(function () {
+$(function () {
     if (!viewPage.pageIsEmpty) {
         viewPage.prepare();
         viewPage.updateLayout();

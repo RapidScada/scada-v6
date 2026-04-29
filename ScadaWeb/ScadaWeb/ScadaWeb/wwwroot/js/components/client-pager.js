@@ -5,8 +5,8 @@ class ClientPager {
     static DEFAULT_PAGE_SIZE = 10;
     // The number of pages displayed by a pager, not including the Previous and Next buttons.
     static DISPLAY_PAGE_COUNT = 9;
-    // Notifies that a page link has been clicked.
-    static PAGE_CLICK_EVENT = "rs:pageClick";
+    // Notifies that a page item has been clicked.
+    static PAGE_CLICK_EVENT = "pageclick.rs.pager";
 
     // The jQuery object that represents the pager.
     pagerElem;
@@ -70,8 +70,8 @@ class ClientPager {
         }
 
         if (pageNumbers.at(-1) != pageCount && pageNumbers.at(-1) != activePage) {
-            pageNumbers.at(-1) = pageCount;
-            pageNumbers.at(-2) = 0;
+            pageNumbers[pageNumbers.length - 1] = pageCount;
+            pageNumbers[pageNumbers.length - 2] = 0;
         }
 
         return pageNumbers;
@@ -97,7 +97,7 @@ class ClientPager {
             if (pageNumber <= 0) {
                 $("<li class='page-item disabled'><span class='page-link'>...</span></li>")
                     .appendTo(listElem);
-            } else if (pageNumber == activePage) {
+            } else if (pageNumber === activePage) {
                 $(`<li class='page-item active'><span class='page-link'>${pageNumber}</span></li>`)
                     .appendTo(listElem);
             } else {

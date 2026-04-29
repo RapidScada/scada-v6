@@ -14,6 +14,10 @@ body {
     &.modal-page {
         overflow: hidden;
         padding: $spacer * 0.25;
+
+        textarea {
+            resize: none;
+        }
     }
 }
 

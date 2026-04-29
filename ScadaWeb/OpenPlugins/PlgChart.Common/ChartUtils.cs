@@ -42,6 +42,10 @@ namespace Scada.Web.Plugins.PlgChart
                 startDate = TimeZoneInfo.ConvertTimeFromUtc(startDate, timeZone);
 
             startDate = startDate.Date;
+
+            if (timeZone.IsInvalidTime(startDate))
+                startDate = startDate.AddHours(1);
+
             return TimeZoneInfo.ConvertTimeToUtc(startDate, timeZone);
         }
 

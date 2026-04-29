@@ -269,7 +269,7 @@ var mainLayout = {
     }
 };
 
-$(document).ready(function () {
+$(() => {
     mainLayout.prepare();
     mainLayout.updateLayout();
 });

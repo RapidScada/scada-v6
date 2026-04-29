@@ -37,56 +37,22 @@ namespace Scada.Web.TreeView
     /// </summary>
     public class TreeViewRenderer
     {
-        /// <summary>
-        /// Represents renderer options.
-        /// </summary>
-        public class Options
-        {
-            /// <summary>
-            /// Initializes a new instance of the class.
-            /// </summary>
-            public Options()
-            {
-                ExpanderLeft = false;
-                ShowIcons = false;
-                FolderIconUrl = "";
-                NodeIconUrl = "";
-            }
-
-            /// <summary>
-            /// Gets or sets a value indicating whether expanders are located to the left.
-            /// </summary>
-            public bool ExpanderLeft { get; set; }
-            /// <summary>
-            /// Gets or sets a value indicating whether to show node icons.
-            /// </summary>
-            public bool ShowIcons { get; set; }
-            /// <summary>
-            /// Gets or sets the folder icon URL.
-            /// </summary>
-            public string FolderIconUrl { get; set; }
-            /// <summary>
-            /// Gets or sets the default node icon URL.
-            /// </summary>
-            public string NodeIconUrl { get; set; }
-        }
-
         private readonly IUrlHelper urlHelper;
-        private readonly Options options;
+        private readonly TreeViewRendererOptions options;
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public TreeViewRenderer(IUrlHelper urlHelper)
-            : this(urlHelper, new Options())
+            : this(urlHelper, new TreeViewRendererOptions())
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public TreeViewRenderer(IUrlHelper urlHelper, Options options)
+        public TreeViewRenderer(IUrlHelper urlHelper, TreeViewRendererOptions options)
         {
             this.urlHelper = urlHelper ?? throw new ArgumentNullException(nameof(urlHelper));
             this.options = options ?? throw new ArgumentNullException(nameof(options));

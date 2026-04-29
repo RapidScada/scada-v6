@@ -59,7 +59,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Creates a new report context.
         /// </summary>
-        private IReportContext CreateReportContext()
+        private ReportContext CreateReportContext()
         {
             return new ReportContext
             {
@@ -67,6 +67,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 ScadaClient = clientAccessor.ScadaClient,
                 Culture = Locale.Culture,
                 TimeZone = userContext.TimeZone,
+                Username = userContext.UserEntity.Name,
                 TemplateDir = templateDir
             };
         }
@@ -74,7 +75,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Generates an event report with the specified arguments.
         /// </summary>
-        private Stream GenerateEventReport(EventReportArgs args, out string fileName)
+        private MemoryStream GenerateEventReport(EventReportArgs args, out string fileName)
         {
             MemoryStream stream = new();
             bool success = false;
@@ -106,7 +107,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// </summary>
         private List<int> GetObjNumHierarchy(int startObjNum)
         {
-            List<int> objNums = new() { startObjNum };
+            List<int> objNums = [startObjNum];
 
             if (!webContext.ConfigDatabase.ObjTable.TryGetIndex("ParentObjNum", out ITableIndex parentObjIndex))
                 throw new ScadaException(CommonPhrases.IndexNotFound);

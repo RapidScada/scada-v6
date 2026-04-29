@@ -18,6 +18,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
         public static string UnableToReadData { get; private set; }
         public static string GetDataTypeError { get; private set; }
         public static string ServerUrlRequired { get; private set; }
+        public static string NoItemsToAdd { get; private set; }
         public static string EmptyNode { get; private set; }
         public static string SubscriptionsNode { get; private set; }
         public static string CommandsNode { get; private set; }
@@ -37,6 +38,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
             UnableToReadData = dict[nameof(UnableToReadData)];
             GetDataTypeError = dict[nameof(GetDataTypeError)];
             ServerUrlRequired = dict[nameof(ServerUrlRequired)];
+            NoItemsToAdd = dict[nameof(NoItemsToAdd)];
             EmptyNode = dict[nameof(EmptyNode)];
             SubscriptionsNode = dict[nameof(SubscriptionsNode)];
             CommandsNode = dict[nameof(CommandsNode)];

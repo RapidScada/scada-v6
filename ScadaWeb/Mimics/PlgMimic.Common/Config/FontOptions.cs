@@ -30,12 +30,12 @@ namespace Scada.Web.Plugins.PlgMimic.Config
         /// <summary>
         /// Loads the options from the XML node.
         /// </summary>
-        public void LoadFromXml(XmlNode xmlNode)
+        public void LoadFromXml(XmlElement xmlElem)
         {
-            ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
-            Name = xmlNode.GetChildAsString("Name");
-            Family = xmlNode.GetChildAsString("Family");
-            Url = xmlNode.GetChildAsString("Url");
+            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
+            Name = xmlElem.GetAttrAsString("name");
+            Family = xmlElem.GetAttrAsString("family");
+            Url = xmlElem.GetAttrAsString("url");
         }
     }
 }

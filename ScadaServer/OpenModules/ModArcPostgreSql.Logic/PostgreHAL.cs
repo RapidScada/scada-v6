@@ -12,6 +12,7 @@ using Scada.Server.Lang;
 using Scada.Server.Modules.ModArcPostgreSql.Config;
 using System.Data;
 using System.Diagnostics;
+using static Scada.Server.Archives.ArchiveUtils;
 using CacheKey = (int CnlNum, System.DateTime Timestamp);
 
 namespace Scada.Server.Modules.ModArcPostgreSql.Logic
@@ -24,9 +25,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
     {
         private readonly ModuleConfig moduleConfig; // the module configuration
         private readonly PostgreHAO options;        // the archive options
-        private readonly TimeSpan writingPeriod;    // the writing period
-        private readonly TimeSpan writingOffset;    // the writing offset
-        private readonly TimeSpan pullToPeriod;     // the possible timestamp deviation
         private readonly ILog appLog;               // the application log
         private readonly ILog arcLog;               // the archive log
         private readonly QueryBuilder queryBuilder; // builds SQL requests
@@ -53,9 +51,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
             options = new PostgreHAO(archiveConfig.CustomOptions);
-            writingPeriod = ConvertToTimeSpan(options.WritingPeriod, options.WritingPeriodUnit);
-            writingOffset = ConvertToTimeSpan(options.WritingOffset, options.WritingOffsetUnit);
-            pullToPeriod = ConvertToTimeSpan(options.PullToPeriod, TimeUnit.Second);
             appLog = archiveContext.Log;
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             queryBuilder = new QueryBuilder(Code);
@@ -83,13 +78,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// <summary>
         /// Gets the current archive status as text.
         /// </summary>
-        public override string StatusText
-        {
-            get
-            {
-                return GetStatusText(pointQueue?.Stats, pointQueue?.Count);
-            }
-        }
+        public override string StatusText =>
+            GetStatusText(IsReady, pointQueue?.Stats, pointQueue?.Count);
 
 
         /// <summary>
@@ -120,8 +110,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         private MemoryCache<CacheKey, CnlData> CreateMemoryCache()
         {
             return new MemoryCache<CacheKey, CnlData>(
-                    TimeSpan.FromDays(options.Retention), 
-                    (int)(CnlNums.Length * options.CacheSizeRatio));
+                TimeSpan.FromDays(options.Retention), 
+                (int)(CnlNums.Length * options.CacheSizeRatio));
         }
 
         /// <summary>
@@ -249,15 +239,17 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             lock (writingLock)
             {
-                DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod, writingOffset);
-                DateTime timestamp = options.UsePeriodStartTime ? writeTime.Add(-writingPeriod) : writeTime;
-                nextWriteTime = writeTime.Add(writingPeriod);
+                DateTime writeTime = GetClosestWriteTime(curData.Timestamp, options);
+                DateTime timestamp = options.UsePeriodStartTime ? writeTime.SubtractWritingPeriod(options) : writeTime;
+                nextWriteTime = writeTime.AddWritingPeriod(options);
 
                 Stopwatch stopwatch = Stopwatch.StartNew();
-                InitCnlIndexes(curData, ref cnlIndexes);
-                InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
                 int addedCnt = 0;
                 int lostCnt = 0;
+                InitCnlIndexes(curData, CnlNums, ref cnlIndexes);
+
+                if (ArchiveOptions.WriteOnChange)
+                    InitPrevCnlData(curData, CnlNums, cnlIndexes, ref prevCnlData);
 
                 lock (pointQueue.SyncRoot)
                 {
@@ -303,8 +295,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 int addedCnt = 0;
                 int lostCnt = 0;
                 bool justInited = prevCnlData == null;
-                InitCnlIndexes(curData, ref cnlIndexes);
-                InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
+                InitCnlIndexes(curData, CnlNums, ref cnlIndexes);
+                InitPrevCnlData(curData, CnlNums, cnlIndexes, ref prevCnlData);
 
                 if (!justInited)
                 {
@@ -366,7 +358,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             // prepare database
             connOptions = options.UseDefaultConn
-                ? ArchiveContext.InstanceConfig.Connection
+                ? ArchiveContext.InstanceConfig.GetDefaultConnectionOptions()
                 : moduleConfig.GetConnectionOptions(options.Connection);
             readingConn = DbUtils.CreateDbConnection(connOptions);
 
@@ -377,7 +369,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 CreatePartition(DateTime.UtcNow, true);
 
                 if (options.WriteWithPeriod)
-                    nextWriteTime = GetNextWriteTime(DateTime.UtcNow, writingPeriod, writingOffset);
+                    nextWriteTime = GetNextWriteTime(DateTime.UtcNow, options);
 
                 if (options.WriteOnChange)
                     appLog.WriteWarning(ServerPhrases.ArchiveMessage, Code, ServerPhrases.WritingOnChangeIsSlow);
@@ -619,8 +611,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             if (memoryCache != null && memoryCache.TryGetValue((cnlNum, timestamp), out CnlData cnlData))
                 return cnlData;
 
-            if (GetRecentCnlData(writingLock, timestamp, cnlNum, out cnlData))
+            if (CurrentUpdateContext != null &&
+                CurrentUpdateContext.TryGetCnlData(writingLock, timestamp, cnlNum, out cnlData))
+            {
                 return cnlData;
+            }
 
             try
             {
@@ -667,15 +662,15 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public override bool AcceptData(ref DateTime timestamp)
         {
-            if (options.ReadOnly || !TimeInsideRetention(timestamp, DateTime.UtcNow))
+            if (options.ReadOnly || !options.TimeInsideRetention(timestamp, DateTime.UtcNow))
             {
                 return false;
             }
             else if (options.IsPeriodic)
             {
-                return pullToPeriod > TimeSpan.Zero
-                    ? PullTimeToPeriod(ref timestamp, writingPeriod, writingOffset, pullToPeriod)
-                    : TimeIsMultipleOfPeriod(timestamp, writingPeriod, writingOffset);
+                return options.PullToPeriod > 0
+                    ? PullTimeToPeriod(ref timestamp, options)
+                    : TimeIsMultipleOfPeriod(timestamp, options);
             }
             else
             {

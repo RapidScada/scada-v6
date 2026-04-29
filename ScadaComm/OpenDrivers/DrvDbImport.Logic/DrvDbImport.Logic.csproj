@@ -11,12 +11,12 @@
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2025</Copyright>
     <Version>6.1.0</Version>
-    <AssemblyVersion>6.1.0.1</AssemblyVersion>
+    <AssemblyVersion>6.1.0.2</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySql.Data" Version="8.4.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+    <PackageReference Include="MySql.Data" Version="9.4.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.0" />
   </ItemGroup>
 
   <ItemGroup>

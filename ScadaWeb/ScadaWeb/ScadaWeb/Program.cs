@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2024
+ * Modified : 2025
  */
 
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -101,13 +101,7 @@ namespace Scada.Web
             services
                 .AddRazorPages(options =>
                 {
-                    options.Conventions
-                        .AuthorizeFolder(WebPath.Root)
-                        .AllowAnonymousToPage(WebPath.ConfigReloadPage)
-                        .AllowAnonymousToPage(WebPath.ErrorPage)
-                        .AllowAnonymousToPage(WebPath.IndexPage)
-                        .AllowAnonymousToPage(WebPath.LoginPage)
-                        .AllowAnonymousToPage(WebPath.LogoutPage);
+                    options.Conventions.AuthorizeFolder(WebPath.Root);
                 })
                 .AddMvcOptions(options =>
                 {
@@ -128,7 +122,6 @@ namespace Scada.Web
                 .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.AccessDeniedPath = WebPath.AccessDeniedPage;
                     options.LoginPath = WebPath.LoginPage;
                     options.LogoutPath = WebPath.LogoutPage;
                     options.Events = new CookieAuthEvents();
@@ -215,6 +208,10 @@ namespace Scada.Web
             }
 
             app.UseStaticFiles();
+            app.UseWhen(ctx => !ctx.Request.Path.StartsWithSegments("/api"), webApp =>
+            {
+                webApp.UseStatusCodePagesWithReExecute("/Errors/{0}");
+            });
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

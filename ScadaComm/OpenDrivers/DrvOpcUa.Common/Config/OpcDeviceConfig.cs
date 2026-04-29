@@ -13,11 +13,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
     public class OpcDeviceConfig : DeviceConfigBase
     {
         /// <summary>
-        /// Gets the editing options.
-        /// </summary>
-        public EditingOptions EditingOptions { get; private set; }
-
-        /// <summary>
         /// Gets the subscriptions.
         /// </summary>
         public List<SubscriptionConfig> Subscriptions { get; private set; }
@@ -33,9 +28,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// </summary>
         protected override void SetToDefault()
         {
-            EditingOptions = new EditingOptions();
-            Subscriptions = new List<SubscriptionConfig>();
-            Commands = new List<CommandConfig>();
+            Subscriptions = [];
+            Commands = [];
         }
 
         /// <summary>
@@ -46,9 +40,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
             XmlDocument xmlDoc = new();
             xmlDoc.Load(reader);
             XmlElement rootElem = xmlDoc.DocumentElement;
-
-            if (rootElem.SelectSingleNode("EditingOptions") is XmlNode editingOptionsNode)
-                EditingOptions.LoadFromXml(editingOptionsNode);
 
             if (rootElem.SelectSingleNode("Subscriptions") is XmlNode subscriptionsNode)
             {
@@ -64,7 +55,14 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
             {
                 foreach (XmlElement commandElem in commandsNode.SelectNodes("Command"))
                 {
-                    CommandConfig commandConfig = new();
+                    CommandType cmdType = commandElem.GetAttrAsEnum("cmdType", CommandType.WriteItem);
+                    CommandConfig commandConfig = cmdType switch
+                    {
+                        CommandType.WriteItem => new WriteItemCommandConfig(),
+                        CommandType.ReadHistory => new ReadHistoryCommandConfig(),
+                        CommandType.CallMethod => new CallMethodCommandConfig(),
+                        _ => throw new NotImplementedException()
+                    };
                     commandConfig.LoadFromXml(commandElem);
                     Commands.Add(commandConfig);
                 }
@@ -83,7 +81,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
             XmlElement rootElem = xmlDoc.CreateElement("OpcDeviceConfig");
             xmlDoc.AppendChild(rootElem);
 
-            EditingOptions.SaveToXml(rootElem.AppendElem("EditingOptions"));
             XmlElement subscriptionsElem = rootElem.AppendElem("Subscriptions");
             XmlElement commandsElem = rootElem.AppendElem("Commands");
 

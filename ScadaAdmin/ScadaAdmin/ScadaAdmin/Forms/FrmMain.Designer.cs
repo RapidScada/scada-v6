@@ -117,6 +117,7 @@
             cmsFileItem = new ContextMenuStrip(components);
             miFileItemOpen = new ToolStripMenuItem();
             miFileItemOpenLocation = new ToolStripMenuItem();
+            miFileItemCopyPath = new ToolStripMenuItem();
             miFileItemSep1 = new ToolStripSeparator();
             miFileItemDelete = new ToolStripMenuItem();
             miFileItemRename = new ToolStripMenuItem();
@@ -309,7 +310,7 @@
             // 
             miTools.DropDownItems.AddRange(new ToolStripItem[] { miToolsOptions, miToolsCulture });
             miTools.Name = "miTools";
-            miTools.Size = new Size(46, 20);
+            miTools.Size = new Size(47, 20);
             miTools.Text = "&Tools";
             // 
             // miToolsOptions
@@ -368,7 +369,7 @@
             // 
             miHelpDoc.Image = Properties.Resources.help;
             miHelpDoc.Name = "miHelpDoc";
-            miHelpDoc.Size = new Size(168, 22);
+            miHelpDoc.Size = new Size(169, 22);
             miHelpDoc.Text = "Documentation";
             miHelpDoc.Click += miHelpDoc_Click;
             // 
@@ -376,20 +377,20 @@
             // 
             miHelpSupport.Image = Properties.Resources.support;
             miHelpSupport.Name = "miHelpSupport";
-            miHelpSupport.Size = new Size(168, 22);
+            miHelpSupport.Size = new Size(169, 22);
             miHelpSupport.Text = "Technical Support";
             miHelpSupport.Click += miHelpSupport_Click;
             // 
             // miHelpSep1
             // 
             miHelpSep1.Name = "miHelpSep1";
-            miHelpSep1.Size = new Size(165, 6);
+            miHelpSep1.Size = new Size(166, 6);
             // 
             // miHelpAbout
             // 
             miHelpAbout.Image = Properties.Resources.about;
             miHelpAbout.Name = "miHelpAbout";
-            miHelpAbout.Size = new Size(168, 22);
+            miHelpAbout.Size = new Size(169, 22);
             miHelpAbout.Text = "About";
             miHelpAbout.Click += miHelpAbout_Click;
             // 
@@ -616,14 +617,14 @@
             // 
             cmsInstance.Items.AddRange(new ToolStripItem[] { miInstanceAdd, miInstanceMoveUp, miInstanceMoveDown, miInstanceDelete, miInstanceSep1, miInstanceProfile, miInstanceDownloadConfig, miInstanceUploadConfig, miInstanceStatus, miInstanceSep2, miInstanceOpenInExplorer, miInstanceOpenInBrowser, miInstanceRename, miInstanceProperties });
             cmsInstance.Name = "cmsCommLine";
-            cmsInstance.Size = new Size(220, 280);
+            cmsInstance.Size = new Size(219, 280);
             cmsInstance.Opening += cmsInstance_Opening;
             // 
             // miInstanceAdd
             // 
             miInstanceAdd.Image = Properties.Resources.add;
             miInstanceAdd.Name = "miInstanceAdd";
-            miInstanceAdd.Size = new Size(219, 22);
+            miInstanceAdd.Size = new Size(218, 22);
             miInstanceAdd.Text = "Add Instance...";
             miInstanceAdd.Click += miInstanceAdd_Click;
             // 
@@ -631,7 +632,7 @@
             // 
             miInstanceMoveUp.Image = Properties.Resources.move_up;
             miInstanceMoveUp.Name = "miInstanceMoveUp";
-            miInstanceMoveUp.Size = new Size(219, 22);
+            miInstanceMoveUp.Size = new Size(218, 22);
             miInstanceMoveUp.Text = "Move Instance Up";
             miInstanceMoveUp.Click += miInstanceMoveUp_Click;
             // 
@@ -639,7 +640,7 @@
             // 
             miInstanceMoveDown.Image = Properties.Resources.move_down;
             miInstanceMoveDown.Name = "miInstanceMoveDown";
-            miInstanceMoveDown.Size = new Size(219, 22);
+            miInstanceMoveDown.Size = new Size(218, 22);
             miInstanceMoveDown.Text = "Move Instance Down";
             miInstanceMoveDown.Click += miInstanceMoveDown_Click;
             // 
@@ -647,20 +648,20 @@
             // 
             miInstanceDelete.Image = Properties.Resources.delete;
             miInstanceDelete.Name = "miInstanceDelete";
-            miInstanceDelete.Size = new Size(219, 22);
+            miInstanceDelete.Size = new Size(218, 22);
             miInstanceDelete.Text = "Delete Instance";
             miInstanceDelete.Click += miInstanceDelete_Click;
             // 
             // miInstanceSep1
             // 
             miInstanceSep1.Name = "miInstanceSep1";
-            miInstanceSep1.Size = new Size(216, 6);
+            miInstanceSep1.Size = new Size(215, 6);
             // 
             // miInstanceProfile
             // 
             miInstanceProfile.Image = Properties.Resources.deploy_profile;
             miInstanceProfile.Name = "miInstanceProfile";
-            miInstanceProfile.Size = new Size(219, 22);
+            miInstanceProfile.Size = new Size(218, 22);
             miInstanceProfile.Text = "Deployment Profile...";
             miInstanceProfile.Click += miDeployInstanceProfile_Click;
             // 
@@ -668,7 +669,7 @@
             // 
             miInstanceDownloadConfig.Image = Properties.Resources.download;
             miInstanceDownloadConfig.Name = "miInstanceDownloadConfig";
-            miInstanceDownloadConfig.Size = new Size(219, 22);
+            miInstanceDownloadConfig.Size = new Size(218, 22);
             miInstanceDownloadConfig.Text = "Download Configuration...";
             miInstanceDownloadConfig.Click += miDeployDownloadConfig_Click;
             // 
@@ -676,7 +677,7 @@
             // 
             miInstanceUploadConfig.Image = Properties.Resources.upload;
             miInstanceUploadConfig.Name = "miInstanceUploadConfig";
-            miInstanceUploadConfig.Size = new Size(219, 22);
+            miInstanceUploadConfig.Size = new Size(218, 22);
             miInstanceUploadConfig.Text = "Upload Configuration...";
             miInstanceUploadConfig.Click += miDeployUploadConfig_Click;
             // 
@@ -684,20 +685,20 @@
             // 
             miInstanceStatus.Image = Properties.Resources.status;
             miInstanceStatus.Name = "miInstanceStatus";
-            miInstanceStatus.Size = new Size(219, 22);
+            miInstanceStatus.Size = new Size(218, 22);
             miInstanceStatus.Text = "Instance Status...";
             miInstanceStatus.Click += miDeployInstanceStatus_Click;
             // 
             // miInstanceSep2
             // 
             miInstanceSep2.Name = "miInstanceSep2";
-            miInstanceSep2.Size = new Size(216, 6);
+            miInstanceSep2.Size = new Size(215, 6);
             // 
             // miInstanceOpenInExplorer
             // 
             miInstanceOpenInExplorer.Image = Properties.Resources.open_explorer;
             miInstanceOpenInExplorer.Name = "miInstanceOpenInExplorer";
-            miInstanceOpenInExplorer.Size = new Size(219, 22);
+            miInstanceOpenInExplorer.Size = new Size(218, 22);
             miInstanceOpenInExplorer.Text = "Open Folder in File Explorer";
             miInstanceOpenInExplorer.Click += miDirectoryOpenInExplorer_Click;
             // 
@@ -705,7 +706,7 @@
             // 
             miInstanceOpenInBrowser.Image = Properties.Resources.web;
             miInstanceOpenInBrowser.Name = "miInstanceOpenInBrowser";
-            miInstanceOpenInBrowser.Size = new Size(219, 22);
+            miInstanceOpenInBrowser.Size = new Size(218, 22);
             miInstanceOpenInBrowser.Text = "Open in Web Browser";
             miInstanceOpenInBrowser.Click += miInstanceOpenInBrowser_Click;
             // 
@@ -713,7 +714,7 @@
             // 
             miInstanceRename.Image = Properties.Resources.rename;
             miInstanceRename.Name = "miInstanceRename";
-            miInstanceRename.Size = new Size(219, 22);
+            miInstanceRename.Size = new Size(218, 22);
             miInstanceRename.Text = "Rename Instance";
             miInstanceRename.Click += miInstanceRename_Click;
             // 
@@ -721,7 +722,7 @@
             // 
             miInstanceProperties.Image = Properties.Resources.properties;
             miInstanceProperties.Name = "miInstanceProperties";
-            miInstanceProperties.Size = new Size(219, 22);
+            miInstanceProperties.Size = new Size(218, 22);
             miInstanceProperties.Text = "Properties";
             miInstanceProperties.Click += miInstanceProperties_Click;
             // 
@@ -729,13 +730,13 @@
             // 
             cmsProject.Items.AddRange(new ToolStripItem[] { miProjectOpenInExplorer, miProjectRename, miProjectProperties });
             cmsProject.Name = "cmsCommLine";
-            cmsProject.Size = new Size(220, 70);
+            cmsProject.Size = new Size(219, 70);
             // 
             // miProjectOpenInExplorer
             // 
             miProjectOpenInExplorer.Image = Properties.Resources.open_explorer;
             miProjectOpenInExplorer.Name = "miProjectOpenInExplorer";
-            miProjectOpenInExplorer.Size = new Size(219, 22);
+            miProjectOpenInExplorer.Size = new Size(218, 22);
             miProjectOpenInExplorer.Text = "Open Folder in File Explorer";
             miProjectOpenInExplorer.Click += miDirectoryOpenInExplorer_Click;
             // 
@@ -743,7 +744,7 @@
             // 
             miProjectRename.Image = Properties.Resources.rename;
             miProjectRename.Name = "miProjectRename";
-            miProjectRename.Size = new Size(219, 22);
+            miProjectRename.Size = new Size(218, 22);
             miProjectRename.Text = "Rename Project";
             miProjectRename.Click += miProjectRename_Click;
             // 
@@ -751,7 +752,7 @@
             // 
             miProjectProperties.Image = Properties.Resources.properties;
             miProjectProperties.Name = "miProjectProperties";
-            miProjectProperties.Size = new Size(219, 22);
+            miProjectProperties.Size = new Size(218, 22);
             miProjectProperties.Text = "Properties";
             miProjectProperties.Click += miProjectProperties_Click;
             // 
@@ -759,14 +760,14 @@
             // 
             cmsDirectory.Items.AddRange(new ToolStripItem[] { miDirectoryNewFile, miDirectoryNewFolder, miDirectorySep1, miDirectoryDelete, miDirectoryRename, miDirectorySep2, miDirectoryOpenInExplorer, miDirectoryRefresh });
             cmsDirectory.Name = "cmsDirectory";
-            cmsDirectory.Size = new Size(220, 148);
+            cmsDirectory.Size = new Size(219, 148);
             cmsDirectory.Opening += cmsDirectory_Opening;
             // 
             // miDirectoryNewFile
             // 
             miDirectoryNewFile.Image = Properties.Resources.new_file;
             miDirectoryNewFile.Name = "miDirectoryNewFile";
-            miDirectoryNewFile.Size = new Size(219, 22);
+            miDirectoryNewFile.Size = new Size(218, 22);
             miDirectoryNewFile.Text = "New File...";
             miDirectoryNewFile.Click += miDirectoryNewFile_Click;
             // 
@@ -774,20 +775,20 @@
             // 
             miDirectoryNewFolder.Image = Properties.Resources.new_folder;
             miDirectoryNewFolder.Name = "miDirectoryNewFolder";
-            miDirectoryNewFolder.Size = new Size(219, 22);
+            miDirectoryNewFolder.Size = new Size(218, 22);
             miDirectoryNewFolder.Text = "New Folder...";
             miDirectoryNewFolder.Click += miDirectoryNewFolder_Click;
             // 
             // miDirectorySep1
             // 
             miDirectorySep1.Name = "miDirectorySep1";
-            miDirectorySep1.Size = new Size(216, 6);
+            miDirectorySep1.Size = new Size(215, 6);
             // 
             // miDirectoryDelete
             // 
             miDirectoryDelete.Image = Properties.Resources.delete;
             miDirectoryDelete.Name = "miDirectoryDelete";
-            miDirectoryDelete.Size = new Size(219, 22);
+            miDirectoryDelete.Size = new Size(218, 22);
             miDirectoryDelete.Text = "Delete";
             miDirectoryDelete.Click += miDirectoryDelete_Click;
             // 
@@ -795,20 +796,20 @@
             // 
             miDirectoryRename.Image = Properties.Resources.rename;
             miDirectoryRename.Name = "miDirectoryRename";
-            miDirectoryRename.Size = new Size(219, 22);
+            miDirectoryRename.Size = new Size(218, 22);
             miDirectoryRename.Text = "Rename";
             miDirectoryRename.Click += miDirectoryRename_Click;
             // 
             // miDirectorySep2
             // 
             miDirectorySep2.Name = "miDirectorySep2";
-            miDirectorySep2.Size = new Size(216, 6);
+            miDirectorySep2.Size = new Size(215, 6);
             // 
             // miDirectoryOpenInExplorer
             // 
             miDirectoryOpenInExplorer.Image = Properties.Resources.open_explorer;
             miDirectoryOpenInExplorer.Name = "miDirectoryOpenInExplorer";
-            miDirectoryOpenInExplorer.Size = new Size(219, 22);
+            miDirectoryOpenInExplorer.Size = new Size(218, 22);
             miDirectoryOpenInExplorer.Text = "Open Folder in File Explorer";
             miDirectoryOpenInExplorer.Click += miDirectoryOpenInExplorer_Click;
             // 
@@ -816,22 +817,22 @@
             // 
             miDirectoryRefresh.Image = Properties.Resources.refresh;
             miDirectoryRefresh.Name = "miDirectoryRefresh";
-            miDirectoryRefresh.Size = new Size(219, 22);
+            miDirectoryRefresh.Size = new Size(218, 22);
             miDirectoryRefresh.Text = "Refresh";
             miDirectoryRefresh.Click += miDirectoryRefresh_Click;
             // 
             // cmsFileItem
             // 
-            cmsFileItem.Items.AddRange(new ToolStripItem[] { miFileItemOpen, miFileItemOpenLocation, miFileItemSep1, miFileItemDelete, miFileItemRename });
+            cmsFileItem.Items.AddRange(new ToolStripItem[] { miFileItemOpen, miFileItemOpenLocation, miFileItemCopyPath, miFileItemSep1, miFileItemDelete, miFileItemRename });
             cmsFileItem.Name = "cmsFileItem";
-            cmsFileItem.Size = new Size(233, 98);
+            cmsFileItem.Size = new Size(232, 142);
             cmsFileItem.Opening += cmsFileItem_Opening;
             // 
             // miFileItemOpen
             // 
             miFileItemOpen.Image = Properties.Resources.open_file;
             miFileItemOpen.Name = "miFileItemOpen";
-            miFileItemOpen.Size = new Size(232, 22);
+            miFileItemOpen.Size = new Size(231, 22);
             miFileItemOpen.Text = "Open";
             miFileItemOpen.Click += miFileItemOpen_Click;
             // 
@@ -839,20 +840,28 @@
             // 
             miFileItemOpenLocation.Image = Properties.Resources.open_explorer;
             miFileItemOpenLocation.Name = "miFileItemOpenLocation";
-            miFileItemOpenLocation.Size = new Size(232, 22);
+            miFileItemOpenLocation.Size = new Size(231, 22);
             miFileItemOpenLocation.Text = "Open Location in File Explorer";
             miFileItemOpenLocation.Click += miFileItemOpenLocation_Click;
+            // 
+            // miFileItemCopyPath
+            // 
+            miFileItemCopyPath.Image = Properties.Resources.copy_path;
+            miFileItemCopyPath.Name = "miFileItemCopyPath";
+            miFileItemCopyPath.Size = new Size(231, 22);
+            miFileItemCopyPath.Text = "Copy Path";
+            miFileItemCopyPath.Click += miFileItemCopyPath_Click;
             // 
             // miFileItemSep1
             // 
             miFileItemSep1.Name = "miFileItemSep1";
-            miFileItemSep1.Size = new Size(229, 6);
+            miFileItemSep1.Size = new Size(228, 6);
             // 
             // miFileItemDelete
             // 
             miFileItemDelete.Image = Properties.Resources.delete;
             miFileItemDelete.Name = "miFileItemDelete";
-            miFileItemDelete.Size = new Size(232, 22);
+            miFileItemDelete.Size = new Size(231, 22);
             miFileItemDelete.Text = "Delete";
             miFileItemDelete.Click += miFileItemDelete_Click;
             // 
@@ -860,7 +869,7 @@
             // 
             miFileItemRename.Image = Properties.Resources.rename;
             miFileItemRename.Name = "miFileItemRename";
-            miFileItemRename.Size = new Size(232, 22);
+            miFileItemRename.Size = new Size(231, 22);
             miFileItemRename.Text = "Rename";
             miFileItemRename.Click += miFileItemRename_Click;
             // 
@@ -868,13 +877,13 @@
             // 
             cmsApp.Items.AddRange(new ToolStripItem[] { miAppOpenInExplorer, miAppReloadConfig });
             cmsApp.Name = "cmsServer";
-            cmsApp.Size = new Size(220, 48);
+            cmsApp.Size = new Size(219, 48);
             // 
             // miAppOpenInExplorer
             // 
             miAppOpenInExplorer.Image = Properties.Resources.open_explorer;
             miAppOpenInExplorer.Name = "miAppOpenInExplorer";
-            miAppOpenInExplorer.Size = new Size(219, 22);
+            miAppOpenInExplorer.Size = new Size(218, 22);
             miAppOpenInExplorer.Text = "Open Folder in File Explorer";
             miAppOpenInExplorer.Click += miDirectoryOpenInExplorer_Click;
             // 
@@ -882,7 +891,7 @@
             // 
             miAppReloadConfig.Image = Properties.Resources.refresh;
             miAppReloadConfig.Name = "miAppReloadConfig";
-            miAppReloadConfig.Size = new Size(219, 22);
+            miAppReloadConfig.Size = new Size(218, 22);
             miAppReloadConfig.Text = "Reload Configuration";
             miAppReloadConfig.Click += miAppReloadConfig_Click;
             // 
@@ -1072,6 +1081,7 @@
         private ToolStripMenuItem miEdit;
         private ToolStripMenuItem miEditRefresh;
         private ToolStripMenuItem miEditFind;
+        private ToolStripMenuItem miFileItemCopyPath;
     }
 }
 

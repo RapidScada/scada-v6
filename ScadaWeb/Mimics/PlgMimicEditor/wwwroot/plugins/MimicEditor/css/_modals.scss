@@ -1,12 +1,151 @@
-﻿.modal-footer {
+﻿$item-hover-back-color: rgba(0, 0, 0, 0.075); // similar to tables
+
+@mixin item-selected {
+    background-color: var(--bs-primary);
+    color: var(--bs-white);
+}
+
+.modal-footer {
     .btn {
         min-width: 75px;
     }
 }
 
-#divImageModal {
+#divColorModal {
+    .container-fluid {
+        height: 300px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    #colorModal_divKnownColors .table {
+        tr {
+            cursor: default;
+
+            &.rs-selected td {
+                @include item-selected;
+            }
+        }
+
+        td:nth-child(1) {
+            width: 10%;
+        }
+
+        td:nth-child(2) {
+            width: 50%;
+        }
+
+        td:nth-child(3) {
+            width: 40%;
+        }
+    }
+
+    .rounded-circle {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+}
+
+#divImageEditModal {
     .card img {
         max-height: 200px;
         width: fit-content;
+    }
+}
+
+#divImageSelectModal {
+    .container-fluid {
+        height: 300px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .rs-image-list {
+        margin-bottom: 1rem;
+
+        .rs-image-list-header {
+            font-weight: bold;
+            padding: 0.5rem;
+        }
+
+        .rs-image-item {
+            cursor: default;
+            padding: 0.5rem;
+
+            &:hover {
+                background-color: $item-hover-back-color;
+            }
+
+            &.rs-selected {
+                @include item-selected;
+            }
+
+            .rs-image-thumb,
+            .rs-image-name {
+                display: inline-block;
+                vertical-align: middle;
+                white-space: nowrap;
+            }
+
+            .rs-image-thumb {
+                box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+                margin-right: 0.5rem;
+
+                img {
+                    height: 3rem;
+                    width: 3rem;
+                    object-fit: scale-down;
+                }
+
+                img[src=""], img:not([src]) {
+                    visibility: hidden;
+                }
+            }
+        }
+    }
+}
+
+#divPropertyModal {
+    .container-fluid {
+        height: 300px;
+        overflow: auto;
+    }
+
+    ul {
+        list-style-type: none;
+        margin: 0 0 0 20px;
+        padding: 0;
+
+        &:first-child {
+            margin-left: 0;
+        }
+
+        li {
+            white-space: nowrap;
+
+            &.rs-selected {
+                & > .rs-item-text {
+                    @include item-selected;
+                }
+            }
+
+            &.rs-disabled {
+                & > .rs-item-text {
+                    color: var(--bs-gray-500);
+                }
+            }
+
+            &:not(.rs-selected) {
+                & > .rs-item-text:hover {
+                    background-color: $item-hover-back-color;
+                }
+            }
+
+            .rs-item-text {
+                cursor: default;
+                display: inline-block;
+                padding: 0px 5px;
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-// Copyright (c) Rapid Software LLC. All rights reserved.
+п»ї// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Authorization;
@@ -9,8 +9,8 @@ using Scada.Web.Plugins.PlgMimicEditor.Code;
 namespace Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages
 {
     /// <summary>
-    /// Represents a page for editing a mimic diagram.
-    /// <para>Представляет страницу для редактирования мнемосхемы.</para>
+    /// Represents a main page of the mimic editor.
+    /// <para>РџСЂРµРґСЃС‚Р°РІР»СЏРµС‚ РѕСЃРЅРѕРІРЅСѓСЋ СЃС‚СЂР°РЅРёС†Сѓ СЂРµРґР°РєС‚РѕСЂР° РјРЅРµРјРѕСЃС…РµРј.</para>
     /// </summary>
     [Authorize(Policy = PolicyName.Administrators)]
     public class MimicEditModel(EditorManager editorManager) : PageModel

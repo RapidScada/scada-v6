@@ -67,6 +67,11 @@ $tool-window-font-weight: 500;
             background-color: var(--bs-gray-200);
         }
 
+        &:active {
+            background-color: var(--bs-blue);
+            color: var(--bs-white);
+        }
+
         .component-icon {
             width: 16px;
             height: 16px;
@@ -196,11 +201,37 @@ $tool-window-font-weight: 500;
     .tp-rotv {
         font-size: $tool-window-font-size;
     }
+
+    .rs-array-item {
+        cursor: pointer;
+
+        &.rs-selected {
+            background-color: var(--bs-primary);
+            padding-bottom: 2px;
+            padding-top: 2px;
+
+            .tp-lblv_l {
+                color: var(--bs-white);
+            }
+        }
+    }
 }
 
 /* Popovers */
 .image-preview {
     max-height: 100px;
     max-width: 100px;
+    min-width: 20px;
     width: fit-content;
+}
+
+/* Modals */
+#divTextEditor {
+    .editor {
+        border: 1px solid var(--bs-border-color);
+        height: 300px;
+        overflow: auto;
+        position: relative;
+        resize: vertical;
+    }
 }

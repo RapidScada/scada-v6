@@ -19,6 +19,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             Mimic = mimic ?? throw new ArgumentNullException(nameof(mimic));
             MimicKey = ScadaUtils.GenerateUniqueID();
             Updater = new MimicUpdater(mimic);
+            ClientAccessTime = DateTime.UtcNow;
         }
 
 
@@ -50,7 +51,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// <summary>
         /// Gets the timestamp when the mimic was accessed by the client.
         /// </summary>
-        public DateTime ClientAccessTime { get; private set; } = DateTime.MinValue;
+        public DateTime ClientAccessTime { get; private set; }
 
 
         /// <summary>

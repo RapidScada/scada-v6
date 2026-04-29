@@ -18,44 +18,66 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages
     {
         public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
         public string ErrorMessage { get; private set; } = "";
+        public MimicGroup[] MimicGroups { get; private set; } = [];
 
         [BindProperty]
         public string FileName { get; set; }
 
 
-        public void OnPostOpen()
+        public void OnGet()
+        {
+            MimicGroups = editorManager.GetMimicGroups();
+        }
+
+        public IActionResult OnPostOpen()
         {
             OpenResult result = editorManager.OpenMimic(FileName);
 
             if (result.IsSuccessful)
             {
-                // clear file name
-                FileName = "";
-                ModelState.Remove(nameof(FileName));
+                return RedirectToPage(); // Post-Redirect-Get pattern
             }
             else
             {
                 ErrorMessage = result.ErrorMessage;
+                MimicGroups = editorManager.GetMimicGroups();
+                return Page();
             }
         }
 
-        public void OnPostSave(long mimicKey)
-        {
-            if (!editorManager.SaveMimic(mimicKey, out string errMsg))
-                ErrorMessage = errMsg;
-        }
-
-        public void OnPostSaveAndClose(long mimicKey)
+        public IActionResult OnPostSave(long mimicKey)
         {
             if (editorManager.SaveMimic(mimicKey, out string errMsg))
-                editorManager.CloseMimic(mimicKey);
+            {
+                return RedirectToPage();
+            }
             else
+            {
                 ErrorMessage = errMsg;
+                MimicGroups = editorManager.GetMimicGroups();
+                return Page();
+            }
         }
 
-        public void OnPostCloseWithoutSaving(long mimicKey)
+        public IActionResult OnPostSaveAndClose(long mimicKey)
+        {
+            if (editorManager.SaveMimic(mimicKey, out string errMsg))
+            {
+                editorManager.CloseMimic(mimicKey);
+                return RedirectToPage();
+            }
+            else
+            {
+                ErrorMessage = errMsg;
+                MimicGroups = editorManager.GetMimicGroups();
+                return Page();
+            }
+        }
+
+        public IActionResult OnPostCloseWithoutSaving(long mimicKey)
         {
             editorManager.CloseMimic(mimicKey);
+            return RedirectToPage();
         }
     }
 }

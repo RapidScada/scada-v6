@@ -1,0 +1,131 @@
+﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using Scada.Comm.Drivers.DrvOpcUa.Config;
+using Scada.Forms;
+using System.ComponentModel;
+
+namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
+{
+    /// <summary>
+    /// Represents a control for editing a history reading command.
+    /// <para>Представляет элемент управления для редактирования команды чтения истории.</para>
+    /// </summary>
+    public partial class CtrlReadHistoryCommand : UserControl
+    {
+        private ReadHistoryCommandConfig commandConfig;
+
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public CtrlReadHistoryCommand()
+        {
+            InitializeComponent();
+        }
+
+
+        /// <summary>
+        /// Gets or sets the edited command.
+        /// </summary>
+        public ReadHistoryCommandConfig CommandConfig
+        {
+            get
+            {
+                return commandConfig;
+            }
+            set
+            {
+                commandConfig = null;
+                ShowCommandProps(value);
+                commandConfig = value;
+            }
+        }
+
+
+        /// <summary>
+        /// Shows the command properties.
+        /// </summary>
+        private void ShowCommandProps(ReadHistoryCommandConfig commandConfig)
+        {
+            if (commandConfig != null)
+            {
+                txtDisplayName.Text = commandConfig.DisplayName;
+                txtCmdCode.Text = commandConfig.CmdCode;
+                numCmdNum.SetValue(commandConfig.CmdNum);
+                txtNodeIDs.Lines = commandConfig.NodeIDs.ToArray();
+                numValuesPerNode.SetValue(commandConfig.ValuesPerNode);
+            }
+        }
+
+        /// <summary>
+        /// Raises an ObjectChanged event.
+        /// </summary>
+        private void OnObjectChanged(object changeArgument)
+        {
+            ObjectChanged?.Invoke(this, new ObjectChangedEventArgs(commandConfig, changeArgument));
+        }
+
+        /// <summary>
+        /// Sets the input focus.
+        /// </summary>
+        public void SetFocus()
+        {
+            txtDisplayName.Select();
+        }
+
+
+        /// <summary>
+        /// Occurs when the edited object changes.
+        /// </summary>
+        [Category("Property Changed")]
+        public event EventHandler<ObjectChangedEventArgs> ObjectChanged;
+
+
+        private void txtDisplayName_TextChanged(object sender, EventArgs e)
+        {
+            if (commandConfig != null)
+            {
+                commandConfig.DisplayName = txtDisplayName.Text;
+                OnObjectChanged(TreeUpdateTypes.CurrentNode);
+            }
+        }
+
+        private void txtCmdCode_TextChanged(object sender, EventArgs e)
+        {
+            if (commandConfig != null)
+            {
+                commandConfig.CmdCode = txtCmdCode.Text;
+                OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+
+        private void numCmdNum_ValueChanged(object sender, EventArgs e)
+        {
+            if (commandConfig != null)
+            {
+                commandConfig.CmdNum = Convert.ToInt32(numCmdNum.Value);
+                OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+
+        private void txtNodeID_TextChanged(object sender, EventArgs e)
+        {
+            if (commandConfig != null)
+            {
+                commandConfig.NodeIDs.Clear();
+                commandConfig.NodeIDs.AddRange(txtNodeIDs.Lines);
+                OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+
+        private void numValuesPerNode_ValueChanged(object sender, EventArgs e)
+        {
+            if (commandConfig != null)
+            {
+                commandConfig.ValuesPerNode = Convert.ToUInt32(numValuesPerNode.Value);
+                OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+    }
+}

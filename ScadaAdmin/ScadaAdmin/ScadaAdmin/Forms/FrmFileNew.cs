@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2025 Rapid Software LLC
+ * Copyright 2026 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2026
  */
 
 using Scada.Admin.App.Code;
@@ -79,10 +79,12 @@ namespace Scada.Admin.App.Forms
         {
             return lbFileType.SelectedIndex switch
             {
-                1 => KnownFileType.TableView,
-                2 => KnownFileType.TextFile,
-                3 => KnownFileType.XmlFile,
-                _ => KnownFileType.SchemeView
+                0 => KnownFileType.MimicView,
+                1 => KnownFileType.Faceplate,
+                2 => KnownFileType.SchemeView,
+                3 => KnownFileType.TableView,
+                4 => KnownFileType.Xml,
+                _ => KnownFileType.Text
             };
         }
 
@@ -105,7 +107,7 @@ namespace Scada.Admin.App.Forms
         {
             string fileName = FileName;
 
-            if (fileName == "")
+            if (string.IsNullOrEmpty(fileName))
             {
                 ScadaUiUtils.ShowError(AppPhrases.FileNameEmpty);
                 return false;

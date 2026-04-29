@@ -6,7 +6,7 @@ class NotifPanel {
     // The storage key for muting.
     static _MUTE_KEY = "NotifPanel.Mute";
     // An event that occurs when the Ack All button is clicked.
-    static ACK_ALL_EVENT = "rs:ackAll";
+    static ACK_ALL_EVENT = "ackall.rs.notif";
 
     // The jQuery object that represents the mute button.
     _muteBtn = $();
@@ -437,7 +437,6 @@ class NotifPanel {
 
 // Specifies the notification phrases.
 // Can be changed by a page script.
-// C# naming style. 
 var notifPhrases = {
     noNotif: "No notifications",
     mute: "Mute",

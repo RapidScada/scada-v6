@@ -107,7 +107,6 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             Component component = new()
             {
                 ID = change.ObjectID,
-                Name = change.GetString("name"),
                 TypeName = change.GetString("typeName"),
                 ParentID = change.ParentID
             };
@@ -280,15 +279,10 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 foreach (KeyValuePair<string, object> kvp in change.Properties)
                 {
                     string propName = kvp.Key.ToPascalCase();
-                    JsonElement propVal = (JsonElement)kvp.Value;
 
-                    if (Component.KnownProperties.Contains(propName))
+                    if (!KnownProperty.All.Contains(propName))
                     {
-                        if (propName == "Name")
-                            component.Name = propVal.ToString();
-                    }
-                    else
-                    {
+                        JsonElement propVal = (JsonElement)kvp.Value;
                         componentProps[propName] = JsonElementToObject(propVal);
                     }
                 }
@@ -307,11 +301,26 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 foreach (JsonProperty jsonProperty in jsonElement.EnumerateObject())
                 {
                     string propName = jsonProperty.Name.ToPascalCase();
-                    JsonElement propVal = jsonProperty.Value;
-                    expando.SetValue(propName, JsonElementToObject(propVal));
+
+                    if (propName != KnownProperty.TypeName)
+                    {
+                        JsonElement propVal = jsonProperty.Value;
+                        expando.SetValue(propName, JsonElementToObject(propVal));
+                    }
                 }
 
                 return expando;
+            }
+            else if (jsonElement.ValueKind == JsonValueKind.Array)
+            {
+                List<object> list = [];
+
+                foreach (JsonElement arrayElement in jsonElement.EnumerateArray())
+                {
+                    list.Add(JsonElementToObject(arrayElement));
+                }
+
+                return list;
             }
             else
             {

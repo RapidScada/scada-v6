@@ -1,0 +1,11 @@
+﻿@page "/Errors/{code:int}"
+@model StatusCodeModel
+@{
+    Response.StatusCode = Model.Code; // important to restore status
+    ViewBag.Title = Model.Title;
+}
+
+<div class="container text-center">
+    <h1 class="text-danger">@Model.Header</h1>
+    <p>@WebUtils.HtmlEncodeWithBreak(Model.Message)</p>
+</div>

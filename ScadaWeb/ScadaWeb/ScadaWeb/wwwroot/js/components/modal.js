@@ -212,7 +212,7 @@ class ModalManager extends ModalBase {
             let formElem = modalWnd.$("form:first");
 
             if (formElem.length > 0 && formElem[0].reportValidity()) {
-                formElem.submit();
+                formElem.trigger("submit");
             }
         }
     }
@@ -238,7 +238,7 @@ class ModalManager extends ModalBase {
         $("body").append(tempOverlay);
 
         // create a modal
-        let options = opt_options || new ModalOptions();
+        let options = Object.assign(new ModalOptions(), opt_options);
         let modalElem = ModalBase.createModalElem();
         ModalBase.setModalSize(modalElem, options.size);
         ModalBase.addModalFooter(modalElem, options.buttons);
@@ -278,6 +278,12 @@ class ModalManager extends ModalBase {
 
                 // remove overlay to allow user activity
                 tempOverlay.remove();
+            })
+            .on('hide.bs.modal', function () {
+                // remove focus to prevent browser warning
+                if (document.activeElement instanceof HTMLElement) {
+                    document.activeElement.blur();
+                }
             })
             .on('hidden.bs.modal', function () {
                 let callback = $(this).data("rs-callback");
@@ -393,6 +399,7 @@ class ModalManager extends ModalBase {
 class ModalBoxOptions {
     title = null;
     alert = null;
+    isHtml = false;
 
     constructor(fields) {
         Object.assign(this, fields);
@@ -416,7 +423,14 @@ class ModalBox extends ModalBase {
         this.setModalTitle(modalElem, options.title ?? document.title);
 
         if (options.alert) {
-            let alertElem = $(`<div class='alert alert-${options.alert}'></div>`).text(message);
+            let alertElem = $(`<div class='alert alert-${options.alert}'></div>`);
+
+            if (options.isHtml) {
+                alertElem.html(message);
+            } else {
+                alertElem.text(message);
+            }
+
             this.setModalBody(modalElem, alertElem);
         } else {
             this.setModalBody(modalElem, message);

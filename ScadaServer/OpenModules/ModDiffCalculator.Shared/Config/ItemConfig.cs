@@ -4,7 +4,6 @@
 using Scada.ComponentModel;
 using Scada.Data.Models;
 using System.Collections;
-using System.Runtime.CompilerServices;
 using System.Xml;
 using NCM = System.ComponentModel;
 
@@ -19,16 +18,9 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
     /// Represents a configuration of a calculated item.
     /// <para>Представляет конфигурацию вычисляемого элемента.</para>
     /// </summary>
-    /// <remarks>
-    /// An implementation of INotifyPropertyChanged is required to update a tree node text when an item changes.
-    /// </remarks>
     [Serializable]
-    internal class ItemConfig : ITreeNode, IConfigDatasetAccessor, NCM.INotifyPropertyChanged
+    internal class ItemConfig : ITreeNode, IConfigDatasetAccessor
     {
-        private int srcCnlNum = 0;
-        private int destCnlNum = 0;
-
-
         /// <summary>
         /// Gets or sets the source channel number from which data for calculation is taken.
         /// </summary>
@@ -38,18 +30,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
         [NCM.Editor(typeof(CnlNumEditor), typeof(UITypeEditor))]
 #endif
         #endregion
-        public int SrcCnlNum
-        {
-            get
-            {
-                return srcCnlNum;
-            }
-            set
-            {
-                srcCnlNum = value;
-                OnPropertyChanged();
-            }
-        }
+        public int SrcCnlNum { get; set; } = 0;
 
         /// <summary>
         /// Gets or sets the destination channel number into which a calculation result is written.
@@ -60,18 +41,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
         [NCM.Editor(typeof(CnlNumEditor), typeof(UITypeEditor))]
 #endif
         #endregion
-        public int DestCnlNum
-        {
-            get
-            {
-                return destCnlNum;
-            }
-            set
-            {
-                destCnlNum = value;
-                OnPropertyChanged();
-            }
-        }
+        public int DestCnlNum { get; set; } = 0;
 
         /// <summary>
         /// Gets or sets the parent node.
@@ -94,14 +64,6 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
 
 
         /// <summary>
-        /// Raises a PropertyChanged event.
-        /// </summary>
-        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new NCM.PropertyChangedEventArgs(propertyName));
-        }
-
-        /// <summary>
         /// Loads the options from the XML node.
         /// </summary>
         public void LoadFromXml(XmlElement xmlElem)
@@ -120,12 +82,5 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
             xmlElem.SetAttribute("srcCnlNum", SrcCnlNum);
             xmlElem.SetAttribute("destCnlNum", DestCnlNum);
         }
-
-
-        /// <summary>
-        /// Occurs when a property value changes.
-        /// </summary>
-        [field: NonSerialized]
-        public event NCM.PropertyChangedEventHandler PropertyChanged;
     }
 }

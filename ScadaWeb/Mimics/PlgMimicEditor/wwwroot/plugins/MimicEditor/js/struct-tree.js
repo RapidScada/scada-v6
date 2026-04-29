@@ -3,7 +3,7 @@
 
 // Represents a component for displaying mimic structure.
 class StructTree {
-    _eventSource = document.createElement("structtree");
+    _eventSource = document.createElement("struct-tree");
 
     structElem;
     mimic;
@@ -12,7 +12,7 @@ class StructTree {
     constructor(elemID, mimic, phrases) {
         this.structElem = $("#" + elemID);
         this.mimic = mimic;
-        this.phrases = phrases;
+        this.phrases = phrases ?? {};
     }
 
     _prepareDependencies(listElem) {
@@ -76,6 +76,7 @@ class StructTree {
         bootstrap.Popover.getOrCreateInstance(buttonElem[0], {
             html: true,
             placement: "bottom",
+            trigger: "hover",
             content: function () {
                 // called twice by Bootstrap on each show
                 let popoverContent = buttonElem.data("popoverContent");

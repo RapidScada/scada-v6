@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2024
+ * Modified : 2025
  */
 
 namespace Scada.Web
@@ -62,7 +62,7 @@ namespace Scada.Web
         /// </summary>
         public override string[] GetProbingDirs()
         {
-            return new string[] { ExeDir, PluginDir };
+            return [ExeDir, PluginDir];
         }
     }
 }

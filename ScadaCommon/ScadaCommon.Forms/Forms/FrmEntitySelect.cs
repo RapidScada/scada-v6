@@ -126,8 +126,8 @@ namespace Scada.Forms.Forms
         {
             // get selected IDs
             HashSet<int> selectedIdSet = MultiSelect && SelectedIDs != null
-                ? new HashSet<int>(SelectedIDs)
-                : new HashSet<int>();
+                ? [.. SelectedIDs]
+                : [];
 
             if (!MultiSelect && SelectedID > 0)
                 selectedIdSet.Add(SelectedID);
@@ -139,8 +139,8 @@ namespace Scada.Forms.Forms
             bool codeExists = srcProps.CodeProp != null;
             bool descrExists = srcProps.DescrProp != null;
 
-            items = new BindingList<SelectableItem>();
-            selectedItems = new Dictionary<int, SelectableItem>();
+            items = [];
+            selectedItems = [];
 
             foreach (object srcItem in baseTable.EnumerateItems())
             {

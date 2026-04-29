@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2023
+ * Modified : 2025
  */
 
 namespace Scada.Web.Components
@@ -91,17 +91,25 @@ namespace Scada.Web.Components
         }
 
         /// <summary>
+        /// Keeps the index unchanged or adjusts it according to the number of pages.
+        /// </summary>
+        private static int FixPageIndex(int pageIndex, int pageCount)
+        {
+            return pageCount > 0 ? Math.Clamp(pageIndex, 0, pageCount - 1) : 0;
+        }
+
+        /// <summary>
         /// Populates the list with the items of the specified page.
         /// </summary>
         public void Fill(List<T> source, int pageIndex)
         {
             ArgumentNullException.ThrowIfNull(source, nameof(source));
-            PageIndex = pageIndex;
-            PageCount = CalculatePageCount(source.Count);
             TotalItems = source.Count;
+            PageCount = CalculatePageCount(TotalItems);
+            PageIndex = FixPageIndex(pageIndex, PageCount);
 
-            int startIndex = pageIndex * PageSize;
-            int endIndex = Math.Min(startIndex + PageSize, source.Count);
+            int startIndex = PageIndex * PageSize;
+            int endIndex = Math.Min(startIndex + PageSize, TotalItems);
 
             for (int i = startIndex; i < endIndex; i++)
             {
@@ -112,18 +120,15 @@ namespace Scada.Web.Components
         /// <summary>
         /// Populates the list with the items of the specified page.
         /// </summary>
-        public void Fill(IEnumerable<T> source, int pageIndex)
+        public void Fill(IQueryable<T> source, int pageIndex)
         {
             ArgumentNullException.ThrowIfNull(source, nameof(source));
-            int totalItems = source.Count();
-            IEnumerable<T> items = source
-                .Skip(pageIndex * PageSize)
-                .Take(PageSize);
-
-            PageIndex = pageIndex;
-            PageCount = CalculatePageCount(totalItems);
-            TotalItems = totalItems;
-            AddRange(items);
+            TotalItems = source.Count();
+            PageCount = CalculatePageCount(TotalItems);
+            PageIndex = FixPageIndex(pageIndex, PageCount);
+            AddRange(source
+                .Skip(PageIndex * PageSize)
+                .Take(PageSize));
         }
     }
 }

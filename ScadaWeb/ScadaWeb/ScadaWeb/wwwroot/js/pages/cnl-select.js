@@ -1,16 +1,16 @@
-﻿$(document).ready(function () {
-    let pager = new Pager("pgrCnl");
+﻿$(function () {
+    let pager = new RazorPager("pgrCnl", { submitOnClick: true });
 
     $("#selObj").on("change", function () {
         pager.reset();
         $("#chkOnlySelected").prop("checked", false);
-        $("form:first").submit();
+        $("form:first").trigger("submit");
     });
 
     $("#chkOnlySelected").on("change", function () {
         pager.reset();
         $("#selObj").val("0");
-        $("form:first").submit();
+        $("form:first").trigger("submit");
     });
 
     $("#tblCnl .chk-sel").on("change", function () {

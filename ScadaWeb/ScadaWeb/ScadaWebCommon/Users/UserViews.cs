@@ -238,7 +238,7 @@ namespace Scada.Web.Users
                         userRights.GetRightByObj(viewEntity.ObjNum).View &&
                         CreateBranch(viewEntity) is ViewNode branchRootNode)
                     {
-                        MergeViewNodes(ViewNodes, new List<ViewNode> { branchRootNode }, 0);
+                        MergeViewNodes(ViewNodes, [branchRootNode], 0);
                     }
                 }
             }

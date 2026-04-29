@@ -1,5 +1,5 @@
-// Contains classes: LoadStep, LoadResult, LoadContext
-// No dependencies
+// Contains classes: LoadStep, LoadResult, LoadContext, EventType, ScaleType, Scale, ObjectHelper
+// Depends on scada-common.js
 
 // Namespaces
 var rs = rs ?? {};
@@ -9,15 +9,16 @@ rs.mimic = rs.mimic ?? {};
 rs.mimic.LoadStep = class {
     static UNDEFINED = 0;
     static PROPERTIES = 1;
-    static COMPONENTS = 2;
-    static IMAGES = 3;
-    static FACEPLATES = 4;
+    static FACEPLATES = 2;
+    static COMPONENTS = 3;
+    static IMAGES = 4;
     static COMPLETE = 5;
 };
 
 // Represents a result of loading a mimic.
 rs.mimic.LoadResult = class {
     ok = false;
+    warn = false;
     msg = "";
 };
 
@@ -27,8 +28,8 @@ rs.mimic.LoadContext = class {
     static IMAGES_TO_REQUEST = 100;
     static IMAGE_TOTAL_SIZE = 1048576;
 
-    controllerUrl = "";
-    mimicKey = "";
+    controllerUrl;
+    mimicKey;
     result = new rs.mimic.LoadResult();
     step = rs.mimic.LoadStep.UNDEFINED;
     componentIndex = 0;
@@ -42,20 +43,216 @@ rs.mimic.LoadContext = class {
     }
 };
 
-// Contains classes: BasicType, Subtype, KnownCategory, PropertyDescriptor, ObjectDescriptor, MimicDescriptor,
-//     ComponentDescriptorBase, ComponentDescriptor, TextDescriptor, PictureDescriptor, PanelDescriptor, DescriptorSet
+// Specifies the event types used by a mimic.
+rs.mimic.EventType = class {
+    static BLINK_ON = "blinkon.rs.mimic";
+    static BLINK_OFF = "blinkoff.rs.mimic";
+};
+
+// Specifies the scale types. Corresponds to ScaleType.cs
+rs.mimic.ScaleType = class {
+    static NUMERIC = 0;
+    static FIT_SCREEN = 1;
+    static FIT_WIDTH = 2;
+};
+
+// Represents a scale.
+rs.mimic.Scale = class Scale {
+    static _TYPE_KEY = "Mimic.ScaleType";
+    static _VALUE_KEY = "Mimic.ScaleValue";
+    static _VALUES = [0.1, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 3, 4, 5, 10];
+    static _MIN = 0.1;
+    static _MAX = 10;
+
+    type;
+    value;
+
+    constructor(opt_type, opt_value) {
+        this.type = opt_type ?? rs.mimic.ScaleType.NUMERIC;
+        this.value = Scale._normalize(opt_value);
+    }
+
+    static _normalize(value) {
+        if (Number.isFinite(value)) {
+            if (value < Scale._MIN) {
+                return Scale._MIN;
+            } if (value > Scale._MAX) {
+                return Scale._MAX;
+            } else {
+                const factor = 1000000;
+                return Math.trunc(value * factor) / factor;
+            }
+        } else {
+            return 1;
+        }
+    }
+
+    setValue(value) {
+        this.value = Scale._normalize(value);
+    }
+
+    save(storage) {
+        ScadaUtils.setStorageItem(storage, Scale._TYPE_KEY, this.type);
+        ScadaUtils.setStorageItem(storage, Scale._VALUE_KEY, this.value);
+    }
+
+    load(storage) {
+        this.type = Number.parseInt(ScadaUtils.getStorageItem(storage, Scale._TYPE_KEY)) || this.type;
+        this.value = Number.parseFloat(ScadaUtils.getStorageItem(storage, Scale._VALUE_KEY)) || this.value;
+    }
+
+    getPrev() {
+        for (let i = Scale._VALUES.length - 1; i >= 0; i--) {
+            let prevVal = Scale._VALUES[i];
+
+            if (scale.value > prevVal) {
+                return new Scale(rs.mimic.ScaleType.NUMERIC, prevVal);
+            }
+        }
+
+        return this;
+    }
+
+    getNext() {
+        for (let i = 0, len = Scale._VALUES.length; i < len; i++) {
+            let nextVal = Scale._VALUES[i];
+
+            if (scale.value < nextVal) {
+                return new Scale(rs.mimic.ScaleType.NUMERIC, nextVal);
+            }
+        }
+
+        return this;
+    }
+}
+
+// Provides access to the object properties.
+rs.mimic.ObjectHelper = class ObjectHelper {
+    // Gets the child object specified by the property chain.
+    static _getObjectToUpdate(obj, propertyChain, chainIndex) {
+        let objectToUpdate = obj;
+
+        for (let i = chainIndex; i < propertyChain.length - 1; i++) {
+            let propertyName = propertyChain[i];
+
+            if (objectToUpdate instanceof Object && Object.hasOwn(objectToUpdate, propertyName)) {
+                objectToUpdate = objectToUpdate[propertyName];
+            } else {
+                objectToUpdate = null;
+                break;
+            }
+        }
+
+        return objectToUpdate;
+    }
+
+    // Updates the value of the object property.
+    static _updateValue(objectToUpdate, propertyName, newValue) {
+        let curValue = objectToUpdate[propertyName];
+
+        if (typeof curValue === "number") {
+            objectToUpdate[propertyName] = Number(newValue) || 0;
+        } else if (typeof curValue === "string") {
+            objectToUpdate[propertyName] = String(newValue);
+        } else if (typeof curValue === "boolean") {
+            objectToUpdate[propertyName] = Boolean(newValue);
+        } else if (curValue instanceof Object) {
+            let newValueIsObject = newValue instanceof Object;
+
+            for (let childPropertyName of Object.keys(curValue)) {
+                ObjectHelper._updateValue(curValue, childPropertyName,
+                    newValueIsObject ? newValue[childPropertyName] : null);
+            }
+        }
+    }
+
+    // Gets the value of the object property. Property chain is an array of property names.
+    static getPropertyValue(obj, propertyChain, chainIndex) {
+        if (obj == null) {
+            return undefined;
+        }
+
+        let objectToUpdate = ObjectHelper._getObjectToUpdate(obj, propertyChain, chainIndex);
+
+        if (objectToUpdate instanceof Object && propertyChain.length > chainIndex) {
+            let propertyName = propertyChain.at(-1); // last
+            return objectToUpdate[propertyName];
+        } else {
+            return undefined;
+        }
+    }
+
+    // Sets the object property to the specified value keeping the data type unchanged.
+    static setPropertyValue(obj, propertyChain, chainIndex, value) {
+        if (obj == null) {
+            return;
+        }
+
+        let objectToUpdate = ObjectHelper._getObjectToUpdate(obj, propertyChain, chainIndex);
+
+        if (objectToUpdate instanceof Object && propertyChain.length > chainIndex) {
+            let propertyName = propertyChain.at(-1); // last
+            ObjectHelper._updateValue(objectToUpdate, propertyName, value);
+        }
+    }
+
+    // Creates a new value by merging the source value to the base value.
+    static mergeValues(baseValue, sourceValue) {
+        if (baseValue == null) {
+            return sourceValue;
+        }
+
+        if (typeof baseValue === "number") {
+            return Number(sourceValue) || 0;
+        } else if (typeof baseValue === "string") {
+            return String(sourceValue);
+        } else if (typeof baseValue === "boolean") {
+            return Boolean(sourceValue);
+        } else if (baseValue instanceof Object) {
+            let mergedObject = ScadaUtils.deepClone(baseValue);
+            let sourceIsObject = sourceValue instanceof Object;
+
+            for (let [name, value] of Object.entries(baseValue)) {
+                mergedObject[name] = ObjectHelper.mergeValues(value, sourceIsObject ? sourceValue[name] : null);
+            }
+
+            return mergedObject;
+        } else {
+            return baseValue;
+        }
+    }
+}
+
+// Contains classes:
+//     KnownCategory, BasicType, Subtype, PropertyEditor,
+//     PropertyDescriptor, ObjectDescriptor, MimicDescriptor, ComponentDescriptor, RegularComponentDescriptor,
+//     TextDescriptor, PictureDescriptor, PanelDescriptor, FaceplateDescriptor,
+//     StructureDescriptor, ActionDescriptor, BorderDescriptor, CommandArgsDescriptor, ConditionDescriptor,
+//     CornerRadiusDescriptor, ImageConditionDescriptor, LinkArgsDescriptor, PaddingDescriptor,
+//     PropertyBindingDescriptor, PropertyExportDescriptor, TextConditionDescriptor, UrlParamsDescriptor,
+//     VisualStateDescriptor, DescriptorSet
 // Depends on scada-common.js, mimic-common.js
+
+// Specifies the known categories.
+// Values ​​must be specified in camel case since they are used as property names.
+rs.mimic.KnownCategory = class {
+    static APPEARANCE = "appearance";
+    static BEHAVIOR = "behavior";
+    static DATA = "data";
+    static DESIGN = "design";
+    static FACEPLATE = "faceplate";
+    static LAYOUT = "layout";
+    static MISC = "misc";
+    static NAVIGATION = "navigation";
+};
 
 // Specifies the basic types.
 rs.mimic.BasicType = class {
     static BOOL = "bool";
-    static COLOR = "color";
     static ENUM = "enum";
     static FLOAT = "float";
     static INT = "int";
     static LIST = "list";
-    static POINT = "point";
-    static SIZE = "size";
     static STRING = "string";
     static STRUCT = "struct";
 };
@@ -65,38 +262,40 @@ rs.mimic.Subtype = class {
     // Enumerations
     static ACTION_TYPE = "ActionType";
     static COMPARISON_OPERATOR = "ComparisonOperator";
-    static IMAGE_SIZE_MODE = "ImageSizeMode";
+    static CONTENT_ALIGNMENT = "ContentAlignment";
+    static DATA_MEMBER = "DataMember";
+    static IMAGE_STRETCH = "ImageStretch";
     static LOGICAL_OPERATOR = "LogicalOperator";
     static LINK_TARGET = "LinkTarget";
     static MODAL_WIDTH = "ModalWidth";
-    static CONTENT_ALIGNMENT = "ContentAlignment";
+    static TEXT_DIRECTION = "TextDirection";
 
     // Structures
     static ACTION = "Action";
     static BORDER = "Border";
-    static COMMANDARGS = "CommandArgs";
+    static COMMAND_ARGS = "CommandArgs";
     static CONDITION = "Condition";
     static CORNER_RADIUS = "CornerRadius";
     static FONT = "Font";
     static IMAGE_CONDITION = "ImageCondition";
     static LINK_ARGS = "LinkArgs";
-    static LOCATION = "Location";
     static PADDING = "Padding";
+    static POINT = "Point";
     static PROPERTY_BINDING = "PropertyBinding";
     static PROPERTY_EXPORT = "PropertyExport";
     static SIZE = "Size";
+    static TEXT_CONDITION = "TextCondition";
+    static URL_PARAMS = "UrlParams";
     static VISUAL_STATE = "VisualState";
-}
+};
 
-// Specifies the known categories.
-// Values ​​must be specified in lowercase since they are used as property names.
-rs.mimic.KnownCategory = class {
-    static APPEARANCE = "appearance";
-    static BEHAVIOR = "behavior";
-    static DATA = "data";
-    static DESIGN = "design";
-    static LAYOUT = "layout";
-    static MISC = "misc";
+// Specifies the property editors.
+rs.mimic.PropertyEditor = class {
+    static COLOR_DIALOG = "ColorDialog";
+    static FONT_DIALOG = "FontDialog";
+    static IMAGE_DIALOG = "ImageDialog";
+    static PROPERTY_DIALOG = "PropertyDialog";
+    static TEXT_EDITOR = "TextEditor";
 };
 
 // Provides meta information about a property of a mimic or component.
@@ -106,10 +305,12 @@ rs.mimic.PropertyDescriptor = class {
     category = "";
     isReadOnly = false;
     isBrowsable = true;
-    isKnown = false;
+    isBindable = true;
     type = "";
     subtype = "";
-    bindingOptions = null; // Tweakpane binding options
+    editor = "";
+    tweakpaneOptions = null;
+    editorOptions = null;
 
     constructor(source) {
         Object.assign(this, source);
@@ -118,8 +319,8 @@ rs.mimic.PropertyDescriptor = class {
 
 // Represents an object descriptor.
 rs.mimic.ObjectDescriptor = class {
-    // Key is a property name. Value is a property descriptor.
-    propertyDescriptors = new Map();
+    propertyDescriptors = new Map(); // property descriptors accessible by property name
+    sorted = true;
 
     add(propertyDescriptor) {
         this.propertyDescriptors.set(propertyDescriptor.name, propertyDescriptor);
@@ -138,8 +339,10 @@ rs.mimic.ObjectDescriptor = class {
 rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
     constructor() {
         super();
-        const BasicType = rs.mimic.BasicType;
         const KnownCategory = rs.mimic.KnownCategory;
+        const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
+        const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
         // appearance
@@ -147,12 +350,29 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "backColor",
             displayName: "Background color",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.COLOR
+            type: BasicType.STRING,
+            editor: PropertyEditor.COLOR_DIALOG
         }));
 
         this.add(new PropertyDescriptor({
             name: "backgroundImage",
             displayName: "Background image",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRING,
+            editor: PropertyEditor.IMAGE_DIALOG
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "backgroundPadding",
+            displayName: "Background padding",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.PADDING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "cssClass",
+            displayName: "CSS class",
             category: KnownCategory.APPEARANCE,
             type: BasicType.STRING
         }));
@@ -161,21 +381,27 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "font",
             displayName: "Font",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.FONT,
+            editor: PropertyEditor.FONT_DIALOG
         }));
 
         this.add(new PropertyDescriptor({
             name: "foreColor",
             displayName: "Foreground color",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.COLOR
+            type: BasicType.STRING,
+            editor: PropertyEditor.COLOR_DIALOG
         }));
 
         this.add(new PropertyDescriptor({
             name: "stylesheet",
             displayName: "Stylesheet",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.STRING
+            isBindable: false,
+            type: BasicType.STRING,
+            editor: PropertyEditor.TEXT_EDITOR,
+            editorOptions: { language: "css" }
         }));
 
         // behavior
@@ -183,7 +409,10 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "script",
             displayName: "Script",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRING
+            isBindable: false,
+            type: BasicType.STRING,
+            editor: PropertyEditor.TEXT_EDITOR,
+            editorOptions: { language: "js" }
         }));
 
         this.add(new PropertyDescriptor({
@@ -193,12 +422,54 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             type: BasicType.STRING
         }));
 
-        // data
+        // faceplate
+        this.add(new PropertyDescriptor({
+            name: "blinkingState",
+            displayName: "When blinking",
+            category: KnownCategory.FACEPLATE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.VISUAL_STATE
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "border",
+            displayName: "Border",
+            category: KnownCategory.FACEPLATE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.BORDER
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "cornerRadius",
+            displayName: "Corner radius",
+            category: KnownCategory.FACEPLATE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.CORNER_RADIUS
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "disabledState",
+            displayName: "On disabled",
+            category: KnownCategory.FACEPLATE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.VISUAL_STATE
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "hoverState",
+            displayName: "On hover",
+            category: KnownCategory.FACEPLATE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.VISUAL_STATE
+        }));
+
         this.add(new PropertyDescriptor({
             name: "propertyExports",
             displayName: "Exported properties",
-            category: KnownCategory.DATA,
-            type: BasicType.LIST
+            category: KnownCategory.FACEPLATE,
+            isBindable: false,
+            type: BasicType.LIST,
+            subtype: Subtype.PROPERTY_EXPORT
         }));
 
         // layout
@@ -206,7 +477,9 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "size",
             displayName: "Size",
             category: KnownCategory.LAYOUT,
-            type: BasicType.SIZE
+            isBindable: false,
+            type: BasicType.STRUCT,
+            subtype: Subtype.SIZE
         }));
     }
 };
@@ -215,8 +488,9 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
 rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
     constructor() {
         super();
-        const BasicType = rs.mimic.BasicType;
         const KnownCategory = rs.mimic.KnownCategory;
+        const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
         // behavior
@@ -225,6 +499,14 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "Blinking",
             category: KnownCategory.BEHAVIOR,
             type: BasicType.BOOL
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "clickAction",
+            displayName: "On click",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.STRUCT,
+            subtype: Subtype.ACTION
         }));
 
         this.add(new PropertyDescriptor({
@@ -243,9 +525,18 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
 
         // data
         this.add(new PropertyDescriptor({
+            name: "checkRights",
+            displayName: "Check rights",
+            category: KnownCategory.DATA,
+            isBindable: false,
+            type: BasicType.BOOL
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "deviceNum",
             displayName: "Device number",
             category: KnownCategory.DATA,
+            isBindable: false,
             type: BasicType.INT
         }));
 
@@ -253,6 +544,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "inCnlNum",
             displayName: "Input channel",
             category: KnownCategory.DATA,
+            isBindable: false,
             type: BasicType.INT
         }));
 
@@ -260,6 +552,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "objNum",
             displayName: "Object number",
             category: KnownCategory.DATA,
+            isBindable: false,
             type: BasicType.INT
         }));
 
@@ -267,6 +560,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "outCnlNum",
             displayName: "Output channel",
             category: KnownCategory.DATA,
+            isBindable: false,
             type: BasicType.INT
         }));
 
@@ -274,7 +568,9 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "propertyBindings",
             displayName: "Property bindings",
             category: KnownCategory.DATA,
-            type: BasicType.LIST
+            isBindable: false,
+            type: BasicType.LIST,
+            subtype: Subtype.PROPERTY_BINDING
         }));
 
         // design
@@ -283,7 +579,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "ID",
             category: KnownCategory.DESIGN,
             isReadOnly: true,
-            isKnown: true,
+            isBindable: false,
             type: BasicType.INT
         }));
 
@@ -291,7 +587,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "name",
             displayName: "Name",
             category: KnownCategory.DESIGN,
-            isKnown: true,
+            isBindable: false,
             type: BasicType.STRING
         }));
 
@@ -300,7 +596,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "Type name",
             category: KnownCategory.DESIGN,
             isReadOnly: true,
-            isKnown: true,
+            isBindable: false,
             type: BasicType.STRING
         }));
 
@@ -309,14 +605,16 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "location",
             displayName: "Location",
             category: KnownCategory.LAYOUT,
-            type: BasicType.POINT
+            type: BasicType.STRUCT,
+            subtype: Subtype.POINT
         }));
 
         this.add(new PropertyDescriptor({
             name: "size",
             displayName: "Size",
             category: KnownCategory.LAYOUT,
-            type: BasicType.SIZE
+            type: BasicType.STRUCT,
+            subtype: Subtype.SIZE
         }));
     }
 };
@@ -325,8 +623,10 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
 rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor {
     constructor() {
         super();
-        const BasicType = rs.mimic.BasicType;
         const KnownCategory = rs.mimic.KnownCategory;
+        const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
+        const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
         // appearance
@@ -334,21 +634,24 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
             name: "backColor",
             displayName: "Background color",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.COLOR
+            type: BasicType.STRING,
+            editor: PropertyEditor.COLOR_DIALOG
         }));
 
         this.add(new PropertyDescriptor({
             name: "border",
             displayName: "Border",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.BORDER
         }));
 
         this.add(new PropertyDescriptor({
             name: "cornerRadius",
             displayName: "Corner radius",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.CORNER_RADIUS
         }));
 
         this.add(new PropertyDescriptor({
@@ -359,10 +662,20 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
         }));
 
         this.add(new PropertyDescriptor({
+            name: "font",
+            displayName: "Font",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRUCT,
+            subtype: Subtype.FONT,
+            editor: PropertyEditor.FONT_DIALOG
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "foreColor",
             displayName: "Foreground color",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.COLOR
+            type: BasicType.STRING,
+            editor: PropertyEditor.COLOR_DIALOG
         }));
 
         // behavior
@@ -370,35 +683,34 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
             name: "blinkingState",
             displayName: "When blinking",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRUCT
-        }));
-
-        this.add(new PropertyDescriptor({
-            name: "clickAction",
-            displayName: "On click",
-            category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.VISUAL_STATE
         }));
 
         this.add(new PropertyDescriptor({
             name: "disabledState",
             displayName: "On disabled",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.VISUAL_STATE
         }));
 
         this.add(new PropertyDescriptor({
             name: "hoverState",
             displayName: "On hover",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.VISUAL_STATE
         }));
 
         this.add(new PropertyDescriptor({
             name: "script",
             displayName: "Script",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.STRING
+            isBindable: false,
+            type: BasicType.STRING,
+            editor: PropertyEditor.TEXT_EDITOR,
+            editorOptions: { language: "js" }
         }));
 
         this.add(new PropertyDescriptor({
@@ -414,19 +726,12 @@ rs.mimic.RegularComponentDescriptor = class extends rs.mimic.ComponentDescriptor
 rs.mimic.TextDescriptor = class extends rs.mimic.RegularComponentDescriptor {
     constructor() {
         super();
+        const KnownCategory = rs.mimic.KnownCategory;
         const BasicType = rs.mimic.BasicType;
         const Subtype = rs.mimic.Subtype;
-        const KnownCategory = rs.mimic.KnownCategory;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
         // appearance
-        this.add(new PropertyDescriptor({
-            name: "font",
-            displayName: "Font",
-            category: KnownCategory.APPEARANCE,
-            type: BasicType.STRUCT
-        }));
-
         this.add(new PropertyDescriptor({
             name: "text",
             displayName: "Text",
@@ -443,10 +748,34 @@ rs.mimic.TextDescriptor = class extends rs.mimic.RegularComponentDescriptor {
         }));
 
         this.add(new PropertyDescriptor({
+            name: "textDirection",
+            displayName: "Text direction",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.ENUM,
+            subtype: Subtype.TEXT_DIRECTION
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "wordWrap",
             displayName: "Word wrap",
             category: KnownCategory.APPEARANCE,
             type: BasicType.BOOL
+        }));
+
+        // behavior
+        this.add(new PropertyDescriptor({
+            name: "conditions",
+            displayName: "Conditions",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.LIST,
+            subtype: Subtype.TEXT_CONDITION
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "defaultText",
+            displayName: "Default text",
+            category: KnownCategory.BEHAVIOR,
+            type: BasicType.STRING
         }));
 
         // layout
@@ -461,7 +790,8 @@ rs.mimic.TextDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             name: "padding",
             displayName: "Padding",
             category: KnownCategory.LAYOUT,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.PADDING
         }));
     }
 };
@@ -470,8 +800,10 @@ rs.mimic.TextDescriptor = class extends rs.mimic.RegularComponentDescriptor {
 rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
     constructor() {
         super();
-        const BasicType = rs.mimic.BasicType;
         const KnownCategory = rs.mimic.KnownCategory;
+        const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
+        const PropertyEditor = rs.mimic.PropertyEditor;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
         // appearance
@@ -479,7 +811,23 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             name: "imageName",
             displayName: "Image",
             category: KnownCategory.APPEARANCE,
-            type: BasicType.STRING
+            type: BasicType.STRING,
+            editor: PropertyEditor.IMAGE_DIALOG
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "imageStretch",
+            displayName: "Image stretch",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.ENUM,
+            subtype: Subtype.IMAGE_STRETCH
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "rotation",
+            displayName: "Rotation",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.FLOAT
         }));
 
         // behavior
@@ -487,14 +835,16 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             name: "conditions",
             displayName: "Conditions",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.LIST
+            type: BasicType.LIST,
+            subtype: Subtype.IMAGE_CONDITION
         }));
 
         this.add(new PropertyDescriptor({
-            name: "sizeMode",
-            displayName: "Size mode",
+            name: "defaultImage",
+            displayName: "Default image",
             category: KnownCategory.BEHAVIOR,
-            type: BasicType.ENUM
+            type: BasicType.STRING,
+            editor: PropertyEditor.IMAGE_DIALOG
         }));
 
         // layout
@@ -502,7 +852,8 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.RegularComponentDescriptor {
             name: "padding",
             displayName: "Padding",
             category: KnownCategory.LAYOUT,
-            type: BasicType.STRUCT
+            type: BasicType.STRUCT,
+            subtype: Subtype.PADDING
         }));
     }
 };
@@ -515,326 +866,482 @@ rs.mimic.PanelDescriptor = class extends rs.mimic.RegularComponentDescriptor {
 rs.mimic.FaceplateDescriptor = class extends rs.mimic.ComponentDescriptor {
 };
 
+// Represents a structure descriptor.
+rs.mimic.StructureDescriptor = class extends rs.mimic.ObjectDescriptor {
+    constructor() {
+        super();
+        this.sorted = false;
+    }
+};
+
+// Represents a descriptor for the Action structure.
+rs.mimic.ActionDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
+        const PropertyEditor = rs.mimic.PropertyEditor;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "actionType",
+            displayName: "Action type",
+            type: BasicType.ENUM,
+            subtype: Subtype.ACTION_TYPE
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "chartArgs",
+            displayName: "Chart arguments",
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "commandArgs",
+            displayName: "Command arguments",
+            type: BasicType.STRUCT,
+            subtype: Subtype.COMMAND_ARGS
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "linkArgs",
+            displayName: "Link arguments",
+            type: BasicType.STRUCT,
+            subtype: Subtype.LINK_ARGS
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "script",
+            displayName: "Script",
+            isBindable: false,
+            type: BasicType.STRING,
+            editor: PropertyEditor.TEXT_EDITOR,
+            editorOptions: { language: "js" }
+        }));
+    }
+};
+
+// Represents a descriptor for the Border structure.
+rs.mimic.BorderDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyEditor = rs.mimic.PropertyEditor;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "width",
+            displayName: "Width",
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "color",
+            displayName: "Color",
+            type: BasicType.STRING,
+            editor: PropertyEditor.COLOR_DIALOG
+        }));
+    }
+};
+
+// Represents a descriptor for the CommandArgs structure.
+rs.mimic.CommandArgsDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "showDialog",
+            displayName: "Show dialog",
+            type: BasicType.BOOL
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "cmdVal",
+            displayName: "Command value",
+            type: BasicType.FLOAT
+        }));
+    }
+};
+
+// Represents an abstract descriptor for the Condition structure.
+rs.mimic.ConditionDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "comparisonOper1",
+            displayName: "Comparison 1",
+            type: BasicType.ENUM,
+            subtype: Subtype.COMPARISON_OPERATOR
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "comparisonArg1",
+            displayName: "Argument 1",
+            type: BasicType.FLOAT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "logicalOper",
+            displayName: "Logical operator",
+            type: BasicType.ENUM,
+            subtype: Subtype.LOGICAL_OPERATOR
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "comparisonOper2",
+            displayName: "Comparison 2",
+            type: BasicType.ENUM,
+            subtype: Subtype.COMPARISON_OPERATOR
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "comparisonArg2",
+            displayName: "Argument 2",
+            type: BasicType.FLOAT
+        }));
+    }
+};
+
+// Represents a descriptor for the CornerRadius structure.
+rs.mimic.CornerRadiusDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "topLeft",
+            displayName: "Top-left",
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "topRight",
+            displayName: "Top-right",
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "bottomRight",
+            displayName: "Bottom-right",
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "bottomLeft",
+            displayName: "Bottom-left",
+            type: BasicType.INT
+        }));
+    }
+};
+
+// Represents a descriptor for the ImageCondition structure.
+rs.mimic.ImageConditionDescriptor = class extends rs.mimic.ConditionDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyEditor = rs.mimic.PropertyEditor;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "imageName",
+            displayName: "Image",
+            type: BasicType.STRING,
+            editor: PropertyEditor.IMAGE_DIALOG
+        }));
+    }
+};
+
+// Represents a descriptor for the LinkArgs structure.
+rs.mimic.LinkArgsDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "url",
+            displayName: "URL",
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "urlParams",
+            displayName: "URL parameters",
+            type: BasicType.STRUCT,
+            subtype: Subtype.URL_PARAMS
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "viewID",
+            displayName: "View ID",
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "target",
+            displayName: "Target",
+            type: BasicType.ENUM,
+            subtype: Subtype.LINK_TARGET
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "modalWidth",
+            displayName: "Modal width",
+            type: BasicType.ENUM,
+            subtype: Subtype.MODAL_WIDTH
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "modalHeight",
+            displayName: "Modal height",
+            type: BasicType.INT
+        }));
+    }
+};
+
+// Represents a descriptor for the Padding structure.
+rs.mimic.PaddingDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "top",
+            displayName: "Top",
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "right",
+            displayName: "Right",
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "bottom",
+            displayName: "Bottom",
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "left",
+            displayName: "Left",
+            type: BasicType.INT
+        }));
+    }
+};
+
+// Represents a descriptor for the PropertyBinding structure.
+rs.mimic.PropertyBindingDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
+        const PropertyEditor = rs.mimic.PropertyEditor;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "propertyName",
+            displayName: "Property name",
+            type: BasicType.STRING,
+            editor: PropertyEditor.PROPERTY_DIALOG,
+            editorOptions: { canSelectObject: false }
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "dataSource",
+            displayName: "Data source",
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "dataMember",
+            displayName: "Data member",
+            type: BasicType.ENUM,
+            subtype: Subtype.DATA_MEMBER
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "expression",
+            displayName: "Expression",
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "format",
+            displayName: "Format",
+            type: BasicType.STRING
+        }));
+    }
+};
+
+// Represents a descriptor for the PropertyExport structure.
+rs.mimic.PropertyExportDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const Subtype = rs.mimic.Subtype;
+        const PropertyEditor = rs.mimic.PropertyEditor;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "name",
+            displayName: "Property name",
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "path",
+            displayName: "Path",
+            type: BasicType.STRING,
+            editor: PropertyEditor.PROPERTY_DIALOG,
+            editorOptions: { canSelectObject: true }
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "defaultValue",
+            displayName: "Default value",
+            type: BasicType.STRING
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "defaultBinding",
+            displayName: "Default binding",
+            type: BasicType.STRUCT,
+            subtype: Subtype.PROPERTY_BINDING
+        }));
+    }
+};
+
+// Represents a descriptor for the TextCondition structure.
+rs.mimic.TextConditionDescriptor = class extends rs.mimic.ConditionDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "text",
+            displayName: "Text",
+            type: BasicType.STRING
+        }));
+    }
+};
+
+// Represents a descriptor for the UrlParams structure.
+rs.mimic.UrlParamsDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "enabled",
+            displayName: "Enabled",
+            type: BasicType.BOOL
+        }));
+
+        for (let i = 0; i < 10; i++) {
+            this.add(new PropertyDescriptor({
+                name: "param" + i,
+                displayName: "Parameter " + i,
+                type: BasicType.STRING
+            }));
+        }
+    }
+};
+
+// Represents a descriptor for the VisualState structure.
+rs.mimic.VisualStateDescriptor = class extends rs.mimic.StructureDescriptor {
+    constructor() {
+        super();
+        const BasicType = rs.mimic.BasicType;
+        const PropertyEditor = rs.mimic.PropertyEditor;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+
+        this.add(new PropertyDescriptor({
+            name: "backColor",
+            displayName: "Back color",
+            type: BasicType.STRING,
+            editor: PropertyEditor.COLOR_DIALOG
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "foreColor",
+            displayName: "Fore color",
+            type: BasicType.STRING,
+            editor: PropertyEditor.COLOR_DIALOG
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "borderColor",
+            displayName: "Border color",
+            type: BasicType.STRING,
+            editor: PropertyEditor.COLOR_DIALOG
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "underline",
+            displayName: "Underline",
+            type: BasicType.BOOL
+        }));
+    }
+};
+
 // Contains descriptors for a mimic and its components.
 rs.mimic.DescriptorSet = class {
     static mimicDescriptor = new rs.mimic.MimicDescriptor();
-    static faceplateDescriptor = new rs.mimic.FaceplateDescriptor();
     static componentDescriptors = new Map([
         ["Text", new rs.mimic.TextDescriptor()],
         ["Picture", new rs.mimic.PictureDescriptor()],
         ["Panel", new rs.mimic.PanelDescriptor()]
     ]);
-};
+    static getFaceplateDescriptor(faceplate) {
+        const KnownCategory = rs.mimic.KnownCategory;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+        let descriptor = new rs.mimic.FaceplateDescriptor();
 
-// Contains classes: MimicFactory, ComponentFactory, RegularComponentFactory,
-//     TextFactory, PictureFactory, PanelFactory, FaceplateFactory, FactorySet
-// Depends on mimic-model.js, mimic-model-subtypes.js
-
-// Create mimic properties.
-rs.mimic.MimicFactory = class {
-    static parseProperties(sourceProps) {
-        const PropertyParser = rs.mimic.PropertyParser;
-        sourceProps ??= {};
-        return {
-            // appearance
-            backColor: PropertyParser.parseString(sourceProps.backColor),
-            backgroundImage: PropertyParser.parseString(sourceProps.backgroundImage),
-            font: rs.mimic.Font.parse(sourceProps.font),
-            foreColor: PropertyParser.parseString(sourceProps.foreColor),
-            stylesheet: PropertyParser.parseString(sourceProps.stylesheet),
-
-            // behavior
-            script: PropertyParser.parseString(sourceProps.script),
-            tooltip: PropertyParser.parseString(sourceProps.tooltip),
-
-            // data
-            propertyExports: PropertyParser.parsePropertyExports(sourceProps.propertyExports),
-
-            // layout
-            size: rs.mimic.Size.parse(sourceProps.size)
-        };
-    }
-}
-
-// Represents an abstract component factory.
-rs.mimic.ComponentFactory = class ComponentFactory {
-    static _createProperties() {
-        return {
-            // behavior
-            blinking: false,
-            enabled: true,
-            visible: true,
-
-            // data
-            deviceNum: 0,
-            inCnlNum: 0,
-            objNum: 0,
-            outCnlNum: 0,
-            propertyBindings: [],
-
-            // layout
-            location: new rs.mimic.Location(),
-            size: new rs.mimic.Size()
-        };
-    }
-
-    static _parseProperties(sourceProps) {
-        const PropertyParser = rs.mimic.PropertyParser;
-        sourceProps ??= {};
-        return {
-            // behavior
-            blinking: PropertyParser.parseBool(sourceProps.blinking),
-            enabled: PropertyParser.parseBool(sourceProps.enabled),
-            visible: PropertyParser.parseBool(sourceProps.visible),
-
-            // data
-            deviceNum: PropertyParser.parseInt(sourceProps.deviceNum),
-            inCnlNum: PropertyParser.parseInt(sourceProps.inCnlNum),
-            objNum: PropertyParser.parseInt(sourceProps.objNum),
-            outCnlNum: PropertyParser.parseInt(sourceProps.outCnlNum),
-            propertyBindings: PropertyParser.parsePropertyBindings(sourceProps.propertyBindings),
-
-            // layout
-            location: rs.mimic.Location.parse(sourceProps.location),
-            size: rs.mimic.Size.parse(sourceProps.size)
-        };
-    }
-
-    static _copyProperties(component, source) {
-        component.id = source.id;
-        component.name = source.name;
-        component.typeName = source.typeName;
-        component.properties = ComponentFactory._parseProperties(source.properties);
-        component.parentID = source.parentID;
-    }
-
-    // Creates a new component with the given type name.
-    createComponent(typeName) {
-        let component = new rs.mimic.Component();
-        component.typeName = typeName;
-        component.properties = ComponentFactory._createProperties();
-        return component;
-    }
-
-    // Creates a new component with the specified properties, making deep copies of the source properties.
-    createComponentFromSource(source) {
-        let component = new rs.mimic.Component();
-        ComponentFactory._copyProperties(component, source);
-        return component;
-    }
-};
-
-// Represents an abstract factory for regular non-faceplate components.
-rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
-    createComponent(typeName) {
-        let component = super.createComponent(typeName);
-
-        // appearance
-        Object.assign(component.properties, {
-            backColor: "",
-            border: new rs.mimic.Border(),
-            cornerRadius: new rs.mimic.CornerRadius(),
-            cssClass: "",
-            foreColor: ""
-        });
-
-        // behavior
-        Object.assign(component.properties, {
-            blinkingState: new rs.mimic.VisualState(),
-            clickAction: new rs.mimic.Action(),
-            disabledState: new rs.mimic.VisualState(),
-            hoverState: new rs.mimic.VisualState(),
-            script: "",
-            tooltip: ""
-        });
-
-        return component;
-    }
-
-    createComponentFromSource(source) {
-        const PropertyParser = rs.mimic.PropertyParser;
-        let component = super.createComponentFromSource(source);
-        let sourceProps = source.properties ?? {};
-
-        // appearance
-        Object.assign(component.properties, {
-            backColor: PropertyParser.parseString(sourceProps.backColor),
-            border: rs.mimic.Border.parse(sourceProps.border),
-            cornerRadius: rs.mimic.CornerRadius.parse(sourceProps.cornerRadius),
-            cssClass: PropertyParser.parseString(sourceProps.cssClass),
-            foreColor: PropertyParser.parseString(sourceProps.foreColor)
-        });
-
-        // behavior
-        Object.assign(component.properties, {
-            blinkingState: rs.mimic.VisualState.parse(sourceProps.blinkingState),
-            clickAction: rs.mimic.Action.parse(sourceProps.clickAction),
-            disabledState: rs.mimic.VisualState.parse(sourceProps.disabledState),
-            hoverState: rs.mimic.VisualState.parse(sourceProps.hoverState),
-            script: PropertyParser.parseString(sourceProps.script),
-            tooltip: PropertyParser.parseString(sourceProps.tooltip)
-        });
-
-        return component;
-    }
-};
-
-// Creates components of the Text type.
-rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
-    createComponent() {
-        let component = super.createComponent("Text");
-
-        // appearance
-        Object.assign(component.properties, {
-            font: new rs.mimic.Font(),
-            text: "Text",
-            textAlign: rs.mimic.ContentAlignment.TOP_LEFT,
-            wordWrap: false
-        });
-
-        // layout
-        Object.assign(component.properties, {
-            autoSize: false,
-            padding: new rs.mimic.Padding()
-        });
-
-        return component;
-    }
-
-    createComponentFromSource(source) {
-        const PropertyParser = rs.mimic.PropertyParser;
-        let component = super.createComponentFromSource(source);
-        let sourceProps = source.properties ?? {};
-
-        // appearance
-        Object.assign(component.properties, {
-            font: rs.mimic.Font.parse(sourceProps.font),
-            text: PropertyParser.parseString(sourceProps.text, "Text"),
-            textAlign: PropertyParser.parseString(sourceProps.textAlign, rs.mimic.ContentAlignment.TOP_LEFT),
-            wordWrap: PropertyParser.parseBool(sourceProps.wordWrap)
-        });
-
-        // layout
-        Object.assign(component.properties, {
-            autoSize: PropertyParser.parseBool(sourceProps.autoSize),
-            padding: rs.mimic.Padding.parse(sourceProps.padding)
-        });
-
-        return component;
-    }
-};
-
-// Creates components of the Picture type.
-rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
-    createComponent() {
-        let component = super.createComponent("Picture");
-
-        // appearance
-        Object.assign(component.properties, {
-            imageName: ""
-        });
-
-        // behavior
-        Object.assign(component.properties, {
-            conditions: [],
-            sizeMode: rs.mimic.ImageSizeMode.NORMAL
-        });
-
-        // layout
-        Object.assign(component.properties, {
-            padding: new rs.mimic.Padding()
-        });
-
-        return component;
-    }
-
-    createComponentFromSource(source) {
-        const PropertyParser = rs.mimic.PropertyParser;
-        let component = super.createComponentFromSource(source);
-        let sourceProps = source.properties ?? {};
-
-        // appearance
-        Object.assign(component.properties, {
-            imageName: PropertyParser.parseString(sourceProps.imageName)
-        });
-
-        // behavior
-        Object.assign(component.properties, {
-            conditions: PropertyParser.parseImageConditions(sourceProps.conditions),
-            sizeMode: PropertyParser.parseString(sourceProps.sizeMode, rs.mimic.ImageSizeMode.NORMAL)
-        });
-
-        // layout
-        Object.assign(component.properties, {
-            padding: rs.mimic.Padding.parse(sourceProps.padding)
-        });
-
-        return component;
-    }
-};
-
-// Creates components of the Panel type.
-rs.mimic.PanelFactory = class extends rs.mimic.RegularComponentFactory {
-    createComponent() {
-        let component = super.createComponent("Panel");
-        component.children = []; // accept child components
-        return component;
-    }
-
-    createComponentFromSource(source) {
-        let component = super.createComponentFromSource(source);
-        component.children = [];
-        return component;
-    }
-};
-
-// Creates faceplate instances.
-rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
-    createComponent(faceplate) {
-        let component = new rs.mimic.FaceplateInstance();
-        component.properties = this._createProperties();
-
-        if (faceplate) {
-            component.typeName = faceplate.typeName;
-            component.applyModel(faceplate);
+        if (faceplate && Array.isArray(faceplate.document.propertyExports)) {
+            for (let propertyExport of faceplate.document.propertyExports) {
+                if (propertyExport.name) {
+                    descriptor.add(new PropertyDescriptor({
+                        name: propertyExport.name,
+                        displayName: propertyExport.name,
+                        category: KnownCategory.MISC
+                    }));
+                }
+            }
         }
 
-        return component;
+        return descriptor;
     }
-
-    createComponentFromSource(source, faceplate) {
-        let component = new rs.mimic.FaceplateInstance();
-        rs.mimic.ComponentFactory._copyProperties(component, source);
-
-        if (faceplate) {
-            component.applyModel(faceplate);
-        }
-
-        return component;
-    }
-};
-
-// Contains factories for mimic components.
-rs.mimic.FactorySet = class FactorySet {
-    static faceplateFactory = new rs.mimic.FaceplateFactory();
-    static componentFactories = new Map([
-        ["Text", new rs.mimic.TextFactory()],
-        ["Picture", new rs.mimic.PictureFactory()],
-        ["Panel", new rs.mimic.PanelFactory()]
+    static structureDescriptors = new Map([
+        ["Action", new rs.mimic.ActionDescriptor()],
+        ["Border", new rs.mimic.BorderDescriptor()],
+        ["CommandArgs", new rs.mimic.CommandArgsDescriptor()],
+        ["CornerRadius", new rs.mimic.CornerRadiusDescriptor()],
+        ["ImageCondition", new rs.mimic.ImageConditionDescriptor()],
+        ["LinkArgs", new rs.mimic.LinkArgsDescriptor()],
+        ["Padding", new rs.mimic.PaddingDescriptor()],
+        ["PropertyBinding", new rs.mimic.PropertyBindingDescriptor()],
+        ["PropertyExport", new rs.mimic.PropertyExportDescriptor()],
+        ["TextCondition", new rs.mimic.TextConditionDescriptor()],
+        ["UrlParams", new rs.mimic.UrlParamsDescriptor()],
+        ["VisualState", new rs.mimic.VisualStateDescriptor()]
     ]);
-    static getFaceplateFactory(faceplate) {
-        return {
-            createComponent: () =>
-                FactorySet.faceplateFactory.createComponent(faceplate),
-            createComponentFromSource: (source) =>
-                FactorySet.faceplateFactory.createComponentFromSource(source, faceplate)
-        };
-    }
 };
 
-// Contains classes: MimicHelper, MimicBase, Mimic, Component, Panel, Image, 
-//     FaceplateMeta, Faceplate, FaceplateInstance
-// Depends on scada-common.js, mimic-common.js, mimic-factory.js
+// Contains classes: MimicHelper, MimicBase, Mimic, Component, Image, FaceplateMeta, Faceplate, FaceplateInstance
+// Depends on scada-common.js, mimic-common.js, mimic-model-subtypes.js, mimic-factory.js
 
 // Provides helper methods for mimics and components.
 rs.mimic.MimicHelper = class MimicHelper {
@@ -1076,6 +1583,7 @@ rs.mimic.MimicHelper = class MimicHelper {
 
 // A base class for mimic diagrams and faceplates.
 rs.mimic.MimicBase = class {
+    isFaceplate;   // mimic is a faceplate
     dependencies;  // meta information about faceplates
     document;      // mimic properties
     components;    // all components
@@ -1089,7 +1597,8 @@ rs.mimic.MimicBase = class {
     children;      // top-level components
 
     // Clears the mimic.
-    clear() {
+    _clear() {
+        this.isFaceplate = false;
         this.dependencies = [];
         this.document = {};
         this.components = [];
@@ -1102,46 +1611,67 @@ rs.mimic.MimicBase = class {
         this.faceplateMap = new Map();
         this.children = [];
     }
-
-    // Checks whether the specified type name represents a faceplate.
-    isFaceplate(typeName) {
-        return this.dependencyMap?.has(typeName);
-    }
-
-    // Creates a component instance based on the source object. Returns null if the component factory is not found.
-    createComponent(source) {
-        const FactorySet = rs.mimic.FactorySet;
-
-        if (this.isFaceplate(source.typeName)) {
-            let faceplate = this.faceplateMap.get(source.typeName); // can be null
-            return FactorySet.faceplateFactory.createComponentFromSource(source, faceplate);
-        } else {
-            let factory = FactorySet.componentFactories.get(source.typeName);
-            return factory ? factory.createComponentFromSource(source) : null;
-        }
-    }
-
-    // Creates a copy of the component containing only the main properties.
-    copyComponent(source) {
-        return source instanceof rs.mimic.Component
-            ? this.createComponent(source.toPlainObject())
-            : this.createComponent(source);
-    }
 };
 
 // Represents a mimic diagram.
-rs.mimic.Mimic = class extends rs.mimic.MimicBase {
-    dom;      // mimic DOM as a jQuery object
-    renderer; // renders the mimic
+rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
+    static NAME = "mimic"; // identifies the mimic by name
 
-    // Imitates a component ID to use as a parent ID.
+    dom;             // mimic DOM as a jQuery object
+    renderer;        // renders the mimic
+    script;          // custom mimic logic
+    componentByName; // components accessible by name in runtime mode
+    title;           // view title
+
+    // Imitates a component ID for use as a parent ID.
     get id() {
         return 0;
+    }
+
+    // Get the mimic name to identify it like a component.
+    get name() {
+        return Mimic.NAME;
     }
 
     // Indicates that a mimic can contain child components.
     get isContainer() {
         return true;
+    }
+
+    // Gets the mimic width.
+    get width() {
+        return this.document ? this.document.size.width : 0;
+    }
+
+    // Gets the mimic height.
+    get height() {
+        return this.document ? this.document.size.height : 0;
+    }
+
+    // Gets the inner width excluding the border.
+    get innerWidth() {
+        let props = this.document;
+        return props
+            ? props.size.width - (props.border ? props.border.width * 2 : 0)
+            : 0;
+    }
+
+    // Gets the inner height excluding the border.
+    get innerHeight() {
+        let props = this.document;
+        return props
+            ? props.size.height - (props.border ? props.border.width * 2 : 0)
+            : 0;
+    }
+
+    // Clears the mimic.
+    _clear() {
+        super._clear();
+        this.dom = null;
+        this.renderer = null;
+        this.script = null;
+        this.componentByName = new Map();
+        this.title = "";
     }
 
     // Loads a part of the mimic.
@@ -1161,20 +1691,6 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                 loadContext.step++;
                 break;
 
-            case LoadStep.COMPONENTS:
-                dto = await this._loadComponents(loadContext);
-                if (dto.ok && dto.data.endOfComponents) {
-                    loadContext.step++;
-                }
-                break;
-
-            case LoadStep.IMAGES:
-                dto = await this._loadImages(loadContext);
-                if (dto.ok && dto.data.endOfImages) {
-                    loadContext.step++;
-                }
-                break;
-
             case LoadStep.FACEPLATES:
                 if (this.dependencies.length > 0) {
                     let faceplateMeta = this.dependencies[loadContext.faceplateIndex];
@@ -1186,11 +1702,26 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                     }
 
                     if (++loadContext.faceplateIndex >= this.dependencies.length) {
+                        this._prepareFaceplates();
                         loadContext.step++;
                     }
                 } else {
                     loadContext.step++;
                     continueLoading = true;
+                }
+                break;
+
+            case LoadStep.COMPONENTS:
+                dto = await this._loadComponents(loadContext);
+                if (dto.ok && dto.data.endOfComponents) {
+                    loadContext.step++;
+                }
+                break;
+
+            case LoadStep.IMAGES:
+                dto = await this._loadImages(loadContext);
+                if (dto.ok && dto.data.endOfImages) {
+                    loadContext.step++;
                 }
                 break;
 
@@ -1236,7 +1767,33 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                     }
                 }
 
-                this.document = rs.mimic.MimicFactory.parseProperties(dto.data.document);
+                this.isFaceplate = dto.data.isFaceplate;
+                this.document = rs.mimic.MimicFactory.parseProperties(dto.data.document, this.isFaceplate);
+                this.title = dto.data.title;
+            }
+
+            return dto;
+        } else {
+            return Dto.fail(response.statusText);
+        }
+    }
+
+    // Loads a faceplate.
+    async _loadFaceplate(loadContext, typeName) {
+        console.log(ScadaUtils.getCurrentTime() + ` Load '${typeName}' faceplate`);
+        let response = await fetch(loadContext.controllerUrl +
+            "GetFaceplate?key=" + loadContext.mimicKey +
+            "&typeName=" + typeName);
+
+        if (response.ok) {
+            let dto = await response.json();
+
+            if (dto.ok) {
+                let faceplate = new rs.mimic.Faceplate(dto.data, typeName);
+                this.faceplates.push(faceplate);
+                this.faceplateMap.set(typeName, faceplate);
+            } else {
+                this.faceplateMap.set(typeName, null);
             }
 
             return dto;
@@ -1267,6 +1824,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                         this.componentMap.set(component.id, component);
                     } else if (sourceComponent.typeName) {
                         loadContext.unknownTypes.add(sourceComponent.typeName);
+                        loadContext.result.warn = true;
                     }
                 }
             }
@@ -1305,25 +1863,17 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         }
     }
 
-    // Loads a faceplate.
-    async _loadFaceplate(loadContext, typeName) {
-        console.log(ScadaUtils.getCurrentTime() + ` Load '${typeName}' faceplate`);
-        let response = await fetch(loadContext.controllerUrl +
-            "GetFaceplate?key=" + loadContext.mimicKey +
-            "&typeName=" + typeName);
+    // Prepares the faceplates for use.
+    _prepareFaceplates() {
+        for (let faceplate of this.faceplates) {
+            for (let childFaceplateMeta of faceplate.dependencies) {
+                let childFaceplate = this.faceplateMap.get(childFaceplateMeta.typeName);
 
-        if (response.ok) {
-            let dto = await response.json();
-
-            if (dto.ok) {
-                let faceplate = new rs.mimic.Faceplate(dto.data, typeName);
-                this.faceplates.push(faceplate);
-                this.faceplateMap.set(typeName, faceplate);
+                if (childFaceplate) {
+                    faceplate.faceplates.push(childFaceplate);
+                    faceplate.faceplateMap.set(childFaceplateMeta.typeName, childFaceplate);
+                }
             }
-
-            return dto;
-        } else {
-            return Dto.fail(response.statusText);
         }
     }
 
@@ -1332,56 +1882,31 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         rs.mimic.MimicHelper.defineNesting(this, this.components, this.componentMap);
     }
 
-    // Prepares the faceplates for use.
-    _prepareFaceplates() {
-        for (let faceplate of this.faceplates) {
-            for (let faceplateMeta of faceplate.dependencies) {
-                let childFaceplate = this.faceplateMap.get(faceplateMeta.typeName);
-
-                if (childFaceplate) {
-                    faceplate.faceplates.push(childFaceplate);
-                    faceplate.faceplateMap.set(faceplateMeta.typeName, childFaceplate);
-                }
-            }
+    // Sets the specified properties of the document.
+    setProperties(sourceProps) {
+        if (this.document) {
+            Object.assign(this.document, sourceProps);
         }
-    }
-
-    // Prepares the faceplates instances for use.
-    _prepareFaceplateInstances() {
-        for (let component of this.components) {
-            if (component.isFaceplate) {
-                let faceplate = mimic.faceplateMap.get(component.typeName);
-
-                if (faceplate) {
-                    component.applyModel(faceplate);
-                }
-            }
-        }
-    }
-
-    // Clears the mimic.
-    clear() {
-        super.clear();
-        this.dom = null;
-        this.renderer = null;
     }
 
     // Loads the mimic. Returns a LoadResult.
     async load(controllerUrl, mimicKey) {
         let startTime = Date.now();
         console.log(ScadaUtils.getCurrentTime() + " Load mimic with key " + mimicKey)
-        this.clear();
+        this._clear();
         let loadContext = new rs.mimic.LoadContext(controllerUrl, mimicKey);
 
-        while (await this._loadPart(loadContext)) {
-            // do nothing
+        try {
+            while (await this._loadPart(loadContext)) {
+                // do nothing
+            }
+        } catch (ex) {
+            console.error(ex);
+            loadContext.result.msg = "Unhandled exception.";
         }
 
         if (loadContext.result.ok) {
             this._defineNesting();
-            this._prepareFaceplates();
-            this._prepareFaceplateInstances();
-
             let endTime = Date.now();
             let endTimeStr = ScadaUtils.getCurrentTime();
 
@@ -1450,6 +1975,22 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         }
     }
 
+    // Checks whether the specified type name represents a faceplate.
+    isFaceplateType(typeName) {
+        return this.faceplateMap?.has(typeName);
+    }
+
+    // Gets the component factory for the specified type, or null if not found.
+    getComponentFactory(typeName) {
+        return rs.mimic.FactorySet.getComponentFactory(typeName, this.faceplateMap);
+    }
+
+    // Creates a component instance based on the source object. Returns null if the component factory is not found.
+    createComponent(source) {
+        let factory = this.getComponentFactory(source.typeName);
+        return factory?.createComponentFromSource(source);
+    }
+
     // Adds the component to the mimic. Returns true if the component was added.
     addComponent(component, parent, opt_index, opt_x, opt_y) {
         if (!component || !parent || !parent.isContainer ||
@@ -1515,31 +2056,127 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         return parentID > 0 ? this.componentMap.get(parentID) : this;
     }
 
+    // Finds a component by ID or name. Called from custom scripts.
+    findComponent(idOrName) {
+        if (typeof idOrName === "number") {
+            return this.componentMap?.get(idOrName);
+        } else if (typeof idOrName === "string") {
+            return this.componentByName?.get(idOrName);
+        } else {
+            return null;
+        }
+    }
+
+    // Initializes the custom scripts of the mimic and components.
+    initCustomScripts() {
+        const ComponentScript = rs.mimic.ComponentScript;
+
+        // mimic script
+        if (this.document.script) {
+            try {
+                this.script = ComponentScript.createFromSource(this.document.script);
+            } catch (ex) {
+                console.error("Error creating mimic script: " + ex.message);
+            }
+        }
+
+        // component scripts
+        let initScriptsInternal = (components, throwOnError) => {
+            for (let component of components) {
+                try {
+                    let script = component.isFaceplate
+                        ? component.document?.script
+                        : component.properties?.script;
+
+                    if (script) {
+                        component.customScript = ComponentScript.createFromSource(script);
+
+                        if (component.isFaceplate) {
+                            initScriptsInternal(component.components, true);
+                        }
+                    }
+                } catch (ex) {
+                    if (throwOnError) {
+                        throw ex;
+                    } else {
+                        console.error(`Error creating script for component ${component.id}: ${ex.message}`);
+                    }
+                }
+            }
+        };
+
+        initScriptsInternal(this.components, false);
+    }
+
+    // Populates a component map to search for components by name.
+    mapComponentsByName() {
+        this.componentByName = new Map();
+
+        for (let component of this.components) {
+            if (component.name) {
+                this.componentByName.set(component.name, component);
+            }
+        }
+    }
+
+    // Executes the custom script when the mimic DOM has been created.
+    onDomCreated(renderContext) {
+        if (this.script) {
+            let args = new rs.mimic.DomUpdateArgs({ mimic: this, renderContext });
+            this.script.domCreated(args);
+        }
+    }
+
+    // Executes the custom script when the mimic DOM has been updated.
+    onDomUpdated(renderContext) {
+        if (this.script) {
+            let args = new rs.mimic.DomUpdateArgs({ mimic: this, renderContext });
+            this.script.domUpdated(args);
+        }
+    }
+
+    // Executes the custom script when updating data.
+    onDataUpdated(dataProvider) {
+        if (this.script) {
+            let args = new rs.mimic.DataUpdateArgs({ mimic: this, dataProvider });
+            this.script.dataUpdated(args);
+        }
+    }
+
     // Returns a string that represents the current object.
     toString() {
-        return "Mimic";
+        return Mimic.NAME;
     }
 };
 
 // Represents a component of a mimic diagram.
 rs.mimic.Component = class {
-    id = 0;
-    name = "";
-    typeName = "";
-    properties = null;
-    bindings = null;
-    access = null;
-    parentID = 0;
-    index = -1;
+    _id = 0;             // component ID
+    typeName = "";       // component type name
+    properties = null;   // factory normalized properties
+    bindings = null;     // server side prepared bindings
+    parentID = 0;        // parent ID
+    index = -1;          // sibling index
 
-    parent = null;      // mimic or panel
-    children = null;    // top-level child components
-    dom = null;         // jQuery objects representing DOM content
-    renderer = null;    // renders the component
-    isSelected = false; // selected in the editor
+    parent = null;       // mimic or component
+    children = null;     // top-level child components
+    dom = null;          // jQuery objects representing DOM content
+    renderer = null;     // renders the component
+    extraScript = null;  // additional component logic
+    customScript = null; // custom component logic
+    customData = null;   // custom component data
+    isSelected = false;  // selected in the editor
 
-    constructor(source) {
-        Object.assign(this, source);
+    get id() {
+        return this._id;
+    }
+
+    set id(value) {
+        this._id = value;
+
+        if (this.properties) {
+            this.properties.id = value;
+        }
     }
 
     get isContainer() {
@@ -1548,6 +2185,10 @@ rs.mimic.Component = class {
 
     get isFaceplate() {
         return false;
+    }
+
+    get name() {
+        return this.properties?.name ?? "";
     }
 
     get displayName() {
@@ -1562,7 +2203,7 @@ rs.mimic.Component = class {
 
     set x(value) {
         if (this.properties) {
-            this.properties.location.x = parseInt(value) || 0;
+            this.properties.location.x = Number.parseInt(value) || 0;
         }
     }
 
@@ -1572,7 +2213,7 @@ rs.mimic.Component = class {
 
     set y(value) {
         if (this.properties) {
-            this.properties.location.y = parseInt(value) || 0;
+            this.properties.location.y = Number.parseInt(value) || 0;
         }
     }
 
@@ -1582,7 +2223,7 @@ rs.mimic.Component = class {
 
     set width(value) {
         if (this.properties) {
-            this.properties.size.width = parseInt(value) || 0;
+            this.properties.size.width = Number.parseInt(value) || 0;
         }
     }
 
@@ -1592,28 +2233,80 @@ rs.mimic.Component = class {
 
     set height(value) {
         if (this.properties) {
-            this.properties.size.height = parseInt(value) || 0;
+            this.properties.size.height = Number.parseInt(value) || 0;
         }
     }
 
+    get innerWidth() {
+        let props = this.properties;
+        return props
+            ? props.size.width -
+                (props.border ? props.border.width * 2 : 0) -
+                (props.padding ? props.padding.left + props.padding.right : 0)
+            : 0;
+    }
+
+    get innerHeight() {
+        let props = this.properties;
+        return props
+            ? props.size.height -
+                (props.border ? props.border.width * 2 : 0) -
+                (props.padding ? props.padding.top + props.padding.bottom : 0)
+            : 0;
+    }
+
+    // Sets the property according to the current data.
+    _setProperty(binding, curData) {
+        let value = rs.mimic.DataProvider.calculatePropertyValue(curData, binding);
+        rs.mimic.ObjectHelper.setPropertyValue(this.properties, binding.propertyChain, 0, value);
+
+        if (this.isFaceplate) {
+            this.handlePropertyChanged(binding.propertyName);
+        }
+    }
+
+    // Sets the location property.
     setLocation(x, y) {
         if (this.properties) {
-            this.properties.location.x = parseInt(x) || 0;
-            this.properties.location.y = parseInt(y) || 0;
+            this.properties.location.x = Number.parseInt(x) || 0;
+            this.properties.location.y = Number.parseInt(y) || 0;
         }
     }
 
+    // Sets the size property.
     setSize(width, height) {
         if (this.properties) {
-            this.properties.size.width = parseInt(width) || 0;
-            this.properties.size.height = parseInt(height) || 0;
+            this.properties.size.width = Number.parseInt(width) || 0;
+            this.properties.size.height = Number.parseInt(height) || 0;
         }
     }
 
+    // Sets the specified properties.
+    setProperties(sourceProps) {
+        if (this.properties) {
+            Object.assign(this.properties, sourceProps);
+        }
+    }
+
+    // Retrieves the mimic that the component is on. Called from custom scripts.
+    getMimic() {
+        let current = this;
+
+        while (current) {
+            current = current.parent;
+
+            if (current instanceof rs.mimic.MimicBase) {
+                return current;
+            }
+        }
+
+        return null;
+    }
+
+    // Gets all child components as a flat array.
     getAllChildren() {
         let allChildren = [];
-
-        function appendChildren(component) {
+        let appendChildren = (component) => {
             if (component.isContainer) {
                 for (let child of component.children) {
                     allChildren.push(child);
@@ -1626,20 +2319,104 @@ rs.mimic.Component = class {
         return allChildren;
     }
 
+    // Creates a plain object containing the main component properties.
     toPlainObject() {
         return {
             id: this.id,
             name: this.name,
             typeName: this.typeName,
             properties: this.properties,
-            bindings: this.bindings,
-            access: this.access,
             parentID: this.parentID,
             index: this.index,
             children: this.children ? [] : null
         };
     }
 
+    // Updates the properties according to the current data. Returns true if any property has changed.
+    updateData(dataProvider) {
+        let propertyChanged = false;
+
+        if (this.bindings && Array.isArray(this.bindings.propertyBindings) &&
+            this.bindings.propertyBindings.length > 0) {
+            for (let binding of this.bindings.propertyBindings) {
+                if (binding.propertyName && binding.cnlNum > 0 && binding.cnlProps) {
+                    let curData = dataProvider.getCurData(binding.cnlNum, binding.cnlProps.joinLen);
+                    let prevData = dataProvider.getPrevData(binding.cnlNum, binding.cnlProps.joinLen);
+
+                    if (dataProvider.dataChanged(curData, prevData)) {
+                        this._setProperty(binding, curData);
+                        propertyChanged = true;
+                    }
+                }
+            }
+        }
+
+        return propertyChanged;
+    }
+
+    // Executes the custom script when the component DOM has been created.
+    onDomCreated(renderContext) {
+        if (this.customScript) {
+            let args = new rs.mimic.DomUpdateArgs({ component: this, renderContext });
+            this.customScript.domCreated(args);
+        }
+    }
+
+    // Executes the custom script when the component DOM has been updated.
+    onDomUpdated(renderContext) {
+        if (this.customScript) {
+            let args = new rs.mimic.DomUpdateArgs({ component: this, renderContext });
+            this.customScript.domUpdated(args);
+        }
+    }
+
+    // Executes the scripts when updating component data. Returns true if any property has changed.
+    onDataUpdated(dataProvider) {
+        let propertyChanged = false;
+        let handled = false;
+
+        if (this.customScript) {
+            let args = new rs.mimic.DataUpdateArgs({ component: this, dataProvider });
+            this.customScript.dataUpdated(args);
+            propertyChanged = args.propertyChanged;
+            handled = args.handled;
+        }
+
+        if (this.extraScript && !handled) {
+            let args = new rs.mimic.DataUpdateArgs({ component: this, dataProvider });
+            this.extraScript.dataUpdated(args);
+            propertyChanged ||= args.propertyChanged;
+        }
+
+        return propertyChanged;
+    }
+
+    // Gets a command value by executes the scripts.
+    getCommandValue() {
+        // custom logic first
+        if (this.customScript) {
+            let args = new rs.mimic.CommandSendArgs(this);
+            let cmdVal = this.customScript.getCommandValue(args);
+
+            if (Number.isFinite(cmdVal)) {
+                return cmdVal;
+            }
+        }
+
+        // then additional logic
+        if (this.extraScript) {
+            let args = new rs.mimic.CommandSendArgs(this);
+            let cmdVal = this.extraScript.getCommandValue(args);
+
+            if (Number.isFinite(cmdVal)) {
+                return cmdVal;
+            }
+        }
+
+        return Number.NaN;
+    }
+
+    // Returns a string that represents the current object.
     toString() {
         return this.displayName;
     }
@@ -1649,7 +2426,7 @@ rs.mimic.Component = class {
 rs.mimic.Image = class {
     name = "";
     mediaType = "";
-    data = null;
+    data = null; // Base64 string
 
     constructor(source) {
         Object.assign(this, source);
@@ -1699,13 +2476,22 @@ rs.mimic.FaceplateMeta = class {
 // Represents a faceplate, i.e. a user component.
 rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
     typeName = "";
+    propertyExports = [];
+    propertyExportMap = new Map();
 
     constructor(source, typeName) {
         super();
-        this.clear();
-        this.document = source.document ?? {};
+        this._clear();
+        this.isFaceplate = true;
+        this.document = rs.mimic.MimicFactory.parseProperties(source.document, true);
         this.typeName = typeName;
+        this._fillDependencies(source);
+        this._fillComponents(source);
+        this._fillImages(source);
+        this._fillPropertyExports();
+    }
 
+    _fillDependencies(source) {
         if (Array.isArray(source.dependencies)) {
             for (let sourceDependency of source.dependencies) {
                 let faceplateMeta = new rs.mimic.FaceplateMeta(sourceDependency);
@@ -1713,14 +2499,18 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
                 this.dependencyMap.set(faceplateMeta.typeName, faceplateMeta);
             }
         }
+    }
 
+    _fillComponents(source) {
         if (Array.isArray(source.components)) {
             for (let sourceComponent of source.components) {
                 this.components.push(sourceComponent);
                 this.componentMap.set(sourceComponent.id, sourceComponent);
             }
         }
+    }
 
+    _fillImages(source) {
         if (Array.isArray(source.images)) {
             for (let sourceImage of source.images) {
                 let image = new rs.mimic.Image(sourceImage);
@@ -1729,12 +2519,23 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
             }
         }
     }
+
+    _fillPropertyExports() {
+        for (let propertyExport of this.document.propertyExports) {
+            if (propertyExport.name) {
+                this.propertyExports.push(propertyExport);
+                this.propertyExportMap.set(propertyExport.name, propertyExport);
+            }
+        }
+    }
 };
 
 // Represents a faceplate instance.
 rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
-    model = null;      // model of the Faceplate type
-    components = null; // copy of the model components
+    model = null;                // model of the Faceplate type
+    document = null;             // model document copy
+    components = [];             // all components created according to the model
+    componentByName = new Map(); // all components accessible by name
 
     get isContainer() {
         // child components are essential part of the faceplate, it does not accept additional components
@@ -1745,35 +2546,103 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
         return true;
     }
 
-    applyModel(faceplate) {
-        if (faceplate instanceof rs.mimic.Faceplate) {
-            this.properties ??= {};
-            this.properties.size ??= ScadaUtils.deepClone(faceplate.document.size);
+    setProperties(sourceProps) {
+        super.setProperties(sourceProps);
 
-            this.model = faceplate;
-            this.components = [];
-
-            for (let sourceComponent of faceplate.components) {
-                let componentCopy = faceplate.copyComponent(sourceComponent);
-                componentCopy.parent = this;
-                this.components.push(componentCopy);
-
-                if (componentCopy.isFaceplate) {
-                    let childFaceplate = faceplate.faceplateMap.get(componentCopy.typeName);
-                    componentCopy.applyModel(childFaceplate);
+        if (this.model) {
+            for (let propertyExport of this.model.propertyExports) {
+                if (Object.hasOwn(sourceProps, propertyExport.name)) {
+                    this.setTargetPropertyValue(propertyExport, sourceProps[propertyExport.name]);
                 }
             }
+        }
+    }
 
-            rs.mimic.MimicHelper.defineNesting(this, this.components);
+    // Gets the value of the target property specified by the export path.
+    getTargetPropertyValue(propertyExport) {
+        const ObjectHelper = rs.mimic.ObjectHelper;
+        let propertyChain = propertyExport.propertyChain;
+
+        if (propertyChain.length >= 2) {
+            let objectName = propertyChain[0];
+
+            if (objectName === rs.mimic.Mimic.NAME) {
+                return ObjectHelper.getPropertyValue(this.document, propertyChain, 1);
+            } else {
+                let component = this.componentByName.get(objectName);
+
+                if (component) {
+                    if (component.isFaceplate) {
+                        let topPropertyName = propertyChain[1];
+                        let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
+                        return childPropertyExport
+                            ? component.getTargetPropertyValue(childPropertyExport)
+                            : ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
+                    } else {
+                        return ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
+                    }
+                }
+            }
+        }
+
+        return undefined;
+    }
+
+    // Sets the value of the target property specified by the export path.
+    setTargetPropertyValue(propertyExport, value) {
+        const ObjectHelper = rs.mimic.ObjectHelper;
+        let propertyChain = propertyExport.propertyChain;
+
+        if (propertyChain.length >= 2) {
+            let objectName = propertyChain[0];
+
+            if (objectName === rs.mimic.Mimic.NAME) {
+                ObjectHelper.setPropertyValue(this.document, propertyChain, 1, value);
+            } else {
+                let component = this.componentByName.get(objectName);
+
+                if (component) {
+                    if (component.isFaceplate) {
+                        let topPropertyName = propertyChain[1];
+                        let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
+
+                        if (childPropertyExport) {
+                            component.setTargetPropertyValue(childPropertyExport, value);
+                        } else {
+                            ObjectHelper.setPropertyValue(component.properties, propertyChain, 1, value);
+                        }
+                    } else {
+                        ObjectHelper.setPropertyValue(component.properties, propertyChain, 1, value);
+                    }
+                }
+            }
+        }
+    }
+
+    // Handles a change to the faceplate property.
+    handlePropertyChanged(propertyName) {
+        let propertyExport = this.model?.propertyExportMap.get(propertyName);
+
+        if (propertyExport) {
+            // update target property corresponding to changed property
+            let value = this.properties[propertyName];
+            this.setTargetPropertyValue(propertyExport, value);
+        } else if (propertyName === "blinking" || propertyName === "enabled") {
+            // propagate property to components
+            let value = this.properties[propertyName];
+            this.components.forEach(c => { c.properties[propertyName] = value; });
         }
     }
 };
 
-// Contains classes:
-//     ActionType, CompareOperator, ImageSizeMode, LogicalOperator, LinkTarget, ModalWidth, ContentAlignment,
-//     Action, Border, CommandArgs, Condition, CornerRadius, Font, ImageCondition, LinkArgs, Location, Padding,
-//     PropertyBinding, PropertyExport, Size, VisualState,
-//     PropertyParser
+// Enumerations: ActionType, ComparisonOperator, ContentAlignment, DataMember, ImageStretch, LogicalOperator,
+//     LinkTarget, ModalWidth, TextDirection
+// Structures: Action, Border, CnlProps, CommandArgs, ComponentBindings, Condition, CornerRadius,
+//     Font, ImageCondition, LinkArgs, Padding, Point, PropertyBinding, PropertyBindingEx, PropertyExport,
+//     Size, TextCondition, UrlParams, VisualState
+// Lists: List, ImageConditionList, PropertyBindingList, PropertyExportList, TextConditionList
+// Scripts: ComponentScript, DomUpdateArgs, DataUpdateArgs, CommandSendArgs, ActionScriptArgs
+// Misc: PropertyParser, DataProvider
 // No dependencies
 
 // --- Enumerations ---
@@ -1788,7 +2657,7 @@ rs.mimic.ActionType = class {
 };
 
 // Specifies the comparison operators.
-rs.mimic.ComparisonOperator = class {
+rs.mimic.ComparisonOperator = class ComparisonOperator {
     static NONE = "None";
     static EQUAL = "Equal";
     static NOT_EQUAL = "NotEqual";
@@ -1796,36 +2665,44 @@ rs.mimic.ComparisonOperator = class {
     static LESS_THAN_EQUAL = "LessThanEqual";
     static GREATER_THAN = "GreaterThan";
     static GREATER_THAN_EQUAL = "GreaterThanEqual";
-};
 
-// Specifies how an image is positioned within a component.
-rs.mimic.ImageSizeMode = class {
-    static NORMAL = "Normal";
-    static STRETCH = "Stretch";
-    static CENTER = "Center";
-    static ZOOM = "Zoom";
-}
+    static getDisplayName(oper) {
+        switch (oper) {
+            case ComparisonOperator.EQUAL:
+                return "=";
+            case ComparisonOperator.NOT_EQUAL:
+                return "<>";
+            case ComparisonOperator.LESS_THAN:
+                return "<";
+            case ComparisonOperator.LESS_THAN_EQUAL:
+                return "<=";
+            case ComparisonOperator.GREATER_THAN:
+                return ">";
+            case ComparisonOperator.GREATER_THAN_EQUAL:
+                return ">=";
+            default:
+                return "";
+        }
+    }
 
-// Specifies the logical operators.
-rs.mimic.LogicalOperator = class {
-    static NONE = "None";
-    static AND = "And";
-    static OR = "Or";
-};
-
-// Specifies the link targets.
-rs.mimic.LinkTarget = class {
-    static SELF = "Self";
-    static NEW_TAB = "NewTab";
-    static NEW_MODAL = "NewModal";
-};
-
-// Specifies the widths of a modal dialog.
-rs.mimic.ModalWidth = class {
-    static NORMAL = "Normal";
-    static SMALL = "Small";
-    static LARGE = "Large";
-    static EXTRA_LARGE = "ExtraLarge";
+    static compare(oper, val1, val2) {
+        switch (oper) {
+            case ComparisonOperator.EQUAL:
+                return val1 === val2;
+            case ComparisonOperator.NOT_EQUAL:
+                return val1 !== val2;
+            case ComparisonOperator.LESS_THAN:
+                return val1 < val2;
+            case ComparisonOperator.LESS_THAN_EQUAL:
+                return val1 <= val2;
+            case ComparisonOperator.GREATER_THAN:
+                return val1 > val2;
+            case ComparisonOperator.GREATER_THAN_EQUAL:
+                return val1 >= val2;
+            default:
+                return false;
+        }
+    }
 };
 
 // Specifies the alignments of component content.
@@ -1841,6 +2718,91 @@ rs.mimic.ContentAlignment = class {
     static BOTTOM_RIGHT = "BottomRight";
 };
 
+// Specifies the data members of a property binding.
+rs.mimic.DataMember = class {
+    static VALUE = "Value";
+    static STATUS = "Status";
+    static DATA = "Data";
+    static DISPLAY_VALUE = "DisplayValue";
+    static DISPLAY_VALUE_WITH_UNIT = "DisplayValueWithUnit";
+    static COLOR0 = "Color0";
+    static COLOR1 = "Color1";
+    static COLOR2 = "Color2";
+};
+
+// Specifies how an image is stretched.
+rs.mimic.ImageStretch = class {
+    static NONE = "None";
+    static FILL = "Fill";
+    static ZOOM = "Zoom";
+};
+
+// Specifies the logical operators.
+rs.mimic.LogicalOperator = class LogicalOperator {
+    static NONE = "None";
+    static AND = "And";
+    static OR = "Or";
+
+    static getDisplayName(oper) {
+        switch (oper) {
+            case LogicalOperator.AND:
+                return "&&";
+            case LogicalOperator.OR:
+                return "||";
+            default:
+                return "";
+        }
+    }
+
+    static isTrue(oper, val1, val2) {
+        switch (oper) {
+            case LogicalOperator.AND:
+                return val1 && val2;
+            case LogicalOperator.OR:
+                return val1 || val2;
+            default:
+                return false;
+        }
+    }
+};
+
+// Specifies the link targets.
+rs.mimic.LinkTarget = class {
+    static SELF = "Self";
+    static NEW_TAB = "NewTab";
+    static NEW_MODAL = "NewModal";
+};
+
+// Specifies the widths of a modal dialog.
+rs.mimic.ModalWidth = class ModalWidth {
+    static NORMAL = "Normal";
+    static SMALL = "Small";
+    static LARGE = "Large";
+    static EXTRA_LARGE = "ExtraLarge";
+
+    static toModalSize(modalWidth) {
+        switch (modalWidth) {
+            case ModalWidth.NORMAL:
+                return 0;
+            case ModalWidth.SMALL:
+                return 1;
+            case ModalWidth.LARGE:
+                return 2;
+            case ModalWidth.EXTRA_LARGE:
+                return 3;
+            default:
+                return 0;
+        };
+    }
+};
+
+// Specifies the text directions.
+rs.mimic.TextDirection = class {
+    static HORIZONTAL = "Horizontal";
+    static VERTICAL90 = "Vertical90";
+    static VERTICAL270 = "Vertical270";
+};
+
 // --- Structures ---
 
 // Represents an action.
@@ -1850,6 +2812,10 @@ rs.mimic.Action = class Action {
     commandArgs = new rs.mimic.CommandArgs();
     linkArgs = new rs.mimic.LinkArgs();
     script = "";
+
+    get typeName() {
+        return "Action";
+    }
 
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -1870,7 +2836,21 @@ rs.mimic.Action = class Action {
 // Represents a border.
 rs.mimic.Border = class Border {
     width = 0;
-    color = ""
+    color = "";
+
+    get typeName() {
+        return "Border";
+    }
+
+    get displayValue() {
+        return this.isSet
+            ? (this.color ? `${this.width}, ${this.color}` : `${this.width}`)
+            : "";
+    }
+
+    get isSet() {
+        return this.width > 0 || this.color;
+    }
 
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -1885,10 +2865,32 @@ rs.mimic.Border = class Border {
     }
 };
 
+// Represents channel properties used when displaying data. Prepared on the server side in runtime mode.
+rs.mimic.CnlProps = class CnlProps {
+    joinLen = 0;
+    unit = "";
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let cnlProps = new CnlProps();
+
+        if (source) {
+            cnlProps.joinLen = PropertyParser.parseInt(source.joinLen);
+            cnlProps.unit = PropertyParser.parseString(source.unit);
+        }
+
+        return cnlProps;
+    }
+}
+
 // Represents arguments of the SEND_COMMAND action.
 rs.mimic.CommandArgs = class CommandArgs {
     showDialog = true;
     cmdVal = 0.0;
+
+    get typeName() {
+        return "CommandArgs";
+    }
 
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -1896,20 +2898,80 @@ rs.mimic.CommandArgs = class CommandArgs {
 
         if (source) {
             commandArgs.showDialog = PropertyParser.parseBool(source.showDialog, true);
-            commandArgs.cmdVal = PropertyParser.parseFloat(source.commandArgs);
+            commandArgs.cmdVal = PropertyParser.parseFloat(source.cmdVal);
         }
 
         return commandArgs;
     }
 };
 
-// Represents a condition.
+// Represents data bindings of a component. Prepared on the server side in runtime mode.
+rs.mimic.ComponentBindings = class ComponentBindings {
+    inCnlNum = 0;
+    outCnlNum = 0;
+    objNum = 0;
+    deviceNum = 0;
+    checkRights = false;
+    inCnlProps = null;
+    outCnlProps = null;
+    propertyBindings = null;
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        const PropertyBindingEx = rs.mimic.PropertyBindingEx;
+        let componentBindings = new ComponentBindings();
+
+        if (source) {
+            componentBindings.inCnlNum = PropertyParser.parseInt(source.inCnlNum);
+            componentBindings.outCnlNum = PropertyParser.parseInt(source.outCnlNum);
+            componentBindings.objNum = PropertyParser.parseInt(source.objNum);
+            componentBindings.deviceNum = PropertyParser.parseInt(source.deviceNum);
+            componentBindings.checkRights = PropertyParser.parseBool(source.checkRights);
+            componentBindings.inCnlProps = rs.mimic.CnlProps.parse(source.inCnlProps);
+            componentBindings.outCnlProps = rs.mimic.CnlProps.parse(source.outCnlProps);
+            componentBindings.propertyBindings = [];
+
+            if (Array.isArray(source.propertyBindings)) {
+                for (let sourceItem of source.propertyBindings) {
+                    componentBindings.propertyBindings.push(PropertyBindingEx.parse(sourceItem));
+                }
+            }
+        }
+
+        return componentBindings;
+    }
+};
+
+// Represents an abstract condition.
 rs.mimic.Condition = class Condition {
     comparisonOper1 = rs.mimic.ComparisonOperator.NONE;
     comparisonArg1 = 0.0;
     logicalOper = rs.mimic.LogicalOperator.NONE;
     comparisonOper2 = rs.mimic.ComparisonOperator.NONE;
     comparisonArg2 = 0.0;
+
+    get typeName() {
+        return "Condition";
+    }
+
+    get displayName() {
+        const ComparisonOperator = rs.mimic.ComparisonOperator;
+        const LogicalOperator = rs.mimic.LogicalOperator;
+        let co1 = ComparisonOperator.getDisplayName(this.comparisonOper1);
+        let co2 = ComparisonOperator.getDisplayName(this.comparisonOper2);
+        let lo = LogicalOperator.getDisplayName(this.logicalOper);
+        let displayName = "";
+
+        if (co1) {
+            displayName = `x ${co1} ${this.comparisonArg1}`;
+
+            if (co2 && lo) {
+                displayName += ` ${lo} x ${co2} ${this.comparisonArg2}`;
+            }
+        }
+
+        return displayName;
+    }
 
     _copyFrom(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -1918,6 +2980,19 @@ rs.mimic.Condition = class Condition {
         this.logicalOper = PropertyParser.parseString(source.logicalOper, this.logicalOper);
         this.comparisonOper2 = PropertyParser.parseString(source.comparisonOper2, this.comparisonOper2);
         this.comparisonArg2 = PropertyParser.parseFloat(source.comparisonArg2);
+    }
+
+    satisfied(value) {
+        const ComparisonOperator = rs.mimic.ComparisonOperator;
+        const LogicalOperator = rs.mimic.LogicalOperator;
+        let comp1 = ComparisonOperator.compare(this.comparisonOper1, value, this.comparisonArg1);
+
+        if (this.logicalOper === LogicalOperator.NONE) {
+            return comp1;
+        } else {
+            let comp2 = ComparisonOperator.compare(this.comparisonOper2, value, this.comparisonArg2);
+            return LogicalOperator.isTrue(this.logicalOper, comp1, comp2);
+        }
     }
 
     static parse(source) {
@@ -1938,6 +3013,20 @@ rs.mimic.CornerRadius = class CornerRadius {
     bottomRight = 0;
     bottomLeft = 0;
 
+    get typeName() {
+        return "CornerRadius";
+    }
+
+    get displayValue() {
+        return this.isSet ?
+            `${this.topLeft}, ${this.topRight}, ${this.bottomRight}, ${this.bottomLeft}`
+            : "";
+    }
+
+    get isSet() {
+        return this.topLeft > 0 || this.topRight > 0 || this.bottomRight > 0 || this.bottomLeft > 0;
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let cornerRadius = new CornerRadius();
@@ -1955,17 +3044,51 @@ rs.mimic.CornerRadius = class CornerRadius {
 
 // Represents a font.
 rs.mimic.Font = class Font {
+    inherit = false;
     name = "";
     size = 16;
     bold = false;
     italic = false;
     underline = false;
 
+    constructor(source) {
+        Object.assign(this, source);
+    }
+
+    get typeName() {
+        return "Font";
+    }
+
+    get displayValue() {
+        if (this.inherit) {
+            return "";
+        } else {
+            let parts = [];
+
+            if (this.name) {
+                parts.push(this.name);
+            }
+
+            parts.push(this.size);
+            let style =
+                (this.bold ? "B" : "") +
+                (this.italic ? "I" : "") +
+                (this.underline ? "U" : "");
+
+            if (style) {
+                parts.push(style);
+            }
+
+            return parts.join(", ");
+        }
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let font = new Font();
 
         if (source) {
+            font.inherit = PropertyParser.parseBool(source.inherit);
             font.name = PropertyParser.parseString(source.name);
             font.size = PropertyParser.parseInt(source.size, font.size);
             font.bold = PropertyParser.parseBool(source.bold);
@@ -1981,13 +3104,21 @@ rs.mimic.Font = class Font {
 rs.mimic.ImageCondition = class ImageCondition extends rs.mimic.Condition {
     imageName = "";
 
+    get typeName() {
+        return "ImageCondition";
+    }
+
+    get displayValue() {
+        return this.imageName;
+    }
+
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
         let imageCondition = new ImageCondition();
 
         if (source) {
-            imageCondition.imageName = PropertyParser.parseString(source.imageName);
             imageCondition._copyFrom(source);
+            imageCondition.imageName = PropertyParser.parseString(source.imageName);
         }
 
         return imageCondition;
@@ -1997,10 +3128,19 @@ rs.mimic.ImageCondition = class ImageCondition extends rs.mimic.Condition {
 // Represents arguments of the OPEN_LINK action.
 rs.mimic.LinkArgs = class LinkArgs {
     url = "";
-    target = rs.mimic.LinkTarget.SELF;
+    urlParams = new rs.mimic.UrlParams();
     viewID = 0;
+    target = rs.mimic.LinkTarget.SELF;
     modalWidth = rs.mimic.ModalWidth.NORMAL;
     modalHeight = 0;
+
+    get typeName() {
+        return "LinkArgs";
+    }
+
+    getModalSize() {
+        return rs.mimic.ModalWidth.toModalSize(this.modalWidth);
+    }
 
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -2008,8 +3148,9 @@ rs.mimic.LinkArgs = class LinkArgs {
 
         if (source) {
             linkArgs.url = PropertyParser.parseString(source.url);
-            linkArgs.target = PropertyParser.parseString(source.target, linkArgs.target);
+            linkArgs.urlParams = rs.mimic.UrlParams.parse(source.urlParams);
             linkArgs.viewID = PropertyParser.parseInt(source.viewID);
+            linkArgs.target = PropertyParser.parseString(source.target, linkArgs.target);
             linkArgs.modalWidth = PropertyParser.parseString(source.modalWidth, linkArgs.modalWidth);
             linkArgs.modalHeight = PropertyParser.parseInt(source.modalHeight);
         }
@@ -2018,30 +3159,30 @@ rs.mimic.LinkArgs = class LinkArgs {
     }
 };
 
-// Represents a location.
-rs.mimic.Location = class Location {
-    x = 0;
-    y = 0;
-
-    static parse(source) {
-        const PropertyParser = rs.mimic.PropertyParser;
-        let location = new Location();
-
-        if (source) {
-            location.x = PropertyParser.parseInt(source.x);
-            location.y = PropertyParser.parseInt(source.y);
-        }
-
-        return location;
-    }
-}
-
 // Represents paddings.
 rs.mimic.Padding = class Padding {
     top = 0;
     right = 0;
     bottom = 0;
     left = 0;
+
+    constructor(source) {
+        Object.assign(this, source);
+    }
+
+    get typeName() {
+        return "Padding";
+    }
+
+    get displayValue() {
+        return this.isSet ?
+            `${this.top}, ${this.right}, ${this.bottom}, ${this.left}`
+            : "";
+    }
+
+    get isSet() {
+        return this.top > 0 || this.right > 0 || this.bottom > 0 || this.left > 0;
+    }
 
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -2058,25 +3199,98 @@ rs.mimic.Padding = class Padding {
     }
 };
 
+// Represents a point.
+rs.mimic.Point = class Point {
+    x = 0;
+    y = 0;
+
+    constructor(source) {
+        Object.assign(this, source);
+    }
+
+    get typeName() {
+        return "Point";
+    }
+
+    static parse(source, defaultValue) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let point = new Point();
+        source ??= defaultValue;
+
+        if (source) {
+            point.x = PropertyParser.parseInt(source.x);
+            point.y = PropertyParser.parseInt(source.y);
+        }
+
+        return point;
+    }
+};
+
 // Represents a property binding.
 rs.mimic.PropertyBinding = class PropertyBinding {
     propertyName = "";
     dataSource = "";
-    dataMember = "";
+    dataMember = rs.mimic.DataMember.VALUE;
+    expression = "";
     format = "";
 
-    static parse(source) {
+    get typeName() {
+        return "PropertyBinding";
+    }
+
+    get displayName() {
+        return this.propertyName;
+    }
+
+    get displayValue() {
+        return this.dataSource;
+    }
+
+    _copyFrom(source) {
         const PropertyParser = rs.mimic.PropertyParser;
+        this.propertyName = PropertyParser.parseString(source.propertyName);
+        this.dataSource = PropertyParser.parseString(source.dataSource);
+        this.dataMember = PropertyParser.parseString(source.dataMember, rs.mimic.DataMember.VALUE);
+        this.expression = PropertyParser.parseString(source.expression);
+        this.format = PropertyParser.parseString(source.format);
+    }
+
+    static parse(source) {
         let propertyBinding = new PropertyBinding();
 
         if (source) {
-            propertyBinding.propertyName = PropertyParser.parseString(source.propertyName);
-            propertyBinding.dataSource = PropertyParser.parseString(source.dataSource);
-            propertyBinding.dataMember = PropertyParser.parseString(source.dataMember);
-            propertyBinding.format = PropertyParser.parseString(source.format);
+            propertyBinding._copyFrom(source);
+        }
+        return propertyBinding;
+    }
+};
+
+// Represents an extended property binding. Prepared on the server side in runtime mode.
+rs.mimic.PropertyBindingEx = class PropertyBindingEx extends rs.mimic.PropertyBinding {
+    propertyChain = null; // array of strings
+    cnlNum = 0;
+    cnlProps = null;
+
+    get expressionFunc() {
+        if (this.expression) {
+            this.expressionFuncCache ??= new Function("x", `const fn = x => ${this.expression}; return fn(x);`);
+            return this.expressionFuncCache;
+        } else {
+            return null;
+        }
+    }
+
+    static parse(source) {
+        let propertyBindingEx = new PropertyBindingEx();
+
+        if (source) {
+            propertyBindingEx._copyFrom(source);
+            propertyBindingEx.propertyChain = Array.isArray(source.propertyChain) ? source.propertyChain : [];
+            propertyBindingEx.cnlNum = rs.mimic.PropertyParser.parseInt(source.cnlNum);
+            propertyBindingEx.cnlProps = rs.mimic.CnlProps.parse(source.cnlProps);
         }
 
-        return propertyBinding;
+        return propertyBindingEx;
     }
 };
 
@@ -2084,6 +3298,29 @@ rs.mimic.PropertyBinding = class PropertyBinding {
 rs.mimic.PropertyExport = class PropertyExport {
     name = "";
     path = "";
+    defaultValue = "";
+    defaultBinding = new rs.mimic.PropertyBinding();
+
+    constructor(source) {
+        Object.assign(this, source);
+    }
+
+    get typeName() {
+        return "PropertyExport";
+    }
+
+    get displayName() {
+        return this.name;
+    }
+
+    get propertyChain() {
+        if (this.propertyChainCache !== undefined) {
+            return this.propertyChainCache;
+        }
+
+        this.propertyChainCache = this.path ? this.path.split('.') : [];
+        return this.propertyChainCache;
+    }
 
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -2092,6 +3329,9 @@ rs.mimic.PropertyExport = class PropertyExport {
         if (source) {
             propertyExport.name = PropertyParser.parseString(source.name);
             propertyExport.path = PropertyParser.parseString(source.path);
+            propertyExport.defaultValue = PropertyParser.parseString(source.defaultValue);
+            propertyExport.defaultBinding = rs.mimic.PropertyBinding.parse(source.defaultBinding);
+            propertyExport.defaultBinding.propertyName = propertyExport.name; // property names must match
         }
 
         return propertyExport;
@@ -2103,9 +3343,18 @@ rs.mimic.Size = class Size {
     width = 100;
     height = 100;
 
-    static parse(source) {
+    constructor(source) {
+        Object.assign(this, source);
+    }
+
+    get typeName() {
+        return "Size";
+    }
+
+    static parse(source, defaultValue) {
         const PropertyParser = rs.mimic.PropertyParser;
         let size = new Size();
+        source ??= defaultValue;
 
         if (source) {
             size.width = PropertyParser.parseInt(source.width);
@@ -2114,13 +3363,102 @@ rs.mimic.Size = class Size {
 
         return size;
     }
-}
+};
+
+// Represents a text condition.
+rs.mimic.TextCondition = class TextCondition extends rs.mimic.Condition {
+    text = "";
+
+    get typeName() {
+        return "TextCondition";
+    }
+
+    get displayValue() {
+        return this.text;
+    }
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let textCondition = new TextCondition();
+
+        if (source) {
+            textCondition._copyFrom(source);
+            textCondition.text = PropertyParser.parseString(source.text);
+        }
+
+        return textCondition;
+    }
+};
+
+// Represents URL parameters.
+rs.mimic.UrlParams = class UrlParams {
+    enabled = false;
+    param0 = "";
+    param1 = "";
+    param2 = "";
+    param3 = "";
+    param4 = "";
+    param5 = "";
+    param6 = "";
+    param7 = "";
+    param8 = "";
+    param9 = "";
+
+    get typeName() {
+        return "UrlParams";
+    }
+
+    toArray() {
+        return [
+            this.param0,
+            this.param1,
+            this.param2,
+            this.param3,
+            this.param4,
+            this.param5,
+            this.param6,
+            this.param7,
+            this.param8,
+            this.param9
+        ];
+    }
+
+    static parse(source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let urlParams = new UrlParams();
+
+        if (source) {
+            urlParams.enabled = PropertyParser.parseBool(source.enabled);
+            urlParams.param0 = PropertyParser.parseString(source.param0);
+            urlParams.param1 = PropertyParser.parseString(source.param1);
+            urlParams.param2 = PropertyParser.parseString(source.param2);
+            urlParams.param3 = PropertyParser.parseString(source.param3);
+            urlParams.param4 = PropertyParser.parseString(source.param4);
+            urlParams.param5 = PropertyParser.parseString(source.param5);
+            urlParams.param6 = PropertyParser.parseString(source.param6);
+            urlParams.param7 = PropertyParser.parseString(source.param7);
+            urlParams.param8 = PropertyParser.parseString(source.param8);
+            urlParams.param9 = PropertyParser.parseString(source.param9);
+        }
+
+        return urlParams;
+    }
+};
 
 // Represents a visual state.
 rs.mimic.VisualState = class VisualState {
     backColor = "";
     foreColor = "";
     borderColor = "";
+    underline = false;
+
+    get typeName() {
+        return "VisualState";
+    }
+
+    get isSet() {
+        return !!(this.backColor || this.foreColor || this.borderColor || this.underline);
+    }
 
     static parse(source) {
         const PropertyParser = rs.mimic.PropertyParser;
@@ -2130,45 +3468,39 @@ rs.mimic.VisualState = class VisualState {
             visualState.backColor = PropertyParser.parseString(source.backColor);
             visualState.foreColor = PropertyParser.parseString(source.foreColor);
             visualState.borderColor = PropertyParser.parseString(source.borderColor);
+            visualState.underline = PropertyParser.parseBool(source.underline);
         }
 
         return visualState;
     }
 };
 
-// --- Misc ---
+// --- Lists ---
 
-// Parses property values ​​from strings and objects.
-rs.mimic.PropertyParser = class {
-    static parseBool(string, defaultValue = false) {
-        return !string
-            ? defaultValue
-            : string === "true" || string === "True";
-    }
+// Represents a list that can create new items.
+rs.mimic.List = class extends Array {
+    constructor(createItemFn) {
+        super();
 
-    static parseFloat(string, defaultValue = 0.0) {
-        let number = Number.parseFloat(string);
-        return Number.isFinite(number) ? number : defaultValue;
-    }
-
-    static parseInt(string, defaultValue = 0) {
-        let number = Number.parseInt(string);
-        return Number.isFinite(number) ? number : defaultValue;
-    }
-
-    static parseString(source, defaultValue = "") {
-        if (source instanceof String) {
-            return source;
-        } else if (source && source.toString instanceof Function) {
-            return source.toString();
-        } else {
-            return defaultValue;
+        if (createItemFn instanceof Function) {
+            Object.getPrototypeOf(this).createItem = function () {
+                return createItemFn.call(this);
+            };
         }
     }
+};
 
-    static parseImageConditions(source) {
+// Represents a list of ImageCondition items.
+rs.mimic.ImageConditionList = class ImageConditionList extends rs.mimic.List {
+    constructor() {
+        super(() => {
+            return new rs.mimic.ImageCondition();
+        });
+    }
+
+    static parse(source) {
         const ImageCondition = rs.mimic.ImageCondition;
-        let imageConditions = [];
+        let imageConditions = new ImageConditionList();
 
         if (Array.isArray(source)) {
             for (let sourceItem of source) {
@@ -2178,10 +3510,19 @@ rs.mimic.PropertyParser = class {
 
         return imageConditions;
     }
+};
 
-    static parsePropertyBindings(source) {
+// Represents a list of PropertyBinding items.
+rs.mimic.PropertyBindingList = class PropertyBindingList extends rs.mimic.List {
+    constructor() {
+        super(() => {
+            return new rs.mimic.PropertyBinding();
+        });
+    }
+
+    static parse(source) {
         const PropertyBinding = rs.mimic.PropertyBinding;
-        let propertyBindings = [];
+        let propertyBindings = new PropertyBindingList();
 
         if (Array.isArray(source)) {
             for (let sourceItem of source) {
@@ -2191,10 +3532,19 @@ rs.mimic.PropertyParser = class {
 
         return propertyBindings;
     }
+};
 
-    static parsePropertyExports(source) {
+// Represents a list of PropertyExport items.
+rs.mimic.PropertyExportList = class PropertyExportList extends rs.mimic.List {
+    constructor() {
+        super(() => {
+            return new rs.mimic.PropertyExport();
+        });
+    }
+
+    static parse(source) {
         const PropertyExport = rs.mimic.PropertyExport;
-        let propertyExports = [];
+        let propertyExports = new PropertyExportList();
 
         if (Array.isArray(source)) {
             for (let sourceItem of source) {
@@ -2204,17 +3554,861 @@ rs.mimic.PropertyParser = class {
 
         return propertyExports;
     }
+};
+
+// Represents a list of TextCondition items.
+rs.mimic.TextConditionList = class TextConditionList extends rs.mimic.List {
+    constructor() {
+        super(() => {
+            return new rs.mimic.TextCondition();
+        });
+    }
+
+    static parse(source) {
+        const TextCondition = rs.mimic.TextCondition;
+        let textConditions = new TextConditionList();
+
+        if (Array.isArray(source)) {
+            for (let sourceItem of source) {
+                textConditions.push(TextCondition.parse(sourceItem));
+            }
+        }
+
+        return textConditions;
+    }
+};
+
+// --- Scripts ---
+
+// A base class for mimic or component logic.
+rs.mimic.ComponentScript = class ComponentScript {
+    domCreated(args) {
+    }
+
+    domUpdated(args) {
+    }
+
+    dataUpdated(args) {
+    }
+
+    getCommandValue(args) {
+        return Number.NaN;
+    }
+
+    static createFromSource(sourceCode) {
+        const CustomClass = new Function("ComponentScript", "return " + sourceCode)(ComponentScript);
+        return new CustomClass();
+    }
+};
+
+// Provides arguments when creating and updating a mimic or component DOM.
+rs.mimic.DomUpdateArgs = class {
+    constructor({ mimic, component, renderContext }) {
+        this.mimic = mimic;
+        this.component = component;
+        this.renderContext = renderContext;
+    }
+};
+
+// Provides arguments when updating mimic or component data.
+rs.mimic.DataUpdateArgs = class {
+    constructor({ mimic, component, dataProvider }) {
+        this.mimic = mimic;
+        this.component = component;
+        this.dataProvider = dataProvider;
+        this.propertyChanged = false;
+        this.handled = false;
+    }
+};
+
+// Provides arguments when sending a command.
+rs.mimic.CommandSendArgs = class {
+    constructor(component) {
+        this.component = component;
+    }
 }
 
-// Contains classes: Renderer, MimicRenderer, ComponentRenderer,
+// Provides arguments when an action script is executed.
+rs.mimic.ActionScriptArgs = class {
+    constructor({ component, renderContext }) {
+        this.component = component;
+        this.renderContext = renderContext;
+    }
+};
+
+// --- Misc ---
+
+// Parses property values ​​from strings.
+rs.mimic.PropertyParser = class {
+    static parseBool(source, defaultValue = false) {
+        if (typeof source === "boolean") {
+            return source;
+        } else if (typeof source === "string") {
+            return source ? source === "true" || source === "True" : defaultValue;
+        } else {
+            return defaultValue;
+        }
+    }
+
+    static parseFloat(source, defaultValue = 0.0) {
+        let number = Number.parseFloat(source);
+        return Number.isFinite(number) ? number : defaultValue;
+    }
+
+    static parseInt(source, defaultValue = 0) {
+        let number = Number.parseInt(source);
+        return Number.isFinite(number) ? number : defaultValue;
+    }
+
+    static parseString(source, defaultValue = "") {
+        if (source == null) {
+            return defaultValue;
+        } else if (typeof source === "string") {
+            return source;
+        } else {
+            return String(source);
+        }
+    }
+};
+
+// Represents an abstract provider of channel data and channel properties.
+rs.mimic.DataProvider = class DataProvider {
+    static EMPTY_DATA = {
+        d: { cnlNum: 0, val: 0.0, stat: 0 },
+        df: { dispVal: "", colors: [] }
+    };
+
+    curDataMap = null;
+    prevDataMap = null;
+
+    static _dataEqual(data1, data2) {
+        return data1.d.val === data2.d.val && data1.d.stat === data2.d.stat;
+    }
+
+    static _getFieldValue(data, dataMember, opt_unit) {
+        const DataMember = rs.mimic.DataMember;
+
+        switch (dataMember) {
+            case DataMember.VALUE:
+                return data.d.stat > 0 ? data.d.val : Number.NaN;
+
+            case DataMember.STATUS:
+                return data.d.stat;
+
+            case DataMember.DATA:
+                return data.d;
+
+            case DataMember.DISPLAY_VALUE:
+                return data.df.dispVal;
+
+            case DataMember.DISPLAY_VALUE_WITH_UNIT:
+                return opt_unit && data.d.stat > 0
+                    ? data.df.dispVal + " " + opt_unit
+                    : data.df.dispVal;
+
+            case DataMember.COLOR0:
+                return data.df.colors.length > 0 ? data.df.colors[0] : "";
+
+            case DataMember.COLOR1:
+                return data.df.colors.length > 1 ? data.df.colors[1] : "";
+
+            case DataMember.COLOR2:
+                return data.df.colors.length > 2 ? data.df.colors[2] : "";
+
+            default:
+                return null;
+        }
+    }
+
+    getCurData(cnlNum, opt_joinLen) {
+        return DataProvider.EMPTY_DATA;
+    }
+
+    getPrevData(cnlNum, opt_joinLen) {
+        return DataProvider.EMPTY_DATA;
+    }
+
+    dataChanged(curData, prevData) {
+        return !DataProvider._dataEqual(curData, prevData) || !this.prevDataMap;
+    }
+
+    static calculatePropertyValue(data, binding) {
+        let value = DataProvider._getFieldValue(data, binding.dataMember, binding.cnlProps.unit);
+        let expressionFunc = binding.expressionFunc;
+
+        if (expressionFunc) {
+            value = expressionFunc(value);
+        }
+
+        if (binding.format) {
+            value = binding.format.replace("{0}", String(value));
+        }
+
+        return value;
+    }
+};
+
+// Contains classes: MimicFactory, ComponentFactory, RegularComponentFactory,
+//     TextFactory, PictureScript, PictureFactory, PanelFactory, FaceplateFactory, FactorySet
+// Depends on mimic-common.js, mimic-model.js, mimic-model-subtypes.js
+
+// Create mimic properties.
+rs.mimic.MimicFactory = class {
+    // Parses the document properties from the specified source object.
+    static parseProperties(sourceProps, isFaceplate) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        sourceProps ??= {};
+        let props = {
+            // appearance
+            backColor: PropertyParser.parseString(sourceProps.backColor),
+            backgroundImage: PropertyParser.parseString(sourceProps.backgroundImage),
+            backgroundPadding: new rs.mimic.Padding(),
+            cssClass: PropertyParser.parseString(sourceProps.cssClass),
+            font: rs.mimic.Font.parse(sourceProps.font),
+            foreColor: PropertyParser.parseString(sourceProps.foreColor),
+            stylesheet: PropertyParser.parseString(sourceProps.stylesheet),
+
+            // behavior
+            script: PropertyParser.parseString(sourceProps.script),
+            tooltip: PropertyParser.parseString(sourceProps.tooltip),
+
+            // layout
+            size: rs.mimic.Size.parse(sourceProps.size, { width: 800, height: 600 })
+        };
+
+        // faceplate properties
+        if (isFaceplate) {
+            props.blinkingState = rs.mimic.VisualState.parse(sourceProps.blinkingState);
+            props.border = rs.mimic.Border.parse(sourceProps.border);
+            props.cornerRadius = rs.mimic.CornerRadius.parse(sourceProps.cornerRadius);
+            props.disabledState = rs.mimic.VisualState.parse(sourceProps.disabledState);
+            props.hoverState = rs.mimic.VisualState.parse(sourceProps.hoverState);
+            props.propertyExports = rs.mimic.PropertyExportList.parse(sourceProps.propertyExports);
+        }
+
+        return props;
+    }
+}
+
+// Represents an abstract component factory.
+rs.mimic.ComponentFactory = class {
+    // Copies the properties from the source object.
+    _copyProperties(component, source) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        component.id = PropertyParser.parseInt(source.id);
+        component.typeName = PropertyParser.parseString(source.typeName);
+        component.properties = this.parseProperties(source.properties);
+        component.properties.typeName = component.typeName;
+        component.bindings = rs.mimic.ComponentBindings.parse(source.bindings);
+        component.parentID = PropertyParser.parseInt(source.parentID);
+    }
+
+    // Creates and adds default property bindings.
+    _addDefaultBindings(component) {
+        if (component.bindings && component.bindings.inCnlNum > 0) {
+            let defaultBindings = this._createDefaultBindings(component);
+
+            if (defaultBindings) {
+                let bindingExists = binding => {
+                    return component.bindings.propertyBindings.some(pb => pb.propertyName === binding.propertyName);
+                };
+
+                for (let binding of defaultBindings) {
+                    if (!bindingExists(binding)) {
+                        component.bindings.propertyBindings.push(binding);
+                    }
+                }
+            }
+        }
+    }
+
+    // Creates an array of default property bindings for the component.
+    _createDefaultBindings(component) {
+        return null;
+    }
+
+    // Creates an object that implements additional component logic.
+    _createExtraScript() {
+        return null;
+    }
+
+    // Creates new component properties.
+    createProperties() {
+        return {
+            // behavior
+            blinking: false,
+            clickAction: new rs.mimic.Action(),
+            enabled: true,
+            visible: true,
+
+            // data
+            checkRights: false,
+            deviceNum: 0,
+            inCnlNum: 0,
+            objNum: 0,
+            outCnlNum: 0,
+            propertyBindings: new rs.mimic.PropertyBindingList(),
+
+            // design
+            id: 0,
+            name: "",
+            typeName: "",
+
+            // layout
+            location: new rs.mimic.Point(),
+            size: new rs.mimic.Size()
+        };
+    }
+
+    // Parses the component properties from the specified source object.
+    parseProperties(sourceProps) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        sourceProps ??= {};
+        return {
+            // behavior
+            blinking: PropertyParser.parseBool(sourceProps.blinking),
+            clickAction: rs.mimic.Action.parse(sourceProps.clickAction),
+            enabled: PropertyParser.parseBool(sourceProps.enabled),
+            visible: PropertyParser.parseBool(sourceProps.visible),
+
+            // data
+            checkRights: PropertyParser.parseBool(sourceProps.checkRights),
+            deviceNum: PropertyParser.parseInt(sourceProps.deviceNum),
+            inCnlNum: PropertyParser.parseInt(sourceProps.inCnlNum),
+            objNum: PropertyParser.parseInt(sourceProps.objNum),
+            outCnlNum: PropertyParser.parseInt(sourceProps.outCnlNum),
+            propertyBindings: rs.mimic.PropertyBindingList.parse(sourceProps.propertyBindings),
+
+            // design
+            id: PropertyParser.parseInt(sourceProps.id),
+            name: PropertyParser.parseString(sourceProps.name),
+            typeName: PropertyParser.parseString(sourceProps.typeName),
+
+            // layout
+            location: rs.mimic.Point.parse(sourceProps.location),
+            size: rs.mimic.Size.parse(sourceProps.size)
+        };
+    }
+
+    // Creates a new component with the given type name.
+    createComponent(typeName) {
+        let component = new rs.mimic.Component();
+        component.typeName = typeName;
+        component.properties = this.createProperties();
+        component.properties.typeName = typeName;
+        component.extraScript = this._createExtraScript();
+        return component;
+    }
+
+    // Creates a new component with the specified properties.
+    createComponentFromSource(source) {
+        let component = new rs.mimic.Component();
+        this._copyProperties(component, source);
+        this._addDefaultBindings(component);
+        component.extraScript = this._createExtraScript();
+        return component;
+    }
+};
+
+// Represents an abstract factory for regular non-faceplate components.
+rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
+    createProperties() {
+        let props = super.createProperties();
+
+        // appearance
+        Object.assign(props, {
+            backColor: "",
+            border: new rs.mimic.Border(),
+            cornerRadius: new rs.mimic.CornerRadius(),
+            cssClass: "",
+            font: new rs.mimic.Font({ inherit: true }),
+            foreColor: ""
+        });
+
+        // behavior
+        Object.assign(props, {
+            blinkingState: new rs.mimic.VisualState(),
+            disabledState: new rs.mimic.VisualState(),
+            hoverState: new rs.mimic.VisualState(),
+            script: "",
+            tooltip: ""
+        });
+
+        return props;
+    }
+
+    parseProperties(sourceProps) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let props = super.parseProperties(sourceProps);
+        sourceProps ??= {};
+
+        // appearance
+        Object.assign(props, {
+            backColor: PropertyParser.parseString(sourceProps.backColor),
+            border: rs.mimic.Border.parse(sourceProps.border),
+            cornerRadius: rs.mimic.CornerRadius.parse(sourceProps.cornerRadius),
+            cssClass: PropertyParser.parseString(sourceProps.cssClass),
+            font: rs.mimic.Font.parse(sourceProps.font),
+            foreColor: PropertyParser.parseString(sourceProps.foreColor)
+        });
+
+        // behavior
+        Object.assign(props, {
+            blinkingState: rs.mimic.VisualState.parse(sourceProps.blinkingState),
+            disabledState: rs.mimic.VisualState.parse(sourceProps.disabledState),
+            hoverState: rs.mimic.VisualState.parse(sourceProps.hoverState),
+            script: PropertyParser.parseString(sourceProps.script),
+            tooltip: PropertyParser.parseString(sourceProps.tooltip)
+        });
+
+        return props;
+    }
+};
+
+// Implements logic for Text type components.
+rs.mimic.TextScript = class extends rs.mimic.ComponentScript {
+    dataUpdated(args) {
+        // select text according to conditions
+        let cnlNum = args.component.bindings?.inCnlNum;
+        let props = args.component.properties;
+        let conditions = props.conditions;
+
+        if (cnlNum > 0 && conditions.length > 0) {
+            let curData = args.dataProvider.getCurData(cnlNum);
+            let prevData = args.dataProvider.getPrevData(cnlNum);
+
+            if (dataProvider.dataChanged(curData, prevData)) {
+                let text = props.defaultText;
+
+                if (curData.d.stat > 0) {
+                    for (let condition of conditions) {
+                        if (condition.satisfied(curData.d.val)) {
+                            text = condition.text;
+                            break;
+                        }
+                    }
+                }
+
+                if (props.text !== text) {
+                    props.text = text;
+                    args.propertyChanged = true;
+                }
+            }
+        }
+    }
+};
+
+// Creates components of the Text type.
+rs.mimic.TextFactory = class extends rs.mimic.RegularComponentFactory {
+    _createDefaultBindings(component) {
+        const DataMember = rs.mimic.DataMember;
+        let cnlNum = component.bindings.inCnlNum;
+        let cnlProps = component.bindings.inCnlProps;
+        let bindings = [];
+
+        if (component.properties.conditions.length === 0) {
+            bindings.push({
+                propertyName: "text",
+                dataSource: String(cnlNum),
+                dataMember: DataMember.DISPLAY_VALUE_WITH_UNIT,
+                format: "",
+                propertyChain: ["text"],
+                cnlNum: cnlNum,
+                cnlProps: cnlProps
+            });
+        }
+
+        if (!component.properties.foreColor) {
+            bindings.push({
+                propertyName: "foreColor",
+                dataSource: String(cnlNum),
+                dataMember: DataMember.COLOR0,
+                format: "",
+                propertyChain: ["foreColor"],
+                cnlNum: cnlNum,
+                cnlProps: cnlProps
+            });
+        }
+
+        return bindings;
+    }
+
+    _createExtraScript() {
+        return new rs.mimic.TextScript();
+    }
+
+    createProperties() {
+        let props = super.createProperties();
+
+        // appearance
+        Object.assign(props, {
+            text: "Text",
+            textAlign: rs.mimic.ContentAlignment.TOP_LEFT,
+            textDirection: rs.mimic.TextDirection.HORIZONTAL,
+            wordWrap: false
+        });
+
+        // behavior
+        Object.assign(props, {
+            conditions: new rs.mimic.TextConditionList(),
+            defaultText: ""
+        });
+
+        // layout
+        Object.assign(props, {
+            autoSize: true,
+            padding: new rs.mimic.Padding()
+        });
+
+        return props;
+    }
+
+    parseProperties(sourceProps) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let props = super.parseProperties(sourceProps);
+        sourceProps ??= {};
+
+        // appearance
+        Object.assign(props, {
+            text: PropertyParser.parseString(sourceProps.text),
+            textAlign: PropertyParser.parseString(sourceProps.textAlign, rs.mimic.ContentAlignment.TOP_LEFT),
+            textDirection: PropertyParser.parseString(sourceProps.textDirection, rs.mimic.TextDirection.HORIZONTAL),
+            wordWrap: PropertyParser.parseBool(sourceProps.wordWrap)
+        });
+
+        // behavior
+        Object.assign(props, {
+            conditions: rs.mimic.TextConditionList.parse(sourceProps.conditions),
+            defaultText: PropertyParser.parseString(sourceProps.defaultText)
+        });
+
+        // layout
+        Object.assign(props, {
+            autoSize: PropertyParser.parseBool(sourceProps.autoSize),
+            padding: rs.mimic.Padding.parse(sourceProps.padding)
+        });
+
+        return props;
+    }
+
+    createComponent() {
+        return super.createComponent("Text");
+    }
+};
+
+// Implements logic for Picture type components.
+rs.mimic.PictureScript = class extends rs.mimic.ComponentScript {
+    dataUpdated(args) {
+        // select image according to conditions
+        let cnlNum = args.component.bindings?.inCnlNum;
+        let props = args.component.properties;
+        let conditions = props.conditions;
+
+        if (cnlNum > 0 && conditions.length > 0) {
+            let curData = args.dataProvider.getCurData(cnlNum);
+            let prevData = args.dataProvider.getPrevData(cnlNum);
+
+            if (dataProvider.dataChanged(curData, prevData)) {
+                let imageName = props.defaultImage;
+
+                if (curData.d.stat > 0) {
+                    for (let condition of conditions) {
+                        if (condition.satisfied(curData.d.val)) {
+                            imageName = condition.imageName;
+                            break;
+                        }
+                    }
+                }
+
+                if (props.imageName !== imageName) {
+                    props.imageName = imageName;
+                    args.propertyChanged = true;
+                }
+            }
+        }
+    }
+};
+
+// Creates components of the Picture type.
+rs.mimic.PictureFactory = class extends rs.mimic.RegularComponentFactory {
+    _createExtraScript() {
+        return new rs.mimic.PictureScript();
+    }
+
+    createProperties() {
+        let props = super.createProperties();
+
+        // appearance
+        Object.assign(props, {
+            imageName: "",
+            imageStretch: rs.mimic.ImageStretch.NONE,
+            rotation: 0
+        });
+
+        // behavior
+        Object.assign(props, {
+            conditions: new rs.mimic.ImageConditionList(),
+            defaultImage: ""
+        });
+
+        // layout
+        Object.assign(props, {
+            padding: new rs.mimic.Padding()
+        });
+
+        return props;
+    }
+
+    parseProperties(sourceProps) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let props = super.parseProperties(sourceProps);
+        sourceProps ??= {};
+
+        // appearance
+        Object.assign(props, {
+            imageName: PropertyParser.parseString(sourceProps.imageName),
+            imageStretch: PropertyParser.parseString(sourceProps.imageStretch, rs.mimic.ImageStretch.NONE),
+            rotation: PropertyParser.parseFloat(sourceProps.rotation)
+        });
+
+        // behavior
+        Object.assign(props, {
+            conditions: rs.mimic.ImageConditionList.parse(sourceProps.conditions),
+            defaultImage: PropertyParser.parseString(sourceProps.defaultImage)
+        });
+
+        // layout
+        Object.assign(props, {
+            padding: rs.mimic.Padding.parse(sourceProps.padding)
+        });
+
+        return props;
+    }
+
+    createComponent() {
+        return super.createComponent("Picture");
+    }
+};
+
+// Creates components of the Panel type.
+rs.mimic.PanelFactory = class extends rs.mimic.RegularComponentFactory {
+    createComponent() {
+        let component = super.createComponent("Panel");
+        component.children = []; // accept child components
+        return component;
+    }
+
+    createComponentFromSource(source) {
+        let component = super.createComponentFromSource(source);
+        component.children = [];
+        return component;
+    }
+};
+
+// Creates faceplate instances.
+rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
+    faceplate; // can be null
+
+    constructor(faceplate) {
+        super();
+        this.faceplate = faceplate;
+    }
+
+    _updateSize(faceplateInstance) {
+        faceplateInstance.properties.size = rs.mimic.Size.parse(this.faceplate.document.size);
+    }
+
+    _createBindings(faceplateInstance) {
+        for (let propertyExport of this.faceplate.propertyExports) {
+            if (propertyExport.defaultBinding.dataSource) {
+                let propertyBinding = rs.mimic.PropertyBinding.parse(propertyExport.defaultBinding);
+                faceplateInstance.properties.propertyBindings.push(propertyBinding);
+            }
+        }
+    }
+
+    _createComponents(faceplateInstance) {
+        const FactorySet = rs.mimic.FactorySet;
+        const MimicHelper = rs.mimic.MimicHelper;
+
+        if (Array.isArray(this.faceplate.components)) {
+            for (let sourceComponent of this.faceplate.components) {
+                let factory = FactorySet.getComponentFactory(sourceComponent.typeName, this.faceplate.faceplateMap);
+
+                if (factory) {
+                    let componentCopy = factory.createComponentFromSource(sourceComponent);
+                    faceplateInstance.components.push(componentCopy);
+
+                    if (componentCopy.name) {
+                        faceplateInstance.componentByName.set(componentCopy.name, componentCopy);
+                    }
+                }
+            }
+
+            MimicHelper.defineNesting(faceplateInstance, faceplateInstance.components);
+        }
+    }
+
+    _createCustomProperties(faceplateInstance, sourceProps) {
+        const ObjectHelper = rs.mimic.ObjectHelper;
+        sourceProps ??= {};
+
+        for (let propertyExport of this.faceplate.propertyExports) {
+            let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport) ?? propertyExport.defaultValue;
+            let sourceValue = sourceProps[propertyExport.name];
+
+            if (sourceValue == null) {
+                faceplateInstance.properties[propertyExport.name] = baseValue;
+            } else {
+                let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);
+                faceplateInstance.properties[propertyExport.name] = mergedValue;
+                faceplateInstance.setTargetPropertyValue(propertyExport, mergedValue);
+            }
+        }
+    }
+
+    _applyModel(faceplateInstance, source) {
+        faceplateInstance.typeName = faceplateInstance.properties.typeName = this.faceplate.typeName;
+        faceplateInstance.model = this.faceplate;
+        faceplateInstance.document = rs.mimic.MimicFactory.parseProperties(this.faceplate.document, true);
+        this._createComponents(faceplateInstance);
+        this._createCustomProperties(faceplateInstance, source?.properties);
+    }
+
+    parseProperties(sourceProps) {
+        let props = super.parseProperties(sourceProps);
+
+        if (this.faceplate) {
+            for (let propertyExport of this.faceplate.propertyExports) {
+                props[propertyExport.name] = sourceProps[propertyExport.name];
+            }
+        }
+
+        return props;
+    }
+
+    createComponent() {
+        let faceplateInstance = new rs.mimic.FaceplateInstance();
+        faceplateInstance.properties = this.createProperties();
+
+        if (this.faceplate) {
+            this._updateSize(faceplateInstance);
+            this._createBindings(faceplateInstance);
+            this._applyModel(faceplateInstance, null);
+        }
+
+        return faceplateInstance;
+    }
+
+    createComponentFromSource(source) {
+        let faceplateInstance = new rs.mimic.FaceplateInstance();
+        this._copyProperties(faceplateInstance, source);
+
+        if (this.faceplate) {
+            this._applyModel(faceplateInstance, source);
+        }
+
+        return faceplateInstance;
+    }
+};
+
+// Contains factories for mimic components.
+rs.mimic.FactorySet = class FactorySet {
+    static componentFactories = new Map([
+        ["Text", new rs.mimic.TextFactory()],
+        ["Picture", new rs.mimic.PictureFactory()],
+        ["Panel", new rs.mimic.PanelFactory()]
+    ]);
+    static getFaceplateFactory(faceplate) {
+        return new rs.mimic.FaceplateFactory(faceplate);
+    }
+    static getComponentFactory(typeName, faceplateMap) {
+        if (faceplateMap.has(typeName)) {
+            let faceplate = faceplateMap.get(typeName); // can be null
+            return FactorySet.getFaceplateFactory(faceplate);
+        } else {
+            return FactorySet.componentFactories.get(typeName);
+        }
+    }
+};
+
+// Contains classes: Renderer, MimicRenderer, ComponentRenderer, RegularComponentRenderer,
 //     TextRenderer, PictureRenderer, PanelRenderer, RenderContext, RendererSet, UnitedRenderer
-// Depends on jquery, scada-common.js, mimic-common.js
+// Depends on jquery, scada-common.js, modal.js, mimic-common.js, mimic-model.js
 
 // Represents a renderer of a mimic or component.
 rs.mimic.Renderer = class {
-    // Gets a value indocating whether the renderer supports DOM update.
-    get canUpdateDom() {
-        return false;
+    // Sets the background image of the specified jQuery object.
+    _setBackgroundImage(jqObj, image) {
+        jqObj.css("background-image", this._imageToDataUrlCss(image));
+    }
+
+    // Sets the background size of the specified jQuery object.
+    _setBackgroundStretch(jqObj, imageStretch, innerWidth, innerHeight) {
+        const ImageStretch = rs.mimic.ImageStretch;
+        jqObj.css("background-position", "center center");
+
+        switch (imageStretch) {
+            case ImageStretch.NONE:
+                jqObj.css("background-size", "");
+                break;
+
+            case ImageStretch.FILL:
+                jqObj.css("background-size", `${innerWidth}px ${innerHeight}px`);
+                break;
+
+            case ImageStretch.ZOOM:
+                jqObj.css("background-size", "contain");
+                break;
+        }
+    }
+
+    // Sets the border of the specified jQuery object.
+    _setBorder(jqObj, border) {
+        if (border && border.width > 0) {
+            jqObj.css({
+                "border-width": border.width,
+                "border-style": "solid",
+                "border-color": border.color
+            });
+        } else {
+            jqObj.css("border", "");
+        }
+    }
+
+    // Sets the corner radius of the specified jQuery object.
+    _setCornerRadius(jqObj, cornerRadius) {
+        if (cornerRadius) {
+            jqObj.css({
+                "border-top-left-radius": cornerRadius.topLeft,
+                "border-top-right-radius": cornerRadius.topRight,
+                "border-bottom-right-radius": cornerRadius.bottomRight,
+                "border-bottom-left-radius": cornerRadius.bottomLeft
+            });
+        } else {
+            jqObj.css("border-radius", "");
+        }
+    }
+
+    // Sets the font of the specified jQuery object.
+    _setFont(jqObj, font, fontMap) {
+        if (!font || font.inherit) {
+            jqObj.css({
+                "font-family": "",
+                "font-size": "",
+                "font-weight": "",
+                "font-style": "",
+                "text-decoration": "" // not inherited
+            });
+        } else {
+            jqObj.css({
+                "font-family": fontMap?.get(font.name)?.family,
+                "font-size": font.size,
+                "font-weight": font.bold ? "bold" : "normal",
+                "font-style": font.italic ? "italic" : "normal",
+                "text-decoration": font.underline ? "underline" : "none"
+            });
+        }
     }
 
     // Sets the left and top of the specified jQuery object.
@@ -2222,6 +4416,24 @@ rs.mimic.Renderer = class {
         jqObj.css({
             "left": location.x + "px",
             "top": location.y + "px"
+        });
+    }
+
+    // Sets the padding of the specified jQuery object.
+    _setPadding(jqObj, padding) {
+        jqObj.css({
+            "padding-top": padding.top,
+            "padding-right": padding.right,
+            "padding-bottom": padding.bottom,
+            "padding-left": padding.left
+        });
+    }
+
+    // Sets the rotation of the specified jQuery object.
+    _setRotation(jqObj, rotation) {
+        jqObj.css({
+            "transform": `rotate(${rotation}deg)`,
+            "transform-origin": "center"
         });
     }
 
@@ -2233,53 +4445,19 @@ rs.mimic.Renderer = class {
         });
     }
 
-    // Sets the background image of the specified jQuery object.
-    _setBackgroundImage(jqObj, image) {
-        jqObj.css("background-image", this._imageToDataUrlCss(image));
-    }
-
     // Returns a css property value for the image data URI.
     _imageToDataUrlCss(image) {
         return image ? "url('" + image.dataUrl + "')" : "";
     }
 
-    // Creates a component DOM according to the component model. Returns a jQuery object.
+    // Creates a component DOM according to the component model. Returns a jQuery object or null.
     createDom(component, renderContext) {
         return null;
     }
 
-    // Updates the existing component DOM according to the component model.
+    // Updates the existing component DOM according to the component model. Returns a jQuery object or null.
     updateDom(component, renderContext) {
-    }
-
-    // Updates the component view according to the current channel data.
-    update(component, renderContext) {
-    }
-
-    // Sets the location of the component DOM.
-    setLocation(component, x, y) {
-        if (component.dom) {
-            this._setLocation(component.dom, {
-                x: x,
-                y: y
-            });
-        }
-    }
-
-    // Gets the component location from its DOM.
-    getLocation(component) {
-        if (component.dom) {
-            let position = component.dom.position();
-            return {
-                x: parseInt(position.left),
-                y: parseInt(position.top)
-            };
-        } else {
-            return {
-                x: 0,
-                y: 0
-            };
-        }
+        return null;
     }
 
     // Sets the size of the component DOM.
@@ -2296,8 +4474,8 @@ rs.mimic.Renderer = class {
     getSize(component) {
         if (component.dom) {
             return {
-                width: parseInt(component.dom.outerWidth()),
-                height: parseInt(component.dom.outerHeight())
+                width: Number.parseInt(component.dom.outerWidth()),
+                height: Number.parseInt(component.dom.outerHeight())
             };
         } else {
             return {
@@ -2308,33 +4486,31 @@ rs.mimic.Renderer = class {
     }
 
     // Appends the child DOM into the parent DOM.
-    static appendChild(parent, child) {
+    appendChild(parent, child) {
         if (parent.dom && child.dom) {
             parent.dom.append(child.dom);
         }
     }
 
     // Removes the component DOM from the mimic keeping data associated with the removed elements.
-    static detach(component) {
+    detach(component) {
         component.dom?.detach();
     }
 
     // Removes the component DOM from the mimic.
-    static remove(component) {
+    remove(component) {
         component.dom?.remove();
     }
 
-    // Arranges the child components according to their order.
+    // Arranges the child component DOMs according to their order.
     static arrangeChildren(parent) {
-        if (parent.children && parent.dom) {
+        if (parent && parent.children) {
             for (let component of parent.children) {
-                component.dom?.detach();
+                component.renderer?.detach(component);
             }
 
             for (let component of parent.children) {
-                if (component.dom) {
-                    parent.dom.append(component.dom);
-                }
+                parent.renderer?.appendChild(parent, component);
             }
         }
     }
@@ -2344,16 +4520,19 @@ rs.mimic.Renderer = class {
 rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
     static _GRID_COLOR = "#dee2e6"; // gray-300
 
-    get canUpdateDom() {
-        return true;
+    // Checks whether to display grid.
+    static _gridVisible(renderContext) {
+        return renderContext.editMode && renderContext.editorOptions &&
+            renderContext.editorOptions.showGrid && renderContext.editorOptions.gridStep > 1;
     }
 
-    static _createGrid(gridSize, mimicSize) {
+    // Creates a grid canvas and draws grid cells.
+    static _createGrid(gridSize, mimicWidth, mimicHeight) {
         // create canvas
         let canvasElem = $("<canvas class='grid'></canvas>");
         let canvas = canvasElem[0];
-        let width = canvas.width = mimicSize.width;
-        let height = canvas.height = mimicSize.height;
+        let width = canvas.width = mimicWidth;
+        let height = canvas.height = mimicHeight;
 
         // prepare drawing context
         let context = canvas.getContext("2d");
@@ -2366,6 +4545,7 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         return canvasElem;
     }
 
+    // Draws grid cells.
     static _drawGrid(context, width, height, gridStep, dashSegments = []) {
         const adj = 0.5; // adjustment for sharpness of lines
 
@@ -2388,132 +4568,776 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         }
     }
 
-    createDom(mimic, renderContext) {
-        let mimicElem = $("<div class='mimic'></div>");
-        mimic.dom = mimicElem;
+    // Calculates the scale value depending on the scale type and mimic size.
+    static _calcScaleValue(mimic, scale) {
+        const ScaleType = rs.mimic.ScaleType;
 
-        if (renderContext.editMode && renderContext.editorOptions &&
-            renderContext.editorOptions.showGrid && renderContext.editorOptions.gridStep > 1) {
-            mimicElem.append(MimicRenderer._createGrid(renderContext.editorOptions.gridStep, mimic.document.size));
+        if (scale.type === ScaleType.NUMERIC) {
+            if (scale.value >= 0) {
+                return scale.value;
+            }
+        } else {
+            let parentDom = mimic.dom?.parent();
+
+            if (parentDom && mimic.width > 0 && mimic.height > 0) {
+                let areaWidth = parentDom.innerWidth();
+                let horScale = areaWidth / mimic.width;
+
+                if (scale.type === ScaleType.FIT_WIDTH) {
+                    return horScale;
+                } else if (scale.type === ScaleType.FIT_SCREEN) {
+                    let areaHeight = parentDom.innerHeight();
+                    let vertScale = areaHeight / mimic.height;
+                    return Math.min(horScale, vertScale);
+                }
+            }
         }
 
-        this.updateDom(mimic, renderContext);
+        return 1.0;
+    }
+
+    // Adds, replaces or removes a style element in the page head.
+    static _updateStyleElem(stylesheet) {
+        if (stylesheet) {
+            let newStyleElem = $("<style id='mimic-style'></style>").html(stylesheet);
+            let oldStyleElem = $("head").find("#mimic-style");
+
+            if (oldStyleElem.length > 0) {
+                oldStyleElem.replaceWith(newStyleElem);
+            } else {
+                $("head").append(newStyleElem);
+            }
+        } else {
+            $("head").find("#mimic-style").remove();
+        }
+    }
+
+    // Updates a style element according to the stylesheets of the mimic and faceplates.
+    static _setStylesheet(mimic) {
+        let stylesheet = mimic.document.stylesheet;
+
+        for (let faceplate of mimic.faceplates) {
+            stylesheet += faceplate.document.stylesheet;
+        }
+
+        MimicRenderer._updateStyleElem(stylesheet);
+    }
+
+    // Sets the body background color in edit mode.
+    static _setBodyBackColor(mimic, renderContext) {
+        if (!renderContext.editMode) {
+            $("body").css("background-color", mimic.document.backColor);
+        }
+    }
+
+    // Sets the CSS classes of the mimic element.
+    _setClasses(mimicElem, mimic, renderContext) {
+        mimicElem.removeClass(); // clear classes
+        mimicElem.addClass("mimic");
+        let props = mimic.document;
+
+        if (props.cssClass) {
+            mimicElem.addClass(props.cssClass);
+        }
+}
+
+    // Sets the CSS properties of the mimic element.
+    _setProps(mimicElem, mimic, renderContext) {
+        this._setElemProps(mimicElem, mimic.document, mimic.isFaceplate, renderContext);
+    }
+
+    // Sets the CSS properties of the mimic element.
+    _setElemProps(mimicElem, props, isFaceplate, renderContext) {
+        this._setFont(mimicElem, props.font, renderContext.fontMap);
+        this._setSize(mimicElem, props.size);
+
+        if (isFaceplate) {
+            this._setBorder(mimicElem, props.border);
+            this._setCornerRadius(mimicElem, props.cornerRadius);
+        }
+
+        mimicElem
+            .attr("title", props.tooltip)
+            .css({
+                "background-color": props.backColor,
+                "color": props.foreColor
+            });
+
+        if (props.backgroundImage) {
+            let x = props.backgroundPadding.left;
+            let y = props.backgroundPadding.top;
+            let w = props.size.width - x - props.backgroundPadding.right;
+            let h = props.size.height - y - props.backgroundPadding.bottom;
+
+            mimicElem.css({
+                "background-image": this._imageToDataUrlCss(renderContext.getImage(props.backgroundImage)),
+                "background-position": `${x}px ${y}px`,
+                "background-size": `${w}px ${h}px`
+            });
+        } else {
+            mimicElem.css({
+                "background-image": "",
+                "background-position": "",
+                "background-size": ""
+            });
+        }
+    }
+
+    // Creates a mimic DOM according to the mimic model.
+    createDom(mimic, renderContext) {
+        let mimicElem = $("<div></div>");
+        MimicRenderer._setStylesheet(mimic);
+        MimicRenderer._setBodyBackColor(mimic, renderContext);
+
+        if (MimicRenderer._gridVisible(renderContext)) {
+            mimicElem.append(MimicRenderer._createGrid(
+                renderContext.editorOptions.gridStep, mimic.innerWidth, mimic.innerHeight));
+        }
+
+        this._setClasses(mimicElem, mimic, renderContext);
+        this._setProps(mimicElem, mimic, renderContext);
+        mimic.dom = mimicElem;
         return mimicElem;
     }
 
+    // Updates the existing mimic DOM according to the mimic model.
     updateDom(mimic, renderContext) {
+        let mimicElem = mimic.dom;
+        MimicRenderer._setStylesheet(mimic);
+        MimicRenderer._setBodyBackColor(mimic, renderContext);
+
+        if (mimicElem) {
+            if (MimicRenderer._gridVisible(renderContext)) {
+                mimicElem.children(".grid:first").replaceWith(MimicRenderer._createGrid(
+                    renderContext.editorOptions.gridStep, mimic.innerWidth, mimic.innerHeight));
+            }
+
+            this._setClasses(mimicElem, mimic, renderContext);
+            this._setProps(mimicElem, mimic, renderContext);
+        }
+
+        return mimicElem;
+    }
+
+    // Sets the CSS properties of the faceplate element.
+    setFaceplateProps(faceplateElem, document, renderContext) {
+        this._setElemProps(faceplateElem, document, true, renderContext);
+    }
+
+    // Sets the scale of the mimic DOM.
+    setScale(mimic, scale) {
         if (mimic.dom) {
-            let mimicElem = mimic.dom.first();
-            this._setSize(mimicElem, mimic.document.size);
+            let scaleValue = MimicRenderer._calcScaleValue(mimic, scale);
+
+            if (scale.type !== rs.mimic.ScaleType.NUMERIC) {
+                scale.setValue(scaleValue);
+            }
+
+            mimic.dom.css("zoom", scale.value);
         }
     }
 };
 
 // Represents a component renderer.
 rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
-    createDom(component, renderContext) {
-        let componentElem = $("<div class='comp'></div>")
-            .attr("id", "comp" + renderContext.idPrefix + component.id)
-            .attr("data-id", component.id);
+    // Gets a value indicating whether the renderer can update the existing component DOM without recreating it.
+    get canUpdateDom() {
+        return true;
+    }
+
+    // Completes the creation of the component DOM.
+    _completeDom(componentElem, component, renderContext) {
+    }
+
+    // Sets the CSS classes of the component element.
+    _setClasses(componentElem, component, renderContext) {
+        let unchangedClasses = this._keepClasses(componentElem);
+        componentElem.removeClass(); // clear classes
+        componentElem.addClass("comp");
+        componentElem.addClass(unchangedClasses.join(" "));
+        let props = component.properties;
+
+        if (!props.enabled) {
+            componentElem.addClass("disabled-state");
+            componentElem.addClass("disabled"); // Bootstrap class
+        }
+
+        if (!props.visible) {
+            componentElem.addClass("invisible-state");
+        }
+
+        if (this._hasAction(props, renderContext)) {
+            componentElem.addClass("has-action");
+        }
 
         if (renderContext.editMode) {
             if (!renderContext.faceplateMode && component.isContainer) {
-                componentElem.addClass("container")
+                componentElem.addClass("container");
             }
 
             if (component.isSelected) {
-                componentElem.addClass("selected")
+                componentElem.addClass("selected");
             }
         }
+    }
 
+    // Collects classes that should remain unchanged during an update.
+    _keepClasses(componentElem) {
+        let classes = [];
+
+        if (componentElem.hasClass("blink-on")) {
+            classes.push("blink-on");
+        }
+
+        if (componentElem.hasClass("wait-action")) {
+            classes.push("wait-action");
+        }
+
+        return classes;
+    }
+
+    // Sets the CSS properties of the component element.
+    _setProps(componentElem, component, renderContext) {
+        let props = component.properties;
+        this._setLocation(componentElem, props.location);
+        this._setSize(componentElem, props.size);
+    }
+
+    // Binds events to the component element.
+    _bindEvents(componentElem, component, renderContext) {
+        let props = component.properties;
+        componentElem.off(".rs.mimic");
+
+        if (props.enabled && this._hasAction(props, renderContext)) {
+            componentElem.on("click.rs.mimic", () => {
+                this._executeAction(componentElem, component, renderContext);
+            });
+        }
+    }
+
+    // Checks whether an action is set for the component.
+    _hasAction(props, renderContext) {
+        const ActionType = rs.mimic.ActionType;
+        return !renderContext.editMode && props.enabled &&
+            props.clickAction.actionType !== ActionType.NONE &&
+            (props.clickAction.actionType !== ActionType.SEND_COMMAND || renderContext.controlRight);
+    }
+
+    // Executes a component action.
+    _executeAction(componentElem, component, renderContext) {
+        const ActionType = rs.mimic.ActionType;
+        const ActionScriptArgs = rs.mimic.ActionScriptArgs;
+        const LinkTarget = rs.mimic.LinkTarget;
+        let props = component.properties;
+        let action = props.clickAction;
+
+        if (!renderContext.viewHub) {
+            console.error("View hub is undefined.");
+            return;
+        }
+
+        if (!renderContext.mainApi) {
+            console.error("Main API is undefined.");
+            return;
+        }
+
+        switch (action.actionType) {
+            case ActionType.DRAW_CHART:
+                if (props.inCnlNum > 0) {
+                    renderContext.viewHub.features.chart.show(props.inCnlNum, null, action.chartArgs);
+                } else {
+                    console.warn("Input channel not specified.");
+                }
+                break;
+
+            case ActionType.SEND_COMMAND:
+                if (props.outCnlNum > 0) {
+                    if (action.commandArgs.showDialog) {
+                        renderContext.viewHub.features.command.show(props.outCnlNum);
+                    } else {
+                        this._showWait(componentElem);
+                        let cmdVal = this._getCommandValue(component, action.commandArgs.cmdVal);
+
+                        if (Number.isFinite(cmdVal)) {
+                            console.log(`Send command ${cmdVal} to channel ${props.outCnlNum}`);
+                            renderContext.mainApi.sendCommand(props.outCnlNum, cmdVal, false, null);
+                        } else {
+                            console.warn("Command cancelled.");
+                        }
+                    }
+                } else {
+                    console.warn("Output channel not specified.");
+                }
+                break;
+
+            case ActionType.OPEN_LINK:
+                let url;
+
+                if (action.linkArgs.viewID > 0) {
+                    url = renderContext.viewHub.getViewUrl(action.linkArgs.viewID,
+                        action.linkArgs.target === LinkTarget.NEW_MODAL);
+                } else if (action.linkArgs.urlParams.enabled) {
+                    url = ScadaUtils.formatString(action.linkArgs.url, ...action.linkArgs.urlParams.toArray());
+                } else {
+                    url = action.linkArgs.url;
+                }
+
+                if (url) {
+                    switch (action.linkArgs.target) {
+                        case LinkTarget.SELF:
+                            window.top.location = url;
+                            break;
+                        case LinkTarget.NEW_TAB:
+                            window.open(url);
+                            break;
+                        case LinkTarget.NEW_MODAL:
+                            renderContext.viewHub.modalManager.showModal(url, new ModalOptions({
+                                size: action.linkArgs.getModalSize(),
+                                height: action.linkArgs.modalHeight
+                            }));
+                            break;
+                    }
+                } else {
+                    console.warn("URL is undefined.");
+                }
+
+                break;
+
+            case ActionType.EXECUTE_SCRIPT:
+                if (action.script) {
+                    try {
+                        let actionFunc = new Function("args", `const fn = ${action.script}; return fn(args);`);
+                        actionFunc(new ActionScriptArgs({ component, renderContext }));
+                    } catch (ex) {
+                        console.error("Error executing action script: " + ex.message);
+                    }
+                } else {
+                    console.warn("Script is undefined.");
+                }
+                break;
+        }
+    }
+
+    // Shows a wait cursor over the component.
+    _showWait(componentElem) {
+        const WAIT_DURATION = 1000;
+        componentElem.addClass("wait-action");
+        setTimeout(() => { componentElem.removeClass("wait-action"); }, WAIT_DURATION);
+    }
+
+    // Gets a command value for the component action.
+    _getCommandValue(component, defaultValue) {
+        try {
+            let cmdVal = component.getCommandValue();
+            return Number.isFinite(cmdVal) ? cmdVal : defaultValue;
+        } catch (ex) {
+            console.error("Error getting command value: " + ex.message);
+            return Number.NaN;
+        }
+    }
+
+    // Sets the component colors and text decoration to the specified ones.
+    _setVisualState(componentElem, visualState) {
+        if (visualState.backColor) {
+            componentElem.css("background-color", visualState.backColor);
+        }
+
+        if (visualState.foreColor) {
+            componentElem.css("color", visualState.foreColor);
+        }
+
+        if (visualState.borderColor) {
+            componentElem.css("border-color", visualState.borderColor);
+        }
+
+        if (visualState.underline) {
+            componentElem.css("text-decoration", "underline");
+        }
+    }
+
+    // Sets the component colors and text decoration based on its properties.
+    _setOriginalState(componentElem, props) {
+        componentElem.css({
+            "background-color": props.backColor,
+            "color": props.foreColor,
+            "border-color": props.border.color,
+            "text-decoration": props.font.inherit ? "" : (props.font.underline ? "underline" : "none")
+        });
+    }
+
+    // Sets the component colors and text decoration according to its actual state.
+    _restoreVisualState(componentElem, props) {
+        let isBlinking = props.blinkingState.isSet && componentElem.hasClass("blink-on");
+        let isHovered = props.hoverState.isSet && componentElem.is(":hover");
+
+        if (isBlinking) {
+            this._setVisualState(componentElem, props.blinkingState);
+        } else if (isHovered) {
+            this._setVisualState(componentElem, props.hoverState);
+        } else {
+            this._setOriginalState(componentElem, props);
+        }
+    }
+
+    // Binds the visual state events of the component.
+    _bindVisualStates(componentElem, props) {
+        const EventType = rs.mimic.EventType;
+
+        if (props.blinkingState.isSet) {
+            componentElem
+                .on(EventType.BLINK_ON, () => { this._setVisualState(componentElem, props.blinkingState); })
+                .on(EventType.BLINK_OFF, () => { this._restoreVisualState(componentElem, props); });
+        }
+
+        if (props.hoverState.isSet) {
+            componentElem
+                .on("mouseenter.rs.mimic", () => { this._setVisualState(componentElem, props.hoverState); })
+                .on("mouseleave.rs.mimic", () => { this._restoreVisualState(componentElem, props); });
+        }
+    }
+
+    // Creates a component DOM according to the component model.
+    createDom(component, renderContext) {
+        let componentElem = $("<div></div>")
+            .attr("id", "comp" + renderContext.idPrefix + component.id)
+            .attr("data-id", component.id)
+            .attr("data-name", component.properties.name);
+        this._completeDom(componentElem, component, renderContext);
+        this._setClasses(componentElem, component, renderContext);
+        this._setProps(componentElem, component, renderContext);
+        this._bindEvents(componentElem, component, renderContext);
         component.dom = componentElem;
         return componentElem;
     }
 
+    // Updates the existing component DOM according to the component model.
+    updateDom(component, renderContext) {
+        let componentElem = component.dom;
+
+        if (componentElem) {
+            this._setClasses(componentElem, component, renderContext);
+            this._setProps(componentElem, component, renderContext);
+            this._bindEvents(componentElem, component, renderContext);
+        }
+
+        return componentElem;
+    }
+
+    // Sets the location of the component DOM without changing the component model.
+    setLocation(component, x, y) {
+        if (component.dom) {
+            this._setLocation(component.dom, {
+                x: x,
+                y: y
+            });
+        }
+    }
+
+    // Gets the component location from its DOM.
+    getLocation(component) {
+        if (component.dom) {
+            let position = component.dom.position();
+            return {
+                x: Number.parseInt(position.left),
+                y: Number.parseInt(position.top)
+            };
+        } else {
+            return {
+                x: 0,
+                y: 0
+            };
+        }
+    }
+
+    // Updates the location of the component DOM according to the component model.
     updateLocation(component) {
         if (component.dom) {
             this._setLocation(component.dom, component.properties.location);
         }
     }
 
+    // Visually selects or deselects the component.
     updateSelected(component) {
         if (component.dom) {
             component.dom.toggleClass("selected", component.isSelected);
         }
     }
 
+    // Gets a value indicating whether the component can be resized by a user.
     allowResizing(component) {
         return true;
     }
 };
 
-// Represents a text component renderer.
-rs.mimic.TextRenderer = class extends rs.mimic.ComponentRenderer {
-    createDom(component, renderContext) {
-        let textElem = super.createDom(component, renderContext);
+// Represents a renderer for regular non-faceplate components.
+rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
+    _setClasses(componentElem, component, renderContext) {
+        super._setClasses(componentElem, component, renderContext);
         let props = component.properties;
-        textElem.addClass("text").text(props.text);
-        this._setLocation(textElem, props.location);
-        this._setSize(textElem, props.size);
-        return textElem;
+
+        if (props.cssClass) {
+            componentElem.addClass(props.cssClass);
+        }
+    }
+
+    _setProps(componentElem, component, renderContext) {
+        super._setProps(componentElem, component, renderContext);
+        let props = component.properties;
+        this._setBorder(componentElem, props.border);
+        this._setCornerRadius(componentElem, props.cornerRadius);
+        this._setFont(componentElem, props.font, renderContext.fontMap);
+        componentElem.attr("title", props.tooltip);
+
+        if (props.enabled) {
+            this._restoreVisualState(componentElem, props);
+        } else {
+            this._setVisualState(componentElem, props.disabledState);
+        }
+
+        if (renderContext.editMode) {
+            componentElem.css("--border-width", -props.border.width + "px");
+        }
+    }
+
+    _bindEvents(componentElem, component, renderContext) {
+        super._bindEvents(componentElem, component, renderContext);
+        let props = component.properties;
+
+        if (props.enabled) {
+            this._bindVisualStates(componentElem, component.properties);
+        }
+    }
+};
+
+// Represents a text component renderer.
+rs.mimic.TextRenderer = class extends rs.mimic.RegularComponentRenderer {
+    _completeDom(componentElem, component, renderContext) {
+        $("<div class='text-content'></div>").appendTo(componentElem);
+    }
+
+    _setClasses(componentElem, component, renderContext) {
+        super._setClasses(componentElem, component, renderContext);
+        componentElem.addClass("text");
+    }
+
+    _setProps(componentElem, component, renderContext) {
+        super._setProps(componentElem, component, renderContext);
+        let contentElem = componentElem.find(".text-content:first");
+        let props = component.properties;
+        this._setPadding(contentElem, props.padding);
+        this._setTextDirection(contentElem, props.textDirection);
+        contentElem.text(props.text || props.inCnlNum <= 0 ? props.text : `[${props.inCnlNum}]`);
+
+        if (props.autoSize) {
+            componentElem.css({
+                "width": "",
+                "height": ""
+            });
+
+            contentElem.css({
+                "display": "inline",
+                "white-space": "nowrap",
+                "width": "",
+                "height": ""
+            });
+        } else {
+            contentElem
+                .css({
+                    "display": "flex",
+                    "white-space": props.wordWrap ? "normal" : "nowrap",
+                    "width": "100%",
+                    "height": "100%"
+                });
+            this._setTextAlign(contentElem, props.textAlign);
+        }
+    }
+
+    _setTextAlign(jqObj, contentAlignment) {
+        const ContentAlignment = rs.mimic.ContentAlignment;
+
+        switch (contentAlignment) {
+            case ContentAlignment.TOP_LEFT:
+                jqObj.css({
+                    "align-items": "flex-start",
+                    "justify-content": "flex-start",
+                    "text-align": "left"
+                });
+                break;
+
+            case ContentAlignment.TOP_CENTER:
+                jqObj.css({
+                    "align-items": "flex-start",
+                    "justify-content": "center",
+                    "text-align": "center"
+                });
+                break;
+
+            case ContentAlignment.TOP_RIGHT:
+                jqObj.css({
+                    "align-items": "flex-start",
+                    "justify-content": "flex-end",
+                    "text-align": "right"
+                });
+                break;
+
+            case ContentAlignment.MIDDLE_LEFT:
+                jqObj.css({
+                    "align-items": "center",
+                    "justify-content": "flex-start",
+                    "text-align": "left"
+                });
+                break;
+
+            case ContentAlignment.MIDDLE_CENTER:
+                jqObj.css({
+                    "align-items": "center",
+                    "justify-content": "center",
+                    "text-align": "center"
+                });
+                break;
+
+            case ContentAlignment.MIDDLE_RIGHT:
+                jqObj.css({
+                    "align-items": "center",
+                    "justify-content": "flex-end",
+                    "text-align": "right"
+                });
+                break;
+
+            case ContentAlignment.BOTTOM_LEFT:
+                jqObj.css({
+                    "align-items": "flex-end",
+                    "justify-content": "flex-start",
+                    "text-align": "left"
+                });
+                break;
+
+            case ContentAlignment.BOTTOM_CENTER:
+                jqObj.css({
+                    "align-items": "flex-end",
+                    "justify-content": "center",
+                    "text-align": "center"
+                });
+                break;
+
+            case ContentAlignment.BOTTOM_RIGHT:
+                jqObj.css({
+                    "align-items": "flex-end",
+                    "justify-content": "flex-end",
+                    "text-align": "right"
+                });
+                break;
+
+            default:
+                jqObj.css({
+                    "align-items": "",
+                    "justify-content": "",
+                    "text-align": ""
+                });
+                break;
+        }
+    }
+
+    _setTextDirection(jqObj, textDirection) {
+        const TextDirection = rs.mimic.TextDirection;
+
+        switch (textDirection) {
+            case TextDirection.VERTICAL90:
+                jqObj.css("writing-mode", "vertical-rl");
+                break;
+
+            case TextDirection.VERTICAL270:
+                jqObj.css("writing-mode", "sideways-lr");
+                break;
+
+            default:
+                jqObj.css("writing-mode", "");
+                break;
+        }
+    }
+
+    allowResizing(component) {
+        return !component.properties.autoSize;
     }
 };
 
 // Represents a picture component renderer.
-rs.mimic.PictureRenderer = class extends rs.mimic.ComponentRenderer {
-    createDom(component, renderContext) {
-        let pictureElem = super.createDom(component, renderContext);
+rs.mimic.PictureRenderer = class extends rs.mimic.RegularComponentRenderer {
+    _completeDom(componentElem, component, renderContext) {
+        componentElem.append("<div class='picture-content'></div>");
+    }
+
+    _setClasses(componentElem, component, renderContext) {
+        super._setClasses(componentElem, component, renderContext);
+        componentElem.addClass("picture");
+
+        if (renderContext.editMode && !component.properties.imageName) {
+            componentElem.addClass("blank");
+        }
+    }
+
+    _setProps(componentElem, component, renderContext) {
+        super._setProps(componentElem, component, renderContext);
+        let contentElem = componentElem.find(".picture-content:first");
         let props = component.properties;
-        pictureElem.addClass("picture");
-        this._setLocation(pictureElem, props.location);
-        this._setSize(pictureElem, props.size);
-        this._setBackgroundImage(pictureElem, renderContext.getImage(props.imageName));
-        return pictureElem;
+        this._setPadding(componentElem, props.padding);
+        this._setBackgroundImage(contentElem, renderContext.getImage(props.imageName));
+        this._setBackgroundStretch(contentElem, props.imageStretch, component.innerWidth, component.innerHeight);
+        this._setRotation(contentElem, props.rotation);
     }
 };
 
 // Represents a panel component renderer.
-rs.mimic.PanelRenderer = class extends rs.mimic.ComponentRenderer {
-    get canUpdateDom() {
-        return true;
-    }
+rs.mimic.PanelRenderer = class extends rs.mimic.RegularComponentRenderer {
+    _setClasses(componentElem, component, renderContext) {
+        super._setClasses(componentElem, component, renderContext);
+        componentElem.addClass("panel");
 
-    createDom(component, renderContext) {
-        let panelElem = super.createDom(component, renderContext);
-        panelElem.addClass("panel");
-        this.updateDom(component, renderContext);
-        return panelElem;
-    }
-
-    updateDom(component, renderContext) {
-        if (component.dom) {
-            let panelElem = component.dom.first();
-            let props = component.properties;
-            this._setLocation(panelElem, props.location);
-            this._setSize(panelElem, props.size);
+        if (renderContext.editMode && component.properties.border.width <= 0) {
+            componentElem.addClass("fiction-border");
         }
     }
 };
 
 // Represents a faceplate renderer.
 rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
-    get canUpdateDom() {
-        return true;
+    _setClasses(componentElem, component, renderContext) {
+        super._setClasses(componentElem, component, renderContext);
+        componentElem.addClass("faceplate");
+        let doc = component.document;
+
+        if (doc?.cssClass) {
+            componentElem.addClass(doc.cssClass);
+        }
     }
 
-    createDom(component, renderContext) {
-        let faceplateElem = super.createDom(component, renderContext);
-        faceplateElem.addClass("faceplate");
-        this.updateDom(component, renderContext);
-        return faceplateElem;
+    _setProps(componentElem, component, renderContext) {
+        super._setProps(componentElem, component, renderContext);
+        let props = component.properties;
+        let doc = component.document;
+        let borderWidth = 0;
+
+        if (doc) {
+            rs.mimic.RendererSet.mimicRenderer.setFaceplateProps(componentElem, doc, renderContext);
+            borderWidth = doc.border.width;
+
+            if (props.enabled) {
+                this._restoreVisualState(componentElem, doc);
+            } else {
+                this._setVisualState(componentElem, doc.disabledState);
+            }
+        }
+
+        if (renderContext.editMode) {
+            componentElem.css("--border-width", -borderWidth + "px");
+        }
     }
 
-    updateDom(component, renderContext) {
-        if (component.dom) {
-            let faceplateElem = component.dom.first();
-            let props = component.properties;
-            this._setLocation(faceplateElem, props.location);
-            this._setSize(faceplateElem, props.size);
+    _bindEvents(componentElem, component, renderContext) {
+        super._bindEvents(componentElem, component, renderContext);
+
+        if (component.document && component.properties.enabled) {
+            this._bindVisualStates(componentElem, component.document);
         }
     }
 };
@@ -2521,9 +5345,13 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
 // Encapsulates information about a rendering operation.
 rs.mimic.RenderContext = class {
     editMode = false;
+    viewHub = null;
+    mainApi = null;
+    fontMap = null;
     editorOptions = null;
-    faceplateMode = false;
+    controlRight = false;
     imageMap = null;
+    faceplateMode = false;
     idPrefix = "";
     unknownTypes = null;
 
@@ -2551,18 +5379,55 @@ rs.mimic.RendererSet = class {
 rs.mimic.UnitedRenderer = class {
     mimic;
     editMode;
-    editorOptions;
+    viewHub = null;
+    mainApi = null;
+    fontMap = null;
+    editorOptions = null;
+    controlRight = false;
 
     constructor(mimic, editMode) {
+        if (mimic == null) {
+            throw new Error("Mimic must not be null.");
+        }
+
         this.mimic = mimic;
         this.editMode = editMode;
-        this.editorOptions = null;
+    }
+
+    // Creates a render context for regular components.
+    _createRenderContext(opt_withUnknownTypes) {
+        return new rs.mimic.RenderContext({
+            editMode: this.editMode,
+            viewHub: this.viewHub,
+            mainApi: this.mainApi,
+            fontMap: this.fontMap,
+            editorOptions: this.editorOptions,
+            controlRight: this.controlRight,
+            imageMap: this.mimic.imageMap,
+            unknownTypes: opt_withUnknownTypes ? new Set() : null
+        });
+    }
+
+    // Creates a render context for the faceplate.
+    _createFaceplateContext(faceplateInstance, renderContext) {
+        return new rs.mimic.RenderContext({
+            editMode: this.editMode,
+            viewHub: this.viewHub,
+            mainApi: this.mainApi,
+            fontMap: this.fontMap,
+            editorOptions: this.editorOptions,
+            controlRight: this.controlRight,
+            faceplateMode: true,
+            imageMap: faceplateInstance.model?.imageMap,
+            idPrefix: renderContext.idPrefix,
+            unknownTypes: renderContext.unknownTypes
+        });
     }
 
     // Appends the component DOM to its parent.
     _appendToParent(component) {
-        if (component.parent) {
-            rs.mimic.Renderer.appendChild(component.parent, component);
+        if (component.parent?.renderer) {
+            component.parent.renderer.appendChild(component.parent, component);
         }
     }
 
@@ -2576,6 +5441,7 @@ rs.mimic.UnitedRenderer = class {
             if (renderer) {
                 component.renderer = renderer;
                 renderer.createDom(component, renderContext);
+                this._execDomCreated(component, renderContext);
                 this._appendToParent(component);
             } else {
                 renderContext.unknownTypes?.add(component.typeName);
@@ -2590,37 +5456,108 @@ rs.mimic.UnitedRenderer = class {
             return;
         }
 
-        let faceplateContext = new rs.mimic.RenderContext({
-            editMode: this.editMode,
-            editorOptions: this.editorOptions,
-            faceplateMode: true,
-            imageMap: faceplateInstance.model.imageMap,
-            idPrefix: renderContext.idPrefix,
-            unknownTypes: renderContext.unknownTypes
-        });
+        let faceplateContext = this._createFaceplateContext(faceplateInstance, renderContext);
         let renderer = rs.mimic.RendererSet.faceplateRenderer;
         faceplateInstance.renderer = renderer;
         renderer.createDom(faceplateInstance, faceplateContext);
-        this._appendToParent(faceplateInstance);
         faceplateContext.idPrefix += faceplateInstance.id + "-";
 
         for (let component of faceplateInstance.components) {
             this._createComponentDom(component, faceplateContext);
         }
+
+        this._execDomCreated(faceplateInstance, faceplateContext);
+        this._appendToParent(faceplateInstance);
+    }
+
+    // Updates the component DOM.
+    _updateComponentDom(component, renderContext) {
+        if (component.dom && component.renderer) {
+            if (component.isFaceplate) {
+                this._updateFaceplateDom(component, renderContext);
+            } else {
+                if (component.renderer.canUpdateDom) {
+                    component.renderer.updateDom(component, renderContext);
+                } else {
+                    let oldDom = component.dom;
+                    component.renderer.createDom(component, renderContext);
+                    oldDom.replaceWith(component.dom);
+                }
+
+                this._execDomUpdated(component, renderContext);
+            }
+        }
+    }
+
+    // Updates the faceplate DOM.
+    _updateFaceplateDom(faceplateInstance, renderContext) {
+        if (faceplateInstance.model && faceplateInstance.dom && faceplateInstance.renderer) {
+            let faceplateContext = this._createFaceplateContext(faceplateInstance, renderContext);
+            faceplateInstance.renderer.updateDom(faceplateInstance, faceplateContext);
+            faceplateContext.idPrefix += faceplateInstance.id + "-";
+
+            for (let component of faceplateInstance.components) {
+                this._updateComponentDom(component, faceplateContext);
+            }
+
+            this._execDomUpdated(faceplateInstance, faceplateContext);
+        }
+    }
+
+    // Executes 'domCreated' script for the mimic or component.
+    _execDomCreated(target, renderContext) {
+        try {
+            target.onDomCreated(renderContext);
+        } catch (ex) {
+            console.error(`Error executing 'domCreated' script for ${target.toString()}: ${ex.message}`);
+        }
+    }
+
+    // Executes 'domUpdated' script for the mimic or component.
+    _execDomUpdated(target, renderContext) {
+        try {
+            target.onDomUpdated(renderContext);
+        } catch (ex) {
+            console.error(`Error executing 'domUpdated' script for ${target.toString()}: ${ex.message}`);
+        }
+    }
+
+    // Executes 'dataUpdated' script for the mimic or component.
+    _execDataUpdated(target, dataProvider) {
+        try {
+            return target.onDataUpdated(dataProvider);
+        } catch (ex) {
+            console.error(`Error executing 'dataUpdated' script for ${target.toString()}: ${ex.message}`);
+            return false;
+        }
+    }
+
+    // Configures the renderer.
+    configure({
+        viewHub = null,
+        mainApi = null,
+        fonts = null,
+        editorOptions = null,
+        controlRight = false
+    }) {
+        this.viewHub = viewHub;
+        this.mainApi = mainApi;
+        this.fontMap = Array.isArray(fonts) ? new Map(fonts.map(font => [font.name, font])) : null;
+        this.editorOptions = editorOptions;
+        this.controlRight = controlRight;
     }
 
     // Creates a mimic DOM according to the mimic model. Returns a jQuery object.
     createMimicDom() {
         let startTime = Date.now();
-        let renderContext = new rs.mimic.RenderContext({
-            editMode: this.editMode,
-            editorOptions: this.editorOptions,
-            imageMap: this.mimic.imageMap,
-            unknownTypes: new Set()
-        });
+        let renderContext = this._createRenderContext(true);
         let renderer = rs.mimic.RendererSet.mimicRenderer;
         this.mimic.renderer = renderer;
         renderer.createDom(this.mimic, renderContext);
+
+        if (!mimic.isFaceplate) {
+            this._execDomCreated(this.mimic, renderContext);
+        }
 
         for (let component of this.mimic.components) {
             this._createComponentDom(component, renderContext);
@@ -2635,65 +5572,56 @@ rs.mimic.UnitedRenderer = class {
             console.info("Mimic DOM created in " + (Date.now() - startTime) + " ms");
             return this.mimic.dom;
         } else {
+            console.warn("Unable to create mimic DOM");
             return $();
         }
     }
 
     // Updates a mimic DOM according to the mimic model.
     updateMimicDom() {
-        rs.mimic.RendererSet.mimicRenderer.updateDom(this.mimic);
+        let renderContext = this._createRenderContext();
+        rs.mimic.RendererSet.mimicRenderer.updateDom(this.mimic, renderContext);
+
+        if (!mimic.isFaceplate) {
+            this._execDomUpdated(this.mimic, renderContext);
+        }
     }
 
     // Creates a component DOM according to the component model. Returns a jQuery object.
     createComponentDom(component) {
-        this._createComponentDom(component, new rs.mimic.RenderContext({
-            editMode: this.editMode,
-            editorOptions: this.editorOptions,
-            imageMap: this.mimic.imageMap
-        }));
+        this._createComponentDom(component, this._createRenderContext());
         return component.dom ?? $();
     }
 
     // Updates the component DOM according to the component model.
     updateComponentDom(component) {
-        if (component.dom && component.renderer) {
-            let renderContext = new rs.mimic.RenderContext({
-                editMode: this.editMode,
-                editorOptions: this.editorOptions
-            });
-
-            if (component.isFaceplate) {
-                renderContext.faceplateMode = true;
-                renderContext.imageMap = component.model.imageMap;
-                component.renderer.updateDom(component, renderContext);
-            } else {
-                renderContext.imageMap = mimic.imageMap;
-
-                if (component.renderer.canUpdateDom) {
-                    component.renderer.updateDom(component, renderContext);
-                } else {
-                    let oldDom = component.dom;
-                    component.renderer.createDom(component, renderContext);
-                    oldDom.replaceWith(component.dom);
-                }
-            }
-        }
+        this._updateComponentDom(component, this._createRenderContext());
     }
 
-    // Arranges the child component DOMs according to the parent's model.
-    arrangeChildren(parent) {
-        if (parent.children) {
-            // detach components
-            for (let component of parent.children) {
-                if (component.dom) {
-                    component.dom.detach();
-                }
-            }
+    // Updates the components according to the current data.
+    updateData(dataProvider) {
+        let renderContext = this._createRenderContext();
 
-            // append components
-            for (let component of parent.children) {
-                this._appendToParent(component);
+        for (let component of this.mimic.components) {
+            try {
+                let updateDomNeeded = false;
+
+                if (component.updateData(dataProvider)) {
+                    updateDomNeeded = true;
+                }
+
+                if (this._execDataUpdated(component, dataProvider)) {
+                    updateDomNeeded = true;
+                }
+
+                if (updateDomNeeded) {
+                    this._updateComponentDom(component, renderContext);
+                }
+            } catch (ex) {
+                console.error(`Error updating component ${component.id}: ${ex.message}`);
             }
         }
+
+        this._execDataUpdated(this.mimic, dataProvider);
     }
 };

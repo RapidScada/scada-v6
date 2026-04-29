@@ -57,7 +57,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
             }
 
             // create channels for subscriptions
-            List<CnlPrototype> cnlPrototypes = new();
+            List<CnlPrototype> cnlPrototypes = [];
             int tagNum = 1;
             int eventMask = new EventMask { Enabled = true, StatusChange = true, Command = true }.Value;
             int cmdEventMask = new EventMask { Enabled = true, Command = true }.Value;
@@ -107,12 +107,21 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
                     EventMask = cmdEventMask
                 };
 
-                if (commandConfig.IsMethod)
+                if (commandConfig is WriteItemCommandConfig cmdConfig)
+                {
+                    if (DriverUtils.DataTypeEquals(cmdConfig.DataTypeName, typeof(string)))
+                        cnl.FormatCode = FormatCode.String;
+                    else if (DriverUtils.DataTypeEquals(cmdConfig.DataTypeName, typeof(DateTime)))
+                        cnl.FormatCode = FormatCode.DateTime;
+                }
+                else if (commandConfig is CallMethodCommandConfig)
+                {
                     cnl.FormatCode = FormatCode.Execute;
-                else if (DriverUtils.DataTypeEquals(commandConfig.DataTypeName, typeof(string)))
+                }
+                else if (commandConfig is ReadHistoryCommandConfig)
+                {
                     cnl.FormatCode = FormatCode.String;
-                else if (DriverUtils.DataTypeEquals(commandConfig.DataTypeName, typeof(DateTime)))
-                    cnl.FormatCode = FormatCode.DateTime;
+                }
 
                 cnlPrototypes.Add(cnl);
             }

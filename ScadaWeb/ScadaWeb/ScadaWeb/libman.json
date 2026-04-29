@@ -3,7 +3,8 @@
   "defaultProvider": "unpkg",
   "libraries": [
     {
-      "library": "bootstrap@5.3.2",
+      "provider": "unpkg",
+      "library": "bootstrap@5.3.7",
       "destination": "wwwroot/lib/bootstrap/",
       "files": [
         "dist/css/bootstrap-grid.css",
@@ -52,11 +53,13 @@
         "dist/js/bootstrap.min.js.map",
         "scss/_functions.scss",
         "scss/_variables.scss",
+        "scss/_variables-dark.scss",
         "LICENSE"
       ]
     },
     {
-      "library": "jquery@3.7.0",
+      "provider": "unpkg",
+      "library": "jquery@3.7.1",
       "destination": "wwwroot/lib/jquery/",
       "files": [
         "LICENSE.txt",
@@ -67,7 +70,7 @@
     },
     {
       "provider": "cdnjs",
-      "library": "font-awesome@6.5.2",
+      "library": "font-awesome@6.7.2",
       "destination": "wwwroot/lib/font-awesome/",
       "files": [
         "css/all.css",
@@ -83,7 +86,8 @@
       ]
     },
     {
-      "library": "pdfmake@0.2.7",
+      "provider": "unpkg",
+      "library": "pdfmake@0.2.20",
       "destination": "wwwroot/lib/pdfmake/",
       "files": [
         "LICENSE",
@@ -95,6 +99,7 @@
       ]
     },
     {
+      "provider": "unpkg",
       "library": "hammerjs@2.0.8",
       "destination": "wwwroot/lib/hammerjs/",
       "files": [

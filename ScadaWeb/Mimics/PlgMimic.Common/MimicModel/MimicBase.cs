@@ -12,8 +12,10 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     /// </summary>
     public abstract class MimicBase : IContainer
     {
-        private string rootElemName = "Mimic"; // the XML root element name
-
+        /// <summary>
+        /// Gets or sets the XML root element name.
+        /// </summary>
+        protected string RootElemName { get; set; } = RootElement.Mimic;
 
         /// <summary>
         /// Gets the dependencies on the faceplates sorted by type name.
@@ -44,7 +46,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Loads the mimic from the XML node.
         /// </summary>
-        protected void LoadFromXml(XmlElement rootElem)
+        protected void LoadFromXml(XmlElement rootElem, LoadContext loadContext)
         {
             if (rootElem.SelectSingleNode("Dependencies") is XmlNode dependenciesNode)
             {
@@ -62,21 +64,21 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 
             if (rootElem.SelectSingleNode("Document") is XmlNode documentNode)
             {
-                foreach (XmlNode childNode in documentNode.ChildNodes)
+                foreach (XmlElement childElem in documentNode.ChildNodes.OfType<XmlElement>())
                 {
-                    Document.LoadProperty(childNode);
+                    Document.LoadProperty(childElem);
                 }
             }
 
             if (rootElem.SelectSingleNode("Components") is XmlNode componentsNode)
             {
-                HashSet<int> componentIDs = [];
+                loadContext.ComponentIDs.Clear();
 
                 foreach (XmlNode childNode in componentsNode.ChildNodes)
                 {
                     Component component = new();
 
-                    if (component.LoadFromXml(childNode, componentIDs))
+                    if (component.LoadFromXml(childNode, loadContext))
                     {
                         component.Parent = this;
                         Components.Add(component);
@@ -119,7 +121,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                 faceplateMeta.SaveToXml(dependenciesElem.AppendElem("Faceplate"));
             }
 
-            foreach (KeyValuePair<string, object> kvp in Document)
+            foreach (KeyValuePair<string, object> kvp in Document.OrderBy(p => p.Key))
             {
                 ExpandoExtensions.SaveProperty(documentElem, kvp.Key, kvp.Value);
             }
@@ -142,14 +144,15 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Loads the mimic diagram.
         /// </summary>
-        public virtual void Load(Stream stream)
+        public virtual void Load(Stream stream, LoadContext loadContext)
         {
             ArgumentNullException.ThrowIfNull(stream, nameof(stream));
+            ArgumentNullException.ThrowIfNull(loadContext, nameof(loadContext));
 
             XmlDocument xmlDoc = new();
             xmlDoc.Load(stream);
-            rootElemName = xmlDoc.DocumentElement.Name;
-            LoadFromXml(xmlDoc.DocumentElement);
+            RootElemName = xmlDoc.DocumentElement.Name;
+            LoadFromXml(xmlDoc.DocumentElement, loadContext);
         }
 
         /// <summary>
@@ -163,11 +166,38 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
             xmlDoc.AppendChild(xmlDecl);
 
-            XmlElement rootElem = xmlDoc.CreateElement(rootElemName);
+            XmlElement rootElem = xmlDoc.CreateElement(RootElemName);
             xmlDoc.AppendChild(rootElem);
             SaveToXml(rootElem);
 
             xmlDoc.Save(stream);
+        }
+
+        /// <summary>
+        /// Clears the mimic diagram.
+        /// </summary>
+        public virtual void Clear()
+        {
+            Dependencies.Clear();
+            Document.RemoveAll();
+            Components.Clear();
+            Images.Clear();
+        }
+
+        /// <summary>
+        /// Enumerates the components recursively.
+        /// </summary>
+        public IEnumerable<Component> EnumerateComponents()
+        {
+            foreach (Component component in Components)
+            {
+                yield return component;
+
+                foreach (Component childComponent in component.GetAllChildren())
+                {
+                    yield return childComponent;
+                }
+            }
         }
     }
 }

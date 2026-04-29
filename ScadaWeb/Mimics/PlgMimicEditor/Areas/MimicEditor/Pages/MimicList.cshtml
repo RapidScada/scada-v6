@@ -1,6 +1,5 @@
 ﻿@page
 @model MimicListModel
-@inject EditorManager editorManager
 @{
     Layout = "_MainLayout";
     dynamic dict = Locale.GetDictionary(Model.GetType().FullName);
@@ -9,14 +8,15 @@
 
 <h1>@dict.PageTitle</h1>
 
+@if (Model.HasError)
+{
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <div>@Model.ErrorMessage</div>
+    </div>
+}
+
 <form method="post">
-    @if (Model.HasError)
-    {
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            <div>@Model.ErrorMessage</div>
-        </div>
-    }
     <div class="card mb-3">
         <h5 class="card-header">@dict.OpenMimicHeader</h5>
         <div class="card-body">
@@ -28,12 +28,11 @@
     </div>
 </form>
 
-@{ var mimicGroups = editorManager.GetMimicGroups(); }
-@if (mimicGroups.Length > 0)
+@if (Model.MimicGroups.Length > 0)
 {
     <h2>@dict.ActiveMimicsHeader</h2>
 
-    foreach (var mimicGroup in mimicGroups)
+    foreach (var mimicGroup in Model.MimicGroups)
     {
         <div class="card mb-3">
             <h5 class="card-header">@mimicGroup.Name</h5>

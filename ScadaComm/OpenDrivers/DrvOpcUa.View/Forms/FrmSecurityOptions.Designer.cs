@@ -28,170 +28,170 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblSecurityMode = new System.Windows.Forms.Label();
-            this.cbSecurityMode = new System.Windows.Forms.ComboBox();
-            this.cbSecurityPolicy = new System.Windows.Forms.ComboBox();
-            this.lblSecurityPolicy = new System.Windows.Forms.Label();
-            this.cbAuthenticationMode = new System.Windows.Forms.ComboBox();
-            this.lblAuthenticationMode = new System.Windows.Forms.Label();
-            this.pnlUsername = new System.Windows.Forms.Panel();
-            this.txtPassword = new System.Windows.Forms.TextBox();
-            this.lblPassword = new System.Windows.Forms.Label();
-            this.txtUsername = new System.Windows.Forms.TextBox();
-            this.lblUsername = new System.Windows.Forms.Label();
-            this.btnOK = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.pnlUsername.SuspendLayout();
-            this.SuspendLayout();
+            lblSecurityMode = new Label();
+            cbSecurityMode = new ComboBox();
+            cbSecurityPolicy = new ComboBox();
+            lblSecurityPolicy = new Label();
+            cbAuthenticationMode = new ComboBox();
+            lblAuthenticationMode = new Label();
+            pnlUsername = new Panel();
+            txtPassword = new TextBox();
+            lblPassword = new Label();
+            txtUsername = new TextBox();
+            lblUsername = new Label();
+            btnOK = new Button();
+            btnCancel = new Button();
+            pnlUsername.SuspendLayout();
+            SuspendLayout();
             // 
             // lblSecurityMode
             // 
-            this.lblSecurityMode.AutoSize = true;
-            this.lblSecurityMode.Location = new System.Drawing.Point(9, 9);
-            this.lblSecurityMode.Name = "lblSecurityMode";
-            this.lblSecurityMode.Size = new System.Drawing.Size(83, 15);
-            this.lblSecurityMode.TabIndex = 0;
-            this.lblSecurityMode.Text = "Security mode";
+            lblSecurityMode.AutoSize = true;
+            lblSecurityMode.Location = new Point(9, 9);
+            lblSecurityMode.Name = "lblSecurityMode";
+            lblSecurityMode.Size = new Size(83, 15);
+            lblSecurityMode.TabIndex = 0;
+            lblSecurityMode.Text = "Security mode";
             // 
             // cbSecurityMode
             // 
-            this.cbSecurityMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbSecurityMode.FormattingEnabled = true;
-            this.cbSecurityMode.Location = new System.Drawing.Point(12, 25);
-            this.cbSecurityMode.Name = "cbSecurityMode";
-            this.cbSecurityMode.Size = new System.Drawing.Size(260, 23);
-            this.cbSecurityMode.TabIndex = 1;
-            this.cbSecurityMode.SelectedIndexChanged += new System.EventHandler(this.cbSecurityMode_SelectedIndexChanged);
+            cbSecurityMode.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbSecurityMode.FormattingEnabled = true;
+            cbSecurityMode.Location = new Point(12, 25);
+            cbSecurityMode.Name = "cbSecurityMode";
+            cbSecurityMode.Size = new Size(260, 23);
+            cbSecurityMode.TabIndex = 1;
+            cbSecurityMode.SelectedIndexChanged += cbSecurityMode_SelectedIndexChanged;
             // 
             // cbSecurityPolicy
             // 
-            this.cbSecurityPolicy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbSecurityPolicy.FormattingEnabled = true;
-            this.cbSecurityPolicy.Location = new System.Drawing.Point(12, 69);
-            this.cbSecurityPolicy.Name = "cbSecurityPolicy";
-            this.cbSecurityPolicy.Size = new System.Drawing.Size(260, 23);
-            this.cbSecurityPolicy.TabIndex = 3;
+            cbSecurityPolicy.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbSecurityPolicy.FormattingEnabled = true;
+            cbSecurityPolicy.Location = new Point(12, 69);
+            cbSecurityPolicy.Name = "cbSecurityPolicy";
+            cbSecurityPolicy.Size = new Size(260, 23);
+            cbSecurityPolicy.TabIndex = 3;
             // 
             // lblSecurityPolicy
             // 
-            this.lblSecurityPolicy.AutoSize = true;
-            this.lblSecurityPolicy.Location = new System.Drawing.Point(9, 51);
-            this.lblSecurityPolicy.Name = "lblSecurityPolicy";
-            this.lblSecurityPolicy.Size = new System.Drawing.Size(84, 15);
-            this.lblSecurityPolicy.TabIndex = 2;
-            this.lblSecurityPolicy.Text = "Security policy";
+            lblSecurityPolicy.AutoSize = true;
+            lblSecurityPolicy.Location = new Point(9, 51);
+            lblSecurityPolicy.Name = "lblSecurityPolicy";
+            lblSecurityPolicy.Size = new Size(84, 15);
+            lblSecurityPolicy.TabIndex = 2;
+            lblSecurityPolicy.Text = "Security policy";
             // 
             // cbAuthenticationMode
             // 
-            this.cbAuthenticationMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbAuthenticationMode.FormattingEnabled = true;
-            this.cbAuthenticationMode.Location = new System.Drawing.Point(12, 113);
-            this.cbAuthenticationMode.Name = "cbAuthenticationMode";
-            this.cbAuthenticationMode.Size = new System.Drawing.Size(260, 23);
-            this.cbAuthenticationMode.TabIndex = 5;
-            this.cbAuthenticationMode.SelectedIndexChanged += new System.EventHandler(this.cbAuthenticationMode_SelectedIndexChanged);
+            cbAuthenticationMode.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbAuthenticationMode.FormattingEnabled = true;
+            cbAuthenticationMode.Location = new Point(12, 113);
+            cbAuthenticationMode.Name = "cbAuthenticationMode";
+            cbAuthenticationMode.Size = new Size(260, 23);
+            cbAuthenticationMode.TabIndex = 5;
+            cbAuthenticationMode.SelectedIndexChanged += cbAuthenticationMode_SelectedIndexChanged;
             // 
             // lblAuthenticationMode
             // 
-            this.lblAuthenticationMode.AutoSize = true;
-            this.lblAuthenticationMode.Location = new System.Drawing.Point(9, 95);
-            this.lblAuthenticationMode.Name = "lblAuthenticationMode";
-            this.lblAuthenticationMode.Size = new System.Drawing.Size(120, 15);
-            this.lblAuthenticationMode.TabIndex = 4;
-            this.lblAuthenticationMode.Text = "Authentication mode";
+            lblAuthenticationMode.AutoSize = true;
+            lblAuthenticationMode.Location = new Point(9, 95);
+            lblAuthenticationMode.Name = "lblAuthenticationMode";
+            lblAuthenticationMode.Size = new Size(120, 15);
+            lblAuthenticationMode.TabIndex = 4;
+            lblAuthenticationMode.Text = "Authentication mode";
             // 
             // pnlUsername
             // 
-            this.pnlUsername.Controls.Add(this.txtPassword);
-            this.pnlUsername.Controls.Add(this.lblPassword);
-            this.pnlUsername.Controls.Add(this.txtUsername);
-            this.pnlUsername.Controls.Add(this.lblUsername);
-            this.pnlUsername.Location = new System.Drawing.Point(12, 142);
-            this.pnlUsername.Name = "pnlUsername";
-            this.pnlUsername.Size = new System.Drawing.Size(260, 90);
-            this.pnlUsername.TabIndex = 6;
+            pnlUsername.Controls.Add(txtPassword);
+            pnlUsername.Controls.Add(lblPassword);
+            pnlUsername.Controls.Add(txtUsername);
+            pnlUsername.Controls.Add(lblUsername);
+            pnlUsername.Location = new Point(12, 142);
+            pnlUsername.Name = "pnlUsername";
+            pnlUsername.Size = new Size(260, 90);
+            pnlUsername.TabIndex = 6;
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(0, 62);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(260, 23);
-            this.txtPassword.TabIndex = 3;
-            this.txtPassword.UseSystemPasswordChar = true;
+            txtPassword.Location = new Point(0, 62);
+            txtPassword.Name = "txtPassword";
+            txtPassword.Size = new Size(260, 23);
+            txtPassword.TabIndex = 3;
+            txtPassword.UseSystemPasswordChar = true;
             // 
             // lblPassword
             // 
-            this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(-3, 44);
-            this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(57, 15);
-            this.lblPassword.TabIndex = 2;
-            this.lblPassword.Text = "Password";
+            lblPassword.AutoSize = true;
+            lblPassword.Location = new Point(-3, 44);
+            lblPassword.Name = "lblPassword";
+            lblPassword.Size = new Size(57, 15);
+            lblPassword.TabIndex = 2;
+            lblPassword.Text = "Password";
             // 
             // txtUsername
             // 
-            this.txtUsername.Location = new System.Drawing.Point(0, 18);
-            this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(260, 23);
-            this.txtUsername.TabIndex = 1;
+            txtUsername.Location = new Point(0, 18);
+            txtUsername.Name = "txtUsername";
+            txtUsername.Size = new Size(260, 23);
+            txtUsername.TabIndex = 1;
             // 
             // lblUsername
             // 
-            this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(-3, 0);
-            this.lblUsername.Name = "lblUsername";
-            this.lblUsername.Size = new System.Drawing.Size(60, 15);
-            this.lblUsername.TabIndex = 0;
-            this.lblUsername.Text = "Username";
+            lblUsername.AutoSize = true;
+            lblUsername.Location = new Point(-3, 0);
+            lblUsername.Name = "lblUsername";
+            lblUsername.Size = new Size(60, 15);
+            lblUsername.TabIndex = 0;
+            lblUsername.Text = "Username";
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(116, 243);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 7;
-            this.btnOK.Text = "OK";
-            this.btnOK.UseVisualStyleBackColor = true;
-            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            btnOK.Location = new Point(116, 243);
+            btnOK.Name = "btnOK";
+            btnOK.Size = new Size(75, 23);
+            btnOK.TabIndex = 7;
+            btnOK.Text = "OK";
+            btnOK.UseVisualStyleBackColor = true;
+            btnOK.Click += btnOK_Click;
             // 
             // btnCancel
             // 
-            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(197, 243);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 8;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.DialogResult = DialogResult.Cancel;
+            btnCancel.Location = new Point(197, 243);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(75, 23);
+            btnCancel.TabIndex = 8;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = true;
             // 
             // FrmSecurityOptions
             // 
-            this.AcceptButton = this.btnOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(284, 278);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.pnlUsername);
-            this.Controls.Add(this.cbAuthenticationMode);
-            this.Controls.Add(this.lblAuthenticationMode);
-            this.Controls.Add(this.cbSecurityPolicy);
-            this.Controls.Add(this.lblSecurityPolicy);
-            this.Controls.Add(this.cbSecurityMode);
-            this.Controls.Add(this.lblSecurityMode);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FrmSecurityOptions";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Security Options";
-            this.Load += new System.EventHandler(this.FrmSecurityOptions_Load);
-            this.pnlUsername.ResumeLayout(false);
-            this.pnlUsername.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AcceptButton = btnOK;
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = btnCancel;
+            ClientSize = new Size(284, 278);
+            Controls.Add(btnCancel);
+            Controls.Add(btnOK);
+            Controls.Add(pnlUsername);
+            Controls.Add(cbAuthenticationMode);
+            Controls.Add(lblAuthenticationMode);
+            Controls.Add(cbSecurityPolicy);
+            Controls.Add(lblSecurityPolicy);
+            Controls.Add(cbSecurityMode);
+            Controls.Add(lblSecurityMode);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FrmSecurityOptions";
+            ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Security Options";
+            Load += FrmSecurityOptions_Load;
+            pnlUsername.ResumeLayout(false);
+            pnlUsername.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

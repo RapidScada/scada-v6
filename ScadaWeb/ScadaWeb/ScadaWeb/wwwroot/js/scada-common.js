@@ -47,9 +47,28 @@ class ScadaUtils {
         return new Date().toLocaleTimeString("en-GB");
     }
 
+    // Converts the specified date object to a string in YYYY-MM-DD format.
+    static dateToString(date) {
+        return date.toISOString().slice(0, 10);
+    }
+
     // Gets the number of days in the specified month and year. Month is between 0 and 11.
     static daysInMonth(year, month) {
         return new Date(year, month + 1, 0).getDate();
+    }
+
+    // Adds one day to the specified date. Returns a new date object.
+    static addDay(value) {
+        let date = new Date(value);
+        date.setDate(date.getDate() + 1);
+        return date;
+    }
+
+    // Adds one month to the specified date. Returns a new date object.
+    static addMonth(value) {
+        let date = new Date(value);
+        date.setMonth(date.getMonth() + 1);
+        return date;
     }
 
     // Switches browser to full screen mode.
@@ -170,15 +189,37 @@ class ScadaUtils {
     }
 
     // Creates a full copy of the specified object.
-    static deepClone(obj) {
+    static deepClone(obj, opt_withPrototype) {
         // alternatively, use structuredClone()
-        return JSON.parse(JSON.stringify(obj));
+        let objClone = JSON.parse(JSON.stringify(obj));
+
+        if (obj instanceof Object && opt_withPrototype) {
+            let proto = Object.getPrototypeOf(obj);
+
+            if (proto) {
+                let newObj = Object.create(proto);
+                Object.assign(newObj, objClone);
+                return newObj;
+            }
+        }
+
+        return objClone;
     }
 
     // Checks if the specified locale is Russian. If no argument is specified, the browser locale is checked.
     static isRussian(opt_locale) {
         let lang = opt_locale || navigator.language.toLowerCase();
         return lang === "ru" || lang.startsWith("ru");
+    }
+
+    // Checks if the specified string represents valid JSON.
+    static isValidJSON(s) {
+        try {
+            JSON.parse(s);
+            return true;
+        } catch {
+            return false;
+        }
     }
 
     // Converts the string to an array of integers.
@@ -239,20 +280,19 @@ class ScadaUtils {
     }
 }
 
-// Specifies event types.
-// Do not use dots in event type names because dots are used by event listeners to separate event name and namespace.
+// Specifies the event types.
 class ScadaEventType {
     // Notifies a page that the layout should be updated.
     // No parameters.
-    static UPDATE_LAYOUT = "rs:updateLayout";
+    static UPDATE_LAYOUT = "updatelayout.rs.common";
 
     // Notifies a page that the title should be updated.
     // No parameters.
-    static UPDATE_TITLE = "rs:updateTitle";
+    static UPDATE_TITLE = "updatetitle.rs.common";
 
     // Notifies that a modal dialog button has been clicked.
     // Event parameter: button value.
-    static MODAL_BTN_CLICK = "rs:modalBtnClick";
+    static MODAL_BTN_CLICK = "modalbtnclick.rs.common";
 }
 
 // Provides access to plugin features implemented by various plugins.
@@ -421,6 +461,7 @@ class Severity {
 // The stub of an application environment object.
 const appEnvStub = {
     isStub: true,
+    basePath: "",
     rootPath: "/",
     locale: "en-GB",
     productName: "Rapid SCADA"

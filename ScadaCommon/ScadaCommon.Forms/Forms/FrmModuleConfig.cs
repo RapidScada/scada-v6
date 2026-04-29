@@ -164,7 +164,7 @@ namespace Scada.Forms.Forms
         private void FrmModuleConfig_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName,
-                new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTree } });
+                new FormTranslatorOptions { ContextMenus = [cmsTree] });
 
             if (!string.IsNullOrEmpty(configProvider.FormTitle))
                 Text = configProvider.FormTitle;

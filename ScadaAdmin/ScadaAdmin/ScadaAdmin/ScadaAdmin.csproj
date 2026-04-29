@@ -11,10 +11,10 @@
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
-    <Copyright>Copyright © 2025</Copyright>
+    <Copyright>Copyright © 2026</Copyright>
     <ApplicationIcon>lamp.ico</ApplicationIcon>
-    <Version>6.2.1</Version>
-    <AssemblyVersion>6.2.1.4</AssemblyVersion>
+    <Version>6.2.2</Version>
+    <AssemblyVersion>6.2.2.1</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -40,6 +40,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\..\ScadaServer\ScadaServer\ScadaServerCommon\Lang\ScadaServer.ru-RU.xml" Link="Lang\ScadaServer.ru-RU.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\ScadaWeb\Mimics\PlgMimic.Common\Config\PlgMimic.xml" Link="Templates\EmptyProject.en-GB\Instances\Default\ScadaWeb\config\PlgMimic.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\..\ScadaWeb\ScadaWeb\ScadaWebCommon\Config\ScadaWebConfig.xml" Link="Templates\EmptyProject.en-GB\Instances\Default\ScadaWeb\config\ScadaWebConfig.xml">

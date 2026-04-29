@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <OpcDeviceConfig>
-  <EditingOptions>
-    <DefaultTagCode>NodeID</DefaultTagCode>
-  </EditingOptions>
   <Subscriptions>
     <Subscription active="true" displayName="Demo Subscription" publishingInterval="1000">
       <Item active="true" nodeID="ns=3;i=1001" displayName="Counter" tagCode="ns=3;i=1001" dataType="System.Double" isArray="false" />
@@ -17,7 +14,10 @@
     </Subscription>
   </Subscriptions>
   <Commands>
-    <Command nodeID="ns=5;s=DoubleDataItem" parentNodeID="" displayName="DoubleDataItem" cmdNum="0" cmdCode="ns=5;s=DoubleDataItem" isMethod="false" dataType="System.Double" />
-    <Command nodeID="ns=6;s=MyMethod" parentNodeID="ns=6;s=MyDevice" displayName="MyMethod" cmdNum="0" cmdCode="ns=6;s=MyMethod" isMethod="true" />
+    <Command cmdType="WriteItem" displayName="DoubleDataItem" cmdNum="0" cmdCode="ns=5;s=DoubleDataItem" nodeID="ns=5;s=DoubleDataItem" dataType="System.Double" />
+    <Command cmdType="ReadHistory" displayName="Sinusoid.History" cmdNum="0" cmdCode="Sinusoid.History" valuesPerNode="1000">
+      <Item nodeID="ns=3;i=1004" />
+    </Command>
+    <Command cmdType="CallMethod" displayName="MyMethod" cmdNum="0" cmdCode="ns=6;s=MyMethod" nodeID="ns=6;s=MyMethod" parentNodeID="ns=6;s=MyDevice" />
   </Commands>
 </OpcDeviceConfig>

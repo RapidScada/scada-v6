@@ -8,6 +8,7 @@
     <Extension code="ExtWebConfig" />
     <Extension code="ExtProjectTools" />
     <Extension code="ExtExternalTools" />
+    <Extension code="ExtMimicLauncher" />
     <Extension code="ExtTableEditor" />
   </Extensions>
   <FileAssociations>

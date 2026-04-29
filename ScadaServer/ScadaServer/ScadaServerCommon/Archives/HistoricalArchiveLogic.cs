@@ -82,50 +82,6 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
-        /// Gets the recently updated channel data.
-        /// </summary>
-        protected bool GetRecentCnlData(object lockObj, DateTime timestamp, int cnlNum, out CnlData cnlData)
-        {
-            if (Monitor.TryEnter(lockObj))
-            {
-                try
-                {
-                    if (CurrentUpdateContext != null &&
-                        CurrentUpdateContext.Timestamp == timestamp &&
-                        CurrentUpdateContext.UpdatedData.TryGetValue(cnlNum, out cnlData))
-                    {
-                        return true;
-                    }
-                }
-                finally
-                {
-                    Monitor.Exit(lockObj);
-                }
-            }
-
-            cnlData = CnlData.Empty;
-            return false;
-        }
-
-        /// <summary>
-        /// Initializes the previous channel data.
-        /// </summary>
-        protected void InitPrevCnlData(ICurrentData curData, int[] cnlIndexes, ref CnlData[] prevCnlData)
-        {
-            if (ArchiveOptions != null && ArchiveOptions.WriteOnChange &&
-                cnlIndexes != null && prevCnlData == null)
-            {
-                int cnlCnt = CnlNums.Length;
-                prevCnlData = new CnlData[cnlCnt];
-
-                for (int i = 0; i < cnlCnt; i++)
-                {
-                    prevCnlData[i] = curData.CnlData[cnlIndexes[i]];
-                }
-            }
-        }
-
-        /// <summary>
         /// Determines whether two CnlData instances are the same.
         /// </summary>
         protected bool CnlDataEquals1(CnlData x, CnlData y)
@@ -169,51 +125,6 @@ namespace Scada.Server.Archives
                 return CnlDataEquals2;
             else
                 return CnlDataEquals3;
-        }
-
-        /// <summary>
-        /// Checks that the timestamp is inside the retention period.
-        /// </summary>
-        protected bool TimeInsideRetention(DateTime timestamp, DateTime now)
-        {
-            return ArchiveOptions != null && now.AddDays(-ArchiveOptions.Retention) <= timestamp;
-        }
-
-        /// <summary>
-        /// Checks that the timestamp is a multiple of the period.
-        /// </summary>
-        protected static bool TimeIsMultipleOfPeriod(DateTime timestamp, TimeSpan period, TimeSpan offset)
-        {
-            if (period <= TimeSpan.Zero)
-                return false;
-
-            if (period.TotalDays <= 1)
-            {
-                return (int)timestamp.TimeOfDay.TotalMilliseconds % (int)period.TotalMilliseconds ==
-                    (int)offset.TotalMilliseconds;
-            }
-
-            DateTime startDate = new DateTime(timestamp.Year, 1, 1, 0, 0, 0, timestamp.Kind);
-            return (int)(timestamp - startDate).TotalSeconds % (int)period.TotalSeconds == (int)offset.TotalSeconds;
-        }
-
-        /// <summary>
-        /// Pulls a timestamp to the closest periodic timestamp within the specified range.
-        /// </summary>
-        protected static bool PullTimeToPeriod(ref DateTime timestamp, TimeSpan period, TimeSpan offset,
-            TimeSpan pullingRange)
-        {
-            DateTime closestTime = GetClosestWriteTime(timestamp, period, offset);
-
-            if (timestamp - closestTime <= pullingRange)
-            {
-                timestamp = closestTime;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
 
 

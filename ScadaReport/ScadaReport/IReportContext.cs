@@ -42,6 +42,16 @@ namespace Scada.Report
         TimeZoneInfo TimeZone { get; }
 
         /// <summary>
+        /// Gets the username who generated the report.
+        /// </summary>
+        public string Username { get; }
+
+        /// <summary>
+        /// Gets the directory of the application configuration.
+        /// </summary>
+        string ConfigDir { get; init; }
+
+        /// <summary>
         /// Gets the directory of templates.
         /// </summary>
         string TemplateDir { get; }
@@ -63,17 +73,19 @@ namespace Scada.Report
         /// <summary>
         /// Converts a date and time (UTC) to a string representation in the report's time zone and culture.
         /// </summary>
-        string DateTimeToString(DateTime dateTime)
+        string FormatDateTime(DateTime dateTime)
         {
-            return TimeZoneInfo.ConvertTimeFromUtc(dateTime, TimeZone).ToLocalizedString(Culture);
+            return ConvertTimeFromUtc(dateTime).ToLocalizedString(Culture);
         }
 
         /// <summary>
-        /// Converts a date (UTC) to a string representation in the report's time zone and culture.
+        /// Converts a date and time (UTC) to a string representation that includes the UTC offset.
         /// </summary>
-        string DateToString(DateTime dateTime)
+        string FormatDateTimeWithOffset(DateTime dateTime)
         {
-            return TimeZoneInfo.ConvertTimeFromUtc(dateTime, TimeZone).ToLocalizedDateString(Culture);
+            TimeSpan offset = TimeZone.GetUtcOffset(dateTime);
+            string offsetStr = (offset >= TimeSpan.Zero ? "+" : "") + offset.ToString(@"hh\:mm");
+            return ConvertTimeFromUtc(dateTime).ToLocalizedString(Culture) + $" (UTC{offsetStr})";
         }
 
         /// <summary>

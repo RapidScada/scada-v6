@@ -4,6 +4,7 @@
 using Scada.Lang;
 using Scada.Log;
 using Scada.Web.Lang;
+using Scada.Web.Plugins.PlgMimic;
 using Scada.Web.Plugins.PlgMimic.Components;
 using Scada.Web.Plugins.PlgMimic.Config;
 using Scada.Web.Plugins.PlgMimic.MimicModel;
@@ -57,8 +58,10 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 FileName = Path.Combine(webContext.AppDirs.LogDir, EditorUtils.LogFileName),
                 CapacityMB = webContext.AppConfig.GeneralOptions.MaxLogSize
             };
-            ComponentList = new ComponentList();
-            Translation = new PropertyTranslation();
+            ComponentSpecs = [];
+            ModelMeta = new ModelMeta();
+            ModelTranslation = new ModelTranslation();
+            PageReferences = new PageReferences();
         }
 
 
@@ -73,16 +76,86 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         public ILog PluginLog { get; }
 
         /// <summary>
-        /// Gets the list of available components.
+        /// Gets the component library specifications.
         /// </summary>
-        public ComponentList ComponentList { get; }
+        public List<IComponentSpec> ComponentSpecs { get; }
 
         /// <summary>
-        /// Gets the translation of mimic and component properties.
+        /// Gets the information associated with the mimic model.
         /// </summary>
-        public PropertyTranslation Translation { get; }
+        public ModelMeta ModelMeta { get; }
 
-        
+        /// <summary>
+        /// Gets the translation of the mimic model.
+        /// </summary>
+        public ModelTranslation ModelTranslation { get; }
+
+        /// <summary>
+        /// Gets the references to insert into a page that contains a mimic.
+        /// </summary>
+        public PageReferences PageReferences { get; }
+
+
+        /// <summary>
+        /// Loads the plugin configuration.
+        /// </summary>
+        private void LoadConfig()
+        {
+            if (!PluginConfig.Load(webContext.Storage, MimicPluginConfig.DefaultFileName, out string errMsg))
+            {
+                PluginLog.WriteError(errMsg);
+                webContext.Log.WriteError(WebPhrases.PluginMessage, EditorPluginInfo.PluginCode, errMsg);
+            }
+        }
+
+        /// <summary>
+        /// Retrieves mimic components from the active plugins.
+        /// </summary>
+        private void RetrieveComponents()
+        {
+            ComponentSpecs.Clear();
+
+            foreach (PluginLogic pluginLogic in webContext.PluginHolder.EnumeratePlugins())
+            {
+                if (pluginLogic is IComponentPlugin componentPlugin &&
+                    componentPlugin.GetComponentSpec(true) is IComponentSpec componentSpec)
+                {
+                    ComponentSpecs.Add(componentSpec);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fills in the information about the available components and subtypes from the active plugins.
+        /// </summary>
+        private void FillModelMeta()
+        {
+            ModelMeta.Clear();
+            ModelMeta.ComponentGroups.Add(new StandardComponentGroup());
+            ModelMeta.SubtypeGroups.Add(new StandardSubtypeGroup());
+
+            foreach (IComponentSpec componentLibrary in ComponentSpecs)
+            {
+                if (componentLibrary.ComponentGroups is List<ComponentGroup> componentGroups)
+                    ModelMeta.ComponentGroups.AddRange(componentGroups);
+
+                if (componentLibrary.SubtypeGroups is List<SubtypeGroup> subtypeGroups)
+                    ModelMeta.SubtypeGroups.AddRange(subtypeGroups);
+            }
+
+            ModelTranslation.Init(ModelMeta);
+        }
+
+        /// <summary>
+        /// Fills in the page references based on the plugin configuration and available components.
+        /// </summary>
+        private void FillPageReferences()
+        {
+            PageReferences.Clear();
+            PageReferences.AddConfigReferences(PluginConfig);
+            PageReferences.AddComponentReferences(ComponentSpecs);
+        }
+
         /// <summary>
         /// Adds the specified mimic to the editor.
         /// </summary>
@@ -120,14 +193,15 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 "Перезагрузка фейсплейтов для мнемосхемы {0}" :
                 "Reload faceplates for mimic {0}", mimicInstance.FileName);
             string viewDir = EditorUtils.GetViewDir(mimicInstance.ParentGroup.ProjectFileName);
-            mimicInstance.Mimic.ReloadFaceplates(viewDir, out List<string> errors);
+            LoadContext loadContext = new() { EditMode = true };
+            mimicInstance.Mimic.ReloadFaceplates(viewDir, loadContext);
 
-            if (errors.Count > 0)
+            if (loadContext.Errors.Count > 0)
             {
                 PluginLog.WriteError(Locale.IsRussian ?
                     "Ошибка при перезагрузке фейсплейтов:{0}{1}" :
                     "Error reloading faceplates:{0}{1}",
-                    Environment.NewLine, string.Join(Environment.NewLine, errors));
+                    Environment.NewLine, string.Join(Environment.NewLine, loadContext.Errors));
             }
         }
 
@@ -232,24 +306,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
 
 
         /// <summary>
-        /// Loads the configuration of the editor and mimic plugins.
+        /// Initializes the editor manager.
         /// </summary>
-        public void LoadConfig()
+        public void Init()
         {
-            if (!PluginConfig.Load(webContext.Storage, MimicPluginConfig.DefaultFileName, out string errMsg))
-            {
-                PluginLog.WriteError(errMsg);
-                webContext.Log.WriteError(WebPhrases.PluginMessage, EditorPluginInfo.PluginCode, errMsg);
-            }
-        }
-
-        /// <summary>
-        /// Obtains components from the active plugins.
-        /// </summary>
-        public void ObtainComponents()
-        {
-            ComponentList.Groups.Add(new StandardComponentGroup());
-            Translation.Init(ComponentList);
+            LoadConfig();
+            RetrieveComponents();
+            FillModelMeta();
+            FillPageReferences();
         }
 
         /// <summary>
@@ -277,18 +341,31 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
 
                 // load mimic
                 Mimic mimic = new();
-                mimic.Load(fileName);
+                LoadContext loadContext = new() { EditMode = true };
+                mimic.Load(fileName, loadContext);
 
                 // load faceplates
                 string viewDir = EditorUtils.GetViewDir(projectFileName);
-                mimic.LoadFaceplates(viewDir, false);
+                mimic.LoadFaceplates(viewDir, loadContext);
 
                 // add mimic to the editor
                 StartCleanup();
                 MimicInstance mimicInstance = AddMimic(projectFileName, fileName, mimic);
-                PluginLog.WriteAction(Locale.IsRussian ?
-                    "Загружена мнемосхема {0}" :
-                    "Mimic loaded {0}", fileName);
+
+                // log results
+                if (loadContext.Errors.Count == 0)
+                {
+                    PluginLog.WriteAction(Locale.IsRussian ?
+                        "Загружена мнемосхема {0}" :
+                        "Mimic loaded {0}", fileName);
+                }
+                else
+                {
+                    PluginLog.WriteAction(Locale.IsRussian ?
+                        "Загружена мнемосхема {0} с ошибками:" :
+                        "Mimic loaded {0} with errors:", fileName);
+                    loadContext.Errors.ForEach(s => PluginLog.WriteLine(s));
+                }
 
                 return new OpenResult
                 {
@@ -331,6 +408,57 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                     errMsg = EditorPhrases.MimicNotFound;
                     return false;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Reloads the mimic that is already open.
+        /// </summary>
+        public bool ReloadMimic(long mimicKey, out string errMsg)
+        {
+            if (!FindMimic(mimicKey, out MimicInstance mimicInstance, out errMsg))
+                return false;
+
+            try
+            {
+                lock (mimicInstance.Mimic.SyncRoot)
+                {
+                    // clear mimic
+                    Mimic mimic = mimicInstance.Mimic;
+                    mimic.Clear();
+
+                    // load mimic
+                    LoadContext loadContext = new() { EditMode = true };
+                    mimic.Load(mimicInstance.FileName, loadContext);
+
+                    // load faceplates
+                    string viewDir = EditorUtils.GetViewDir(mimicInstance.ParentGroup.ProjectFileName);
+                    mimic.LoadFaceplates(viewDir, loadContext);
+
+                    // log results
+                    if (loadContext.Errors.Count == 0)
+                    {
+                        PluginLog.WriteAction(Locale.IsRussian ?
+                            "Перезагружена мнемосхема {0}" :
+                            "Mimic reloaded {0}", mimicInstance.FileName);
+                    }
+                    else
+                    {
+                        PluginLog.WriteAction(Locale.IsRussian ?
+                            "Перезагружена мнемосхема {0} с ошибками:" :
+                            "Mimic reloaded {0} with errors:", mimicInstance.FileName);
+                        loadContext.Errors.ForEach(s => PluginLog.WriteLine(s));
+                    }
+                }
+
+                errMsg = "";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.BuildErrorMessage(EditorPhrases.LoadMimicError);
+                PluginLog.WriteError(errMsg);
+                return false;
             }
         }
 

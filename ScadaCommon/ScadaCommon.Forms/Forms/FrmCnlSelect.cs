@@ -96,15 +96,15 @@ namespace Scada.Forms.Forms
         {
             // get selected channel numbers
             HashSet<int> selectedIdSet = MultiSelect && SelectedCnlNums != null
-                ? new HashSet<int>(SelectedCnlNums)
-                : new HashSet<int>();
+                ? [.. SelectedCnlNums]
+                : [];
 
             if (!MultiSelect && SelectedCnlNum > 0)
                 selectedIdSet.Add(SelectedCnlNum);
 
             // prepare table data
-            items = new BindingList<SelectableItem>();
-            selectedItems = new Dictionary<int, SelectableItem>();
+            items = [];
+            selectedItems = [];
 
             foreach (Cnl srcItem in configDataset.CnlTable)
             {

@@ -13,48 +13,39 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
     public class OpcConnectionOptions
     {
         /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public OpcConnectionOptions()
-        {
-            ServerUrl = "";
-            SecurityMode = MessageSecurityMode.None;
-            SecurityPolicy = SecurityPolicy.None;
-            AuthenticationMode = AuthenticationMode.Anonymous;
-            Username = "";
-            Password = "";
-        }
-
-
-        /// <summary>
         /// Gets or sets the server URL.
         /// </summary>
-        public string ServerUrl { get; set; }
+        public string ServerUrl { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the security mode.
         /// </summary>
-        public MessageSecurityMode SecurityMode { get; set; }
+        public MessageSecurityMode SecurityMode { get; set; } = MessageSecurityMode.None;
 
         /// <summary>
         /// Gets or sets the security policy.
         /// </summary>
-        public SecurityPolicy SecurityPolicy { get; set; }
+        public SecurityPolicy SecurityPolicy { get; set; } = SecurityPolicy.None;
 
         /// <summary>
         /// Gets or sets the authentication mode.
         /// </summary>
-        public AuthenticationMode AuthenticationMode { get; set; }
+        public AuthenticationMode AuthenticationMode { get; set; } = AuthenticationMode.Anonymous;
 
         /// <summary>
         /// Gets or sets the username.
         /// </summary>
-        public string Username { get; set; }
+        public string Username { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the password.
         /// </summary>
-        public string Password { get; set; }
+        public string Password { get; set; } = "";
+
+        /// <summary>
+        /// Gets or sets the length of time that no new data is available before a client reconnects to the server.
+        /// </summary>
+        public int ReconnectIfIdle { get; set; } = 60;
 
 
         /// <summary>
@@ -69,20 +60,22 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
             AuthenticationMode = xmlNode.GetChildAsEnum<AuthenticationMode>("AuthenticationMode");
             Username = xmlNode.GetChildAsString("Username");
             Password = ScadaUtils.Decrypt(xmlNode.GetChildAsString("Password"));
+            ReconnectIfIdle = xmlNode.GetChildAsInt("ReconnectIfIdle", ReconnectIfIdle);
         }
 
         /// <summary>
         /// Saves the options into the XML node.
         /// </summary>
-        public void SaveToXml(XmlElement xmlElem)
+        public void SaveToXml(XmlNode xmlNode)
         {
-            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
-            xmlElem.AppendElem("ServerUrl", ServerUrl);
-            xmlElem.AppendElem("SecurityMode", SecurityMode);
-            xmlElem.AppendElem("SecurityPolicy", SecurityPolicy);
-            xmlElem.AppendElem("AuthenticationMode", AuthenticationMode);
-            xmlElem.AppendElem("Username", Username);
-            xmlElem.AppendElem("Password", ScadaUtils.Encrypt(Password));
+            ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
+            xmlNode.AppendElem("ServerUrl", ServerUrl);
+            xmlNode.AppendElem("SecurityMode", SecurityMode);
+            xmlNode.AppendElem("SecurityPolicy", SecurityPolicy);
+            xmlNode.AppendElem("AuthenticationMode", AuthenticationMode);
+            xmlNode.AppendElem("Username", Username);
+            xmlNode.AppendElem("Password", ScadaUtils.Encrypt(Password));
+            xmlNode.AppendElem("ReconnectIfIdle", ReconnectIfIdle);
         }
 
         /// <summary>

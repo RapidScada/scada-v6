@@ -13,10 +13,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
     {
         public ServerNodeTag(ReferenceDescription rd, NamespaceTable namespaceTable)
         {
-            if (rd == null)
-                throw new ArgumentNullException(nameof(rd));
-            if (namespaceTable == null)
-                throw new ArgumentNullException(nameof(namespaceTable));
+            ArgumentNullException.ThrowIfNull(rd, nameof(rd));
+            ArgumentNullException.ThrowIfNull(namespaceTable, nameof(namespaceTable));
 
             DisplayName = rd.DisplayName.Text;
             NodeId = ExpandedNodeId.ToNodeId(rd.NodeId, namespaceTable);

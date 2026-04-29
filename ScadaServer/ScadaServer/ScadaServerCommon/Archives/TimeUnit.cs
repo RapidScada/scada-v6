@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2024
+ * Modified : 2025
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -36,6 +36,7 @@ namespace Scada.Server.Archives
         Second,
         Minute,
         Hour,
-        Day
+        Day,
+        Month
     }
 }

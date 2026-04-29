@@ -1,11 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaWebDictionaries>
+  <!-- Common phrases -->
   <Dictionary key="Scada.Web">
     <Phrase key="CorrectErrors">Please correct the following errors:</Phrase>
+    <Phrase key="IllegalRole">Illegal user role.</Phrase>
     <Phrase key="ClientError">Error communicating with the server</Phrase>
     <Phrase key="UnknownUsername">Unknown</Phrase>
     <Phrase key="AccessDenied">Access denied</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.TableForms">
+    <Phrase key="SearchPlaceholder">Search</Phrase>
+    <Phrase key="NewItem">New Item</Phrase>
+    <Phrase key="ViewItem">View Item</Phrase>
+    <Phrase key="EditItem">Edit Item</Phrase>
+    <Phrase key="DeleteItem">Delete Item</Phrase>
+    <Phrase key="DeleteItemConfirm">Are you sure you want to delete the item?</Phrase>
+    <Phrase key="NoData">No data</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.TableForms.Js">
+    <Phrase key="LoadDataError">Error loading data.</Phrase>
+    <Phrase key="DeleteItemConfirm">Are you sure you want to delete the item?</Phrase>
+    <Phrase key="ItemExists">The item already exists.</Phrase>
+    <Phrase key="FillOutFields">Please fill out the required fields.</Phrase>
+    <Phrase key="ValidJsonRequired">Valid JSON is required.</Phrase>
+  </Dictionary>
+  <!-- ScadaWeb.dll -->
   <Dictionary key="Scada.Web.Code.ViewLoader">
     <Phrase key="ViewNotSpecified">The requested view is not specified.</Phrase>
     <Phrase key="ViewNotExists">The requested view does not exist.</Phrase>
@@ -14,6 +33,24 @@
     <Phrase key="UnableLoadView">Unable to load view.</Phrase>
     <Phrase key="ViewMissingFromCache">View is missing from the cache.</Phrase>
     <Phrase key="ViewUndefined">View is undefined.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Errors.AccessDenied">
+    <Phrase key="PageTitle">Access Denied</Phrase>
+    <Phrase key="ErrorMessage">You have insufficient rights to access the requested resource.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Errors.Error">
+    <Phrase key="PageTitle">Error</Phrase>
+    <Phrase key="ErrorMessage">An error occurred while processing your request. Error details are written to the application log.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Errors.StatusCode">
+    <Phrase key="PageTitle">Error {0}</Phrase>
+    <Phrase key="Error401Header">Authorization Required</Phrase>
+    <Phrase key="Error403Header">Access Denied</Phrase>
+    <Phrase key="Error404Header">Not Found</Phrase>
+    <Phrase key="ErrorMessage">An error occurred while processing your request.</Phrase>
+    <Phrase key="Error401Message">Please log in.</Phrase>
+    <Phrase key="Error403Message">You have insufficient rights to access the requested resource.</Phrase>
+    <Phrase key="Error404Message">Page or object not found.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout">
     <Phrase key="spanMenuBtn_ToolTip">Show/Hide Menu</Phrase>
@@ -43,10 +80,6 @@
   <Dictionary key="Scada.Web.Pages.About">
     <Phrase key="PageTitle">About</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Web.Pages.AccessDenied">
-    <Phrase key="PageTitle">Access Denied</Phrase>
-    <Phrase key="ErrorMessage">You have insufficient rights to access the requested resource.</Phrase>
-  </Dictionary>
   <Dictionary key="Scada.Web.Pages.CnlSelect">
     <Phrase key="PageTitle">Select Channels</Phrase>
     <Phrase key="lblObj">Object</Phrase>
@@ -57,10 +90,6 @@
     <Phrase key="SelectObjectItem">-- Select an object --</Phrase>
     <Phrase key="FilterRequired">Please specify a filter.</Phrase>
     <Phrase key="NoChannels">No channels matching the filter.</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Web.Pages.Error">
-    <Phrase key="PageTitle">Error</Phrase>
-    <Phrase key="ErrorMessage">An error occurred while processing your request.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Login">
     <Phrase key="PageTitle">Login</Phrase>
