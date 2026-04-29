@@ -1104,7 +1104,7 @@ rs.mimic.DataProvider = class DataProvider {
         }
 
         if (binding.format) {
-            value = binding.format.replace("{0}", String(value));
+            value = binding.format.replaceAll("{0}", String(value));
         }
 
         return value;
