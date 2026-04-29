@@ -2255,14 +2255,10 @@ rs.mimic.Component = class {
             : 0;
     }
 
-    // Sets the property according to the current data.
-    _setProperty(binding, curData) {
+    // Sets the data-bound property to the current data.
+    _setBoundProperty(binding, curData) {
         let value = rs.mimic.DataProvider.calculatePropertyValue(curData, binding);
         rs.mimic.ObjectHelper.setPropertyValue(this.properties, binding.propertyChain, 0, value);
-
-        if (this.isFaceplate) {
-            this.handlePropertyChanged(binding.propertyName);
-        }
     }
 
     // Sets the location property.
@@ -2344,7 +2340,7 @@ rs.mimic.Component = class {
                     let prevData = dataProvider.getPrevData(binding.cnlNum, binding.cnlProps.joinLen);
 
                     if (dataProvider.dataChanged(curData, prevData)) {
-                        this._setProperty(binding, curData);
+                        this._setBoundProperty(binding, curData);
                         propertyChanged = true;
                     }
                 }
@@ -2546,6 +2542,11 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
         return true;
     }
 
+    _setBoundProperty(binding, curData) {
+        super._setBoundProperty(binding, curData);
+        this.handlePropertyChanged(binding.propertyName);
+    }
+
     setProperties(sourceProps) {
         super.setProperties(sourceProps);
 
@@ -2556,6 +2557,19 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
                 }
             }
         }
+    }
+
+    onDataUpdated(dataProvider) {
+        let propertyChanged = super.onDataUpdated(dataProvider);
+
+        // update target properties corresponding to exported properties
+        if (propertyChanged && this.model) {
+            for (let propertyExport of this.model.propertyExports) {
+                this.setTargetPropertyValue(propertyExport, this.properties[propertyExport.name]);
+            }
+        }
+
+        return propertyChanged;
     }
 
     // Gets the value of the target property specified by the export path.
