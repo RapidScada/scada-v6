@@ -44,7 +44,6 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
         private IMqttClientChannel mqttClientChannel; // the communication channel reference
         private MqttPublisherLineData lineData;       // data common to the communication line
         private int[] publishCnlNums;                 // the numbers of the published channels
-        private long cnlListID;                       // the cached channel list ID
         private DateTime curDataTimestamp;            // the timestamp of the last received current data
         private TimeSpan publishPeriod;               // the publishing period for all device items
         private bool usePublishPeriod;                // indicates that publishing period is used
@@ -63,7 +62,6 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             mqttClientChannel = null;
             lineData = null;
             publishCnlNums = null;
-            cnlListID = 0;
             curDataTimestamp = DateTime.MinValue;
             publishPeriod = TimeSpan.Zero;
             usePublishPeriod = false;
@@ -118,11 +116,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             Log.WriteLine(Locale.IsRussian ?
                 "Запрос текущих данных" :
                 "Request current data");
-
-            CnlData[] cnlDataArr = cnlListID > 0
-                ? lineData.ScadaClient.GetCurrentData(ref cnlListID)
-                : lineData.ScadaClient.GetCurrentData(publishCnlNums, true, out cnlListID);
-
+            CnlData[] cnlDataArr = lineData.ScadaClient.GetCurrentData(publishCnlNums, false, out _);
             Log.WriteLine(CommPhrases.ResponseOK);
             curDataTimestamp = LastSessionTime;
 
