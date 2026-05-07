@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2026
  */
 
 using Scada.Data.Const;
@@ -508,11 +508,15 @@ namespace Scada.Comm.Devices
                 deviceTag.Format = TagFormat.DateTime;
                 SetDateTime(deviceTag.Index, dtVal, stat);
             }
-            else
+            else if (val != null)
             {
                 deviceTag.DataType = TagDataType.Double;
                 deviceTag.Format = TagFormat.FloatNumber;
                 Set(deviceTag.Index, Convert.ToDouble(val), stat);
+            }
+            else
+            {
+                Set(deviceTag.Index, 0.0, CnlStatusID.Undefined);
             }
         }
 
