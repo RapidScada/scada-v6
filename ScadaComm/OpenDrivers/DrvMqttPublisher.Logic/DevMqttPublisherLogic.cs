@@ -44,7 +44,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
         private IMqttClientChannel mqttClientChannel; // the communication channel reference
         private MqttPublisherLineData lineData;       // data common to the communication line
         private int[] publishCnlNums;                 // the numbers of the published channels
-        private DateTime curDataTimestamp;            // the timestamp of the last received current data
+        private DateTime publishAllTime;              // the timestamp of the last publishing of all data
         private TimeSpan publishPeriod;               // the publishing period for all device items
         private bool usePublishPeriod;                // indicates that publishing period is used
 
@@ -62,7 +62,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             mqttClientChannel = null;
             lineData = null;
             publishCnlNums = null;
-            curDataTimestamp = DateTime.MinValue;
+            publishAllTime = DateTime.MinValue;
             publishPeriod = TimeSpan.Zero;
             usePublishPeriod = false;
 
@@ -97,7 +97,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
         /// </summary>
         private bool RequestToServerNeeded(out bool allItems)
         {
-            if (usePublishPeriod && DateTime.UtcNow - curDataTimestamp >= publishPeriod)
+            if (usePublishPeriod && DateTime.UtcNow - publishAllTime >= publishPeriod)
             {
                 allItems = true;
                 return true;
@@ -118,7 +118,6 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
                 "Request current data");
             CnlData[] cnlDataArr = lineData.ScadaClient.GetCurrentData(publishCnlNums, false, out _);
             Log.WriteLine(CommPhrases.ResponseOK);
-            curDataTimestamp = LastSessionTime;
 
             // set device data
             for (int i = 0, len = publishCnlNums.Length; i < len; i++)
@@ -139,6 +138,9 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             DeviceSlice deviceSlice = allItems
                 ? DeviceData.GetCurrentData()
                 : DeviceData.GetModifiedData();
+
+            if (allItems)
+                publishAllTime = DateTime.UtcNow;
 
             if (deviceSlice.IsEmpty)
             {
