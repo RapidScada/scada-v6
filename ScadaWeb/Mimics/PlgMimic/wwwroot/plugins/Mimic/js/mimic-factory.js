@@ -504,22 +504,25 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         sourceProps ??= {};
 
         for (let propertyExport of this.faceplate.propertyExports) {
-            let baseValue = propertyExport.path
-                ? faceplateInstance.getTargetPropertyValue(propertyExport)
-                : propertyExport.defaultValue;
+            if (propertyExport.path) {
+                let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport);
 
-            if (baseValue == null) {
-                // do not create custom property
-            } else {
-                let sourceValue = sourceProps[propertyExport.name];
-
-                if (sourceValue == null) {
-                    faceplateInstance.properties[propertyExport.name] = baseValue;
+                if (baseValue == null) {
+                    // do not create custom property
                 } else {
-                    let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);
-                    faceplateInstance.properties[propertyExport.name] = mergedValue;
-                    faceplateInstance.setTargetPropertyValue(propertyExport, mergedValue);
+                    let sourceValue = sourceProps[propertyExport.name];
+
+                    if (sourceValue == null) {
+                        faceplateInstance.properties[propertyExport.name] = ScadaUtils.deepClone(baseValue);
+                    } else {
+                        let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);
+                        faceplateInstance.properties[propertyExport.name] = mergedValue;
+                        faceplateInstance.setTargetPropertyValue(propertyExport, mergedValue);
+                    }
                 }
+            } else {
+                faceplateInstance.properties[propertyExport.name] =
+                    sourceProps[propertyExport.name] ?? propertyExport.defaultValue;
             }
         }
     }
