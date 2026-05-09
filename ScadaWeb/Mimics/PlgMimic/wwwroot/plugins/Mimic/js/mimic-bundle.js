@@ -4270,15 +4270,22 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         sourceProps ??= {};
 
         for (let propertyExport of this.faceplate.propertyExports) {
-            let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport) ?? propertyExport.defaultValue;
-            let sourceValue = sourceProps[propertyExport.name];
+            let baseValue = propertyExport.path
+                ? faceplateInstance.getTargetPropertyValue(propertyExport)
+                : propertyExport.defaultValue;
 
-            if (sourceValue == null) {
-                faceplateInstance.properties[propertyExport.name] = baseValue;
+            if (baseValue == null) {
+                // do not create custom property
             } else {
-                let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);
-                faceplateInstance.properties[propertyExport.name] = mergedValue;
-                faceplateInstance.setTargetPropertyValue(propertyExport, mergedValue);
+                let sourceValue = sourceProps[propertyExport.name];
+
+                if (sourceValue == null) {
+                    faceplateInstance.properties[propertyExport.name] = baseValue;
+                } else {
+                    let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);
+                    faceplateInstance.properties[propertyExport.name] = mergedValue;
+                    faceplateInstance.setTargetPropertyValue(propertyExport, mergedValue);
+                }
             }
         }
     }
