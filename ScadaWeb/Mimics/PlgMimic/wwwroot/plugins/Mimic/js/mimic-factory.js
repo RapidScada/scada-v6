@@ -1,4 +1,4 @@
-﻿// Contains classes: MimicFactory, ComponentFactory, RegularComponentFactory,
+﻿// Contains classes: MimicFactory, ComponentFactory, RegularComponentFactory, UnknownComponentFactory,
 //     TextFactory, PictureScript, PictureFactory, PanelFactory, FaceplateFactory, FactorySet
 // Depends on mimic-common.js, mimic-model.js, mimic-model-subtypes.js
 
@@ -212,6 +212,21 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
         });
 
         return props;
+    }
+};
+
+// Creates components whose type is not found among the supported components or faceplates.
+rs.mimic.UnknownComponentFactory = class extends rs.mimic.ComponentFactory {
+    createComponent(typeName) {
+        let component = super.createComponent(typeName);
+        component.hasError = true;
+        return component;
+    }
+
+    createComponentFromSource(source) {
+        let component = super.createComponentFromSource(source);
+        component.hasError = true;
+        return component;
     }
 };
 
@@ -574,6 +589,7 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
 
 // Contains factories for mimic components.
 rs.mimic.FactorySet = class FactorySet {
+    static unknownComponentFactory = new rs.mimic.UnknownComponentFactory();
     static componentFactories = new Map([
         ["Text", new rs.mimic.TextFactory()],
         ["Picture", new rs.mimic.PictureFactory()],

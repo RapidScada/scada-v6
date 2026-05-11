@@ -136,7 +136,8 @@ $tool-window-font-weight: 500;
             }
 
             &.has-error {
-                .node-text {
+                .node-text,
+                .node-comp {
                     color: var(--bs-danger);
                     text-decoration: line-through;
                 }

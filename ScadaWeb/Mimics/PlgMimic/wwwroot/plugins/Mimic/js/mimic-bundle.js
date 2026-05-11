@@ -1300,6 +1300,7 @@ rs.mimic.VisualStateDescriptor = class extends rs.mimic.StructureDescriptor {
 // Contains descriptors for a mimic and its components.
 rs.mimic.DescriptorSet = class {
     static mimicDescriptor = new rs.mimic.MimicDescriptor();
+    static componentDescriptor = new rs.mimic.ComponentDescriptor();
     static componentDescriptors = new Map([
         ["Text", new rs.mimic.TextDescriptor()],
         ["Picture", new rs.mimic.PictureDescriptor()],
@@ -1821,12 +1822,16 @@ rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
                 for (let sourceComponent of dto.data.components) {
                     let component = this.createComponent(sourceComponent);
 
-                    if (component) {
-                        this.components.push(component);
-                        this.componentMap.set(component.id, component);
-                    } else if (sourceComponent.typeName) {
+                    if (!component && sourceComponent.typeName) {
                         loadContext.unknownTypes.add(sourceComponent.typeName);
                         loadContext.result.warn = true;
+                        component = rs.mimic.FactorySet.unknownComponentFactory
+                            .createComponentFromSource(sourceComponent);
+                    }
+
+                    if (component && component.id > 0) {
+                        this.components.push(component);
+                        this.componentMap.set(component.id, component);
                     }
                 }
             }
@@ -2168,6 +2173,7 @@ rs.mimic.Component = class {
     customScript = null; // custom component logic
     customData = null;   // custom component data
     isSelected = false;  // selected in the editor
+    hasError = false;    // type is unknown, cannot be rendered
 
     get id() {
         return this._id;
@@ -3764,7 +3770,7 @@ rs.mimic.DataProvider = class DataProvider {
     }
 };
 
-// Contains classes: MimicFactory, ComponentFactory, RegularComponentFactory,
+// Contains classes: MimicFactory, ComponentFactory, RegularComponentFactory, UnknownComponentFactory,
 //     TextFactory, PictureScript, PictureFactory, PanelFactory, FaceplateFactory, FactorySet
 // Depends on mimic-common.js, mimic-model.js, mimic-model-subtypes.js
 
@@ -3978,6 +3984,21 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
         });
 
         return props;
+    }
+};
+
+// Creates components whose type is not found among the supported components or faceplates.
+rs.mimic.UnknownComponentFactory = class extends rs.mimic.ComponentFactory {
+    createComponent(typeName) {
+        let component = super.createComponent(typeName);
+        component.hasError = true;
+        return component;
+    }
+
+    createComponentFromSource(source) {
+        let component = super.createComponentFromSource(source);
+        component.hasError = true;
+        return component;
     }
 };
 
@@ -4340,6 +4361,7 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
 
 // Contains factories for mimic components.
 rs.mimic.FactorySet = class FactorySet {
+    static unknownComponentFactory = new rs.mimic.UnknownComponentFactory();
     static componentFactories = new Map([
         ["Text", new rs.mimic.TextFactory()],
         ["Picture", new rs.mimic.PictureFactory()],

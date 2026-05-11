@@ -112,6 +112,7 @@ class StructTree {
         let componentItem = $("<li class='item-comp'></li>")
             .attr("id", "struct-comp-item" + component.id)
             .attr("data-id", component.id)
+            .addClass(component.hasError ? "has-error" : "")
             .append(componentNode).appendTo(listElem);
 
         if (component.isContainer) {

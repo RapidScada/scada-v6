@@ -573,8 +573,9 @@ class PropGridHelper {
         const DescriptorSet = rs.mimic.DescriptorSet;
         PropGridHelper._translationRef = translation;
 
-        // translate mimic
+        // translate mimic and basic component
         PropGridHelper._translateObject(DescriptorSet.mimicDescriptor, translation, translation.mimic);
+        PropGridHelper._translateObject(DescriptorSet.componentDescriptor, translation, translation.component);
 
         // translate components
         for (let [typeName, descriptor] of DescriptorSet.componentDescriptors) {
@@ -615,7 +616,7 @@ class PropGridHelper {
 
             return descriptor;
         } else if (obj instanceof rs.mimic.Component) {
-            return DescriptorSet.componentDescriptors.get(obj.typeName);
+            return DescriptorSet.componentDescriptors.get(obj.typeName) ?? DescriptorSet.componentDescriptor;
         } else if (obj instanceof rs.mimic.Mimic) {
             return DescriptorSet.mimicDescriptor;
         } else if (obj instanceof UnionObject) {
@@ -740,7 +741,7 @@ class UnionObject {
                 // add properties of the 1st object
                 for (let [name, value] of Object.entries(editableObj)) {
                     this.properties[name] = ScadaUtils.deepClone(value, true);
-                    let propertyDescriptor = targetDescriptor.get(name);
+                    let propertyDescriptor = targetDescriptor?.get(name);
 
                     if (propertyDescriptor && propertyDescriptor.type !== rs.mimic.BasicType.LIST) {
                         this.descriptor.add(propertyDescriptor);
@@ -750,7 +751,7 @@ class UnionObject {
                 // intersect with properties of other objects
                 for (let [name, value] of Object.entries(this.properties)) {
                     let descriptor1 = this.descriptor.get(name);
-                    let descriptor2 = targetDescriptor.get(name);
+                    let descriptor2 = targetDescriptor?.get(name);
 
                     if (Object.hasOwn(editableObj, name) && this._sameProperties(descriptor1, descriptor2)) {
                         let value2 = editableObj[name];

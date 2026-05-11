@@ -477,12 +477,16 @@ rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
                 for (let sourceComponent of dto.data.components) {
                     let component = this.createComponent(sourceComponent);
 
-                    if (component) {
-                        this.components.push(component);
-                        this.componentMap.set(component.id, component);
-                    } else if (sourceComponent.typeName) {
+                    if (!component && sourceComponent.typeName) {
                         loadContext.unknownTypes.add(sourceComponent.typeName);
                         loadContext.result.warn = true;
+                        component = rs.mimic.FactorySet.unknownComponentFactory
+                            .createComponentFromSource(sourceComponent);
+                    }
+
+                    if (component && component.id > 0) {
+                        this.components.push(component);
+                        this.componentMap.set(component.id, component);
                     }
                 }
             }
@@ -824,6 +828,7 @@ rs.mimic.Component = class {
     customScript = null; // custom component logic
     customData = null;   // custom component data
     isSelected = false;  // selected in the editor
+    hasError = false;    // type is unknown, cannot be rendered
 
     get id() {
         return this._id;
