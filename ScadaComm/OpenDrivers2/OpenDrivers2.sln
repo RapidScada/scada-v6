@@ -62,7 +62,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvRsClient.Logic", "DrvRsC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvRsClient.View", "DrvRsClient.View\DrvRsClient.View.csproj", "{7166A1FF-708F-41F0-BB18-FD025058D80E}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvRsClient.Shared", "DrvRsClient.Shared\DrvRsClient.Shared.shproj", "{F2374677-3342-4823-9057-CE2686318F4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvRsClient.Common", "DrvRsClient.Common\DrvRsClient.Common.csproj", "{FF38020A-1629-424B-A3C1-265B0C413BCD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -130,6 +130,10 @@ Global
 		{7166A1FF-708F-41F0-BB18-FD025058D80E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7166A1FF-708F-41F0-BB18-FD025058D80E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7166A1FF-708F-41F0-BB18-FD025058D80E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF38020A-1629-424B-A3C1-265B0C413BCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF38020A-1629-424B-A3C1-265B0C413BCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF38020A-1629-424B-A3C1-265B0C413BCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF38020A-1629-424B-A3C1-265B0C413BCD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -155,13 +159,12 @@ Global
 		{1AFBC156-92EE-4118-84D6-AE163D0E654E} = {C364D1FF-62DD-4F20-93E9-EE0121ED3B9C}
 		{0EE5E74A-85FF-4A5F-93E4-AC32281CA8FC} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{7166A1FF-708F-41F0-BB18-FD025058D80E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{F2374677-3342-4823-9057-CE2686318F4E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{FF38020A-1629-424B-A3C1-265B0C413BCD} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {621E3959-3A13-41B5-A559-AA02854D93A0}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		DrvRsClient.Shared\DrvRsClient.Shared.projitems*{0ee5e74a-85ff-4a5f-93e4-ac32281ca8fc}*SharedItemsImports = 5
 		DrvHttpNotif.Shared\DrvHttpNotif.Shared.projitems*{111a85fb-e7b0-417c-8857-7d0b88a5f050}*SharedItemsImports = 5
 		DrvCsvReader.Shared\DrvCsvReader.Shared.projitems*{1afbc156-92ee-4118-84d6-ae163d0e654e}*SharedItemsImports = 13
 		DrvSnmp.Shared\DrvSnmp.Shared.projitems*{29f3f057-0b4f-4938-b775-6bcef0645c90}*SharedItemsImports = 5
@@ -172,12 +175,10 @@ Global
 		DrvCsvReader.Shared\DrvCsvReader.Shared.projitems*{5976fdbe-b0fa-4fff-b381-62165eb92b84}*SharedItemsImports = 5
 		DrvSnmp.Shared\DrvSnmp.Shared.projitems*{5c9089a5-4feb-4fee-b96a-3fede615c898}*SharedItemsImports = 5
 		DrvEmail.Shared\DrvEmail.Shared.projitems*{6593c194-5edf-459f-9cba-321a870b9677}*SharedItemsImports = 5
-		DrvRsClient.Shared\DrvRsClient.Shared.projitems*{7166a1ff-708f-41f0-bb18-fd025058d80e}*SharedItemsImports = 5
 		DrvEmail.Shared\DrvEmail.Shared.projitems*{a28f2459-d7f3-4f5b-a53e-216cabe2310f}*SharedItemsImports = 13
 		DrvHttpNotif.Shared\DrvHttpNotif.Shared.projitems*{b9f18976-dcb3-4895-be6e-3eba9129a370}*SharedItemsImports = 13
 		DrvSms.Shared\DrvSms.Shared.projitems*{c3c10372-279b-412d-bdda-ffd6bb205674}*SharedItemsImports = 5
 		DrvSnmp.Shared\DrvSnmp.Shared.projitems*{c7419bb6-0c51-49a0-95d1-40938c203187}*SharedItemsImports = 13
 		DrvHttpNotif.Shared\DrvHttpNotif.Shared.projitems*{f14824b7-4208-4314-a543-184e1573e1c9}*SharedItemsImports = 5
-		DrvRsClient.Shared\DrvRsClient.Shared.projitems*{f2374677-3342-4823-9057-ce2686318f4e}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

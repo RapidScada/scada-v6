@@ -7,7 +7,7 @@ namespace Scada.Comm.Drivers.DrvRsClient
     /// The class provides helper methods for the driver.
     /// <para>Класс, предоставляющий вспомогательные методы для драйвера.</para>
     /// </summary>
-    internal static class DriverUtils
+    public static class DriverUtils
     {
         /// <summary>
         /// The driver code.
