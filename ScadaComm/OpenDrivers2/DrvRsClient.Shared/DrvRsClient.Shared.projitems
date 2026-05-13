@@ -9,5 +9,6 @@
     <Import_RootNamespace>Scada.Comm.Drivers.DrvRsClient</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DriverUtils.cs" />
   </ItemGroup>
 </Project>
