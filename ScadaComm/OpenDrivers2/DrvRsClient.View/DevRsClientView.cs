@@ -27,8 +27,6 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
         /// </summary>
         public override bool ShowProperties()
         {
-            //DriverUtils.ConfigDataset = ConfigDataset;
-            //new FrmModuleConfig(new RsClientConfigProvider(AppDirs.ConfigDir, DeviceNum)).ShowDialog();
             return false;
         }
 
@@ -37,7 +35,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
         /// </summary>
         public override PollingOptions GetPollingOptions()
         {
-            return PollingOptions.CreateWithDefaultDelay();
+            return new PollingOptions(0, 1000);
         }
     }
 }
