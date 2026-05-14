@@ -3,6 +3,7 @@
 
 using Scada.Client;
 using Scada.Config;
+using Scada.Storages;
 using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvRsClient.Config
@@ -24,6 +25,14 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
         /// </summary>
         public ConnectionOptions ConnectionOptions { get; private set; }
 
+
+        /// <summary>
+        /// Gets the short name of the line configuration file.
+        /// </summary>
+        private static string GetFileName(int lineNum)
+        {
+            return $"{DriverUtils.DriverCode}_line{lineNum:D3}.xml";
+        }
 
         /// <summary>
         /// Sets the default values.
@@ -58,11 +67,11 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
         }
 
         /// <summary>
-        /// Gets the short name of the line configuration file.
+        /// Loads the configuration from the specified storage.
         /// </summary>
-        public static string GetFileName(int lineNum)
+        public bool Load(IStorage storage, int lineNum, out string errMsg)
         {
-            return $"{DriverUtils.DriverCode}_line{lineNum:D3}.xml";
+            return Load(storage, GetFileName(lineNum), out errMsg);
         }
     }
 }

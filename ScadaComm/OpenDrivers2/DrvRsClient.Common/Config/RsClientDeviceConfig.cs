@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Comm.Devices;
+using Scada.Storages;
 using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvRsClient.Config
@@ -17,6 +18,14 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
         /// </summary>
         public List<ItemConfig> Items { get; private set; }
 
+
+        /// <summary>
+        /// Gets the short name of the device configuration file.
+        /// </summary>
+        private static string GetFileName(int deviceNum)
+        {
+            return GetFileName(DriverUtils.DriverCode, deviceNum);
+        }
 
         /// <summary>
         /// Sets the default values.
@@ -58,11 +67,11 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
         }
 
         /// <summary>
-        /// Gets the short name of the device configuration file.
+        /// Loads the configuration from the specified storage.
         /// </summary>
-        public static string GetFileName(int deviceNum)
+        public bool Load(IStorage storage, int deviceNum, out string errMsg)
         {
-            return GetFileName(DriverUtils.DriverCode, deviceNum);
+            return Load(storage, GetFileName(deviceNum), out errMsg);
         }
     }
 }
