@@ -6,7 +6,9 @@ using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvRsClient.Config;
 using Scada.Comm.Lang;
+using Scada.Data.Entities;
 using Scada.Data.Models;
+using Scada.Data.Tables;
 using Scada.Lang;
 
 namespace Scada.Comm.Drivers.DrvRsClient.Logic
@@ -27,11 +29,14 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
             public override string ToString() => CommPhrases.SharedObject;
         }
 
-        private readonly RsClientLineConfig lineConfig;     // the communication line configuration
-        private readonly RsClientDeviceConfig deviceConfig; // the device configuration
+        private readonly RsClientLineConfig lineConfig;          // the communication line configuration
+        private readonly RsClientDeviceConfig deviceConfig;      // the device configuration
+        private readonly Dictionary<int, DeviceTag> tagByCnlNum; // the device tags accessed by channel number
 
-        private bool deviceConfigError;                     // loading the device configuration failed
-        private RsClientLineData lineData;                  // data common to the communication line
+        private bool deviceConfigError;    // loading the device configuration failed
+        private RsClientLineData lineData; // data common to the communication line
+        private int[] cnlNumsToRequest;    // the channel numbers to request data
+        private long cnlListID;            // to cache data queries
 
 
         /// <summary>
@@ -42,9 +47,12 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
         {
             lineConfig = new RsClientLineConfig();
             this.deviceConfig = new RsClientDeviceConfig();
+            tagByCnlNum = [];
 
             deviceConfigError = false;
             lineData = null;
+            cnlNumsToRequest = null;
+            cnlListID = 0;
 
             CanSendCommands = true;
             ConnectionRequired = false;
@@ -90,16 +98,48 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
         /// </summary>
         private bool RequestCurrentData(out CnlData[] cnlDataArr)
         {
-            cnlDataArr = [];
-            return true;
+            try
+            {
+                Log.WriteLine(Locale.IsRussian ?
+                    "Запрос текущих данных" :
+                    "Request current data");
+
+                cnlDataArr = cnlListID > 0 
+                    ? lineData.ScadaClient.GetCurrentData(ref cnlListID)
+                    : lineData.ScadaClient.GetCurrentData(cnlNumsToRequest, false, out cnlListID);
+
+                if (cnlListID > 0 && cnlDataArr.Length > 0)
+                {
+                    Log.WriteLine(CommPhrases.ResponseOK);
+                    return true;
+                }
+                else
+                {
+                    Log.WriteLine(CommPhrases.ErrorPrefix + CommonPhrases.NoData);
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLine(CommPhrases.ErrorPrefix + ex.Message);
+                cnlDataArr = null;
+                return false;
+            }
         }
 
         /// <summary>
         /// Sets the device tags according to the channel data.
         /// </summary>
-        private void SetTagData(CnlData[] cnlDataArr)
+        private void SetDeviceData(CnlData[] cnlDataArr)
         {
-
+            for (int i = 0, len = cnlNumsToRequest.Length; i < len; i++)
+            {
+                if (tagByCnlNum.TryGetValue(cnlNumsToRequest[i], out DeviceTag deviceTag))
+                {
+                    CnlData cnlData = cnlDataArr[i];
+                    DeviceData.Set(deviceTag.Index, cnlData.Val, cnlData.Stat);
+                }
+            }
         }
 
 
@@ -122,7 +162,36 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
         /// </summary>
         public override void InitDeviceTags()
         {
+            TagGroup tagGroup = new();
+            BaseTable<Cnl> cnlTable = lineConfig.UseDefaultConnection 
+                ? CommContext.ConfigDatabase?.CnlTable 
+                : null;
 
+            int itemCnt = deviceConfig.Items.Count;
+            List<int> cnlNumList = new(itemCnt);
+            HashSet<int> cnlNumSet = new(itemCnt);
+
+            foreach (ItemConfig itemConfig in deviceConfig.Items)
+            {
+                int cnlNum = itemConfig.CnlNum;
+                DeviceTag deviceTag;
+
+                if (cnlNum > 0 && cnlNumSet.Add(cnlNum))
+                {
+                    string tagCode = "Cnl" + cnlNum;
+                    string tagName = cnlTable?.GetItem(cnlNum) is Cnl cnl
+                        ? cnl.Name
+                        : Locale.IsRussian ? "Канал " + cnlNum : "Channel " + cnlNum;
+                    deviceTag = tagGroup.AddTag(tagCode, tagName);
+                    deviceTag.Aux = itemConfig;
+                    cnlNumList.Add(cnlNum);
+                    tagByCnlNum.Add(cnlNum, deviceTag);
+                }
+            }
+
+            DeviceTags.AddGroup(tagGroup);
+            DeviceTags.FlattenGroups = true;
+            cnlNumsToRequest = [.. cnlNumList];
         }
 
         /// <summary>
@@ -157,7 +226,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
                     SleepPollingDelay();
                     LastRequestOK = false;
                 }
-                else if (deviceConfig.Items.Count > 0)
+                else if (cnlNumsToRequest.Length > 0)
                 {
                     LastRequestOK = false;
                     int tryNum = 0;
@@ -167,7 +236,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
                         if (RequestCurrentData(out CnlData[] cnlDataArr))
                         {
                             LastRequestOK = true;
-                            SetTagData(cnlDataArr);
+                            SetDeviceData(cnlDataArr);
                         }
 
                         FinishRequest();
