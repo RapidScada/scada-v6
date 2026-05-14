@@ -10,6 +10,7 @@ using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Lang;
+using Scada.Protocol;
 
 namespace Scada.Comm.Drivers.DrvRsClient.Logic
 {
@@ -28,6 +29,11 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
             public ScadaClient ScadaClient { get; init; }
             public override string ToString() => CommPhrases.SharedObject;
         }
+
+        /// <summary>
+        /// The maximum recursion level for commands.
+        /// </summary>
+        private const int MaxRecursionLevel = 10;
 
         private readonly RsClientLineConfig lineConfig;          // the communication line configuration
         private readonly RsClientDeviceConfig deviceConfig;      // the device configuration
@@ -106,7 +112,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
 
                 cnlDataArr = cnlListID > 0 
                     ? lineData.ScadaClient.GetCurrentData(ref cnlListID)
-                    : lineData.ScadaClient.GetCurrentData(cnlNumsToRequest, false, out cnlListID);
+                    : lineData.ScadaClient.GetCurrentData(cnlNumsToRequest, true, out cnlListID);
 
                 if (cnlListID > 0 && cnlDataArr.Length > 0)
                 {
@@ -139,6 +145,45 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
                     CnlData cnlData = cnlDataArr[i];
                     DeviceData.Set(deviceTag.Index, cnlData.Val, cnlData.Stat);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Sends the command to Server.
+        /// </summary>
+        private bool SendCommand(ItemConfig itemConfig, TeleCommand srcCmd)
+        {
+            try
+            {
+                Log.WriteLine(Locale.IsRussian ?
+                    "Отправка команды на канал {0}" :
+                    "Send command to channel {0}", itemConfig.CnlNum);
+
+                CommandResult result = lineData.ScadaClient.SendCommand(
+                    new TeleCommand
+                    {
+                        CnlNum = itemConfig.CnlNum,
+                        CmdVal = srcCmd.CmdVal,
+                        CmdData = srcCmd.CmdData,
+                        RecursionLevel = srcCmd.RecursionLevel + 1
+                    },
+                    WriteCommandFlags.EnableAll); // command can be returned to Communicator
+
+                if (result.IsSuccessful)
+                {
+                    Log.WriteLine(CommPhrases.ResponseOK);
+                    return true;
+                }
+                else
+                {
+                    Log.WriteLine(result.ErrorMessage);
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLine(CommPhrases.ErrorPrefix + ex.Message);
+                return false;
             }
         }
 
@@ -260,7 +305,48 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
         /// </summary>
         public override void SendCommand(TeleCommand cmd)
         {
+            base.SendCommand(cmd);
+            LastRequestOK = false;
 
+            if (lineData.FatalError || deviceConfigError)
+            {
+                Log.WriteLine(CommPhrases.UnablePollDevice);
+            }
+            else if (string.IsNullOrEmpty(cmd.CmdCode) || 
+                !DeviceTags.TryGetTag(cmd.CmdCode, out DeviceTag deviceTag) ||
+                deviceTag.Aux is not ItemConfig itemConfig)
+            {
+                Log.WriteLine(CommPhrases.InvalidCommand);
+            }
+            else if (itemConfig.ReadOnly)
+            {
+                Log.WriteLine(Locale.IsRussian ?
+                    "{0} Элемент {1} предназначен только для чтения" :
+                    "{0} Element {1} is read-only",
+                    CommPhrases.ErrorPrefix, cmd.CmdCode);
+            }
+            else if (cmd.RecursionLevel > MaxRecursionLevel)
+            {
+                Log.WriteError(Locale.IsRussian ?
+                    "{0} Полученная команда игнорируется, т.к. её уровень рекурсии выше {1}" :
+                    "{0} Received command is ignored, because its recursion level is higher than {1}",
+                    CommPhrases.ErrorPrefix, MaxRecursionLevel);
+            }
+            else
+            {
+                int tryNum = 0;
+
+                while (RequestNeeded(ref tryNum))
+                {
+                    if (SendCommand(itemConfig, cmd))
+                        LastRequestOK = true;
+
+                    FinishRequest();
+                    tryNum++;
+                }
+            }
+
+            FinishCommand();
         }
     }
 }

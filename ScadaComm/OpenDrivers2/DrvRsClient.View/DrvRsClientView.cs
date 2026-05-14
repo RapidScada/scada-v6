@@ -15,6 +15,16 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
     public class DrvRsClientView : DriverView
     {
         /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public DrvRsClientView()
+             : base()
+        {
+            CanCreateDevice = true;
+        }
+
+
+        /// <summary>
         /// Gets the driver name.
         /// </summary>
         public override string Name
