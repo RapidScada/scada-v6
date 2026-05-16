@@ -4,6 +4,13 @@ $component-selected-box-shadow: 0 0 0 3px lime;
 $component-hover-box-shadow: 0 0 0 1px var(--bs-gray-500);
 $component-fiction-border: 1px dashed var(--bs-gray-600);
 
+// Bootstrap tooltip override
+.tooltip.show .tooltip-inner {
+    text-align: left;
+    max-width: none;
+    white-space: nowrap;
+}
+
 .mimic-wrapper {
     overflow: auto;
     overscroll-behavior: none;

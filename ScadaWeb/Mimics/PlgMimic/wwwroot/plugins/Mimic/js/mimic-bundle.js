@@ -4704,12 +4704,24 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
             this._setCornerRadius(mimicElem, props.cornerRadius);
         }
 
-        mimicElem
-            .attr("title", props.tooltip)
-            .css({
-                "background-color": props.backColor,
-                "color": props.foreColor
-            });
+        // Tooltip: native title for desktop, Bootstrap for touch devices
+        if (props.tooltip) {
+            const isTouchDevice = ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+
+            if (isTouchDevice) {
+                mimicElem.prop("title", props.tooltip.replace(/\n|\r\n|\r/g, '<br>'));
+                mimicElem.attr("data-bs-toggle", "tooltip");
+                mimicElem.attr("data-bs-html", true);
+                mimicElem.addClass("user-select-none");
+            } else {
+                mimicElem.attr("title", props.tooltip);
+            }
+        }
+
+        mimicElem.css({
+            "background-color": props.backColor,
+            "color": props.foreColor
+        });
 
         if (props.backgroundImage) {
             let x = props.backgroundPadding.left;
@@ -5134,7 +5146,20 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         this._setBorder(componentElem, props.border);
         this._setCornerRadius(componentElem, props.cornerRadius);
         this._setFont(componentElem, props.font, renderContext.fontMap);
-        componentElem.attr("title", props.tooltip);
+
+        // Tooltip: native title for desktop, Bootstrap for touch devices
+        if (props.tooltip) {
+            const isTouchDevice = ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+
+            if (isTouchDevice) {
+                componentElem.prop("title", props.tooltip.replace(/\n|\r\n|\r/g, '<br>'));
+                componentElem.attr("data-bs-toggle", "tooltip");
+                componentElem.attr("data-bs-html", true);
+                componentElem.addClass("user-select-none");
+            } else {
+                componentElem.attr("title", props.tooltip);
+            }
+        }
 
         if (props.enabled) {
             this._restoreVisualState(componentElem, props);

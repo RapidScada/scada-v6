@@ -147,6 +147,15 @@ function updateLayout() {
     alignHorizontally();
 }
 
+// Initialize Bootstrap tooltips on all mimic elements
+function initTooltips() {
+    if (mimic.dom && typeof bootstrap !== "undefined") {
+        mimic.dom.find("[data-bs-toggle='tooltip']").each(function () {
+            bootstrap.Tooltip.getOrCreateInstance(this);
+        });
+    }
+}
+
 async function loadMimic() {
     spinnerElem.removeClass("d-none");
     let result = await mimic.load(getLoaderUrl(), viewID);
@@ -159,6 +168,7 @@ async function loadMimic() {
             mimicWrapperElem.append(unitedRenderer.createMimicDom());
             toolbarElem.removeClass("d-none");
             initScale();
+            initTooltips();
             startUpdatingData();
             startBlinking();
         }

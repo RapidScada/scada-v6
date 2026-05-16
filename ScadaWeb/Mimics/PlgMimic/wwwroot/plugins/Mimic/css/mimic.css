@@ -1,4 +1,9 @@
-﻿.mimic-wrapper {
+﻿.tooltip.show .tooltip-inner {
+  text-align: left;
+  max-width: none;
+  white-space: nowrap;
+}
+.mimic-wrapper {
   overflow: auto;
   overscroll-behavior: none;
   position: relative;
@@ -38,7 +43,6 @@
 .mimic-wrapper.view-mode .mimic .comp.wait-action {
   cursor: wait !important;
 }
-
 .mimic-wrapper.edit-mode {
   cursor: default;
 }
