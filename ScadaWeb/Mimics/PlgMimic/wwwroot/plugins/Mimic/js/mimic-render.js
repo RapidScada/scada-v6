@@ -632,33 +632,39 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
     }
 
     // Sets the component colors and text decoration according to its actual state.
-    _restoreVisualState(componentElem, props) {
-        let isBlinking = props.blinkingState.isSet && componentElem.hasClass("blink-on");
-        let isHovered = props.hoverState.isSet && componentElem.is(":hover");
+    _restoreVisualState(componentElem, props, opt_doc) {
+        let stateProps = opt_doc ?? props; // opt_doc is provided for faceplates
+        this._setOriginalState(componentElem, stateProps);
 
-        if (isBlinking) {
-            this._setVisualState(componentElem, props.blinkingState);
-        } else if (isHovered) {
-            this._setVisualState(componentElem, props.hoverState);
+        if (props.enabled) {
+            let isBlinking = stateProps.blinkingState.isSet && componentElem.hasClass("blink-on");
+            let isHovered = stateProps.hoverState.isSet && componentElem.is(":hover");
+
+            if (isBlinking) {
+                this._setVisualState(componentElem, stateProps.blinkingState);
+            } else if (isHovered) {
+                this._setVisualState(componentElem, stateProps.hoverState);
+            }
         } else {
-            this._setOriginalState(componentElem, props);
+            this._setVisualState(componentElem, stateProps.disabledState);
         }
     }
 
     // Binds the visual state events of the component.
-    _bindVisualStates(componentElem, props) {
+    _bindVisualStates(componentElem, props, opt_doc) {
         const EventType = rs.mimic.EventType;
+        let stateProps = opt_doc ?? props;
 
-        if (props.blinkingState.isSet) {
+        if (stateProps.blinkingState.isSet) {
             componentElem
-                .on(EventType.BLINK_ON, () => { this._setVisualState(componentElem, props.blinkingState); })
-                .on(EventType.BLINK_OFF, () => { this._restoreVisualState(componentElem, props); });
+                .on(EventType.BLINK_ON, () => { this._setVisualState(componentElem, stateProps.blinkingState); })
+                .on(EventType.BLINK_OFF, () => { this._restoreVisualState(componentElem, props, opt_doc); });
         }
 
-        if (props.hoverState.isSet) {
+        if (stateProps.hoverState.isSet) {
             componentElem
-                .on("mouseenter.rs.mimic", () => { this._setVisualState(componentElem, props.hoverState); })
-                .on("mouseleave.rs.mimic", () => { this._restoreVisualState(componentElem, props); });
+                .on("mouseenter.rs.mimic", () => { this._setVisualState(componentElem, stateProps.hoverState); })
+                .on("mouseleave.rs.mimic", () => { this._restoreVisualState(componentElem, props, opt_doc); });
         }
     }
 
@@ -752,13 +758,8 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         this._setBorder(componentElem, props.border);
         this._setCornerRadius(componentElem, props.cornerRadius);
         this._setFont(componentElem, props.font, renderContext.fontMap);
+        this._restoreVisualState(componentElem, props);
         componentElem.attr("title", props.tooltip);
-
-        if (props.enabled) {
-            this._restoreVisualState(componentElem, props);
-        } else {
-            this._setVisualState(componentElem, props.disabledState);
-        }
 
         if (renderContext.editMode) {
             componentElem.css("--border-width", -props.border.width + "px");
@@ -985,13 +986,8 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
 
         if (doc) {
             rs.mimic.RendererSet.mimicRenderer.setFaceplateProps(componentElem, doc, renderContext);
+            this._restoreVisualState(componentElem, props, doc);
             borderWidth = doc.border.width;
-
-            if (props.enabled) {
-                this._restoreVisualState(componentElem, doc);
-            } else {
-                this._setVisualState(componentElem, doc.disabledState);
-            }
         }
 
         if (renderContext.editMode) {
@@ -1003,7 +999,7 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
         super._bindEvents(componentElem, component, renderContext);
 
         if (component.document && component.properties.enabled) {
-            this._bindVisualStates(componentElem, component.document);
+            this._bindVisualStates(componentElem, component.properties, component.document);
         }
     }
 };
