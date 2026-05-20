@@ -632,39 +632,39 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
     }
 
     // Sets the component colors and text decoration according to its actual state.
-    _restoreVisualState(componentElem, props, opt_doc) {
-        let stateProps = opt_doc ?? props; // opt_doc is provided for faceplates
-        this._setOriginalState(componentElem, stateProps);
+    _restoreVisualState(componentElem, props, opt_states) {
+        let states = opt_states ?? props; // opt_states is specified for faceplates
+        this._setOriginalState(componentElem, states);
 
         if (props.enabled) {
-            let isBlinking = stateProps.blinkingState.isSet && componentElem.hasClass("blink-on");
-            let isHovered = stateProps.hoverState.isSet && componentElem.is(":hover");
+            let isBlinking = states.blinkingState.isSet && componentElem.hasClass("blink-on");
+            let isHovered = states.hoverState.isSet && componentElem.is(":hover");
 
             if (isBlinking) {
-                this._setVisualState(componentElem, stateProps.blinkingState);
+                this._setVisualState(componentElem, states.blinkingState);
             } else if (isHovered) {
-                this._setVisualState(componentElem, stateProps.hoverState);
+                this._setVisualState(componentElem, states.hoverState);
             }
         } else {
-            this._setVisualState(componentElem, stateProps.disabledState);
+            this._setVisualState(componentElem, states.disabledState);
         }
     }
 
     // Binds the visual state events of the component.
-    _bindVisualStates(componentElem, props, opt_doc) {
+    _bindVisualStates(componentElem, props, opt_states) {
         const EventType = rs.mimic.EventType;
-        let stateProps = opt_doc ?? props;
+        let states = opt_states ?? props;
 
-        if (stateProps.blinkingState.isSet) {
+        if (states.blinkingState.isSet) {
             componentElem
-                .on(EventType.BLINK_ON, () => { this._setVisualState(componentElem, stateProps.blinkingState); })
-                .on(EventType.BLINK_OFF, () => { this._restoreVisualState(componentElem, props, opt_doc); });
+                .on(EventType.BLINK_ON, () => { this._setVisualState(componentElem, states.blinkingState); })
+                .on(EventType.BLINK_OFF, () => { this._restoreVisualState(componentElem, props, states); });
         }
 
-        if (stateProps.hoverState.isSet) {
+        if (states.hoverState.isSet) {
             componentElem
-                .on("mouseenter.rs.mimic", () => { this._setVisualState(componentElem, stateProps.hoverState); })
-                .on("mouseleave.rs.mimic", () => { this._restoreVisualState(componentElem, props, opt_doc); });
+                .on("mouseenter.rs.mimic", () => { this._setVisualState(componentElem, states.hoverState); })
+                .on("mouseleave.rs.mimic", () => { this._restoreVisualState(componentElem, props, states); });
         }
     }
 
