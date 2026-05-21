@@ -128,8 +128,8 @@ rs.mimic.Scale = class Scale {
 
 // Provides access to the object properties.
 rs.mimic.ObjectHelper = class ObjectHelper {
-    // Gets the child object specified by the property chain.
-    static _getObjectToUpdate(obj, propertyChain, chainIndex) {
+    // Gets an object that owns the property in the property chain.
+    static _getOwnerObject(obj, propertyChain, chainIndex) {
         let objectToUpdate = obj;
 
         for (let i = chainIndex; i < propertyChain.length - 1; i++) {
@@ -172,11 +172,11 @@ rs.mimic.ObjectHelper = class ObjectHelper {
             return undefined;
         }
 
-        let objectToUpdate = ObjectHelper._getObjectToUpdate(obj, propertyChain, chainIndex);
+        let ownerObj = ObjectHelper._getOwnerObject(obj, propertyChain, chainIndex);
 
-        if (objectToUpdate instanceof Object && propertyChain.length > chainIndex) {
+        if (ownerObj instanceof Object && propertyChain.length > chainIndex) {
             let propertyName = propertyChain.at(-1); // last
-            return objectToUpdate[propertyName];
+            return ownerObj[propertyName];
         } else {
             return undefined;
         }
@@ -188,11 +188,11 @@ rs.mimic.ObjectHelper = class ObjectHelper {
             return;
         }
 
-        let objectToUpdate = ObjectHelper._getObjectToUpdate(obj, propertyChain, chainIndex);
+        let ownerObj = ObjectHelper._getOwnerObject(obj, propertyChain, chainIndex);
 
-        if (objectToUpdate instanceof Object && propertyChain.length > chainIndex) {
+        if (ownerObj instanceof Object && propertyChain.length > chainIndex) {
             let propertyName = propertyChain.at(-1); // last
-            ObjectHelper._updateValue(objectToUpdate, propertyName, value);
+            ObjectHelper._updateValue(ownerObj, propertyName, value);
         }
     }
 
@@ -1300,6 +1300,7 @@ rs.mimic.VisualStateDescriptor = class extends rs.mimic.StructureDescriptor {
 // Contains descriptors for a mimic and its components.
 rs.mimic.DescriptorSet = class {
     static mimicDescriptor = new rs.mimic.MimicDescriptor();
+    static componentDescriptor = new rs.mimic.ComponentDescriptor();
     static componentDescriptors = new Map([
         ["Text", new rs.mimic.TextDescriptor()],
         ["Picture", new rs.mimic.PictureDescriptor()],
@@ -1307,6 +1308,7 @@ rs.mimic.DescriptorSet = class {
     ]);
     static getFaceplateDescriptor(faceplate) {
         const KnownCategory = rs.mimic.KnownCategory;
+        const BasicType = rs.mimic.BasicType;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
         let descriptor = new rs.mimic.FaceplateDescriptor();
 
@@ -1316,7 +1318,8 @@ rs.mimic.DescriptorSet = class {
                     descriptor.add(new PropertyDescriptor({
                         name: propertyExport.name,
                         displayName: propertyExport.name,
-                        category: KnownCategory.MISC
+                        category: KnownCategory.MISC,
+                        type: BasicType.STRING
                     }));
                 }
             }
@@ -1819,12 +1822,16 @@ rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
                 for (let sourceComponent of dto.data.components) {
                     let component = this.createComponent(sourceComponent);
 
-                    if (component) {
-                        this.components.push(component);
-                        this.componentMap.set(component.id, component);
-                    } else if (sourceComponent.typeName) {
+                    if (!component && sourceComponent.typeName) {
                         loadContext.unknownTypes.add(sourceComponent.typeName);
                         loadContext.result.warn = true;
+                        component = rs.mimic.FactorySet.unknownComponentFactory
+                            .createComponentFromSource(sourceComponent);
+                    }
+
+                    if (component && component.id > 0) {
+                        this.components.push(component);
+                        this.componentMap.set(component.id, component);
                     }
                 }
             }
@@ -2166,6 +2173,7 @@ rs.mimic.Component = class {
     customScript = null; // custom component logic
     customData = null;   // custom component data
     isSelected = false;  // selected in the editor
+    hasError = false;    // type is unknown, cannot be rendered
 
     get id() {
         return this._id;
@@ -2255,14 +2263,10 @@ rs.mimic.Component = class {
             : 0;
     }
 
-    // Sets the property according to the current data.
-    _setProperty(binding, curData) {
+    // Sets the data-bound property to the current data.
+    _setBoundProperty(binding, curData) {
         let value = rs.mimic.DataProvider.calculatePropertyValue(curData, binding);
         rs.mimic.ObjectHelper.setPropertyValue(this.properties, binding.propertyChain, 0, value);
-
-        if (this.isFaceplate) {
-            this.handlePropertyChanged(binding.propertyName);
-        }
     }
 
     // Sets the location property.
@@ -2344,7 +2348,7 @@ rs.mimic.Component = class {
                     let prevData = dataProvider.getPrevData(binding.cnlNum, binding.cnlProps.joinLen);
 
                     if (dataProvider.dataChanged(curData, prevData)) {
-                        this._setProperty(binding, curData);
+                        this._setBoundProperty(binding, curData);
                         propertyChanged = true;
                     }
                 }
@@ -2546,6 +2550,11 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
         return true;
     }
 
+    _setBoundProperty(binding, curData) {
+        super._setBoundProperty(binding, curData);
+        this.handlePropertyChanged(binding.propertyName);
+    }
+
     setProperties(sourceProps) {
         super.setProperties(sourceProps);
 
@@ -2556,6 +2565,19 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
                 }
             }
         }
+    }
+
+    onDataUpdated(dataProvider) {
+        let propertyChanged = super.onDataUpdated(dataProvider);
+
+        // update target properties corresponding to exported properties
+        if (propertyChanged && this.model) {
+            for (let propertyExport of this.model.propertyExports) {
+                this.setTargetPropertyValue(propertyExport, this.properties[propertyExport.name]);
+            }
+        }
+
+        return propertyChanged;
     }
 
     // Gets the value of the target property specified by the export path.
@@ -3741,14 +3763,14 @@ rs.mimic.DataProvider = class DataProvider {
         }
 
         if (binding.format) {
-            value = binding.format.replace("{0}", String(value));
+            value = binding.format.replaceAll("{0}", String(value));
         }
 
         return value;
     }
 };
 
-// Contains classes: MimicFactory, ComponentFactory, RegularComponentFactory,
+// Contains classes: MimicFactory, ComponentFactory, RegularComponentFactory, UnknownComponentFactory,
 //     TextFactory, PictureScript, PictureFactory, PanelFactory, FaceplateFactory, FactorySet
 // Depends on mimic-common.js, mimic-model.js, mimic-model-subtypes.js
 
@@ -3962,6 +3984,21 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
         });
 
         return props;
+    }
+};
+
+// Creates components whose type is not found among the supported components or faceplates.
+rs.mimic.UnknownComponentFactory = class extends rs.mimic.ComponentFactory {
+    createComponent(typeName) {
+        let component = super.createComponent(typeName);
+        component.hasError = true;
+        return component;
+    }
+
+    createComponentFromSource(source) {
+        let component = super.createComponentFromSource(source);
+        component.hasError = true;
+        return component;
     }
 };
 
@@ -4254,15 +4291,25 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         sourceProps ??= {};
 
         for (let propertyExport of this.faceplate.propertyExports) {
-            let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport) ?? propertyExport.defaultValue;
-            let sourceValue = sourceProps[propertyExport.name];
+            if (propertyExport.path) {
+                let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport);
 
-            if (sourceValue == null) {
-                faceplateInstance.properties[propertyExport.name] = baseValue;
+                if (baseValue == null) {
+                    // do not create custom property
+                } else {
+                    let sourceValue = sourceProps[propertyExport.name];
+
+                    if (sourceValue == null) {
+                        faceplateInstance.properties[propertyExport.name] = ScadaUtils.deepClone(baseValue);
+                    } else {
+                        let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);
+                        faceplateInstance.properties[propertyExport.name] = mergedValue;
+                        faceplateInstance.setTargetPropertyValue(propertyExport, mergedValue);
+                    }
+                }
             } else {
-                let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);
-                faceplateInstance.properties[propertyExport.name] = mergedValue;
-                faceplateInstance.setTargetPropertyValue(propertyExport, mergedValue);
+                faceplateInstance.properties[propertyExport.name] =
+                    sourceProps[propertyExport.name] ?? propertyExport.defaultValue;
             }
         }
     }
@@ -4314,6 +4361,7 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
 
 // Contains factories for mimic components.
 rs.mimic.FactorySet = class FactorySet {
+    static unknownComponentFactory = new rs.mimic.UnknownComponentFactory();
     static componentFactories = new Map([
         ["Text", new rs.mimic.TextFactory()],
         ["Picture", new rs.mimic.PictureFactory()],
@@ -4966,33 +5014,39 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
     }
 
     // Sets the component colors and text decoration according to its actual state.
-    _restoreVisualState(componentElem, props) {
-        let isBlinking = props.blinkingState.isSet && componentElem.hasClass("blink-on");
-        let isHovered = props.hoverState.isSet && componentElem.is(":hover");
+    _restoreVisualState(componentElem, props, opt_states) {
+        let states = opt_states ?? props; // opt_states is specified for faceplates
+        this._setOriginalState(componentElem, states);
 
-        if (isBlinking) {
-            this._setVisualState(componentElem, props.blinkingState);
-        } else if (isHovered) {
-            this._setVisualState(componentElem, props.hoverState);
+        if (props.enabled) {
+            let isBlinking = states.blinkingState.isSet && componentElem.hasClass("blink-on");
+            let isHovered = states.hoverState.isSet && componentElem.is(":hover");
+
+            if (isBlinking) {
+                this._setVisualState(componentElem, states.blinkingState);
+            } else if (isHovered) {
+                this._setVisualState(componentElem, states.hoverState);
+            }
         } else {
-            this._setOriginalState(componentElem, props);
+            this._setVisualState(componentElem, states.disabledState);
         }
     }
 
     // Binds the visual state events of the component.
-    _bindVisualStates(componentElem, props) {
+    _bindVisualStates(componentElem, props, opt_states) {
         const EventType = rs.mimic.EventType;
+        let states = opt_states ?? props;
 
-        if (props.blinkingState.isSet) {
+        if (states.blinkingState.isSet) {
             componentElem
-                .on(EventType.BLINK_ON, () => { this._setVisualState(componentElem, props.blinkingState); })
-                .on(EventType.BLINK_OFF, () => { this._restoreVisualState(componentElem, props); });
+                .on(EventType.BLINK_ON, () => { this._setVisualState(componentElem, states.blinkingState); })
+                .on(EventType.BLINK_OFF, () => { this._restoreVisualState(componentElem, props, states); });
         }
 
-        if (props.hoverState.isSet) {
+        if (states.hoverState.isSet) {
             componentElem
-                .on("mouseenter.rs.mimic", () => { this._setVisualState(componentElem, props.hoverState); })
-                .on("mouseleave.rs.mimic", () => { this._restoreVisualState(componentElem, props); });
+                .on("mouseenter.rs.mimic", () => { this._setVisualState(componentElem, states.hoverState); })
+                .on("mouseleave.rs.mimic", () => { this._restoreVisualState(componentElem, props, states); });
         }
     }
 
@@ -5086,13 +5140,8 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         this._setBorder(componentElem, props.border);
         this._setCornerRadius(componentElem, props.cornerRadius);
         this._setFont(componentElem, props.font, renderContext.fontMap);
+        this._restoreVisualState(componentElem, props);
         componentElem.attr("title", props.tooltip);
-
-        if (props.enabled) {
-            this._restoreVisualState(componentElem, props);
-        } else {
-            this._setVisualState(componentElem, props.disabledState);
-        }
 
         if (renderContext.editMode) {
             componentElem.css("--border-width", -props.border.width + "px");
@@ -5319,13 +5368,8 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
 
         if (doc) {
             rs.mimic.RendererSet.mimicRenderer.setFaceplateProps(componentElem, doc, renderContext);
+            this._restoreVisualState(componentElem, props, doc);
             borderWidth = doc.border.width;
-
-            if (props.enabled) {
-                this._restoreVisualState(componentElem, doc);
-            } else {
-                this._setVisualState(componentElem, doc.disabledState);
-            }
         }
 
         if (renderContext.editMode) {
@@ -5337,7 +5381,7 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
         super._bindEvents(componentElem, component, renderContext);
 
         if (component.document && component.properties.enabled) {
-            this._bindVisualStates(componentElem, component.document);
+            this._bindVisualStates(componentElem, component.properties, component.document);
         }
     }
 };

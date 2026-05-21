@@ -128,8 +128,8 @@ rs.mimic.Scale = class Scale {
 
 // Provides access to the object properties.
 rs.mimic.ObjectHelper = class ObjectHelper {
-    // Gets the child object specified by the property chain.
-    static _getObjectToUpdate(obj, propertyChain, chainIndex) {
+    // Gets an object that owns the property in the property chain.
+    static _getOwnerObject(obj, propertyChain, chainIndex) {
         let objectToUpdate = obj;
 
         for (let i = chainIndex; i < propertyChain.length - 1; i++) {
@@ -172,11 +172,11 @@ rs.mimic.ObjectHelper = class ObjectHelper {
             return undefined;
         }
 
-        let objectToUpdate = ObjectHelper._getObjectToUpdate(obj, propertyChain, chainIndex);
+        let ownerObj = ObjectHelper._getOwnerObject(obj, propertyChain, chainIndex);
 
-        if (objectToUpdate instanceof Object && propertyChain.length > chainIndex) {
+        if (ownerObj instanceof Object && propertyChain.length > chainIndex) {
             let propertyName = propertyChain.at(-1); // last
-            return objectToUpdate[propertyName];
+            return ownerObj[propertyName];
         } else {
             return undefined;
         }
@@ -188,11 +188,11 @@ rs.mimic.ObjectHelper = class ObjectHelper {
             return;
         }
 
-        let objectToUpdate = ObjectHelper._getObjectToUpdate(obj, propertyChain, chainIndex);
+        let ownerObj = ObjectHelper._getOwnerObject(obj, propertyChain, chainIndex);
 
-        if (objectToUpdate instanceof Object && propertyChain.length > chainIndex) {
+        if (ownerObj instanceof Object && propertyChain.length > chainIndex) {
             let propertyName = propertyChain.at(-1); // last
-            ObjectHelper._updateValue(objectToUpdate, propertyName, value);
+            ObjectHelper._updateValue(ownerObj, propertyName, value);
         }
     }
 

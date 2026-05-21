@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2025 Rapid Software LLC
+ * Copyright 2026 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2026
  */
 
 using Scada.Data.Const;
@@ -508,11 +508,15 @@ namespace Scada.Comm.Devices
                 deviceTag.Format = TagFormat.DateTime;
                 SetDateTime(deviceTag.Index, dtVal, stat);
             }
-            else
+            else if (val != null)
             {
                 deviceTag.DataType = TagDataType.Double;
                 deviceTag.Format = TagFormat.FloatNumber;
                 Set(deviceTag.Index, Convert.ToDouble(val), stat);
+            }
+            else
+            {
+                Set(deviceTag.Index, 0.0, CnlStatusID.Undefined);
             }
         }
 

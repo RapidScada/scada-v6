@@ -1,4 +1,4 @@
-﻿// Contains classes: MimicFactory, ComponentFactory, RegularComponentFactory,
+﻿// Contains classes: MimicFactory, ComponentFactory, RegularComponentFactory, UnknownComponentFactory,
 //     TextFactory, PictureScript, PictureFactory, PanelFactory, FaceplateFactory, FactorySet
 // Depends on mimic-common.js, mimic-model.js, mimic-model-subtypes.js
 
@@ -212,6 +212,21 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
         });
 
         return props;
+    }
+};
+
+// Creates components whose type is not found among the supported components or faceplates.
+rs.mimic.UnknownComponentFactory = class extends rs.mimic.ComponentFactory {
+    createComponent(typeName) {
+        let component = super.createComponent(typeName);
+        component.hasError = true;
+        return component;
+    }
+
+    createComponentFromSource(source) {
+        let component = super.createComponentFromSource(source);
+        component.hasError = true;
+        return component;
     }
 };
 
@@ -504,15 +519,25 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         sourceProps ??= {};
 
         for (let propertyExport of this.faceplate.propertyExports) {
-            let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport) ?? propertyExport.defaultValue;
-            let sourceValue = sourceProps[propertyExport.name];
+            if (propertyExport.path) {
+                let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport);
 
-            if (sourceValue == null) {
-                faceplateInstance.properties[propertyExport.name] = baseValue;
+                if (baseValue == null) {
+                    // do not create custom property
+                } else {
+                    let sourceValue = sourceProps[propertyExport.name];
+
+                    if (sourceValue == null) {
+                        faceplateInstance.properties[propertyExport.name] = ScadaUtils.deepClone(baseValue);
+                    } else {
+                        let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);
+                        faceplateInstance.properties[propertyExport.name] = mergedValue;
+                        faceplateInstance.setTargetPropertyValue(propertyExport, mergedValue);
+                    }
+                }
             } else {
-                let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);
-                faceplateInstance.properties[propertyExport.name] = mergedValue;
-                faceplateInstance.setTargetPropertyValue(propertyExport, mergedValue);
+                faceplateInstance.properties[propertyExport.name] =
+                    sourceProps[propertyExport.name] ?? propertyExport.defaultValue;
             }
         }
     }
@@ -564,6 +589,7 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
 
 // Contains factories for mimic components.
 rs.mimic.FactorySet = class FactorySet {
+    static unknownComponentFactory = new rs.mimic.UnknownComponentFactory();
     static componentFactories = new Map([
         ["Text", new rs.mimic.TextFactory()],
         ["Picture", new rs.mimic.PictureFactory()],
