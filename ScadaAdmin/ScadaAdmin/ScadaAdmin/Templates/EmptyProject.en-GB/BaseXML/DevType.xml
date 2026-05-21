@@ -62,9 +62,9 @@
   </DevType>
   <DevType>
     <DevTypeID>211</DevTypeID>
-    <Name>BarcodeScanner</Name>
+    <Name>Barcode Scanner</Name>
     <Driver>DrvBarcodeScanner</Driver>
-    <Descr>Receives data from barcode scanner</Descr>
+    <Descr>Receives data from a barcode scanner</Descr>
   </DevType>
   <DevType>
     <DevTypeID>212</DevTypeID>
