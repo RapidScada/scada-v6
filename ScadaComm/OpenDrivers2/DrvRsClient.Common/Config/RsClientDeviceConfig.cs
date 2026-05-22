@@ -40,9 +40,9 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
         /// </summary>
         protected override void LoadFromXml(XmlDocument xmlDoc)
         {
-            if (xmlDoc.DocumentElement.SelectSingleNode("ItemGroups") is XmlNode itemsNode)
+            if (xmlDoc.DocumentElement.SelectSingleNode("ItemGroups") is XmlNode itemGroupsNode)
             {
-                foreach (XmlElement itemGroupElem in itemsNode.SelectNodes("ItemGroup"))
+                foreach (XmlElement itemGroupElem in itemGroupsNode.SelectNodes("ItemGroup"))
                 {
                     ItemGroupConfig itemGroupConfig = new();
                     itemGroupConfig.LoadFromXml(itemGroupElem);
@@ -72,6 +72,14 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
         public bool Load(IStorage storage, int deviceNum, out string errMsg)
         {
             return Load(storage, GetFileName(deviceNum), out errMsg);
+        }
+
+        /// <summary>
+        /// Loads the configuration from the specified file.
+        /// </summary>
+        public bool Load(string directory, int deviceNum, out string errMsg)
+        {
+            return Load(Path.Combine(directory, GetFileName(deviceNum)), out errMsg);
         }
     }
 }
