@@ -44,11 +44,6 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
             public int Count => TagGroup.DeviceTags.Count;
         }
 
-        /// <summary>
-        /// The maximum recursion level for commands.
-        /// </summary>
-        private const int MaxRecursionLevel = 10;
-
         private readonly RsClientLineConfig lineConfig;     // the communication line configuration
         private readonly RsClientDeviceConfig deviceConfig; // the device configuration
         private readonly List<ItemGroup> itemGroups;        // the active item groups
@@ -183,10 +178,9 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
                     {
                         CnlNum = itemConfig.CnlNum,
                         CmdVal = srcCmd.CmdVal,
-                        CmdData = srcCmd.CmdData,
-                        RecursionLevel = srcCmd.RecursionLevel + 1
+                        CmdData = srcCmd.CmdData
                     },
-                    WriteCommandFlags.EnableAll); // command can be returned to Communicator
+                    WriteCommandFlags.Default); // command cannot get into infinite loop
 
                 if (result.IsSuccessful)
                 {
@@ -362,13 +356,6 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
                     "{0} Элемент {1} предназначен только для чтения" :
                     "{0} Element {1} is read-only",
                     CommPhrases.ErrorPrefix, cmd.CmdCode);
-            }
-            else if (cmd.RecursionLevel > MaxRecursionLevel)
-            {
-                Log.WriteError(Locale.IsRussian ?
-                    "{0} Полученная команда игнорируется, т.к. её уровень рекурсии выше {1}" :
-                    "{0} Received command is ignored, because its recursion level is higher than {1}",
-                    CommPhrases.ErrorPrefix, MaxRecursionLevel);
             }
             else
             {
