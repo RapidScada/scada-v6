@@ -143,6 +143,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
         /// </summary>
         private void SetDeviceData(ItemGroup itemGroup, CnlData[] cnlDataArr)
         {
+            // assumed that itemGroup.CnlNumsToRequest and cnlDataArr are of the same length
             for (int i = 0, len = itemGroup.CnlNumsToRequest.Length; i < len; i++)
             {
                 if (itemGroup.TagByCnlNum.TryGetValue(itemGroup.CnlNumsToRequest[i], out DeviceTag deviceTag))
