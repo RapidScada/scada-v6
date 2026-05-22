@@ -14,9 +14,9 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
     public class RsClientDeviceConfig : DeviceConfigBase
     {
         /// <summary>
-        /// Gets the items.
+        /// Gets the item groups.
         /// </summary>
-        public List<ItemConfig> Items { get; private set; }
+        public List<ItemGroupConfig> ItemGroups { get; private set; }
 
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
         /// </summary>
         protected override void SetToDefault()
         {
-            Items = [];
+            ItemGroups = [];
         }
 
         /// <summary>
@@ -40,13 +40,13 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
         /// </summary>
         protected override void LoadFromXml(XmlDocument xmlDoc)
         {
-            if (xmlDoc.DocumentElement.SelectSingleNode("Items") is XmlNode itemsNode)
+            if (xmlDoc.DocumentElement.SelectSingleNode("ItemGroups") is XmlNode itemsNode)
             {
-                foreach (XmlElement itemElem in itemsNode.SelectNodes("Item"))
+                foreach (XmlElement itemGroupElem in itemsNode.SelectNodes("ItemGroup"))
                 {
-                    ItemConfig itemConfig = new();
-                    itemConfig.LoadFromXml(itemElem);
-                    Items.Add(itemConfig);
+                    ItemGroupConfig itemGroupConfig = new();
+                    itemGroupConfig.LoadFromXml(itemGroupElem);
+                    ItemGroups.Add(itemGroupConfig);
                 }
             }
         }
@@ -58,11 +58,11 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
         {
             XmlElement rootElem = xmlDoc.CreateElement("RsClientDeviceConfig");
             xmlDoc.AppendChild(rootElem);
-            XmlElement itemsElem = rootElem.AppendElem("Items");
+            XmlElement itemGroupsElem = rootElem.AppendElem("ItemGroups");
 
-            foreach (ItemConfig itemConfig in Items)
+            foreach (ItemGroupConfig itemGroupConfig in ItemGroups)
             {
-                itemConfig.SaveToXml(itemsElem.AppendElem("Item"));
+                itemGroupConfig.SaveToXml(itemGroupsElem.AppendElem("ItemGroup"));
             }
         }
 
