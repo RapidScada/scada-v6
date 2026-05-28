@@ -123,9 +123,24 @@ namespace Scada.Forms
         }
 
         /// <summary>
+        /// Gets toolbar buttons for custom purposes.
+        /// </summary>
+        public virtual ToolStripItem[] GetCustomButtons()
+        {
+            return null;
+        }
+
+        /// <summary>
         /// Handles a click on the add item button.
         /// </summary>
         public virtual void HandleAddButtonClick(object button, TreeView treeView)
+        {
+        }
+
+        /// <summary>
+        /// Handles a click on the custom button.
+        /// </summary>
+        public virtual void HandleCustomButtonClick(object button, TreeView treeView, ref bool configModified)
         {
         }
 
