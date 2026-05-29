@@ -244,14 +244,5 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
             else
                 return base.GetNodeText(obj);
         }
-
-        /// <summary>
-        /// Gets a selected object for editing its properties.
-        /// </summary>
-        public override object GetSelectedObject(TreeNode selectedNode)
-        {
-            object nodeTag = selectedNode?.Tag;
-            return nodeTag is ItemGroupList ? null : nodeTag;
-        }
     }
 }
