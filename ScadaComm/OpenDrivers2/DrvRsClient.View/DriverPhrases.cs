@@ -15,7 +15,6 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
         public static string FormTitle { get; private set; }
         public static string AddItemGroupButton { get; private set; }
         public static string AddItemButton { get; private set; }
-        public static string ItemGroupsNode { get; private set; }
         public static string UnnamedGroup { get; private set; }
         public static string UnnamedItem { get; private set; }
 
@@ -25,7 +24,6 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
             FormTitle = dict[nameof(FormTitle)];
             AddItemGroupButton = dict[nameof(AddItemGroupButton)];
             AddItemButton = dict[nameof(AddItemButton)];
-            ItemGroupsNode = dict[nameof(ItemGroupsNode)];
             UnnamedGroup = dict[nameof(UnnamedGroup)];
             UnnamedItem = dict[nameof(UnnamedItem)];
         }

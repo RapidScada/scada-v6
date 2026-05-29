@@ -5,6 +5,7 @@ using Scada.Comm.Drivers.DrvRsClient.Config;
 using Scada.Comm.Drivers.DrvRsClient.View.Properties;
 using Scada.Forms;
 using Scada.Lang;
+using System.Collections;
 
 namespace Scada.Comm.Drivers.DrvRsClient.View
 {
@@ -37,8 +38,6 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
             public const string FillChannelNames = nameof(FillChannelNames);
         }
 
-        private TreeNode itemGroupsNode;
-
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -46,8 +45,6 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
         public RsClientConfigProvider(string configDir, int lineNum, int deviceNum)
             : base()
         {
-            itemGroupsNode = null;
-
             ConfigFileName = RsClientDeviceConfig.GetFullFileName(configDir, deviceNum);
             Config = new RsClientDeviceConfig();
             FormTitle = string.Format(DriverPhrases.FormTitle, deviceNum);
@@ -146,21 +143,35 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
         {
             TreeNode parentNode = null;
             TreeNode nodeToInsert = null;
+            ITreeNode parentObj = null;
+            ITreeNode objToInsert = null;
             string buttonTag = GetButtonTag(button);
 
             if (buttonTag == ButtonTag.AddItemGroup)
             {
-                parentNode = itemGroupsNode;
-                nodeToInsert = CreateItemGroupNode(new ItemGroupConfig());
+                ItemGroupConfig itemGroupConfig = new();
+                nodeToInsert = CreateItemGroupNode(itemGroupConfig);
+                parentObj = DeviceConfig.ItemGroups;
+                objToInsert = itemGroupConfig;
             }
             else if (buttonTag == ButtonTag.AddItem)
             {
                 parentNode = treeView.SelectedNode.FindClosest(typeof(ItemGroupConfig));
-                nodeToInsert = CreateItemNode(new ItemConfig());
+                parentObj = parentNode?.GetRelatedObject() as ITreeNode;
+
+                if (parentObj != null)
+                {
+                    ItemConfig itemConfig = new();
+                    nodeToInsert = CreateItemNode(itemConfig);
+                    objToInsert = itemConfig;
+                }
             }
 
-            if (parentNode != null && nodeToInsert != null)
-                treeView.Insert(parentNode, nodeToInsert);
+            if (objToInsert != null)
+            {
+                objToInsert.Parent = parentObj;
+                treeView.Insert(parentNode, nodeToInsert, parentObj.Children, objToInsert);
+            }
         }
 
         /// <summary>
@@ -199,15 +210,14 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
         /// </summary>
         public override TreeNode[] GetTreeNodes()
         {
-            itemGroupsNode = TreeViewExtensions.CreateNode(
-                DriverPhrases.ItemGroupsNode, ImageKey.FolderClosed, DeviceConfig.ItemGroups);
+            List<TreeNode> itemGroupNodes = [];
 
             foreach (ItemGroupConfig itemGroupConfig in DeviceConfig.ItemGroups)
             {
-                itemGroupsNode.Nodes.Add(CreateItemGroupNode(itemGroupConfig));
+                itemGroupNodes.Add(CreateItemGroupNode(itemGroupConfig));
             }
 
-            return [itemGroupsNode];
+            return [.. itemGroupNodes];
         }
 
         /// <summary>
