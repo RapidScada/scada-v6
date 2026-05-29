@@ -174,6 +174,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
                 ConfigAction.Add =>
                     buttonTag == ButtonTag.AddItemGroup ||
                     buttonTag == ButtonTag.AddItem && selectedNode.FindClosest(typeof(ItemGroupConfig)) != null,
+                ConfigAction.Delete => selectedNode?.Tag is ITreeNode node && node.Parent != null,
                 _ => base.AllowAction(action, button, selectedNode)
             };
         }
