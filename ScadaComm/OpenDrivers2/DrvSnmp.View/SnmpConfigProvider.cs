@@ -117,8 +117,8 @@ namespace Scada.Comm.Drivers.DrvSnmp.View
         /// </summary>
         public override ToolStripItem[] GetAddButtons()
         {
-            return new ToolStripItem[]
-            {
+            return
+            [
                 new ToolStripMenuItem(DriverPhrases.AddVarGroupButton, Resources.folder_open)
                 {
                     Tag = AddButtonTag.VarGroup
@@ -127,7 +127,7 @@ namespace Scada.Comm.Drivers.DrvSnmp.View
                 {
                     Tag = AddButtonTag.Variable
                 }
-            };
+            ];
         }
 
         /// <summary>
@@ -137,20 +137,21 @@ namespace Scada.Comm.Drivers.DrvSnmp.View
         {
             TreeNode parentNode = null;
             TreeNode nodeToInsert = null;
-            object buttonTag = (button as ToolStripItem)?.Tag;
+            string buttonTag = GetButtonTag(button);
 
-            if (buttonTag.Equals(AddButtonTag.VarGroup))
+            if (buttonTag == AddButtonTag.VarGroup)
             {
                 parentNode = varGroupsNode;
                 nodeToInsert = CreateVarGroupNode(new VarGroupConfig());
             }
-            else if (buttonTag.Equals(AddButtonTag.Variable))
+            else if (buttonTag == AddButtonTag.Variable)
             {
                 parentNode = treeView.SelectedNode.FindClosest(typeof(VarGroupConfig));
                 nodeToInsert = CreateVariableNode(new VariableConfig());
             }
 
-            treeView.Insert(parentNode, nodeToInsert);
+            if (parentNode != null)
+                treeView.Insert(parentNode, nodeToInsert);
         }
 
         /// <summary>
@@ -158,12 +159,14 @@ namespace Scada.Comm.Drivers.DrvSnmp.View
         /// </summary>
         public override bool AllowAction(ConfigAction action, object button, TreeNode selectedNode)
         {
-            if (!base.AllowAction(action, button, selectedNode))
-                return false;
-
-            return action == ConfigAction.Add ||
-                selectedNode?.Tag is VarGroupConfig ||
-                selectedNode?.Tag is VariableConfig;
+            string buttonTag = GetButtonTag(button);
+            return action switch
+            {
+                ConfigAction.Add =>
+                    buttonTag == AddButtonTag.VarGroup ||
+                    buttonTag == AddButtonTag.Variable && selectedNode.FindClosest(typeof(VarGroupConfig)) != null,
+                _ => base.AllowAction(action, button, selectedNode)
+            };
         }
 
         /// <summary>
@@ -197,7 +200,7 @@ namespace Scada.Comm.Drivers.DrvSnmp.View
                 varGroupsNode.Nodes.Add(CreateVarGroupNode(varGroupConfig));
             }
 
-            return new TreeNode[] { optionsNode, varGroupsNode };
+            return [optionsNode, varGroupsNode];
         }
 
         /// <summary>
