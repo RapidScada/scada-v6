@@ -15,6 +15,8 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
         public static string FormTitle { get; private set; }
         public static string AddItemGroupButton { get; private set; }
         public static string AddItemButton { get; private set; }
+        public static string EditLineConfigButton { get; private set; }
+        public static string FillItemNamesButton { get; private set; }
         public static string UnnamedGroup { get; private set; }
         public static string UnnamedItem { get; private set; }
 
@@ -24,6 +26,8 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
             FormTitle = dict[nameof(FormTitle)];
             AddItemGroupButton = dict[nameof(AddItemGroupButton)];
             AddItemButton = dict[nameof(AddItemButton)];
+            EditLineConfigButton = dict[nameof(EditLineConfigButton)];
+            FillItemNamesButton = dict[nameof(FillItemNamesButton)];
             UnnamedGroup = dict[nameof(UnnamedGroup)];
             UnnamedItem = dict[nameof(UnnamedItem)];
         }

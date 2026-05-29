@@ -4,6 +4,8 @@
     <Phrase key="FormTitle">Свойства устройства {0} - Клиент Rapid SCADA</Phrase>
     <Phrase key="AddItemGroupButton">Добавить группу</Phrase>
     <Phrase key="AddItemButton">Добавить элемент</Phrase>
+    <Phrase key="EditLineConfigButton">Редактировать параметры соединения</Phrase>
+    <Phrase key="FillItemNamesButton">Автоматически заполнить наименования элементов</Phrase>
     <Phrase key="UnnamedGroup">&lt;Безымянная группа&gt;</Phrase>
     <Phrase key="UnnamedItem">[{0}] Безымянный элемент</Phrase>
   </Dictionary>

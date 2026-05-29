@@ -34,8 +34,8 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
         {
             public const string AddItemGroup = nameof(AddItemGroup);
             public const string AddItem = nameof(AddItem);
-            public const string LineConfig = nameof(LineConfig);
-            public const string FillChannelNames = nameof(FillChannelNames);
+            public const string EditLineConfig = nameof(EditLineConfig);
+            public const string FillItemNames = nameof(FillItemNames);
         }
 
 
@@ -129,6 +129,26 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
         }
 
         /// <summary>
+        /// Gets toolbar buttons for custom purposes.
+        /// </summary>
+        public override ToolStripItem[] GetCustomButtons()
+        {
+            return
+            [
+                new ToolStripButton(Resources.connect)
+                {
+                    ToolTipText = DriverPhrases.EditLineConfigButton,
+                    Tag = ButtonTag.EditLineConfig
+                },
+                new ToolStripButton(Resources.text)
+                {
+                    ToolTipText = DriverPhrases.FillItemNamesButton,
+                    Tag = ButtonTag.FillItemNames
+                }
+            ];
+        }
+
+        /// <summary>
         /// Handles a click on the add item button.
         /// </summary>
         public override void HandleAddButtonClick(object button, TreeView treeView)
@@ -164,6 +184,13 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
                 objToInsert.Parent = parentObj;
                 treeView.Insert(parentNode, nodeToInsert, parentObj.Children, objToInsert);
             }
+        }
+
+        /// <summary>
+        /// Handles a click on the custom button.
+        /// </summary>
+        public override void HandleCustomButtonClick(object button, TreeView treeView, ref bool configModified)
+        {
         }
 
         /// <summary>
