@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DrvRsClientDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvRsClient.View.RsClientConfigProvider">
+    <Phrase key="FormTitle">Device {0} Properties - Rapid SCADA Client</Phrase>
+    <Phrase key="AddItemGroupButton">Add Group</Phrase>
+    <Phrase key="AddItemButton">Add Item</Phrase>
+    <Phrase key="ItemGroupsNode">Item Groups</Phrase>
+    <Phrase key="UnnamedGroup">&lt;Unnamed Group&gt;</Phrase>
+    <Phrase key="UnnamedItem">Channel {0}</Phrase>
+  </Dictionary>
+</DrvRsClientDictionaries>

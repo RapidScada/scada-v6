@@ -6,6 +6,7 @@ using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvRsClient.Config;
 using Scada.Data.Const;
 using Scada.Data.Models;
+using Scada.Forms.Forms;
 
 namespace Scada.Comm.Drivers.DrvRsClient.View
 {
@@ -30,6 +31,8 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
         /// </summary>
         public override bool ShowProperties()
         {
+            new FrmModuleConfig(new RsClientConfigProvider(AppDirs.ConfigDir, LineConfig.CommLineNum, DeviceNum))
+                .ShowDialog();
             return false;
         }
 

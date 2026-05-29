@@ -16,7 +16,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
         /// <summary>
         /// Gets the item groups.
         /// </summary>
-        public List<ItemGroupConfig> ItemGroups { get; private set; }
+        public ItemGroupList ItemGroups { get; private set; }
 
 
         /// <summary>
@@ -79,7 +79,15 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
         /// </summary>
         public bool Load(string directory, int deviceNum, out string errMsg)
         {
-            return Load(Path.Combine(directory, GetFileName(deviceNum)), out errMsg);
+            return Load(GetFullFileName(directory, deviceNum), out errMsg);
+        }
+
+        /// <summary>
+        /// Gets the full name of the device configuration file.
+        /// </summary>
+        public static string GetFullFileName(string directory, int deviceNum)
+        {
+            return Path.Combine(directory, GetFileName(deviceNum));
         }
     }
 }

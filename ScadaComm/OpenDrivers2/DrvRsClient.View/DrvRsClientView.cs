@@ -3,6 +3,8 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using Scada.Comm.Drivers.DrvRsClient.Config;
+using Scada.ComponentModel;
 using Scada.Forms;
 using Scada.Lang;
 
@@ -59,9 +61,9 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
             if (!Locale.LoadDictionaries(AppDirs.LangDir, DriverUtils.DriverCode, out string errMsg))
                 ScadaUiUtils.ShowError(errMsg);
 
-            //DriverPhrases.Init();
-            //AttrTranslator.Translate(typeof(DeviceOptions));
-            //AttrTranslator.Translate(typeof(ItemConfig));
+            DriverPhrases.Init();
+            AttrTranslator.Translate(typeof(ItemGroupConfig));
+            AttrTranslator.Translate(typeof(ItemConfig));
         }
 
         /// <summary>
