@@ -102,14 +102,6 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
         }
 
         /// <summary>
-        /// Gets the tag associated with the tool button.
-        /// </summary>
-        private static string GetButtonTag(object button)
-        {
-            return (button as ToolStripItem)?.Tag?.ToString() ?? "";
-        }
-
-        /// <summary>
         /// Restores a configuration from the copy.
         /// </summary>
         public override void RestoreConfig()
@@ -185,7 +177,6 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
                 ConfigAction.Add =>
                     buttonTag == ButtonTag.AddItemGroup ||
                     buttonTag == ButtonTag.AddItem && selectedNode.FindClosest(typeof(ItemGroupConfig)) != null,
-                ConfigAction.Delete => selectedNode?.Tag is ITreeNode node && node.Parent != null,
                 _ => base.AllowAction(action, button, selectedNode)
             };
         }
