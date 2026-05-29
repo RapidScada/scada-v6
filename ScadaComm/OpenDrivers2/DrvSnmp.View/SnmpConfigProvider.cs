@@ -18,7 +18,6 @@ namespace Scada.Comm.Drivers.DrvSnmp.View
         /// </summary>
         private static class ImageKey
         {
-            public const string Cmd = "cmd.png";
             public const string Elem = "elem.png";
             public const string FolderClosed = "folder_closed.png";
             public const string FolderClosedInactive = "folder_closed_inactive.png";
