@@ -105,6 +105,14 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
         }
 
         /// <summary>
+        /// Gets the tag associated with the tool button.
+        /// </summary>
+        private static string GetButtonTag(object button)
+        {
+            return (button as ToolStripItem)?.Tag?.ToString() ?? "";
+        }
+
+        /// <summary>
         /// Restores a configuration from the copy.
         /// </summary>
         public override void RestoreConfig()
@@ -138,20 +146,21 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
         {
             TreeNode parentNode = null;
             TreeNode nodeToInsert = null;
-            object buttonTag = (button as ToolStripItem)?.Tag;
+            string buttonTag = GetButtonTag(button);
 
-            if (buttonTag.Equals(ButtonTag.AddItemGroup))
+            if (buttonTag == ButtonTag.AddItemGroup)
             {
                 parentNode = itemGroupsNode;
                 nodeToInsert = CreateItemGroupNode(new ItemGroupConfig());
             }
-            else if (buttonTag.Equals(ButtonTag.AddItem))
+            else if (buttonTag == ButtonTag.AddItem)
             {
                 parentNode = treeView.SelectedNode.FindClosest(typeof(ItemGroupConfig));
                 nodeToInsert = CreateItemNode(new ItemConfig());
             }
 
-            treeView.Insert(parentNode, nodeToInsert);
+            if (parentNode != null && nodeToInsert != null)
+                treeView.Insert(parentNode, nodeToInsert);
         }
 
         /// <summary>
@@ -159,11 +168,14 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
         /// </summary>
         public override bool AllowAction(ConfigAction action, object button, TreeNode selectedNode)
         {
-            if (!base.AllowAction(action, button, selectedNode))
-                return false;
-
-            object tag = selectedNode?.Tag;
-            return action == ConfigAction.Add && (tag is ItemGroupConfig || tag is ItemConfig);
+            string buttonTag = GetButtonTag(button);
+            return action switch
+            {
+                ConfigAction.Add =>
+                    buttonTag == ButtonTag.AddItemGroup ||
+                    buttonTag == ButtonTag.AddItem && selectedNode.FindClosest(typeof(ItemGroupConfig)) != null,
+                _ => base.AllowAction(action, button, selectedNode)
+            };
         }
 
         /// <summary>
@@ -236,8 +248,8 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
         /// </summary>
         public override object GetSelectedObject(TreeNode selectedNode)
         {
-            object tag = selectedNode?.Tag;
-            return tag is ItemGroupList ? null : tag;
+            object nodeTag = selectedNode?.Tag;
+            return nodeTag is ItemGroupList ? null : nodeTag;
         }
     }
 }

@@ -6,6 +6,6 @@
     <Phrase key="AddItemButton">Добавить элемент</Phrase>
     <Phrase key="ItemGroupsNode">Группы элементов</Phrase>
     <Phrase key="UnnamedGroup">&lt;Безымянная группа&gt;</Phrase>
-    <Phrase key="UnnamedItem">Канал {0}</Phrase>
+    <Phrase key="UnnamedItem">[{0}] Безымянный элемент</Phrase>
   </Dictionary>
 </DrvRsClientDictionaries>

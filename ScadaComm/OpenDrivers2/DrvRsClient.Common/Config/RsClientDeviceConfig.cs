@@ -11,6 +11,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
     /// Represents a configuration of a device corresponding to a SCADA client.
     /// <para>Представляет конфигурацию устройства, соответствующего SCADA-клиенту.</para>
     /// </summary>
+    [Serializable]
     public class RsClientDeviceConfig : DeviceConfigBase
     {
         /// <summary>
@@ -44,7 +45,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
             {
                 foreach (XmlElement itemGroupElem in itemGroupsNode.SelectNodes("ItemGroup"))
                 {
-                    ItemGroupConfig itemGroupConfig = new();
+                    ItemGroupConfig itemGroupConfig = new() { Parent = ItemGroups };
                     itemGroupConfig.LoadFromXml(itemGroupElem);
                     ItemGroups.Add(itemGroupConfig);
                 }
