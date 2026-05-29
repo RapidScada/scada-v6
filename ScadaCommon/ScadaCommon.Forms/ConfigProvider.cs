@@ -63,6 +63,14 @@ namespace Scada.Forms
 
 
         /// <summary>
+        /// Gets the tag associated with the tool button.
+        /// </summary>
+        protected static string GetButtonTag(object button)
+        {
+            return (button as ToolStripItem)?.Tag?.ToString() ?? "";
+        }
+
+        /// <summary>
         /// Loads the configuration.
         /// </summary>
         public virtual bool LoadConfig(out string errMsg)
@@ -157,7 +165,7 @@ namespace Scada.Forms
                 ConfigAction.MoveDown =>
                     TreeViewExtensions.MoveDownIsEnabled(selectedNode, TreeNodeBehavior.WithinParent),
 
-                ConfigAction.Delete => selectedNode != null,
+                ConfigAction.Delete => selectedNode?.Tag is ITreeNode node && node.Parent != null,
 
                 _ => true
             };
