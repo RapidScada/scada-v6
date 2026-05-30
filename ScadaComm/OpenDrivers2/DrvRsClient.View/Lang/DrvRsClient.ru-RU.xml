@@ -1,5 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvRsClientDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvRsClient.Config.ItemGroupConfig">
+    <Phrase key="Active.DisplayName">Активна</Phrase>
+    <Phrase key="Active.Category">Основные параметры</Phrase>
+    <Phrase key="Active.Description">Значение, указывающее, активна ли группа.</Phrase>
+    <Phrase key="Name.DisplayName">Наименование</Phrase>
+    <Phrase key="Name.Category">Основные параметры</Phrase>
+    <Phrase key="Name.Description">Наименование группы.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvRsClient.Config.ItemConfig">
+    <Phrase key="CnlNum.DisplayName">Номер канала</Phrase>
+    <Phrase key="CnlNum.Category">Основные параметры</Phrase>
+    <Phrase key="CnlNum.Description">Номер канала, соответствующий элементу.</Phrase>
+    <Phrase key="Name.DisplayName">Наименование</Phrase>
+    <Phrase key="Name.Category">Основные параметры</Phrase>
+    <Phrase key="Name.Description">Наименование элемента.</Phrase>
+    <Phrase key="ReadOnly.DisplayName">Только чтение</Phrase>
+    <Phrase key="ReadOnly.Category">Основные параметры</Phrase>
+    <Phrase key="ReadOnly.Description">Значение, указывающее, что команды отключены для этого элемента.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvRsClient.View.Forms.FrmLineConfig">
     <Phrase key="this">Параметры соединения</Phrase>
     <Phrase key="chkUseDefaultConnection">Использовать соединение по умолчанию</Phrase>

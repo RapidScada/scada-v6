@@ -16,7 +16,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
     public class ItemConfig : ITreeNode
     {
         /// <summary>
-        /// Gets or sets the channel number.
+        /// Gets or sets the channel number corresponding to the item.
         /// </summary>
         [DisplayName, Category, Description]
         public int CnlNum { get; set; } = 0;
