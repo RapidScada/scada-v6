@@ -4,9 +4,10 @@
 using Scada.Comm.Drivers.DrvRsClient.Config;
 using Scada.Comm.Drivers.DrvRsClient.View.Forms;
 using Scada.Comm.Drivers.DrvRsClient.View.Properties;
+using Scada.Data.Entities;
+using Scada.Data.Models;
 using Scada.Forms;
 using Scada.Lang;
-using System.Collections;
 
 namespace Scada.Comm.Drivers.DrvRsClient.View
 {
@@ -55,6 +56,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
             ConfigFileName = RsClientDeviceConfig.GetFullFileName(configDir, deviceNum);
             Config = new RsClientDeviceConfig();
             FormTitle = string.Format(DriverPhrases.FormTitle, deviceNum);
+            ConfigDataset = null;
         }
 
 
@@ -63,7 +65,12 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
         /// </summary>
         public RsClientDeviceConfig DeviceConfig => Config as RsClientDeviceConfig;
         
-        
+        /// <summary>
+        /// Gets or sets the cached database of the current project.
+        /// </summary>
+        public ConfigDataset ConfigDataset { get; set; }
+
+
         /// <summary>
         /// Creates a tree node according to the variable group configuration.
         /// </summary>
@@ -106,6 +113,32 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
             return string.IsNullOrEmpty(itemConfig.Name)
                 ? string.Format(DriverPhrases.UnnamedItem, itemConfig.CnlNum)
                 : string.Format(CommonPhrases.EntityCaption, itemConfig.CnlNum, itemConfig.Name);
+        }
+
+        /// <summary>
+        /// Auto-fills the item names based on the current project.
+        /// </summary>
+        private bool FillItemNames()
+        {
+            if (ConfigDataset == null)
+                throw new ScadaException("The confiuration database is not set.");
+
+            if (MessageBox.Show(DriverPhrases.FillItemNamesConfirm, CommonPhrases.QuestionCaption, 
+                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                foreach (ItemGroupConfig itemGroupConfig in DeviceConfig.ItemGroups)
+                {
+                    foreach (ItemConfig itemConfig in itemGroupConfig.Items)
+                    {
+                        if (ConfigDataset.CnlTable.GetItem(itemConfig.CnlNum) is Cnl cnl)
+                            itemConfig.Name = cnl.Name;
+                    }
+                }
+
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -207,6 +240,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
                     break;
 
                 case ButtonTag.FillItemNames:
+                    configModified = FillItemNames();
                     break;
             }
         }

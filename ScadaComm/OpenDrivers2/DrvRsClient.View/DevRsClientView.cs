@@ -31,7 +31,11 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
         /// </summary>
         public override bool ShowProperties()
         {
-            new FrmModuleConfig(new RsClientConfigProvider(AppDirs.ConfigDir, LineConfig.CommLineNum, DeviceNum))
+            new FrmModuleConfig(
+                new RsClientConfigProvider(AppDirs.ConfigDir, LineConfig.CommLineNum, DeviceNum)
+                {
+                    ConfigDataset = ConfigDataset
+                })
                 .ShowDialog();
             return false;
         }

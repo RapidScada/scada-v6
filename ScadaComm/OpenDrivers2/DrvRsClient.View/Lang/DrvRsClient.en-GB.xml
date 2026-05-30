@@ -15,5 +15,6 @@
     <Phrase key="FillItemNamesButton">Auto-Fill Item Names</Phrase>
     <Phrase key="UnnamedGroup">&lt;Unnamed Group&gt;</Phrase>
     <Phrase key="UnnamedItem">[{0}] Unnamed Item</Phrase>
+    <Phrase key="FillItemNamesConfirm">Fill in the item names based on the current project?</Phrase>
   </Dictionary>
 </DrvRsClientDictionaries>

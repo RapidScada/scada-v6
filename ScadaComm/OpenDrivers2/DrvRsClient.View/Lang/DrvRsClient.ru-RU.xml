@@ -15,5 +15,6 @@
     <Phrase key="FillItemNamesButton">Автоматически заполнить наименования элементов</Phrase>
     <Phrase key="UnnamedGroup">&lt;Безымянная группа&gt;</Phrase>
     <Phrase key="UnnamedItem">[{0}] Безымянный элемент</Phrase>
+    <Phrase key="FillItemNamesConfirm">Заполнить наименования элементов на основе текущего проекта?</Phrase>
   </Dictionary>
 </DrvRsClientDictionaries>

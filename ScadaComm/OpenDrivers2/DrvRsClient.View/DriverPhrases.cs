@@ -19,6 +19,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
         public static string FillItemNamesButton { get; private set; }
         public static string UnnamedGroup { get; private set; }
         public static string UnnamedItem { get; private set; }
+        public static string FillItemNamesConfirm { get; private set; }
 
         public static void Init()
         {
@@ -30,6 +31,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
             FillItemNamesButton = dict[nameof(FillItemNamesButton)];
             UnnamedGroup = dict[nameof(UnnamedGroup)];
             UnnamedItem = dict[nameof(UnnamedItem)];
+            FillItemNamesConfirm = dict[nameof(FillItemNamesConfirm)];
         }
     }
 }
