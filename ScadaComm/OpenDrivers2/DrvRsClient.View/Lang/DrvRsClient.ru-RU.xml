@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvRsClientDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvRsClient.View.Forms.FrmLineConfig">
+    <Phrase key="this">Параметры соединения</Phrase>
+    <Phrase key="chkUseDefaultConnection">Использовать соединение по умолчанию</Phrase>
+    <Phrase key="lblLineInfo">Параметры являются общими для линии связи</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvRsClient.View.RsClientConfigProvider">
     <Phrase key="FormTitle">Свойства устройства {0} - Клиент Rapid SCADA</Phrase>
     <Phrase key="AddItemGroupButton">Добавить группу</Phrase>

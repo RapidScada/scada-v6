@@ -73,5 +73,13 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
         {
             return Load(storage, GetFileName(lineNum), out errMsg);
         }
+
+        /// <summary>
+        /// Gets the full name of the device configuration file.
+        /// </summary>
+        public static string GetFullFileName(string directory, int lineNum)
+        {
+            return Path.Combine(directory, GetFileName(lineNum));
+        }
     }
 }

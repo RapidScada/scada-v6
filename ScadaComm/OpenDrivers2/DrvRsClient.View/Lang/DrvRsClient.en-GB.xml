@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvRsClientDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvRsClient.View.Forms.FrmLineConfig">
+    <Phrase key="this">Connection Options</Phrase>
+    <Phrase key="chkUseDefaultConnection">Use default connection</Phrase>
+    <Phrase key="lblLineInfo">Options are common to the communication line</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvRsClient.View.RsClientConfigProvider">
     <Phrase key="FormTitle">Device {0} Properties - Rapid SCADA Client</Phrase>
     <Phrase key="AddItemGroupButton">Add Group</Phrase>

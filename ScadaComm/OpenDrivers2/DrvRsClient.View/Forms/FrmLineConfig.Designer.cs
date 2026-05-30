@@ -48,6 +48,7 @@
             chkUseDefaultConnection.TabIndex = 0;
             chkUseDefaultConnection.Text = "Use default connection";
             chkUseDefaultConnection.UseVisualStyleBackColor = true;
+            chkUseDefaultConnection.CheckedChanged += chkUseDefaultConnection_CheckedChanged;
             // 
             // ctrlClientConnection
             // 
@@ -67,6 +68,7 @@
             btnOK.TabIndex = 3;
             btnOK.Text = "OK";
             btnOK.UseVisualStyleBackColor = true;
+            btnOK.Click += btnOK_Click;
             // 
             // btnCancel
             // 
@@ -124,6 +126,7 @@
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
             Text = "Connection Options";
+            Load += FrmLineConfig_Load;
             pnlLineInfo.ResumeLayout(false);
             pnlLineInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbConnectionInfo).EndInit();

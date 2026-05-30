@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Comm.Drivers.DrvRsClient.Config;
+using Scada.Comm.Drivers.DrvRsClient.View.Forms;
 using Scada.Comm.Drivers.DrvRsClient.View.Properties;
 using Scada.Forms;
 using Scada.Lang;
@@ -38,6 +39,9 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
             public const string FillItemNames = nameof(FillItemNames);
         }
 
+        private readonly string configDir;
+        private readonly int lineNum;
+
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -45,6 +49,9 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
         public RsClientConfigProvider(string configDir, int lineNum, int deviceNum)
             : base()
         {
+            this.configDir = configDir;
+            this.lineNum = lineNum;
+
             ConfigFileName = RsClientDeviceConfig.GetFullFileName(configDir, deviceNum);
             Config = new RsClientDeviceConfig();
             FormTitle = string.Format(DriverPhrases.FormTitle, deviceNum);
@@ -196,6 +203,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
             switch (GetButtonTag(button))
             {
                 case ButtonTag.EditLineConfig:
+                    new FrmLineConfig(configDir, lineNum).ShowDialog();
                     break;
 
                 case ButtonTag.FillItemNames:
