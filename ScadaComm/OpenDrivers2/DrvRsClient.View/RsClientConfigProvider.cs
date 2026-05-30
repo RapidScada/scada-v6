@@ -157,26 +157,28 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
             TreeNode nodeToInsert = null;
             ITreeNode parentObj = null;
             ITreeNode objToInsert = null;
-            string buttonTag = GetButtonTag(button);
 
-            if (buttonTag == ButtonTag.AddItemGroup)
+            switch (GetButtonTag(button))
             {
-                ItemGroupConfig itemGroupConfig = new();
-                nodeToInsert = CreateItemGroupNode(itemGroupConfig);
-                parentObj = DeviceConfig.ItemGroups;
-                objToInsert = itemGroupConfig;
-            }
-            else if (buttonTag == ButtonTag.AddItem)
-            {
-                parentNode = treeView.SelectedNode.FindClosest(typeof(ItemGroupConfig));
-                parentObj = parentNode?.GetRelatedObject() as ITreeNode;
+                case ButtonTag.AddItemGroup:
+                    ItemGroupConfig itemGroupConfig = new();
+                    nodeToInsert = CreateItemGroupNode(itemGroupConfig);
+                    parentObj = DeviceConfig.ItemGroups;
+                    objToInsert = itemGroupConfig;
+                    break;
 
-                if (parentObj != null)
-                {
-                    ItemConfig itemConfig = new();
-                    nodeToInsert = CreateItemNode(itemConfig);
-                    objToInsert = itemConfig;
-                }
+                case ButtonTag.AddItem:
+                    parentNode = treeView.SelectedNode.FindClosest(typeof(ItemGroupConfig));
+                    parentObj = parentNode?.GetRelatedObject() as ITreeNode;
+
+                    if (parentObj != null)
+                    {
+                        ItemConfig itemConfig = new();
+                        nodeToInsert = CreateItemNode(itemConfig);
+                        objToInsert = itemConfig;
+                    }
+
+                    break;
             }
 
             if (objToInsert != null)
@@ -191,6 +193,14 @@ namespace Scada.Comm.Drivers.DrvRsClient.View
         /// </summary>
         public override void HandleCustomButtonClick(object button, TreeView treeView, ref bool configModified)
         {
+            switch (GetButtonTag(button))
+            {
+                case ButtonTag.EditLineConfig:
+                    break;
+
+                case ButtonTag.FillItemNames:
+                    break;
+            }
         }
 
         /// <summary>
