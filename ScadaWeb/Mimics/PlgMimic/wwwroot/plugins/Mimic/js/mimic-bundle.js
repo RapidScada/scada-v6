@@ -4697,11 +4697,12 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
     // Sets the CSS properties of the mimic element.
     _setElemProps(mimicElem, props, isFaceplate, renderContext) {
         this._setFont(mimicElem, props.font, renderContext.fontMap);
-        this._setSize(mimicElem, props.size);
 
         if (isFaceplate) {
             this._setBorder(mimicElem, props.border);
             this._setCornerRadius(mimicElem, props.cornerRadius);
+        } else {
+            this._setSize(mimicElem, props.size);
         }
 
         mimicElem
