@@ -544,6 +544,16 @@ rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
         rs.mimic.MimicHelper.defineNesting(this, this.components, this.componentMap);
     }
 
+    // Initializes the custom script.
+    _initCustomScript() {
+        try {
+            let sourceCode = this.document.script;
+            this.script = sourceCode ? rs.mimic.ComponentScript.createFromSource(sourceCode) : null;
+        } catch (ex) {
+            console.error("Error creating mimic script: " + ex.message);
+        }
+    }
+
     // Sets the specified properties of the document.
     setProperties(sourceProps) {
         if (this.document) {
@@ -569,6 +579,7 @@ rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
 
         if (loadContext.result.ok) {
             this._defineNesting();
+            this._initCustomScript();
             let endTime = Date.now();
             let endTimeStr = ScadaUtils.getCurrentTime();
 
@@ -727,47 +738,6 @@ rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
         } else {
             return null;
         }
-    }
-
-    // Initializes the custom scripts of the mimic and components.
-    initCustomScripts() {
-        const ComponentScript = rs.mimic.ComponentScript;
-
-        // mimic script
-        if (this.document.script) {
-            try {
-                this.script = ComponentScript.createFromSource(this.document.script);
-            } catch (ex) {
-                console.error("Error creating mimic script: " + ex.message);
-            }
-        }
-
-        // component scripts
-        let initScriptsInternal = (components, throwOnError) => {
-            for (let component of components) {
-                try {
-                    let script = component.isFaceplate
-                        ? component.document?.script
-                        : component.properties?.script;
-
-                    if (script) {
-                        component.customScript = ComponentScript.createFromSource(script);
-
-                        if (component.isFaceplate) {
-                            initScriptsInternal(component.components, true);
-                        }
-                    }
-                } catch (ex) {
-                    if (throwOnError) {
-                        throw ex;
-                    } else {
-                        console.error(`Error creating script for component ${component.id}: ${ex.message}`);
-                    }
-                }
-            }
-        };
-
-        initScriptsInternal(this.components, false);
     }
 
     // Populates a component map to search for components by name.

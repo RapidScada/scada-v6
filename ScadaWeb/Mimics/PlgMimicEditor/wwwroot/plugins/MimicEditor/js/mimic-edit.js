@@ -317,7 +317,6 @@ async function loadMimic() {
     // load
     showSpinner();
     let result = await mimic.load(getLoaderUrl(), mimicKey);
-    mimic.initCustomScripts();
 
     if (!result.ok) {
         showToast(phrases.loadMimicError, MessageType.ERROR);

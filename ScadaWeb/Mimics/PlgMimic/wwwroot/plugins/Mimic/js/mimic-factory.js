@@ -90,9 +90,7 @@ rs.mimic.ComponentFactory = class {
     // Creates an object that implements custom component logic.
     _createCustomScript(component) {
         let sourceCode = component.properties?.script;
-        return sourceCode
-            ? rs.mimic.ComponentScript.createFromSource(sourceCode)
-            : null;
+        return sourceCode ? rs.mimic.ComponentScript.createFromSource(sourceCode) : null;
     }
 
     // Creates an object that implements additional component logic.
@@ -561,12 +559,34 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         }
     }
 
+    _initCustomScripts(faceplateInstance) {
+        let initScriptsInternal = (component) => {
+            if (component.isFaceplate) {
+                let sourceCode = component.document?.script;
+                component.customScript = sourceCode ? rs.mimic.ComponentScript.createFromSource(sourceCode) : null;
+
+                for (let childComponent of component.components) {
+                    initScriptsInternal(childComponent);
+                }
+            } else {
+                component.customScript = this._createCustomScript(component);
+            }
+        };
+
+        try {
+            initScriptsInternal(faceplateInstance);
+        } catch (ex) {
+            console.error(`Error creating scripts for faceplate ${faceplateInstance.id}: ${ex.message}`);
+        }
+    }
+
     _applyModel(faceplateInstance, source) {
         faceplateInstance.typeName = faceplateInstance.properties.typeName = this.faceplate.typeName;
         faceplateInstance.model = this.faceplate;
         faceplateInstance.document = rs.mimic.MimicFactory.parseProperties(this.faceplate.document, true);
         this._createComponents(faceplateInstance);
         this._createCustomProperties(faceplateInstance, source?.properties);
+        this._initCustomScripts(faceplateInstance);
     }
 
     parseProperties(sourceProps) {

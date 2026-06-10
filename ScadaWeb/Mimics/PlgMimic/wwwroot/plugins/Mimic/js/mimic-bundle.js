@@ -1889,6 +1889,16 @@ rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
         rs.mimic.MimicHelper.defineNesting(this, this.components, this.componentMap);
     }
 
+    // Initializes the custom script.
+    _initCustomScript() {
+        try {
+            let sourceCode = this.document.script;
+            this.script = sourceCode ? rs.mimic.ComponentScript.createFromSource(sourceCode) : null;
+        } catch (ex) {
+            console.error("Error creating mimic script: " + ex.message);
+        }
+    }
+
     // Sets the specified properties of the document.
     setProperties(sourceProps) {
         if (this.document) {
@@ -1914,6 +1924,7 @@ rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
 
         if (loadContext.result.ok) {
             this._defineNesting();
+            this._initCustomScript();
             let endTime = Date.now();
             let endTimeStr = ScadaUtils.getCurrentTime();
 
@@ -2072,47 +2083,6 @@ rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
         } else {
             return null;
         }
-    }
-
-    // Initializes the custom scripts of the mimic and components.
-    initCustomScripts() {
-        const ComponentScript = rs.mimic.ComponentScript;
-
-        // mimic script
-        if (this.document.script) {
-            try {
-                this.script = ComponentScript.createFromSource(this.document.script);
-            } catch (ex) {
-                console.error("Error creating mimic script: " + ex.message);
-            }
-        }
-
-        // component scripts
-        let initScriptsInternal = (components, throwOnError) => {
-            for (let component of components) {
-                try {
-                    let script = component.isFaceplate
-                        ? component.document?.script
-                        : component.properties?.script;
-
-                    if (script) {
-                        component.customScript = ComponentScript.createFromSource(script);
-
-                        if (component.isFaceplate) {
-                            initScriptsInternal(component.components, true);
-                        }
-                    }
-                } catch (ex) {
-                    if (throwOnError) {
-                        throw ex;
-                    } else {
-                        console.error(`Error creating script for component ${component.id}: ${ex.message}`);
-                    }
-                }
-            }
-        };
-
-        initScriptsInternal(this.components, false);
     }
 
     // Populates a component map to search for components by name.
@@ -3849,6 +3819,22 @@ rs.mimic.ComponentFactory = class {
         return null;
     }
 
+    // Initializes the custom component script.
+    _initCustomScript(component) {
+        try {
+            component.customScript = this._createCustomScript(component);
+        } catch (ex) {
+            // errors in custom script do not break component creation
+            console.error(`Error creating script for component ${component.id}: ${ex.message}`);
+        }
+    }
+
+    // Creates an object that implements custom component logic.
+    _createCustomScript(component) {
+        let sourceCode = component.properties?.script;
+        return sourceCode ? rs.mimic.ComponentScript.createFromSource(sourceCode) : null;
+    }
+
     // Creates an object that implements additional component logic.
     _createExtraScript() {
         return null;
@@ -3927,6 +3913,7 @@ rs.mimic.ComponentFactory = class {
         let component = new rs.mimic.Component();
         this._copyProperties(component, source);
         this._addDefaultBindings(component);
+        this._initCustomScript(component);
         component.extraScript = this._createExtraScript();
         return component;
     }
@@ -4314,12 +4301,34 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         }
     }
 
+    _initCustomScripts(faceplateInstance) {
+        let initScriptsInternal = (component) => {
+            if (component.isFaceplate) {
+                let sourceCode = component.document?.script;
+                component.customScript = sourceCode ? rs.mimic.ComponentScript.createFromSource(sourceCode) : null;
+
+                for (let childComponent of component.components) {
+                    initScriptsInternal(childComponent);
+                }
+            } else {
+                component.customScript = this._createCustomScript(component);
+            }
+        };
+
+        try {
+            initScriptsInternal(faceplateInstance);
+        } catch (ex) {
+            console.error(`Error creating scripts for faceplate ${faceplateInstance.id}: ${ex.message}`);
+        }
+    }
+
     _applyModel(faceplateInstance, source) {
         faceplateInstance.typeName = faceplateInstance.properties.typeName = this.faceplate.typeName;
         faceplateInstance.model = this.faceplate;
         faceplateInstance.document = rs.mimic.MimicFactory.parseProperties(this.faceplate.document, true);
         this._createComponents(faceplateInstance);
         this._createCustomProperties(faceplateInstance, source?.properties);
+        this._initCustomScripts(faceplateInstance);
     }
 
     parseProperties(sourceProps) {
