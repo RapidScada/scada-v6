@@ -64,6 +64,8 @@ namespace Scada.Comm.Devices
 
             modifiedFlags = Array.Empty<bool>();
             rawData = Array.Empty<CnlData>();
+
+            IsInitialized = false;
         }
 
 
@@ -98,6 +100,11 @@ namespace Scada.Comm.Devices
                 SetCnlData(deviceTag.Index, 0, value);
             }
         }
+
+        /// <summary>
+        /// Gets a value indicating whether the device data has been initialized.
+        /// </summary>
+        public bool IsInitialized { get; private set; }
 
 
         /// <summary>
@@ -292,6 +299,7 @@ namespace Scada.Comm.Devices
             modifiedFlags = new bool[deviceTags.Count];
             rawData = new CnlData[dataLength];
             dataView.PrepareCurData(deviceTags);
+            IsInitialized = true;
         }
 
         /// <summary>
