@@ -750,20 +750,20 @@ namespace Scada.Comm.Devices
         /// <summary>
         /// Copies the tag data from the source data to the current data.
         /// </summary>
-        public void CopyFrom(string tagCode, DeviceData srcData)
+        public void CopyFrom(DeviceData deviceData, string tagCode)
         {
             lock (curDataLock)
             {
-                lock (srcData.curDataLock)
+                lock (deviceData.curDataLock)
                 {
-                    DeviceTag srcDeviceTag = srcData.deviceTags[tagCode];
+                    DeviceTag srcDeviceTag = deviceData.deviceTags[tagCode];
                     DeviceTag destDeviceTag = deviceTags[tagCode];
                     int srcDataLength = srcDeviceTag.DataLength;
                     int destDataLength = destDeviceTag.DataLength;
 
                     for (int i = 0; i < destDataLength; i++)
                     {
-                        CnlData cnlData = i < srcDataLength ? srcData.GetCnlData(srcDeviceTag, i) : CnlData.Empty;
+                        CnlData cnlData = i < srcDataLength ? deviceData.GetCnlData(srcDeviceTag, i) : CnlData.Empty;
                         SetCnlData(destDeviceTag, i, cnlData);
                     }
                 }
