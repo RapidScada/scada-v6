@@ -753,13 +753,17 @@ namespace Scada.Comm.Devices
         {
             lock (curDataLock)
             {
-                DeviceTag deviceTag = deviceTags[tagCode];
-                int tagIndex = deviceTag.Index;
-                int dataLength = deviceTag.DataLength;
+                DeviceTag srcDeviceTag = srcData.deviceTags[tagCode];
+                DeviceTag destDeviceTag = deviceTags[tagCode];
+                int srcTagIndex = srcDeviceTag.Index;
+                int destTagIndex = destDeviceTag.Index;
+                int srcDataLength = srcDeviceTag.DataLength;
+                int destDataLength = destDeviceTag.DataLength;
 
-                for (int i = 0; i < dataLength; i++)
+                for (int i = 0; i < destDataLength; i++)
                 {
-                    SetCnlData(tagIndex, i, srcData.rawData[i]);
+                    CnlData cnlData = i < srcDataLength ? srcData.GetCnlData(srcTagIndex, i) : CnlData.Empty;
+                    SetCnlData(destTagIndex, i, cnlData);
                 }
             }
         }
