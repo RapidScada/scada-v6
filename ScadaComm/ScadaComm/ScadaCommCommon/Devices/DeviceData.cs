@@ -339,6 +339,34 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
+        /// Gets the array of CnlData structures.
+        /// </summary>
+        public CnlData[] GetCnlDataArray(int tagIndex)
+        {
+            lock (curDataLock)
+            {
+                DeviceTag deviceTag = deviceTags[tagIndex];
+                CnlData[] array = new CnlData[deviceTag.DataLength];
+
+                for (int i = 0; i < array.Length; i++)
+                {
+                    array[i] = rawData[deviceTag.DataIndex + i];
+                }
+
+                return array;
+            }
+        }
+
+        /// <summary>
+        /// Gets the array of CnlData structures.
+        /// </summary>
+        public CnlData[] GetCnlDataArray(string tagCode)
+        {
+            DeviceTag deviceTag = deviceTags[tagCode];
+            return GetCnlDataArray(deviceTag.Index);
+        }
+
+        /// <summary>
         /// Gets the array of floating point values.
         /// </summary>
         public double[] GetDoubleArray(int tagIndex)
@@ -542,6 +570,32 @@ namespace Scada.Comm.Devices
         public void SetInt64(string tagCode, long val, int stat)
         {
             this[tagCode] = new CnlData(BitConverter.Int64BitsToDouble(val), stat);
+        }
+
+        /// <summary>
+        /// Sets the array of CnlData structures starting from the specified tag.
+        /// </summary>
+        public void SetCnlDataArray(int tagIndex, CnlData[] cnlDataArr)
+        {
+            lock (curDataLock)
+            {
+                int srcLen = cnlDataArr.Length;
+                int destLen = deviceTags[tagIndex].DataLength;
+
+                for (int i = 0; i < destLen; i++)
+                {
+                    SetCnlData(tagIndex, i, i < srcLen ? cnlDataArr[i] : CnlData.Empty);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the array of CnlData structures starting from the specified tag.
+        /// </summary>
+        public void SetCnlDataArray(string tagCode, CnlData[] cnlDataArr)
+        {
+            DeviceTag deviceTag = deviceTags[tagCode];
+            SetCnlDataArray(deviceTag.Index, cnlDataArr);
         }
 
         /// <summary>
