@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RsClientDeviceConfig>
+  <ItemGroups>
+    <ItemGroup active="true" name="Group 1">
+      <Item cnlNum="101" name="Sine" readOnly="true" />
+      <Item cnlNum="105" name="Analog Output" readOnly="false" />
+    </ItemGroup>
+  </ItemGroups>
+</RsClientDeviceConfig>

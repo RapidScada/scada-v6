@@ -243,7 +243,8 @@
   background-color: var(--bs-primary);
   color: var(--bs-white);
 }
-#divStructure ul li.has-error .node-text {
+#divStructure ul li.has-error .node-text,
+#divStructure ul li.has-error > .node-comp {
   color: var(--bs-danger);
   text-decoration: line-through;
 }

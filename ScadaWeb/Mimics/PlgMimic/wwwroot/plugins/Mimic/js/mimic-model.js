@@ -477,12 +477,16 @@ rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
                 for (let sourceComponent of dto.data.components) {
                     let component = this.createComponent(sourceComponent);
 
-                    if (component) {
-                        this.components.push(component);
-                        this.componentMap.set(component.id, component);
-                    } else if (sourceComponent.typeName) {
+                    if (!component && sourceComponent.typeName) {
                         loadContext.unknownTypes.add(sourceComponent.typeName);
                         loadContext.result.warn = true;
+                        component = rs.mimic.FactorySet.unknownComponentFactory
+                            .createComponentFromSource(sourceComponent);
+                    }
+
+                    if (component && component.id > 0) {
+                        this.components.push(component);
+                        this.componentMap.set(component.id, component);
                     }
                 }
             }
@@ -540,6 +544,16 @@ rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
         rs.mimic.MimicHelper.defineNesting(this, this.components, this.componentMap);
     }
 
+    // Initializes the custom script.
+    _initCustomScript() {
+        try {
+            let sourceCode = this.document.script;
+            this.script = sourceCode ? rs.mimic.ComponentScript.createFromSource(sourceCode) : null;
+        } catch (ex) {
+            console.error("Error creating mimic script: " + ex.message);
+        }
+    }
+
     // Sets the specified properties of the document.
     setProperties(sourceProps) {
         if (this.document) {
@@ -565,6 +579,7 @@ rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
 
         if (loadContext.result.ok) {
             this._defineNesting();
+            this._initCustomScript();
             let endTime = Date.now();
             let endTimeStr = ScadaUtils.getCurrentTime();
 
@@ -725,47 +740,6 @@ rs.mimic.Mimic = class Mimic extends rs.mimic.MimicBase {
         }
     }
 
-    // Initializes the custom scripts of the mimic and components.
-    initCustomScripts() {
-        const ComponentScript = rs.mimic.ComponentScript;
-
-        // mimic script
-        if (this.document.script) {
-            try {
-                this.script = ComponentScript.createFromSource(this.document.script);
-            } catch (ex) {
-                console.error("Error creating mimic script: " + ex.message);
-            }
-        }
-
-        // component scripts
-        let initScriptsInternal = (components, throwOnError) => {
-            for (let component of components) {
-                try {
-                    let script = component.isFaceplate
-                        ? component.document?.script
-                        : component.properties?.script;
-
-                    if (script) {
-                        component.customScript = ComponentScript.createFromSource(script);
-
-                        if (component.isFaceplate) {
-                            initScriptsInternal(component.components, true);
-                        }
-                    }
-                } catch (ex) {
-                    if (throwOnError) {
-                        throw ex;
-                    } else {
-                        console.error(`Error creating script for component ${component.id}: ${ex.message}`);
-                    }
-                }
-            }
-        };
-
-        initScriptsInternal(this.components, false);
-    }
-
     // Populates a component map to search for components by name.
     mapComponentsByName() {
         this.componentByName = new Map();
@@ -824,6 +798,7 @@ rs.mimic.Component = class {
     customScript = null; // custom component logic
     customData = null;   // custom component data
     isSelected = false;  // selected in the editor
+    hasError = false;    // type is unknown, cannot be rendered
 
     get id() {
         return this._id;
@@ -913,14 +888,10 @@ rs.mimic.Component = class {
             : 0;
     }
 
-    // Sets the property according to the current data.
-    _setProperty(binding, curData) {
+    // Sets the data-bound property to the current data.
+    _setBoundProperty(binding, curData) {
         let value = rs.mimic.DataProvider.calculatePropertyValue(curData, binding);
         rs.mimic.ObjectHelper.setPropertyValue(this.properties, binding.propertyChain, 0, value);
-
-        if (this.isFaceplate) {
-            this.handlePropertyChanged(binding.propertyName);
-        }
     }
 
     // Sets the location property.
@@ -1002,7 +973,7 @@ rs.mimic.Component = class {
                     let prevData = dataProvider.getPrevData(binding.cnlNum, binding.cnlProps.joinLen);
 
                     if (dataProvider.dataChanged(curData, prevData)) {
-                        this._setProperty(binding, curData);
+                        this._setBoundProperty(binding, curData);
                         propertyChanged = true;
                     }
                 }
@@ -1204,6 +1175,11 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
         return true;
     }
 
+    _setBoundProperty(binding, curData) {
+        super._setBoundProperty(binding, curData);
+        this.handlePropertyChanged(binding.propertyName);
+    }
+
     setProperties(sourceProps) {
         super.setProperties(sourceProps);
 
@@ -1214,6 +1190,19 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
                 }
             }
         }
+    }
+
+    onDataUpdated(dataProvider) {
+        let propertyChanged = super.onDataUpdated(dataProvider);
+
+        // update target properties corresponding to exported properties
+        if (propertyChanged && this.model) {
+            for (let propertyExport of this.model.propertyExports) {
+                this.setTargetPropertyValue(propertyExport, this.properties[propertyExport.name]);
+            }
+        }
+
+        return propertyChanged;
     }
 
     // Gets the value of the target property specified by the export path.

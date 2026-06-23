@@ -62,9 +62,9 @@
   </DevType>
   <DevType>
     <DevTypeID>211</DevTypeID>
-    <Name>BarcodeScanner</Name>
+    <Name>Barcode Scanner</Name>
     <Driver>DrvBarcodeScanner</Driver>
-    <Descr>Receives data from barcode scanner</Descr>
+    <Descr>Receives data from a barcode scanner</Descr>
   </DevType>
   <DevType>
     <DevTypeID>212</DevTypeID>
@@ -227,6 +227,18 @@
     <Name>Max Messenger</Name>
     <Driver>DrvMaxMessenger</Driver>
     <Descr>Sends notifications via Max messenger</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>239</DevTypeID>
+    <Name>RS Client</Name>
+    <Driver>DrvRsClient</Driver>
+    <Descr>Transmits channel data from Server to Communicator, and commands from Communicator to Server</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>240</DevTypeID>
+    <Name>Redundancy Selector</Name>
+    <Driver>DrvRedundancySelector</Driver>
+    <Descr>Selects the available of two specified devices, receives data from it and sends commands</Descr>
   </DevType>
   <DevType>
     <DevTypeID>1001</DevTypeID>

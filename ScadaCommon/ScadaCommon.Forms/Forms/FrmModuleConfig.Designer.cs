@@ -45,6 +45,7 @@
             miCollapseAll = new ToolStripMenuItem();
             ilTree = new ImageList(components);
             propertyGrid = new PropertyGrid();
+            sepCustom = new ToolStripSeparator();
             toolStrip.SuspendLayout();
             pnlBottom.SuspendLayout();
             tableLayoutPanel.SuspendLayout();
@@ -53,7 +54,7 @@
             // 
             // toolStrip
             // 
-            toolStrip.Items.AddRange(new ToolStripItem[] { btnAdd, btnAddWithChoice, btnMoveUp, btnMoveDown, btnDelete });
+            toolStrip.Items.AddRange(new ToolStripItem[] { btnAdd, btnAddWithChoice, btnMoveUp, btnMoveDown, btnDelete, sepCustom });
             toolStrip.Location = new Point(0, 0);
             toolStrip.Name = "toolStrip";
             toolStrip.Size = new Size(734, 25);
@@ -212,6 +213,11 @@
             propertyGrid.PropertyValueChanged += propertyGrid_PropertyValueChanged;
             propertyGrid.SelectedGridItemChanged += propertyGrid_SelectedGridItemChanged;
             // 
+            // sepCustom
+            // 
+            sepCustom.Name = "sepCustom";
+            sepCustom.Size = new Size(6, 25);
+            // 
             // FrmModuleConfig
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -257,5 +263,6 @@
         private ImageList ilTree;
         private ContextMenuStrip cmsTree;
         private ToolStripMenuItem miCollapseAll;
+        private ToolStripSeparator sepCustom;
     }
 }

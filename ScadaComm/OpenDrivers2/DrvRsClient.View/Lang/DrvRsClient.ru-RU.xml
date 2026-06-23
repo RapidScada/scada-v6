@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DrvRsClientDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvRsClient.Config.ItemGroupConfig">
+    <Phrase key="Active.DisplayName">Активна</Phrase>
+    <Phrase key="Active.Category">Основные параметры</Phrase>
+    <Phrase key="Active.Description">Значение, указывающее, активна ли группа.</Phrase>
+    <Phrase key="Name.DisplayName">Наименование</Phrase>
+    <Phrase key="Name.Category">Основные параметры</Phrase>
+    <Phrase key="Name.Description">Наименование группы.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvRsClient.Config.ItemConfig">
+    <Phrase key="CnlNum.DisplayName">Номер канала</Phrase>
+    <Phrase key="CnlNum.Category">Основные параметры</Phrase>
+    <Phrase key="CnlNum.Description">Номер канала, соответствующий элементу.</Phrase>
+    <Phrase key="Name.DisplayName">Наименование</Phrase>
+    <Phrase key="Name.Category">Основные параметры</Phrase>
+    <Phrase key="Name.Description">Наименование элемента.</Phrase>
+    <Phrase key="ReadOnly.DisplayName">Только чтение</Phrase>
+    <Phrase key="ReadOnly.Category">Основные параметры</Phrase>
+    <Phrase key="ReadOnly.Description">Значение, указывающее, что команды отключены для этого элемента.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvRsClient.View.Forms.FrmLineConfig">
+    <Phrase key="this">Параметры соединения</Phrase>
+    <Phrase key="chkUseDefaultConnection">Использовать соединение по умолчанию</Phrase>
+    <Phrase key="lblLineInfo">Параметры являются общими для линии связи</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvRsClient.View.RsClientConfigProvider">
+    <Phrase key="FormTitle">Свойства устройства {0} - Клиент Rapid SCADA</Phrase>
+    <Phrase key="AddItemGroupButton">Добавить группу</Phrase>
+    <Phrase key="AddItemButton">Добавить элемент</Phrase>
+    <Phrase key="EditLineConfigButton">Редактировать параметры соединения</Phrase>
+    <Phrase key="FillItemNamesButton">Автоматически заполнить наименования элементов</Phrase>
+    <Phrase key="UnnamedGroup">&lt;Безымянная группа&gt;</Phrase>
+    <Phrase key="UnnamedItem">[{0}] Безымянный элемент</Phrase>
+    <Phrase key="FillItemNamesConfirm">Заполнить наименования элементов на основе текущего проекта?</Phrase>
+  </Dictionary>
+</DrvRsClientDictionaries>

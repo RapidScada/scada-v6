@@ -1,4 +1,4 @@
-﻿// Contains classes: MimicFactory, ComponentFactory, RegularComponentFactory,
+﻿// Contains classes: MimicFactory, ComponentFactory, RegularComponentFactory, UnknownComponentFactory,
 //     TextFactory, PictureScript, PictureFactory, PanelFactory, FaceplateFactory, FactorySet
 // Depends on mimic-common.js, mimic-model.js, mimic-model-subtypes.js
 
@@ -75,6 +75,22 @@ rs.mimic.ComponentFactory = class {
     // Creates an array of default property bindings for the component.
     _createDefaultBindings(component) {
         return null;
+    }
+
+    // Initializes the custom component script.
+    _initCustomScript(component) {
+        try {
+            component.customScript = this._createCustomScript(component);
+        } catch (ex) {
+            // errors in custom script do not break component creation
+            console.error(`Error creating script for component ${component.id}: ${ex.message}`);
+        }
+    }
+
+    // Creates an object that implements custom component logic.
+    _createCustomScript(component) {
+        let sourceCode = component.properties?.script;
+        return sourceCode ? rs.mimic.ComponentScript.createFromSource(sourceCode) : null;
     }
 
     // Creates an object that implements additional component logic.
@@ -155,6 +171,7 @@ rs.mimic.ComponentFactory = class {
         let component = new rs.mimic.Component();
         this._copyProperties(component, source);
         this._addDefaultBindings(component);
+        this._initCustomScript(component);
         component.extraScript = this._createExtraScript();
         return component;
     }
@@ -212,6 +229,21 @@ rs.mimic.RegularComponentFactory = class extends rs.mimic.ComponentFactory {
         });
 
         return props;
+    }
+};
+
+// Creates components whose type is not found among the supported components or faceplates.
+rs.mimic.UnknownComponentFactory = class extends rs.mimic.ComponentFactory {
+    createComponent(typeName) {
+        let component = super.createComponent(typeName);
+        component.hasError = true;
+        return component;
+    }
+
+    createComponentFromSource(source) {
+        let component = super.createComponentFromSource(source);
+        component.hasError = true;
+        return component;
     }
 };
 
@@ -504,16 +536,47 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         sourceProps ??= {};
 
         for (let propertyExport of this.faceplate.propertyExports) {
-            let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport) ?? propertyExport.defaultValue;
-            let sourceValue = sourceProps[propertyExport.name];
+            if (propertyExport.path) {
+                let baseValue = faceplateInstance.getTargetPropertyValue(propertyExport);
 
-            if (sourceValue == null) {
-                faceplateInstance.properties[propertyExport.name] = baseValue;
+                if (baseValue == null) {
+                    // do not create custom property
+                } else {
+                    let sourceValue = sourceProps[propertyExport.name];
+
+                    if (sourceValue == null) {
+                        faceplateInstance.properties[propertyExport.name] = ScadaUtils.deepClone(baseValue);
+                    } else {
+                        let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);
+                        faceplateInstance.properties[propertyExport.name] = mergedValue;
+                        faceplateInstance.setTargetPropertyValue(propertyExport, mergedValue);
+                    }
+                }
             } else {
-                let mergedValue = ObjectHelper.mergeValues(baseValue, sourceValue);
-                faceplateInstance.properties[propertyExport.name] = mergedValue;
-                faceplateInstance.setTargetPropertyValue(propertyExport, mergedValue);
+                faceplateInstance.properties[propertyExport.name] =
+                    sourceProps[propertyExport.name] ?? propertyExport.defaultValue;
             }
+        }
+    }
+
+    _initCustomScripts(faceplateInstance) {
+        let initScriptsInternal = (component) => {
+            if (component.isFaceplate) {
+                let sourceCode = component.document?.script;
+                component.customScript = sourceCode ? rs.mimic.ComponentScript.createFromSource(sourceCode) : null;
+
+                for (let childComponent of component.components) {
+                    initScriptsInternal(childComponent);
+                }
+            } else {
+                component.customScript = this._createCustomScript(component);
+            }
+        };
+
+        try {
+            initScriptsInternal(faceplateInstance);
+        } catch (ex) {
+            console.error(`Error creating scripts for faceplate ${faceplateInstance.id}: ${ex.message}`);
         }
     }
 
@@ -523,6 +586,7 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
         faceplateInstance.document = rs.mimic.MimicFactory.parseProperties(this.faceplate.document, true);
         this._createComponents(faceplateInstance);
         this._createCustomProperties(faceplateInstance, source?.properties);
+        this._initCustomScripts(faceplateInstance);
     }
 
     parseProperties(sourceProps) {
@@ -564,6 +628,7 @@ rs.mimic.FaceplateFactory = class extends rs.mimic.ComponentFactory {
 
 // Contains factories for mimic components.
 rs.mimic.FactorySet = class FactorySet {
+    static unknownComponentFactory = new rs.mimic.UnknownComponentFactory();
     static componentFactories = new Map([
         ["Text", new rs.mimic.TextFactory()],
         ["Picture", new rs.mimic.PictureFactory()],

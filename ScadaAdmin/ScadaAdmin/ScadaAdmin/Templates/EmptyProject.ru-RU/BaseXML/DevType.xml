@@ -64,7 +64,7 @@
     <DevTypeID>211</DevTypeID>
     <Name>Сканер штрихкодов</Name>
     <Driver>DrvBarcodeScanner</Driver>
-    <Descr>Принимает данные со сканера штрихкодов</Descr>
+    <Descr>Принимает данные от сканера штрихкодов</Descr>
   </DevType>
   <DevType>
     <DevTypeID>212</DevTypeID>
@@ -227,6 +227,18 @@
     <Name>Мессенджер Max</Name>
     <Driver>DrvMaxMessenger</Driver>
     <Descr>Отправляет уведомления через мессенджер Max</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>239</DevTypeID>
+    <Name>RS-клиент</Name>
+    <Driver>DrvRsClient</Driver>
+    <Descr>Передаёт данные каналов из Сервера в Коммуникатор, а команды из Коммуникатора на Сервер</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>240</DevTypeID>
+    <Name>Селектор резервирования</Name>
+    <Driver>DrvRedundancySelector</Driver>
+    <Descr>Выбирает доступное из двух заданных устройств, получает от него данные и отправляет команды</Descr>
   </DevType>
   <DevType>
     <DevTypeID>1001</DevTypeID>

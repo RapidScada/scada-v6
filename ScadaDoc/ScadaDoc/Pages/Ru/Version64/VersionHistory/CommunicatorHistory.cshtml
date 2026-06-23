@@ -11,6 +11,7 @@
         <li><a href="#communicator-app">Приложение Коммуникатор</a></li>
         <li><a href="#drv-anemon">Анемон</a></li>
         <li><a href="#drv-azimuth51pro">Азимут 5.1 Pro</a></li>
+        <li><a href="#drv-barcode-scanner">Сканер штрихкодов</a></li>
         <li><a href="#drv-cnl-basic">Основные каналы связи</a></li>
         <li><a href="#drv-cnl-mqtt">Канал связи MQTT</a></li>
         <li><a href="#drv-csv-reader">CSV-считыватель</a></li>
@@ -21,6 +22,7 @@
         <li><a href="#drv-email">Email</a></li>
         <li><a href="#drv-enron-modbus">Enron Modbus</a></li>
         <li><a href="#drv-http-notif">HTTP уведомления</a></li>
+        <li><a href="#drv-ivtm7m">ИВТМ-7М</a></li>
         <li><a href="#drv-max-messenger">Max</a></li>
         <li><a href="#drv-modbus">Modbus</a></li>
         <li><a href="#drv-modbus-slave">Modbus Slave</a></li>
@@ -28,6 +30,8 @@
         <li><a href="#drv-mqtt-publisher">MQTT-издатель</a></li>
         <li><a href="#drv-opc-classic">OPC Classic</a></li>
         <li><a href="#drv-opc-ua">OPC UA</a></li>
+        <li><a href="#drv-redundancy-selector">Селектор резервирования</a></li>
+        <li><a href="#drv-rs-client">RS-клиент</a></li>
         <li><a href="#drv-simulator">Симулятор устройства</a></li>
         <li><a href="#drv-sms">SMS</a></li>
         <li><a href="#drv-snmp">SNMP</a></li>
@@ -39,6 +43,12 @@
 <div class="doc-content">
     <h1>История Коммуникатора</h1>
     <h2 id="communicator-app">Приложение Коммуникатор</h2>
+    <div>ScadaComm 6.2.1.0 (23.06.2026)</div>
+    <ul>
+        <li>Добавлены методы получения данных устройства, используемые драйверами</li>
+        <li>Исправлена ошибка обработки пустых данных</li>
+    </ul>
+
     <div>ScadaComm 6.2.0.1 (12.08.2024)</div>
     <ul>
         <li>Соответствие типов данных между каналом и тегом не требуется</li>
@@ -116,6 +126,13 @@
     <div>DrvAzimuth51Pro 6.0.0.0 (30.01.2024)</div>
     <ul>
         <li>Поддержка исполнения WiFi</li>
+    </ul>
+
+    @**** DrvBarcodeScanner ****@
+    <h2 id="drv-barcode-scanner">Сканер штрихкодов</h2>
+    <div>DrvBarcodeScanner 6.0.0.0 (23.06.2026)</div>
+    <ul>
+        <li>Первоначальная разработка драйвера</li>
     </ul>
 
     @**** DrvCnlBasic ****@
@@ -296,6 +313,23 @@
         <li>Портирование драйвера на новую версию</li>
     </ul>
 
+    @**** DrvIvtm7M ****@
+    <h2 id="drv-ivtm7m">ИВТМ-7М</h2>
+    <div>DrvIvtm7M 6.1.0.1 (23.06.2026)</div>
+    <ul>
+        <li>Исправлена ошибка чтения архивов для прошивки версии 1.x</li>
+    </ul>
+
+    <div>DrvIvtm7M 6.1.0.0 (12.08.2024)</div>
+    <ul>
+        <li>Переход на .NET 8.0</li>
+    </ul>
+
+    <div>DrvIvtm7M 6.0.0.0 (25.08.2023)</div>
+    <ul>
+        <li>Портирование драйвера на новую версию</li>
+    </ul>
+
     @**** DrvMaxMessenger ****@
     <h2 id="drv-max-messenger">Max</h2>
     <div>DrvMaxMessenger 6.0.0.1 (14.04.2026)</div>
@@ -406,6 +440,12 @@
 
     @**** DrvMqttPublisher ****@
     <h2 id="drv-mqtt-publisher">MQTT-издатель</h2>
+    <div>DrvMqttPublisher 6.1.0.2 (23.06.2026)</div>
+    <ul>
+        <li>Исправлена ошибка при запросе данных от Сервера</li>
+        <li>Исправлена ​​ошибка публикации данных с заданным периодом</li>
+    </ul>
+
     <div>DrvMqttPublisher 6.1.0.1 (26.08.2025)</div>
     <ul>
         <li>Выбор публикуемого канала в диалоговом окне</li>
@@ -495,6 +535,20 @@
         <li>Возможность выбрать тип данных элементов</li>
     </ul>
 
+    @**** DrvRedundancySelector ****@
+    <h2 id="drv-redundancy-selector">Селектор резервирования</h2>
+    <div>DrvRedundancySelector 6.0.0.0 (23.06.2026)</div>
+    <ul>
+        <li>Первоначальная разработка драйвера</li>
+    </ul>
+
+    @**** DrvRsClient ****@
+    <h2 id="drv-rs-client">RS-клиент</h2>
+    <div>DrvRsClient 6.0.0.0 (23.06.2026)</div>
+    <ul>
+        <li>Первоначальная разработка драйвера</li>
+    </ul>
+
     @**** DrvSimulator ****@
     <h2 id="drv-simulator">Симулятор устройства</h2>
     <div>DrvSimulator 6.0.0.0 (03.12.2022)</div>
@@ -511,6 +565,11 @@
 
     @**** DrvSnmp ****@
     <h2 id="drv-snmp">SNMP</h2>
+    <div>DrvSnmp 6.0.0.2 (23.06.2026)</div>
+    <ul>
+        <li>Исправлена ошибка в пользовательском интерфейсе драйвера</li>
+    </ul>
+
     <div>DrvSnmp 6.0.0.1 (04.07.2023)</div>
     <ul>
         <li>Оптимизация исходного кода конфигурации драйвера</li>

@@ -1075,6 +1075,7 @@ rs.mimic.VisualStateDescriptor = class extends rs.mimic.StructureDescriptor {
 // Contains descriptors for a mimic and its components.
 rs.mimic.DescriptorSet = class {
     static mimicDescriptor = new rs.mimic.MimicDescriptor();
+    static componentDescriptor = new rs.mimic.ComponentDescriptor();
     static componentDescriptors = new Map([
         ["Text", new rs.mimic.TextDescriptor()],
         ["Picture", new rs.mimic.PictureDescriptor()],
@@ -1082,6 +1083,7 @@ rs.mimic.DescriptorSet = class {
     ]);
     static getFaceplateDescriptor(faceplate) {
         const KnownCategory = rs.mimic.KnownCategory;
+        const BasicType = rs.mimic.BasicType;
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
         let descriptor = new rs.mimic.FaceplateDescriptor();
 
@@ -1091,7 +1093,8 @@ rs.mimic.DescriptorSet = class {
                     descriptor.add(new PropertyDescriptor({
                         name: propertyExport.name,
                         displayName: propertyExport.name,
-                        category: KnownCategory.MISC
+                        category: KnownCategory.MISC,
+                        type: BasicType.STRING
                     }));
                 }
             }

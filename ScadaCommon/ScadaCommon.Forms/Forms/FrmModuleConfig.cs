@@ -63,18 +63,19 @@ namespace Scada.Forms.Forms
         /// </summary>
         private void AddToolButtons()
         {
+            // buttons for adding items
             btnAdd.Visible = false;
             btnAddWithChoice.Visible = false;
             ToolStripItem[] buttons = configProvider.GetAddButtons();
 
-            if (buttons != null)
+            if (buttons != null && buttons.Length > 0)
             {
                 if (buttons.Length > 1)
                 {
                     btnAddWithChoice.Visible = true;
                     btnAddWithChoice.DropDownItems.AddRange(buttons);
                 }
-                else if (buttons.Length > 0)
+                else
                 {
                     btnAdd.Visible = true;
                     btnAdd.ToolTipText = buttons[0].Text;
@@ -83,6 +84,21 @@ namespace Scada.Forms.Forms
                 foreach (ToolStripItem button in buttons)
                 {
                     button.Click += btnAdd_Click;
+                }
+            }
+
+            // custom buttons
+            sepCustom.Visible = false;
+            buttons = configProvider.GetCustomButtons();
+            
+            if (buttons != null && buttons.Length > 0)
+            {
+                sepCustom.Visible = true;
+                toolStrip.Items.AddRange(buttons);
+
+                foreach (ToolStripItem button in buttons)
+                {
+                    button.Click += btnCustom_Click;
                 }
             }
         }
@@ -239,6 +255,18 @@ namespace Scada.Forms.Forms
             {
                 SetButtonsEnabled();
                 propertyGrid.SelectedObject = null;
+            }
+        }
+
+        private void btnCustom_Click(object sender, EventArgs e)
+        {
+            bool configModified = false;
+            configProvider.HandleCustomButtonClick(sender, treeView, ref configModified);
+
+            if (configModified)
+            {
+                FillTreeView();
+                Modified = true;
             }
         }
 

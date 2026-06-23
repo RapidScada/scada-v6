@@ -14,6 +14,7 @@ namespace Scada.Forms
         Add,
         MoveUp,
         MoveDown,
-        Delete
+        Delete,
+        Custom
     }
 }

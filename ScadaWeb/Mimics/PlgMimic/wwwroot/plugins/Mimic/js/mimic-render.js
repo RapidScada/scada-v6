@@ -315,11 +315,12 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
     // Sets the CSS properties of the mimic element.
     _setElemProps(mimicElem, props, isFaceplate, renderContext) {
         this._setFont(mimicElem, props.font, renderContext.fontMap);
-        this._setSize(mimicElem, props.size);
 
         if (isFaceplate) {
             this._setBorder(mimicElem, props.border);
             this._setCornerRadius(mimicElem, props.cornerRadius);
+        } else {
+            this._setSize(mimicElem, props.size);
         }
 
         mimicElem
@@ -632,33 +633,39 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
     }
 
     // Sets the component colors and text decoration according to its actual state.
-    _restoreVisualState(componentElem, props) {
-        let isBlinking = props.blinkingState.isSet && componentElem.hasClass("blink-on");
-        let isHovered = props.hoverState.isSet && componentElem.is(":hover");
+    _restoreVisualState(componentElem, props, opt_states) {
+        let states = opt_states ?? props; // opt_states is specified for faceplates
+        this._setOriginalState(componentElem, states);
 
-        if (isBlinking) {
-            this._setVisualState(componentElem, props.blinkingState);
-        } else if (isHovered) {
-            this._setVisualState(componentElem, props.hoverState);
+        if (props.enabled) {
+            let isBlinking = states.blinkingState.isSet && componentElem.hasClass("blink-on");
+            let isHovered = states.hoverState.isSet && componentElem.is(":hover");
+
+            if (isBlinking) {
+                this._setVisualState(componentElem, states.blinkingState);
+            } else if (isHovered) {
+                this._setVisualState(componentElem, states.hoverState);
+            }
         } else {
-            this._setOriginalState(componentElem, props);
+            this._setVisualState(componentElem, states.disabledState);
         }
     }
 
     // Binds the visual state events of the component.
-    _bindVisualStates(componentElem, props) {
+    _bindVisualStates(componentElem, props, opt_states) {
         const EventType = rs.mimic.EventType;
+        let states = opt_states ?? props;
 
-        if (props.blinkingState.isSet) {
+        if (states.blinkingState.isSet) {
             componentElem
-                .on(EventType.BLINK_ON, () => { this._setVisualState(componentElem, props.blinkingState); })
-                .on(EventType.BLINK_OFF, () => { this._restoreVisualState(componentElem, props); });
+                .on(EventType.BLINK_ON, () => { this._setVisualState(componentElem, states.blinkingState); })
+                .on(EventType.BLINK_OFF, () => { this._restoreVisualState(componentElem, props, states); });
         }
 
-        if (props.hoverState.isSet) {
+        if (states.hoverState.isSet) {
             componentElem
-                .on("mouseenter.rs.mimic", () => { this._setVisualState(componentElem, props.hoverState); })
-                .on("mouseleave.rs.mimic", () => { this._restoreVisualState(componentElem, props); });
+                .on("mouseenter.rs.mimic", () => { this._setVisualState(componentElem, states.hoverState); })
+                .on("mouseleave.rs.mimic", () => { this._restoreVisualState(componentElem, props, states); });
         }
     }
 
@@ -752,13 +759,8 @@ rs.mimic.RegularComponentRenderer = class extends rs.mimic.ComponentRenderer {
         this._setBorder(componentElem, props.border);
         this._setCornerRadius(componentElem, props.cornerRadius);
         this._setFont(componentElem, props.font, renderContext.fontMap);
+        this._restoreVisualState(componentElem, props);
         componentElem.attr("title", props.tooltip);
-
-        if (props.enabled) {
-            this._restoreVisualState(componentElem, props);
-        } else {
-            this._setVisualState(componentElem, props.disabledState);
-        }
 
         if (renderContext.editMode) {
             componentElem.css("--border-width", -props.border.width + "px");
@@ -985,13 +987,8 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
 
         if (doc) {
             rs.mimic.RendererSet.mimicRenderer.setFaceplateProps(componentElem, doc, renderContext);
+            this._restoreVisualState(componentElem, props, doc);
             borderWidth = doc.border.width;
-
-            if (props.enabled) {
-                this._restoreVisualState(componentElem, doc);
-            } else {
-                this._setVisualState(componentElem, doc.disabledState);
-            }
         }
 
         if (renderContext.editMode) {
@@ -1003,7 +1000,7 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
         super._bindEvents(componentElem, component, renderContext);
 
         if (component.document && component.properties.enabled) {
-            this._bindVisualStates(componentElem, component.document);
+            this._bindVisualStates(componentElem, component.properties, component.document);
         }
     }
 };

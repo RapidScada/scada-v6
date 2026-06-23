@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DrvRsClientDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvRsClient.Config.ItemGroupConfig">
+    <Phrase key="Active.DisplayName">Active</Phrase>
+    <Phrase key="Active.Category">Main Parameters</Phrase>
+    <Phrase key="Active.Description">A value indicating whether the group is active.</Phrase>
+    <Phrase key="Name.DisplayName">Name</Phrase>
+    <Phrase key="Name.Category">Main Parameters</Phrase>
+    <Phrase key="Name.Description">The group name.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvRsClient.Config.ItemConfig">
+    <Phrase key="CnlNum.DisplayName">Channel number</Phrase>
+    <Phrase key="CnlNum.Category">Main Parameters</Phrase>
+    <Phrase key="CnlNum.Description">The channel number corresponding to the item.</Phrase>
+    <Phrase key="Name.DisplayName">Name</Phrase>
+    <Phrase key="Name.Category">Main Parameters</Phrase>
+    <Phrase key="Name.Description">The item name.</Phrase>
+    <Phrase key="ReadOnly.DisplayName">Read only</Phrase>
+    <Phrase key="ReadOnly.Category">Main Parameters</Phrase>
+    <Phrase key="ReadOnly.Description">A value indicating whether commands are disabled for this item.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvRsClient.View.Forms.FrmLineConfig">
+    <Phrase key="this">Connection Options</Phrase>
+    <Phrase key="chkUseDefaultConnection">Use default connection</Phrase>
+    <Phrase key="lblLineInfo">Options are common to the communication line</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvRsClient.View.RsClientConfigProvider">
+    <Phrase key="FormTitle">Device {0} Properties - Rapid SCADA Client</Phrase>
+    <Phrase key="AddItemGroupButton">Add Group</Phrase>
+    <Phrase key="AddItemButton">Add Item</Phrase>
+    <Phrase key="EditLineConfigButton">Edit Connection Options</Phrase>
+    <Phrase key="FillItemNamesButton">Auto-Fill Item Names</Phrase>
+    <Phrase key="UnnamedGroup">&lt;Unnamed Group&gt;</Phrase>
+    <Phrase key="UnnamedItem">[{0}] Unnamed Item</Phrase>
+    <Phrase key="FillItemNamesConfirm">Fill in the item names based on the current project?</Phrase>
+  </Dictionary>
+</DrvRsClientDictionaries>

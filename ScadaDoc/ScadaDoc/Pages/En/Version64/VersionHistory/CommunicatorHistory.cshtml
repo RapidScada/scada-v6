@@ -9,6 +9,7 @@
     <hr>
     <ul>
         <li><a href="#communicator-app">Communicator Application</a></li>
+        <li><a href="#drv-barcode-scanner">Barcode Scanner</a></li>
         <li><a href="#drv-cnl-basic">Basic Communication Channels</a></li>
         <li><a href="#drv-cnl-mqtt">MQTT Communication Channel</a></li>
         <li><a href="#drv-csv-reader">CSV Reader</a></li>
@@ -25,6 +26,8 @@
         <li><a href="#drv-mqtt-publisher">MQTT Publisher</a></li>
         <li><a href="#drv-opc-classic">OPC Classic</a></li>
         <li><a href="#drv-opc-ua">OPC UA</a></li>
+        <li><a href="#drv-redundancy-selector">Redundancy Selector</a></li>
+        <li><a href="#drv-rs-client">RS Client</a></li>
         <li><a href="#drv-simulator">Device Simulator</a></li>
         <li><a href="#drv-sms">SMS</a></li>
         <li><a href="#drv-snmp">SNMP</a></li>
@@ -36,6 +39,12 @@
 <div class="doc-content">
     <h1>Communicator History</h1>
     <h2 id="communicator-app">Communicator Application</h2>
+    <div>ScadaComm 6.2.1.0 (June 23, 2026)</div>
+    <ul>
+        <li>Added methods for obtaining device data used by drivers</li>
+        <li>Fixed a bug with empty data processing</li>
+    </ul>
+
     <div>ScadaComm 6.2.0.1 (August 12, 2024)</div>
     <ul>
         <li>Data type matching between channel and tag is not required</li>
@@ -89,6 +98,13 @@
         <li>Device status can be bound to a channel</li>
         <li>Communication lines can be started or stopped with commands from the server</li>
         <li>Configuration check: duplicate lines and devices are ignored, calculated channels are not bound to tags</li>
+    </ul>
+
+    @**** DrvBarcodeScanner ****@
+    <h2 id="drv-barcode-scanner">Barcode Scanner</h2>
+    <div>DrvBarcodeScanner 6.0.0.0 (June 23, 2026)</div>
+    <ul>
+        <li>Initial development of the driver</li>
     </ul>
 
     @**** DrvCnlBasic ****@
@@ -367,6 +383,12 @@
 
     @**** DrvMqttPublisher ****@
     <h2 id="drv-mqtt-publisher">MQTT Publisher</h2>
+    <div>DrvMqttPublisher 6.1.0.2 (June 23, 2026)</div>
+    <ul>
+        <li>Fixed a bug when requesting data from Server</li>
+        <li>Fixed a bug with publishing data with a specified period</li>
+    </ul>
+
     <div>DrvMqttPublisher 6.1.0.1 (August 26, 2025)</div>
     <ul>
         <li>Selecting published channel using dialog box</li>
@@ -456,6 +478,20 @@
         <li>User can select item data type</li>
     </ul>
 
+    @**** DrvRedundancySelector ****@
+    <h2 id="drv-redundancy-selector">Redundancy Selector</h2>
+    <div>DrvRedundancySelector 6.0.0.0 (June 23, 2026)</div>
+    <ul>
+        <li>Initial development of the driver</li>
+    </ul>
+
+    @**** DrvRsClient ****@
+    <h2 id="drv-rs-client">RS Client</h2>
+    <div>DrvRsClient 6.0.0.0 (June 23, 2026)</div>
+    <ul>
+        <li>Initial development of the driver</li>
+    </ul>
+
     @**** DrvSimulator ****@
     <h2 id="drv-simulator">Device Simulator</h2>
     <div>DrvSimulator 6.0.0.0 (December 03, 2022)</div>
@@ -472,6 +508,11 @@
 
     @**** DrvSnmp ****@
     <h2 id="drv-snmp">SNMP</h2>
+    <div>DrvSnmp 6.0.0.2 (June 23, 2026)</div>
+    <ul>
+        <li>Fixed a bug in the driver user interface</li>
+    </ul>
+
     <div>DrvSnmp 6.0.0.1 (July 04, 2023)</div>
     <ul>
         <li>Optimized driver configuration source code</li>
