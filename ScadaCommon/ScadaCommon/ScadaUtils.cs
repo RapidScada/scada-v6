@@ -33,7 +33,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using System.Xml;
 using System.Xml.Serialization;
 
 namespace Scada
@@ -293,6 +292,9 @@ namespace Scada
         /// </remarks>
         public static T DeepClone<T>(this T obj, SerializationBinder binder = null)
         {
+#if NET10_0_OR_GREATER
+            return SafeClone(obj);
+#else
             using (MemoryStream stream = new MemoryStream())
             {
                 BinaryFormatter formatter = new BinaryFormatter();
@@ -304,6 +306,7 @@ namespace Scada
                 stream.Position = 0;
                 return (T)formatter.Deserialize(stream);
             }
+#endif
         }
 
         /// <summary>
