@@ -10,4 +10,4 @@ dotnet_diagnostic.IDE0290.severity = silent
 dotnet_diagnostic.IDE0305.severity = silent
 
 # WFO1000: Property does not configure the code serialization for its property content.
-dotnet_diagnostic.WFO1000.severity = none
+dotnet_diagnostic.WFO1000.severity = silent
