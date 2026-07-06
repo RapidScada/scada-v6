@@ -16,12 +16,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ScadaServerCommon\ScadaServerCommon.csproj" />
-  </ItemGroup>
-  
-  <ItemGroup>
     <ProjectReference Include="..\..\..\ScadaCommon\ScadaCommon\ScadaCommon.csproj" />
     <ProjectReference Include="..\..\..\ScadaCommon\ScadaCommon.Forms\ScadaCommon.Forms.csproj" />
+    <ProjectReference Include="..\ScadaServerCommon\ScadaServerCommon.csproj" />
   </ItemGroup>
   
 </Project>
