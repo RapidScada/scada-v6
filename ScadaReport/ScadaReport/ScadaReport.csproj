@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <RootNamespace>Scada.Report</RootNamespace>
@@ -10,16 +10,12 @@
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
-    <Copyright>Copyright © 2025</Copyright>
+    <Copyright>Copyright © 2026</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="ScadaCommon">
-      <HintPath>..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
-    </Reference>
-    <Reference Include="ScadaCommon.Log">
-      <HintPath>..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\ScadaCommon\ScadaCommon\ScadaCommon.csproj" />
+    <ProjectReference Include="..\..\ScadaCommon\ScadaCommon.Log\ScadaCommon.Log.csproj" />
   </ItemGroup>
 
 </Project>
