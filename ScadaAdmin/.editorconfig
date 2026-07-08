@@ -1,5 +1,0 @@
-﻿[*.cs]
-# IDE1006: Naming Styles
-dotnet_diagnostic.IDE1006.severity = silent
-# WFO1000: Property does not configure the code serialization for its property content.
-dotnet_diagnostic.WFO1000.severity = silent

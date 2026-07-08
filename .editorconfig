@@ -6,7 +6,7 @@ dotnet_diagnostic.IDE0290.severity = silent
 # IDE0305: Simplify collection initialization
 dotnet_diagnostic.IDE0305.severity = silent
 
-[**/*.{View,Forms}/**/*.cs]
+[**/{Forms,Controls}/**.cs]
 # IDE1006: Naming Styles
 dotnet_diagnostic.IDE1006.severity = silent
 # WFO1000: Property does not configure the code serialization for its property content.
