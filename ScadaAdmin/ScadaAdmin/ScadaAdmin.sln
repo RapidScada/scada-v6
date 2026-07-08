@@ -1,16 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31903.59
+# Visual Studio Version 18
+VisualStudioVersion = 18.7.11925.98 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaAdminCommon", "ScadaAdminCommon\ScadaAdminCommon.csproj", "{2BD3E354-791D-4488-BEEB-56672A2B76BC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaAdmin", "ScadaAdmin\ScadaAdmin.csproj", "{A87D0CE9-1691-4513-8B86-CBB68EE9D1A8}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0693A185-86DE-4F63-AB4E-38E373FADB0B}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaAdminCommon.Subset", "ScadaAdminCommon.Subset\ScadaAdminCommon.Subset.csproj", "{9141B9A5-6A17-40C9-9AA2-FA36E8D97E2B}"
 EndProject
