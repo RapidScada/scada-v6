@@ -4,6 +4,7 @@
 using Scada.ComponentModel;
 using System.Collections;
 using System.Xml;
+using System.Xml.Serialization;
 using NCM = System.ComponentModel;
 
 namespace Scada.Comm.Drivers.DrvRsClient.Config
@@ -38,12 +39,14 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
         /// </summary>
         [NCM.Browsable(false)]
         [field: NonSerialized]
+        [XmlIgnore]
         public ITreeNode Parent { get; set; }
 
         /// <summary>
         /// Gets the child tree nodes.
         /// </summary>
         [NCM.Browsable(false)]
+        [XmlIgnore]
         public IList Children => null;
 
 
