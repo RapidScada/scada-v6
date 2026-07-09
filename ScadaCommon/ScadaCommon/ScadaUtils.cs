@@ -314,6 +314,7 @@ namespace Scada
         /// </summary>
         public static T SafeClone<T>(this T obj)
         {
+            // use JsonSerializer after .NET Standard support is removed
             XmlSerializer serializer = new XmlSerializer(obj.GetType());
 
             using (MemoryStream stream = new MemoryStream())
