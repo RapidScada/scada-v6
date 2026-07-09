@@ -341,6 +341,9 @@ namespace Scada
         /// <summary>
         /// Creates a full copy of the specified object using XmlSerializer.
         /// </summary>
+        /// <remarks>
+        /// Cloneable classes must have the public modifier.
+        /// </remarks>
         public static T DeepCloneXml<T>(this T obj)
         {
             XmlSerializer serializer = new XmlSerializer(obj.GetType());
