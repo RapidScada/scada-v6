@@ -283,18 +283,16 @@ namespace Scada
         }
 
         /// <summary>
-        /// Creates a full copy of the specified object using BinaryFormatter.
+        /// Creates a full copy of the specified object.
         /// </summary>
-        /// <remarks>
-        /// A cloned object and its children must have the Serializable attribute.
-        /// This method is only allowed in WinForms applications.
-        /// BinaryFormatter is not recommended, see https://aka.ms/binaryformatter
-        /// </remarks>
         public static T DeepClone<T>(this T obj, SerializationBinder binder = null)
         {
 #if NET10_0_OR_GREATER
-            return SafeClone(obj);
+            // use JsonSerializer after .NET Standard support is removed
+            return DeepCloneXml(obj);
 #else
+            // A cloned object and its children must have the Serializable attribute.
+            // BinaryFormatter is not recommended, see https://aka.ms/binaryformatter
             using (MemoryStream stream = new MemoryStream())
             {
                 BinaryFormatter formatter = new BinaryFormatter();
@@ -312,9 +310,8 @@ namespace Scada
         /// <summary>
         /// Creates a full copy of the specified object using XmlSerializer.
         /// </summary>
-        public static T SafeClone<T>(this T obj)
+        public static T DeepCloneXml<T>(this T obj)
         {
-            // use JsonSerializer after .NET Standard support is removed
             XmlSerializer serializer = new XmlSerializer(obj.GetType());
 
             using (MemoryStream stream = new MemoryStream())
