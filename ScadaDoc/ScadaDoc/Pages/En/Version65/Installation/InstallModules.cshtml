@@ -1,0 +1,149 @@
+﻿@page "/en/latest/installation/install-modules"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Install Modules";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#modules">Server Modules</a></li>
+        <li><a href="#drivers">Communicator Drivers</a></li>
+        <li><a href="#plugins">Webstation Plugins</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Install Modules</h1>
+    <p>Rapid SCADA supports additional modules which extend the software functionality. Module distributions are available in the <a href="https://rapidscada.org/download-all-files/" target="_blank">Download</a> section of the official website and in <a href="https://rapidscada.net/store/" target="_blank">Module Store</a>. The installed module version must be compatible with the installed version of Rapid SCADA. Compatibility information is provided on the module's page in Module Store. The modules published in the Download section are compatible with the current version of Rapid SCADA.</p>
+    
+    <h2 id="modules">Install Server Modules</h2>
+    <p>The sequence of installing a new or updating an existing module of the Server application:</p>
+    <ol>
+        <li>Close the Administrator application if it is running.</li>
+        <li>Unzip the module installation package.</li>
+        <li>Copy all files from the SCADA folder of the module installation package to the Rapid SCADA <abbr title="C:\Program Files\SCADA, /opt/scada">installation directory</abbr> with the hierarchy of directories retained.</li>
+        <li>On Windows, find the copied *.dll library files, open their properties one by one and unlock the files.</li>
+        <li>Start Administrator, open the project, find and open the <strong>Server &gt; Modules</strong> page in the project explorer.</li>
+        <li>Select the installed module in the list of unused modules and click the <strong>Activate</strong> button.</li>
+        <li>If the module distribution contains configuration files located in the SCADA\ScadaServer\Config directory, copy them into your project.</li>
+        <li>Perform the configuration of the module specified in the module documentation.</li>
+        <li>Save the project and upload the configuration to the server.</li>
+        <li>
+            If the module requires registration:
+            <ol type="a">
+                <li>When started, the module writes the computer code to a file.</li>
+                <li>In the Administrator application, select the module and click the <strong>Register</strong> button.</li>
+                <li>Obtain a registration key, enter it in the appropriate field and save.</li>
+                <li>Upload the configuration to the server again.</li>
+            </ol>
+        </li>
+    </ol>
+
+    <h3>Module File Structure</h3>
+    <table class="table table-hover">
+        <tr>
+            <td>ScadaAdmin\Lang\*.xml</td>
+            <td>UI language files for the Administrator application</td>
+        </tr>
+        <tr>
+            <td>ScadaAdmin\Lib\*.View.dll</td>
+            <td>UI library for the Administrator application</td>
+        </tr>
+        <tr>
+            <td>ScadaServer\Config\*.xml</td>
+            <td>Module configuration to be copied to the project</td>
+        </tr>
+        <tr>
+            <td>ScadaServer\Mod\*.Logic.dll</td>
+            <td>Module logic library for the Server application</td>
+        </tr>
+    </table>
+
+    <h2 id="drivers">Install Communicator Drivers</h2>
+    <p>The sequence of installing a new or updating an existing driver of the Communicator application:</p>
+    <ol>
+        <li>Close the Administrator application if it is running.</li>
+        <li>Unzip the driver installation package.</li>
+        <li>Copy all files from the SCADA folder of the driver installation package to the Rapid SCADA <abbr title="C:\Program Files\SCADA, /opt/scada">installation directory</abbr> with the hierarchy of directories retained.</li>
+        <li>On Windows, find the copied *.dll library files, open their properties one by one and unlock the files.</li>
+        <li>Start Administrator, open the project, find and open the <strong>Communicator &gt; Drivers</strong> page in the project explorer.</li>
+        <li>Make sure that the installed driver is in the list of available drivers. And if the driver is selected, its description is displayed.</li>
+        <li>Perform the configuration of the communication line and device specified in the driver documentation.</li>
+        <li>Save the project and upload the configuration to the server.</li>
+        <li>
+            If the driver requires registration:
+            <ol type="a">
+                <li>When started, the driver writes the computer code to a file.</li>
+                <li>In the Administrator application, select the driver and click the <strong>Register</strong> button.</li>
+                <li>Obtain a registration key, enter it in the appropriate field and save.</li>
+                <li>Upload the configuration to the server again.</li>
+            </ol>
+        </li>
+    </ol>
+
+    <h3>Driver File Structure</h3>
+    <table class="table table-hover">
+        <tr>
+            <td>ScadaAdmin\Lang\*.xml</td>
+            <td>UI language files for the Administrator application</td>
+        </tr>
+        <tr>
+            <td>ScadaAdmin\Lib\*.View.dll</td>
+            <td>UI library for the Administrator application</td>
+        </tr>
+        <tr>
+            <td>ScadaComm\Drv\*.Logic.dll</td>
+            <td>Driver logic library for the Communicator application</td>
+        </tr>
+    </table>
+
+    <h2 id="plugins">Install Webstation Plugins</h2>
+    <p>Additional modules for the Webstation application are called plugins. The sequence of installing a new or updating an existing plugin:</p>
+    <ol>
+        <li>Close the Administrator application if it is running.</li>
+        <li>Unzip the plugin installation package.</li>
+        <li>Copy all files from the SCADA folder of the plugin installation package to the Rapid SCADA <abbr title="C:\Program Files\SCADA, /opt/scada">installation directory</abbr> with the hierarchy of directories retained.</li>
+        <li>On Windows, find the copied *.dll library files, open their properties one by one and unlock the files.</li>
+        <li>Start Administrator, open the project, find and open the <strong>Webstation &gt; Plugins</strong> page in the project explorer.</li>
+        <li>Select the installed plugin in the list of unused plugins and click the <strong>Activate</strong> button.</li>
+        <li>If the plugin distribution contains configuration files located in the SCADA\ScadaWeb\Config directory, copy them into your project.</li>
+        <li>If the plugin distribution contains views located in the SCADA\Views directory, it is recommended to copy them into your project as examples.</li>
+        <li>Perform the configuration of the plugin specified in the plugin documentation.</li>
+        <li>Save the project and upload the configuration to the server.</li>
+        <li>
+            If the plugin requires registration:
+            <ol type="a">
+                <li>When started, the plugin writes the computer code to a file.</li>
+                <li>In the Administrator application, select the plugin and click the <strong>Register</strong> button.</li>
+                <li>Obtain a registration key, enter it in the appropriate field and save.</li>
+                <li>Upload the configuration to the server again.</li>
+            </ol>
+        </li>
+    </ol>
+
+    <h3>Plugin File Structure</h3>
+    <table class="table table-hover">
+        <tr>
+            <td>ScadaAdmin\Lib\*.View.dll</td>
+            <td>UI library for the Administrator application</td>
+        </tr>
+        <tr>
+            <td>ScadaWeb\config\*.xml</td>
+            <td>Plugin configuration to be copied to the project</td>
+        </tr>
+        <tr>
+            <td>ScadaWeb\lang\*.xml</td>
+            <td>Plugin language files for the Webstation application</td>
+        </tr>
+        <tr>
+            <td>ScadaWeb\wwwroot\*.*</td>
+            <td>Static plugin files for the Webstation application</td>
+        </tr>
+        <tr>
+            <td>ScadaWeb\*.dll</td>
+            <td>Plugin libraries for the Webstation application</td>
+        </tr>
+    </table>
+</div>

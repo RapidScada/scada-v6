@@ -1,0 +1,151 @@
+﻿@page "/en/latest/developers/plugin-development"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Web Plugin Development";
+}
+
+@section Styles {
+    <link href="~/lib/prismjs/prism.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/lib/prismjs/prism.js"></script>
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#web">Implementation of Web Interface</a></li>
+        <li><a href="#view">Implementation of Configuration Interface</a></li>
+        <li><a href="#run">Run Plugin</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Web Plugin Development</h1>
+    <p>Using web plugins you can create:</p>
+    <ul>
+        <li>New types of views.</li>
+        <li>Components for mimic diagrams.</li>
+        <li>Reports.</li>
+        <li>Web pages for data manipulation.</li>
+    </ul>
+
+    <p>Let's look at the development of the web interface and interface for configuration a simple plugin, which will be named <em>PlgAbc</em>. To develop a complex plugin, learn and use the <a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaWeb/OpenPlugins" target="_blank">source code</a> of existing plugins on GitHub as examples.</p>
+
+    <h2 id="web">Implementation of Web Interface</h2>
+    <p>Create a new project based on the <strong>Razor Class Library</strong> template. Enter the project name <code>PlgAbc</code>, select the .NET 8.0 framework and set the <strong>Support pages and views</strong> checkbox.</p>
+    <p>Add dependencies to the <code>ScadaCommon.dll</code>, <code>ScadaCommon.Log.dll</code> and <code>ScadaWebCommon.dll</code> libraries. Binary files of the libraries can be found in the Rapid SCADA installation directory, or compiled from source code.</p>
+    <p>Double click a project node in <strong>Solution Explorer</strong> to open the project file <code>PlgAbc.csproj</code> and edit its properties as shown below.</p>
+    <pre><code class="language-xml">&lt;PropertyGroup&gt;
+  &lt;TargetFramework&gt;net8.0&lt;/TargetFramework&gt;
+  &lt;Nullable&gt;disable&lt;/Nullable&gt;
+  &lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;
+  &lt;AddRazorSupportForMvc&gt;true&lt;/AddRazorSupportForMvc&gt;
+  &lt;RootNamespace&gt;Scada.Web.Plugins.PlgAbc&lt;/RootNamespace&gt;
+&lt;/PropertyGroup&gt;</code></pre>
+
+    <p>Create a <code>PluginInfo</code> class and copy the code below. This class contains information that describes the plugin.</p>
+    <pre><code class="language-csharp">namespace Scada.Web.Plugins.PlgAbc
+{
+    internal class PluginInfo : LibraryInfo
+    {
+        public override string Code => "PlgAbc";
+        public override string Name => "ABC Plugin";
+        public override string Descr => "Simple plugin example";
+    }
+}</code></pre>
+
+    <p>Create a <code>PlgAbcLogic</code> class whose code is shown below. This class implements the basic logic of the plugin. Note that the namespace and class name must contain the <code>PlgAbc</code> plugin code. Explore the source code of the <a href="https://github.com/RapidScada/scada-v6/blob/master/ScadaWeb/ScadaWeb/ScadaWebCommon/Plugins/PluginLogic.cs" target="_blank">PluginLogic</a> base class to learn about the capabilities available when implementing plugin logic.</p>
+    <pre><code class="language-csharp">using Scada.Data.Entities;
+using Scada.Web.Services;
+using Scada.Web.TreeView;
+using Scada.Web.Users;
+
+namespace Scada.Web.Plugins.PlgAbc
+{
+    public class PlgAbcLogic : PluginLogic
+    {
+        public PlgAbcLogic(IWebContext webContext)
+            : base(webContext)
+        {
+            Info = new PluginInfo();
+        }
+
+        public override List&lt;MenuItem&gt; GetUserMenuItems(User user, UserRights userRights)
+        {
+            return
+            [
+                new() { Text = "ABC", Url = "~/Abc/MyPage", SortOrder = MenuItemSortOrder.First }
+            ];
+        }
+    }
+}</code></pre>
+
+    <p>Create an empty Razor Page named <code>MyPage.cshtml</code> located in the Abc area. The project structure is shown in the following figure.</p>
+    <figure class="figure">
+        <img src="plugin-development-files/plg-abc.png" class="figure-img img-fluid border" alt="PlgAbc project structure" />
+    </figure>
+
+    <p>The contents of the <code>MyPage.cshtml.cs</code> page model are shown below. To better understand the page source code, it is suggested to view the <a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaWeb/ScadaWeb/ScadaWebCommon/Services" target="_blank">service interfaces</a> available in the web application through dependency injection.</p>
+    <pre><code class="language-csharp">using Microsoft.AspNetCore.Mvc.RazorPages;
+using Scada.Web.Services;
+
+namespace Scada.Web.Plugins.PlgAbc.Areas.Abc.Pages
+{
+    public class MyPageModel(IWebContext webContext, IUserContext userContext) : PageModel
+    {
+        public int ChannelCount =&gt; webContext.ConfigDatabase.CnlTable.ItemCount;
+        public string UserName =&gt; userContext.UserEntity.Name;
+    }
+}</code></pre>
+
+    <p>The page layout file <code>MyPage.cshtml</code> has the following contents:</p>
+    <pre><code class="language-markup">@@page
+@@model Scada.Web.Plugins.PlgAbc.Areas.Abc.Pages.MyPageModel
+@@{
+    Layout = &quot;_MainLayout&quot;;
+    ViewBag.Title = &quot;My Page&quot;;
+}
+
+&lt;h1&gt;My Page&lt;/h1&gt;
+&lt;p&gt;Number of channels: @@Model.ChannelCount&lt;/p&gt;
+&lt;p&gt;Current user: @@Model.UserName&lt;/p&gt;</code></pre>
+
+    <p>An example of the web interface of the plugin is ready. Build the project and copy <code>PlgAbc.dll</code> to the root directory of the Webstation application.</p>
+
+    <h2 id="view">Implementation of Configuration Interface</h2>
+    <p>Create a new project based on the <strong>Class Library</strong> template. Enter the project name <code>PlgAbc.View</code>, and select the .NET 8.0 framework.</p>
+    <p>Add dependencies to the <code>ScadaCommon.dll</code> and <code>ScadaWebCommon.Subset.dll</code> libraries.</p>
+    <p>Double click a project node in <strong>Solution Explorer</strong> to open the project file <code>PlgAbc.View.csproj</code> and edit its properties as shown below.</p>
+    <pre><code class="language-xml">&lt;PropertyGroup&gt;
+  &lt;TargetFramework&gt;net8.0&lt;/TargetFramework&gt;
+  &lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;
+  &lt;Nullable&gt;disable&lt;/Nullable&gt;
+  &lt;RootNamespace&gt;Scada.Web.Plugins.PlgAbc.View&lt;/RootNamespace&gt;
+&lt;/PropertyGroup&gt;</code></pre>
+
+    <p>Add the previously created <code>PluginInfo.cs</code> file to the project as a reference. Note that the file icon looks like a link.</p>
+    <figure class="figure">
+        <img src="plugin-development-files/plg-abc-view.png" class="figure-img img-fluid border" alt="PlgAbc.View project structure" />
+    </figure>
+
+    <p>Create a <code>PlgAbcView</code> class and copy the code below. This class implements the user interface of the plugin for the Administrator application. Note that the namespace and class name must contain the <code>PlgAbc</code> plugin code. In the example, there is actually no user interface for the plugin, however, a minimal implementation of the interface is required so that the plugin can be used in the Administrator application. View the source code of the <a href="https://github.com/RapidScada/scada-v6/blob/master/ScadaWeb/ScadaWeb/ScadaWebCommon/Plugins/PluginView.cs" target="_blank">PluginView</a> base class to learn about the available features.</p>
+    <pre><code class="language-csharp">namespace Scada.Web.Plugins.PlgAbc.View
+{
+    public class PlgAbcView : PluginView
+    {
+        public PlgAbcView()
+        {
+            Info = new PluginInfo();
+        }
+    }
+}</code></pre>
+
+    <p>Build the project and copy <code>PlgAbc.View.dll</code> to the Administrator libraries directory <code>ScadaAdmin\Lib</code></p>
+
+    <h2 id="run">Run Plugin</h2>
+    <p>Start the Administrator application or restart it if it is open. Create and open a copy of the <code>HelloWorld</code> project, then find the developed plugin in the <strong>Webstation &gt; Plugins</strong> section. Select the plugin and make sure its description is displayed correctly. If an error occurs when displaying a plugin description, there is most likely an inaccuracy in the namespace or class names of the plugin user interface.</p>
+    <p>Activate the <em>PlgAbc</em> plugin and upload the project for execution. In the Webstation application, navigate to <strong>Main Menu &gt; ABC</strong> to open the web page provided by the developed plugin.</p>
+</div>

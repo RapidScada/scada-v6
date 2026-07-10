@@ -1,0 +1,135 @@
+﻿@page "/en/latest/installation/install-linux"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Install on Linux";
+}
+
+@section Styles {
+    <link href="~/lib/prismjs/prism.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/lib/prismjs/prism.js"></script>
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#uninstallation">Uninstallation</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Install on Linux</h1>
+    <p>This article provides commands for Ubuntu and Debian operating systems. When installing Rapid SCADA on other OS of the Linux family, use the appropriate commands.</p>
+
+    <h2 id="installation">Installation</h2>
+    <ol>
+        <li>
+            <p>Install ASP.NET Core Runtime 8.0.x according to the <a href="https://docs.microsoft.com/en-us/dotnet/core/install/linux" target="_blank">instructions</a>.</p>
+            <p>If installation of .NET from the repository is not possible, the manual installation sequence is as follows:</p>
+            <ol type="a">
+                <li>Download .NET binaries corresponding to the operating system from <a href="https://dotnet.microsoft.com/en-us/download/dotnet/8.0" target="_blank">this link</a>.</li>
+                <li>Extract and copy the downloaded files to <code>/usr/share/dotnet/</code></li>
+                <li>
+                    Make the <code>dotnet</code> file executable:
+                    <pre><code class="language-sh">sudo chmod +x /usr/share/dotnet/dotnet</code></pre>
+                </li>
+                <li>
+                    Create a link to the <code>dotnet</code> file:
+                    <pre><code class="language-sh">sudo ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet</code></pre>
+                </li>
+            </ol>
+        </li>
+        <li>
+            Install Rapid SCADA from the package (option 1)
+            <pre><code class="language-sh">sudo dpkg -i rapidscada_VERSION_all.deb</code></pre>
+        </li>
+        <li>
+            Install Rapid SCADA manually (option 2)
+            <ol type="a">
+                <li>Copy the extracted files from the <code>scada</code> folder to <code>/opt/scada</code></li>
+                <li>
+                    Make the scripts executable:
+                    <pre><code class="language-sh">sudo chmod +x /opt/scada/make_executable.sh
+sudo /opt/scada/make_executable.sh</code></pre>
+                </li>
+                <li>Copy the extracted files from the <code>daemons</code> folder to <code>/etc/systemd/system</code></li>
+                <li>
+                    Enable daemons:
+                    <pre><code class="language-sh">sudo systemctl enable scadaagent6.service
+sudo systemctl enable scadaserver6.service
+sudo systemctl enable scadacomm6.service
+sudo systemctl enable scadaweb6.service</code></pre>
+                </li>
+            </ol>
+        </li>
+        <li>
+            Create a RAM drive for writing logs:
+            <ol type="a">
+                <li>
+                    Create a log directory:
+                    <pre><code class="language-sh">sudo mkdir /var/log/scada</code></pre>
+                </li>
+                <li>
+                    Make a backup copy the <code>/etc/fstab</code> file, and add the following line to the file
+                    <pre><code>tmpfs           /var/log/scada  tmpfs   defaults,noatime,size=100m    0    0</code></pre>
+                </li>
+            </ol>
+        </li>
+        <li>
+            Install and setup Nginx:
+            <ol type="a">
+                <li>
+                    Install Nginx using the instructions:
+                    <a href="https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-20-04" target="_blank">link 1</a>,
+                    <a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-18-04" target="_blank">link 2</a>,
+                    <a href="https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04" target="_blank">link 3</a>.
+                    Installation commands:
+                    <pre><code class="language-sh">sudo apt update
+sudo apt install nginx</code></pre>
+                </li>
+                <li>
+                    Create a self-signed certificate:
+                    <pre><code class="language-sh">sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt</code></pre>
+                </li>
+                <li>Copy the extracted file <code>nginx/default</code> to <code>/etc/nginx/sites-available</code> after saving a backup copy of the existing file.</li>
+            </ol>
+        </li>
+        <li>
+            Restart the computer:
+            <pre><code class="language-sh">sudo reboot</code></pre>
+        </li>
+        <li>
+            After restart, open <a href="http://localhost" target="_blank">http://localhost</a> or http://SERVER_IP in a web browser.<br />
+            Username: <em>admin</em><br />
+            Password: <em>scada</em>
+        </li>
+    </ol>
+
+    <h2 id="uninstallation">Uninstallation</h2>
+    <ol>
+        <li>Restore the original file <code>/etc/fstab</code></li>
+        <li>
+            If Rapid SCADA was installed from the package:
+            <pre><code class="language-sh">sudo dpkg -r rapidscada</code></pre>
+        </li>
+        <li>
+            If Rapid SCADA was installed manually:
+            <ol type="a">
+                <li>
+                    Disable daemons:
+                    <pre><code class="language-sh">sudo systemctl disable scadaagent6.service
+sudo systemctl disable scadaserver6.service
+sudo systemctl disable scadacomm6.service
+sudo systemctl disable scadaweb6.service</code></pre>
+                </li>
+                <li>Remove the previously added daemon files from <code>/etc/systemd/system</code></li>
+                <li>Delete <code>/opt/scada</code> directory with all contents.</li>
+            </ol>
+        </li>
+        <li>Remove Nginx and .NET if necessary.</li>
+    </ol>
+</div>

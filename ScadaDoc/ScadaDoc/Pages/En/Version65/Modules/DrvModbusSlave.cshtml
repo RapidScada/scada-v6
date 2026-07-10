@@ -1,0 +1,75 @@
+﻿@page "/en/latest/modules/drv-modbus-slave"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Modbus Slave Driver";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#configuring">Configuring</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Modbus Slave Driver</h1>
+    <h2 id="overview">Overview</h2>
+    <p>The driver implements the popular <a href="https://en.wikipedia.org/wiki/Modbus" target="_blank">Modbus</a> communication protocol and operates as a slave. Using the driver, Communicator waits for incoming requests and commands from a third-party device or application that acts as a master. Supported communication channels are serial port, TCP server and UDP. The driver can operate in either Modbus RTU or Modbus TCP mode. Download the driver using the <a href="https://rapidscada.net/store/Module/en/KpModbusSlave" target="_blank">link</a>.</p>
+    <p>Modbus Slave Driver features:</p>
+    <ol>
+        <li>Receives data from a master device using write commands.</li>
+        <li>Provides data to a master device in response to read commands.</li>
+        <li>Works as a gateway, that is, the driver broadcasts channel values ​​received from other devices.</li>
+    </ol>
+
+    <h2 id="installation">Installation</h2>
+    <p>Modbus Slave Driver is installed in accordance with the <a href="../installation/install-modules#drivers">general sequence of installing drivers</a>.</p>
+
+    <h2 id="configuring">Configuring</h2>
+    <p>Create a new communication line using the wizard, which is called by the <img src="../common-images/add-line.png" /> button. Select the appropriate communication channel type and configure its properties. The following figure shows an example of the TCP server communication channel options.</p>
+    <figure class="figure">
+        <img src="drv-modbus-slave-files/tcp-server-channel-en.png" class="figure-img img-fluid" alt="Communication channel properties" />
+    </figure>
+
+    <p>In the custom communication line options section, add the <em>TransMode</em> parameter, which is responsible for the data transfer mode. It can take <em>RTU</em> and <em>TCP</em> values.</p>
+    <figure class="figure">
+        <img src="drv-modbus-slave-files/custom-line-options-en.png" class="figure-img img-fluid" alt="Custom line options" />
+    </figure>
+
+    <p>Using the wizard called by the <img src="../common-images/add-device.png" /> button, add one or more <em>Modbus Slave</em> type devices to the communication line. The numeric address of the device is important, it is the slave device ID according to the Modbus protocol specification. As an example, three devices operating in different modes were added, which are discussed below. The following figure shows a communication line node in the project explorer.</p>
+    <figure class="figure">
+        <img src="drv-modbus-slave-files/slave-line-node-en.png" class="figure-img img-fluid" alt="Communication line node" />
+    </figure>
+
+    <p>The <em>Independent device</em> mode is used if Communicator should receive data from a controller that is the master. To transmit information to Communicator, the controller writes data using Modbus functions <code>0x05</code> and <code>0x06</code>. In addition, the controller can read previously written device tags from Communicator. Reading is performed using Modbus functions <code>0x01</code>, <code>0x02</code>, <code>0x03</code> and <code>0x04</code>. A device tag can be written either by the master controller or by a control command sent by an operator.</p>
+    <figure class="figure">
+        <img src="drv-modbus-slave-files/independent-device-en.png" class="figure-img img-fluid" alt="Independent device properties" />
+    </figure>
+    <p>The <strong>Undefined value</strong> option specifies the value that is returned to the master if the requested register data is undefined. It applies to numeric registers and has no effect on flags. If a <strong>Data validity period</strong> is set, tag values ​​will be reset to undefined if no new data is received from the controller for the specified period of time.</p>
+
+    <p>The <strong>Device template</strong> defines the structure and addresses of the Modbus registers. The template format used by Modbus Slave Driver (DrvModbusSlave) is identical to the device template format used by Modbus Master Driver (DrvModbus).</p>
+    <figure class="figure">
+        <img src="drv-modbus-slave-files/modbus-template-en.png" class="figure-img img-fluid" alt="Device template" />
+    </figure>
+
+    <p>If the independent device mode is selected, after completing the device properties setup, create channels in the configuration database using the wizard called up by the <img src="../common-images/create-cnls.png" /> button. If another device mode is selected, creating channels is not required.</p>
+
+    <p>The <strong>Device gateway</strong> mode is used to provide the current channel data of the selected device to a third-party system.</p>
+    <figure class="figure">
+        <img src="drv-modbus-slave-files/device-gateway-en.png" class="figure-img img-fluid" alt="Device gateway" />
+    </figure>
+    <p>The channels of the data source device and tags of the gateway device are linked based on a comparison of the channel tag codes and the tag codes specified in the gateway template. If the data source device is polled via the Modbus protocol, the same device template can be used to operate the gateway.</p>
+    <p>If the master executes a write command to the gateway device tag, Communicator sends the corresponding command to Server on the channel associated with the tag. That command can then be passed to a physical device, whose data is transmitted by the gateway.</p>
+
+    <figure class="figure">
+        <img src="drv-modbus-slave-files/channel-gateway-en.png" class="figure-img img-fluid" alt="Channel gateway" />
+    </figure>
+    <p>The driver operation in the <em>Channel gateway</em> mode is similar to the operation in the device gateway mode. The difference is that the channel gateway options explicitly specify the channel numbers whose data is being broadcast. The channel gateway options are shown in the following figure.</p>
+    <figure class="figure">
+        <img src="drv-modbus-slave-files/channel-gateway-options-en.png" class="figure-img img-fluid" alt="Channel gateway options" />
+    </figure>
+    <p>For each selected channel, specify the starting Modbus register <strong>Address</strong> and choose the <strong>Data type</strong>. The <strong>Ratio</strong> is used to transmit a real value of the channel as an integer with a certain number of decimal digits. The <strong>Read only</strong> parameter determines whether the gateway responds to an element write command received from the master.</p>
+</div>

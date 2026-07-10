@@ -1,0 +1,116 @@
+﻿@page "/en/latest/modules/plg-notification"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Notification Plugin";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#configuring">Configuring</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Notification Plugin</h1>
+    <h2 id="overview">Overview</h2>
+    <p>Notification Plugin helps an operator to pay attention to the most important events. The plugin generates notifications based on events according to specified rules and displays them in the notification panel that appears on the right side of the web page. In addition, the plugin turns on an audible alert depending on the notification type. Download the plugin using the <a href="https://rapidscada.net/store/Module/en/PlgNotification" target="_blank">link</a>. The notification panel is shown in the following figure.</p>
+    <figure class="figure">
+        <img src="plg-notification-files/notification-panel-en.png" class="figure-img img-fluid" alt="Notification panel" />
+    </figure>
+    <p>The plugin displays only those events that require acknowledgement and have not yet been acknowledged. The filter specified in the plugin configuration is applied to the displayed events. Clicking the <strong>Information</strong> button displays a tooltip related to the notification. If a user acknowledges the event, the corresponding notification is hidden.</p>
+
+    <h2 id="installation">Installation</h2>
+    <p>Notification Plugin is installed according to the <a href="../installation/install-modules#plugins">instructions</a>. Follow additional steps during installation:</p>
+    <ul>
+        <li>Copy the <code>PlgNotification.xml</code> file from the plugin distribution into your project. The file should be displayed in the project explorer under the <strong>Webstation &gt; Configuration Files</strong> node.</li>
+        <li>In the Webstation application options, in the <strong>Plugin Assignment</strong> section, select the <strong>PlgNotification</strong> plugin as the notification management plugin.</li>
+    </ul>
+
+    <h2 id="configuring">Configuring</h2>
+    <p>The configuration file <code>PlgNotification.xml</code> contains the parameters described in the following table.</p>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>XML Element</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>EventFilter</strong></td>
+                <td>Event filter section</td>
+            </tr>
+            <tr>
+                <td>ObjNums</td>
+                <td>Object numbers</td>
+            </tr>
+            <tr>
+                <td>DeviceNums</td>
+                <td>Device numbers</td>
+            </tr>
+            <tr>
+                <td>Statuses</td>
+                <td>Status identifiers</td>
+            </tr>
+            <tr>
+                <td>Severities</td>
+                <td>Severity values</td>
+            </tr>
+            <tr>
+                <td><strong>Tips</strong></td>
+                <td>Notification tips section</td>
+            </tr>
+            <tr>
+                <td><strong>Tip</strong></td>
+                <td>Section that defines one tip</td>
+            </tr>
+            <tr>
+                <td>TipCondition</td>
+                <td>Tip condition</td>
+            </tr>
+            <tr>
+                <td>Link</td>
+                <td>If the parameter is defined, it specifies a link to go to the tip</td>
+            </tr>
+            <tr>
+                <td>Html</td>
+                <td>HTML markup of the tip content</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>If the parameter value is a numeric range, it may contain commas and hyphens, for example, <em style="white-space:nowrap">1-5,10</em>.</p>
+    <p>Notification Plugin also uses some parameters from the <code>ScadaWebConfig.xml</code> file, the general configuration file of the Webstation application:</p>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Parameter</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>RefreshRate</td>
+                <td>Data refresh rate in milliseconds</td>
+            </tr>
+            <tr>
+                <td>EventArchiveCode</td>
+                <td>Event archive code on the basis of which notifications are generated</td>
+            </tr>
+            <tr>
+                <td>EventCount</td>
+                <td>Number of notifications displayed</td>
+            </tr>
+            <tr>
+                <td>EventDepth</td>
+                <td>Number of days to request events</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

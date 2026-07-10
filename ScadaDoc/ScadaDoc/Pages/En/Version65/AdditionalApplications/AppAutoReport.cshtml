@@ -1,0 +1,129 @@
+﻿@page "/en/latest/additional-applications/app-auto-report"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Auto Report";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#configuring">Configuring</a></li>
+        <li><a href="#operation">Operation</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Auto Report</h1>
+    <h2 id="overview">Overview</h2>
+    <p>The Auto Report application is designed to automatically generate various reports according to a schedule, save them to disk and send them by email. Download the application using the <a href="https://rapidscada.net/store/Module/en/ScadaAutoReport" target="_blank">link</a>. Sending reports by email is provided by the DrvEmail driver, which is included in the Rapid SCADA distribution and does not require separate installation.</p>
+    <p>The application supports adding new libraries to the list of generated report types. The following report types are supported by default:</p>
+    <ul>
+        <li>Historical data report.</li>
+        <li>Event report.</li>
+        <li>Elastic report.</li>
+    </ul>
+    <p>Auto Report works as a service. The application runs tasks to generate reports according to the schedule. Generated reports are saved to disk and, if the corresponding option is enabled, sent by email. Auto Report connects to the Server application to receive commands for generating reports and to send commands for sending reports via email.</p>
+
+    <h2 id="installation">Installation</h2>
+    <p>The sequence of installing the Auto Report application on Windows:</p>
+    <ol>
+        <li>Unzip the application distribution package.</li>
+        <li>Copy the contents of the <code>SCADA</code> distribution folder to the Rapid SCADA installation directory.</li>
+        <li>Run the <code>ScadaAutoReport\svc_install.bat</code> file as administrator to register the service.</li>
+        <li>Create a shortcut on the desktop to the <code>ScadaAutoReport\ScadaAutoReportConfig.exe</code> file to launch the Auto Report configurator.</li>
+        <li>
+            Launch the configurator and perform the following actions:
+            <ol type="a">
+                <li>Start the Auto Report service by clicking the <img src="app-auto-report-files/start.png" /> button.</li>
+                <li>Open the registration form using the <img src="app-auto-report-files/key.png" /> button and register the application.</li>
+            </ol>
+        </li>
+    </ol>
+
+    <p>The installation sequence on Linux is as follows:</p>
+    <ol>
+        <li>Unzip the application distribution package.</li>
+        <li>Copy the contents of the <code>SCADA</code> distribution folder to the <code>/opt/scada/</code> directory.</li>
+        <li>Copy the <code>Daemons/scadareport6.service</code> file from the distribution to the <code>/etc/systemd/system</code> directory.</li>
+        <li>
+            Enable the service by running the command
+            <pre><code>sudo systemctl enable scadareport6.service</code></pre>
+        </li>
+        <li>After the first <a href="#operation">start</a> of the service, copy the computer code from the log, get the registration key and register the application.</li>
+    </ol>
+
+    <h2 id="configuring">Configuring</h2>
+    <p>The application configuration is saved in the <code>ScadaAutoReportConfig.xml</code> file, which is located in the <code>Config</code> subdirectory of the application. When using Auto Report on Windows, the configuration is performed using the configurator application, which is launched from the <code>ScadaAutoReportConfig.exe</code> file. When running on Linux, the configuration file is edited manually using a text editor.</p>
+    <p>The screenshots below show the options of the Auto Report application, edited in the configurator application.</p>
+    
+    <figure class="figure">
+        <img src="app-auto-report-files/general-options-en.png" class="figure-img img-fluid" alt="General options" />
+    </figure>
+    <p>Set the <strong>Culture</strong> option to a non-empty value if the culture used to generate reports should be different from the culture set in the Administrator application for all applications. Specify the <strong>Time zone</strong> if it is different from the server time zone. Leave both options blank to use the default values.</p>
+    <p>The <strong>CSS path</strong> is used when generating reports in HTML format for those report types that support this format. The <strong>Report directory</strong> is specified if reports should be saved in a directory other than the default report directory. By default, the <code>Reports</code> directory, located one level above the Auto Report application directory, is used to save reports.</p>
+    <p>If the <strong>Pack reports</strong> checkbox is checked, the reports are saved to disk as ZIP archives. The <strong>Retention</strong> option determines how many days to keep reports on disk.</p>
+    <p>Specify the <strong>Channel number to receive commands</strong> if reports need to be generated not only according to the schedule, but also upon operator command. The <strong>Channel number to send emails</strong> is used when sending reports via email to transmit commands to the driver.</p>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/connection-options-en.png" class="figure-img img-fluid" alt="Connection options" />
+    </figure>
+    <p>The <strong>Server Connection</strong> tab contains the options for connecting to the Server application. The specified user must exist in the configuration database. The <strong>Secret key</strong> should be copied from the Server settings.</p>
+    <p>The <strong>DB Connection</strong> tab is used to set parameters for connecting to a database that contains the information needed to generate reports. For the report types available by default, a database connection is not required.</p>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/elastic-report-type-en.png" class="figure-img img-fluid" alt="Elastic report type" />
+    </figure>
+    <p>Information about report types in the configurator is available for viewing only. To edit report types through the configuration file, please consult the developers.</p>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/task-options-en.png" class="figure-img img-fluid" alt="Task options" />
+    </figure>
+    <p>To add a new task, click the <img src="app-auto-report-files/task.png" /> button on the configurator toolbar. The task includes up to several reports and is executed on schedule or on command. The task name is used in the report file name, so it can only contain characters that are allowed in file names. The <strong>Start date</strong> option defines the beginning of the period of the generated report relative to the current date. The <strong>Period</strong> option specifies the duration of the report period.</p>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/schedule-options-en.png" class="figure-img img-fluid" alt="Schedule options" />
+    </figure>
+    <p>The task for generating a report can be automatically launched <em>Every Day</em>, on certain <em>Days of Week</em> or <em>Days of Month</em>. The <strong>Time</strong> option specifies the time of day at which the task runs.</p>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/mail-options-en.png" class="figure-img img-fluid" alt="Mail options" />
+    </figure>
+    <p>If the <strong>Enabled</strong> checkbox is checked in the mail options, then the generated reports, in addition to being saved to disk, are also sent by email using the DrvEmail driver. The <strong>To</strong> field specifies the name of a contact from the driver's address book, the name of a contact group, or an email address.</p>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/report-config-en.png" class="figure-img img-fluid" alt="Report configuration" />
+    </figure>
+    <p>To add a new report to the task, click the <img src="app-auto-report-files/report.png" /> button. Uncheck the <strong>Active</strong> checkbox to exclude the generation of the report when the task is running. The <strong>Prefix</strong> is ​​used in the report file name. The formats available for selection (PDF, XML 2003, XLSX, HTML) depend on the report type. Specify the <strong>Archive code</strong> if the report uses data from the archive that is written by the Server application. The <strong>Custom arguments</strong> are specific to the selected report type.</p>
+
+    <p>To use the Auto Report application, make the following settings in the project using the Administrator application:</p>
+    <ol>
+        <li>Add a new user, which is specified in the server connection options.</li>
+        <li>Create a communication line, device and channels for email operation, if used.</li>
+        <li>Create a channel for sending commands to generate reports by an operator, if required.</li>
+    </ol>
+    <p>The figures below show examples of setting up the configuration database of the project.</p>
+    <figure class="figure">
+        <img src="app-auto-report-files/users-table-en.png" class="figure-img img-fluid" alt="Users table" />
+    </figure>
+    <figure class="figure">
+        <img src="app-auto-report-files/devices-table-en.png" class="figure-img img-fluid" alt="Devices table" />
+    </figure>
+    <figure class="figure">
+        <img src="app-auto-report-files/command-channel-en.png" class="figure-img img-fluid" alt="Channel for receiving commands" />
+    </figure>
+    <figure class="figure">
+        <img src="app-auto-report-files/mail-channel-en.png" class="figure-img img-fluid" alt="Channel for sending emails" />
+    </figure>
+
+    <h2 id="operation">Operation</h2>
+    <p>On Windows, the Auto Report service is started, restarted, and stopped using the <img src="app-auto-report-files/start.png" />, <img src="app-auto-report-files/restart.png" />, and <img src="app-auto-report-files/stop.png" /> buttons located on the configurator toolbar.</p>
+    <p>On Linux, to start, restart, and stop the service, use the commands:</p>
+    <pre><code>sudo systemctl start scadareport6
+sudo systemctl restart scadareport6
+sudo systemctl stop scadareport6</code></pre>
+    <p>If the application configuration has changed, restart the Auto Report service for the changes to take effect. Monitor the application's operation using the <code>ScadaAutoReport.log</code> file.</p>
+    <p>When the service is running, tasks are executed according to the specified schedule. To manually start a task, send a command to the channel specified in the general application options. The command value corresponds to the ID of the task to be launched.</p>
+</div>

@@ -1,0 +1,87 @@
+﻿@page "/en/latest/enterprise-edition/plg-guard"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Guard Plugin";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#configuring">Configuring</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Guard Plugin</h1>
+    <h2 id="overview">Overview</h2>
+    <p>Guard Plugin constantly monitors all user requests to the Webstation application, detects attempts to brute force attack the web application, and blocks the intruder's requests. When security events occur, they are recorded in the event archive.</p>
+    <p>Information about the plugin operation is available to users with the <em>Administrator</em> role. The following figures show the web interface of the plugin.</p>
+    <figure class="figure">
+        <img src="plg-guard-files/guard-general-en.png" class="figure-img img-fluid" alt="General information" />
+    </figure>
+    <figure class="figure">
+        <img src="plg-guard-files/guard-users-en.png" class="figure-img img-fluid" alt="Users" />
+    </figure>
+    <p>Activity monitoring is performed by users, IP addresses and web sessions. Blocking of violators is carried out by username, by IP address or globally for the web application. In case of a global block, users who are already logged in continue to work.</p>
+
+    <h2 id="installation">Installation</h2>
+    <p>Guard Plugin is installed according to the <a href="../installation/install-modules#plugins">instructions</a>. During installation, complete the following additional step: copy the <code>PlgGuard.xml</code> file from the plugin distribution into your project. The file should be displayed in the project explorer under the <strong>Webstation &gt; Configuration Files</strong> node.</p>
+
+    <h2 id="configuring">Configuring</h2>
+    <p>Guard Plugin is configured by editing the <code>PlgGuard.xml</code> file in the Administrator application. The configuration file contains the parameters described in the following table.</p>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Parameter</th>
+                <th>Default Value</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>GeneralOptions</strong></td>
+                <td></td>
+                <td>Section of general options</td>
+            </tr>
+            <tr>
+                <td>UserFailsPerMinute</td>
+                <td>10</td>
+                <td>Maximum number of failed login attempts allowed per minute for a specific user</td>
+            </tr>
+            <tr>
+                <td>TotalFailsPerMinute</td>
+                <td>100</td>
+                <td>Maximum number of failed login attempts allowed per minute for all users</td>
+            </tr>
+            <tr>
+                <td>BlockingDuration</td>
+                <td>1</td>
+                <td>Login blocking duration, minutes</td>
+            </tr>
+            <tr>
+                <td>CacheExpiration</td>
+                <td>30</td>
+                <td>Cache expiration period for violation data, minutes</td>
+            </tr>
+            <tr>
+                <td><strong>EventOptions</strong></td>
+                <td></td>
+                <td>Security event recording options</td>
+            </tr>
+            <tr>
+                <td>ArchiveCode</td>
+                <td>Events</td>
+                <td>Archive code for recording events. If not specified, the default event archive is used</td>
+            </tr>
+            <tr>
+                <td>CnlNum</td>
+                <td>0</td>
+                <td>Channel number to which generated events belong</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

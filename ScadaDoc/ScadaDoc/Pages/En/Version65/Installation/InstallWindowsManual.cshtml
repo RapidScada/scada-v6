@@ -1,0 +1,77 @@
+﻿@page "/en/latest/installation/install-windows-manual"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Install on Windows Manually";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#uninstallation">Uninstallation</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Install on Windows Manually</h1>
+    <p>Manual Rapid SCADA setup provides full control over the process of the software installation, update and uninstallation.</p>
+
+    <h2 id="installation">Installation</h2>
+    <ol>
+        <li>Install Internet Information Services (IIS) by selecting the corresponding Windows components.</li>
+        <li>
+            <p>Install ASP.NET Core Runtime 8.0.x (Hosting Bundle) and .NET Desktop Runtime from <a href="https://dotnet.microsoft.com/en-us/download/dotnet/8.0" target="_blank">this link</a>.</p>
+            <p><strong>Note:</strong> If the web application is not needed on Windows, skip the item 1 and install only .NET Desktop Runtime.</p>
+        </li>
+        <li>Copy the application files to the Rapid SCADA installation directory <code>C:\Program Files\SCADA</code></li>
+        <li>
+            Register the services by executing the following files as administrator:<br />
+            <code>ScadaAgent\svc_install.bat</code><br />
+            <code>ScadaComm\svc_install.bat</code><br />
+            <code>ScadaServer\svc_install.bat</code>
+        </li>
+        <li>
+            Register the web application:
+            <ol type="a">
+                <li>Open IIS Manager.</li>
+                <li>Open the module list and make sure the <code>AspNetCoreModuleV2</code> module is present.</li>
+                <li>Create an application pool named <code>ScadaAppPool</code>, set .NET CLR version to <code>No Managed Code</code>.</li>
+                <li>Open the advanced settings of the created application pool, and set the <code>Identity parameter</code> to <code>LocalSystem</code>.</li>
+                <li>Add a new web site named <code>ScadaWeb</code>, specify the created application pool, available TCP port and the path<br /><code>C:\Program Files\SCADA\ScadaWeb</code></li>
+            </ol>
+            <p><strong>Note:</strong> HTTP port 80 is used by <code>Default Web Site</code>. Use another port, such as 10008, or stop <code>Default Web Site</code>.</p>
+        </li>
+        <li>
+            Create a RAM drive for writing logs:
+            <ol type="a">
+                <li>Install the software for creating RAM drives, for example, <a href="http://www.radeonramdisk.com/software_downloads.php" target="_blank">AMD Radeon RAMDisk</a> or <a href="http://memory.dataram.com/products-and-services/software/ramdisk" target="_blank">Dataram RAMDisk</a>.</li>
+                <li>Specify the log directory in <code>ScadaInstanceConfig.xml</code>, for example, <code><LogDir>R:\SCADA\</LogDir></code></li>
+            </ol>
+        </li>
+        <li>Create a shortcut to the Administrator application (<code>ScadaAdmin.exe</code>) on the desktop.</li>
+        <li>Restart the computer to start services automatically.</li>
+        <li>
+            After restart, open http://localhost:PORT or http://SERVER_IP:PORT in a web browser.<br />
+            Username: <em>admin</em><br />
+            Password: <em>scada</em>
+        </li>
+    </ol>
+
+    <h2 id="uninstallation">Uninstallation</h2>
+    <ol>
+        <li>
+            Stop and unregister the services by executing the following files as administrator:<br />
+            <code>ScadaAgent\svc_stop.bat</code><br />
+            <code>ScadaAgent\svc_uninstall.bat</code><br />
+            <code>ScadaComm\svc_stop.bat</code><br />
+            <code>ScadaComm\svc_uninstall.bat</code><br />
+            <code>ScadaServer\svc_stop.bat</code><br />
+            <code>ScadaServer\svc_uninstall.bat</code>
+        </li>
+        <li>Disable a RAM drive.</li>
+        <li>Open IIS Manager and remove the previously created web application and application pool.</li>
+        <li>Delete the Rapid SCADA installation directory with all contents.</li>
+        <li>Remove the Administrator application shortcut from the desktop.</li>
+    </ol>
+</div>

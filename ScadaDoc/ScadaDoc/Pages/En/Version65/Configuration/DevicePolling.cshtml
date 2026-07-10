@@ -1,0 +1,114 @@
+﻿@page "/en/latest/configuration/device-polling"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Device Polling";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#line-options">Communication Line Options</a></li>
+        <li><a href="#device-options">Device Options</a></li>
+        <li><a href="#sync-settings">Synchronizing Settings</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Device Polling</h1>
+    <p>Interaction with devices is performed by the Communicator application, which requests data and sends commands to devices, acting as a master or slave. The polled devices are controllers, input/output modules, metering devices, as well as external data sources, which are also conventionally called devices. All devices belong to communication lines that are independent and operate in parallel.</p>
+    <p>Devices are polled using various communication protocols, such as Modbus, OPC or MQTT. Each protocol is implemented by a corresponding driver. Some drivers are installed by default during the Rapid SCADA installation process. Other drivers can be installed additionally.</p>
+
+    <h2 id="line-options">Communication Line Options</h2>
+    <p>Figure 1 shows an example of setting up the main options of a communication line. Pay attention to the communication channel settings. A communication channel defines a physical interface or network protocol used to poll devices. The following communication channels are supported: Serial port, TCP client, TCP server, UDP and MQTT client. In some cases, if device connection is implemented directly by a driver (for example, OPC), the communication channel should be left unspecified.</p>
+    
+    <figure class="figure">
+        <img src="device-polling-files/line-options-en.png" class="figure-img img-fluid border" alt="Main line options" />
+        <figcaption class="figure-caption">Figure 1. Main line options</figcaption>
+    </figure>
+
+    <p>Custom line options are specific to the driver being used. They are configured using a user interface implemented by the driver, or can be set according to instructions for a certain device type.</p>
+
+    <h2 id="device-options">Device Options</h2>
+    <p>In the <strong>Device Polling</strong> section, individual polling options are configured for each device related to the communication line.</p>
+
+    <figure class="figure">
+        <img src="device-polling-files/device-options-en.png" class="figure-img img-fluid" alt="Device polling options" />
+        <figcaption class="figure-caption">Figure 2. Device polling options</figcaption>
+    </figure>
+
+    <p>The table below clarifies the device polling options.</p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Option</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Active</td>
+                <td>Indicates that the device is being polled</td>
+            </tr>
+            <tr>
+                <td>Poll only on command</td>
+                <td>To poll the device, send a command</td>
+            </tr>
+            <tr>
+                <td>Bound to the configuration database</td>
+                <td>If the option is set, the device tags are bound to the channels of the configuration database, and the received data is sent to the Server application</td>
+            </tr>
+            <tr>
+                <td>Number</td>
+                <td>Device number. It must match the device number in the configuration database</td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td>Device name</td>
+            </tr>
+            <tr>
+                <td>Driver</td>
+                <td>A driver that implements the communication protocol supported by the device</td>
+            </tr>
+            <tr>
+                <td>Numeric address</td>
+                <td>Device address as a number</td>
+            </tr>
+            <tr>
+                <td>String address or host name</td>
+                <td>Device address as a string. This is usually an IP address</td>
+            </tr>
+            <tr>
+                <td>Timeout</td>
+                <td>Duration of waiting for a response from the device in milliseconds</td>
+            </tr>
+            <tr>
+                <td>Delay</td>
+                <td>Delay after receiving data in milliseconds</td>
+            </tr>
+            <tr>
+                <td>Time and Period</td>
+                <td>If both options are zero, the device is polled continuously and cyclically. If the time is specified and the period is zero, the device is polled once a day at the specified time. If the period is greater than zero, the device is polled periodically, starting at the specified time</td>
+            </tr>
+            <tr>
+                <td>Command line</td>
+                <td>Additional options determined by the driver and described in its instructions</td>
+            </tr>
+            <tr>
+                <td>Options</td>
+                <td>Similar to command line, but more structured</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>If the device requires device type-specific options, click the <strong>Properties</strong> button to then to configure them in a dialog window provided by the driver. The <strong>Reset</strong> button restores the device polling options to the default values determined by the selected driver.</p>
+
+    <h2 id="sync-settings">Synchronizing Settings</h2>
+    <p>The synchronization feature helps create communication lines and devices in the Communicator settings based on data from the <strong>Communication lines</strong> and <strong>Devices</strong> tables of the configuration database. And vice versa, fill the configuration database tables based on the Communicator settings. To open the synchronization dialog, in the project explorer, right-click the <strong>Communication Lines</strong> node or the node of a specific line, then select <strong>Synchronize</strong> from the context menu.</p>
+
+    <figure class="figure">
+        <img src="device-polling-files/line-device-sync-en.png" class="figure-img img-fluid" alt="Synchronize line and devices" />
+        <figcaption class="figure-caption">Figure 3. Synchronize line and devices</figcaption>
+    </figure>
+
+</div>
