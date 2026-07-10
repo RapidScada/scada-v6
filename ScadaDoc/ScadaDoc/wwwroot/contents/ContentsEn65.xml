@@ -3,19 +3,19 @@
   <!-- Overview -->
   <Item>
     <Text>Overview</Text>
-    <Url>/en/6.4/software-overview/</Url>
+    <Url>/en/latest/software-overview/</Url>
     <Subitems>
       <Item>
         <Text>Introduction</Text>
-        <Url>/en/6.4/software-overview/introduction</Url>
+        <Url>/en/latest/software-overview/introduction</Url>
       </Item>
       <Item>
         <Text>Applications</Text>
-        <Url>/en/6.4/software-overview/applications</Url>
+        <Url>/en/latest/software-overview/applications</Url>
       </Item>
       <Item>
         <Text>Software Architecture</Text>
-        <Url>/en/6.4/software-overview/architecture</Url>
+        <Url>/en/latest/software-overview/architecture</Url>
       </Item>
     </Subitems>
   </Item>
@@ -23,39 +23,39 @@
   <!-- Installation -->
   <Item>
     <Text>Installation</Text>
-    <Url>/en/6.4/installation/</Url>
+    <Url>/en/latest/installation/</Url>
     <Subitems>
       <Item>
         <Text>System Requirements</Text>
-        <Url>/en/6.4/installation/system-requirements</Url>
+        <Url>/en/latest/installation/system-requirements</Url>
       </Item>
       <Item>
         <Text>Install on Windows</Text>
-        <Url>/en/6.4/installation/install-windows</Url>
+        <Url>/en/latest/installation/install-windows</Url>
       </Item>
       <Item>
         <Text>Install on Windows Manually</Text>
-        <Url>/en/6.4/installation/install-windows-manual</Url>
+        <Url>/en/latest/installation/install-windows-manual</Url>
       </Item>
       <Item>
         <Text>Install on Linux</Text>
-        <Url>/en/6.4/installation/install-linux</Url>
+        <Url>/en/latest/installation/install-linux</Url>
       </Item>
       <Item>
         <Text>Install Modules</Text>
-        <Url>/en/6.4/installation/install-modules</Url>
+        <Url>/en/latest/installation/install-modules</Url>
       </Item>
       <Item>
         <Text>Service Management</Text>
-        <Url>/en/6.4/installation/services</Url>
+        <Url>/en/latest/installation/services</Url>
       </Item>
       <Item>
         <Text>Transfer to New Server</Text>
-        <Url>/en/6.4/installation/transfer</Url>
+        <Url>/en/latest/installation/transfer</Url>
       </Item>
       <Item>
         <Text>Safety</Text>
-        <Url>/en/6.4/installation/safety</Url>
+        <Url>/en/latest/installation/safety</Url>
       </Item>
     </Subitems>
   </Item>
@@ -63,39 +63,39 @@
   <!-- Configuration -->
   <Item>
     <Text>Configuration</Text>
-    <Url>/en/6.4/configuration/</Url>
+    <Url>/en/latest/configuration/</Url>
     <Subitems>
       <Item>
         <Text>Configuration Basics</Text>
-        <Url>/en/6.4/configuration/configuration-basics</Url>
+        <Url>/en/latest/configuration/configuration-basics</Url>
       </Item>
       <Item>
         <Text>Configuration Database</Text>
-        <Url>/en/6.4/configuration/database</Url>
+        <Url>/en/latest/configuration/database</Url>
       </Item>
       <Item>
         <Text>Device Polling</Text>
-        <Url>/en/6.4/configuration/device-polling</Url>
+        <Url>/en/latest/configuration/device-polling</Url>
       </Item>
       <Item>
         <Text>Channels</Text>
-        <Url>/en/6.4/configuration/channels</Url>
+        <Url>/en/latest/configuration/channels</Url>
       </Item>
       <Item>
         <Text>Scripts and Formulas</Text>
-        <Url>/en/6.4/configuration/scripts</Url>
+        <Url>/en/latest/configuration/scripts</Url>
       </Item>
       <Item>
         <Text>Views</Text>
-        <Url>/en/6.4/configuration/views</Url>
+        <Url>/en/latest/configuration/views</Url>
       </Item>
       <Item>
         <Text>Table Views</Text>
-        <Url>/en/6.4/configuration/table-views</Url>
+        <Url>/en/latest/configuration/table-views</Url>
       </Item>
       <Item>
         <Text>User Management</Text>
-        <Url>/en/6.4/configuration/user-management</Url>
+        <Url>/en/latest/configuration/user-management</Url>
       </Item>
     </Subitems>
   </Item>
@@ -103,51 +103,51 @@
   <!-- Modules -->
   <Item>
     <Text>Modules</Text>
-    <Url>/en/6.4/modules/</Url>
+    <Url>/en/latest/modules/</Url>
     <Subitems>
       <Item>
         <Text>Chart Pro Plugin</Text>
-        <Url>/en/6.4/modules/plg-chart-pro</Url>
+        <Url>/en/latest/modules/plg-chart-pro</Url>
       </Item>
       <Item>
         <Text>Dashboard Plugin</Text>
-        <Url>/en/6.4/modules/plg-dashboard</Url>
+        <Url>/en/latest/modules/plg-dashboard</Url>
       </Item>
       <Item>
         <Text>Elastic Report Plugin</Text>
-        <Url>/en/6.4/modules/plg-elastic-report</Url>
+        <Url>/en/latest/modules/plg-elastic-report</Url>
       </Item>
       <Item>
         <Text>Map Plugin</Text>
-        <Url>/en/6.4/modules/plg-map</Url>
+        <Url>/en/latest/modules/plg-map</Url>
       </Item>
       <Item>
         <Text>Notification Plugin</Text>
-        <Url>/en/6.4/modules/plg-notification</Url>
+        <Url>/en/latest/modules/plg-notification</Url>
       </Item>
       <Item>
         <Text>Automatic Control Module</Text>
-        <Url>/en/6.4/modules/mod-auto-control</Url>
+        <Url>/en/latest/modules/mod-auto-control</Url>
       </Item>
       <Item>
         <Text>Database Export Module</Text>
-        <Url>/en/6.4/modules/mod-db-export</Url>
+        <Url>/en/latest/modules/mod-db-export</Url>
       </Item>
       <Item>
         <Text>Rapid Gate Module</Text>
-        <Url>/en/6.4/modules/mod-rapid-gate</Url>
+        <Url>/en/latest/modules/mod-rapid-gate</Url>
       </Item>
       <Item>
         <Text>Database Import Driver</Text>
-        <Url>/en/6.4/modules/drv-db-import</Url>
+        <Url>/en/latest/modules/drv-db-import</Url>
       </Item>
       <Item>
         <Text>Modbus Slave Driver</Text>
-        <Url>/en/6.4/modules/drv-modbus-slave</Url>
+        <Url>/en/latest/modules/drv-modbus-slave</Url>
       </Item>
       <Item>
         <Text>Telegram Driver</Text>
-        <Url>/en/6.4/modules/drv-telegram</Url>
+        <Url>/en/latest/modules/drv-telegram</Url>
       </Item>
     </Subitems>
   </Item>
@@ -155,11 +155,11 @@
   <!-- Additional Applications -->
   <Item>
     <Text>Additional Applications</Text>
-    <Url>/en/6.4/additional-applications/</Url>
+    <Url>/en/latest/additional-applications/</Url>
     <Subitems>
       <Item>
         <Text>Auto Report</Text>
-        <Url>/en/6.4/additional-applications/app-auto-report</Url>
+        <Url>/en/latest/additional-applications/app-auto-report</Url>
       </Item>
     </Subitems>
   </Item>
@@ -167,19 +167,19 @@
   <!-- Enterprise Edition -->
   <Item>
     <Text>Enterprise Edition</Text>
-    <Url>/en/6.4/enterprise-edition/</Url>
+    <Url>/en/latest/enterprise-edition/</Url>
     <Subitems>
       <Item>
         <Text>Overview</Text>
-        <Url>/en/6.4/enterprise-edition/overview</Url>
+        <Url>/en/latest/enterprise-edition/overview</Url>
       </Item>
       <Item>
         <Text>Audit Log Plugin</Text>
-        <Url>/en/6.4/enterprise-edition/plg-audit</Url>
+        <Url>/en/latest/enterprise-edition/plg-audit</Url>
       </Item>
       <Item>
         <Text>Guard Plugin</Text>
-        <Url>/en/6.4/enterprise-edition/plg-guard</Url>
+        <Url>/en/latest/enterprise-edition/plg-guard</Url>
       </Item>
     </Subitems>
   </Item>
@@ -187,27 +187,27 @@
   <!-- Developers -->
   <Item>
     <Text>Developers</Text>
-    <Url>/en/6.4/developers/</Url>
+    <Url>/en/latest/developers/</Url>
     <Subitems>
       <Item>
         <Text>Development Basics</Text>
-        <Url>/en/6.4/developers/development-basics</Url>
+        <Url>/en/latest/developers/development-basics</Url>
       </Item>
       <Item>
         <Text>Logic Module Development</Text>
-        <Url>/en/6.4/developers/module-development</Url>
+        <Url>/en/latest/developers/module-development</Url>
       </Item>
       <Item>
         <Text>Driver Development</Text>
-        <Url>/en/6.4/developers/driver-development</Url>
+        <Url>/en/latest/developers/driver-development</Url>
       </Item>
       <Item>
         <Text>Web Plugin Development</Text>
-        <Url>/en/6.4/developers/plugin-development</Url>
+        <Url>/en/latest/developers/plugin-development</Url>
       </Item>
       <Item>
         <Text>Module Store</Text>
-        <Url>/en/6.4/developers/store</Url>
+        <Url>/en/latest/developers/store</Url>
       </Item>
     </Subitems>
   </Item>
@@ -215,35 +215,35 @@
   <!-- Version History -->
   <Item>
     <Text>Version History</Text>
-    <Url>/en/6.4/version-history/</Url>
+    <Url>/en/latest/version-history/</Url>
     <Subitems>
       <Item>
         <Text>History of Rapid SCADA</Text>
-        <Url>/en/6.4/version-history/scada-history</Url>
+        <Url>/en/latest/version-history/scada-history</Url>
       </Item>
       <Item>
         <Text>Server History</Text>
-        <Url>/en/6.4/version-history/server-history</Url>
+        <Url>/en/latest/version-history/server-history</Url>
       </Item>
       <Item>
         <Text>Communicator History</Text>
-        <Url>/en/6.4/version-history/communicator-history</Url>
+        <Url>/en/latest/version-history/communicator-history</Url>
       </Item>
       <Item>
         <Text>Webstation History</Text>
-        <Url>/en/6.4/version-history/webstation-history</Url>
+        <Url>/en/latest/version-history/webstation-history</Url>
       </Item>
       <Item>
         <Text>Agent History</Text>
-        <Url>/en/6.4/version-history/agent-history</Url>
+        <Url>/en/latest/version-history/agent-history</Url>
       </Item>
       <Item>
         <Text>Administrator History</Text>
-        <Url>/en/6.4/version-history/administrator-history</Url>
+        <Url>/en/latest/version-history/administrator-history</Url>
       </Item>
       <Item>
         <Text>History of Additional Applications</Text>
-        <Url>/en/6.4/version-history/applications-history</Url>
+        <Url>/en/latest/version-history/applications-history</Url>
       </Item>
     </Subitems>
   </Item>

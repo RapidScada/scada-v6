@@ -14,5 +14,6 @@ namespace Scada.Doc.Code
         V60 = 60,
         V61 = 61,
         V64 = 64,
+        V65 = 65,
     }
 }

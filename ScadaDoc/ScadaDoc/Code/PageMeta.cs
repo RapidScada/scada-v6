@@ -45,7 +45,8 @@ namespace Scada.Doc.Code
                 "5.8" => KnownVersion.V58,
                 "6.0" => KnownVersion.V60,
                 "6.1" => KnownVersion.V61,
-                "6.4" or "latest" => KnownVersion.V64,
+                "6.4" => KnownVersion.V64,
+                "6.5" or "latest" => KnownVersion.V65,
                 _ => KnownVersion.None
             };
 

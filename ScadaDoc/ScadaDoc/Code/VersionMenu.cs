@@ -36,9 +36,15 @@ namespace Scada.Doc.Code
         {
             new VersionItem
             {
+                Version = KnownVersion.V65,
+                Text = KnownVersion.V65.ConvertToString(),
+                Url = "/en/latest/"
+            },
+            new VersionItem
+            {
                 Version = KnownVersion.V64,
                 Text = KnownVersion.V64.ConvertToString(),
-                Url = "/en/latest/"
+                Url = "/en/6.4/"
             },
             new VersionItem
             {
@@ -93,9 +99,15 @@ namespace Scada.Doc.Code
         {
             new VersionItem
             {
+                Version = KnownVersion.V65,
+                Text = KnownVersion.V65.ConvertToString(),
+                Url = "/ru/latest/"
+            },
+            new VersionItem
+            {
                 Version = KnownVersion.V64,
                 Text = KnownVersion.V64.ConvertToString(),
-                Url = "/ru/latest/"
+                Url = "/ru/6.4/"
             },
             new VersionItem
             {
@@ -132,15 +144,15 @@ namespace Scada.Doc.Code
         /// <summary>
         /// The menus for all languages.
         /// </summary>
-        public static readonly List<VersionMenu> All = new()
-        {
+        public static readonly List<VersionMenu> All =
+        [
             // In alphabet order
             En, // English 
             Fr, // French
             Ru, // Russian
             Es, // English
             Zh  // 简体中文
-        };
+        ];
 
 
         /// <summary>
