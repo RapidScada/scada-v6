@@ -2,7 +2,8 @@
 @{
     var pageMeta = PageMeta.Parse(Context.Request.Path);
     var versionMenu = VersionMenu.GetMenu(pageMeta.Lang);
-    var activeVersion = pageMeta.Version.ConvertToString();    
+    var homePage = pageMeta.Lang == KnownLang.None ? "/Index" : $"/{pageMeta.Lang}/Index";
+    var activeVersion = pageMeta.Version.ConvertToString();
 }
 
 <!DOCTYPE html>
@@ -25,7 +26,7 @@
     }
     <nav class="navbar sticky-top navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container-xxl">
-            <a class="navbar-brand mb-0 h1" asp-page="/Index">Rapid SCADA Docs</a>
+            <a class="navbar-brand mb-0 h1" asp-page="@homePage">Rapid SCADA Docs</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#divNavbarContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
