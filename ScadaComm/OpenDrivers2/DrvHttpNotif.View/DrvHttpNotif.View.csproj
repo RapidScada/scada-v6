@@ -15,23 +15,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ScadaCommon\ScadaCommon\ScadaCommon.csproj" />
+    <ProjectReference Include="..\..\..\ScadaCommon\ScadaCommon.Forms\ScadaCommon.Forms.csproj" />
+    <ProjectReference Include="..\..\..\ScadaCommon\ScadaCommon.Log\ScadaCommon.Log.csproj" />
+    <ProjectReference Include="..\..\ScadaComm\ScadaCommCommon\ScadaCommCommon.csproj" />
     <ProjectReference Include="..\AddressBook.Forms\AddressBook.Forms.csproj" />
     <ProjectReference Include="..\AddressBook\AddressBook.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="ScadaCommCommon">
-      <HintPath>..\..\ScadaComm\ScadaCommCommon\bin\Release\netstandard2.0\ScadaCommCommon.dll</HintPath>
-    </Reference>
-    <Reference Include="ScadaCommon">
-      <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
-    </Reference>
-    <Reference Include="ScadaCommon.Forms">
-      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Forms\bin\Release\net8.0-windows\ScadaCommon.Forms.dll</HintPath>
-    </Reference>
-    <Reference Include="ScadaCommon.Log">
-      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>
