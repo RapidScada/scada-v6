@@ -3,19 +3,19 @@
   <!-- Обзор -->
   <Item>
     <Text>Обзор</Text>
-    <Url>/ru/latest/software-overview/</Url>
+    <Url>/ru/6.4/software-overview/</Url>
     <Subitems>
       <Item>
         <Text>Введение</Text>
-        <Url>/ru/latest/software-overview/introduction</Url>
+        <Url>/ru/6.4/software-overview/introduction</Url>
       </Item>
       <Item>
         <Text>Приложения</Text>
-        <Url>/ru/latest/software-overview/applications</Url>
+        <Url>/ru/6.4/software-overview/applications</Url>
       </Item>
       <Item>
         <Text>Архитектура ПО</Text>
-        <Url>/ru/latest/software-overview/architecture</Url>
+        <Url>/ru/6.4/software-overview/architecture</Url>
       </Item>
     </Subitems>
   </Item>
@@ -23,39 +23,39 @@
   <!-- Установка -->
   <Item>
     <Text>Установка</Text>
-    <Url>/ru/latest/installation/</Url>
+    <Url>/ru/6.4/installation/</Url>
     <Subitems>
       <Item>
         <Text>Системные требования</Text>
-        <Url>/ru/latest/installation/system-requirements</Url>
+        <Url>/ru/6.4/installation/system-requirements</Url>
       </Item>
       <Item>
         <Text>Установка на Windows</Text>
-        <Url>/ru/latest/installation/install-windows</Url>
+        <Url>/ru/6.4/installation/install-windows</Url>
       </Item>
       <Item>
         <Text>Установка на Windows вручную</Text>
-        <Url>/ru/latest/installation/install-windows-manual</Url>
+        <Url>/ru/6.4/installation/install-windows-manual</Url>
       </Item>
       <Item>
         <Text>Установка на Linux</Text>
-        <Url>/ru/latest/installation/install-linux</Url>
+        <Url>/ru/6.4/installation/install-linux</Url>
       </Item>
       <Item>
         <Text>Установка модулей</Text>
-        <Url>/ru/latest/installation/install-modules</Url>
+        <Url>/ru/6.4/installation/install-modules</Url>
       </Item>
       <Item>
         <Text>Управление службами</Text>
-        <Url>/ru/latest/installation/services</Url>
+        <Url>/ru/6.4/installation/services</Url>
       </Item>
       <Item>
         <Text>Перенос на новый сервер</Text>
-        <Url>/ru/latest/installation/transfer</Url>
+        <Url>/ru/6.4/installation/transfer</Url>
       </Item>
       <Item>
         <Text>Безопасность</Text>
-        <Url>/ru/latest/installation/safety</Url>
+        <Url>/ru/6.4/installation/safety</Url>
       </Item>
     </Subitems>
   </Item>
@@ -63,39 +63,39 @@
   <!-- Настройка -->
   <Item>
     <Text>Настройка</Text>
-    <Url>/ru/latest/configuration/</Url>
+    <Url>/ru/6.4/configuration/</Url>
     <Subitems>
       <Item>
         <Text>Основы настройки</Text>
-        <Url>/ru/latest/configuration/configuration-basics</Url>
+        <Url>/ru/6.4/configuration/configuration-basics</Url>
       </Item>
       <Item>
         <Text>База конфигурации</Text>
-        <Url>/ru/latest/configuration/database</Url>
+        <Url>/ru/6.4/configuration/database</Url>
       </Item>
       <Item>
         <Text>Опрос устройств</Text>
-        <Url>/ru/latest/configuration/device-polling</Url>
+        <Url>/ru/6.4/configuration/device-polling</Url>
       </Item>
       <Item>
         <Text>Каналы</Text>
-        <Url>/ru/latest/configuration/channels</Url>
+        <Url>/ru/6.4/configuration/channels</Url>
       </Item>
       <Item>
         <Text>Скрипты и формулы</Text>
-        <Url>/ru/latest/configuration/scripts</Url>
+        <Url>/ru/6.4/configuration/scripts</Url>
       </Item>
       <Item>
         <Text>Представления</Text>
-        <Url>/ru/latest/configuration/views</Url>
+        <Url>/ru/6.4/configuration/views</Url>
       </Item>
       <Item>
         <Text>Табличные представления</Text>
-        <Url>/ru/latest/configuration/table-views</Url>
+        <Url>/ru/6.4/configuration/table-views</Url>
       </Item>
       <Item>
         <Text>Управление пользователями</Text>
-        <Url>/ru/latest/configuration/user-management</Url>
+        <Url>/ru/6.4/configuration/user-management</Url>
       </Item>
     </Subitems>
   </Item>
@@ -103,51 +103,51 @@
   <!-- Модули -->
   <Item>
     <Text>Модули</Text>
-    <Url>/ru/latest/modules/</Url>
+    <Url>/ru/6.4/modules/</Url>
     <Subitems>
       <Item>
         <Text>Плагин Графики Про</Text>
-        <Url>/ru/latest/modules/plg-chart-pro</Url>
+        <Url>/ru/6.4/modules/plg-chart-pro</Url>
       </Item>
       <Item>
         <Text>Плагин Дэшборды</Text>
-        <Url>/ru/latest/modules/plg-dashboard</Url>
+        <Url>/ru/6.4/modules/plg-dashboard</Url>
       </Item>
       <Item>
         <Text>Плагин Гибкий отчёт</Text>
-        <Url>/ru/latest/modules/plg-elastic-report</Url>
+        <Url>/ru/6.4/modules/plg-elastic-report</Url>
       </Item>
       <Item>
         <Text>Плагин Карты</Text>
-        <Url>/ru/latest/modules/plg-map</Url>
+        <Url>/ru/6.4/modules/plg-map</Url>
       </Item>
       <Item>
         <Text>Плагин Уведомления</Text>
-        <Url>/ru/latest/modules/plg-notification</Url>
+        <Url>/ru/6.4/modules/plg-notification</Url>
       </Item>
       <Item>
         <Text>Модуль автоматического управления</Text>
-        <Url>/ru/latest/modules/mod-auto-control</Url>
+        <Url>/ru/6.4/modules/mod-auto-control</Url>
       </Item>
       <Item>
         <Text>Модуль экспорта в БД</Text>
-        <Url>/ru/latest/modules/mod-db-export</Url>
+        <Url>/ru/6.4/modules/mod-db-export</Url>
       </Item>
       <Item>
         <Text>Модуль Быстрый шлюз</Text>
-        <Url>/ru/latest/modules/mod-rapid-gate</Url>
+        <Url>/ru/6.4/modules/mod-rapid-gate</Url>
       </Item>
       <Item>
         <Text>Драйвер импорта из БД</Text>
-        <Url>/ru/latest/modules/drv-db-import</Url>
+        <Url>/ru/6.4/modules/drv-db-import</Url>
       </Item>
       <Item>
         <Text>Драйвер Modbus Slave</Text>
-        <Url>/ru/latest/modules/drv-modbus-slave</Url>
+        <Url>/ru/6.4/modules/drv-modbus-slave</Url>
       </Item>
       <Item>
         <Text>Драйвер Telegram</Text>
-        <Url>/ru/latest/modules/drv-telegram</Url>
+        <Url>/ru/6.4/modules/drv-telegram</Url>
       </Item>
     </Subitems>
   </Item>
@@ -155,11 +155,11 @@
   <!-- Дополнительные приложения -->
   <Item>
     <Text>Дополнительные приложения</Text>
-    <Url>/ru/latest/additional-applications/</Url>
+    <Url>/ru/6.4/additional-applications/</Url>
     <Subitems>
       <Item>
         <Text>Автоотчёт</Text>
-        <Url>/ru/latest/additional-applications/app-auto-report</Url>
+        <Url>/ru/6.4/additional-applications/app-auto-report</Url>
       </Item>
     </Subitems>
   </Item>
@@ -167,19 +167,19 @@
   <!-- Редакция Enterprise -->
   <Item>
     <Text>Редакция Enterprise</Text>
-    <Url>/ru/latest/enterprise-edition/</Url>
+    <Url>/ru/6.4/enterprise-edition/</Url>
     <Subitems>
       <Item>
         <Text>Обзор</Text>
-        <Url>/ru/latest/enterprise-edition/overview</Url>
+        <Url>/ru/6.4/enterprise-edition/overview</Url>
       </Item>
       <Item>
         <Text>Плагин Журнал аудита</Text>
-        <Url>/ru/latest/enterprise-edition/plg-audit</Url>
+        <Url>/ru/6.4/enterprise-edition/plg-audit</Url>
       </Item>
       <Item>
         <Text>Плагин Защитник</Text>
-        <Url>/ru/latest/enterprise-edition/plg-guard</Url>
+        <Url>/ru/6.4/enterprise-edition/plg-guard</Url>
       </Item>
     </Subitems>
   </Item>
@@ -187,27 +187,27 @@
   <!-- Разработчикам -->
   <Item>
     <Text>Разработчикам</Text>
-    <Url>/ru/latest/developers/</Url>
+    <Url>/ru/6.4/developers/</Url>
     <Subitems>
       <Item>
         <Text>Основы разработки</Text>
-        <Url>/ru/latest/developers/development-basics</Url>
+        <Url>/ru/6.4/developers/development-basics</Url>
       </Item>
       <Item>
         <Text>Разработка логических модулей</Text>
-        <Url>/ru/latest/developers/module-development</Url>
+        <Url>/ru/6.4/developers/module-development</Url>
       </Item>
       <Item>
         <Text>Разработка драйверов</Text>
-        <Url>/ru/latest/developers/driver-development</Url>
+        <Url>/ru/6.4/developers/driver-development</Url>
       </Item>
       <Item>
         <Text>Разработка веб-плагинов</Text>
-        <Url>/ru/latest/developers/plugin-development</Url>
+        <Url>/ru/6.4/developers/plugin-development</Url>
       </Item>
       <Item>
         <Text>Магазин модулей</Text>
-        <Url>/ru/latest/developers/store</Url>
+        <Url>/ru/6.4/developers/store</Url>
       </Item>
     </Subitems>
   </Item>
@@ -215,35 +215,35 @@
   <!-- История версий -->
   <Item>
     <Text>История версий</Text>
-    <Url>/ru/latest/version-history/</Url>
+    <Url>/ru/6.4/version-history/</Url>
     <Subitems>
       <Item>
         <Text>История Rapid SCADA</Text>
-        <Url>/ru/latest/version-history/scada-history</Url>
+        <Url>/ru/6.4/version-history/scada-history</Url>
       </Item>
       <Item>
         <Text>История Сервера</Text>
-        <Url>/ru/latest/version-history/server-history</Url>
+        <Url>/ru/6.4/version-history/server-history</Url>
       </Item>
       <Item>
         <Text>История Коммуникатора</Text>
-        <Url>/ru/latest/version-history/communicator-history</Url>
+        <Url>/ru/6.4/version-history/communicator-history</Url>
       </Item>
       <Item>
         <Text>История Вебстанции</Text>
-        <Url>/ru/latest/version-history/webstation-history</Url>
+        <Url>/ru/6.4/version-history/webstation-history</Url>
       </Item>
       <Item>
         <Text>История Агента</Text>
-        <Url>/ru/latest/version-history/agent-history</Url>
+        <Url>/ru/6.4/version-history/agent-history</Url>
       </Item>
       <Item>
         <Text>История Администратора</Text>
-        <Url>/ru/latest/version-history/administrator-history</Url>
+        <Url>/ru/6.4/version-history/administrator-history</Url>
       </Item>
       <Item>
         <Text>История дополнительных приложений</Text>
-        <Url>/ru/latest/version-history/applications-history</Url>
+        <Url>/ru/6.4/version-history/applications-history</Url>
       </Item>
     </Subitems>
   </Item>
