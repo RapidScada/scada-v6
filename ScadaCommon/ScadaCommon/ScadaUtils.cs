@@ -326,9 +326,9 @@ namespace Scada
         /// <remarks>
         /// A cloned object and its children must have the Serializable attribute.
         /// </remarks>
-        public static T DeepCloneDc<T>(this T obj)
+        public static T DeepCloneDc<T>(this T obj, IEnumerable<Type> knownTypes = null)
         {
-            DataContractSerializer serializer = new DataContractSerializer(obj.GetType());
+            DataContractSerializer serializer = new DataContractSerializer(obj.GetType(), knownTypes);
 
             using (MemoryStream stream = new MemoryStream())
             {
@@ -354,6 +354,14 @@ namespace Scada
                 stream.Position = 0;
                 return (T)serializer.Deserialize(stream);
             }
+        }
+
+        /// <summary>
+        /// Creates a full copy of the specified object without using BinaryFormatter.
+        /// </summary>
+        public static T SafeClone<T>(this T obj)
+        {
+            return DeepCloneDc(obj);
         }
 
         /// <summary>
