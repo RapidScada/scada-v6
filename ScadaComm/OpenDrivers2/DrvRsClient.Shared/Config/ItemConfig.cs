@@ -9,42 +9,42 @@ using NCM = System.ComponentModel;
 namespace Scada.Comm.Drivers.DrvRsClient.Config
 {
     /// <summary>
-    /// Represents an item group configuration.
-    /// <para>Представляет конфигурацию группы элементов.</para>
+    /// Represents an item configuration.
+    /// <para>Представляет конфигурацию элемента.</para>
     /// </summary>
     [Serializable]
-    public class ItemGroupConfig : ITreeNode
+    internal class ItemConfig : ITreeNode
     {
         /// <summary>
-        /// Gets or sets a value indicating whether the group is active.
+        /// Gets or sets the channel number corresponding to the item.
         /// </summary>
-        [DisplayName, Category, Description, NCM.TypeConverter(typeof(BooleanConverter))]
-        public bool Active { get; set; } = true;
+        [DisplayName, Category, Description]
+        public int CnlNum { get; set; } = 0;
 
         /// <summary>
-        /// Gets or sets the group name.
+        /// Gets or sets the item name.
         /// </summary>
         [DisplayName, Category, Description]
         public string Name { get; set; } = "";
 
         /// <summary>
-        /// Gets the items.
+        /// Gets or sets a value indicating whether commands are disabled for this item.
         /// </summary>
-        [NCM.Browsable(false)]
-        public List<ItemConfig> Items { get; } = [];
+        [DisplayName, Category, Description, NCM.TypeConverter(typeof(BooleanConverter))]
+        public bool ReadOnly { get; set; } = false;
 
         /// <summary>
-        /// Gets or sets the parent node.
+        /// Gets or sets the parent tree node.
         /// </summary>
         [NCM.Browsable(false)]
         [field: NonSerialized]
         public ITreeNode Parent { get; set; }
 
         /// <summary>
-        /// Get a list of child nodes.
+        /// Gets the child tree nodes.
         /// </summary>
         [NCM.Browsable(false)]
-        public IList Children => Items;
+        public IList Children => null;
 
 
         /// <summary>
@@ -53,15 +53,9 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
         public void LoadFromXml(XmlElement xmlElem)
         {
             ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
-            Active = xmlElem.GetAttrAsBool("active");
+            CnlNum = xmlElem.GetAttrAsInt("cnlNum");
             Name = xmlElem.GetAttrAsString("name");
-
-            foreach (XmlElement itemElem in xmlElem.SelectNodes("Item"))
-            {
-                ItemConfig itemConfig = new() { Parent = this };
-                itemConfig.LoadFromXml(itemElem);
-                Items.Add(itemConfig);
-            }
+            ReadOnly = xmlElem.GetAttrAsBool("readOnly");
         }
 
         /// <summary>
@@ -70,13 +64,9 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
         public void SaveToXml(XmlElement xmlElem)
         {
             ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
-            xmlElem.SetAttribute("active", Active);
+            xmlElem.SetAttribute("cnlNum", CnlNum);
             xmlElem.SetAttribute("name", Name);
-
-            foreach (ItemConfig itemConfig in Items)
-            {
-                itemConfig.SaveToXml(xmlElem.AppendElem("Item"));
-            }
+            xmlElem.SetAttribute("readOnly", ReadOnly);
         }
     }
 }

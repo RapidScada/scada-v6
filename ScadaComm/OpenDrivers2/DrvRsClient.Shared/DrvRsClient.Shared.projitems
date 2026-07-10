@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>1b856d31-49fc-4d12-a4d9-3cc2d07f787a</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Scada.Comm.Drivers.DrvRsClient</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Config\DrvRsClient_001.xml" />
+    <None Include="$(MSBuildThisFileDirectory)Config\DrvRsClient_line001.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Config\ItemConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\ItemGroupConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\ItemGroupList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\RsClientDeviceConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\RsClientLineConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DriverUtils.cs" />
+  </ItemGroup>
+</Project>

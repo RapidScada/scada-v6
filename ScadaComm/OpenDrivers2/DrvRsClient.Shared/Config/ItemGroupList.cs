@@ -10,7 +10,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
     /// <para>Представляет список групп переменных.</para>
     /// </summary>
     [Serializable]
-    public class ItemGroupList : List<ItemGroupConfig>, ITreeNode
+    internal class ItemGroupList : List<ItemGroupConfig>, ITreeNode
     {
         /// <summary>
         /// Gets or sets the parent tree node.

@@ -12,7 +12,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
     /// Represents a communication line configuration for SCADA clients.
     /// <para>Представляет конфигурацию линии связи для SCADA-клиентов.</para>
     /// </summary>
-    public class RsClientLineConfig : ConfigBase
+    internal class RsClientLineConfig : ConfigBase
     {
         /// <summary>
         /// Gets or sets a value indicating whether to use the default connection

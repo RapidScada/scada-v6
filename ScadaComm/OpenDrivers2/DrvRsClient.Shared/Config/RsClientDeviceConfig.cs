@@ -12,7 +12,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.Config
     /// <para>Представляет конфигурацию устройства, соответствующего SCADA-клиенту.</para>
     /// </summary>
     [Serializable]
-    public class RsClientDeviceConfig : DeviceConfigBase
+    internal class RsClientDeviceConfig : DeviceConfigBase
     {
         /// <summary>
         /// Gets the item groups.
