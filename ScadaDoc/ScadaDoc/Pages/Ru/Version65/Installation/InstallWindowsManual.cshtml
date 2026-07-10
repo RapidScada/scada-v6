@@ -1,0 +1,80 @@
+﻿@page "/ru/latest/installation/install-windows-manual"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Установка на Windows вручную";
+}
+
+<nav class="doc-toc">
+    <div class="h6">На этой странице</div>
+    <hr>
+    <ul>
+        <li><a href="#installation">Установка</a></li>
+        <li><a href="#uninstallation">Удаление</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Установка на Windows вручную</h1>
+    <p>Установка Rapid SCADA вручную позволяет сохранять полный контроль в процессе установки, обновлении и удалении программного комплекса.</p>
+
+    <h2 id="installation">Установка</h2>
+    <ol>
+        <li>Установить Internet Information Services (IIS) путём выбора соответствующих компонентов Windows.</li>
+        <li>
+            <p>Установить ASP.NET Core Runtime 8.0.x (Hosting Bundle) и .NET Desktop Runtime, скачав их по <a href="https://dotnet.microsoft.com/en-us/download/dotnet/8.0" target="_blank">ссылке</a>.</p>
+            <p><strong>Примечание:</strong> Если установка веб-приложения на Windows не требуется, то можно пропустить пункт 1 и установить только .NET Desktop Runtime.</p>
+        </li>
+        <li>
+            Скопировать файлы приложений в директорию установки Rapid SCADA.<br />
+            Рекомендуется <code>C:\Program Files\SCADA</code>
+        </li>
+        <li>
+            Зарегистрировать службы, запустив от имени администратора следующие файлы:<br />
+            <code>ScadaAgent\svc_install.bat</code><br />
+            <code>ScadaComm\svc_install.bat</code><br />
+            <code>ScadaServer\svc_install.bat</code>
+        </li>
+        <li>
+            Зарегистрировать веб-приложение на IIS:
+            <ol type="a">
+                <li>Открыть Диспетчер служб IIS.</li>
+                <li>Открыть список модулей и убедиться, что модуль <code>AspNetCoreModuleV2</code> установлен.</li>
+                <li>Создать пул приложений с именем <code>ScadaAppPool</code> и версией среды <code>Без управляемого кода</code>.</li>
+                <li>Открыть дополнительные параметры созданного пула приложений и установить для параметра <code>Удостоверение</code> значение <code>LocalSystem</code>.</li>
+                <li>Добавить веб-сайт <code>ScadaWeb</code>, указав созданный пул приложений, свободный TCP-порт и путь<br /><code>C:\Program Files\SCADA\ScadaWeb</code></li>
+            </ol>
+            <p><strong>Примечание:</strong> HTTP-порт 80 используется веб-сайтом по умолчанию <code>Default Web Site</code>. Используйте другой порт, например, 10008, или остановите <code>Default Web Site</code>.</p>
+        </li>
+        <li>
+            Создать RAM-диск для записи журналов:
+            <ol type="a">
+                <li>Установить ПО для создания RAM-дисков, например, <a href="http://www.radeonramdisk.com/software_downloads.php" target="_blank">AMD Radeon RAMDisk</a> или <a href="http://memory.dataram.com/products-and-services/software/ramdisk" target="_blank">Dataram RAMDisk</a>.</li>
+                <li>В файле <code>ScadaInstanceConfig.xml</code> указать директорию журналов, например, <code>&lt;LogDir&gt;R:\SCADA\&lt;/LogDir&gt;</code></li>
+            </ol>
+        </li>
+        <li>Создать ярлык приложения Администратор (файл <code>ScadaAdmin.exe</code>) на рабочем столе.</li>
+        <li>Перезагрузить компьютер для автоматического запуска служб.</li>
+        <li>
+            После перезагрузки откройте http://localhost:PORT или http://SERVER_IP:PORT в браузере.<br />
+            Имя пользователя: <em>admin</em><br />
+            Пароль: <em>scada</em>
+        </li>
+    </ol>
+
+    <h2 id="uninstallation">Удаление</h2>
+    <ol>
+        <li>
+            Остановить службы и удалить их регистрацию, запустив от имени администратора следующие файлы:<br />
+            <code>ScadaAgent\svc_stop.bat</code><br />
+            <code>ScadaAgent\svc_uninstall.bat</code><br />
+            <code>ScadaComm\svc_stop.bat</code><br />
+            <code>ScadaComm\svc_uninstall.bat</code><br />
+            <code>ScadaServer\svc_stop.bat</code><br />
+            <code>ScadaServer\svc_uninstall.bat</code>
+        </li>
+        <li>Отключить RAM-диск.</li>
+        <li>Открыть Диспетчер служб IIS, удалить ранее созданное веб-приложение и пул приложений.</li>
+        <li>Удалить директорию установки Rapid SCADA со всем содержимым.</li>
+        <li>Удалить ярлык приложения Администратор на рабочем столе.</li>
+    </ol>
+</div>

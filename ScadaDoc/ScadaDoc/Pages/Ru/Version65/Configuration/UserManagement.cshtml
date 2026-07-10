@@ -1,0 +1,117 @@
+﻿@page "/ru/latest/configuration/user-management"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Управление пользователями";
+}
+
+<nav class="doc-toc">
+    <div class="h6">На этой странице</div>
+    <hr>
+    <ul>
+        <li><a href="#creating-users">Создание пользователей</a></li>
+        <li><a href="#rights-assignment">Назначение прав</a></li>
+        <li><a href="#built-in-roles">Стандартные роли</a></li>
+        <li><a href="#custom-roles">Собственные роли</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Управление пользователями</h1>
+    <h2 id="creating-users">Создание пользователей</h2>
+    <p>Создание, редактирование и удаление пользователей выполняется в приложении Администратор через таблицу Пользователи (рис. 1).</p>
+
+    <figure class="figure">
+        <img src="user-management-files/users-table-ru.png" class="figure-img img-fluid" alt="Таблица Пользователи" />
+        <figcaption class="figure-caption">Рис. 1. Таблица Пользователи</figcaption>
+    </figure>
+
+    <p>Пользователи с идентификаторами от 1 до 12 созданы по умолчанию из шаблона проекта. Пользователи <em>ScadaWeb</em> и <em>ScadaComm</em> предназначены для подключения приложений-клиентов Вебстанция и Коммуникатор к приложению Сервер. Пользователи <em>admin</em> и <em>guest</em>, использующие <a href="#built-in-roles">стандартные роли</a>, предназначены для входа в систему. Пользователи <em>alex</em>, <em>ivan</em> и <em>maria</em>, использующие <a href="#custom-roles">собственные роли</a>, созданы в качестве примера.</p>
+
+    <h2 id="rights-assignment">Назначение прав</h2>
+    <p>Права назначаются на объекты для ролей. Стоит отметить, что права назаначаются только для собственных ролей, для стандартных ролей проверка прав уже реализована в приложениях. <strong>Роль</strong> - это именованный набор прав.</p>
+    <p>Перед назначением прав необходимо заполнить таблицы <strong>Объекты</strong> и <strong>Роли</strong> (рис. 2 и 3). Далее прописать права в таблице <strong>Права на объекты</strong> (рис. 4). Объекты могут образовывать иерархию (рис. 5). Если для объекта верхнего уровня заданы некоторые права, они наследуются объектами нижних уровней.</p>
+
+    <figure class="figure">
+        <img src="user-management-files/objects-table-ru.png" class="figure-img img-fluid" alt="Таблица Объекты" />
+        <figcaption class="figure-caption">Рис. 2. Таблица Объекты</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="user-management-files/roles-table-ru.png" class="figure-img img-fluid" alt="Таблица Роли" />
+        <figcaption class="figure-caption">Рис. 3. Таблица Роли</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="user-management-files/object-rights-table-ru.png" class="figure-img img-fluid" alt="Таблица Права на объекты" />
+        <figcaption class="figure-caption">Рис. 4. Таблица Права на объекты</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="user-management-files/object-tree-ru.png" class="figure-img img-fluid" alt="Иерархия объектов" />
+        <figcaption class="figure-caption">Рис. 5. Иерархия объектов</figcaption>
+    </figure>
+
+    <h2 id="built-in-roles">Стандартные роли</h2>
+    <p>Стандартные роли - это роли, встроенные в ядро системы.</p>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Идент.</th>
+                <th>Наименование</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>0</td>
+                <td>Отключен</td>
+                <td>Доступ запрещён</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Администратор</td>
+                <td>Полный доступ</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Диспетчер</td>
+                <td>Может просматривать информацию и отправлять команды</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Гость</td>
+                <td>Может просматривать информацию</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Приложение</td>
+                <td>Взаимодействует с сервером</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Особенности стандартных ролей:</p>
+    <ul>
+        <li>Имеют идентификаторы от 0 до 4.</li>
+        <li>Действуют на все объекты.</li>
+        <li>Их нельзя изменять.</li>
+    </ul>
+
+    <h2 id="custom-roles">Собственные роли</h2>
+    <p>Собственные роли - это роли, созданные разработчиком проекта. В примере выше собственные роли - это <em>Моя&nbsp;роль&nbsp;1</em>, <em>Моя&nbsp;роль&nbsp;2</em> и <em>Моя&nbsp;роль&nbsp;3</em>.</p>
+    <p>Рекомендуется присваивать собственным ролям идентификаторы, начиная от 101. Поле <strong>Код</strong> роли предназначено для интеграции со сторонними системами и базами данных. Если интеграция не используется, код можно оставить пустым.</p>
+    <p>Используя механизм наследования ролей, можно существенно сократить количество записей, которые добавляются в таблицу <strong>Права на объекты</strong>. В таблице <strong>Наследование ролей</strong>, показанной на рис. 6, дочерняя роль <em>Моя&nbsp;роль&nbsp;3</em> наследует от родительских ролей <em>Моя&nbsp;роль&nbsp;1</em> и <em>Моя&nbsp;роль&nbsp;2</em> сумму прав обеих.</p>
+
+    <figure class="figure">
+        <img src="user-management-files/role-inheritance-table-ru.png" class="figure-img img-fluid" alt="Наследование ролей" />
+        <figcaption class="figure-caption">Рис. 6. Наследование ролей</figcaption>
+    </figure>
+
+    <p>Чтобы проконтролировать корректность настройки прав, откройте окно <strong>Матрица прав</strong> (рис. 7), которое вызывается с помощью кнопки <img src="../common-images/matrix.png" />, расположенной на панели инструментов приложения Администратор. Рисунок ниже наглядно показывает, как работает наследование ролей.</p>
+
+    <figure class="figure">
+        <img src="user-management-files/right-matrix-ru.png" class="figure-img img-fluid" alt="Матрица прав" />
+        <figcaption class="figure-caption">Рис. 7. Матрица прав</figcaption>
+    </figure>
+</div>

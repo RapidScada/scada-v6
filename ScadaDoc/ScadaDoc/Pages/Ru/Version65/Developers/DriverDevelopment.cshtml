@@ -1,0 +1,165 @@
+﻿@page "/ru/latest/developers/driver-development"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Разработка драйверов";
+}
+
+@section Styles {
+    <link href="~/lib/prismjs/prism.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/lib/prismjs/prism.js"></script>
+}
+
+<nav class="doc-toc">
+    <div class="h6">На этой странице</div>
+    <hr>
+    <ul>
+        <li><a href="#logic">Реализация логики</a></li>
+        <li><a href="#view">Реализация интерфейса</a></li>
+        <li><a href="#run">Запуск драйвера</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Разработка драйверов</h1>
+    <p>Преимущества Rapid SCADA как платформы при создании драйверов:</p>
+    <ul>
+        <li>За соединение (Serial, TCP, UDP) отвечает Коммуникатор. Разработчик реализует кодирование и декодирование пакетов данных.</li>
+        <li>Поддерживается сбор текущих, исторических данных и событий, отправка команд.</li>
+        <li>Встроенный OPC UA-сервер позволяет предоставить данные, полученные от разработанного драйвера, сторонним OPC-клиентам.</li>
+        <li>Готовая система логирования.</li>
+        <li>Унифицированный пользовательский интерфейс для настройки.</li>
+    </ul>
+
+    <p>Далее рассмотрим разработку логической части и пользовательского интерфейса простого драйвера, который будет иметь кодовое обозначение <em>DrvAbc</em>. Чтобы разработать сложный драйвер, реализующий какой-либо промышленный протокол, изучите и используйте в качестве примеров исходный код существующих драйверов на GitHub (<a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaComm/OpenDrivers" target="_blank">ссылка 1</a>, <a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaComm/OpenDrivers2" target="_blank">ссылка 2</a>).</p>
+
+    <h2 id="logic">Реализация логики</h2>
+    <p>Создайте новый проект на основе шаблона <strong>Class Library</strong>. Введите наименование проекта <code>DrvAbc.Logic</code>, выберите фреймворк .NET 8.0.</p>
+    <p>Добавьте зависимости на библиотеки <code>ScadaCommon.dll</code>, <code>ScadaCommon.Log.dll</code> и <code>ScadaCommCommon.dll</code>. Актуальные бинарные файлы этих библиотек можно найти в директории установки Rapid SCADA, либо собрать самостоятельно из исходного кода.</p>
+    <p>По двойному щелчку в <strong>Solution Explorer</strong> откройте файл проекта <code>DrvAbc.Logic.csproj</code> и отредактируйте его свойства, как показано ниже.</p>
+    <pre><code class="language-xml">&lt;PropertyGroup&gt;
+  &lt;TargetFramework&gt;net8.0&lt;/TargetFramework&gt;
+  &lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;
+  &lt;Nullable&gt;disable&lt;/Nullable&gt;
+  &lt;RootNamespace&gt;Scada.Comm.Drivers.DrvAbc.Logic&lt;/RootNamespace&gt;
+&lt;/PropertyGroup&gt;</code></pre>
+
+    <p>Создайте класс <code>DevAbcLogic</code> и скопируйте код, который приведён ниже. Этот класс реализует логику взаимодействия с устройством. Обратите внимание, что пространство имён и имя класса должны содержать код драйвера <code>DrvAbc</code>. Изучите исходный код базового класса <a href="https://github.com/RapidScada/scada-v6/blob/master/ScadaComm/ScadaComm/ScadaCommCommon/Devices/DeviceLogic.cs" target="_blank">DeviceLogic</a>, чтобы узнать о возможностях, доступных при реализации логики взаимодействия с устройством.</p>
+    <pre><code class="language-csharp">using Scada.Comm.Config;
+using Scada.Comm.Devices;
+using Scada.Data.Models;
+
+namespace Scada.Comm.Drivers.DrvAbc.Logic
+{
+    internal class DevAbcLogic : DeviceLogic
+    {
+        public DevAbcLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig)
+            : base(commContext, lineContext, deviceConfig)
+        {
+            CanSendCommands = true;
+            ConnectionRequired = false;
+        }
+
+        public override void Session()
+        {
+            base.Session();
+            Log.WriteLine("Сеанс опроса драйвера DrvAbc");
+            FinishRequest();
+            FinishSession();
+        }
+
+        public override void SendCommand(TeleCommand cmd)
+        {
+            base.SendCommand(cmd);
+            Log.WriteLine("Значение команды = {0}", cmd.CmdVal);
+            FinishCommand();
+        }
+    }
+}</code></pre>
+
+    <p>Создайте класс <code>DrvAbcLogic</code>, код которого показан ниже. Этот класс реализует общую логику драйвера, не связанную с конкретным устройством. Изучите исходный код базового класса <a href="https://github.com/RapidScada/scada-v6/blob/master/ScadaComm/ScadaComm/ScadaCommCommon/Drivers/DriverLogic.cs" target="_blank">DriverLogic</a>, чтобы узнать о доступных возможностях.</p>
+    <pre><code class="language-csharp">using Scada.Comm.Config;
+using Scada.Comm.Devices;
+
+namespace Scada.Comm.Drivers.DrvAbc.Logic
+{
+    public class DrvAbcLogic : DriverLogic
+    {
+        public DrvAbcLogic(ICommContext commContext)
+            : base(commContext)
+        {
+        }
+
+        public override string Code =&gt; "DrvAbc";
+
+        public override DeviceLogic CreateDevice(ILineContext lineContext, DeviceConfig deviceConfig)
+        {
+            return new DevAbcLogic(CommContext, lineContext, deviceConfig);
+        }
+    }
+}</code></pre>
+
+    <p>Пример логической части драйвера готов. Выполните сборку проекта и скопируйте <code>DrvAbc.Logic.dll</code> в директорию драйверов Коммуникатора <code>ScadaComm\Drv</code></p>
+
+    <h2 id="view">Реализация интерфейса</h2>
+    <p>Создайте новый проект на основе шаблона <strong>Windows Forms Class Library</strong>. Введите наименование проекта <code>DrvAbc.View</code>, выберите фреймворк .NET 8.0.</p>
+    <p>Добавьте зависимости на библиотеки <code>ScadaCommon.dll</code>, <code>ScadaCommon.Forms.dll</code>, <code>ScadaCommon.Log.dll</code> и <code>ScadaCommCommon.dll</code>.</p>
+    <p>По двойному щелчку в <strong>Solution Explorer</strong> откройте файл проекта <code>DrvAbc.View.csproj</code> и отредактируйте его свойства, как показано ниже.</p>
+    <pre><code class="language-xml">&lt;PropertyGroup&gt;
+  &lt;TargetFramework&gt;net8.0-windows&lt;/TargetFramework&gt;
+  &lt;Nullable&gt;disable&lt;/Nullable&gt;
+  &lt;UseWindowsForms&gt;true&lt;/UseWindowsForms&gt;
+  &lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;
+  &lt;RootNamespace&gt;Scada.Comm.Drivers.DrvAbc.View&lt;/RootNamespace&gt;
+&lt;/PropertyGroup&gt;</code></pre>
+
+    <p>Создайте класс <code>DevAbcView</code> и скопируйте код, который приведён ниже. Этот класс реализует пользовательский интерфейс для настройки параметров взаимодействия с устройством. Обратите внимание, что пространство имён и имя класса должны содержать код драйвера <code>DrvAbc</code>. В нашем примере пользовательский интерфейс драйвера фактически отсутствует, тем не менее необходима минимальная реализация интерфейса, чтобы драйвер можно было использовать в приложении Администратор. Изучите исходный код базового класса <a href="https://github.com/RapidScada/scada-v6/blob/master/ScadaComm/ScadaComm/ScadaCommCommon/Devices/DeviceView.cs" target="_blank">DeviceView</a>, чтобы узнать о доступных возможностях.</p>
+    <pre><code class="language-csharp">using Scada.Comm.Config;
+using Scada.Comm.Devices;
+
+namespace Scada.Comm.Drivers.DrvAbc.View
+{
+    internal class DevAbcView : DeviceView
+    {
+        public DevAbcView(DriverView parentView, LineConfig lineConfig, DeviceConfig deviceConfig)
+            : base(parentView, lineConfig, deviceConfig)
+        {
+        }
+    }
+}</code></pre>
+
+    <p>Создайте класс <code>DrvAbcView</code>, код которого показан ниже. Этот класс реализует общий пользовательский интерфейс драйвера, не связанный с конкретным устройством. Изучите исходный код базового класса <a href="https://github.com/RapidScada/scada-v6/blob/master/ScadaComm/ScadaComm/ScadaCommCommon/Drivers/DriverView.cs" target="_blank">DriverView</a>, чтобы узнать о доступных возможностях.</p>
+    <pre><code class="language-csharp">using Scada.Comm.Config;
+using Scada.Comm.Devices;
+
+namespace Scada.Comm.Drivers.DrvAbc.View
+{
+    public class DrvAbcView : DriverView
+    {
+        public DrvAbcView()
+            : base()
+        {
+            CanCreateDevice = true;
+        }
+
+        public override string Name =&gt; "Драйвер ABC";
+
+        public override string Descr =&gt; "Простой пример драйвера";
+
+        public override DeviceView CreateDeviceView(LineConfig lineConfig, DeviceConfig deviceConfig)
+        {
+            return new DevAbcView(this, lineConfig, deviceConfig);
+        }
+    }
+}</code></pre>
+
+    <p>Пример части драйвера, отвечающей за пользовательский интерфейс, готов. Выполните сборку проекта и скопируйте <code>DrvAbc.View.dll</code> в директорию библиотек Администратора <code>ScadaAdmin\Lib</code></p>
+
+    <h2 id="run">Запуск драйвера</h2>
+    <p>Запустите приложение Администратор или перезапустите его, если оно было открыто. Создайте новый проект и в разделе <strong>Коммуникатор &gt; Драйверы</strong> найдите разработанный драйвер. Убедитесь, что при выборе драйвера его описание корректно отображается. Если при отображении описания драйвера возникла ошибка, скорее всего, допущена неточность в пространстве имён или именах классов интерфейса драйвера.</p>
+    <p>Создайте линию связи и добавьте устройство, использующее драйвер <em>DrvAbc</em>, на линию. Запустите проект. В журнале линии связи можно наблюдать информацию о работе созданного драйвера:</p>
+    <pre><code>2024-04-18 13:15:41 Сеанс связи с устройством [3] ABC
+Сеанс опроса драйвера DrvAbc</code></pre>
+</div>
