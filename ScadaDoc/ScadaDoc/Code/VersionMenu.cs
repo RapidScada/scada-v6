@@ -82,7 +82,7 @@ namespace Scada.Doc.Code
             {
                 Version = KnownVersion.V64,
                 Text = KnownVersion.V64.ConvertToString(),
-                Url = "/fr/latest/"
+                Url = "/fr/6.4/"
             },
             new VersionItem
             {
