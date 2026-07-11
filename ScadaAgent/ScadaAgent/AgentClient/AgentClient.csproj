@@ -4,11 +4,12 @@
     <TargetFrameworks>netstandard2.0;net10.0</TargetFrameworks>
     <RootNamespace>Scada.Agent.Client</RootNamespace>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <Version>6.2.0</Version>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2026</Copyright>
+    <Version>6.3.0</Version>
+    <AssemblyVersion>6.3.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
