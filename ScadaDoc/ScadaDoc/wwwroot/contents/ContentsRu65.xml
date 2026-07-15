@@ -94,6 +94,10 @@
         <Url>/ru/latest/configuration/table-views</Url>
       </Item>
       <Item>
+        <Text>Мнемосхемы</Text>
+        <Url>/ru/latest/configuration/mimic-diagrams</Url>
+      </Item>
+      <Item>
         <Text>Управление пользователями</Text>
         <Url>/ru/latest/configuration/user-management</Url>
       </Item>
