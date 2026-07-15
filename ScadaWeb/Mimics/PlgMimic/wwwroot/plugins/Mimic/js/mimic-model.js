@@ -1222,9 +1222,14 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
                     if (component.isFaceplate) {
                         let topPropertyName = propertyChain[1];
                         let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
-                        return childPropertyExport
-                            ? component.getTargetPropertyValue(childPropertyExport)
-                            : ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
+
+                        if (childPropertyExport) {
+                            return childPropertyExport.path
+                                ? component.getTargetPropertyValue(childPropertyExport)
+                                : component.properties[childPropertyExport.name] ?? childPropertyExport.defaultValue;
+                        } else {
+                            return ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
+                        }
                     } else {
                         return ObjectHelper.getPropertyValue(component.properties, propertyChain, 1);
                     }
@@ -1254,7 +1259,11 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
                         let childPropertyExport = component.model?.propertyExportMap.get(topPropertyName);
 
                         if (childPropertyExport) {
-                            component.setTargetPropertyValue(childPropertyExport, value);
+                            if (childPropertyExport.path) {
+                                component.setTargetPropertyValue(childPropertyExport, value);
+                            } else {
+                                component.properties[childPropertyExport.name] = value;
+                            }
                         } else {
                             ObjectHelper.setPropertyValue(component.properties, propertyChain, 1, value);
                         }
