@@ -4,6 +4,14 @@
     ViewBag.Title = "Мнемосхемы";
 }
 
+@section Styles {
+    <link href="~/lib/prismjs/prism.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/lib/prismjs/prism.js"></script>
+}
+
 <nav class="doc-toc">
     <div class="h6">На этой странице</div>
     <hr>
@@ -335,6 +343,86 @@
     <p>Например, если задать входной канал для компонента типа <strong>Текст</strong>, то его текст и цвет будут отображаться в соответствии со значением и статусом канала. Значение выводится с размерностью. Таким образом, для текстового компонента привязки по умолчанию создаются для свойств <strong>Текст</strong> и <strong>Основной цвет</strong>.</p>
 
     <h2 id="scripts">Скрипты</h2>
+    <h3>Скрипты мнемосхемы и компонентов</h3>
+    <p>Для мнемосхемы, фейсплейтов и всех компонентов доступно свойство <strong>Скрипт</strong>. Скрипты предназначены для реализации нестандартной функциональности. Если каком-либо пользовательском скрипте содержится ошибка, работоспособность мнемосхемы сохраняется.</p>
+    <p>Все пользовательские скрипты должны наследоваться от базового класса <code>ComponentScript</code>, в котором доступные следующие методы:</p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Метод</th>
+                <th>Аргументы</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><pre>domCreated(args)</pre></td>
+                <td><pre>{
+  mimic,
+  component,
+  renderContext
+}</pre></td>
+                <td>Вызывается один раз сразу после создания DOM мнемосхемы или компонента. Для фейсплейта вызывается после вызова аналогичных методов входящих в него компонентов.</td>
+            </tr>
+            <tr>
+                <td><pre>domUpdated(args)</pre></td>
+                <td><pre>{
+  mimic,
+  component,
+  renderContext
+}</pre></td>
+                <td>Вызывается сразу после обновления DOM компонента. Для мнемосхемы по факту не вызывается. Для фейсплейта вызывается после вызова аналогичных методов входящих в него компонентов.</td>
+            </tr>
+            <tr>
+                <td><pre>dataUpdated(args)</pre></td>
+                <td><pre>{
+  mimic,
+  component,
+  dataProvider,
+  propertyChanged,
+  handled
+}
+</pre></td>
+                <td>Для компонента вызывается после обновления его данных. Для мнемосхемы вызывается после обновления данных всех компонентов. Если свойство компонента было изменено, нужно присвоить <code>args.propertyChanged = true</code>, чтобы визуально обновить компонент. Если установить <code>args.handled = true</code>, то встроенный скрипт компонента не будет вызываться.</td>
+            </tr>
+            <tr>
+                <td><pre>getCommandValue(args)</pre></td>
+                <td><pre>{ component }</pre></td>
+                <td>Возвращает значение команды, которое нужно отправить. Вызывается при отправке команды без вызова диалогового окна.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Методы <code>domCreated</code> и <code>domUpdated</code> вызываются для мнемосхемы, компонентов и дочерних компонентов фейсплейтов как в режиме выполнения, так и в режиме редактирования. Однако если сам фейсплейт открыт для редактирования, эти методы для него не вызываются, чтобы избежать неоднозначности аргументов: в рабочем режиме доступен <code>args.component</code>, а при редактировании <code>args.mimic</code>.</p>
+    <p>Пример пользовательского скрипта компонента типа <strong>Текст</strong>:</p>
+    <pre><code class="language-javascript">class extends ComponentScript {
+  domCreated(args) {
+    console.log("DOM created for component " + args.component.id);
+  }
+
+  domUpdated(args) {
+    console.log("DOM updated for component " + args.component.id);
+  }
+
+  dataUpdated(args) {
+    const props = args.component.properties;
+    const cnlData = args.dataProvider.getCurData(props.inCnlNum);
+    const blinking = cnlData.d.stat > 0 && cnlData.d.val >= 10;
+
+    if (props.blinking !== blinking) {
+      props.blinking = blinking;
+      args.propertyChanged = true;
+    }
+  }
+}</code></pre>
+
+    <h3>Скрипт действия</h3>
+    <p>Под скриптом действия понимается скрипт, который выполняется по щелчку на компоненте. Скрипт компилируется при каждом вызове действия. Код скрипта должен содержать функцию, например:</p>
+    <pre><code class="language-javascript">function (args) {
+  args.renderContext.viewHub.features.chart.show(args.component.properties.inCnlNum);
+}</code></pre>
+
+    <p>В качестве аргумента функции передаётся объект вида <code>{ component, renderContext }</code></p>
 
     <h2 id="mimic-editor">Редактор мнемосхем</h2>
 
