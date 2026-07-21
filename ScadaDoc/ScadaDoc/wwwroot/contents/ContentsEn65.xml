@@ -94,6 +94,10 @@
         <Url>/en/latest/configuration/table-views</Url>
       </Item>
       <Item>
+        <Text>Mimic Diagrams</Text>
+        <Url>/en/latest/configuration/mimic-diagrams</Url>
+      </Item>
+      <Item>
         <Text>User Management</Text>
         <Url>/en/latest/configuration/user-management</Url>
       </Item>
