@@ -129,4 +129,221 @@
 
     <p>Paths to custom CSS and JavaScript files, specified by the <code>CustomCss</code> and <code>CustomJs</code> options, begin with a tilde, which denotes the root of the web application. These paths may be empty. The custom files themselves must be located within the <code>ScadaWeb\wwwroot\</code> directory. To add multiple style and script files, merge them into a single file using third-party tools.</p>
 
+    <h2 id="creating-mimic">Creating Mimic Diagram</h2>
+    <p>To create a new mimic diagram, go to the <strong>Views</strong> section of the project in the Administrator application, right-click the desired folder, and select <strong>New File</strong> from the context menu. In the window that opens (see Figure 1), select the <em>Mimic Diagram</em> view type, specify a file name, and click <strong>OK</strong>. The created file will appear in the project explorer.</p>
+
+    <figure class="figure">
+        <img src="mimic-diagrams-files/new-mimic-en.png" class="figure-img img-fluid" alt="View creation dialog" />
+        <figcaption class="figure-caption">Figure 1. View creation dialog</figcaption>
+    </figure>
+
+    <p>Once the view file is created, double-click the file to open it in a web browser in <a href="#mimic-editor">Mimic Editor</a>. The Webstation application must be installed and running on the same computer where the Administrator application is running.</p>
+    
+    <h2 id="components">Components</h2>
+    <p>A <strong>component</strong> is an interactive graphic object within a mimic diagram that dynamically displays the state of a specific device or parameter in real time and allows for its manipulation. It is the building block of a mimic diagram.</p>
+    <p>Components in Mimic Editor are divided into groups depending on the plugin they are implemented in. Components in the <strong>Standard</strong> group are implemented in Mimic Diagrams Plugin. Components in the <strong>Basic</strong> and <strong>Extra</strong> groups are implemented in plugins with corresponding names.</p>
+    <p>The table below contains a brief description of the components.</p>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Component</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="2"><strong>Standard components</strong></td>
+            </tr>
+            <tr>
+                <td>Panel</td>
+                <td>Designed to host child components for grouping purposes. Can be nested within one another.</td>
+            </tr>
+            <tr>
+                <td>Picture</td>
+                <td>Displays a graphic. The picture can be static or dynamic based on specified conditions. The recommended format is SVG. PNG and GIF formats are also supported, including animated graphics.</td>
+            </tr>
+            <tr>
+                <td>Text</td>
+                <td>Displays a text string. The text can be static, display a bound channel value, or switch dynamically based on conditions.</td>
+            </tr>
+            <tr>
+                <td colspan="2"><strong>Basic components</strong></td>
+            </tr>
+            <tr>
+                <td>Button</td>
+                <td>Represents a control button used to issue telecontrol commands, trigger pop-up windows, or execute other actions.</td>
+            </tr>
+            <tr>
+                <td>Led</td>
+                <td>A circular or rectangular status indicator that changes its color according to the value of a bound channel based on predefined conditions.</td>
+            </tr>
+            <tr>
+                <td>Toggle</td>
+                <td>A two-position switch that transmits telecontrol commands when toggled.</td>
+            </tr>
+            <tr>
+                <td colspan="2"><strong>Extra components</strong></td>
+            </tr>
+            <tr>
+                <td>Frame</td>
+                <td>Designed to embed external web pages into a mimic diagram, including charts or other views.</td>
+            </tr>
+            <tr>
+                <td>Gauge</td>
+                <td>An analog dial instrument. The background graphic, scale, and pointer needle are fully customizable.</td>
+            </tr>
+            <tr>
+                <td>Level</td>
+                <td>Displays the current value of a bound channel as a vertical or horizontal fill level.</td>
+            </tr>
+            <tr>
+                <td>Markup</td>
+                <td>Designed for embedding custom HTML code snippet blocks. Highly useful for building custom faceplates.</td>
+            </tr>
+            <tr>
+                <td>Trend</td>
+                <td>Plots a real-time historical trend chart of a given parameter.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 id="faceplates">Faceplates</h2>
+    <p>A <strong>faceplate</strong> is a user-created component based on other components for reuse in various mimic diagrams. Changes made to the faceplate are reflected in the mimic in which it is used.</p>
+    <p>Faceplates are created from the Administrator application and edited in Mimic Editor, similar to mimics diagrams. To create a faceplate, open the file creation dialog described above (Figure 1), select the <em>Faceplate</em> type, specify a file name, and click <strong>OK</strong>. Then, double-click the created file to open it in the editor.</p>
+    <p>Faceplates can export user-defined properties. The corresponding faceplate property in the editor is called <strong>Exported properties</strong>. When a faceplate is added to a mimic diagram, custom properties for the faceplate instance are created based on the exported properties and displayed in the properties table in the <strong>Misc</strong> category.</p>
+    <p>Each exported property is a structure whose fields are described in the following table:</p>
+    
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Field</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Property name</td>
+                <td>Required field. Can contain Latin characters and numbers, must start with a letter, periods are not allowed.</td>
+            </tr>
+            <tr>
+                <td>Path</td>
+                <td>Links the exported faceplate property and the target property of the child component. Contains the name of the child component and its property name, separated by periods. When the value of the exported property changes, the target property changes. The value of the target property is used as the default value for the exported property.</td>
+            </tr>
+            <tr>
+                <td>Default value</td>
+                <td>Used if the path is empty and the exported property is handled by a script.</td>
+            </tr>
+            <tr>
+                <td>Default binding</td>
+                <td>Helps to preconfigure the <a href="#data-binding">data binding</a> that is created in the faceplate instance when it is added to the mimic diagram.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 id="data-binding">Data Binding</h2>
+    <p>To dynamically display a parameter value in real time, component properties must be bound to data. Each component has a corresponding list property called <strong>Property bindings</strong>.</p>
+    <p>Structure of a single property binding:</p>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Field</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Property name</td>
+                <td>Required field. For properties with a complex structure, the full name is separated by periods.</td>
+            </tr>
+            <tr>
+                <td>Data source</td>
+                <td>This is the channel number, part of the channel code, or the tag code.</td>
+            </tr>
+            <tr>
+                <td>Data member</td>
+                <td>Determines which part of the channel data is used to build the property value.</td>
+            </tr>
+            <tr>
+                <td>Expression</td>
+                <td>Transforms the value using JavaScript.</td>
+            </tr>
+            <tr>
+                <td>Format</td>
+                <td>Transforms the string according to a format, for example, <code>Hello {0} world</code>. Works only for string properties.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>The argument passed to the expression depends on the data member selected. After the expression is evaluated, the format, if specified, is applied to the result.</p>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Data member</th>
+                <th>Expression argument</th>
+                <th>Expression example</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Value</td>
+                <td>Numeric channel value or <code>Number.NaN</code> if the channel status is 0</td>
+                <td><code>isNaN(x) ? &quot;None&quot; : x * 2</code></td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td>Channel status, a number</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Data</td>
+                <td>Channel value and status, an object <code>{ val, stat }</code></td>
+                <td><code>x.stat > 0 ? x.val * 2 : &quot;None&quot;</code></td>
+            </tr>
+            <tr>
+                <td>Display value</td>
+                <td>String</td>
+                <td><code>&quot;Value: &quot; + x</code></td>
+            </tr>
+            <tr>
+                <td>Value with unit</td>
+                <td>String</td>
+                <td><code>&quot;Value and unit: &quot; + x</code></td>
+            </tr>
+            <tr>
+                <td>Main color</td>
+                <td>String</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Second color</td>
+                <td>String</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Back color</td>
+                <td>String</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Binding component properties works differently depending on which property from the <strong>Data</strong> category is set:</p>
+    <ol>
+        <li>The <strong>Object number</strong> is specified. The <strong>Data source</strong> field in the binding contains a portion of the channel code. The application determines the channel number as follows: a string from the data source is appended to the object code, and the channel is searched for by the code among the channels of the specified object.</li>
+        <li>The <strong>Device number</strong> is specified. The <strong>Data source</strong> field in the binding contains the tag code. The channel number is determined by the device number and tag code.</li>
+        <li>The <strong>Input channel</strong> is specified. If the object or device number is not specified, the data source in the binding must contain a specific channel number.</li>
+    </ol>
+
+    <p>For some properties, data binding is not available. These are properties from the <strong>Data</strong> and <strong>Design</strong> categories, scripts. Such properties are marked in gray in the property selection dialog.</p>
+
+    <h3>Default Property Binding</h3>
+    <p>Many components support simplified default property binding. If the <strong>Input channel</strong> property is specified, the component can implicitly bind its properties to the data in that channel. If binding for a component property is explicitly specified, no default binding is created for that property.</p>
+    <p>For example, if an input channel is specified for a <strong>Text</strong> component, its text and color will be displayed according to the channel value and status. The value is displayed with the unit. Therefore, for a text component, default bindings are created for the <strong>Text</strong> and <strong>Main color</strong> properties.</p>
+
+    <h2 id="scripts">Scripts</h2>
+    <h3>Mimic Diagram and Component Scripts</h3>
+
 </div>
