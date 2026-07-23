@@ -345,5 +345,85 @@
 
     <h2 id="scripts">Scripts</h2>
     <h3>Mimic Diagram and Component Scripts</h3>
+    <p>The <strong>Script</strong> property is available for a mimic diagram, faceplates, and all components. Scripts are designed to implement custom functionality. If a custom script contains an error, the mimic diagram remains operational.</p>
+    <p>All custom scripts must inherit from the <code>ComponentScript</code> base class, which provides the following methods:</p>
 
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Method</th>
+                <th>Arguments</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><pre>domCreated(args)</pre></td>
+                <td><pre>{
+  mimic,
+  component,
+  renderContext
+}</pre></td>
+                <td>Called once immediately after the mimic or component DOM is created. For a faceplate, this method is called after similar methods of its components have been called.</td>
+            </tr>
+            <tr>
+                <td><pre>domUpdated(args)</pre></td>
+                <td><pre>{
+  mimic,
+  component,
+  renderContext
+}</pre></td>
+                <td>Called immediately after the component DOM is updated. For a mimic diagram, this method is not actually called. For a faceplate, it is called after similar methods of its components have been called.</td>
+            </tr>
+            <tr>
+                <td><pre>dataUpdated(args)</pre></td>
+                <td><pre>{
+  mimic,
+  component,
+  dataProvider,
+  propertyChanged,
+  handled
+}</pre></td>
+                <td>Called for a component after its data is updated. For a mimic diagram, this method is called after all component data is updated. If a component property has changed, set <code>args.propertyChanged = true</code> to visually update the component. Setting <code>args.handled = true</code> prevents the component's own script from being called.</td>
+            </tr>
+            <tr>
+                <td><pre>getCommandValue(args)</pre></td>
+                <td><pre>{ component }</pre></td>
+                <td>Returns the command value to be sent. This method is called when sending a command without displaying a dialog box.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>The <code>domCreated</code> and <code>domUpdated</code> methods are called for the mimic, components, and child components of faceplates in both runtime and edit mode. However, if the faceplate itself is open for editing, these methods are not called to avoid argument ambiguity: <code>args.component</code> is available in runtime, while <code>args.mimic</code> is available when editing.</p>
+    <p>Example of a custom script for a <strong>Text</strong> component:</p>
+    <pre><code class="language-javascript">class extends ComponentScript {
+  domCreated(args) {
+    console.log("DOM created for component " + args.component.id);
+  }
+
+  domUpdated(args) {
+    console.log("DOM updated for component " + args.component.id);
+  }
+
+  dataUpdated(args) {
+    const props = args.component.properties;
+    const cnlData = args.dataProvider.getCurData(props.inCnlNum);
+    const blinking = cnlData.d.stat > 0 && cnlData.d.val >= 10;
+
+    if (props.blinking !== blinking) {
+      props.blinking = blinking;
+      args.propertyChanged = true;
+    }
+  }
+}</code></pre>
+
+    <h3>Action Script</h3>
+    <p>An action script is a script that executes when a component is clicked. The script is compiled Just-in-Time when the action is called. The script code must contain a function, for example:</p>
+    <pre><code class="language-javascript">function (args) {
+  args.renderContext.viewHub.features.chart.show(args.component.properties.inCnlNum);
+}</code></pre>
+
+    <p>The function argument is an object <code>{ component, renderContext }</code></p>
+
+    <h2 id="mimic-editor">Mimic Editor</h2>
 </div>
