@@ -461,4 +461,12 @@
         <li>While holding down <kbd>Shift</kbd>, use the arrow keys to resize components.</li>
     </ul>
 
+    <h2 id="mimic-templates">Mimic Templates</h2>
+    <p>The same mimic diagram file <code>*.mim</code> can be used to create multiple mimic views whose channels and title differ from the original. Such a file is called a mimic template.</p> 
+    <p>
+        To use a mimic diagram as a template, set the <strong>Arguments</strong> field in the <strong>Views</strong> table. Example of view arguments: <code>cnlOffset=100&titleCompID=1</code>, where<br />
+        <code>cnlOffset</code> is the channel number offset,<br />
+        <code>titleCompID</code> is the identifier of the text component for displaying the title.
+    </p> 
+    <p>Arguments are applied on the server side when the view is loaded. Channel number offset is performed if the channels for a component are specified explicitly, and the object and device numbers in the component properties are equal to 0. The title text for a mimic diagram operating on a template basis is taken from the <strong>Title</strong> field of the <strong>Views</strong> table.</p>
 </div>
