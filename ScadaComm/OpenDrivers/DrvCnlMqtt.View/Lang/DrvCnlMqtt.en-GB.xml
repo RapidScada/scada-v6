@@ -6,6 +6,11 @@
     <Phrase key="lblPort">TCP port</Phrase>
     <Phrase key="lblTimeout">Timeout, ms</Phrase>
     <Phrase key="lblUseTls">Use TLS</Phrase>
+    <Phrase key="lblCaCertFile">CA certificate file</Phrase>
+    <Phrase key="lblClientCertFile">Client cert file</Phrase>
+    <Phrase key="lblClientCertPassword">Client cert password</Phrase>
+    <Phrase key="chkAllowUntrustedCertificates">Allow untrusted certificates</Phrase>
+    <Phrase key="chkIgnoreCertificateRevocationErrors">Ignore certificate revocation errors</Phrase>
     <Phrase key="lblClientID">Client ID</Phrase>
     <Phrase key="lblUsername">Username</Phrase>
     <Phrase key="lblPassword">Password</Phrase>
