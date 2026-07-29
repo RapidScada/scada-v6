@@ -19,9 +19,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.View.Forms
         private readonly ChannelConfig channelConfig;   // the communication channel configuration
         private readonly MqttConnectionOptions options; // the connection options
 
-        // Maps cbProtocolVersion combo box index to the corresponding MQTTnet enum value.
-        // The enum is NOT contiguous (Unknown=0, V310=3, V311=4, V500=5), so the index
-        // cannot be cast directly to MqttProtocolVersion.
+        // Maps the combo box index to the corresponding MQTTnet enum value which is NOT contiguous.
         private static readonly MqttProtocolVersion[] ProtocolVersionByIndex =
         [
             MqttProtocolVersion.Unknown,
@@ -29,6 +27,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.View.Forms
             MqttProtocolVersion.V311,
             MqttProtocolVersion.V500
         ];
+
 
         /// <summary>
         /// Initializes a new instance of the class.
