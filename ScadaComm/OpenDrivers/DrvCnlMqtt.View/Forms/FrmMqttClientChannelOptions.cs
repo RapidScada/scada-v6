@@ -19,6 +19,17 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.View.Forms
         private readonly ChannelConfig channelConfig;   // the communication channel configuration
         private readonly MqttConnectionOptions options; // the connection options
 
+        // Maps cbProtocolVersion combo box index to the corresponding MQTTnet enum value.
+        // The enum is NOT contiguous (Unknown=0, V310=3, V311=4, V500=5), so the index
+        // cannot be cast directly to MqttProtocolVersion.
+        private static readonly MqttProtocolVersion[] ProtocolVersionByIndex =
+        [
+            MqttProtocolVersion.Unknown,
+            MqttProtocolVersion.V310,
+            MqttProtocolVersion.V311,
+            MqttProtocolVersion.V500
+        ];
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -50,7 +61,8 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.View.Forms
             txtClientID.Text = options.ClientID;
             txtUsername.Text = options.Username;
             txtPassword.Text = options.Password;
-            cbProtocolVersion.SelectedIndex = (int)options.ProtocolVersion;
+            int versionIndex = Array.IndexOf(ProtocolVersionByIndex, options.ProtocolVersion);
+            cbProtocolVersion.SelectedIndex = versionIndex >= 0 ? versionIndex : 0;
         }
 
         /// <summary>
@@ -65,7 +77,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.View.Forms
             options.ClientID = txtClientID.Text;
             options.Username = txtUsername.Text;
             options.Password = txtPassword.Text;
-            options.ProtocolVersion = (MqttProtocolVersion)cbProtocolVersion.SelectedIndex;
+            options.ProtocolVersion = ProtocolVersionByIndex[cbProtocolVersion.SelectedIndex];
 
             options.AddToOptionList(channelConfig.CustomOptions);
         }
