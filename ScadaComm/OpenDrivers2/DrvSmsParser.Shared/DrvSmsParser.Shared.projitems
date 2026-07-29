@@ -9,5 +9,9 @@
     <Import_RootNamespace>DrvSmsParser.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Config\DeviceTemplate.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Config\DrvSmsParser_Example.xml" />
   </ItemGroup>
 </Project>
