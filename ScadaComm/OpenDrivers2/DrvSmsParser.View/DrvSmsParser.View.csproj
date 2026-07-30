@@ -17,6 +17,7 @@
   <Import Project="..\DrvSmsParser.Shared\DrvSmsParser.Shared.projitems" Label="Shared" />
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ScadaCommon\ScadaCommon.Forms\ScadaCommon.Forms.csproj" />
     <ProjectReference Include="..\..\..\ScadaCommon\ScadaCommon.Log\ScadaCommon.Log.csproj" />
     <ProjectReference Include="..\..\..\ScadaCommon\ScadaCommon\ScadaCommon.csproj" />
     <ProjectReference Include="..\..\ScadaComm\ScadaCommCommon\ScadaCommCommon.csproj" />

@@ -80,6 +80,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaCommCommon", "..\Scada
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvSmsParser.View", "DrvSmsParser.View\DrvSmsParser.View.csproj", "{49910B18-2CB8-4DF8-A156-79973C5A7B70}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaCommon.Forms", "..\..\ScadaCommon\ScadaCommon.Forms\ScadaCommon.Forms.csproj", "{62273466-08A2-F30D-D929-9DFD3358DFD2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -166,6 +168,10 @@ Global
 		{49910B18-2CB8-4DF8-A156-79973C5A7B70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49910B18-2CB8-4DF8-A156-79973C5A7B70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49910B18-2CB8-4DF8-A156-79973C5A7B70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62273466-08A2-F30D-D929-9DFD3358DFD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62273466-08A2-F30D-D929-9DFD3358DFD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62273466-08A2-F30D-D929-9DFD3358DFD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62273466-08A2-F30D-D929-9DFD3358DFD2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -198,6 +204,7 @@ Global
 		{63CFD153-CDE7-7243-3E92-FF163BEEC596} = {FBA2CB90-2192-4F62-8994-9EA415D24A43}
 		{0AB21DD0-3CCA-C128-8548-E9BF6930CC40} = {FBA2CB90-2192-4F62-8994-9EA415D24A43}
 		{49910B18-2CB8-4DF8-A156-79973C5A7B70} = {083E7CD5-9A63-4EB1-BD26-1AF155597C86}
+		{62273466-08A2-F30D-D929-9DFD3358DFD2} = {FBA2CB90-2192-4F62-8994-9EA415D24A43}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {621E3959-3A13-41B5-A559-AA02854D93A0}

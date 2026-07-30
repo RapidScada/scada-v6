@@ -6,10 +6,11 @@
     <SharedGUID>158dffd4-efd6-4f8f-add3-9c693179b27c</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>DrvSmsParser.Shared</Import_RootNamespace>
+    <Import_RootNamespace>Scada.Comm.Drivers.DrvSmsParser</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Config\DeviceTemplate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DriverUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Config\DrvSmsParser_Example.xml" />
