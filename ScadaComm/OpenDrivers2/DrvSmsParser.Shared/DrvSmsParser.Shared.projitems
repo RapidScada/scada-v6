@@ -9,8 +9,10 @@
     <Import_RootNamespace>Scada.Comm.Drivers.DrvSmsParser</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CnlPrototypeFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\DeviceTemplate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DriverUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TagCode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Config\DrvSmsParser_Example.xml" />

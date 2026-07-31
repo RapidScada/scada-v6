@@ -111,18 +111,37 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
         }
 
         /// <summary>
-        /// Creates a device tag from the specified string.
+        /// Invalidates device tags that have not been updated for longer than the data lifetime.
         /// </summary>
-        private static DeviceTag ParseDeviceTag(string fullName)
+        private void InvalidateOutdatedData()
         {
-            if (string.IsNullOrEmpty(fullName)) return new DeviceTag();
+            DateTime utcNow = DateTime.UtcNow;
 
-            int idx1 = fullName.IndexOf('[');
-            int idx2 = fullName.IndexOf(']');
+            for (int i = 0, len = updateTimestamps.Length; i < len; i++)
+            {
+                if (utcNow - updateTimestamps[i] > dataLifetime)
+                {
+                    DeviceData.Invalidate(i);
+                    updateTimestamps[i] = utcNow;
+                }
+            }
+        }
 
-            return idx1 >= 0 && idx1 < idx2
-                ? new DeviceTag(fullName[(idx1 + 1)..idx2].Trim(), fullName[(idx2 + 1)..].Trim())
-                : new DeviceTag(fullName, fullName);
+        /// <summary>
+        /// Gets the messages addressed to the device.
+        /// </summary>
+        private bool GetMessages(out IEnumerable<object> messages)
+        {
+            messages = null;
+            return false;
+        }
+
+        /// <summary>
+        /// Processes the received messages.
+        /// </summary>
+        private void ProcessMessages(IEnumerable<object> messages)
+        {
+
         }
 
 
@@ -140,24 +159,25 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
         /// </summary>
         public override void InitDeviceTags()
         {
+            DeviceTags.AddGroup(CnlPrototypeFactory.GetGeneralGroup().ToTagGroup());
+            
             deviceTemplate = GetDeviceTemplate();
+            TagGroup customGroup = CnlPrototypeFactory.GetCustomGroup(deviceTemplate).ToTagGroup();
 
-            if (deviceTemplate != null)
+            if (customGroup.DeviceTags.Count > 0)
             {
-                TagGroup tagGroup = new();
-
-                foreach (string tag in deviceTemplate.Tags)
-                {
-                    tagGroup.DeviceTags.Add(ParseDeviceTag(tag));
-                }
-
-                if (tagGroup.DeviceTags.Count > 0)
-                {
-                    DeviceTags.AddGroup(tagGroup);
-                    DeviceTags.FlattenGroups = true;
-                    updateTimestamps = new DateTime[tagGroup.DeviceTags.Count];
-                }
+                DeviceTags.AddGroup(customGroup);
+                updateTimestamps = new DateTime[customGroup.DeviceTags.Count];
             }
+        }
+
+        /// <summary>
+        /// Initializes the device data.
+        /// </summary>
+        public override void InitDeviceData()
+        {
+            base.InitDeviceData();
+            DeviceData.Set(TagCode.Msg, 0);
         }
 
         /// <summary>
@@ -165,7 +185,41 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
         /// </summary>
         public override void Session()
         {
+            bool sessionIsSilent = true;
 
+            if (string.IsNullOrEmpty(StrAddress))
+            {
+                base.Session();
+                Log.WriteLine(Locale.IsRussian ?
+                    "{0}Строковый адрес не может быть пустым" :
+                    "{0}String address cannot be empty", CommPhrases.ErrorPrefix);
+                LastRequestOK = false;
+                sessionIsSilent = false;
+            }
+            else
+            {
+                if (GetMessages(out IEnumerable<object> messages))
+                {
+                    base.Session();
+                    ProcessMessages(messages);
+                    sessionIsSilent = false;
+                }
+
+                if (useDataLifetime)
+                {
+                    InvalidateOutdatedData();
+                }
+            }
+
+            if (sessionIsSilent)
+            {
+                SleepPollingDelay();
+            }
+            else
+            {
+                FinishRequest();
+                FinishSession();
+            }
         }
     }
 }
