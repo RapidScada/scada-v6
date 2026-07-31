@@ -78,39 +78,5 @@ namespace Scada.Comm.Drivers.DrvSmsParser
 
             return group;
         }
-
-        /// <summary>
-        /// Gets the grouped channel prototypes.
-        /// </summary>
-        public static List<CnlPrototypeGroup> GetGroups(DeviceTemplate deviceTemplate)
-        {
-            List<CnlPrototypeGroup> groups = [];
-
-            // general
-            CnlPrototypeGroup generalGroup = new(Locale.IsRussian ? "Основные" : "General");
-            groups.Add(generalGroup);
-
-            generalGroup.CnlPrototypes.Add(new CnlPrototype
-            {
-                Name = Locale.IsRussian ? "Сообщения" : "Messages",
-                CnlTypeID = CnlTypeID.Input,
-                TagCode = TagCode.Msg,
-                FormatCode = FormatCode.N0
-            });
-
-            // custom
-            if (deviceTemplate != null && deviceTemplate.Tags.Count > 0)
-            {
-                CnlPrototypeGroup customGroup = new(Locale.IsRussian ? "Пользовательские" : "Custom");
-                groups.Add(customGroup);
-
-                foreach (string tag in deviceTemplate.Tags)
-                {
-                    customGroup.CnlPrototypes.Add(ParseTag(tag));
-                }
-            }
-
-            return groups;
-        }
     }
 }
