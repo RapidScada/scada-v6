@@ -9,41 +9,42 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Messaging
     /// </summary>
     internal class MessageBag : IMessageBag
     {
-        private readonly Dictionary<string, List<IMessageItem>> bag = [];
+        private readonly Dictionary<string, List<IMessageItem>> messageBag = [];
+        private readonly List<IMessageItem> allMessages = [];
 
 
         public void Add(IMessageItem messageItem)
         {
             ArgumentNullException.ThrowIfNull(messageItem);
+            allMessages.Add(messageItem);
             string address = messageItem.Address ?? "";
 
-            if (bag.TryGetValue(address, out List<IMessageItem> messages))
+            if (messageBag.TryGetValue(address, out List<IMessageItem> messages))
             {
                 messages.Add(messageItem);
             }
             else
             {
-                bag.Add(address, [messageItem]);
+                messageBag.Add(address, [messageItem]);
             }
         }
 
         public IEnumerable<IMessageItem> GetByAddress(string address)
         {
-            return !string.IsNullOrEmpty(address) && bag.TryGetValue(address, out List<IMessageItem> messages)
+            return !string.IsNullOrEmpty(address) && messageBag.TryGetValue(address, out List<IMessageItem> messages)
                 ? messages
                 : [];
         }
 
         public IEnumerable<IMessageItem> GetUnprocessed()
         {
-            return bag.Values
-                .SelectMany(list => list)
-                .Where(msg => msg != null && !msg.IsProcessed);
+            return allMessages.Where(mi => !mi.IsProcessed);
         }
 
         public void Clear()
         {
-            bag.Clear();
+            messageBag.Clear();
+            allMessages.Clear();
         }
     }
 }
