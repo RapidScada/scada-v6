@@ -38,7 +38,7 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Messaging
 
         public IEnumerable<IMessageItem> GetUnprocessed()
         {
-            return allMessages.Where(mi => !mi.IsProcessed);
+            return allMessages.Where(m => !m.IsProcessed);
         }
 
         public void Clear()
