@@ -17,15 +17,17 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Messaging
         {
             ArgumentNullException.ThrowIfNull(messageItem);
             allMessages.Add(messageItem);
-            string address = messageItem.Address ?? "";
 
-            if (messageBag.TryGetValue(address, out List<IMessageItem> messages))
+            if (!string.IsNullOrEmpty(messageItem.Address))
             {
-                messages.Add(messageItem);
-            }
-            else
-            {
-                messageBag.Add(address, [messageItem]);
+                if (messageBag.TryGetValue(messageItem.Address, out List<IMessageItem> messages))
+                {
+                    messages.Add(messageItem);
+                }
+                else
+                {
+                    messageBag.Add(messageItem.Address, [messageItem]);
+                }
             }
         }
 
