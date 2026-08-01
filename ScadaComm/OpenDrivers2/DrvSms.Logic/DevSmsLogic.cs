@@ -30,11 +30,11 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
         /// <summary>
         /// The condition to stop reading when OK is received.
         /// </summary>
-        private readonly TextStopCondition OkStopCond = new TextStopCondition("OK");
+        private readonly TextStopCondition OkStopCond = new("OK");
         /// <summary>
         /// The condition to stop reading when OK or ERROR are received.
         /// </summary>
-        private readonly TextStopCondition OkErrStopCond = new TextStopCondition("OK", "ERROR");
+        private readonly TextStopCondition OkErrStopCond = new("OK", "ERROR");
 
         private readonly List<Message> messages; // contains messages received by the device
         private AddressBook addressBook;         // the address book shared for the communication line
@@ -48,7 +48,7 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
         {
             CanSendCommands = true;
 
-            messages = new List<Message>();
+            messages = [];
             addressBook = null;
         }
 
@@ -86,8 +86,8 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
             if (sepIdx >= 0)
             {
                 // get phone numbers
-                string recipient = cmdDataStr.Substring(0, sepIdx);
-                phoneNumbers = new List<string>();
+                string recipient = cmdDataStr[..sepIdx];
+                phoneNumbers = [];
 
                 if (addressBook == null)
                 {
@@ -136,7 +136,7 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
                 }
 
                 // get message text
-                messageText = cmdDataStr.Substring(sepIdx + 1);
+                messageText = cmdDataStr[(sepIdx + 1)..];
 
                 if (string.IsNullOrEmpty(messageText))
                 {
@@ -174,8 +174,8 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
             else
             {
                 bool formatOK = phoneNumber[0] == '+'
-                    ? phoneNumber.Length > 1 && phoneNumber.Substring(1).AsEnumerable().All(c => char.IsDigit(c))
-                    : phoneNumber.AsEnumerable().All(c => char.IsDigit(c));
+                    ? phoneNumber.Length > 1 && phoneNumber[1..].AsEnumerable().All(char.IsDigit)
+                    : phoneNumber.AsEnumerable().All(char.IsDigit);
 
                 if (formatOK)
                 {

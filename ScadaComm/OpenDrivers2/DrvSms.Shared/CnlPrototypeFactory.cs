@@ -18,7 +18,7 @@ namespace Scada.Comm.Drivers.DrvSms
         /// </summary>
         public static CnlPrototypeGroup GetGroup()
         {
-            CnlPrototypeGroup group = new CnlPrototypeGroup();
+            CnlPrototypeGroup group = new();
 
             group.CnlPrototypes.Add(new CnlPrototype
             {

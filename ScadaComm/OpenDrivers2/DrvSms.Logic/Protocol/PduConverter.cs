@@ -2,8 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Lang;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
@@ -16,8 +14,8 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
     public static class PduConverter
     {
         // The masks for 7-bit decoding.
-        private static readonly byte[] MaskL = new byte[] { 0xFE, 0xFC, 0xF8, 0xF0, 0xE0, 0xC0, 0x80 };
-        private static readonly byte[] MaskR = new byte[] { 0x01, 0x03, 0x07, 0x0F, 0x1F, 0x3F, 0x7F };
+        private static readonly byte[] MaskL = [0xFE, 0xFC, 0xF8, 0xF0, 0xE0, 0xC0, 0x80];
+        private static readonly byte[] MaskR = [0x01, 0x03, 0x07, 0x0F, 0x1F, 0x3F, 0x7F];
 
 
         /// <summary>
@@ -25,14 +23,14 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
         /// </summary>
         private static string EncodePhone(string phoneNumber)
         {
-            StringBuilder result = new StringBuilder();
+            StringBuilder result = new();
             int phoneLen = phoneNumber.Length;
 
             if (phoneLen > 0)
             {
                 if (phoneNumber[0] == '+')
                 {
-                    phoneNumber = phoneNumber.Substring(1);
+                    phoneNumber = phoneNumber[1..];
                     result.Append("91");
                     phoneLen--;
                 }
@@ -65,10 +63,10 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
         /// </summary>
         private static string DecodePhone(string phoneNumber)
         {
-            StringBuilder result = new StringBuilder();
+            StringBuilder result = new();
 
             if (phoneNumber.StartsWith("91"))
-                result.Append("+");
+                result.Append('+');
 
             for (int i = 2; i < phoneNumber.Length; i += 2)
             {
@@ -92,7 +90,7 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
         /// </summary>
         private static List<byte> Encode7bitText(string text)
         {
-            List<byte> result = new List<byte>();
+            List<byte> result = [];
             byte[] bytes = Encoding.ASCII.GetBytes(text);
 
             byte bit = 7; // from 7 to 1
@@ -183,7 +181,7 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
         /// </summary>
         private static List<byte> EncodeUnicodeText(string text)
         {
-            List<byte> result = new List<byte>();
+            List<byte> result = [];
 
             for (int i = 0; i < text.Length; i++)
             {
@@ -200,7 +198,7 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
         /// </summary>
         private static string DecodeUnicodeText(string text)
         {
-            StringBuilder result = new StringBuilder();
+            StringBuilder result = new();
 
             for (int i = 0; i < text.Length; i += 4)
             {
@@ -220,10 +218,8 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
         /// </summary>
         public static Pdu EncodePDU(string phoneNumber, string messageText)
         {
-            if (phoneNumber == null)
-                throw new ArgumentNullException(nameof(phoneNumber));
-            if (messageText == null)
-                throw new ArgumentNullException(nameof(messageText));
+            ArgumentNullException.ThrowIfNull(phoneNumber, nameof(phoneNumber));
+            ArgumentNullException.ThrowIfNull(messageText, nameof(messageText));
 
             // choose encoding
             bool sevenBit = true;
@@ -240,10 +236,10 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
             int maxMsgLen = sevenBit ? Max7bitMsgLen : MaxUnicodeMsgLen;
 
             if (messageText.Length > maxMsgLen)
-                messageText = messageText.Substring(0, maxMsgLen);
+                messageText = messageText[..maxMsgLen];
 
             // build PDU
-            StringBuilder sbPdu = new StringBuilder();
+            StringBuilder sbPdu = new();
             sbPdu.Append("00");                     // Service Center Adress (SCA)
             sbPdu.Append("01");                     // PDU-type
             sbPdu.Append("00");                     // Message Reference (MR)
@@ -289,17 +285,17 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
         {
             try
             {
-                int scaLen = int.Parse(pdu.Substring(0, 2));         // length of SMSC number
-                int oaPos = scaLen * 2 + 4;                          // position of sender number
+                int scaLen = int.Parse(pdu[..2]);               // length of SMSC number
+                int oaPos = scaLen * 2 + 4;                     // position of sender number
 
                 if (msg.Length == (pdu.Length - oaPos + 2) / 2)
                 {
                     int oaLen = int.Parse(pdu.Substring(oaPos, 2),
-                        NumberStyles.HexNumber);                     // length of sender number
+                        NumberStyles.HexNumber);                // length of sender number
                     if (oaLen % 2 > 0) oaLen++;
                     msg.Phone = DecodePhone(pdu.Substring(oaPos + 2, oaLen + 2));
 
-                    int sctsPos = oaPos + oaLen + 8;                 // position of timestamp
+                    int sctsPos = oaPos + oaLen + 8;            // position of timestamp
                     msg.Timestamp = new DateTime(int.Parse("20" + pdu[sctsPos + 1] + pdu[sctsPos]),
                         int.Parse(pdu[sctsPos + 3].ToString() + pdu[sctsPos + 2]),
                         int.Parse(pdu[sctsPos + 5].ToString() + pdu[sctsPos + 4]),
@@ -307,11 +303,11 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
                         int.Parse(pdu[sctsPos + 9].ToString() + pdu[sctsPos + 8]),
                         int.Parse(pdu[sctsPos + 11].ToString() + pdu[sctsPos + 10]));
 
-                    string dcs = pdu.Substring(sctsPos - 2, 2);      // encoding
-                    int udPos = sctsPos + 16;                        // position of message text
+                    string dcs = pdu.Substring(sctsPos - 2, 2); // encoding
+                    int udPos = sctsPos + 16;                   // position of message text
                     int udl = int.Parse(pdu.Substring(udPos - 2, 2),
-                        NumberStyles.HexNumber);                     // length of message text
-                    string ud = pdu.Substring(udPos);                // message text
+                        NumberStyles.HexNumber);                // length of message text
+                    string ud = pdu[udPos..];                   // message text
 
                     // check length of message text, different modems calculate UDL differently
                     if (dcs == "00" && ud.Length * 4 / 7 == udl ||
@@ -358,12 +354,10 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
         /// </summary>
         public static void FillMessageList(List<Message> messages, List<string> response, out string logMsg)
         {
-            if (messages == null)
-                throw new ArgumentNullException(nameof(messages));
-            if (response == null)
-                throw new ArgumentNullException(nameof(response));
+            ArgumentNullException.ThrowIfNull(messages, nameof(messages));
+            ArgumentNullException.ThrowIfNull(response, nameof(response));
 
-            StringBuilder sbLogMsg = new StringBuilder();
+            StringBuilder sbLogMsg = new();
             int lineNum = 1;
             int lineCnt = response.Count;
 
@@ -373,15 +367,15 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
                 if (line.StartsWith("+CMGL: ") && line.Length > 7)
                 {
                     // get message index, status and length
-                    Message msg = new Message();
+                    Message msg = new();
                     bool paramsOK = false;
-                    string[] parts = line.Substring(7).Split(new char[] { ',' }, StringSplitOptions.None);
+                    string[] parts = line[7..].Split([','], StringSplitOptions.None);
 
                     if (parts.Length >= 3)
                     {
                         if (int.TryParse(parts[0], out int val1) &&
                             int.TryParse(parts[1], out int val2) &&
-                            int.TryParse(parts[parts.Length - 1], out int val3))
+                            int.TryParse(parts[^1], out int val3))
                         {
                             paramsOK = true;
                             msg.Index = val1;
