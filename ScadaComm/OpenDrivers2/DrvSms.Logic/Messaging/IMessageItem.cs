@@ -4,8 +4,8 @@
 namespace Scada.Comm.Drivers.DrvSms.Logic.Messaging
 {
     /// <summary>
-    /// Represents a message to be processed by a driver.
-    /// <para>Представляет сообщение для обработки драйвером.</para>
+    /// Defines the properties of a message to be processed by a driver.
+    /// <para>Определяет свойства сообщения, предназначенного для обработки драйвером.</para>
     /// </summary>
     public interface IMessageItem
     {

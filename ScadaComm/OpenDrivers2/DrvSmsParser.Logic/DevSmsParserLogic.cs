@@ -35,7 +35,7 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
         private static class SharedDataKey
         {
             public const string Templates = "SmsParser.Templates";
-            public const string MessageBag = "SmsParser.MessageBag";
+            public const string MessageBag = "Sms.MessageBag";
         }
 
         private TimeSpan dataLifetime;         // specifies when tag values should be invalidated
@@ -142,7 +142,7 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
         {
             if (LineContext.SharedData.TryGetValueOfType(SharedDataKey.MessageBag, out IMessageBag messageBag))
             {
-                messageItems = messageBag.GetMessageItems(StrAddress).ToList();
+                messageItems = messageBag.GetByAddress(StrAddress).ToList();
                 return messageItems.Count > 0;
             }
             else
