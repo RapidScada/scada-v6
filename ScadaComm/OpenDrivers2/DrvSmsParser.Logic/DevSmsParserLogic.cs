@@ -4,6 +4,7 @@
 using DrvSmsParser.Shared.Config;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using Scada.Comm.Drivers.DrvSms.Logic.Messaging;
 using Scada.Comm.Lang;
 using Scada.Lang;
 
@@ -28,7 +29,14 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
             }
         }
 
-        private const string TemplateDictonaryKey = "SmsParser.Templates";
+        /// <summary>
+        /// Contains the keys for shared line data.
+        /// </summary>
+        private static class SharedDataKey
+        {
+            public const string Templates = "SmsParser.Templates";
+            public const string MessageBag = "SmsParser.MessageBag";
+        }
 
         private TimeSpan dataLifetime;         // specifies when tag values should be invalidated
         private bool useDataLifetime;          // indicates that lifetime is used
@@ -56,10 +64,10 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
         /// </summary>
         private TemplateDictionary GetTemplates()
         {
-            if (!LineContext.SharedData.TryGetValueOfType(TemplateDictonaryKey, out TemplateDictionary templates))
+            if (!LineContext.SharedData.TryGetValueOfType(SharedDataKey.Templates, out TemplateDictionary templates))
             {
                 templates = [];
-                LineContext.SharedData.Add(TemplateDictonaryKey, templates);
+                LineContext.SharedData.Add(SharedDataKey.Templates, templates);
             }
 
             return templates;
@@ -130,18 +138,35 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
         /// <summary>
         /// Gets the messages addressed to the device.
         /// </summary>
-        private bool GetMessages(out IEnumerable<object> messages)
+        private bool GetMessages(out List<IMessageItem> messageItems)
         {
-            messages = null;
-            return false;
+            if (LineContext.SharedData.TryGetValueOfType(SharedDataKey.MessageBag, out IMessageBag messageBag))
+            {
+                messageItems = messageBag.GetMessageItems(StrAddress).ToList();
+                return messageItems.Count > 0;
+            }
+            else
+            {
+                Log.WriteLine(Locale.IsRussian ?
+                    "{0}Хранилище сообщений не найдено" :
+                    "{0}Message bag not found", CommPhrases.ErrorPrefix);
+                messageItems = null;
+                return false;
+            }
         }
 
         /// <summary>
         /// Processes the received messages.
         /// </summary>
-        private void ProcessMessages(IEnumerable<object> messages)
+        private void ProcessMessages(List<IMessageItem> messageItems)
         {
+            DeviceTag eventTag = DeviceTags[TagCode.Msg];
 
+            foreach (IMessageItem messageItem in messageItems)
+            {
+                DeviceData.EnqueueEvent(EventFactory.CreateDeviceEvent(eventTag, messageItem));
+                messageItem.IsProcessed = true;
+            }
         }
 
 
@@ -198,10 +223,10 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
             }
             else
             {
-                if (GetMessages(out IEnumerable<object> messages))
+                if (GetMessages(out List<IMessageItem> messageItems))
                 {
                     base.Session();
-                    ProcessMessages(messages);
+                    ProcessMessages(messageItems);
                     sessionIsSilent = false;
                 }
 
