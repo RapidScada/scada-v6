@@ -218,8 +218,8 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
         /// </summary>
         public static Pdu EncodePDU(string phoneNumber, string messageText)
         {
-            ArgumentNullException.ThrowIfNull(phoneNumber, nameof(phoneNumber));
-            ArgumentNullException.ThrowIfNull(messageText, nameof(messageText));
+            ArgumentNullException.ThrowIfNull(phoneNumber);
+            ArgumentNullException.ThrowIfNull(messageText);
 
             // choose encoding
             bool sevenBit = true;
@@ -354,8 +354,8 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
         /// </summary>
         public static void FillMessageList(List<Message> messages, List<string> response, out string logMsg)
         {
-            ArgumentNullException.ThrowIfNull(messages, nameof(messages));
-            ArgumentNullException.ThrowIfNull(response, nameof(response));
+            ArgumentNullException.ThrowIfNull(messages);
+            ArgumentNullException.ThrowIfNull(response);
 
             StringBuilder sbLogMsg = new();
             int lineNum = 1;
