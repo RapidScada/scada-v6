@@ -15,10 +15,9 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
         public int Index { get; set; } = 0;
 
         /// <summary>
-        /// Gets or sets the message status provided by the device: 
-        /// 0 - unread, 1 - read, 2 - unsent, 3 - sent, 4 - all. See AT+CMGL command.
+        /// Gets or sets the message status provided by the device.
         /// </summary>
-        public int Status { get; set; } = 0;
+        public int Status { get; set; } = MessageStatus.Unread;
 
         /// <summary>
         /// Gets or sets the PDU length. SMS center (SMSC) number is not included.

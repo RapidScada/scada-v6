@@ -5,6 +5,7 @@ using Scada.AB;
 using Scada.Comm.Channels;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using Scada.Comm.Drivers.DrvSms.Logic.Messaging;
 using Scada.Comm.Drivers.DrvSms.Logic.Protocol;
 using Scada.Comm.Lang;
 using Scada.Data.Const;
@@ -23,6 +24,10 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
     /// </summary>
     internal class DevSmsLogic : DeviceLogic
     {
+        /// <summary>
+        /// Gets the shared data key of the message bag.
+        /// </summary>
+        private const string MessageBagKey = "Sms.MessageBag";
         /// <summary>
         /// The line ending when communicating with a modem.
         /// </summary>
@@ -54,23 +59,68 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
 
 
         /// <summary>
-        /// Creates events according to the received messages.
+        /// Creates new message items based on the received messages.
         /// </summary>
-        private void CreateEvents()
+        private List<MessageItem> CreateMessageItems()
         {
-            foreach (Message message in messages)
+            return [..messages
+                .Where(m => m.Status <= MessageStatus.Read) // just received
+                .Select(m => new MessageItem(m))];
+        }
+
+        /// <summary>
+        /// Gets the message bag from the communication line shared data, or creates a new one.
+        /// </summary>
+        private MessageBag GetMessageBag()
+        {
+            if (!LineContext.SharedData.TryGetValueOfType(MessageBagKey, out MessageBag messageBag))
             {
-                DeviceData.EnqueueEvent(new DeviceEvent(DeviceTags[TagCode.Msg])
+                messageBag = new MessageBag();
+                LineContext.SharedData.Add(MessageBagKey, messageBag);
+            }
+
+            return messageBag;
+        }
+
+        /// <summary>
+        /// Puts the messages in the bag.
+        /// </summary>
+        private void FillMessageBag()
+        {
+            MessageBag messageBag = GetMessageBag();
+            List<MessageItem> messageItems = CreateMessageItems();
+            messageItems.ForEach(messageBag.Add);
+        }
+
+        /// <summary>
+        /// Processes the remaining messages from the message bag that were received in the previous session.
+        /// </summary>
+        private void UnpackMessageBag()
+        {
+            MessageBag messageBag = GetMessageBag();
+
+            try
+            {
+                DeviceTag eventTag = DeviceTags[TagCode.Msg];
+                int messageCount = 0;
+
+                foreach (IMessageItem messageItem in messageBag.GetUnprocessed())
                 {
-                    Timestamp = DateTime.UtcNow,
-                    CnlVal = 0.0,
-                    CnlStat = CnlStatusID.Defined, // has informational severity
-                    TextFormat = EventTextFormat.CustomText,
-                    Text = message.Phone + "; " + message.Text,
-                    Descr = string.Format(Locale.IsRussian ?
-                        "Сообщение от {0}" :
-                        "Message from {0}", message.Phone)
-                });
+                    DeviceData.EnqueueEvent(EventFactory.CreateDeviceEvent(eventTag, messageItem));
+                    messageCount++;
+                }
+
+                if (messageCount > 0)
+                {
+                    Log.WriteLine(Locale.IsRussian ?
+                        "{0}: {1} сообщений" :
+                        "{0}: {1} messages", CommPhrases.ReceiveNotation, messageCount);
+                    DeviceData.Add(TagCode.Msg, messageCount);
+                }
+            }
+            finally
+            {
+                messageBag.Clear();
             }
         }
 
@@ -322,6 +372,9 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
                 }
             }
 
+            // process messages from previous session
+            UnpackMessageBag();
+
             // read received messages
             if (LastRequestOK)
             {
@@ -346,11 +399,10 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
                 {
                     messages.Clear();
                     PduConverter.FillMessageList(messages, response, out string logMsg);
+                    FillMessageBag();
 
                     if (!string.IsNullOrEmpty(logMsg))
                         Log.WriteLine(logMsg);
-
-                    CreateEvents();
                 }
             }
 

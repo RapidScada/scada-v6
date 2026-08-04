@@ -160,6 +160,10 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
         /// </summary>
         private void ProcessMessages(List<IMessageItem> messageItems)
         {
+            Log.WriteLine(Locale.IsRussian ?
+                "{0}: {1} сообщений" :
+                "{0}: {1} messages", CommPhrases.ReceiveNotation, messageItems.Count);
+            DeviceData.Add(TagCode.Msg, messageItems.Count);
             DeviceTag eventTag = DeviceTags[TagCode.Msg];
 
             foreach (IMessageItem messageItem in messageItems)
