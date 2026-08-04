@@ -8,13 +8,8 @@ using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvSms.Logic.Messaging;
 using Scada.Comm.Drivers.DrvSms.Logic.Protocol;
 using Scada.Comm.Lang;
-using Scada.Data.Const;
 using Scada.Data.Models;
 using Scada.Lang;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 
 namespace Scada.Comm.Drivers.DrvSms.Logic
 {
