@@ -192,7 +192,7 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
             preparedScript ??= Engine.PrepareScript($"{{ {deviceTemplate.Script} }}");
 
             // initialize scripting engine
-            jsEngine ??= new Engine()
+            jsEngine ??= new Engine(options => options.Strict())
                 .SetValue("log", new Action<string>(s => Log.WriteLine(s)))
                 .SetValue("setTagValue", new Action<int, double>((idx, val) => { 
                     DeviceData.Set(idx, val); 
