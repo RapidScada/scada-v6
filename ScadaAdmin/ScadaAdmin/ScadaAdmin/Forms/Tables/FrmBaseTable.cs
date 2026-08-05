@@ -857,11 +857,8 @@ namespace Scada.Admin.App.Forms.Tables
         private void FrmBaseTable_VisibleChanged(object sender, EventArgs e)
         {
             // close the find and replace form
-            if (frmFind != null)
-            {
-                frmFind.Close();
-                frmFind = null;
-            }
+            frmFind?.Close();
+            frmFind = null;
         }
 
         private void ChildFormTag_MessageToChildForm(object sender, FormMessageEventArgs e)
