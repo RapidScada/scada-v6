@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using DrvSmsParser.Shared.Config;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 
@@ -28,6 +29,27 @@ namespace Scada.Comm.Drivers.DrvSmsParser.View
         public override PollingOptions GetPollingOptions()
         {
             return new PollingOptions(0, 0);
+        }
+
+        /// <summary>
+        /// Gets the channel prototypes for the device.
+        /// </summary>
+        public override ICollection<CnlPrototype> GetCnlPrototypes()
+        {
+            DeviceTemplate deviceTemplate = new();
+            string fileName = DeviceConfig.PollingOptions.CmdLine.Trim();
+
+            if (!string.IsNullOrEmpty(fileName) &&
+                !deviceTemplate.Load(Path.Combine(AppDirs.ConfigDir, fileName), out string errMsg))
+            {
+                throw new ScadaException(errMsg);
+            }
+
+            return
+            [
+                ..CnlPrototypeFactory.GetGeneralGroup().CnlPrototypes,
+                ..CnlPrototypeFactory.GetCustomGroup(deviceTemplate).CnlPrototypes
+            ];
         }
     }
 }
