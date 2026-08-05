@@ -6,8 +6,20 @@
   </Tags>
   <Script>
     log("Hello from SMS Parser");
-    setTagValue(0, 1);
-    setTagValue(1, 2);
-    setEventStatus(1);
+    log("Address: " + address);
+    log("Text: " + text);
+
+    const arr = text.split(/\s+/);
+    let idx = 0;
+
+    for (const elem of arr) {
+      setTagValue(idx, Number(arr[idx]));
+    }
+
+    if (text.includes("Alarm")) {
+      setEventStatus(23);
+    } else {
+      setEventStatus(1);
+    }
   </Script>
 </SmsParserDeviceTemplate>

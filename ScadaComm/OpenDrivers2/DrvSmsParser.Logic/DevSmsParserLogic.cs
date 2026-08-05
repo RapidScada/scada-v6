@@ -2,6 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using DrvSmsParser.Shared.Config;
+using Esprima.Ast;
+using Jint;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvSms.Logic.Messaging;
@@ -38,10 +40,12 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
             public const string MessageBag = "Sms.MessageBag";
         }
 
-        private TimeSpan dataLifetime;         // specifies when tag values should be invalidated
-        private bool useDataLifetime;          // indicates that lifetime is used
-        private DateTime[] updateTimestamps;   // the update timestamps by device tag
-        private DeviceTemplate deviceTemplate; // the device template
+        private TimeSpan dataLifetime;            // specifies when tag values should be invalidated
+        private bool useDataLifetime;             // indicates that lifetime is used
+        private DateTime[] updateTimestamps;      // the update timestamps by device tag
+        private DeviceTemplate deviceTemplate;    // the device template
+        private Engine jsEngine;                  // executes JavaScript
+        private Prepared<Script>? preparedScript; // the precompiled script
 
 
         /// <summary>
@@ -54,6 +58,8 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
             useDataLifetime = false;
             updateTimestamps = null;
             deviceTemplate = null;
+            jsEngine = null;
+            preparedScript = null;
 
             ConnectionRequired = false;
         }
@@ -168,8 +174,43 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
 
             foreach (IMessageItem messageItem in messageItems)
             {
-                DeviceData.EnqueueEvent(EventFactory.CreateDeviceEvent(eventTag, messageItem));
+                DeviceEvent deviceEvent = EventFactory.CreateDeviceEvent(eventTag, messageItem);
+                ExecuteScript(messageItem, deviceEvent);
+                DeviceData.EnqueueEvent(deviceEvent);
                 messageItem.IsProcessed = true;
+            }
+        }
+
+        /// <summary>
+        /// Executes the script specified in the device template.
+        /// </summary>
+        private void ExecuteScript(IMessageItem messageItem, DeviceEvent deviceEvent)
+        {
+            // prepare script
+            // braces distinguish variable scopes
+            if (string.IsNullOrEmpty(deviceTemplate.Script)) return;
+            preparedScript ??= Engine.PrepareScript($"{{ {deviceTemplate.Script} }}");
+
+            // initialize scripting engine
+            jsEngine ??= new Engine()
+                .SetValue("log", new Action<string>(s => Log.WriteLine(s)))
+                .SetValue("setTagValue", new Action<int, double>((idx, val) => { 
+                    DeviceData.Set(idx, val); 
+                    updateTimestamps[idx] = LastSessionTime; }));
+
+            // set script methods and variables that depend on current call
+            jsEngine
+                .SetValue("setEventStatus", new Action<int>(stat => deviceEvent.CnlStat = stat))
+                .SetValue("address", messageItem.Address)
+                .SetValue("text", messageItem.Text);
+
+            try
+            {
+                jsEngine.Execute(preparedScript.Value);
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLine(CommPhrases.ErrorPrefix + ex.Message);
             }
         }
 

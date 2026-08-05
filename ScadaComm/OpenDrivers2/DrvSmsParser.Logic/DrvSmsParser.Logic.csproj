@@ -13,6 +13,10 @@
     <AssemblyVersion>6.0.0.0</AssemblyVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Jint" Version="3.1.5" />
+  </ItemGroup>
+
   <Import Project="..\DrvSmsParser.Shared\DrvSmsParser.Shared.projitems" Label="Shared" />
 
   <ItemGroup>
