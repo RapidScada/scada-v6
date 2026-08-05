@@ -194,7 +194,7 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
             // initialize scripting engine
             jsEngine ??= new Engine(options => options.Strict())
                 .SetValue("log", new Action<string>(s => Log.WriteLine(s)))
-                .SetValue("setTagValue", new Action<int, double>((idx, val) => { 
+                .SetValue("setTagValue", new Action<int, double>((idx, val) => {
                     DeviceData.Set(idx, val); 
                     updateTimestamps[idx] = LastSessionTime; }));
 
