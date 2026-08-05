@@ -108,8 +108,8 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
                 if (messageCount > 0)
                 {
                     Log.WriteLine(Locale.IsRussian ?
-                        "{0}: {1} сообщений" :
-                        "{0}: {1} messages", CommPhrases.ReceiveNotation, messageCount);
+                        "Полученных сообщений: {0}" :
+                        "Messages received: {0}", messageCount);
                     DeviceData.Add(TagCode.Msg, messageCount);
                 }
             }
