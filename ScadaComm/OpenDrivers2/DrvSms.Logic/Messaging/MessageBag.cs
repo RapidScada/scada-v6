@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Lang;
+
 namespace Scada.Comm.Drivers.DrvSms.Logic.Messaging
 {
     /// <summary>
@@ -47,6 +49,13 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Messaging
         {
             messageBag.Clear();
             allMessages.Clear();
+        }
+
+        public override string ToString()
+        {
+            return string.Format(Locale.IsRussian ?
+                "Хранилище с {0} сообщениями" :
+                "Bag of {0} messages", allMessages.Count);
         }
     }
 }
