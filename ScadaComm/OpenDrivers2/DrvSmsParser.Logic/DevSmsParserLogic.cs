@@ -143,7 +143,7 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
             if (LineContext.SharedData.TryGetValueOfType(SharedDataKey.MessageBag, out IMessageBag messageBag))
             {
                 messageItems = messageBag.GetByAddress(StrAddress).ToList();
-                return messageItems.Count > 0;
+                return true;
             }
             else
             {
@@ -161,8 +161,8 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
         private void ProcessMessages(List<IMessageItem> messageItems)
         {
             Log.WriteLine(Locale.IsRussian ?
-                "{0}: {1} сообщений" :
-                "{0}: {1} messages", CommPhrases.ReceiveNotation, messageItems.Count);
+                "Полученных сообщений: {0}" :
+                "Messages received: {0}", messageItems.Count);
             DeviceData.Add(TagCode.Msg, messageItems.Count);
             DeviceTag eventTag = DeviceTags[TagCode.Msg];
 
@@ -214,24 +214,33 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
         /// </summary>
         public override void Session()
         {
-            bool sessionIsSilent = true;
+            base.Session();
 
             if (string.IsNullOrEmpty(StrAddress))
             {
-                base.Session();
                 Log.WriteLine(Locale.IsRussian ?
                     "{0}Строковый адрес не может быть пустым" :
                     "{0}String address cannot be empty", CommPhrases.ErrorPrefix);
                 LastRequestOK = false;
-                sessionIsSilent = false;
             }
             else
             {
                 if (GetMessages(out List<IMessageItem> messageItems))
                 {
-                    base.Session();
-                    ProcessMessages(messageItems);
-                    sessionIsSilent = false;
+                    if (messageItems.Count > 0)
+                    {
+                        ProcessMessages(messageItems);
+                    }
+                    else
+                    {
+                        Log.WriteLine(Locale.IsRussian ?
+                            "Новые сообщения отсутствуют" :
+                            "No new messages");
+                    }
+                }
+                else
+                {
+                    LastRequestOK = false;
                 }
 
                 if (useDataLifetime)
@@ -240,15 +249,8 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
                 }
             }
 
-            if (sessionIsSilent)
-            {
-                SleepPollingDelay();
-            }
-            else
-            {
-                FinishRequest();
-                FinishSession();
-            }
+            FinishRequest();
+            FinishSession();
         }
     }
 }
