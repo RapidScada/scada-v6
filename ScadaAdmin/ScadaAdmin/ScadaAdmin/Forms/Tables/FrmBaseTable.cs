@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2024
+ * Modified : 2026
  */
 
 using Scada.Admin.App.Code;
@@ -33,6 +33,7 @@ using Scada.Forms.Forms;
 using Scada.Lang;
 using System.Data;
 using System.Globalization;
+using System.Text.Json;
 using WinControls;
 
 namespace Scada.Admin.App.Forms.Tables
@@ -46,11 +47,22 @@ namespace Scada.Admin.App.Forms.Tables
         /// <summary>
         /// Represents a buffer for copying cells.
         /// </summary>
-        [Serializable]
-        private class CellBuffer
+        private class CellBuffer(string columnName, object cellValue)
         {
-            public string ColumnName { get; set; }
-            public object CellValue { get; set; }
+            public string ColumnName { get; set; } = columnName;
+            public object CellValue { get; set; } = cellValue;
+            public bool CellIsNull { get; set; } = cellValue == DBNull.Value;
+
+            public object GetCellValue(Type targetType)
+            {
+                if (CellIsNull)
+                    return DBNull.Value;
+
+                if (CellValue is JsonElement element)
+                    return element.Deserialize(targetType);
+
+                return CellValue;
+            }
         }
 
 
@@ -628,12 +640,12 @@ namespace Scada.Admin.App.Forms.Tables
                             Clipboard.SetText(valStr);
 
                         if (cut)
-                            cell.Value = cell.ValueType == typeof(string) ? "" : (object)DBNull.Value;
+                            cell.Value = cell.ValueType == typeof(string) ? "" : DBNull.Value;
                     }
                 }
                 else if (col is DataGridViewComboBoxColumn)
                 {
-                    Clipboard.SetData(ClipboardFormat, new CellBuffer { ColumnName = col.Name, CellValue = cell.Value });
+                    Clipboard.SetDataAsJson(ClipboardFormat, new CellBuffer(col.Name, cell.Value));
 
                     if (cut)
                         cell.Value = DBNull.Value;
@@ -663,16 +675,18 @@ namespace Scada.Admin.App.Forms.Tables
                 }
                 else if (col is DataGridViewComboBoxColumn comboBoxColumn &&
                     comboBoxColumn.DataSource is DataTable table &&
-                    Clipboard.GetData(ClipboardFormat) is CellBuffer cellBuffer &&
+                    Clipboard.TryGetData(ClipboardFormat, out CellBuffer cellBuffer) &&
                     cellBuffer.ColumnName == col.Name)
                 {
                     string sortBuf = table.DefaultView.Sort;
 
                     try
                     {
+                        object cellValue = cellBuffer.GetCellValue(col.ValueType);
                         table.DefaultView.Sort = comboBoxColumn.ValueMember;
-                        if (table.DefaultView.Find(cellBuffer.CellValue) >= 0)
-                            cell.Value = cellBuffer.CellValue;
+
+                        if (table.DefaultView.Find(cellValue) >= 0)
+                            cell.Value = cellValue;
                     }
                     finally
                     {
