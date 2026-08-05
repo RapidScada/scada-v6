@@ -9,14 +9,15 @@
     log("Address: " + address);
     log("Text: " + text);
 
-    const arr = text.split(/\s+/);
+    const arr = text.split(/\s+/); // split by spaces and line breaks
     let idx = 0;
 
     for (const elem of arr) {
       setTagValue(idx, Number(arr[idx]));
+      if (++idx >= 2) break;
     }
 
-    if (text.includes("Alarm")) {
+    if (text.toLowerCase().includes("alarm")) {
       setEventStatus(23);
     } else {
       setEventStatus(1);
