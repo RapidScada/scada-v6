@@ -14,7 +14,7 @@ namespace DrvSmsParser.Shared.Config
     internal class DeviceTemplate : ConfigBase
     {
         /// <summary>
-        /// Gets the full tag names.
+        /// Gets the full names of the custom tags.
         /// </summary>
         /// <remarks>The full tag name consists of a tag code and a tag name.</remarks>
         public List<string> Tags { get; private set; }
