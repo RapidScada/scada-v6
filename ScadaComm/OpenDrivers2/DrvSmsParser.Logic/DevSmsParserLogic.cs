@@ -42,8 +42,9 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
 
         private TimeSpan dataLifetime;            // specifies when tag values should be invalidated
         private bool useDataLifetime;             // indicates that lifetime is used
-        private DateTime[] updateTimestamps;      // the update timestamps by device tag
         private DeviceTemplate deviceTemplate;    // the device template
+        private DateTime[] updateTimestamps;      // the update timestamps by device tag
+        private int customGroupStart;             // the start index of the custom tags
         private Engine jsEngine;                  // executes JavaScript
         private Prepared<Script>? preparedScript; // the precompiled script
 
@@ -58,6 +59,7 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
             useDataLifetime = false;
             updateTimestamps = null;
             deviceTemplate = null;
+            customGroupStart = -1;
             jsEngine = null;
             preparedScript = null;
 
@@ -129,13 +131,14 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
         /// </summary>
         private void InvalidateOutdatedData()
         {
+            if (updateTimestamps == null) return;
             DateTime utcNow = DateTime.UtcNow;
 
             for (int i = 0, len = updateTimestamps.Length; i < len; i++)
             {
                 if (utcNow - updateTimestamps[i] > dataLifetime)
                 {
-                    DeviceData.Invalidate(i);
+                    DeviceData.Invalidate(customGroupStart + i);
                     updateTimestamps[i] = utcNow;
                 }
             }
@@ -195,7 +198,7 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
             jsEngine ??= new Engine(options => options.Strict())
                 .SetValue("log", new Action<string>(s => Log.WriteLine(s)))
                 .SetValue("setTagValue", new Action<int, double>((idx, val) => {
-                    DeviceData.Set(idx, val); 
+                    DeviceData.Set(customGroupStart + idx, val); 
                     updateTimestamps[idx] = LastSessionTime; }));
 
             // set script methods and variables that depend on current call
@@ -229,8 +232,9 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
         /// </summary>
         public override void InitDeviceTags()
         {
-            DeviceTags.AddGroup(CnlPrototypeFactory.GetGeneralGroup().ToTagGroup());
-            
+            TagGroup generalGroup = CnlPrototypeFactory.GetGeneralGroup().ToTagGroup();
+            DeviceTags.AddGroup(generalGroup);
+
             deviceTemplate = GetDeviceTemplate();
             TagGroup customGroup = CnlPrototypeFactory.GetCustomGroup(deviceTemplate).ToTagGroup();
 
@@ -238,7 +242,9 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
             {
                 DeviceTags.AddGroup(customGroup);
                 updateTimestamps = new DateTime[customGroup.DeviceTags.Count];
+                customGroupStart = generalGroup.DeviceTags.Count;
             }
+
         }
 
         /// <summary>
