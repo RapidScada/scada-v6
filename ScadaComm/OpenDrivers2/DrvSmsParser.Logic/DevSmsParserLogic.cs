@@ -134,11 +134,11 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
             if (updateTimestamps == null) return;
             DateTime utcNow = DateTime.UtcNow;
 
-            for (int i = 0, len = updateTimestamps.Length; i < len; i++)
+            for (int i = customGroupStart, len = updateTimestamps.Length; i < len; i++)
             {
                 if (utcNow - updateTimestamps[i] > dataLifetime)
                 {
-                    DeviceData.Invalidate(customGroupStart + i);
+                    DeviceData.Invalidate(i);
                     updateTimestamps[i] = utcNow;
                 }
             }
@@ -198,7 +198,7 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
             jsEngine ??= new Engine(options => options.Strict())
                 .SetValue("log", new Action<string>(s => Log.WriteLine(s)))
                 .SetValue("setTagValue", new Action<int, double>((idx, val) => {
-                    DeviceData.Set(customGroupStart + idx, val); 
+                    DeviceData.Set(idx, val); 
                     updateTimestamps[idx] = LastSessionTime; }));
 
             // set script methods and variables that depend on current call
@@ -241,7 +241,7 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
             if (customGroup.DeviceTags.Count > 0)
             {
                 DeviceTags.AddGroup(customGroup);
-                updateTimestamps = new DateTime[customGroup.DeviceTags.Count];
+                updateTimestamps = new DateTime[DeviceTags.Count];
                 customGroupStart = generalGroup.DeviceTags.Count;
             }
 

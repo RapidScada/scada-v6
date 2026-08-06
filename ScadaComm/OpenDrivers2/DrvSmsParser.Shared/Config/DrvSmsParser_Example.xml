@@ -13,7 +13,7 @@
     let idx = 0;
 
     for (const elem of arr) {
-      setTagValue(idx, Number(arr[idx]));
+      setTagValue(idx + 1, Number(arr[idx]));
       if (++idx >= 2) break;
     }
 
