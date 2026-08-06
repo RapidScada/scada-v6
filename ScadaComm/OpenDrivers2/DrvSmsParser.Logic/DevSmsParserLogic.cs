@@ -241,7 +241,7 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
             if (customGroup.DeviceTags.Count > 0)
             {
                 DeviceTags.AddGroup(customGroup);
-                updateTimestamps = new DateTime[DeviceTags.Count];
+                updateTimestamps = new DateTime[DeviceTags.Count]; // for all tags
                 customGroupStart = generalGroup.DeviceTags.Count;
             }
 
