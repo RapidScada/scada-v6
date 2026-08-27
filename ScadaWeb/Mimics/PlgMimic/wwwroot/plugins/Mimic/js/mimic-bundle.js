@@ -166,6 +166,13 @@ rs.mimic.ObjectHelper = class ObjectHelper {
         }
     }
 
+    // Converts the specified value to a boolean primitive.
+    static _convertToBoolean(value) {
+        return typeof value === "string"
+            ? value.trim().toLowerCase() === "true"
+            : Boolean(value);
+    }
+
     // Gets the value of the object property. Property chain is an array of property names.
     static getPropertyValue(obj, propertyChain, chainIndex) {
         if (obj == null) {
@@ -207,7 +214,7 @@ rs.mimic.ObjectHelper = class ObjectHelper {
         } else if (typeof baseValue === "string") {
             return String(sourceValue);
         } else if (typeof baseValue === "boolean") {
-            return Boolean(sourceValue);
+            return ObjectHelper._convertToBoolean(sourceValue);
         } else if (baseValue instanceof Object) {
             let mergedObject = ScadaUtils.deepClone(baseValue);
             let sourceIsObject = sourceValue instanceof Object;
