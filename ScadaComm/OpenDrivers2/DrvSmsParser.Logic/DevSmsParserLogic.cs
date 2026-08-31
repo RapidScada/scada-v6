@@ -244,7 +244,6 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
                 updateTimestamps = new DateTime[DeviceTags.Count]; // for all tags
                 customGroupStart = generalGroup.DeviceTags.Count;
             }
-
         }
 
         /// <summary>
