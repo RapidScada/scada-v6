@@ -33,13 +33,13 @@
             numDataLifetime = new NumericUpDown();
             lblDataLifetime = new Label();
             gbDevice = new GroupBox();
+            btnBrowseTemplate = new Button();
+            btnEditTemplate = new Button();
+            btnNewTemplate = new Button();
             textBox1 = new TextBox();
             txtTemplateFileName = new Label();
             btnOK = new Button();
             btnCancel = new Button();
-            btnNewTemplate = new Button();
-            btnEditTemplate = new Button();
-            btnBrowseTemplate = new Button();
             toolTip = new ToolTip(components);
             openFileDialog = new OpenFileDialog();
             saveFileDialog = new SaveFileDialog();
@@ -92,6 +92,36 @@
             gbDevice.TabStop = false;
             gbDevice.Text = "Device";
             // 
+            // btnBrowseTemplate
+            // 
+            btnBrowseTemplate.FlatStyle = FlatStyle.Popup;
+            btnBrowseTemplate.Image = Properties.Resources.open;
+            btnBrowseTemplate.Location = new Point(374, 37);
+            btnBrowseTemplate.Name = "btnBrowseTemplate";
+            btnBrowseTemplate.Size = new Size(23, 23);
+            btnBrowseTemplate.TabIndex = 4;
+            btnBrowseTemplate.UseVisualStyleBackColor = true;
+            // 
+            // btnEditTemplate
+            // 
+            btnEditTemplate.FlatStyle = FlatStyle.Popup;
+            btnEditTemplate.Image = Properties.Resources.edit;
+            btnEditTemplate.Location = new Point(345, 37);
+            btnEditTemplate.Name = "btnEditTemplate";
+            btnEditTemplate.Size = new Size(23, 23);
+            btnEditTemplate.TabIndex = 3;
+            btnEditTemplate.UseVisualStyleBackColor = true;
+            // 
+            // btnNewTemplate
+            // 
+            btnNewTemplate.FlatStyle = FlatStyle.Popup;
+            btnNewTemplate.Image = Properties.Resources.new_file;
+            btnNewTemplate.Location = new Point(316, 37);
+            btnNewTemplate.Name = "btnNewTemplate";
+            btnNewTemplate.Size = new Size(23, 23);
+            btnNewTemplate.TabIndex = 2;
+            btnNewTemplate.UseVisualStyleBackColor = true;
+            // 
             // textBox1
             // 
             textBox1.Location = new Point(13, 37);
@@ -126,36 +156,6 @@
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
             // 
-            // btnNewTemplate
-            // 
-            btnNewTemplate.FlatStyle = FlatStyle.Popup;
-            btnNewTemplate.Image = Properties.Resources.new_file;
-            btnNewTemplate.Location = new Point(316, 37);
-            btnNewTemplate.Name = "btnNewTemplate";
-            btnNewTemplate.Size = new Size(23, 23);
-            btnNewTemplate.TabIndex = 2;
-            btnNewTemplate.UseVisualStyleBackColor = true;
-            // 
-            // btnEditTemplate
-            // 
-            btnEditTemplate.FlatStyle = FlatStyle.Popup;
-            btnEditTemplate.Image = Properties.Resources.edit;
-            btnEditTemplate.Location = new Point(345, 37);
-            btnEditTemplate.Name = "btnEditTemplate";
-            btnEditTemplate.Size = new Size(23, 23);
-            btnEditTemplate.TabIndex = 3;
-            btnEditTemplate.UseVisualStyleBackColor = true;
-            // 
-            // btnBrowseTemplate
-            // 
-            btnBrowseTemplate.FlatStyle = FlatStyle.Popup;
-            btnBrowseTemplate.Image = Properties.Resources.open;
-            btnBrowseTemplate.Location = new Point(374, 37);
-            btnBrowseTemplate.Name = "btnBrowseTemplate";
-            btnBrowseTemplate.Size = new Size(23, 23);
-            btnBrowseTemplate.TabIndex = 4;
-            btnBrowseTemplate.UseVisualStyleBackColor = true;
-            // 
             // openFileDialog
             // 
             openFileDialog.DefaultExt = "*.xml";
@@ -181,6 +181,7 @@
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "FrmDeviceProperties";
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
             Text = "Device {0} Properties";
             gbCommLine.ResumeLayout(false);
