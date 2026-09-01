@@ -101,6 +101,7 @@
             btnBrowseTemplate.Size = new Size(23, 23);
             btnBrowseTemplate.TabIndex = 4;
             btnBrowseTemplate.UseVisualStyleBackColor = true;
+            btnBrowseTemplate.Click += btnBrowseTemplate_Click;
             // 
             // btnEditTemplate
             // 
@@ -111,6 +112,7 @@
             btnEditTemplate.Size = new Size(23, 23);
             btnEditTemplate.TabIndex = 3;
             btnEditTemplate.UseVisualStyleBackColor = true;
+            btnEditTemplate.Click += btnEditTemplate_Click;
             // 
             // btnNewTemplate
             // 
@@ -121,6 +123,7 @@
             btnNewTemplate.Size = new Size(23, 23);
             btnNewTemplate.TabIndex = 2;
             btnNewTemplate.UseVisualStyleBackColor = true;
+            btnNewTemplate.Click += btnNewTemplate_Click;
             // 
             // textBox1
             // 
@@ -146,6 +149,7 @@
             btnOK.TabIndex = 2;
             btnOK.Text = "OK";
             btnOK.UseVisualStyleBackColor = true;
+            btnOK.Click += btnOK_Click;
             // 
             // btnCancel
             // 
@@ -184,6 +188,7 @@
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
             Text = "Device {0} Properties";
+            Load += FrmDeviceProperties_Load;
             gbCommLine.ResumeLayout(false);
             gbCommLine.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numDataLifetime).EndInit();

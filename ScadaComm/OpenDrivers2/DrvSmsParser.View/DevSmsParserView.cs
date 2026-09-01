@@ -4,6 +4,7 @@
 using DrvSmsParser.Shared.Config;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using Scada.Comm.Drivers.DrvSmsParser.View.Forms;
 
 namespace Scada.Comm.Drivers.DrvSmsParser.View
 {
@@ -22,6 +23,23 @@ namespace Scada.Comm.Drivers.DrvSmsParser.View
             CanShowProperties = true;
         }
 
+
+        /// <summary>
+        /// Shows a modal dialog box for editing device properties.
+        /// </summary>
+        public override bool ShowProperties()
+        {
+            if (new FrmDeviceProperties(AppDirs, LineConfig, DeviceConfig).ShowDialog() == DialogResult.OK)
+            {
+                LineConfigModified = true;
+                DeviceConfigModified = true;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         /// <summary>
         /// Gets the default polling options for the device.
