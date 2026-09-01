@@ -28,14 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             gbCommLine = new GroupBox();
             numDataLifetime = new NumericUpDown();
             lblDataLifetime = new Label();
             gbDevice = new GroupBox();
+            textBox1 = new TextBox();
+            txtTemplateFileName = new Label();
             btnOK = new Button();
             btnCancel = new Button();
-            txtTemplateFileName = new Label();
-            textBox1 = new TextBox();
+            btnNewTemplate = new Button();
+            btnEditTemplate = new Button();
+            btnBrowseTemplate = new Button();
+            toolTip = new ToolTip(components);
+            openFileDialog = new OpenFileDialog();
+            saveFileDialog = new SaveFileDialog();
             gbCommLine.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numDataLifetime).BeginInit();
             gbDevice.SuspendLayout();
@@ -72,6 +79,9 @@
             // 
             // gbDevice
             // 
+            gbDevice.Controls.Add(btnBrowseTemplate);
+            gbDevice.Controls.Add(btnEditTemplate);
+            gbDevice.Controls.Add(btnNewTemplate);
             gbDevice.Controls.Add(textBox1);
             gbDevice.Controls.Add(txtTemplateFileName);
             gbDevice.Location = new Point(12, 91);
@@ -81,6 +91,22 @@
             gbDevice.TabIndex = 1;
             gbDevice.TabStop = false;
             gbDevice.Text = "Device";
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(13, 37);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(297, 23);
+            textBox1.TabIndex = 1;
+            // 
+            // txtTemplateFileName
+            // 
+            txtTemplateFileName.AutoSize = true;
+            txtTemplateFileName.Location = new Point(13, 19);
+            txtTemplateFileName.Name = "txtTemplateFileName";
+            txtTemplateFileName.Size = new Size(92, 15);
+            txtTemplateFileName.TabIndex = 0;
+            txtTemplateFileName.Text = "Device template";
             // 
             // btnOK
             // 
@@ -100,21 +126,45 @@
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
             // 
-            // txtTemplateFileName
+            // btnNewTemplate
             // 
-            txtTemplateFileName.AutoSize = true;
-            txtTemplateFileName.Location = new Point(13, 19);
-            txtTemplateFileName.Name = "txtTemplateFileName";
-            txtTemplateFileName.Size = new Size(92, 15);
-            txtTemplateFileName.TabIndex = 0;
-            txtTemplateFileName.Text = "Device template";
+            btnNewTemplate.FlatStyle = FlatStyle.Popup;
+            btnNewTemplate.Image = Properties.Resources.new_file;
+            btnNewTemplate.Location = new Point(316, 37);
+            btnNewTemplate.Name = "btnNewTemplate";
+            btnNewTemplate.Size = new Size(23, 23);
+            btnNewTemplate.TabIndex = 2;
+            btnNewTemplate.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // btnEditTemplate
             // 
-            textBox1.Location = new Point(13, 37);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(200, 23);
-            textBox1.TabIndex = 1;
+            btnEditTemplate.FlatStyle = FlatStyle.Popup;
+            btnEditTemplate.Image = Properties.Resources.edit;
+            btnEditTemplate.Location = new Point(345, 37);
+            btnEditTemplate.Name = "btnEditTemplate";
+            btnEditTemplate.Size = new Size(23, 23);
+            btnEditTemplate.TabIndex = 3;
+            btnEditTemplate.UseVisualStyleBackColor = true;
+            // 
+            // btnBrowseTemplate
+            // 
+            btnBrowseTemplate.FlatStyle = FlatStyle.Popup;
+            btnBrowseTemplate.Image = Properties.Resources.open;
+            btnBrowseTemplate.Location = new Point(374, 37);
+            btnBrowseTemplate.Name = "btnBrowseTemplate";
+            btnBrowseTemplate.Size = new Size(23, 23);
+            btnBrowseTemplate.TabIndex = 4;
+            btnBrowseTemplate.UseVisualStyleBackColor = true;
+            // 
+            // openFileDialog
+            // 
+            openFileDialog.DefaultExt = "*.xml";
+            openFileDialog.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
+            // 
+            // saveFileDialog
+            // 
+            saveFileDialog.DefaultExt = "*.xml";
+            saveFileDialog.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
             // 
             // FrmDeviceProperties
             // 
@@ -151,5 +201,11 @@
         private Label lblDataLifetime;
         private Label txtTemplateFileName;
         private TextBox textBox1;
+        private Button btnBrowseTemplate;
+        private Button btnEditTemplate;
+        private Button btnNewTemplate;
+        private ToolTip toolTip;
+        private OpenFileDialog openFileDialog;
+        private SaveFileDialog saveFileDialog;
     }
 }
