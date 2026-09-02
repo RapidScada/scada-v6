@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using DrvSmsParser.Shared.Config;
 using Scada.Forms;
 
 namespace Scada.Comm.Drivers.DrvSmsParser.View.Forms
@@ -63,7 +62,7 @@ namespace Scada.Comm.Drivers.DrvSmsParser.View.Forms
         private void ConfigToControls()
         {
             txtTags.Lines = deviceTemplate.Tags.ToArray();
-            txtScript.Text = deviceTemplate.Script.Replace("\n", Environment.NewLine);
+            txtScript.SetMultilineText(deviceTemplate.Script);
         }
 
         /// <summary>

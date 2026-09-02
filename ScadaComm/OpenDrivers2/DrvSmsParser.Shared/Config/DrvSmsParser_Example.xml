@@ -1,26 +1,24 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <SmsParserDeviceTemplate>
   <Tags>
     <Tag>[Tag1] Tag 1</Tag>
     <Tag>[Tag2] Tag 2</Tag>
   </Tags>
-  <Script>
-    log("Hello from SMS Parser");
-    log("Address: " + address);
-    log("Text: " + text);
+  <Script>log("Hello from SMS Parser");
+log("Address: " + address);
+log("Text: " + text);
 
-    const arr = text.split(/\s+/); // split by spaces and line breaks
-    let idx = 0;
+const arr = text.split(/\s+/); // split by spaces and line breaks
+let idx = 0;
 
-    for (const elem of arr) {
-      setTagValue(idx + 1, Number(arr[idx]));
-      if (++idx &gt;= 2) break;
-    }
+for (const elem of arr) {
+  setTagValue(idx + 1, Number(arr[idx]));
+  if (++idx &gt;= 2) break;
+}
 
-    if (text.toLowerCase().includes("alarm")) {
-      setEventStatus(23);
-    } else {
-      setEventStatus(1);
-    }
-  </Script>
+if (text.toLowerCase().includes("alarm")) {
+  setEventStatus(23);
+} else {
+  setEventStatus(1);
+}</Script>
 </SmsParserDeviceTemplate>
