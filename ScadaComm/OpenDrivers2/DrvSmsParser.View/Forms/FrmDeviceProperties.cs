@@ -108,7 +108,7 @@ namespace Scada.Comm.Drivers.DrvSmsParser.View.Forms
 
         private void FrmDeviceProperties_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName);
+            FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions { ToolTip = toolTip });
             openFileDialog.SetFilter(CommonPhrases.XmlFileFilter);
             saveFileDialog.SetFilter(CommonPhrases.XmlFileFilter);
 

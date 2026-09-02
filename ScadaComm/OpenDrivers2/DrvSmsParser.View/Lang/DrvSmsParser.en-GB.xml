@@ -2,7 +2,13 @@
 <DrvSmsParserDictionaries>
   <Dictionary key="Scada.Comm.Drivers.DrvSmsParser.View.Forms.FrmDeviceProperties">
     <Phrase key="this">Device {0} Properties</Phrase>
-    <Phrase key=""></Phrase>
+    <Phrase key="gbCommLine">Communication Line</Phrase>
+    <Phrase key="lblDataLifetime">Data lifetime, sec</Phrase>
+    <Phrase key="gbDevice">Device</Phrase>
+    <Phrase key="lblTemplateFileName">Device template</Phrase>
+    <Phrase key="btnNewTemplate.ToolTip">New</Phrase>
+    <Phrase key="btnEditTemplate.ToolTip">Edit</Phrase>
+    <Phrase key="btnBrowseTemplate.ToolTip">Browse</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
     <Phrase key="ConfigDirRequired">The device template file must be located inside {0}</Phrase>

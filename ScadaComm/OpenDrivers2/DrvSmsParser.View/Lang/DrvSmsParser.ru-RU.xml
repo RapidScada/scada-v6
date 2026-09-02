@@ -2,7 +2,13 @@
 <DrvSmsParserDictionaries>
   <Dictionary key="Scada.Comm.Drivers.DrvSmsParser.View.Forms.FrmDeviceProperties">
     <Phrase key="this">Свойства устройства {0}</Phrase>
-    <Phrase key=""></Phrase>
+    <Phrase key="gbCommLine">Линия связи</Phrase>
+    <Phrase key="lblDataLifetime">Время жизни данных, с</Phrase>
+    <Phrase key="gbDevice">Устройство</Phrase>
+    <Phrase key="lblTemplateFileName">Шаблон устройства</Phrase>
+    <Phrase key="btnNewTemplate.ToolTip">Новый</Phrase>
+    <Phrase key="btnEditTemplate.ToolTip">Редактировать</Phrase>
+    <Phrase key="btnBrowseTemplate.ToolTip">Обзор</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
     <Phrase key="ConfigDirRequired">Файл шаблона устройства должен располагаться внутри {0}</Phrase>
