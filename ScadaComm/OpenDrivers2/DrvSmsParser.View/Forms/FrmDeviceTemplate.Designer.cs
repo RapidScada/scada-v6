@@ -29,23 +29,23 @@
         private void InitializeComponent()
         {
             tabControl = new TabControl();
-            pgDataTags = new TabPage();
-            txtDataTagsHelp = new Label();
-            txtDataTags = new TextBox();
+            pgTags = new TabPage();
+            lblDataTagsHelp = new Label();
+            txtTags = new TextBox();
             pgScript = new TabPage();
-            textBox1 = new TextBox();
+            txtScript = new TextBox();
             pnlBottom = new Panel();
             btnCancel = new Button();
             btnOK = new Button();
             tabControl.SuspendLayout();
-            pgDataTags.SuspendLayout();
+            pgTags.SuspendLayout();
             pgScript.SuspendLayout();
             pnlBottom.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl
             // 
-            tabControl.Controls.Add(pgDataTags);
+            tabControl.Controls.Add(pgTags);
             tabControl.Controls.Add(pgScript);
             tabControl.Dock = DockStyle.Fill;
             tabControl.Location = new Point(0, 0);
@@ -54,43 +54,43 @@
             tabControl.Size = new Size(484, 416);
             tabControl.TabIndex = 0;
             // 
-            // pgDataTags
+            // pgTags
             // 
-            pgDataTags.Controls.Add(txtDataTagsHelp);
-            pgDataTags.Controls.Add(txtDataTags);
-            pgDataTags.Location = new Point(4, 24);
-            pgDataTags.Name = "pgDataTags";
-            pgDataTags.Padding = new Padding(5);
-            pgDataTags.Size = new Size(476, 388);
-            pgDataTags.TabIndex = 0;
-            pgDataTags.Text = "Data Tags";
-            pgDataTags.UseVisualStyleBackColor = true;
+            pgTags.Controls.Add(lblDataTagsHelp);
+            pgTags.Controls.Add(txtTags);
+            pgTags.Location = new Point(4, 24);
+            pgTags.Name = "pgTags";
+            pgTags.Padding = new Padding(5);
+            pgTags.Size = new Size(476, 388);
+            pgTags.TabIndex = 0;
+            pgTags.Text = "Tags";
+            pgTags.UseVisualStyleBackColor = true;
             // 
-            // txtDataTagsHelp
+            // lblDataTagsHelp
             // 
-            txtDataTagsHelp.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            txtDataTagsHelp.AutoSize = true;
-            txtDataTagsHelp.ForeColor = SystemColors.GrayText;
-            txtDataTagsHelp.Location = new Point(5, 368);
-            txtDataTagsHelp.Name = "txtDataTagsHelp";
-            txtDataTagsHelp.Size = new Size(168, 15);
-            txtDataTagsHelp.TabIndex = 1;
-            txtDataTagsHelp.Text = "One tag per line: [Code] Name";
+            lblDataTagsHelp.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            lblDataTagsHelp.AutoSize = true;
+            lblDataTagsHelp.ForeColor = SystemColors.GrayText;
+            lblDataTagsHelp.Location = new Point(5, 368);
+            lblDataTagsHelp.Name = "lblDataTagsHelp";
+            lblDataTagsHelp.Size = new Size(168, 15);
+            lblDataTagsHelp.TabIndex = 1;
+            lblDataTagsHelp.Text = "One tag per line: [Code] Name";
             // 
-            // txtDataTags
+            // txtTags
             // 
-            txtDataTags.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            txtDataTags.Location = new Point(8, 8);
-            txtDataTags.Multiline = true;
-            txtDataTags.Name = "txtDataTags";
-            txtDataTags.ScrollBars = ScrollBars.Vertical;
-            txtDataTags.Size = new Size(460, 357);
-            txtDataTags.TabIndex = 0;
-            txtDataTags.WordWrap = false;
+            txtTags.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            txtTags.Location = new Point(8, 8);
+            txtTags.Multiline = true;
+            txtTags.Name = "txtTags";
+            txtTags.ScrollBars = ScrollBars.Vertical;
+            txtTags.Size = new Size(460, 357);
+            txtTags.TabIndex = 0;
+            txtTags.WordWrap = false;
             // 
             // pgScript
             // 
-            pgScript.Controls.Add(textBox1);
+            pgScript.Controls.Add(txtScript);
             pgScript.Location = new Point(4, 24);
             pgScript.Name = "pgScript";
             pgScript.Padding = new Padding(5);
@@ -99,17 +99,17 @@
             pgScript.Text = "Script";
             pgScript.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // txtScript
             // 
-            textBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            textBox1.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            textBox1.Location = new Point(8, 8);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.ScrollBars = ScrollBars.Both;
-            textBox1.Size = new Size(460, 372);
-            textBox1.TabIndex = 0;
-            textBox1.WordWrap = false;
+            txtScript.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            txtScript.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            txtScript.Location = new Point(8, 8);
+            txtScript.Multiline = true;
+            txtScript.Name = "txtScript";
+            txtScript.ScrollBars = ScrollBars.Both;
+            txtScript.Size = new Size(460, 372);
+            txtScript.TabIndex = 0;
+            txtScript.WordWrap = false;
             // 
             // pnlBottom
             // 
@@ -153,6 +153,7 @@
             Controls.Add(pnlBottom);
             MaximizeBox = false;
             MinimizeBox = false;
+            MinimumSize = new Size(300, 200);
             Name = "FrmDeviceTemplate";
             ShowIcon = false;
             ShowInTaskbar = false;
@@ -160,8 +161,8 @@
             Text = "Device Template";
             Load += FrmDeviceTemplate_Load;
             tabControl.ResumeLayout(false);
-            pgDataTags.ResumeLayout(false);
-            pgDataTags.PerformLayout();
+            pgTags.ResumeLayout(false);
+            pgTags.PerformLayout();
             pgScript.ResumeLayout(false);
             pgScript.PerformLayout();
             pnlBottom.ResumeLayout(false);
@@ -171,13 +172,13 @@
         #endregion
 
         private TabControl tabControl;
-        private TabPage pgDataTags;
+        private TabPage pgTags;
         private TabPage pgScript;
         private Panel pnlBottom;
         private Button btnCancel;
         private Button btnOK;
-        private TextBox txtDataTags;
-        private Label txtDataTagsHelp;
-        private TextBox textBox1;
+        private TextBox txtTags;
+        private Label lblDataTagsHelp;
+        private TextBox txtScript;
     }
 }

@@ -14,4 +14,12 @@
     <Phrase key="ConfigDirRequired">The device template file must be located inside {0}</Phrase>
     <Phrase key="TemplateNotExists">The device template file does not exist.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvSmsParser.View.Forms.FrmDeviceTemplate">
+    <Phrase key="this">Device Template</Phrase>
+    <Phrase key="pgTags">Tags</Phrase>
+    <Phrase key="lblDataTagsHelp">One tag per line: [Code] Name</Phrase>
+    <Phrase key="pgScript">Script</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
 </DrvSmsParserDictionaries>

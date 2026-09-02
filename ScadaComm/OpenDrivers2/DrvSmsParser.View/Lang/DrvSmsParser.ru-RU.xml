@@ -14,4 +14,12 @@
     <Phrase key="ConfigDirRequired">Файл шаблона устройства должен располагаться внутри {0}</Phrase>
     <Phrase key="TemplateNotExists">Файл шаблона устройства не существует.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvSmsParser.View.Forms.FrmDeviceTemplate">
+    <Phrase key="this">Шаблон устройства</Phrase>
+    <Phrase key="pgTags">Теги</Phrase>
+    <Phrase key="lblDataTagsHelp">Один тег на строку: [Код] Наименование</Phrase>
+    <Phrase key="pgScript">Скрипт</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
 </DrvSmsParserDictionaries>
