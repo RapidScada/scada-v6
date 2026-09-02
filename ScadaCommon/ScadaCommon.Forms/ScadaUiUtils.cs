@@ -97,6 +97,38 @@ namespace Scada.Forms
         }
 
         /// <summary>
+        /// Sets the text of the TextBox control, normalizing line endings.
+        /// </summary>
+        public static void SetMultilineText(this TextBox textBox, string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                textBox.Text = "";
+            }
+            else
+            {
+                StringBuilder stringBuilder = new();
+
+                foreach (char c in text)
+                {
+                    switch (c)
+                    {
+                        case '\r':
+                            break;
+                        case '\n':
+                            stringBuilder.AppendLine();
+                            break;
+                        default:
+                            stringBuilder.Append(c);
+                            break;
+                    }
+                }
+
+                textBox.Text = stringBuilder.ToString();
+            }
+        }
+
+        /// <summary>
         /// Sets the value of the NumericUpDown control within its valid range.
         /// </summary>
         public static void SetValue(this NumericUpDown numericUpDown, decimal val)
@@ -273,7 +305,7 @@ namespace Scada.Forms
 
                             if (!string.IsNullOrEmpty(pos))
                             {
-                                string[] parts = pos.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                string[] parts = pos.Split([' '], StringSplitOptions.RemoveEmptyEntries);
 
                                 if (parts.Length >= 4 &&
                                     int.TryParse(parts[0], out int x) &&
