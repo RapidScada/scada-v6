@@ -79,6 +79,7 @@
             // 
             // txtTags
             // 
+            txtTags.AcceptsReturn = true;
             txtTags.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             txtTags.Location = new Point(8, 8);
             txtTags.Multiline = true;
@@ -101,6 +102,7 @@
             // 
             // txtScript
             // 
+            txtScript.AcceptsReturn = true;
             txtScript.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             txtScript.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 204);
             txtScript.Location = new Point(8, 8);

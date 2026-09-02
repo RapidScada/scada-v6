@@ -57,7 +57,8 @@ namespace DrvSmsParser.Shared.Config
         /// </summary>
         protected override void SaveToXml(XmlDocument xmlDoc)
         {
-            XmlElement rootElem = xmlDoc.DocumentElement;
+            XmlElement rootElem = xmlDoc.CreateElement("SmsParserDeviceTemplate");
+            xmlDoc.AppendChild(rootElem);
             XmlElement tagsElem = rootElem.AppendElem("Tags");
 
             foreach (string tag in Tags)

@@ -14,7 +14,7 @@
 
     for (const elem of arr) {
       setTagValue(idx + 1, Number(arr[idx]));
-      if (++idx >= 2) break;
+      if (++idx &gt;= 2) break;
     }
 
     if (text.toLowerCase().includes("alarm")) {
