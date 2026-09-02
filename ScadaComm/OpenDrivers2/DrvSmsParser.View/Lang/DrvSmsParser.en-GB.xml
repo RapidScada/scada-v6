@@ -1,4 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvSmsParserDictionaries>
-  
+  <Dictionary key="Scada.Comm.Drivers.DrvSmsParser.View.Forms.FrmDeviceProperties">
+    <Phrase key="this">Device {0} Properties</Phrase>
+    <Phrase key=""></Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="ConfigDirRequired">The device template file must be located inside {0}</Phrase>
+    <Phrase key="TemplateNotExists">The device template file does not exist.</Phrase>
+  </Dictionary>
 </DrvSmsParserDictionaries>

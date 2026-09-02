@@ -223,7 +223,8 @@ namespace Scada.Comm.Drivers.DrvSmsParser.Logic
         /// </summary>
         public override void OnCommLineStart()
         {
-            dataLifetime = TimeSpan.FromSeconds(LineContext.LineConfig.CustomOptions.GetValueAsInt("DataLifetime"));
+            dataLifetime = TimeSpan.FromSeconds(
+                LineContext.LineConfig.CustomOptions.GetValueAsInt(OptionName.DataLifetime));
             useDataLifetime = dataLifetime > TimeSpan.Zero;
         }
         

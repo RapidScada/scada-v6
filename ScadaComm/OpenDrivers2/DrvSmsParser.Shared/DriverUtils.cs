@@ -13,5 +13,10 @@ namespace Scada.Comm.Drivers.DrvSmsParser
         /// The driver code.
         /// </summary>
         public const string DriverCode = "DrvSmsParser";
+
+        /// <summary>
+        /// The default file name when creating templates.
+        /// </summary>
+        public const string DefaultTemplateFileName = DriverCode + "_NewTemplate.xml";
     }
 }

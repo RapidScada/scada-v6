@@ -57,9 +57,11 @@ namespace Scada.Comm.Drivers.DrvSmsParser.View
         public override void LoadDictionaries()
         {
             if (!Locale.LoadDictionaries(AppDirs.LangDir, DriverUtils.DriverCode, out string errMsg))
+            {
                 ScadaUiUtils.ShowError(errMsg);
+            }
 
-            //DriverPhrases.Init();
+            DriverPhrases.Init();
         }
 
         /// <summary>
