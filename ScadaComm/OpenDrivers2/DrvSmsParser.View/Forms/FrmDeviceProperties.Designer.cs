@@ -36,8 +36,8 @@
             btnBrowseTemplate = new Button();
             btnEditTemplate = new Button();
             btnNewTemplate = new Button();
-            textBox1 = new TextBox();
-            txtTemplateFileName = new Label();
+            txtTemplateFileName = new TextBox();
+            lblTemplateFileName = new Label();
             btnOK = new Button();
             btnCancel = new Button();
             toolTip = new ToolTip(components);
@@ -82,8 +82,8 @@
             gbDevice.Controls.Add(btnBrowseTemplate);
             gbDevice.Controls.Add(btnEditTemplate);
             gbDevice.Controls.Add(btnNewTemplate);
-            gbDevice.Controls.Add(textBox1);
             gbDevice.Controls.Add(txtTemplateFileName);
+            gbDevice.Controls.Add(lblTemplateFileName);
             gbDevice.Location = new Point(12, 91);
             gbDevice.Name = "gbDevice";
             gbDevice.Padding = new Padding(10, 3, 10, 10);
@@ -125,21 +125,21 @@
             btnNewTemplate.UseVisualStyleBackColor = true;
             btnNewTemplate.Click += btnNewTemplate_Click;
             // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(13, 37);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(297, 23);
-            textBox1.TabIndex = 1;
-            // 
             // txtTemplateFileName
             // 
-            txtTemplateFileName.AutoSize = true;
-            txtTemplateFileName.Location = new Point(13, 19);
+            txtTemplateFileName.Location = new Point(13, 37);
             txtTemplateFileName.Name = "txtTemplateFileName";
-            txtTemplateFileName.Size = new Size(92, 15);
-            txtTemplateFileName.TabIndex = 0;
-            txtTemplateFileName.Text = "Device template";
+            txtTemplateFileName.Size = new Size(297, 23);
+            txtTemplateFileName.TabIndex = 1;
+            // 
+            // lblTemplateFileName
+            // 
+            lblTemplateFileName.AutoSize = true;
+            lblTemplateFileName.Location = new Point(10, 19);
+            lblTemplateFileName.Name = "lblTemplateFileName";
+            lblTemplateFileName.Size = new Size(92, 15);
+            lblTemplateFileName.TabIndex = 0;
+            lblTemplateFileName.Text = "Device template";
             // 
             // btnOK
             // 
@@ -205,8 +205,8 @@
         private Button btnCancel;
         private NumericUpDown numDataLifetime;
         private Label lblDataLifetime;
-        private Label txtTemplateFileName;
-        private TextBox textBox1;
+        private Label lblTemplateFileName;
+        private TextBox txtTemplateFileName;
         private Button btnBrowseTemplate;
         private Button btnEditTemplate;
         private Button btnNewTemplate;
