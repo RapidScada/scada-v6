@@ -35,7 +35,7 @@
     <p>Let's look at the development of the web interface and interface for configuration a simple plugin, which will be named <em>PlgAbc</em>. To develop a complex plugin, learn and use the <a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaWeb/OpenPlugins" target="_blank">source code</a> of existing plugins on GitHub as examples.</p>
 
     <h2 id="web">Implementation of Web Interface</h2>
-    <p>Create a new project based on the <strong>Razor Class Library</strong> template. Enter the project name <code>PlgAbc</code>, select the .NET 8.0 framework and set the <strong>Support pages and views</strong> checkbox.</p>
+    <p>Create a new project based on the <strong>Razor Class Library</strong> template. Enter the project name <code>PlgAbc</code>, select the .NET 10.0 framework and set the <strong>Support pages and views</strong> checkbox.</p>
     <p>Add dependencies to the <code>ScadaCommon.dll</code>, <code>ScadaCommon.Log.dll</code> and <code>ScadaWebCommon.dll</code> libraries. Binary files of the libraries can be found in the Rapid SCADA installation directory, or compiled from source code.</p>
     <p>Double click a project node in <strong>Solution Explorer</strong> to open the project file <code>PlgAbc.csproj</code> and edit its properties as shown below.</p>
     <pre><code class="language-xml">&lt;PropertyGroup&gt;
@@ -116,7 +116,7 @@ namespace Scada.Web.Plugins.PlgAbc.Areas.Abc.Pages
     <p>An example of the web interface of the plugin is ready. Build the project and copy <code>PlgAbc.dll</code> to the root directory of the Webstation application.</p>
 
     <h2 id="view">Implementation of Configuration Interface</h2>
-    <p>Create a new project based on the <strong>Class Library</strong> template. Enter the project name <code>PlgAbc.View</code>, and select the .NET 8.0 framework.</p>
+    <p>Create a new project based on the <strong>Class Library</strong> template. Enter the project name <code>PlgAbc.View</code>, and select the .NET 10.0 framework.</p>
     <p>Add dependencies to the <code>ScadaCommon.dll</code> and <code>ScadaWebCommon.Subset.dll</code> libraries.</p>
     <p>Double click a project node in <strong>Solution Explorer</strong> to open the project file <code>PlgAbc.View.csproj</code> and edit its properties as shown below.</p>
     <pre><code class="language-xml">&lt;PropertyGroup&gt;

@@ -35,7 +35,7 @@
     <p>Let's look at the development of the logical part and user interface of a simple module, which will be named <em>ModAbc</em>. To develop a complex module, learn and use the <a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaServer/OpenModules" target="_blank">source code</a> of existing modules on GitHub as examples.</p>
 
     <h2 id="logic">Logic Implementation</h2>
-    <p>Create a new project based on the <strong>Class Library</strong> template. Enter the project name <code>ModAbc.Logic</code>, and select the .NET 8.0 framework.</p>
+    <p>Create a new project based on the <strong>Class Library</strong> template. Enter the project name <code>ModAbc.Logic</code>, and select the .NET 10.0 framework.</p>
     <p>Add dependencies to the <code>ScadaCommon.dll</code>, <code>ScadaCommon.Log.dll</code> and <code>ScadaServerCommon.dll</code> libraries. Binary files of the libraries can be found in the Rapid SCADA installation directory, or compiled from source code.</p>
     <p>Double click a project node in <strong>Solution Explorer</strong> to open the project file <code>ModAbc.Logic.csproj</code> and edit its properties as shown below.</p>
     <pre><code class="language-xml">&lt;PropertyGroup&gt;
@@ -116,7 +116,7 @@ namespace Scada.Server.Modules.ModAbc.Logic
     <p>Build the project and copy <code>ModAbc.Logic.dll</code> to the Server modules directory <code>ScadaServer\Mod</code></p>
 
     <h2 id="view">Interface Implementation</h2>
-    <p>Create a new project based on the <strong>Windows Forms Class Library</strong> template. Enter the project name <code>ModAbc.View</code>, and select the .NET 8.0 framework.</p>
+    <p>Create a new project based on the <strong>Windows Forms Class Library</strong> template. Enter the project name <code>ModAbc.View</code>, and select the .NET 10.0 framework.</p>
     <p>Add dependencies to the <code>ScadaCommon.dll</code>, <code>ScadaCommon.Forms.dll</code>, <code>ScadaCommon.Log.dll</code> and <code>ScadaServerCommon.dll</code> libraries.</p>
     <p>Double click a project node in <strong>Solution Explorer</strong> to open the project file <code>ModAbc.View.csproj</code> and edit its properties as shown below.</p>
     <pre><code class="language-xml">&lt;PropertyGroup&gt;

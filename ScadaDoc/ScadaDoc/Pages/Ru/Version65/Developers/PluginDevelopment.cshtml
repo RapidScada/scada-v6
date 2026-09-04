@@ -35,7 +35,7 @@
     <p>Рассмотрим разработку веб-интерфейса и интерфейса для настройки простого плагина, который будет иметь кодовое обозначение <em>PlgAbc</em>. Для разработки сложных плагинов изучите и используйте в качестве примеров <a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaWeb/OpenPlugins" target="_blank">исходный код</a> существующих плагинов на GitHub.</p>
 
     <h2 id="web">Реализация веб-интерфейса</h2>
-    <p>Создайте новый проект на основе шаблона <strong>Razor Class Library</strong>. Введите наименование проекта <code>PlgAbc</code>, выберите фреймворк .NET 8.0 и поставьте галочку <strong>Support pages and views</strong>.</p>
+    <p>Создайте новый проект на основе шаблона <strong>Razor Class Library</strong>. Введите наименование проекта <code>PlgAbc</code>, выберите фреймворк .NET 10.0 и поставьте галочку <strong>Support pages and views</strong>.</p>
     <p>Добавьте зависимости на библиотеки <code>ScadaCommon.dll</code>, <code>ScadaCommon.Log.dll</code> и <code>ScadaWebCommon.dll</code>. Актуальные бинарные файлы этих библиотек можно найти в директории установки Rapid SCADA, либо собрать самостоятельно из исходного кода.</p>
     <p>По двойному щелчку в <strong>Solution Explorer</strong> откройте файл проекта <code>PlgAbc.csproj</code> и отредактируйте его свойства, как показано ниже.</p>
     <pre><code class="language-xml">&lt;PropertyGroup&gt;
@@ -116,7 +116,7 @@ namespace Scada.Web.Plugins.PlgAbc.Areas.Abc.Pages
     <p>Пример веб-интерфейса плагина готов. Выполните сборку проекта и скопируйте <code>PlgAbc.dll</code> в корневую директорию приложения Вебстанция.</p>
 
     <h2 id="view">Реализация интерфейса для настройки</h2>
-    <p>Создайте новый проект на основе шаблона <strong>Class Library</strong>. Введите наименование проекта <code>PlgAbc.View</code>, выберите фреймворк .NET 8.0.</p>
+    <p>Создайте новый проект на основе шаблона <strong>Class Library</strong>. Введите наименование проекта <code>PlgAbc.View</code>, выберите фреймворк .NET 10.0.</p>
     <p>Добавьте зависимости на библиотеки <code>ScadaCommon.dll</code> и <code>ScadaWebCommon.Subset.dll</code>.</p>
     <p>По двойному щелчку в <strong>Solution Explorer</strong> откройте файл проекта <code>PlgAbc.View.csproj</code> и отредактируйте его свойства, как показано ниже.</p>
     <pre><code class="language-xml">&lt;PropertyGroup&gt;

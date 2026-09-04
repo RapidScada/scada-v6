@@ -36,7 +36,7 @@
     <p>Next, let's look at the development of the logical part and user interface of a simple driver, which will be named <em>DrvAbc</em>. To develop a complex driver that implements an industrial protocol, learn and use the source code of existing drivers on GitHub as examples (<a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaComm/OpenDrivers" target="_blank">link 1</a>, <a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaComm/OpenDrivers2" target="_blank">link 2</a>).</p>
 
     <h2 id="logic">Logic Implementation</h2>
-    <p>Create a new project based on the <strong>Class Library</strong> template. Enter the project name <code>DrvAbc.Logic</code>, and select the .NET 8.0 framework.</p>
+    <p>Create a new project based on the <strong>Class Library</strong> template. Enter the project name <code>DrvAbc.Logic</code>, and select the .NET 10.0 framework.</p>
     <p>Add dependencies to the <code>ScadaCommon.dll</code>, <code>ScadaCommon.Log.dll</code> and <code>ScadaCommCommon.dll</code> libraries. Binary files of the libraries can be found in the Rapid SCADA installation directory, or compiled from source code.</p>
     <p>Double click a project node in <strong>Solution Explorer</strong> to open the project file <code>DrvAbc.Logic.csproj</code> and edit its properties as shown below.</p>
     <pre><code class="language-xml">&lt;PropertyGroup&gt;
@@ -104,7 +104,7 @@ namespace Scada.Comm.Drivers.DrvAbc.Logic
     <p>An example of the logical part of the driver is ready. Build the project and copy <code>DrvAbc.Logic.dll</code> to the Communicator drivers directory <code>ScadaComm\Drv</code></p>
 
     <h2 id="view">Interface Implementation</h2>
-    <p>Create a new project based on the <strong>Windows Forms Class Library</strong> template. Enter the project name <code>DrvAbc.View</code>, and select the .NET 8.0 framework.</p>
+    <p>Create a new project based on the <strong>Windows Forms Class Library</strong> template. Enter the project name <code>DrvAbc.View</code>, and select the .NET 10.0 framework.</p>
     <p>Add dependencies to the <code>ScadaCommon.dll</code>, <code>ScadaCommon.Forms.dll</code>, <code>ScadaCommon.Log.dll</code> and <code>ScadaCommCommon.dll</code> libraries.</p>
     <p>Double click a project node in <strong>Solution Explorer</strong> to open the project file <code>DrvAbc.View.csproj</code> and edit its properties as shown below.</p>
     <pre><code class="language-xml">&lt;PropertyGroup&gt;

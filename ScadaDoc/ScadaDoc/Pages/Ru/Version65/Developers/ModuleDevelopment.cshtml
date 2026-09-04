@@ -35,7 +35,7 @@
     <p>Рассмотрим разработку логической части и пользовательского интерфейса простого модуля, который будет иметь кодовое обозначение <em>ModAbc</em>. Для разработки сложных модулей изучите и используйте в качестве примеров <a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaServer/OpenModules" target="_blank">исходный код</a> существующих модулей на GitHub.</p>
 
     <h2 id="logic">Реализация логики</h2>
-    <p>Создайте новый проект на основе шаблона <strong>Class Library</strong>. Введите наименование проекта <code>ModAbc.Logic</code>, выберите фреймворк .NET 8.0.</p>
+    <p>Создайте новый проект на основе шаблона <strong>Class Library</strong>. Введите наименование проекта <code>ModAbc.Logic</code>, выберите фреймворк .NET 10.0.</p>
     <p>Добавьте зависимости на библиотеки <code>ScadaCommon.dll</code>, <code>ScadaCommon.Log.dll</code> и <code>ScadaServerCommon.dll</code>. Актуальные бинарные файлы этих библиотек можно найти в директории установки Rapid SCADA, либо собрать самостоятельно из исходного кода.</p>
     <p>По двойному щелчку в <strong>Solution Explorer</strong> откройте файл проекта <code>ModAbc.Logic.csproj</code> и отредактируйте его свойства, как показано ниже.</p>
     <pre><code class="language-xml">&lt;PropertyGroup&gt;
@@ -116,7 +116,7 @@ namespace Scada.Server.Modules.ModAbc.Logic
     <p>Выполните сборку проекта и скопируйте <code>ModAbc.Logic.dll</code> в директорию модулей Сервера <code>ScadaServer\Mod</code></p>
 
     <h2 id="view">Реализация интерфейса</h2>
-    <p>Создайте новый проект на основе шаблона <strong>Windows Forms Class Library</strong>. Введите наименование проекта <code>ModAbc.View</code>, выберите фреймворк .NET 8.0.</p>
+    <p>Создайте новый проект на основе шаблона <strong>Windows Forms Class Library</strong>. Введите наименование проекта <code>ModAbc.View</code>, выберите фреймворк .NET 10.0.</p>
     <p>Добавьте зависимости на библиотеки <code>ScadaCommon.dll</code>, <code>ScadaCommon.Forms.dll</code>, <code>ScadaCommon.Log.dll</code> и <code>ScadaServerCommon.dll</code>.</p>
     <p>По двойному щелчку в <strong>Solution Explorer</strong> откройте файл проекта <code>ModAbc.View.csproj</code> и отредактируйте его свойства, как показано ниже.</p>
     <pre><code class="language-xml">&lt;PropertyGroup&gt;
