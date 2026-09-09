@@ -1,0 +1,30 @@
+{
+  "name": "Rapid SCADA",
+  "short_name": "SCADA",
+  "description": "Rapid SCADA | Free, Open Source, Full Featured SCADA",
+  "lang": "en",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f8f9fa",
+  "theme_color": "#23282d",
+  "icons": [
+    {
+      "src": "images/icon_x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    },
+    {
+      "src": "images/icon_x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "images/icon_x144.png",
+      "type": "image/png",
+      "sizes": "144x144",
+      "purpose": "any"
+    }
+  ]
+}
