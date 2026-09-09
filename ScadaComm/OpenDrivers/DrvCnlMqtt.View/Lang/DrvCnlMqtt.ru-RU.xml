@@ -6,6 +6,11 @@
     <Phrase key="lblPort">TCP-порт</Phrase>
     <Phrase key="lblTimeout">Таймаут, мс</Phrase>
     <Phrase key="lblUseTls">Использовать TLS</Phrase>
+    <Phrase key="lblCaCertFile">Файл сертификата CA</Phrase>
+    <Phrase key="lblClientCertFile">Файл сертификата клиента</Phrase>
+    <Phrase key="lblClientCertPassword">Пароль сертификата клиента</Phrase>
+    <Phrase key="chkAllowUntrustedCertificates">Разрешить недоверенные сертификаты</Phrase>
+    <Phrase key="chkIgnoreCertificateRevocationErrors">Игнорировать ошибки отзыва сертификата</Phrase>
     <Phrase key="lblClientID">Идентификатор клиента</Phrase>
     <Phrase key="lblUsername">Имя пользователя</Phrase>
     <Phrase key="lblPassword">Пароль</Phrase>
