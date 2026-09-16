@@ -14,35 +14,6 @@ namespace Scada.Comm.Drivers.DrvSmsParser
     internal static class CnlPrototypeFactory
     {
         /// <summary>
-        /// Creates a channel prototype from the full tag name.
-        /// </summary>
-        private static CnlPrototype ParseTag(string fullTagName)
-        {
-            CnlPrototype proto = new()
-            {
-                CnlTypeID = CnlTypeID.Input
-            };
-
-            if (!string.IsNullOrEmpty(fullTagName))
-            {
-                int idx1 = fullTagName.IndexOf('[');
-                int idx2 = fullTagName.IndexOf(']');
-
-                if (idx1 >= 0 && idx1 < idx2)
-                {
-                    proto.TagCode = fullTagName[(idx1 + 1)..idx2].Trim();
-                    proto.Name = fullTagName[(idx2 + 1)..].Trim();
-                }
-                else
-                {
-                    proto.TagCode = proto.Name = fullTagName.Trim();
-                }
-            }
-
-            return proto;
-        }
-
-        /// <summary>
         /// Gets a general channel prototype group.
         /// </summary>
         public static CnlPrototypeGroup GetGeneralGroup()
@@ -71,7 +42,13 @@ namespace Scada.Comm.Drivers.DrvSmsParser
             {
                 foreach (string tag in deviceTemplate.Tags)
                 {
-                    group.CnlPrototypes.Add(ParseTag(tag));
+                    TagParser.Parse(tag, out string code, out string name);
+                    group.CnlPrototypes.Add(new CnlPrototype
+                    {
+                        CnlTypeID = CnlTypeID.Input,
+                        TagCode = code,
+                        Name = name
+                    });
                 }
             }
 
