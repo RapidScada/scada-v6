@@ -26,6 +26,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         private class OpcUaLineData
         {
             public bool FatalError { get; init; }
+            public OpcLineConfig LineConfig { get; init; }
             public OpcClientHelper ClientHelper { get; init; }
             public override string ToString() => CommPhrases.SharedObject;
         }
@@ -38,7 +39,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             public Type ActualDataType { get; set; }
         }
 
-        private readonly OpcLineConfig lineConfig;           // the communication line configuration
         private readonly OpcDeviceConfig deviceConfig;       // the device configuration
         private readonly object opcLock;                     // synchronizes communication with OPC server
 
@@ -55,7 +55,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         public DevOpcUaLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig)
             : base(commContext, lineContext, deviceConfig)
         {
-            lineConfig = new OpcLineConfig();
             this.deviceConfig = new OpcDeviceConfig();
             opcLock = new object();
 
@@ -82,6 +81,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             else
             {
                 bool lineConfigError = false;
+                OpcLineConfig lineConfig = new();
 
                 if (!lineConfig.Load(Storage, OpcLineConfig.GetFileName(LineContext.CommLineNum), out string errMsg))
                 {
@@ -95,6 +95,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 lineData = new OpcUaLineData
                 {
                     FatalError = lineConfigError,
+                    LineConfig = lineConfig,
                     ClientHelper = new OpcClientHelper(lineConfig.ConnectionOptions, Log, Storage)
                 };
 
@@ -159,8 +160,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 string GetSubscriptionName() => string.Format(Locale.IsRussian ? "Подписка {0}" : "Subscription {0}",
                     deviceConfig.Subscriptions.Count + 1);
 
-                string nodeIdFormat = lineConfig.SubscriptionOptions.NodeIdFormat;
-                int maxItemCount = lineConfig.SubscriptionOptions.MaxItemCount;
+                string nodeIdFormat = lineData.LineConfig.SubscriptionOptions.NodeIdFormat;
+                int maxItemCount = lineData.LineConfig.SubscriptionOptions.MaxItemCount;
                 SubscriptionConfig subscriptionConfig = new() { DisplayName = GetSubscriptionName() };
 
                 foreach (Cnl cnl in CommContext.ConfigDatabase.CnlTable
@@ -582,7 +583,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             {
                 InitCommandMaps();
 
-                if (lineConfig.SubscriptionOptions.CreationMode == SubscriptionCreationMode.ChannelBased)
+                if (lineData.LineConfig.SubscriptionOptions.CreationMode == SubscriptionCreationMode.ChannelBased)
                     InitSubscriptionConfig();
 
                 lineData.ClientHelper.AddSubscriptions(this, deviceConfig);
