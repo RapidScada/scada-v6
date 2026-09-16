@@ -42,8 +42,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         private readonly OpcDeviceConfig deviceConfig;       // the device configuration
         private readonly object opcLock;                     // synchronizes communication with OPC server
 
-        private bool deviceConfigError;                      // indicates that that device configuration is not loaded
         private OpcUaLineData lineData;                      // data common to the communication line
+        private bool deviceConfigError;                      // indicates that that device configuration is not loaded
         private Dictionary<string, DeviceTag> tagByNodeID;   // the device tags accessed by node ID
         private Dictionary<int, CommandConfig> cmdByNum;     // the commands accessed by number
         private Dictionary<string, CommandConfig> cmdByCode; // the commands accessed by code
@@ -58,8 +58,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             this.deviceConfig = new OpcDeviceConfig();
             opcLock = new object();
 
-            deviceConfigError = false;
             lineData = null;
+            deviceConfigError = false;
             tagByNodeID = null;
             cmdByNum = null;
             cmdByCode = null;

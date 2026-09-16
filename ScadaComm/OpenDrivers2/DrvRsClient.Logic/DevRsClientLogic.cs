@@ -48,8 +48,8 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
         private readonly RsClientDeviceConfig deviceConfig; // the device configuration
         private readonly List<ItemGroup> itemGroups;        // the active item groups
 
-        private bool deviceConfigError;    // loading the device configuration failed
         private RsClientLineData lineData; // data common to the communication line
+        private bool deviceConfigError;    // loading the device configuration failed
 
 
         /// <summary>
@@ -61,8 +61,8 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
             this.deviceConfig = new RsClientDeviceConfig();
             itemGroups = [];
 
-            deviceConfigError = false;
             lineData = null;
+            deviceConfigError = false;
 
             CanSendCommands = true;
             ConnectionRequired = false;
