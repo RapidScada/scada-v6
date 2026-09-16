@@ -26,6 +26,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
         private class RsClientLineData
         {
             public bool FatalError { get; init; }
+            public RsClientLineConfig LineConfig { get; init; }
             public ScadaClient ScadaClient { get; init; }
             public override string ToString() => CommPhrases.SharedObject;
         }
@@ -44,7 +45,6 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
             public int Count => TagGroup.DeviceTags.Count;
         }
 
-        private readonly RsClientLineConfig lineConfig;     // the communication line configuration
         private readonly RsClientDeviceConfig deviceConfig; // the device configuration
         private readonly List<ItemGroup> itemGroups;        // the active item groups
 
@@ -58,7 +58,6 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
         public DevRsClientLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig)
             : base(commContext, lineContext, deviceConfig)
         {
-            lineConfig = new RsClientLineConfig();
             this.deviceConfig = new RsClientDeviceConfig();
             itemGroups = [];
 
@@ -82,6 +81,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
             else
             {
                 bool lineConfigError = false;
+                RsClientLineConfig lineConfig = new();
 
                 if (!lineConfig.Load(Storage, LineContext.CommLineNum, out string errMsg))
                 {
@@ -95,6 +95,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
                 lineData = new RsClientLineData
                 {
                     FatalError = lineConfigError,
+                    LineConfig = lineConfig,
                     ScadaClient = new ScadaClient(lineConfig.UseDefaultConnection 
                         ? CommContext.AppConfig.ConnectionOptions 
                         : lineConfig.ConnectionOptions)
@@ -221,7 +222,7 @@ namespace Scada.Comm.Drivers.DrvRsClient.Logic
         /// </summary>
         public override void InitDeviceTags()
         {
-            BaseTable<Cnl> cnlTable = lineConfig.UseDefaultConnection 
+            BaseTable<Cnl> cnlTable = lineData.LineConfig.UseDefaultConnection 
                 ? CommContext.ConfigDatabase?.CnlTable 
                 : null;
 
