@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Scada.Utils
@@ -33,7 +34,7 @@ namespace Scada.Utils
     /// Represents a parameterized string.
     /// <para>Представляет параметризованную строку.</para>
     /// </summary>
-    public class ParametrizedString
+    public class ParameterizedString
     {
         /// <summary>
         /// Represents a string parameter.
@@ -62,7 +63,7 @@ namespace Scada.Utils
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ParametrizedString(string source, string beginSymbol, string endSymbol)
+        public ParameterizedString(string source, string beginSymbol, string endSymbol)
         {
             stringParameters = new Dictionary<string, StringParameter>();
             stringParts = new List<StringPart>();
@@ -121,6 +122,14 @@ namespace Scada.Utils
                     idx = endIdx + endSymbol.Length;
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets the names of the parameters contained in the parameterized string.
+        /// </summary>
+        public IEnumerable<string> GetParameterNames()
+        {
+            return stringParameters.Select(p => p.Key);
         }
 
         /// <summary>
