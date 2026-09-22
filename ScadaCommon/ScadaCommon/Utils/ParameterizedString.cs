@@ -103,8 +103,9 @@ namespace Scada.Utils
                         stringParts.Add(new StringPart { Value = source.Substring(idx) });
                         break;
                     }
-                    else if (paramNameIdx < endIdx)
+                    else
                     {
+                        stringParts.Add(new StringPart { Value = source.Substring(idx, beginIdx - idx) });
                         string paramName = source.Substring(paramNameIdx, endIdx - paramNameIdx).Trim();
 
                         if (!string.IsNullOrEmpty(paramName))
