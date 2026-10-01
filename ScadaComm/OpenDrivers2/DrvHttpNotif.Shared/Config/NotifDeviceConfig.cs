@@ -2,8 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Comm.Devices;
-using System.Collections.Generic;
-using System.IO;
 using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvHttpNotif.Config
@@ -15,13 +13,13 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Config
     internal class NotifDeviceConfig : DeviceConfigBase
     {
         /// <summary>
-        /// The default character that marks the beginning of a parameter.
+        /// The default symbol that marks the beginning of a parameter.
         /// </summary>
-        private const char DefaultParamBegin = '{';
+        private const string DefaultParamBegin = "@{";
         /// <summary>
-        /// The default character that marks the end of a parameter.
+        /// The default symbol that marks the end of a parameter.
         /// </summary>
-        private const char DefaultParamEnd = '}';
+        private const string DefaultParamEnd = "}";
         /// <summary>
         /// The default address separator.
         /// </summary>
@@ -67,12 +65,12 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Config
         /// <summary>
         /// Gets or sets the character that marks the beginning of a parameter.
         /// </summary>
-        public char ParamBegin { get; set; }
+        public string ParamBegin { get; set; }
 
         /// <summary>
         /// Gets or sets the character that marks the end of a parameter.
         /// </summary>
-        public char ParamEnd { get; set; }
+        public string ParamEnd { get; set; }
 
         /// <summary>
         /// Gets or sets the string that separates multiple phone numbers and email addresses.
@@ -87,7 +85,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Config
         {
             Uri = "";
             Method = RequestMethod.Get;
-            Headers = new List<Header>();
+            Headers = [];
             Content = "";
             ContentType = "";
             ContentEscaping = EscapingMethod.None;
@@ -102,7 +100,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Config
         /// </summary>
         protected override void Load(TextReader reader)
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            XmlDocument xmlDoc = new();
             xmlDoc.Load(reader);
             XmlElement rootElem = xmlDoc.DocumentElement;
 
@@ -125,8 +123,8 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Config
             ContentType = rootElem.GetChildAsString("ContentType");
             ContentEscaping = rootElem.GetChildAsEnum("ContentEscaping", EscapingMethod.None);
             ParamEnabled = rootElem.GetChildAsBool("ParamEnabled", true);
-            SetParamBegin(rootElem.GetChildAsString("ParamBegin"));
-            SetParamEnd(rootElem.GetChildAsString("ParamEnd"));
+            ParamBegin = rootElem.GetChildAsString("ParamBegin", ParamBegin);
+            ParamEnd = rootElem.GetChildAsString("ParamEnd", ParamEnd);
             AddrSep = rootElem.GetChildAsString("AddrSep", AddrSep);
         }
 
@@ -135,7 +133,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Config
         /// </summary>
         protected override void Save(TextWriter writer)
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            XmlDocument xmlDoc = new();
             XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
             xmlDoc.AppendChild(xmlDecl);
 
@@ -162,22 +160,6 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Config
             rootElem.AppendElem("AddrSep", AddrSep);
 
             xmlDoc.Save(writer);
-        }
-
-        /// <summary>
-        /// Sets the character that marks the beginning of a parameter.
-        /// </summary>
-        public void SetParamBegin(string s)
-        {
-            ParamBegin = string.IsNullOrEmpty(s) ? DefaultParamBegin : s[0];
-        }
-
-        /// <summary>
-        /// Sets the character that marks the end of a parameter.
-        /// </summary>
-        public void SetParamEnd(string s)
-        {
-            ParamEnd = string.IsNullOrEmpty(s) ? DefaultParamEnd : s[0];
         }
 
         /// <summary>

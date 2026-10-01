@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <NotifDeviceConfig>
-  <Uri>http://rapidscada.net/minicrm/api/v1/StoreSvc.svc/GetModules?locale=en-GB</Uri>
+  <Uri>https://rapidscada.net/store/api/modules/search</Uri>
   <Method>Get</Method>
   <Headers>
     <Header name="Accept" value="application/json" />
@@ -9,7 +9,7 @@
   <ContentType />
   <ContentEscaping>None</ContentEscaping>
   <ParamEnabled>true</ParamEnabled>
-  <ParamBegin>{</ParamBegin>
+  <ParamBegin>@{</ParamBegin>
   <ParamEnd>}</ParamEnd>
   <AddrSep>;</AddrSep>
 </NotifDeviceConfig>

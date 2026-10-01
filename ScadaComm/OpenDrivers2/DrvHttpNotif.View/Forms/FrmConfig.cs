@@ -92,8 +92,8 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.View.Forms
             config.Method = (RequestMethod)cbMethod.SelectedIndex;
             config.Uri = txtUri.Text;
             config.ParamEnabled = chkParamEnabled.Checked;
-            config.SetParamBegin(txtParamBegin.Text);
-            config.SetParamEnd(txtParamEnd.Text);
+            config.ParamBegin = txtParamBegin.Text;
+            config.ParamEnd = txtParamEnd.Text;
             config.AddrSep = txtAddrSep.Text;
             config.ContentType = cbContentType.Text;
             config.ContentEscaping = (EscapingMethod)cbContentEscaping.SelectedIndex;
