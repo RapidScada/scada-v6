@@ -96,14 +96,11 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Config
         }
 
         /// <summary>
-        /// Loads the configuration from the specified reader.
+        /// Loads the configuration from the XML document.
         /// </summary>
-        protected override void Load(TextReader reader)
+        protected override void LoadFromXml(XmlDocument xmlDoc)
         {
-            XmlDocument xmlDoc = new();
-            xmlDoc.Load(reader);
             XmlElement rootElem = xmlDoc.DocumentElement;
-
             Uri = rootElem.GetChildAsString("Uri");
             Method = rootElem.GetChildAsEnum("Method", RequestMethod.Get);
 
@@ -129,14 +126,10 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Config
         }
 
         /// <summary>
-        /// Saves the configuration to the specified writer.
+        /// Saves the configuration into the XML document.
         /// </summary>
-        protected override void Save(TextWriter writer)
+        protected override void SaveToXml(XmlDocument xmlDoc)
         {
-            XmlDocument xmlDoc = new();
-            XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
-            xmlDoc.AppendChild(xmlDecl);
-
             XmlElement rootElem = xmlDoc.CreateElement("NotifDeviceConfig");
             xmlDoc.AppendChild(rootElem);
 
@@ -158,8 +151,6 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Config
             rootElem.AppendElem("ParamBegin", ParamBegin);
             rootElem.AppendElem("ParamEnd", ParamEnd);
             rootElem.AppendElem("AddrSep", AddrSep);
-
-            xmlDoc.Save(writer);
         }
 
         /// <summary>
