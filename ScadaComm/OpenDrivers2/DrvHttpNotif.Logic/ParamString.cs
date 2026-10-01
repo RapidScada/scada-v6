@@ -21,6 +21,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
         {
         }
 
+
         /// <summary>
         /// Sets the parameter value escaped by the specified method.
         /// </summary>
