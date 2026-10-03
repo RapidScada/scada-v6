@@ -62,6 +62,11 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.View.Forms
             txtPassword.Text = options.Password;
             int versionIndex = Array.IndexOf(ProtocolVersionByIndex, options.ProtocolVersion);
             cbProtocolVersion.SelectedIndex = versionIndex >= 0 ? versionIndex : 0;
+            txtCaCertFile.Text = options.CaCertFile;
+            txtClientCertFile.Text = options.ClientCertFile;
+            txtClientCertPassword.Text = options.ClientCertPassword;
+            chkAllowUntrustedCertificates.Checked = options.AllowUntrustedCertificates;
+            chkIgnoreCertificateRevocationErrors.Checked = options.IgnoreCertificateRevocationErrors;
         }
 
         /// <summary>
@@ -77,6 +82,11 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.View.Forms
             options.Username = txtUsername.Text;
             options.Password = txtPassword.Text;
             options.ProtocolVersion = ProtocolVersionByIndex[cbProtocolVersion.SelectedIndex];
+            options.CaCertFile = txtCaCertFile.Text;
+            options.ClientCertFile = txtClientCertFile.Text;
+            options.ClientCertPassword = txtClientCertPassword.Text;
+            options.AllowUntrustedCertificates = chkAllowUntrustedCertificates.Checked;
+            options.IgnoreCertificateRevocationErrors = chkIgnoreCertificateRevocationErrors.Checked;
 
             options.AddToOptionList(channelConfig.CustomOptions);
         }
@@ -90,6 +100,12 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.View.Forms
 
             if (string.IsNullOrWhiteSpace(txtServer.Text))
                 sbError.AppendError(lblServer, CommonPhrases.NonemptyRequired);
+
+            if (!string.IsNullOrEmpty(txtCaCertFile.Text) && !File.Exists(txtCaCertFile.Text))
+                sbError.AppendError(lblCaCertFile, CommonPhrases.FileNotFound);
+
+            if (!string.IsNullOrEmpty(txtClientCertFile.Text) && !File.Exists(txtClientCertFile.Text))
+                sbError.AppendError(lblClientCertFile, CommonPhrases.FileNotFound);
 
             if (sbError.Length > 0)
             {
@@ -116,6 +132,22 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.View.Forms
                 ControlsToOptions();
                 DialogResult = DialogResult.OK;
             }
+        }
+
+        private void btnCaCertFileBrowse_Click(object sender, EventArgs e)
+        {
+            openCertFileDialog.FileName = txtCaCertFile.Text;
+
+            if (openCertFileDialog.ShowDialog() == DialogResult.OK)
+                txtCaCertFile.Text = openCertFileDialog.FileName;
+        }
+
+        private void btnClientCertFileBrowse_Click(object sender, EventArgs e)
+        {
+            openCertFileDialog.FileName = txtClientCertFile.Text;
+
+            if (openCertFileDialog.ShowDialog() == DialogResult.OK)
+                txtClientCertFile.Text = openCertFileDialog.FileName;
         }
     }
 }

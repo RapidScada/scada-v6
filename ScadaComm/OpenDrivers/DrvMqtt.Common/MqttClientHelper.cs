@@ -101,9 +101,10 @@ namespace Scada.Comm.Drivers.DrvMqtt
             }
             catch (Exception ex)
             {
+                Exception realEx = ex is AggregateException aggEx ? aggEx.Flatten().InnerException : ex;
                 log.WriteError(Locale.IsRussian ?
                     "Ошибка при установке соединения: {0}" :
-                    "Error connecting: {0}", ex.Message);
+                    "Error connecting: {0}", realEx?.ToString() ?? ex.ToString());
                 return false;
             }
         }
