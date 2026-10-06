@@ -122,11 +122,10 @@ function bindEvents() {
             }
         })
         .on("mousedown", ".comp", function (event) {
-            let thisElem = $(this);
+            let compElem = closestCompElem($(this));
 
             if (!longAction) {
                 // select or deselect component, start dragging
-                let compElem = closestCompElem(thisElem);
                 let component = getComponentByDom(compElem);
 
                 if (component) {
@@ -151,10 +150,10 @@ function bindEvents() {
                 event.stopPropagation();
             } else if (LongActionType.isPointing(longAction.actionType)) {
                 // add or paste component to container, arrange components
-                let componentID = thisElem.data("id");
+                let componentID = compElem.data("id");
 
-                if (thisElem.hasClass("container")) {
-                    finishPointing(componentID, getMimicPoint(event, thisElem, true));
+                if (compElem.hasClass("container")) {
+                    finishPointing(componentID, getMimicPoint(event, compElem, true));
                     clearLongAction();
                     event.stopPropagation();
                 } else if (longAction.actionType === LongActionType.ARRANGE) {
