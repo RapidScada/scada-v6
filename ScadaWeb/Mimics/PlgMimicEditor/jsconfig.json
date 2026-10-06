@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+  },
+  "include": [
+    "wwwroot/plugins/MimicEditor/js/**/*.js"
+  ],
+  "exclude": [
+    "wwwroot/plugins/MimicEditor/js/editor-bundle*.js"
+  ]
+}
