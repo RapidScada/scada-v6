@@ -189,6 +189,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
 
                 tvDevice.Nodes.Add(connectionNode);
                 tvDevice.Nodes.Add(queriesNode);
+                tvDevice.Nodes.Add(commandsNode);
 
                 foreach (QueryConfig queryConfig in deviceConfig.Queries)
                 {
@@ -196,9 +197,6 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
                         string.IsNullOrEmpty(queryConfig.Name) ? DriverPhrases.UnnamedQuery : queryConfig.Name,
                         ChooseNodeImage(queryConfig), queryConfig));
                 }
-
-                tvDevice.Nodes.Add(commandsNode);
-                commandsNode.Expand();
 
                 foreach (CommandConfig commandConfig in deviceConfig.Commands)
                 {
