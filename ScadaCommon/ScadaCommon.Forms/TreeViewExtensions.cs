@@ -55,7 +55,8 @@ namespace Scada.Forms
         /// </summary>
         public static TreeNode AddNode(this TreeNodeCollection nodes, object tag, string imageKey)
         {
-            return AddNode(nodes, tag?.ToString(), imageKey, tag);
+            ArgumentNullException.ThrowIfNull(tag);
+            return AddNode(nodes, tag.ToString(), imageKey, tag);
         }
 
         /// <summary>
