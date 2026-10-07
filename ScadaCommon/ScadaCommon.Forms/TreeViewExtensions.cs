@@ -40,6 +40,25 @@ namespace Scada.Forms
         }
 
         /// <summary>
+        /// Creates a tree node with the specified text, image, and tag, and adds it to the collection.
+        /// </summary>
+        public static TreeNode AddNode(this TreeNodeCollection nodes, string text, string imageKey, object tag = null)
+        {
+            ArgumentNullException.ThrowIfNull(nodes);
+            TreeNode node = nodes.Add(null, text, imageKey, imageKey);
+            node.Tag = tag;
+            return node;
+        }
+
+        /// <summary>
+        /// Creates a tree node based on the specified tag, and adds it to the collection.
+        /// </summary>
+        public static TreeNode AddNode(this TreeNodeCollection nodes, object tag, string imageKey)
+        {
+            return AddNode(nodes, tag?.ToString(), imageKey, tag);
+        }
+
+        /// <summary>
         /// Sets the tree node image key for the selected and unselected state.
         /// </summary>
         public static void SetImageKey(this TreeNode treeNode, string imageKey)
