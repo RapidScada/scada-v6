@@ -135,7 +135,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
         }
 
         /// <summary>
-        /// Hides the controls that display.
+        /// Hides the controls that display properties of the selected tree node.
         /// </summary>
         private void HideControls()
         {
