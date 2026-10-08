@@ -227,6 +227,7 @@
             // 
             // lblHint
             // 
+            lblHint.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             lblHint.Font = new Font("Segoe UI", 11.25F);
             lblHint.ForeColor = SystemColors.GrayText;
             lblHint.Location = new Point(0, 0);
