@@ -21,6 +21,7 @@
         <li><a href="#drv-ds-scada-server">Источник данных Сервер</a></li>
         <li><a href="#drv-email">Email</a></li>
         <li><a href="#drv-enron-modbus">Enron Modbus</a></li>
+        <li><a href="#drv-http-api">HTTP API</a></li>
         <li><a href="#drv-http-notif">HTTP уведомления</a></li>
         <li><a href="#drv-ivtm7m">ИВТМ-7М</a></li>
         <li><a href="#drv-max-messenger">Max</a></li>
@@ -34,6 +35,7 @@
         <li><a href="#drv-rs-client">RS-клиент</a></li>
         <li><a href="#drv-simulator">Симулятор устройства</a></li>
         <li><a href="#drv-sms">SMS</a></li>
+        <li><a href="#drv-sms-parser">Парсер SMS</a></li>
         <li><a href="#drv-snmp">SNMP</a></li>
         <li><a href="#drv-telegram">Telegram</a></li>
         <li><a href="#drv-tester">Тестер каналов связи</a></li>
@@ -316,8 +318,21 @@
         <li>Портирование драйвера на новую версию</li>
     </ul>
 
+    @**** DrvHttpApi ****@
+    <h2 id="drv-http-api">HTTP API</h2>
+    <div>DrvHttpApi 6.0.0.0 (29.10.2026)</div>
+    <ul>
+        <li>Первоначальная разработка драйвера</li>
+    </ul>
+
     @**** DrvHttpNotif ****@
     <h2 id="drv-http-notif">HTTP уведомления</h2>
+    <div>DrvHttpNotif 6.0.1.0 (29.10.2026)</div>
+    <ul>
+        <li>Переход на .NET 10.0</li>
+        <li>Рефакторинг кода</li>
+    </ul>
+
     <div>DrvHttpNotif 6.0.0.0 (03.12.2022)</div>
     <ul>
         <li>Портирование драйвера на новую версию</li>
@@ -325,6 +340,11 @@
 
     @**** DrvIvtm7M ****@
     <h2 id="drv-ivtm7m">ИВТМ-7М</h2>
+    <div>DrvIvtm7M 6.1.0.2 (29.10.2026)</div>
+    <ul>
+        <li>Исправлена ошибка чтения архивов для прошивки версии 4.x</li>
+    </ul>
+
     <div>DrvIvtm7M 6.1.0.1 (23.06.2026)</div>
     <ul>
         <li>Исправлена ошибка чтения архивов для прошивки версии 1.x</li>
@@ -396,6 +416,11 @@
 
     @**** DrvModbusSlave ****@
     <h2 id="drv-modbus-slave">Modbus Slave</h2>
+    <div>DrvModbusSlave 6.1.1.0 (06.10.2026)</div>
+    <ul>
+        <li>Рефакторинг классов конфигурации</li>
+    </ul>
+
     <div>DrvModbusSlave 6.1.0.2 (10.02.2025)</div>
     <ul>
         <li>Исправлена ошибка при работе в режиме шлюза</li>
@@ -519,6 +544,11 @@
 
     @**** DrvOpcUa ****@
     <h2 id="drv-opc-ua">OPC UA</h2>
+    <div>DrvOpcUa 6.1.2.1 (29.10.2026)</div>
+    <ul>
+        <li>Исправлена ошибка при использовании параметров линии связи</li>
+    </ul>
+
     <div>DrvOpcUa 6.1.2.0 (27.02.2026)</div>
     <ul>
         <li>Чтение истории</li>
@@ -559,6 +589,11 @@
 
     @**** DrvRsClient ****@
     <h2 id="drv-rs-client">RS-клиент</h2>
+    <div>DrvRsClient 6.0.1.1 (29.10.2026)</div>
+    <ul>
+        <li>Исправлена ошибка при использовании параметров линии связи</li>
+    </ul>
+
     <div>DrvRsClient 6.0.1.0 (07.09.2026)</div>
     <ul>
         <li>Рефакторинг кода</li>
@@ -587,6 +622,13 @@
     <div>DrvSms 6.0.0.0 (20.02.2023)</div>
     <ul>
         <li>Портирование драйвера на новую версию</li>
+    </ul>
+
+    @**** DrvSmsParser ****@
+    <h2 id="drv-sms-parser">Парсер SMS</h2>
+    <div>DrvSmsParser 6.0.0.0 (29.10.2026)</div>
+    <ul>
+        <li>Первоначальная разработка драйвера</li>
     </ul>
 
     @**** DrvSnmp ****@
