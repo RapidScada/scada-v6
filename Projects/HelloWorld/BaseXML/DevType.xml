@@ -241,6 +241,18 @@
     <Descr>Selects the available of two specified devices, receives data from it and sends commands</Descr>
   </DevType>
   <DevType>
+    <DevTypeID>241</DevTypeID>
+    <Name>SMS Parser</Name>
+    <Driver>DrvSmsParser</Driver>
+    <Descr>Retrieves data received by the SMS driver using a custom script</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>242</DevTypeID>
+    <Name>HTTP API</Name>
+    <Driver>DrvHttpApi</Driver>
+    <Descr>Receives data and sends commands as an HTTP API client</Descr>
+  </DevType>
+  <DevType>
     <DevTypeID>1001</DevTypeID>
     <Name>Custom driver</Name>
     <Descr>Add custom items starting from this row</Descr>

@@ -241,6 +241,18 @@
     <Descr>Выбирает доступное из двух заданных устройств, получает от него данные и отправляет команды</Descr>
   </DevType>
   <DevType>
+    <DevTypeID>241</DevTypeID>
+    <Name>Парсер SMS</Name>
+    <Driver>DrvSmsParser</Driver>
+    <Descr>Извлекает данные, полученные драйвером SMS, с помощью пользовательского скрипта</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>242</DevTypeID>
+    <Name>HTTP API</Name>
+    <Driver>DrvHttpApi</Driver>
+    <Descr>Получает данные и отправляет команды в качестве клиента HTTP API</Descr>
+  </DevType>
+  <DevType>
     <DevTypeID>1001</DevTypeID>
     <Name>Пользовательский драйвер</Name>
     <Descr>Добавляйте пользовательские элементы, начиная с этой строки</Descr>
