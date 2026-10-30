@@ -12,7 +12,7 @@ const arr = text.split(/\s+/); // split by spaces and line breaks
 let idx = 0;
 
 for (const elem of arr) {
-  setTagValue(idx + 1, Number(arr[idx]));
+  setTagValue(idx + 1, Number(elem));
   if (++idx &gt;= 2) break;
 }
 

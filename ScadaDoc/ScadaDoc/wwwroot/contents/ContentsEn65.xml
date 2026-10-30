@@ -146,6 +146,10 @@
         <Url>/en/latest/modules/drv-db-import</Url>
       </Item>
       <Item>
+        <Text>HTTP API Driver</Text>
+        <Url>/en/latest/modules/drv-http-api</Url>
+      </Item>
+      <Item>
         <Text>Modbus Slave Driver</Text>
         <Url>/en/latest/modules/drv-modbus-slave</Url>
       </Item>

@@ -9,7 +9,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View
     /// The phrases used by the driver.
     /// <para>Фразы, используемые драйвером.</para>
     /// </summary>
-    internal class DriverPhrases
+    internal static class DriverPhrases
     {
         // Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig
         public static string ConnectionNode { get; private set; }

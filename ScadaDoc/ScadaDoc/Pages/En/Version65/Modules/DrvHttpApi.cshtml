@@ -1,0 +1,131 @@
+﻿@page "/en/latest/modules/drv-http-api"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "HTTP API Driver";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#configuring">Configuring</a></li>
+        <li><a href="#algorithm">Operating Algorithm</a></li>
+        <li><a href="#scripting">Scripting</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>HTTP API Driver</h1>
+    <h2 id="overview">Overview</h2>
+    <p>The driver is designed to retrieve data via calls to a third-party HTTP API. It supports the retrieval of current and historical data, as well as the sending of control commands. Since APIs can vary significantly, the driver supports both a standard operating algorithm and a custom algorithm defined using the JavaScript language.</p>
+    <p>Download the driver using the <a href="https://rapidscada.net/store/Module/ru/DrvHttpApi" target="_blank">link</a>.</p>
+
+    <h2 id="installation">Installation</h2>
+    <p>HTTP API Driver is installed in accordance with the <a href="../installation/install-modules#drivers">general sequence of installing drivers</a>.</p>
+
+    <h2 id="configuring">Configuring</h2>
+    <p>Interaction with a third-party service that provides an HTTP API is facilitated by a Communicator communication line. There may be one or more devices on the communication line, serving to group outgoing HTTP requests and incoming data in a convenient way. It is recommended to use the corresponding wizards in the Administrator application to add a communication line and devices.</p>
+    <p>The main communication line options include: communication channel type &ndash; <em>Undefined</em>. The device options specify the driver &ndash; <em>DrvHttpApi</em>. The following figure shows the device configuration form, providing an overview of the settings structure.</p>
+    <figure class="figure">
+        <img src="drv-http-api-files/device-config-en.png" class="figure-img img-fluid" alt="Конфигурация устройства" />
+    </figure>
+    <p>The HTTP client options and the list of parameters are shared across the communication line. This means that if they are modified in the configuration form for one device, they will also be updated in the configuration forms for all other devices associated with the same communication line.</p>
+    <p><strong>Default headers</strong> are added to all HTTP requests. Parameters are applied to them only once, at the start of the communication line, provided that parameters are enabled.</p>
+    <p>Requests and commands are defined individually for each device. However, it is possible to use the same configuration file for several devices of the same type. To do this, go to the <strong>Device Polling</strong> section of the communication line options, select the device and specify the short name of the configuration file in the <strong>Command line</strong> option.</p>
+
+    <h2 id="algorithm">Operating Algorithm</h2>
+    <p>If the session script or command scripts are disabled, the driver operates based on a default algorithm, which is described below. If the scripts are enabled, the driver operates according to those scripts.</p>
+    <p>The driver sends HTTP requests sequentially. If device tags are specified for a request, the returned HTTP response must be a JSON object in the format <code>{ &quot;tagCode&quot;: tagValue }</code> in order for the tag values ​​to be read. If no response to an HTTP request is received, or if the response contains an error status, the polling session is not interrupted &ndash; execution simply proceeds to the next request.</p>
+    <p>When sending a control command, an HTTP request specified in the command settings is sent. The command being sent may include arguments in the following format:</p>
+    <pre><code>arg1=value1\n
+arg2=value2</code></pre>
+
+    <p>The arguments specified when sending a command are parameters for the command's HTTP request. If a command argument name matches a parameter name from the device configuration, the command argument takes precedence.</p>
+    <p>When sending requests, both by the default algorithm and by a custom script, the number of reties on error option, which is set in the main communication line options, is taken into account. Additionally, the <strong>Pause</strong> parameter, configured for each individual device under the <strong>Device Polling</strong> section, is also applied.</p>
+
+    <h2 id="scripting">Scripting</h2>
+    <p>Custom scripts are written in JavaScript. A session script, if enabled, defines the polling session algorithm for the device being configured. During a polling session, the script is expected to invoke HTTP requests by name, process the retrieved data, and write the results to device tags.</p>
+    <p>A command script describes the sending of a specific command. It is intended that the command script will trigger an HTTP request for the command and process the resulting response.</p>
+    <p>If the user or the system gives a command to stop the Communicator service, any script currently being executed will not be interrupted; it will run to completion.</p>
+    <p>The HTTP API Driver scripts support the following functions:</p>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Function</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>log(text)</code></td>
+                <td>Outputs the string to the communication line log.</td>
+            </tr>
+            <tr>
+                <td><code>writeTextFile(shortFileName, contents)</code></td>
+                <td>Writes a text file to the logs directory.<br />
+                    <code>shortFileName</code> &ndash; short file name,<br />
+                    <code>contents</code> &ndash; content to be written.</td>
+            </tr>
+            <tr>
+                <td><code>setTagValue(tag, value)</code></td>
+                <td>Sets the current value of the device tag.<br />
+                    <code>tag</code> &ndash; tag index or tag code,<br />
+                    <code>value</code> &ndash; numeric tag value or NaN.</td>
+            </tr>
+            <tr>
+                <td><code>setTagHistory(tag, timestamp, value)</code></td>
+                <td>Sets the historical value of the device tag.<br />
+                    <code>tag</code> &ndash; tag index or tag code,<br />
+                    <code>timestamp</code> &ndash; timestamp, which is a string or a Unix number of seconds,<br />
+                    <code>value</code> &ndash; numeric tag value.<br />
+                    Accessing a tag by index is faster.</td>
+            </tr>
+            <tr>
+                <td><code>indexOfTag(tagCode)</code></td>
+                <td>Retrieves the tag index based on its code.<br />
+                    Returns a numeric index, or -1 if the tag is not found.</td>
+            </tr>
+            <tr>
+                <td><code>getDeviceNumber()</code></td>
+                <td>Gets the number (identifier) ​​of the device whose script is being executed.</td>
+            </tr>
+            <tr>
+                <td><code>sendRequest(name)</code></td>
+                <td>Sends a request with the specified name.<br />
+                    Returns an object <code>{ isSuccess, status, content }</code></td>
+            </tr>
+            <tr>
+                <td><code>sendCommand()</code></td>
+                <td>Sends a request for the control command that is currently being executed.<br />
+                    Returns an object similar to the previous one.</td>
+            </tr>
+            <tr>
+                <td><code>addHeader(name, value)</code></td>
+                <td>Adds a persistent header to all HTTP requests on the communication line.</td>
+            </tr>
+            <tr>
+                <td><code>setHeader(name, value)</code></td>
+                <td>Adds a new HTTP header or overwrites an existing header that was previously added by the script.</td>
+            </tr>
+            <tr>
+                <td><code>removeHeader(name)</code></td>
+                <td>Removes an HTTP header that was previously added by a script.</td>
+            </tr>
+            <tr>
+                <td><code>clearHeaders()</code></td>
+                <td>Removes all previously added HTTP headers.</td>
+            </tr>
+            <tr>
+                <td><code>getParameter(name)</code></td>
+                <td>Gets a parameter value by name. This includes parameters and secrets from the driver configuration, as well as parameters added via a script. Returns an object.</td>
+            </tr>
+            <tr>
+                <td><code>setParameter(name, value)</code></td>
+                <td>Sets the parameter value. The value is an object.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

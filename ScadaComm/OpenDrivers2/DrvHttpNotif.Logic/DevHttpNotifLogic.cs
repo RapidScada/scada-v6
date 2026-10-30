@@ -9,11 +9,8 @@ using Scada.Comm.Lang;
 using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Storages;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
-using System.Net.Http;
 using System.Text;
 
 namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
@@ -91,7 +88,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
             {
                 try
                 {
-                    Uri uri = new Uri(config.Uri);
+                    Uri uri = new(config.Uri);
                 }
                 catch
                 {
@@ -128,17 +125,17 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
         /// <summary>
         /// Gets notification arguments from the command.
         /// </summary>
-        private IDictionary<string, string> GetNotifArgs(TeleCommand cmd)
+        private Dictionary<string, string> GetNotifArgs(TeleCommand cmd)
         {
             string cmdDataStr = cmd.GetCmdDataString();
             int sepInd = cmdDataStr.IndexOf(CmdSep);
 
             if (sepInd >= 0)
             {
-                Dictionary<string, string> args = new Dictionary<string, string>
+                Dictionary<string, string> args = new()
                 {
-                    { ParamName.Address, cmdDataStr.Substring(0, sepInd) },
-                    { ParamName.Text, cmdDataStr.Substring(sepInd + 1) }
+                    { ParamName.Address, cmdDataStr[..sepInd] },
+                    { ParamName.Text, cmdDataStr[(sepInd + 1)..] }
                 };
 
                 AddContactDetails(args);
@@ -168,8 +165,8 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
             if (args.TryGetValue(ParamName.Address, out string address) &&
                 !(args.ContainsKey(ParamName.Phone) && args.ContainsKey(ParamName.Email)))
             {
-                List<string> phoneNumbers = new List<string>();
-                List<string> emails = new List<string>();
+                List<string> phoneNumbers = [];
+                List<string> emails = [];
 
                 if (addressBook == null)
                 {
@@ -233,8 +230,8 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
                 }
 
                 // create request
-                paramUri?.ResetParams(args, EscapingMethod.EncodeUrl);
-                paramContent?.ResetParams(args, config.ContentEscaping);
+                paramUri?.SetAllParameters(args, EscapingMethod.EncodeUrl);
+                paramContent?.SetAllParameters(args, config.ContentEscaping);
 
                 string uri = paramUri == null ? config.Uri : paramUri.ToString();
                 string content = paramContent == null ? config.Content : paramContent.ToString();
@@ -306,7 +303,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
                     }
                     else
                     {
-                        Log.WriteLine(responseContent.Substring(0, ResponseDisplayLenght));
+                        Log.WriteLine(responseContent[..ResponseDisplayLenght]);
                         Log.WriteLine("...");
                     }
                 }
