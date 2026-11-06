@@ -11,16 +11,16 @@
   color: #0dcaf0;
 }
 
-#tblEventAck {
+#tblEvent {
   margin-bottom: 5px;
 }
-#tblEventAck th {
+#tblEvent th {
   font-weight: normal;
   padding: 0 10px 5px 0;
   text-align: right;
   vertical-align: top;
 }
-#tblEventAck td {
+#tblEvent td {
   padding: 0 0 5px 0;
   vertical-align: top;
 }
