@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2026
  */
 
 namespace Scada.Data.Models
@@ -49,6 +49,11 @@ namespace Scada.Data.Models
         /// <summary>
         /// Displays command value and data.
         /// </summary>
-        Command = 3
+        Command = 3,
+
+        /// <summary>
+        /// Displays acknowledgment note.
+        /// </summary>
+        AckNote = 4
     }
 }

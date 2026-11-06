@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2026
  */
 
 using System;
@@ -54,6 +54,7 @@ namespace Scada.Data.Models
             Ack = false;
             AckTimestamp = DateTime.MinValue;
             AckUserID = 0;
+            AckNoteEventID = 0;
             TextFormat = EventTextFormat.Full;
             Text = "";
             Data = null;
@@ -135,6 +136,11 @@ namespace Scada.Data.Models
         /// Gets or sets the user ID who acknowledged the event.
         /// </summary>
         public int AckUserID { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ID of the event containing an acknowledgment note, or 0 if not specified.
+        /// </summary>
+        public long AckNoteEventID { get; set; }
 
         /// <summary>
         /// Gets or sets the text format.

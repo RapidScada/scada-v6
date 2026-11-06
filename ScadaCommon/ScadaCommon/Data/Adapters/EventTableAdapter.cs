@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2026
  */
 
 using Scada.Data.Models;
@@ -83,6 +83,10 @@ namespace Scada.Data.Adapters
         /// The event acknowledged field index.
         /// </summary>
         protected const int AckIndex = 54;
+        /// <summary>
+        /// The event acknowledged note field index.
+        /// </summary>
+        protected const int AckNoteIndex = 74;
         /// <summary>
         /// The text block count field index.
         /// </summary>
@@ -254,6 +258,7 @@ namespace Scada.Data.Adapters
             CopyUInt16((ushort)textSize, buffer, ref index);
             CopyByte((byte)dataBlockCnt, buffer, ref index);
             CopyUInt16((ushort)dataSize, buffer, ref index);
+            CopyInt64(ev.AckNoteEventID, buffer, ref index);
             Array.Clear(buffer, index, EventSize - index - 2);
             ushort crc = ScadaUtils.CRC16(buffer, 0, EventSize - 2);
             CopyUInt16(crc, buffer, EventSize - 2);
@@ -391,6 +396,7 @@ namespace Scada.Data.Adapters
                     int dataBlockCnt = GetByte(buffer, ref index);
                     int dataSize = GetUInt16(buffer, ref index);
 
+                    ev.AckNoteEventID = GetInt64(buffer, ref index);
                     ev.Text = ReadEventText(reader, buffer, textBlockCnt, textSize);
                     ev.Data = ReadEventData(reader, buffer, dataBlockCnt, dataSize);
 
@@ -444,6 +450,7 @@ namespace Scada.Data.Adapters
                     dataTable.Columns.Add("Ack", typeof(bool));
                     dataTable.Columns.Add("AckTimestamp", typeof(DateTime));
                     dataTable.Columns.Add("AckUserID", typeof(int));
+                    dataTable.Columns.Add("AckNoteEventID", typeof(long));
                     dataTable.Columns.Add("TextFormat", typeof(int));
                     dataTable.Columns.Add("Text", typeof(string));
                     dataTable.Columns.Add("Data", typeof(byte[]));
@@ -484,6 +491,7 @@ namespace Scada.Data.Adapters
                     int dataBlockCnt = GetByte(buffer, ref index);
                     int dataSize = GetUInt16(buffer, ref index);
 
+                    row["AckNoteEventID"] = GetInt64(buffer, ref index);
                     row["Text"] = ReadEventText(reader, buffer, textBlockCnt, textSize);
                     row["Data"] = ReadEventData(reader, buffer, dataBlockCnt, dataSize);
 
@@ -657,6 +665,7 @@ namespace Scada.Data.Adapters
                     CopyBool(ev.Ack, buffer, ref index);
                     CopyTime(ev.AckTimestamp, buffer, ref index);
                     CopyInt32(ev.AckUserID, buffer, ref index);
+                    CopyInt64(ev.AckNoteEventID, buffer, AckNoteIndex);
                     ushort crc = ScadaUtils.CRC16(buffer, 0, EventSize - 2);
                     CopyUInt16(crc, buffer, EventSize - 2);
 
