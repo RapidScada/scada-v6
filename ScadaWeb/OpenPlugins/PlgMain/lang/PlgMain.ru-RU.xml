@@ -31,6 +31,7 @@
     <Phrase key="AckYes">Да</Phrase>
     <Phrase key="AckNo">Нет</Phrase>
     <Phrase key="AckTip">Нажмите кнопку OK, чтобы квитировать событие.</Phrase>
+    <Phrase key="lblAckNote">Комментарий</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport">
     <Phrase key="PageTitle">Отчёт по событиям</Phrase>

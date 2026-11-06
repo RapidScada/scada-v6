@@ -6,10 +6,10 @@ const CLOSE_TIMEOUT = 1000;
 
 $(document).ready(function () {
     // set event color
-    let eventColor = $("#tblEvent").data("color");
+    let eventColor = $("#tblEventAck").data("color");
 
     if (eventColor) {
-        $("#tblEvent td").css("color", eventColor);
+        $("#tblEventAck td").css("color", eventColor);
     }
 
     // hide OK button

@@ -49,10 +49,9 @@
     if (Model.AckAllowed)
     {
         <div class="alert alert-primary">@dict.AckTip</div>
-        <form method="post"></form>
     }
 
-    <table id="tblEvent" class="table-main" data-color="@Model.EventF.GetMainColor()">
+    <table id="tblEventAck" class="table-main" data-color="@Model.EventF.GetMainColor()">
         <tr>
             <th>@dict.TimeRow</th>
             <td>@Model.EventF.Time</td>
@@ -82,4 +81,11 @@
             <td>@ackBadge @Model.EventF.Ack</td>
         </tr>
     </table>
+
+    <form method="post">
+        <div class="mb-3">
+            <label id="lblAckNote" for="txtAckNode" class="form-label d-block">@dict.lblAckNote</label>
+            <textarea id="txtAckNode" class="form-control" rows="2" readonly="@(!Model.AckAllowed)" autofocus="@Model.AckAllowed" asp-for="AckNote"></textarea>
+        </div>
+    </form>
 }

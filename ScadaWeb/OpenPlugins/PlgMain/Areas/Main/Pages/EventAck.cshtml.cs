@@ -41,6 +41,9 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         public EventFormatted EventF { get; private set; } = null;
         public bool AckAllowed { get; private set; } = false;
         public bool CloseModal { get; private set; } = false;
+        
+        [BindProperty]
+        public string AckNote { get; set; }
 
 
         private Event GetEvent(int? archiveBit, long eventID, out Right right)

@@ -31,6 +31,7 @@
     <Phrase key="AckYes">Yes</Phrase>
     <Phrase key="AckNo">No</Phrase>
     <Phrase key="AckTip">Click the OK button to acknowledge the event.</Phrase>
+    <Phrase key="lblAckNote">Note</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport">
     <Phrase key="PageTitle">Event Report</Phrase>
