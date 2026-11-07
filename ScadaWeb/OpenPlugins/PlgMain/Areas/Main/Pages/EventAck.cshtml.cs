@@ -101,7 +101,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         private void AckEvent(Event ev, int userID, string note)
         {
-            // create event for acknowledgement notes
+            // create event for acknowledgement note
             DateTime timestamp = DateTime.UtcNow;
             long noteEventID = 0;
 
