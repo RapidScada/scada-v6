@@ -37,6 +37,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 { "Ack", "ack" },
                 { "AckTimestamp", "ack_timestamp" },
                 { "AckUserID", "ack_user_id" },
+                { "AckNoteEventID", "ack_note_event_id" },
                 { "TextFormat", "text_format" },
                 { "Text", "event_text" },
                 { "Data", "event_data" }
@@ -161,6 +162,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     "ack boolean NOT NULL, " +
                     "ack_timestamp timestamp with time zone NOT NULL, " +
                     "ack_user_id integer NOT NULL, " +
+                    "ack_note_event_id bigint NOT NULL, " +
                     "text_format integer NOT NULL, " +
                     "event_text character varying, " +
                     "event_data bytea, " +
@@ -212,18 +214,19 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             {
                 return
                     $"INSERT INTO {EventTable} (event_id, time_stamp, hidden, cnl_num, obj_num, device_num, " +
-                    "prev_cnl_val, prev_cnl_stat, cnl_val, cnl_stat, severity, " +
-                    "ack_required, ack, ack_timestamp, ack_user_id, text_format, event_text, event_data) " +
-                    "VALUES (@eventID, @timestamp, @hidden, @cnlNum, " +
-                    "@objNum, @deviceNum, @prevCnlVal, @prevCnlStat, @cnlVal, @cnlStat, @severity, " +
-                    "@ackRequired, @ack, @ackTimestamp, @ackUserID, @textFormat, @eventText, @eventData) " +
+                    "prev_cnl_val, prev_cnl_stat, cnl_val, cnl_stat, severity, ack_required, ack, " +
+                    "ack_timestamp, ack_user_id, ack_note_event_id, text_format, event_text, event_data) " +
+                    "VALUES (@eventID, @timestamp, @hidden, @cnlNum, @objNum, @deviceNum, " +
+                    "@prevCnlVal, @prevCnlStat, @cnlVal, @cnlStat, @severity, @ackRequired, @ack, " +
+                    "@ackTimestamp, @ackUserID, @ackNoteEventID, @textFormat, @eventText, @eventData) " +
                     "ON CONFLICT (event_id, time_stamp) DO UPDATE " +
                     "SET hidden = EXCLUDED.hidden, cnl_num = EXCLUDED.cnl_num, " +
                     "obj_num = EXCLUDED.obj_num, device_num = EXCLUDED.device_num, " +
                     "prev_cnl_val = EXCLUDED.prev_cnl_val, prev_cnl_stat = EXCLUDED.prev_cnl_stat, " +
                     "cnl_val = EXCLUDED.cnl_val, cnl_stat = EXCLUDED.cnl_stat, severity = EXCLUDED.severity, " +
-                    "ack_required = EXCLUDED.ack_required, ack = EXCLUDED.ack, ack_timestamp = EXCLUDED.ack_timestamp, " +
-                    "ack_user_id = EXCLUDED.ack_user_id, text_format = EXCLUDED.text_format, " +
+                    "ack_required = EXCLUDED.ack_required, ack = EXCLUDED.ack, " +
+                    "ack_timestamp = EXCLUDED.ack_timestamp, ack_user_id = EXCLUDED.ack_user_id, " +
+                    "ack_note_event_id = EXCLUDED.ack_note_event_id, text_format = EXCLUDED.text_format, " +
                     "event_text = EXCLUDED.event_text, event_data = EXCLUDED.event_data";
             }
         }
@@ -238,7 +241,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 return
                     "SELECT event_id, time_stamp, hidden, cnl_num, obj_num, device_num, " +
                     "prev_cnl_val, prev_cnl_stat, cnl_val, cnl_stat, severity, " +
-                    "ack_required, ack, ack_timestamp, ack_user_id, text_format, event_text, event_data " +
+                    "ack_required, ack, ack_timestamp, ack_user_id, ack_note_event_id, text_format, event_text, event_data " +
                     $"FROM {EventTable} ";
             }
         }

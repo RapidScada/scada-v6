@@ -30,6 +30,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         private readonly NpgsqlParameter ackParam;
         private readonly NpgsqlParameter ackTimestampParam;
         private readonly NpgsqlParameter ackUserIDParam;
+        private readonly NpgsqlParameter ackNoteEventIDParam;
         private readonly NpgsqlParameter textFormatParam;
         private readonly NpgsqlParameter eventTextParam;
         private readonly NpgsqlParameter eventDataParam;
@@ -57,6 +58,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             ackParam = command.Parameters.Add("ack", NpgsqlDbType.Boolean);
             ackTimestampParam = command.Parameters.Add("ackTimestamp", NpgsqlDbType.TimestampTz);
             ackUserIDParam = command.Parameters.Add("ackUserID", NpgsqlDbType.Integer);
+            ackNoteEventIDParam = command.Parameters.Add("ackNoteEventID", NpgsqlDbType.Bigint);
             textFormatParam = command.Parameters.Add("textFormat", NpgsqlDbType.Integer);
             eventTextParam = command.Parameters.Add("eventText", NpgsqlDbType.Varchar);
             eventDataParam = command.Parameters.Add("eventData", NpgsqlDbType.Bytea);
@@ -83,6 +85,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             ackParam.Value = ev.Ack;
             ackTimestampParam.Value = ev.AckTimestamp;
             ackUserIDParam.Value = ev.AckUserID;
+            ackNoteEventIDParam.Value = ev.AckNoteEventID;
             textFormatParam.Value = (int)ev.TextFormat;
             eventTextParam.Value = string.IsNullOrEmpty(ev.Text) ? DBNull.Value : ev.Text;
             eventDataParam.Value = ev.Data == null || ev.Data.Length == 0 ? DBNull.Value : ev.Data;

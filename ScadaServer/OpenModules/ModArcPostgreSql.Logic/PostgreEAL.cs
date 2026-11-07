@@ -166,9 +166,10 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 Ack = reader.GetBoolean(12),
                 AckTimestamp = reader.GetDateTimeUtc(13),
                 AckUserID = reader.GetInt32(14),
-                TextFormat = (EventTextFormat)reader.GetInt32(15),
-                Text = reader.IsDBNull(16) ? "" : reader.GetString(16),
-                Data = reader.IsDBNull(17) ? null : (byte[])reader[17]
+                AckNoteEventID = reader.GetInt64(15),
+                TextFormat = (EventTextFormat)reader.GetInt32(16),
+                Text = reader.IsDBNull(17) ? "" : reader.GetString(17),
+                Data = reader.IsDBNull(18) ? null : (byte[])reader[18]
             };
         }
 
@@ -435,13 +436,15 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 writingConn.Open();
 
                 string sql = $"UPDATE {queryBuilder.EventTable} " +
-                    "SET ack = true, ack_timestamp = @ackTimestamp, ack_user_id = @ackUserID " +
+                    "SET ack = true, ack_timestamp = @ackTimestamp, ack_user_id = @ackUserID, " + 
+                    "ack_note_event_id = @ackNoteEventID " +
                     "WHERE event_id = @eventID AND @startTime <= time_stamp AND time_stamp < @endTime";
 
                 DateTime eventTime = ScadaUtils.RetrieveTimeFromID(eventAck.EventID);
                 NpgsqlCommand cmd = new(sql, writingConn);
                 cmd.Parameters.AddWithValue("ackTimestamp", eventAck.Timestamp);
                 cmd.Parameters.AddWithValue("ackUserID", eventAck.UserID);
+                cmd.Parameters.AddWithValue("ackNoteEventID", eventAck.NoteEventID);
                 cmd.Parameters.AddWithValue("eventID", eventAck.EventID);
                 cmd.Parameters.AddWithValue("startTime", eventTime);
                 cmd.Parameters.AddWithValue("endTime", eventTime.AddSeconds(1.0));
