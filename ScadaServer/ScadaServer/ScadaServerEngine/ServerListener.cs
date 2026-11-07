@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2023
+ * Modified : 2026
  */
 
 using Scada.Client;
@@ -372,7 +372,8 @@ namespace Scada.Server.Engine
             {
                 EventID = GetInt64(buffer, ref index),
                 Timestamp = GetTime(buffer, ref index),
-                UserID = GetInt32(buffer, ref index)
+                UserID = GetInt32(buffer, ref index),
+                NoteEventID = GetInt64(buffer, ref index)
             };
 
             if (eventAck.UserID <= 0)
