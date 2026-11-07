@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2026
  */
 
 using System;
@@ -42,6 +42,7 @@ namespace Scada.Data.Models
             EventID = 0;
             Timestamp = DateTime.MinValue;
             UserID = 0;
+            NoteEventID = 0;
         }
 
 
@@ -59,5 +60,10 @@ namespace Scada.Data.Models
         /// Gets or sets the ID of the user who acknowledged the event.
         /// </summary>
         public int UserID { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ID of the event containing acknowledgment notes, or 0 if not specified.
+        /// </summary>
+        public long NoteEventID { get; set; }
     }
 }

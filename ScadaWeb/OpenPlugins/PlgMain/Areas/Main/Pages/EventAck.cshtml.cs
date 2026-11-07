@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Data.Const;
+using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Web.Lang;
@@ -37,10 +38,15 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         private int GetArchiveBit(int? archiveBitOrNull)
         {
-            return archiveBitOrNull != null && archiveBitOrNull > 0
+            return archiveBitOrNull.HasValue && archiveBitOrNull > 0
                 ? archiveBitOrNull.Value
-                : webContext.ConfigDatabase.FindArchiveBit(
-                    pluginContext.Options.EventArchiveCode, ArchiveBit.Event);
+                : webContext.ConfigDatabase.FindArchiveBit(pluginContext.Options.EventArchiveCode, ArchiveBit.Event);
+        }
+
+        private int GetArchiveMask(int cnlNum)
+        {
+            Cnl cnl = cnlNum > 0 ? webContext.ConfigDatabase.CnlTable.GetItem(cnlNum) : null;
+            return cnl?.ArchiveMask ?? ArchiveMask.Default;
         }
 
         private Event GetEvent(int archiveBit, long eventID, out Right right)
@@ -82,8 +88,6 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             }
             catch (Exception ex)
             {
-                HasError = true;
-                Message = WebPhrases.ClientError;
                 webContext.Log.WriteError(ex, Message);
                 return "";
             }
@@ -95,7 +99,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 .FormatEvent(ev);
         }
 
-        private void AckEvent(int archiveBit, Event ev, int userID, string note)
+        private void AckEvent(Event ev, int userID, string note)
         {
             // create event for acknowledgement notes
             DateTime timestamp = DateTime.UtcNow;
@@ -103,9 +107,8 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
             if (!string.IsNullOrWhiteSpace(note))
             {
-                // TODO: set mask
                 noteEventID = ScadaUtils.GenerateUniqueID(timestamp);
-                clientAccessor.ScadaClient.WriteEvent(ArchiveMask.All, new Event
+                clientAccessor.ScadaClient.WriteEvent(GetArchiveMask(ev.CnlNum), new Event
                 {
                     EventID = noteEventID,
                     Timestamp = timestamp,
@@ -124,48 +127,35 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 EventID = ev.EventID,
                 Timestamp = timestamp,
                 UserID = userID,
-                //NoteEventID = noteEventID
+                NoteEventID = noteEventID
             });
         }
 
         public IActionResult OnGet(long eventID, int? archiveBit)
         {
-            archiveBit = GetArchiveBit(archiveBit);
-            Event = GetEvent(archiveBit.Value, eventID, out Right right);
+            int archiveBitValue = GetArchiveBit(archiveBit);
+            Event = GetEvent(archiveBitValue, eventID, out Right right);
 
-            if (Event == null)
-                return Page();
-
-            if (!right.View)
-                return Forbid();
+            if (Event == null) return Page();
+            if (!right.View) return Forbid();
 
             EventF = FormatEvent(Event);
             AckAllowed = right.Control && !Event.Ack;
-            AckNote = GetEventText(archiveBit.Value, Event.AckNoteEventID);
+            AckNote = GetEventText(archiveBitValue, Event.AckNoteEventID);
             return Page();
         }
 
         public IActionResult OnPost(long eventID, int? archiveBit)
         {
-            archiveBit = GetArchiveBit(archiveBit);
-            Event = GetEvent(archiveBit.Value, eventID, out Right right);
+            int archiveBitValue = GetArchiveBit(archiveBit);
+            Event = GetEvent(archiveBitValue, eventID, out Right right);
 
-            if (Event == null)
-                return Page();
-
-            if (!right.Control)
-                return Forbid();
+            if (Event == null) return Page();
+            if (!right.View) return Forbid();
 
             try
             {
-                // acknowledge event
-                clientAccessor.ScadaClient.AckEvent(new EventAck
-                {
-                    EventID = eventID,
-                    Timestamp = DateTime.UtcNow,
-                    UserID = User.GetUserID()
-                });
-
+                AckEvent(Event, User.GetUserID(), AckNote);
                 Message = dict.EventAcknowledged;
                 CloseModal = true;
             }
