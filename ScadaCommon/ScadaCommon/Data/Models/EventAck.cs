@@ -62,7 +62,7 @@ namespace Scada.Data.Models
         public int UserID { get; set; }
 
         /// <summary>
-        /// Gets or sets the ID of the event containing acknowledgment notes, or 0 if not specified.
+        /// Gets or sets the ID of the event containing an acknowledgment note, or 0 if not specified.
         /// </summary>
         public long NoteEventID { get; set; }
     }
