@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2023
+ * Modified : 2026
  */
 
 using Scada.Data.Adapters;
@@ -540,6 +540,7 @@ namespace Scada.Client
             CopyInt64(eventAck.EventID, outBuf, ref index);
             CopyTime(eventAck.Timestamp, outBuf, ref index);
             CopyInt32(eventAck.UserID, outBuf, ref index);
+            CopyInt64(eventAck.NoteEventID, outBuf, ref index);
             request.BufferLength = index;
 
             SendRequest(request);
