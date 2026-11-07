@@ -376,6 +376,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                         ev.Ack = true;
                         ev.AckTimestamp = eventAck.Timestamp;
                         ev.AckUserID = eventAck.UserID;
+                        ev.AckNoteEventID = eventAck.NoteEventID;
 
                         EventTableAdapter adapter = new EventTableAdapter { FileName = eventTable.FileName };
                         adapter.WriteEventAck(ev);
