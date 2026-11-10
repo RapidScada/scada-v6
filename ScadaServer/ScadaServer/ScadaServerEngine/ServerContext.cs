@@ -246,13 +246,18 @@ namespace Scada.Server.Engine
                 if (command.CmdCode == ServerCmdCode.AckEvent)
                 {
                     IDictionary<string, string> args = command.GetCmdDataArgs();
-                    coreLogic.AckEvent(new EventAck
+
+                    if (long.TryParse(args.GetValueAsString("eventID"), out long eventID) &&
+                       long.TryParse(args.GetValueAsString("noteEventID"), out long noteEventID))
                     {
-                        EventID = args.GetValueAsLong("eventID"),
-                        Timestamp = command.CreationTime,
-                        UserID = command.UserID,
-                        NoteEventID = args.GetValueAsLong("noteEventID")
-                    }, false, false);
+                        coreLogic.AckEvent(new EventAck
+                        {
+                            EventID = eventID,
+                            Timestamp = command.CreationTime,
+                            UserID = command.UserID,
+                            NoteEventID = noteEventID
+                        }, false, false);
+                    }
                 }
 
                 // set command ID and creation time
