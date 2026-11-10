@@ -1557,7 +1557,10 @@ namespace Scada.Server.Engine
                     CreationTime = eventAck.Timestamp,
                     UserID = eventAck.UserID,
                     CmdCode = ServerCmdCode.AckEvent,
-                    CmdVal = BitConverter.Int64BitsToDouble(eventAck.EventID)
+                    CmdVal = BitConverter.Int64BitsToDouble(eventAck.EventID),
+                    CmdData = TeleCommand.StringToCmdData(
+                        $"eventID={eventAck.EventID}\n" + 
+                        $"noteEventID={eventAck.NoteEventID}")
                 }, true);
             }
         }
