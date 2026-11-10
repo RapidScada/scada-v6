@@ -27,23 +27,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ScadaCommon\ScadaCommon.Log\ScadaCommon.Log.csproj" />
+    <ProjectReference Include="..\..\..\ScadaCommon\ScadaCommon\ScadaCommon.csproj" />
+    <ProjectReference Include="..\..\..\ScadaReport\ScadaReport\ScadaReport.csproj" />
+    <ProjectReference Include="..\..\ScadaWeb\ScadaWebCommon\ScadaWebCommon.csproj" />
     <ProjectReference Include="..\PlgMain.Common\PlgMain.Common.csproj" />
     <ProjectReference Include="..\PlgMain.Report\PlgMain.Report.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="ScadaCommon">
-      <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
-    </Reference>
-    <Reference Include="ScadaCommon.Log">
-      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
-    </Reference>
-    <Reference Include="ScadaReport">
-      <HintPath>..\..\..\ScadaReport\ScadaReport\bin\Release\net8.0\ScadaReport.dll</HintPath>
-    </Reference>
-    <Reference Include="ScadaWebCommon">
-      <HintPath>..\..\ScadaWeb\ScadaWebCommon\bin\Release\net8.0\ScadaWebCommon.dll</HintPath>
-    </Reference>
   </ItemGroup>
   
 </Project>

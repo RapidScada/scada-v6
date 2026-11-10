@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31912.275
+# Visual Studio Version 18
+VisualStudioVersion = 18.11.12328.437 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlgMain", "PlgMain", "{00E81568-B4A8-4226-B454-2FDBA389CDC8}"
 EndProject
@@ -48,6 +48,16 @@ EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PlgSchBasicComp.Shared", "PlgSchBasicComp.Shared\PlgSchBasicComp.Shared.shproj", "{A9CC759A-54F9-44FB-AD77-DD8F306668F7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgScheme.EditorWeb", "PlgScheme.EditorWeb\PlgScheme.EditorWeb.csproj", "{2418118A-C3C1-4BA0-A4D2-B3C9F76C4006}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common Projects", "Common Projects", "{37BF9001-9FC6-45B0-9126-CA15B29D8023}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaCommon", "..\..\ScadaCommon\ScadaCommon\ScadaCommon.csproj", "{D4BB7366-4705-5B06-AB12-14C1882B5AA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaCommon.Log", "..\..\ScadaCommon\ScadaCommon.Log\ScadaCommon.Log.csproj", "{63CFD153-CDE7-7243-3E92-FF163BEEC596}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaWebCommon", "..\ScadaWeb\ScadaWebCommon\ScadaWebCommon.csproj", "{4BAE0D17-3186-346E-EF3C-BB128C5BF97B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaReport", "..\..\ScadaReport\ScadaReport\ScadaReport.csproj", "{771C2B5E-B171-A53A-17EF-8F8F4B16433B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,6 +129,22 @@ Global
 		{2418118A-C3C1-4BA0-A4D2-B3C9F76C4006}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2418118A-C3C1-4BA0-A4D2-B3C9F76C4006}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2418118A-C3C1-4BA0-A4D2-B3C9F76C4006}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4BB7366-4705-5B06-AB12-14C1882B5AA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4BB7366-4705-5B06-AB12-14C1882B5AA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4BB7366-4705-5B06-AB12-14C1882B5AA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4BB7366-4705-5B06-AB12-14C1882B5AA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63CFD153-CDE7-7243-3E92-FF163BEEC596}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63CFD153-CDE7-7243-3E92-FF163BEEC596}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63CFD153-CDE7-7243-3E92-FF163BEEC596}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63CFD153-CDE7-7243-3E92-FF163BEEC596}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BAE0D17-3186-346E-EF3C-BB128C5BF97B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BAE0D17-3186-346E-EF3C-BB128C5BF97B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BAE0D17-3186-346E-EF3C-BB128C5BF97B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BAE0D17-3186-346E-EF3C-BB128C5BF97B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{771C2B5E-B171-A53A-17EF-8F8F4B16433B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{771C2B5E-B171-A53A-17EF-8F8F4B16433B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{771C2B5E-B171-A53A-17EF-8F8F4B16433B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{771C2B5E-B171-A53A-17EF-8F8F4B16433B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -142,6 +168,10 @@ Global
 		{48540890-21B4-4400-8290-071112B30D53} = {71F74BFA-D912-41E6-9982-9CAC6C61B324}
 		{A9CC759A-54F9-44FB-AD77-DD8F306668F7} = {AD970186-50D1-4A54-B711-CEFD8CC0471F}
 		{2418118A-C3C1-4BA0-A4D2-B3C9F76C4006} = {1C746D2E-749E-408B-A180-63AD78EFFAFC}
+		{D4BB7366-4705-5B06-AB12-14C1882B5AA1} = {37BF9001-9FC6-45B0-9126-CA15B29D8023}
+		{63CFD153-CDE7-7243-3E92-FF163BEEC596} = {37BF9001-9FC6-45B0-9126-CA15B29D8023}
+		{4BAE0D17-3186-346E-EF3C-BB128C5BF97B} = {37BF9001-9FC6-45B0-9126-CA15B29D8023}
+		{771C2B5E-B171-A53A-17EF-8F8F4B16433B} = {37BF9001-9FC6-45B0-9126-CA15B29D8023}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19C6959B-66D1-4335-AA8A-0E2F23894099}
