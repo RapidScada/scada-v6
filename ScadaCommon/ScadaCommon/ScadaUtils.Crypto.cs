@@ -10,7 +10,8 @@ namespace Scada
         /// <summary>
         /// Generates cryptographically strong random numbers.
         /// </summary>
-        private static readonly RNGCryptoServiceProvider Rng = new RNGCryptoServiceProvider();
+        private static readonly RandomNumberGenerator Rng = RandomNumberGenerator.Create();
+        private static readonly object RngLock = new object();
         /// <summary>
         /// The default secret key.
         /// </summary>
@@ -56,7 +57,8 @@ namespace Scada
         public static long GetRandomLong()
         {
             byte[] randomArr = new byte[8];
-            Rng.GetBytes(randomArr);
+            lock (RngLock)
+                Rng.GetBytes(randomArr);
             return BitConverter.ToInt64(randomArr, 0);
         }
 
@@ -66,7 +68,8 @@ namespace Scada
         public static byte[] GetRandomBytes(int count)
         {
             byte[] randomArr = new byte[count];
-            Rng.GetBytes(randomArr);
+            lock (RngLock)
+                Rng.GetBytes(randomArr);
             return randomArr;
         }
 
