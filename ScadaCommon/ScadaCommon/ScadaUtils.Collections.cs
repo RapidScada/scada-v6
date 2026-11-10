@@ -110,6 +110,22 @@ namespace Scada
         }
 
         /// <summary>
+        /// Gets the value associated with the specified key as a 64-bit integer.
+        /// </summary>
+        public static long GetValueAsLong(this IDictionary<string, string> dictionary,
+            string key, long defaultValue = 0)
+        {
+            try
+            {
+                return dictionary.TryGetValue(key, out string valStr) ? long.Parse(valStr) : defaultValue;
+            }
+            catch (FormatException)
+            {
+                throw NewFormatException(key);
+            }
+        }
+
+        /// <summary>
         /// Gets the value associated with the specified key as a double.
         /// </summary>
         public static double GetValueAsDouble(this IDictionary<string, string> dictionary,
