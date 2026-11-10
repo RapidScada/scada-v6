@@ -46,7 +46,7 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// The minor version number.
         /// </summary>
-        protected const ushort MinorVersion = 0;
+        protected const ushort MinorVersion = 1;
         /// <summary>
         /// The header size in a file.
         /// </summary>

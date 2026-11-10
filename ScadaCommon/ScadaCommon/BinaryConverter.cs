@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2023
+ * Modified : 2026
  */
 
 using Scada.Data.Models;
@@ -353,6 +353,7 @@ namespace Scada
                 CopyBool(ev.Ack, buffer, ref index);
                 CopyTime(ev.AckTimestamp, buffer, ref index);
                 CopyInt32(ev.AckUserID, buffer, ref index);
+                CopyInt64(ev.AckNoteEventID, buffer, ref index);
                 CopyByte((byte)ev.TextFormat, buffer, ref index);
                 CopyString(ev.Text, buffer, ref index);
                 CopyByteArray(ev.Data, buffer, ref index);
@@ -662,6 +663,7 @@ namespace Scada
                 Ack = GetBool(buffer, ref index),
                 AckTimestamp = GetTime(buffer, ref index),
                 AckUserID = GetInt32(buffer, ref index),
+                AckNoteEventID = GetInt64(buffer, ref index),
                 TextFormat = (EventTextFormat)GetByte(buffer, ref index),
                 Text = GetString(buffer, ref index),
                 Data = GetByteArray(buffer, ref index)
