@@ -14,16 +14,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ScadaCommon\ScadaCommon\ScadaCommon.csproj" />
+    <ProjectReference Include="..\..\..\ScadaReport\ScadaReport\ScadaReport.csproj" />
     <ProjectReference Include="..\PlgMain.Common\PlgMain.Common.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="ScadaCommon">
-      <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
-    </Reference>
-    <Reference Include="ScadaReport">
-      <HintPath>..\..\..\ScadaReport\ScadaReport\bin\Release\net8.0\ScadaReport.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

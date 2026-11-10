@@ -14,16 +14,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ScadaCommon\ScadaCommon\ScadaCommon.csproj" />
+    <ProjectReference Include="..\..\ScadaWeb\ScadaWebCommon.Subset\ScadaWebCommon.Subset.csproj" />
     <ProjectReference Include="..\PlgMain.Common\PlgMain.Common.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="ScadaCommon">
-      <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
-    </Reference>
-    <Reference Include="ScadaWebCommon.Subset">
-      <HintPath>..\..\ScadaWeb\ScadaWebCommon.Subset\bin\Release\net8.0\ScadaWebCommon.Subset.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

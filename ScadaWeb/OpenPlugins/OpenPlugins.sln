@@ -59,6 +59,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaWebCommon", "..\ScadaW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaReport", "..\..\ScadaReport\ScadaReport\ScadaReport.csproj", "{771C2B5E-B171-A53A-17EF-8F8F4B16433B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaWebCommon.Subset", "..\ScadaWeb\ScadaWebCommon.Subset\ScadaWebCommon.Subset.csproj", "{618250F4-A65A-BC26-081F-55A3ABAE0B49}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -145,6 +147,10 @@ Global
 		{771C2B5E-B171-A53A-17EF-8F8F4B16433B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{771C2B5E-B171-A53A-17EF-8F8F4B16433B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{771C2B5E-B171-A53A-17EF-8F8F4B16433B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{618250F4-A65A-BC26-081F-55A3ABAE0B49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{618250F4-A65A-BC26-081F-55A3ABAE0B49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{618250F4-A65A-BC26-081F-55A3ABAE0B49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{618250F4-A65A-BC26-081F-55A3ABAE0B49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -172,6 +178,7 @@ Global
 		{63CFD153-CDE7-7243-3E92-FF163BEEC596} = {37BF9001-9FC6-45B0-9126-CA15B29D8023}
 		{4BAE0D17-3186-346E-EF3C-BB128C5BF97B} = {37BF9001-9FC6-45B0-9126-CA15B29D8023}
 		{771C2B5E-B171-A53A-17EF-8F8F4B16433B} = {37BF9001-9FC6-45B0-9126-CA15B29D8023}
+		{618250F4-A65A-BC26-081F-55A3ABAE0B49} = {37BF9001-9FC6-45B0-9126-CA15B29D8023}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19C6959B-66D1-4335-AA8A-0E2F23894099}
