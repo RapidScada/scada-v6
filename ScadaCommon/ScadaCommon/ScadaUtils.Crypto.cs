@@ -117,11 +117,13 @@ namespace Scada
             if (iv == null)
                 throw new ArgumentNullException(nameof(iv));
 
-            RijndaelManaged alg = null;
+            Aes alg = null;
 
             try
             {
-                alg = new RijndaelManaged { Key = secretKey, IV = iv };
+                alg = Aes.Create();
+                alg.Key = secretKey;
+                alg.IV = iv;
 
                 using (MemoryStream memStream = new MemoryStream())
                 {
@@ -169,11 +171,13 @@ namespace Scada
             if (iv == null)
                 throw new ArgumentNullException(nameof(iv));
 
-            RijndaelManaged alg = null;
+            Aes alg = null;
 
             try
             {
-                alg = new RijndaelManaged { Key = secretKey, IV = iv };
+                alg = Aes.Create();
+                alg.Key = secretKey;
+                alg.IV = iv;
 
                 using (MemoryStream memStream = new MemoryStream(bytes))
                 {
