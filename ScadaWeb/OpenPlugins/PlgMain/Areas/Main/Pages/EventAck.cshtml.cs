@@ -116,6 +116,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                     CnlNum = ev.CnlNum,
                     ObjNum = ev.ObjNum,
                     DeviceNum = ev.DeviceNum,
+                    Severity = Severity.Info,
                     TextFormat = EventTextFormat.AckNote,
                     Text = note,
                 });
