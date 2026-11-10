@@ -10,7 +10,7 @@ namespace Scada
         /// <summary>
         /// Generates cryptographically strong random numbers.
         /// </summary>
-        private static readonly RNGCryptoServiceProvider Rng = new RNGCryptoServiceProvider();
+        private static readonly RandomNumberGenerator Rng = RandomNumberGenerator.Create();
         /// <summary>
         /// The default secret key.
         /// </summary>
