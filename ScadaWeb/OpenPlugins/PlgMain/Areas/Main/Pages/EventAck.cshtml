@@ -87,7 +87,8 @@
         {
             <div class="mb-3">
                 <label id="lblAckNote" for="txtAckNode" class="form-label d-block">@dict.lblAckNote</label>
-                <textarea id="txtAckNode" class="form-control" rows="2" readonly="@(!Model.AckAllowed)" autofocus="@Model.AckAllowed" asp-for="AckNote"></textarea>
+                <textarea id="txtAckNode" class="form-control" rows="2" maxlength="200" asp-for="AckNote"
+                    disabled="@(!Model.AckAllowed)" readonly="@(!Model.AckAllowed)" autofocus="@Model.AckAllowed"></textarea>
             </div>
         }
     </form>

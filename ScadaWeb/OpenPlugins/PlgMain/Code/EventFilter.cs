@@ -21,6 +21,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
         {
             Limit = limit;
             OriginBegin = false;
+            AddCondition("Hidden", FilterOperator.Equals, false);
         }
 
         /// <summary>
