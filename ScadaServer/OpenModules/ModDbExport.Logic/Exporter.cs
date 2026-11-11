@@ -857,7 +857,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         {
             if (cnlNumFilter == null && !curDataExportOptions.SkipUnchanged)
             {
-                return new SliceItem(slice);
+                return new SliceItem(slice) {SingleQuery = false};
             }
             else
             {
@@ -886,7 +886,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                     return new SliceItem(new Slice(
                         slice.Timestamp,
                         [.. destCnlNums],
-                        [.. destCnlData]));
+                        [.. destCnlData])) {SingleQuery = false};
                 }
                 else
                 {
