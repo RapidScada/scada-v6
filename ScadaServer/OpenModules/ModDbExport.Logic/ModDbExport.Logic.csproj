@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <EnableDynamicLoading>true</EnableDynamicLoading>
@@ -9,9 +9,9 @@
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
-    <Copyright>Copyright © 2025</Copyright>
-    <Version>6.1.1</Version>
-    <AssemblyVersion>6.1.1.2</AssemblyVersion>
+    <Copyright>Copyright © 2026</Copyright>
+    <Version>6.1.2</Version>
+    <AssemblyVersion>6.1.2.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,18 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="ScadaCommon">
-      <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
-    </Reference>
-    <Reference Include="ScadaCommon.Log">
-      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
-    </Reference>
-    <Reference Include="ScadaCommon.MultiDb">
-      <HintPath>..\..\..\ScadaCommon\ScadaCommon.MultiDb\bin\Release\net8.0\ScadaCommon.MultiDb.dll</HintPath>
-    </Reference>
-    <Reference Include="ScadaServerCommon">
-      <HintPath>..\..\ScadaServer\ScadaServerCommon\bin\Release\netstandard2.0\ScadaServerCommon.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\..\ScadaCommon\ScadaCommon.Log\ScadaCommon.Log.csproj" />
+    <ProjectReference Include="..\..\..\ScadaCommon\ScadaCommon.MultiDb\ScadaCommon.MultiDb.csproj" />
+    <ProjectReference Include="..\..\..\ScadaCommon\ScadaCommon\ScadaCommon.csproj" />
+    <ProjectReference Include="..\..\ScadaServer\ScadaServerCommon\ScadaServerCommon.csproj" />
   </ItemGroup>
 
   <Import Project="..\ModDbExport.Shared\ModDbExport.Shared.projitems" Label="Shared" />
