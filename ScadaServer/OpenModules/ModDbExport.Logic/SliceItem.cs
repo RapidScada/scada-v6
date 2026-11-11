@@ -30,6 +30,9 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         /// <summary>
         /// Gets the ID of the query that exports the slice.
         /// </summary>
+        /// <remarks>
+        /// If a QueryID is specified, the SingleQuery propertry can be omitted.
+        /// </remarks>
         public int QueryID { get; init; }
 
         /// <summary>

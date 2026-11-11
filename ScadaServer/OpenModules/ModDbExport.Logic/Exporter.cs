@@ -857,7 +857,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         {
             if (cnlNumFilter == null && !curDataExportOptions.SkipUnchanged)
             {
-                return new SliceItem(slice) {SingleQuery = false};
+                return new SliceItem(slice) { SingleQuery = false };
             }
             else
             {
@@ -886,7 +886,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                     return new SliceItem(new Slice(
                         slice.Timestamp,
                         [.. destCnlNums],
-                        [.. destCnlData])) {SingleQuery = false};
+                        [.. destCnlData]))
+                    { SingleQuery = false };
                 }
                 else
                 {
@@ -1235,7 +1236,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             {
                 DateTime utcNow = DateTime.UtcNow;
 
-                if (!histDataQueue.Enqueue(utcNow, new SliceItem(slice), out string errMsg))
+                if (!histDataQueue.Enqueue(utcNow, new SliceItem(slice) { SingleQuery = false }, out string errMsg))
                     exporterLog.WriteError(errMsg);
 
                 if (histDataExportOptions.IncludeCalculated)
