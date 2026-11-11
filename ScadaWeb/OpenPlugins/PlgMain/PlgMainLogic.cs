@@ -81,6 +81,14 @@ namespace Scada.Web.Plugins.PlgMain
         }
 
         /// <summary>
+        /// Gets menu items available for the specified user.
+        /// </summary>
+        public override List<MenuItem> GetUserMenuItems(User user, UserRights userRights)
+        {
+            return null;
+        }
+
+        /// <summary>
         /// Gets reports available for the specified user.
         /// </summary>
         public override List<MenuItem> GetUserReports(User user, UserRights userRights)

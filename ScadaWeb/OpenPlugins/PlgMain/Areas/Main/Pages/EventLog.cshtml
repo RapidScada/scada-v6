@@ -1,0 +1,17 @@
+﻿@page
+@model EventLogModel
+@{
+    dynamic dict = Locale.GetDictionary(Model.GetType().FullName);
+    ViewBag.Title = dict.PageTitle;
+}
+
+@section Scripts {
+    <script src="~/js/components/razor-pager.js" asp-append-version="true"></script>
+    <script src="~/js/pages/table-form.js" asp-append-version="true"></script>
+    <script src="~/plugins/Main/js/event-log.js" asp-append-version="true"></script>
+}
+
+<h1>@ViewBag.Title</h1>
+
+<form method="post">
+</form>
