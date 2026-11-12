@@ -85,7 +85,11 @@ namespace Scada.Web.Plugins.PlgMain
         /// </summary>
         public override List<MenuItem> GetUserMenuItems(User user, UserRights userRights)
         {
-            return null;
+            return [new MenuItem
+            {
+                Text = PluginPhrases.EventLogMenuItem,
+                Url = "~/Main/EventLog",
+            }];
         }
 
         /// <summary>

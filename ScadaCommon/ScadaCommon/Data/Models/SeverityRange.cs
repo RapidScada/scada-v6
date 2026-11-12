@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2026
  */
 
 using Scada.Data.Const;
@@ -32,7 +32,7 @@ namespace Scada.Data.Models
     /// Represents a severity range.
     /// <para>Представляет диапазон серьёзности.</para>
     /// </summary>
-    public struct SeverityRange
+    public readonly struct SeverityRange
     {
         /// <summary>
         /// The critical severity from 1 to 249.
@@ -57,6 +57,11 @@ namespace Scada.Data.Models
         /// </summary>
         public static readonly SeverityRange Info =
             new SeverityRange(Severity.Info, Severity.Max, CommonPhrases.InfoSeverity);
+
+        /// <summary>
+        /// All severity ranges.
+        /// </summary>
+        public static readonly SeverityRange[] All = new SeverityRange[] { Critical, Major, Minor, Info };
 
 
         /// <summary>

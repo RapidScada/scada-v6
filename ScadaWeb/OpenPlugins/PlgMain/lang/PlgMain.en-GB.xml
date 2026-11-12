@@ -33,6 +33,17 @@
     <Phrase key="AckTip">Click the OK button to acknowledge the event.</Phrase>
     <Phrase key="lblAckNote">Note</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventLog">
+    <Phrase key="PageTitle">Event Log</Phrase>
+    <Phrase key="optAllObjects">-- All objects --</Phrase>
+    <Phrase key="optAnySeverity">Any severity</Phrase>
+    <Phrase key="optAnyAck">Any ack status</Phrase>
+    <Phrase key="optUnack">Unacknowledged</Phrase>
+    <Phrase key="optAck">Acknowledged</Phrase>
+    <Phrase key="btnAckSelected">Acknowledge</Phrase>
+    <Phrase key="btnRefreshEvents">Refresh</Phrase>
+    <Phrase key="btnExportEvents">Export</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport">
     <Phrase key="PageTitle">Event Report</Phrase>
     <Phrase key="AllObjItem">-- All objects --</Phrase>
@@ -96,6 +107,7 @@
     <Phrase key="EventWindowTitle">Events</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.PlgMainLogic">
+    <Phrase key="EventLogMenuItem">Event Log</Phrase>
     <Phrase key="ReportGroup">Main Reports</Phrase>
     <Phrase key="HistDataReport">Historical data report</Phrase>
     <Phrase key="EventReport">Event report</Phrase>

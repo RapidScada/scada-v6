@@ -29,6 +29,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
         public static string EventWindowTitle { get; private set; }
 
         // Scada.Web.Plugins.PlgMain.PlgMainLogic
+        public static string EventLogMenuItem { get; private set; }
         public static string ReportGroup { get; private set; }
         public static string HistDataReport { get; private set; }
         public static string EventReport { get; private set; }
@@ -53,6 +54,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
             EventWindowTitle = dict[nameof(EventWindowTitle)];
 
             dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.PlgMainLogic");
+            EventLogMenuItem = dict[nameof(EventLogMenuItem)];
             ReportGroup = dict[nameof(ReportGroup)];
             HistDataReport = dict[nameof(HistDataReport)];
             EventReport = dict[nameof(EventReport)];

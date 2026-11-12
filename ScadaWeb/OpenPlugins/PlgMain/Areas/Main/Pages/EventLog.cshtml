@@ -1,7 +1,8 @@
 ﻿@page
 @model EventLogModel
 @{
-    dynamic dict = Locale.GetDictionary(Model.GetType().FullName);
+    Layout = "_MainLayout";
+    dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventLog");
     ViewBag.Title = dict.PageTitle;
 }
 
@@ -14,4 +15,24 @@
 <h1>@ViewBag.Title</h1>
 
 <form method="post">
+    <div class="btn-toolbar gap-2">
+        <button type="submit" onclick="return false" hidden>Submit</button>
+        <input type="datetime-local" id="txtStartTime" class="form-control w-auto" required asp-for="StartTime" asp-format="{0:yyyy-MM-ddTHH:mm}" />
+        <span class="align-self-center">&ndash;</span>
+        <input type="datetime-local" id="txtEndTime" class="form-control w-auto" required asp-for="EndTime" asp-format="{0:yyyy-MM-ddTHH:mm}" />
+        <select id="selObj" class="form-select w-auto" required asp-for="ObjNum" asp-items="Model.GetObjectItems()">
+            <option value="0">@dict.optAllObjects</option>
+        </select>
+        <select id="selSeverity" class="form-select w-auto" required asp-for="Severity" asp-items="EventLogModel.GetSeverityItems()">
+            <option value="0">@dict.optAnySeverity</option>
+        </select>
+        <select id="selAck" class="form-select w-auto" required asp-for="Ack">
+            <option value="0">@dict.optAnyAck</option>
+            <option value="1">@dict.optUnack</option>
+            <option value="2">@dict.optAck</option>
+        </select>
+        <button type="button" id="btnAckSelected" class="btn btn-outline-primary"><i class="fa-solid fa-check-double"></i> @dict.btnAckSelected</button>
+        <button type="button" id="btnRefreshEvents" class="btn btn-outline-primary"><i class="fa-solid fa-rotate"></i> @dict.btnRefreshEvents</button>
+        <button type="button" id="btnExportEvents" class="btn btn-outline-primary"><i class="fa-solid fa-print"></i> @dict.btnExportEvents</button>
+    </div>
 </form>
