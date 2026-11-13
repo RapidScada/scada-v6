@@ -44,6 +44,15 @@
     <Phrase key="btnRefreshEvents">Refresh</Phrase>
     <Phrase key="btnExportEvents">Export</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventLog.EventLogTable">
+    <Phrase key="TimeCol">Date and Time</Phrase>
+    <Phrase key="ObjCol">Object</Phrase>
+    <Phrase key="DevCol">Device</Phrase>
+    <Phrase key="CnlCol">Channel</Phrase>
+    <Phrase key="DescrCol">Description</Phrase>
+    <Phrase key="SevCol">Severity</Phrase>
+    <Phrase key="AckCol">Ack</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport">
     <Phrase key="PageTitle">Event Report</Phrase>
     <Phrase key="AllObjItem">-- All objects --</Phrase>

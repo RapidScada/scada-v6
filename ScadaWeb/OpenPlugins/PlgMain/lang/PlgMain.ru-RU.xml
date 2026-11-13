@@ -44,6 +44,15 @@
     <Phrase key="btnRefreshEvents">Обновить</Phrase>
     <Phrase key="btnExportEvents">Экспорт</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventLog.EventLogTable">
+    <Phrase key="TimeCol">Дата и время</Phrase>
+    <Phrase key="ObjCol">Объект</Phrase>
+    <Phrase key="DevCol">Устройство</Phrase>
+    <Phrase key="CnlCol">Канал</Phrase>
+    <Phrase key="DescrCol">Описание</Phrase>
+    <Phrase key="SevCol">Серьёзность</Phrase>
+    <Phrase key="AckCol">Квитирование</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport">
     <Phrase key="PageTitle">Отчёт по событиям</Phrase>
     <Phrase key="AllObjItem">-- Все объекты --</Phrase>
