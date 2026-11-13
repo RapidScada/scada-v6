@@ -130,7 +130,11 @@ namespace Scada.Protocol
         public static void ClearNetStream(NetworkStream netStream, byte[] buffer)
         {
             if (netStream.DataAvailable)
-                netStream.Read(buffer, 0, buffer.Length);
+            {
+                int bytesRead = netStream.Read(buffer, 0, buffer.Length);
+                if (bytesRead == 0)
+                    return;
+            }
         }
 
         /// <summary>
