@@ -1,0 +1,43 @@
+﻿@model PaginatedList<EventFormatted>
+@{
+    dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventLog.EventLogTable");
+}
+
+@if (Model.Count > 0)
+{
+    <table id="tblMain" class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>@dict.SelectCol</th>
+                <th>@dict.TimeCol</th>
+                <th>@dict.ObjCol</th>
+                <th>@dict.DevCol</th>
+                <th>@dict.CnlCol</th>
+                <th>@dict.DescrCol</th>
+                <th>@dict.SevCol</th>
+                <th>@dict.AckCol</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ef in Model)
+            {
+                <tr event-id="0">
+                    <td></td>
+                    <td>@ef.Time</td>
+                    <td>@ef.Obj</td>
+                    <td>@ef.Dev</td>
+                    <td>@ef.Cnl</td>
+                    <td>@ef.Descr</td>
+                    <td>@ef.Sev</td>
+                    <td>@ef.Ack</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <pager id="pgrMain" asp-for="PageIndex" page-count="Model.PageCount"></pager>
+}
+else
+{
+    <div class="alert alert-warning">@WebPhrases.NoData</div>
+}

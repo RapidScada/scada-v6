@@ -4,9 +4,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scada.Data.Const;
-using Scada.Data.Entities;
 using Scada.Data.Models;
-using Scada.Data.Tables;
 using Scada.Lang;
 using Scada.Report;
 using Scada.Web.Api;
@@ -100,32 +98,6 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
 
             return stream;
-        }
-
-        /// <summary>
-        /// Gets the numbers of available objects starting from the specified object.
-        /// </summary>
-        private List<int> GetObjNumHierarchy(int startObjNum)
-        {
-            List<int> objNums = [startObjNum];
-
-            if (!webContext.ConfigDatabase.ObjTable.TryGetIndex("ParentObjNum", out ITableIndex parentObjIndex))
-                throw new ScadaException(CommonPhrases.IndexNotFound);
-
-            void AddChildObjects(int parentObjNum)
-            {
-                foreach (Obj childObj in parentObjIndex.SelectItems(parentObjNum))
-                {
-                    if (userContext.Rights.GetRightByObj(childObj.ObjNum).View)
-                    {
-                        objNums.Add(childObj.ObjNum);
-                        AddChildObjects(childObj.ObjNum);
-                    }
-                }
-            }
-
-            AddChildObjects(startObjNum);
-            return objNums;
         }
 
         /// <summary>
@@ -244,7 +216,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
             else if (webContext.ConfigDatabase.ObjTable.PkExists(objNum))
             {
-                objNums = GetObjNumHierarchy(objNum);
+                objNums = webContext.ConfigDatabase.GetObjNumHierarchy(objNum, userContext.Rights);
             }
             else
             {

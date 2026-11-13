@@ -24,9 +24,9 @@
             <option value="0">@dict.optAllObjects</option>
         </select>
         <select id="selSeverity" class="form-select w-auto" required asp-for="Severity" asp-items="EventLogModel.GetSeverityItems()">
-            <option value="0">@dict.optAnySeverity</option>
+            <option value="">@dict.optAnySeverity</option>
         </select>
-        <select id="selAck" class="form-select w-auto" required asp-for="Ack">
+        <select id="selAck" class="form-select w-auto" required asp-for="AckItemIndex">
             <option value="0">@dict.optAnyAck</option>
             <option value="1">@dict.optUnack</option>
             <option value="2">@dict.optAck</option>
@@ -34,5 +34,9 @@
         <button type="button" id="btnAckSelected" class="btn btn-outline-primary"><i class="fa-solid fa-check-double"></i> @dict.btnAckSelected</button>
         <button type="button" id="btnRefreshEvents" class="btn btn-outline-primary"><i class="fa-solid fa-rotate"></i> @dict.btnRefreshEvents</button>
         <button type="button" id="btnExportEvents" class="btn btn-outline-primary"><i class="fa-solid fa-print"></i> @dict.btnExportEvents</button>
+    </div>
+
+    <div id="divTableWrapper">
+        <partial name="_EventLogTable" model="Model.EventList" />
     </div>
 </form>
