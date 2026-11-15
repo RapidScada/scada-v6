@@ -413,10 +413,17 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
                 }
                 else
                 {
-                    modbusCmd.Value = modbusCmd.DataBlock == DataBlock.HoldingRegisters
-                        ? (ushort)cmd.CmdVal
-                        : (ushort)(cmd.CmdVal > 0 ? 1 : 0);
                     modbusCmd.SetCmdData(cmd.CmdVal);
+
+                    // WriteSingleRegister sends Value, not Data: take the register from the 2-byte
+                    // big-endian Data so that negative Short values are encoded correctly
+                    // (a double to ushort cast saturates to 0 on .NET 9 and later)
+                    byte[] data = modbusCmd.Data;
+                    modbusCmd.Value = modbusCmd.DataBlock == DataBlock.HoldingRegisters
+                        ? (data != null && data.Length == 2
+                            ? (ushort)(data[0] << 8 | data[1])
+                            : (ushort)cmd.CmdVal)
+                        : (ushort)(cmd.CmdVal > 0 ? 1 : 0);
                 }
 
                 modbusCmd.InitReqPDU();
