@@ -559,6 +559,7 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
                             break;
                         case LinkTarget.NEW_MODAL:
                             renderContext.viewHub.modalManager.showModal(url, new ModalOptions({
+                                buttons: [], // the header has a close button
                                 size: action.linkArgs.getModalSize(),
                                 height: action.linkArgs.modalHeight
                             }));

@@ -16,6 +16,9 @@
   overflow: hidden;
 }
 
+.modal-footer:empty {
+  display: none;
+}
 .modal-footer .btn {
   min-width: 75px;
 }
