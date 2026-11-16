@@ -497,10 +497,21 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                     };
 
                     ReferenceDescriptionCollection browseResults = browser.Browse(nodeId);
+                    HashSet<NodeId> addedNodeIds = [];
                     nodeCollection.Clear();
 
                     foreach (ReferenceDescription rd in browseResults)
                     {
+                        // a node can be referenced several times, e.g. by Organizes and HasComponent,
+                        // and a reference back to an ancestor would make the tree endless
+                        NodeId childNodeId = ExpandedNodeId.ToNodeId(rd.NodeId, opcSession.NamespaceUris);
+
+                        if (childNodeId != null &&
+                            (!addedNodeIds.Add(childNodeId) || IsAncestorNode(treeNode, childNodeId)))
+                        {
+                            continue;
+                        }
+
                         TreeNode childNode = TreeViewExtensions.CreateNode(rd.DisplayName, SelectImageKey(rd.NodeClass));
                         childNode.Tag = new ServerNodeTag(rd, opcSession.NamespaceUris);
                         childNode.ContextMenuStrip = SelectContextMenu(rd.NodeClass);
@@ -527,6 +538,20 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             {
                 tvServer.EndUpdate();
             }
+        }
+
+        /// <summary>
+        /// Checks whether the node ID belongs to the specified tree node or one of its ancestors.
+        /// </summary>
+        private static bool IsAncestorNode(TreeNode treeNode, NodeId nodeId)
+        {
+            for (TreeNode node = treeNode; node != null; node = node.Parent)
+            {
+                if (node.Tag is ServerNodeTag tag && tag.NodeId == nodeId)
+                    return true;
+            }
+
+            return nodeId == ObjectIds.ObjectsFolder;
         }
 
         /// <summary>
