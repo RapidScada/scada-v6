@@ -20,6 +20,7 @@ class TableFormBase {
             tableToolbar: "#divTableToolbar",
             searchInput: "#txtSearch",
             searchButton: "#btnSearch",
+            refreshButton: "#btnRefresh",
             newItemButton: "#btnNewItem",
             tableWrapper: "#divTableWrapper",
             pager: "pgrMain" // without #
@@ -42,7 +43,7 @@ class TableFormAsync extends TableFormBase {
     _phrases = {};
 
     _bindEvents() {
-        $(this._elemId.tableToolbar).on("change", "select", async () => {
+        $(this._elemId.tableToolbar).on("change", "input[type=datetime-local], select", async () => {
             await this._loadData();
         });
 
@@ -53,7 +54,7 @@ class TableFormAsync extends TableFormBase {
             }
         });
 
-        $(this._elemId.searchButton).on("click", async () => {
+        $(this._elemId.searchButton).add(this._elemId.refreshButton).on("click", async () => {
             await this._loadData();
         });
 
