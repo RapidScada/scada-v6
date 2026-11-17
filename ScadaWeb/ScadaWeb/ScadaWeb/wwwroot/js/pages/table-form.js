@@ -20,7 +20,6 @@ class TableFormBase {
             tableToolbar: "#divTableToolbar",
             searchInput: "#txtSearch",
             searchButton: "#btnSearch",
-            refreshButton: "#btnRefresh",
             newItemButton: "#btnNewItem",
             tableWrapper: "#divTableWrapper",
             pager: "pgrMain" // without #
@@ -54,7 +53,7 @@ class TableFormAsync extends TableFormBase {
             }
         });
 
-        $(this._elemId.searchButton).add(this._elemId.refreshButton).on("click", async () => {
+        $(this._elemId.searchButton).on("click", async () => {
             await this._loadData();
         });
 
@@ -231,7 +230,7 @@ class TableFormAsync extends TableFormBase {
 //   redirected by the server side for creating and editing records.
 class TableFormSync extends TableFormBase {
     _bindEvents() {
-        $(this._elemId.tableToolbar).on("change", "select", () => {
+        $(this._elemId.tableToolbar).on("change", "input[type=datetime-local], select", () => {
             this._loadData();
         });
 
