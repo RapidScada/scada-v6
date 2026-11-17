@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Caching.Memory;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Web.Components;
@@ -20,8 +21,11 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         IWebContext webContext,
         IUserContext userContext,
         IClientAccessor clientAccessor,
-        PluginContext pluginContext) : PageModel
+        PluginContext pluginContext,
+        IMemoryCache memoryCache) : PageModel
     {
+        private static readonly TimeSpan EventLogCacheExpiration = TimeSpan.FromSeconds(60);
+
         public PaginatedList<EventFormatted> EventList { get; } = [];
 
         [BindProperty]
@@ -38,12 +42,30 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         public int PageIndex { get; set; } = 0;
 
 
-        private void FillEventList()
+        private void FillEventList(bool clearCache)
         {
-            List<Event> events = clientAccessor.ScadaClient.GetEvents(
-                GetArchiveBit(), GetTimeRange(), GetEventFilter(), false, out _);
-            CnlDataFormatter formatter = new(webContext.ConfigDatabase, userContext.TimeZone);
-            EventList.Fill(events.Select(formatter.FormatEvent).ToList(), PageIndex);
+            int archiveBit = GetArchiveBit();
+            TimeRange timeRange = GetTimeRange();
+            DataFilter eventFilter = GetEventFilter();
+            string cacheKey = PluginUtils.GetCacheKey("EventLog", archiveBit, timeRange.Key, eventFilter.Key);
+
+            if (clearCache)
+            {
+                memoryCache.Remove(cacheKey);
+            }
+
+            List<EventFormatted> formattedEvents = memoryCache.GetOrCreate(
+                cacheKey,
+                entry =>
+                {
+                    entry.SetAbsoluteExpiration(EventLogCacheExpiration);
+                    CnlDataFormatter formatter = new(webContext.ConfigDatabase, userContext.TimeZone);
+                    return clientAccessor.ScadaClient
+                        .GetEvents(archiveBit, timeRange, eventFilter, false, out _)
+                        .Select(formatter.FormatEvent).ToList();
+                });
+
+            EventList.Fill(formattedEvents, PageIndex);
         }
 
         private int GetArchiveBit()
@@ -70,8 +92,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
             if (!string.IsNullOrEmpty(Severity))
             {
-                dataFilter.AddCondition("Severity", FilterOperator.In, 
-                    ScadaUtils.ParseRange(Severity, true, true));
+                dataFilter.AddCondition("Severity", FilterOperator.Between, ParseSeveriryRange(Severity));
             }
 
             if (AckItemIndex > 0)
@@ -82,6 +103,14 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             }
 
             return dataFilter;
+        }
+
+        private static int[] ParseSeveriryRange(string s)
+        {
+            string[] parts = s.Split('-');
+            return parts.Length >= 2 && int.TryParse(parts[0], out int min) && int.TryParse(parts[1], out int max)
+                ? [min, max]
+                : [0, 0];
         }
 
 
@@ -108,12 +137,18 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         {
             StartTime = userContext.ConvertTimeFromUtc(DateTime.UtcNow).Date;
             EndTime = StartTime.AddDays(1.0);
-            FillEventList();
+            FillEventList(true);
         }
 
         public IActionResult OnPost()
         {
-            FillEventList();
+            FillEventList(false);
+            return Partial("_EventLogTable", EventList);
+        }
+
+        public IActionResult OnPostRefresh()
+        {
+            FillEventList(true);
             return Partial("_EventLogTable", EventList);
         }
     }
