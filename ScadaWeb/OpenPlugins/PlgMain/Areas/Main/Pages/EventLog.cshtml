@@ -1,5 +1,6 @@
 ﻿@page
 @model EventLogModel
+@inject PluginContext pluginContext
 @{
     Layout = "_MainLayout";
     dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventLog");
@@ -10,6 +11,10 @@
     <script src="~/js/components/razor-pager.js" asp-append-version="true"></script>
     <script src="~/js/pages/table-form.js" asp-append-version="true"></script>
     <script src="~/plugins/Main/js/event-log.js" asp-append-version="true"></script>
+    <script>
+        maxReportPeriod = @pluginContext.Options.MaxReportPeriod;
+        reportPhrases = @WebUtils.DictionaryToJs("Scada.Web.Plugins.PlgMain.Report.Js"); // TODO: use constant
+    </script>
 }
 
 <h1>@ViewBag.Title</h1>
