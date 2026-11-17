@@ -25,37 +25,18 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
     /// <remarks>Note that double.NaN cannot be converted to JSON.</remarks>
     [ApiController]
     [Route("Api/Main/[action]")]
-    public class MainApiController : ControllerBase
+    public class MainApiController(
+        IWebContext webContext,
+        IUserContext userContext,
+        IAuditLog auditLog,
+        IClientAccessor clientAccessor,
+        IViewLoader viewLoader,
+        IMemoryCache memoryCache) : ControllerBase
     {
         /// <summary>
         /// The cache expiration for archive data.
         /// </summary>
         private static readonly TimeSpan DataCacheExpiration = TimeSpan.FromMilliseconds(500);
-
-        private readonly IWebContext webContext;
-        private readonly IUserContext userContext;
-        private readonly IAuditLog auditLog;
-        private readonly IClientAccessor clientAccessor;
-        private readonly IViewLoader viewLoader;
-        private readonly IMemoryCache memoryCache;
-        private readonly PluginContext pluginContext;
-
-
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public MainApiController(IWebContext webContext, IUserContext userContext, IAuditLog auditLog,
-            IClientAccessor clientAccessor, IViewLoader viewLoader, IMemoryCache memoryCache,
-            PluginContext pluginContext)
-        {
-            this.webContext = webContext;
-            this.userContext = userContext;
-            this.auditLog = auditLog;
-            this.clientAccessor = clientAccessor;
-            this.viewLoader = viewLoader;
-            this.memoryCache = memoryCache;
-            this.pluginContext = pluginContext;
-        }
 
 
         /// <summary>
@@ -111,7 +92,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
             if (cnlCnt > 0 || useCache)
             {
-                CnlData[] cnlDataArr = Array.Empty<CnlData>();
+                CnlData[] cnlDataArr = [];
 
                 if (cnlListID > 0)
                     cnlDataArr = clientAccessor.ScadaClient.GetCurrentData(ref cnlListID);
@@ -150,7 +131,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             HistData histData = new()
             {
                 CnlNums = cnlNums,
-                Timestamps = Array.Empty<TimeRecord>(),
+                Timestamps = [],
                 Trends = trends
             };
 
