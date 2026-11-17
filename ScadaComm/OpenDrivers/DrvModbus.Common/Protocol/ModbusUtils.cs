@@ -226,6 +226,35 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         }
 
         /// <summary>
+        /// Copies the bytes in the specified byte order. Missing source bytes are filled with zeros.
+        /// </summary>
+        public static void ApplyByteOrder(ReadOnlySpan<byte> src, Span<byte> dest, int[] byteOrder)
+        {
+            int srcLen = src.Length;
+            int count = dest.Length;
+
+            if (byteOrder == null)
+            {
+                // copy data without byte order
+                for (int i = 0; i < count; i++)
+                {
+                    dest[i] = i < srcLen ? src[i] : (byte)0;
+                }
+            }
+            else
+            {
+                // copy data with byte order
+                int ordLen = byteOrder.Length;
+
+                for (int i = 0; i < count; i++)
+                {
+                    int srcInd = i < ordLen ? byteOrder[i] : -1;
+                    dest[i] = 0 <= srcInd && srcInd < srcLen ? src[srcInd] : (byte)0;
+                }
+            }
+        }
+
+        /// <summary>
         /// Copies the array elements in the specified byte order.
         /// </summary>
         public static void ApplyByteOrder(byte[] src, int srcOffset, byte[] dest, int destOffset, int count,
