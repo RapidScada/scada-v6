@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2026
  */
 
 using System;
@@ -65,6 +65,31 @@ namespace Scada.Data.Tables
             SetArgument(args);
         }
 
+
+        /// <summary>
+        /// Gets a string key that identifies the current object.
+        /// </summary>
+        public string Key
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder($"{ColumnName}_{Operator}_");
+
+                if (Argument is IEnumerable enumerable)
+                {
+                    foreach (object arg in enumerable)
+                    {
+                        sb.Append(arg?.ToString() ?? "null").Append(',');
+                    }
+                }
+                else
+                {
+                    sb.Append(Argument?.ToString() ?? "null");
+                }
+
+                return sb.ToString();
+            }
+        }
 
         /// <summary>
         /// Gets the column name to filter.

@@ -45,7 +45,7 @@ namespace Scada.Data.Models
 
 
         /// <summary>
-        /// Gets the key that identifies the time range.
+        /// Gets a string key that identifies the current object.
         /// </summary>
         public string Key
         {

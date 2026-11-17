@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2026
  */
 
 using System;
@@ -28,6 +28,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Common;
+using System.Text;
 
 namespace Scada.Data.Tables
 {
@@ -58,6 +59,24 @@ namespace Scada.Data.Tables
             Conditions = new List<FilterCondition>();
         }
 
+
+        /// <summary>
+        /// Gets a string key that identifies the current object.
+        /// </summary>
+        public string Key
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder($"{Limit}_{Offset}_{OriginBegin}_{RequireAll}");
+
+                foreach (FilterCondition condition in Conditions)
+                {
+                    sb.Append('_').Append(condition.Key);
+                }
+
+                return sb.ToString();
+            }
+        }
 
         /// <summary>
         /// Gets the type of the filtered items.
