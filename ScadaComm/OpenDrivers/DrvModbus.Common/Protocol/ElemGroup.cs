@@ -104,9 +104,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             for (int i = 0; i < elemCnt; i++)
             {
                 Elem elem = Elems[i];
-                byte[] elemVal = new byte[elem.DataLength];
-                Array.Clear(elemVal, 0, elemVal.Length);
-                ElemData[i] = elemVal;
+                ElemData[i] = new byte[elem.DataLength]; // a new array is already zeroed
             }
         }
 
