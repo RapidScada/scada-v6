@@ -7,15 +7,21 @@ var tableFormPhrases = {};
 
 // A base class that implements the behavior of a table form.
 class TableFormBase {
-    _pager;
-    _elemId;
+    _formElem = null;
+    _controlId = {};
+    _pager = null;
 
-    constructor() {
-        this._pager = null;
-        this._elemId = this._getDefaultElemIds();
+    constructor(opt_formId) {
+        if (opt_formId) {
+            // access controls by class names inside the parent form
+            this._formElem = $("#" + opt_formId);
+        } else {
+            // access controls directly by IDs
+            this._controlId = this._getDefaultControlIds();
+        }
     }
 
-    _getDefaultElemIds() {
+    _getDefaultControlIds() {
         return {
             tableToolbar: "#divTableToolbar",
             searchInput: "#txtSearch",
@@ -26,11 +32,44 @@ class TableFormBase {
         };
     }
 
+    _initPager() {
+        if (typeof RazorPager === "function") {
+            if (this._formElem) {
+                let pagerElem = this._formElem.find(RazorPager.PAGER_CLASS);
+
+                if (pagerElem.length > 0) {
+                    this._pager = new RazorPager(pagerElem.prop("id"));
+                }
+            } else {
+                this._pager = new RazorPager(this._controlId.pager);
+            }
+        }
+    }
+
     _bindEvents() {
+        if (this._formElem) {
+            this._bindEventsByClass();
+        } else {
+            this._bindEventsById();
+        }
+    }
+
+    _bindEventsById() {
+        // override in derived class
+    }
+
+    _bindEventsByClass() {
+        // override in derived class
+    }
+
+    _getTableWrapper() {
+        return this._formElem
+            ? this._formElem.find(".rs-table-wrapper:first")
+            : $(this._controlId.tableWrapper);
     }
 
     init() {
-        this._pager = typeof RazorPager === "function" ? new RazorPager(this._elemId.pager) : null;
+        this._initPager();
         this._bindEvents();
     }
 }
@@ -41,50 +80,76 @@ class TableFormBase {
 class TableFormAsync extends TableFormBase {
     _phrases = {};
 
-    _bindEvents() {
-        $(this._elemId.tableToolbar).on("change", "input[type=datetime-local], select", async () => {
+    _bindEventsById() {
+        $(this._controlId.tableToolbar).on("change", "select", async () => {
             await this._loadData();
         });
 
-        $(this._elemId.searchInput).on("keydown", async event => {
+        $(this._controlId.searchInput).on("keydown", async event => {
             if (event.code === "Enter" || event.code === "NumpadEnter") {
                 await this._loadData();
                 event.preventDefault();
             }
         });
 
-        $(this._elemId.searchButton).on("click", async () => {
+        $(this._controlId.searchButton).on("click", async () => {
             await this._loadData();
         });
 
-        $(this._elemId.newItemButton).on("click", async () => {
+        $(this._controlId.newItemButton).on("click", async () => {
             this._newItem();
         });
 
-        $(this._elemId.tableWrapper).on("click", ".rs-view-item", event => {
-            this._viewItem(this._getItemId(event.target));
-        });
+        this._bindTableEvents();
+    }
 
-        $(this._elemId.tableWrapper).on("click", ".rs-edit-item", event => {
-            this._editItem(this._getItemId(event.target));
-        });
+    _bindEventsByClass() {
+        let tableToolbarElem = this._formElem.find(".rs-table-toolbar:first")
+            .on("change", "select", async () => {
+                await this._loadData();
+            });
 
-        $(this._elemId.tableWrapper).on("click", ".rs-delete-item", async event => {
-            if (confirm(this._phrases.deleteItemConfirm)) {
-                await this._deleteItem(this._getItemId(event.target));
+        tableToolbarElem.find(".rs-search-input").on("keydown", async event => {
+            if (event.code === "Enter" || event.code === "NumpadEnter") {
+                await this._loadData();
+                event.preventDefault();
             }
         });
 
-        $(this._elemId.tableWrapper).on("click", ".rs-approve-item", async event => {
-            await this._approveItem(this._getItemId(event.target));
+        tableToolbarElem.find(".rs-search-button").on("click", async () => {
+            await this._loadData();
         });
 
-        $(this._elemId.tableWrapper).on("click", ".rs-unapprove-item", async event => {
-            await this._unapproveItem(this._getItemId(event.target));
+        tableToolbarElem.find(".rs-new-item-button").on("click", async () => {
+            this._newItem();
         });
+
+        this._bindTableEvents();
+    }
+
+    _bindTableEvents() {
+        let tableWrapperElem = this._getTableWrapper();
+        tableWrapperElem
+            .on("click", ".rs-view-item", event => {
+                this._viewItem(this._getItemId(event.target));
+            })
+            .on("click", ".rs-edit-item", event => {
+                this._editItem(this._getItemId(event.target));
+            })
+            .on("click", ".rs-delete-item", async event => {
+                if (confirm(this._phrases.deleteItemConfirm)) {
+                    await this._deleteItem(this._getItemId(event.target));
+                }
+            })
+            .on("click", ".rs-approve-item", async event => {
+                await this._approveItem(this._getItemId(event.target));
+            })
+            .on("click", ".rs-unapprove-item", async event => {
+                await this._unapproveItem(this._getItemId(event.target));
+            });
 
         if (this._pager) {
-            $(this._elemId.tableWrapper).on(RazorPager.PAGE_CLICK_EVENT, RazorPager.PAGER_CLASS, async () => {
+            tableWrapperElem.on(RazorPager.PAGE_CLICK_EVENT, RazorPager.PAGER_CLASS, async () => {
                 await this._loadData();
             });
         }
@@ -98,7 +163,7 @@ class TableFormAsync extends TableFormBase {
 
             if (result.ok) {
                 console.log("Table data loaded successfully.");
-                $(this._elemId.tableWrapper).html(result.data);
+                this._getTableWrapper().html(result.data);
                 this._pager?.bindEvents();
             } else {
                 ModalBox.showMessage(catalogPhrases.loadDataError, { alert: ModalBoxAlerts.DANGER });
@@ -174,6 +239,7 @@ class TableFormAsync extends TableFormBase {
     }
 
     _getDataUrl(opt_handler) {
+        // override in derived class
         return null;
     }
 
@@ -229,30 +295,56 @@ class TableFormAsync extends TableFormBase {
 //   reloads the entire page,
 //   redirected by the server side for creating and editing records.
 class TableFormSync extends TableFormBase {
-    _bindEvents() {
-        $(this._elemId.tableToolbar).on("change", "input[type=datetime-local], select", () => {
+    _bindEventsById() {
+        $(this._controlId.tableToolbar).on("change", "select", () => {
             this._loadData();
         });
 
-        $(this._elemId.searchInput).on("keydown", event => {
+        $(this._controlId.searchInput).on("keydown", event => {
             if (event.code === "Enter" || event.code === "NumpadEnter") {
                 this._loadData();
                 event.preventDefault();
             }
         });
 
-        $(this._elemId.searchButton).on("click", () => {
+        $(this._controlId.searchButton).on("click", () => {
             this._loadData();
         });
 
         if (this._pager) {
-            $(this._elemId.tableWrapper).on(RazorPager.PAGE_CLICK_EVENT, RazorPager.PAGER_CLASS, async () => {
+            $(this._controlId.tableWrapper)
+                .on(RazorPager.PAGE_CLICK_EVENT, RazorPager.PAGER_CLASS, async () => {
+                    this._loadData();
+                });
+        }
+    }
+
+    _bindEventsByClass() {
+        let tableToolbarElem = this._formElem.find(".rs-table-toolbar:first")
+            .on("change", "select", () => {
                 this._loadData();
             });
+
+        tableToolbarElem.find(".rs-search-input").on("keydown", event => {
+            if (event.code === "Enter" || event.code === "NumpadEnter") {
+                this._loadData();
+                event.preventDefault();
+            }
+        });
+
+        tableToolbarElem.find(".rs-search-button").on("click", () => {
+            this._loadData();
+        });
+
+        if (this._pager) {
+            this._formElem.find(".rs-table-wrapper:first")
+                .on(RazorPager.PAGE_CLICK_EVENT, RazorPager.PAGER_CLASS, async () => {
+                    this._loadData();
+                });
         }
     }
 
     _loadData() {
-        // override in child class
+        // override in derived class
     }
 }

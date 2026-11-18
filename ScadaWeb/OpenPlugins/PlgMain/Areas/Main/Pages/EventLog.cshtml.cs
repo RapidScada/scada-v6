@@ -76,7 +76,10 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         private TimeRange GetTimeRange()
         {
-            return new TimeRange(StartTime, EndTime, true);
+            return new TimeRange(
+                userContext.ConvertTimeToUtc(StartTime),
+                userContext.ConvertTimeToUtc(EndTime),
+                true);
         }
 
         private DataFilter GetEventFilter()

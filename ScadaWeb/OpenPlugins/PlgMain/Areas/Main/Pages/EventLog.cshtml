@@ -13,14 +13,14 @@
     <script src="~/plugins/Main/js/event-log.js" asp-append-version="true"></script>
     <script>
         maxReportPeriod = @pluginContext.Options.MaxReportPeriod;
-        reportPhrases = @WebUtils.DictionaryToJs("Scada.Web.Plugins.PlgMain.Report.Js"); // TODO: use constant
+        reportPhrases = @WebUtils.DictionaryToJs(PluginDictKey.ReportJs);
     </script>
 }
 
 <h1>@ViewBag.Title</h1>
 
-<form method="post">
-    <div id="divTableToolbar" class="btn-toolbar mb-3 gap-2">
+<form id="frmEventLog" method="post">
+    <div class="btn-toolbar mb-3 gap-2 rs-table-toolbar">
         <button type="submit" onclick="return false" hidden>Submit</button>
         <input type="datetime-local" id="txtStartTime" class="form-control w-auto" required asp-for="StartTime" asp-format="{0:yyyy-MM-ddTHH:mm}" />
         <span class="align-self-center">&ndash;</span>
@@ -41,7 +41,7 @@
         <button type="button" id="btnExportEvents" class="btn btn-outline-primary"><i class="fa-solid fa-print"></i> @dict.btnExportEvents</button>
     </div>
 
-    <div id="divTableWrapper">
+    <div class="rs-table-wrapper">
         <partial name="_EventLogTable" model="Model.EventList" />
     </div>
 </form>

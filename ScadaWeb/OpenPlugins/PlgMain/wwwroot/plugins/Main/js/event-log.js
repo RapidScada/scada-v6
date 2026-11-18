@@ -1,6 +1,14 @@
 class EventLogTableForm extends TableFormAsync {
+    constructor() {
+        super("frmEventLog");
+    }
+
     _bindEvents() {
         super._bindEvents();
+
+        $("#txtStartTime, #txtEndTime").on("change", async () => {
+            await this._loadData();
+        });
 
         $("#btnAckSelected").on("click", () => {
 
@@ -22,9 +30,9 @@ class EventLogTableForm extends TableFormAsync {
     }
 }
 
-// Set in EventLog.cshtml
-var reportPhrases = {};
+// Set in *.cshtml
 var maxReportPeriod = 0;
+var reportPhrases = {};
 
 $(() => {
     let form = new EventLogTableForm();
