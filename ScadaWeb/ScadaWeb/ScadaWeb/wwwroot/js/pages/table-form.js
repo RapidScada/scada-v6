@@ -166,7 +166,7 @@ class TableFormAsync extends TableFormBase {
                 this._getTableWrapper().html(result.data);
                 this._pager?.bindEvents();
             } else {
-                ModalBox.showMessage(catalogPhrases.loadDataError, { alert: ModalBoxAlerts.DANGER });
+                ModalBox.showMessage(this._phrases.loadDataError, { alert: ModalBoxAlerts.DANGER });
             }
         } else {
             console.warn("Unable to load table data because URL is undefined.")

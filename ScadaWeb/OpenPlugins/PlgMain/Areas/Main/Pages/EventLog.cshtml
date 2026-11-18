@@ -13,6 +13,7 @@
     <script src="~/plugins/Main/js/event-log.js" asp-append-version="true"></script>
     <script>
         maxReportPeriod = @pluginContext.Options.MaxReportPeriod;
+        tableFormPhrases = @WebUtils.DictionaryToJs(WebDictKey.TableFormsJs);
         reportPhrases = @WebUtils.DictionaryToJs(PluginDictKey.ReportJs);
     </script>
 }
