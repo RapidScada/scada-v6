@@ -1,6 +1,6 @@
 class EventLogTableForm extends TableFormAsync {
-    constructor() {
-        super("frmEventLog");
+    constructor(phrases) {
+        super("frmEventLog", phrases);
     }
 
     _bindEvents() {
@@ -33,8 +33,9 @@ class EventLogTableForm extends TableFormAsync {
 // Set in *.cshtml
 var maxReportPeriod = 0;
 var reportPhrases = {};
+var tableFormPhrases = {};
 
 $(() => {
-    let form = new EventLogTableForm();
+    let form = new EventLogTableForm(tableFormPhrases);
     form.init();
 });
