@@ -1,24 +1,40 @@
 ﻿// Contains classes: TableFormBase, TableFormAsync, TableFormSync
 // Depends on modal.js, razor-pager.js
 
-// Specifies the phrases for an async table form.
-// Can be changed by a page script.
-var tableFormPhrases = {};
+/** @deprecated */
+var tableFormPhrases = null;
 
-// A base class that implements the behavior of a table form.
+/** Contains phrases used by table forms. */
+class TableFormPhrases {
+    static EMPTY = Object.freeze(new TableFormPhrases());
+
+    loadDataError;
+    deleteItemConfirm;
+    itemExists;
+    fillOutFields;
+    validJsonRequired;
+}
+
+/** A base class that implements the behavior of a table form. */
 class TableFormBase {
-    _formElem = null;
-    _controlId = {};
-    _pager = null;
+    _formElem;
+    _controlId;
+    _pager;
+    _phrases;
 
-    constructor(opt_formId) {
+    constructor(opt_formId, opt_phrases) {
         if (opt_formId) {
             // access controls by class names inside the parent form
             this._formElem = $("#" + opt_formId);
+            this._controlId = {};
         } else {
             // access controls directly by IDs
+            this._formElem = null;
             this._controlId = this._getDefaultControlIds();
         }
+
+        this._pager = null;
+        this._phrases = opt_phrases ?? tableFormPhrases ?? TableFormPhrases.EMPTY;
     }
 
     _getDefaultControlIds() {
@@ -35,7 +51,7 @@ class TableFormBase {
     _initPager() {
         if (typeof RazorPager === "function") {
             if (this._formElem) {
-                let pagerElem = this._formElem.find(RazorPager.PAGER_CLASS);
+                const pagerElem = this._formElem.find(RazorPager.PAGER_CLASS);
 
                 if (pagerElem.length > 0) {
                     this._pager = new RazorPager(pagerElem.prop("id"));
@@ -74,12 +90,12 @@ class TableFormBase {
     }
 }
 
-// A base class for a table form that 
-//   reloads data asynchoniously, 
-//   shows modals for creating and editing records.
+/** 
+ * A base class for a table form that:
+ * - reloads data asynchronously,
+ * - shows modals for creating and editing records. 
+ */
 class TableFormAsync extends TableFormBase {
-    _phrases = {};
-
     _bindEventsById() {
         $(this._controlId.tableToolbar).on("change", "select", async () => {
             await this._loadData();
@@ -104,7 +120,7 @@ class TableFormAsync extends TableFormBase {
     }
 
     _bindEventsByClass() {
-        let tableToolbarElem = this._formElem.find(".rs-table-toolbar:first")
+        const tableToolbarElem = this._formElem.find(".rs-table-toolbar:first")
             .on("change", "select", async () => {
                 await this._loadData();
             });
@@ -128,7 +144,7 @@ class TableFormAsync extends TableFormBase {
     }
 
     _bindTableEvents() {
-        let tableWrapperElem = this._getTableWrapper();
+        const tableWrapperElem = this._getTableWrapper();
         tableWrapperElem
             .on("click", ".rs-view-item", event => {
                 this._viewItem(this._getItemId(event.target));
@@ -156,10 +172,10 @@ class TableFormAsync extends TableFormBase {
     }
 
     async _loadData(opt_handler, opt_params) {
-        let url = this._getDataUrl(opt_handler);
+        const url = this._getDataUrl(opt_handler);
 
         if (url) {
-            let result = await this._fetchData(url, opt_params);
+            const result = await this._fetchData(url, opt_params);
 
             if (result.ok) {
                 console.log("Table data loaded successfully.");
@@ -174,15 +190,15 @@ class TableFormAsync extends TableFormBase {
     }
 
     async _fetchData(url, opt_params) {
-        let formData = new FormData($("form:first")[0]);
+        const formData = new FormData($("form:first")[0]);
 
         if (opt_params) {
-            for (let [key, value] of Object.entries(opt_params)) {
+            for (const [key, value] of Object.entries(opt_params)) {
                 formData.set(key, value);
             }
         }
 
-        let response = await fetch(url, {
+        const response = await fetch(url, {
             method: "POST",
             headers: { RequestVerificationToken: this._getVerificationToken() },
             body: formData
@@ -284,16 +300,13 @@ class TableFormAsync extends TableFormBase {
             mainObj.modalManager.showModal(url, opt_options, opt_callback);
         }
     }
-
-    init() {
-        super.init();
-        Object.assign(this._phrases, tableFormPhrases);
-    }
 }
 
-// A base class for a table form that
-//   reloads the entire page,
-//   redirected by the server side for creating and editing records.
+/**
+ * A base class for a table form that:
+ * - reloads the entire page,
+ * - redirected by the server side for creating and editing records.
+ */
 class TableFormSync extends TableFormBase {
     _bindEventsById() {
         $(this._controlId.tableToolbar).on("change", "select", () => {
@@ -320,7 +333,7 @@ class TableFormSync extends TableFormBase {
     }
 
     _bindEventsByClass() {
-        let tableToolbarElem = this._formElem.find(".rs-table-toolbar:first")
+        const tableToolbarElem = this._formElem.find(".rs-table-toolbar:first")
             .on("change", "select", () => {
                 this._loadData();
             });

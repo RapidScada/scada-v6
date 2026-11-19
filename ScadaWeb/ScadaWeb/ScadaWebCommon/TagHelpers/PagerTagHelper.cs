@@ -20,12 +20,14 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2023
+ * Modified : 2026
  */
 
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using System.Globalization;
 using System.Text.Encodings.Web;
 
 namespace Scada.Web.TagHelpers
@@ -39,10 +41,22 @@ namespace Scada.Web.TagHelpers
     public class PagerTagHelper : TagHelper
     {
         /// <summary>
+        /// Specifies the visual states of page items.
+        /// </summary>
+        private enum PageState { Disabled, Normal, Active };
+        
+        /// <summary>
         /// The number of pages displayed by a pager, not including the Previous and Next buttons.
         /// </summary>
         private const int DisplayPageCount = 9;
 
+
+        /// <summary>
+        /// Gets or sets the view context.
+        /// </summary>
+        [HtmlAttributeNotBound]
+        [ViewContext]
+        public ViewContext ViewContext { get; set; }
 
         /// <summary>
         /// Gets or sets the expression to be evaluated against the current model.
@@ -62,24 +76,113 @@ namespace Scada.Web.TagHelpers
 
 
         /// <summary>
-        /// Gets the name of the HTML element.
+        /// Gets the normalized index of the current page.
         /// </summary>
-        private string GetElementName()
+        private int GetValidPageIndex()
         {
-            return For == null ? "" : For.Name;
+            int pageIndex = 0;
+
+            if (For == null)
+            {
+                pageIndex = PageIndex;
+            }
+            else if (For.Model is int intVal)
+            {
+                pageIndex = intVal;
+            }
+
+            return PageCount > 1
+                ? Math.Clamp(pageIndex, 0, PageCount - 1)
+                : 0;
         }
 
         /// <summary>
-        /// Gets the index of the current page.
+        /// Create a hidden input element containing the page index.
         /// </summary>
-        private int GetPageIndex()
+        private TagBuilder CreateHiddenInput(int pageIndex)
         {
-            if (For == null)
-                return PageIndex;
-            else if (For.Model is int intVal)
-                return intVal;
-            else
-                return 0;
+            TagBuilder input = new("input") { TagRenderMode = TagRenderMode.SelfClosing };
+            input.MergeAttribute("type", "hidden");
+            input.MergeAttribute("name", ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(For.Name));
+            input.MergeAttribute("value", pageIndex.ToString(CultureInfo.InvariantCulture));
+            return input;
+        }
+
+        /// <summary>
+        /// Create a list element containing page numbers.
+        /// </summary>
+        private TagBuilder CreatePagination(int activePage)
+        {
+            TagBuilder ul = new("ul");
+            ul.AddCssClass("pagination");
+
+            // previous page
+            ul.InnerHtml.AppendHtml(CreatePageItem(
+                activePage - 2,
+                "&laquo;",
+                activePage <= 1 ? PageState.Disabled : PageState.Normal));
+
+            // page numbers
+            foreach (int pageNumber in GetPageNumbers(activePage, PageCount))
+            {
+                if (pageNumber <= 0)
+                {
+                    ul.InnerHtml.AppendHtml(CreatePageItem(-1, "...", PageState.Disabled));
+                }
+                else if (pageNumber == activePage)
+                {
+                    ul.InnerHtml.AppendHtml(CreatePageItem(
+                        pageNumber - 1,
+                        pageNumber.ToString(CultureInfo.InvariantCulture),
+                        PageState.Active));
+                }
+                else
+                {
+                    ul.InnerHtml.AppendHtml(CreatePageItem(
+                        pageNumber - 1,
+                        pageNumber.ToString(CultureInfo.InvariantCulture),
+                        PageState.Normal));
+                }
+            }
+
+            // next page
+            ul.InnerHtml.AppendHtml(CreatePageItem(
+                activePage, 
+                "&raquo;", 
+                activePage >= PageCount ? PageState.Disabled : PageState.Normal));
+
+            return ul;
+        }
+
+        /// <summary>
+        /// Creates a list item element representing the page.
+        /// </summary>
+        private static TagBuilder CreatePageItem(int pageIndex, string encodedText, PageState pageState)
+        {
+            TagBuilder li = new("li");
+            li.AddCssClass("page-item");
+
+            switch (pageState)
+            {
+                case PageState.Disabled:
+                    li.AddCssClass("disabled");
+                    li.InnerHtml.AppendHtml(
+                        $"<span class=\"page-link\">{encodedText}</span>");
+                    break;
+
+                case PageState.Normal:
+                    li.InnerHtml.AppendHtml(
+                        $"<a class=\"page-link\" href=\"#\" data-page=\"{pageIndex}\">{encodedText}</a>");
+                    break;
+
+                case PageState.Active:
+                    li.AddCssClass("active");
+                    li.InnerHtml.AppendHtml(
+                        $"<span class=\"page-link\">{encodedText}</span>");
+                    break;
+            }
+
+            return li;
         }
 
         /// <summary>
@@ -88,8 +191,8 @@ namespace Scada.Web.TagHelpers
         private static int[] GetPageNumbers(int activePage, int pageCount)
         {
             // [1][.][4][5][6][.][9]
-            List<int> leftPart = new();
-            List<int> rightPart = new();
+            List<int> leftPart = [];
+            List<int> rightPart = [];
             int leftPage = activePage - 1;
             int rightPage = activePage + 1;
             int maxPartsCount = DisplayPageCount - 1;
@@ -152,79 +255,29 @@ namespace Scada.Web.TagHelpers
         /// </summary>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            ArgumentNullException.ThrowIfNull(context, nameof(context));
-            ArgumentNullException.ThrowIfNull(output, nameof(output));
-            int pageIndex = GetPageIndex();
-
-            if (pageIndex == 0 && PageCount <= 1)
-            {
-                output.SuppressOutput();
-                return;
-            }
+            ArgumentNullException.ThrowIfNull(context);
+            ArgumentNullException.ThrowIfNull(output);
 
             output.TagName = "nav";
+            output.TagMode = TagMode.StartTagAndEndTag;
             output.AddClass("rs-pager", HtmlEncoder.Default);
-            output.PreContent
-                .AppendFormat("<input type=\"hidden\" name=\"{0}\" value=\"{1}\" />", GetElementName(), pageIndex)
-                .AppendHtml("<ul class=\"pagination\">");
+            int pageIndex = GetValidPageIndex();
 
-            int activePage = pageIndex + 1;
-            int[] pageNumbers = GetPageNumbers(activePage, PageCount);
-
-            // previous page
-            if (activePage > 1)
+            if (For != null)
             {
-                output.Content
-                    .AppendHtml("<li class=\"page-item\"><a class=\"page-link\" href=\"#\" ")
-                    .AppendHtml($"data-page=\"{activePage - 2}\">&laquo;</a></li>");
+                output.PreContent.SetHtmlContent(CreateHiddenInput(pageIndex));
+            }
+
+            if (PageCount <= 1)
+            {
+                // hide pager
+                output.Attributes.SetAttribute(new TagHelperAttribute("hidden"));
             }
             else
             {
-                output.Content
-                    .AppendHtml("<li class=\"page-item disabled\"><span class=\"page-link\">&laquo;</span></li>");
+                // add pages
+                output.Content.SetHtmlContent(CreatePagination(pageIndex + 1));
             }
-
-            // page numbers
-            for (int i = 0; i < pageNumbers.Length; i++)
-            {
-                int pageNumber = pageNumbers[i];
-
-                if (pageNumber <= 0)
-                {
-                    // <li class="page-item disabled"><span class="page-link">...</span></li>
-                    output.Content
-                        .AppendHtml("<li class=\"page-item disabled\"><span class=\"page-link\">...</span></li>");
-                }
-                else if (pageNumber == activePage)
-                {
-                    // <li class="page-item active"><span class="page-link">1</span></li>
-                    output.Content
-                        .AppendHtml("<li class=\"page-item active\">")
-                        .AppendHtml($"<span class=\"page-link\">{pageNumber}</span></li>");
-                }
-                else
-                {
-                    // <li class="page-item"><a class="page-link" href="#" data-page="0">1</a></li>
-                    output.Content
-                        .AppendHtml("<li class=\"page-item\"><a class=\"page-link\" href=\"#\" ")
-                        .AppendHtml($"data-page=\"{pageNumber - 1}\">{pageNumber}</a></li>");
-                }
-            }
-
-            // next page
-            if (activePage < PageCount)
-            {
-                output.Content
-                    .AppendHtml("<li class=\"page-item\"><a class=\"page-link\" href=\"#\" ")
-                    .AppendHtml($"data-page=\"{activePage}\">&raquo;</a></li>");
-            }
-            else
-            {
-                output.Content
-                    .AppendHtml("<li class=\"page-item disabled\"><span class=\"page-link\">&raquo;</span></li>");
-            }
-
-            output.PostContent.SetHtmlContent("</ul>");
         }
     }
 }
