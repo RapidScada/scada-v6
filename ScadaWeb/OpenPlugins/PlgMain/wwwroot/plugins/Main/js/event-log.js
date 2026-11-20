@@ -31,8 +31,6 @@ class EventLogTableForm extends TableFormAsync {
 }
 
 // Set in *.cshtml
-var maxReportPeriod = 0;
-var reportPhrases = {};
 var tableFormPhrases = {};
 
 $(() => {
