@@ -27,6 +27,10 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// The maximum number of characters per line.
         /// </summary>
         protected const int MaxLineLength = 1024;
+        /// <summary>
+        /// The maximum number of reads performed when clearing the data stream.
+        /// </summary>
+        protected const int MaxClearReads = 16;
 
         protected readonly List<DeviceLogic> boundDevices; // the devices bound to the connection
         protected DeviceLogic[] devicesCopy; // the shallow copy of the bound devices
@@ -285,8 +289,13 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         {
             try
             {
-                if (NetStream.DataAvailable)
-                    NetStream.Read(buffer, 0, buffer.Length);
+                // Read may return fewer bytes than are pending, so repeat while data remains,
+                // bounded in case the remote side keeps sending
+                for (int i = 0; i < MaxClearReads && NetStream.DataAvailable; i++)
+                {
+                    if (NetStream.Read(buffer, 0, buffer.Length) <= 0)
+                        break;
+                }
             }
             catch (Exception ex)
             {

@@ -10,7 +10,7 @@ namespace Scada
         /// <summary>
         /// Generates cryptographically strong random numbers.
         /// </summary>
-        private static readonly RNGCryptoServiceProvider Rng = new RNGCryptoServiceProvider();
+        private static readonly RandomNumberGenerator Rng = RandomNumberGenerator.Create();
         /// <summary>
         /// The default secret key.
         /// </summary>
@@ -114,11 +114,13 @@ namespace Scada
             if (iv == null)
                 throw new ArgumentNullException(nameof(iv));
 
-            RijndaelManaged alg = null;
+            Aes alg = null;
 
             try
             {
-                alg = new RijndaelManaged { Key = secretKey, IV = iv };
+                alg = Aes.Create();
+                alg.Key = secretKey;
+                alg.IV = iv;
 
                 using (MemoryStream memStream = new MemoryStream())
                 {
@@ -166,11 +168,13 @@ namespace Scada
             if (iv == null)
                 throw new ArgumentNullException(nameof(iv));
 
-            RijndaelManaged alg = null;
+            Aes alg = null;
 
             try
             {
-                alg = new RijndaelManaged { Key = secretKey, IV = iv };
+                alg = Aes.Create();
+                alg.Key = secretKey;
+                alg.IV = iv;
 
                 using (MemoryStream memStream = new MemoryStream(bytes))
                 {
