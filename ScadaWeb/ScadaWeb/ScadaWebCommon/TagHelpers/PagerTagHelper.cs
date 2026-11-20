@@ -131,17 +131,11 @@ namespace Scada.Web.TagHelpers
                 }
                 else if (pageNumber == activePage)
                 {
-                    ul.InnerHtml.AppendHtml(CreatePageItem(
-                        pageNumber - 1,
-                        pageNumber.ToString(CultureInfo.InvariantCulture),
-                        PageState.Active));
+                    ul.InnerHtml.AppendHtml(CreatePageItem(pageNumber - 1, pageNumber.ToString(), PageState.Active));
                 }
                 else
                 {
-                    ul.InnerHtml.AppendHtml(CreatePageItem(
-                        pageNumber - 1,
-                        pageNumber.ToString(CultureInfo.InvariantCulture),
-                        PageState.Normal));
+                    ul.InnerHtml.AppendHtml(CreatePageItem(pageNumber - 1, pageNumber.ToString(), PageState.Normal));
                 }
             }
 

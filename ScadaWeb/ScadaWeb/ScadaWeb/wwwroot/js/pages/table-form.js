@@ -6,13 +6,17 @@ var tableFormPhrases = null;
 
 /** Contains phrases used by table forms. */
 class TableFormPhrases {
-    static EMPTY = Object.freeze(new TableFormPhrases());
-
     loadDataError;
     deleteItemConfirm;
     itemExists;
     fillOutFields;
     validJsonRequired;
+
+    constructor() {
+        for (const key of Object.keys(this)) {
+            this[key] = key;
+        }
+    }
 }
 
 /** A base class that implements the behavior of a table form. */
@@ -34,7 +38,7 @@ class TableFormBase {
         }
 
         this._pager = null;
-        this._phrases = opt_phrases ?? tableFormPhrases ?? TableFormPhrases.EMPTY;
+        this._phrases = opt_phrases ?? tableFormPhrases ?? new TableFormPhrases();
     }
 
     _getDefaultControlIds() {
