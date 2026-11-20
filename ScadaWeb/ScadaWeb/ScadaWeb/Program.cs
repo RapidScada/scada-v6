@@ -105,7 +105,7 @@ namespace Scada.Web
                 })
                 .AddMvcOptions(options =>
                 {
-                    options.Filters.Add(typeof(ReadyResourceFilter));
+                    options.Filters.Add<ReadyResourceFilter>();
                     webContext.PluginHolder.AddFilters(options.Filters);
                 })
                 .ConfigureApplicationPartManager(ConfigureApplicationParts);
@@ -208,14 +208,14 @@ namespace Scada.Web
             }
 
             app.UseStaticFiles();
-            app.UseWhen(ctx => !ctx.Request.Path.StartsWithSegments("/api"), webApp =>
-            {
-                webApp.UseStatusCodePagesWithReExecute("/Errors/{0}");
-            });
+            app.UseWhen(ctx => !ctx.Request.Path.StartsWithSegments("/api"), branch => 
+                branch.UseStatusCodePagesWithReExecute("/Errors/{0}"));
+
             app.UseRouting();
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseSession();
+
             app.MapRazorPages();
             app.MapControllers();
         }

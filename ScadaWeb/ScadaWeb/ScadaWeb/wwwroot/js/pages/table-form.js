@@ -186,7 +186,7 @@ class TableFormAsync extends TableFormBase {
                 this._getTableWrapper().html(result.data);
                 this._pager?.bindEvents();
             } else {
-                ModalBox.showMessage(this._phrases.loadDataError, { alert: ModalBoxAlerts.DANGER });
+                ModalBox.showMessage(result.msg, { alert: ModalBoxAlerts.DANGER });
             }
         } else {
             console.warn("Unable to load table data because URL is undefined.")
@@ -202,15 +202,23 @@ class TableFormAsync extends TableFormBase {
             }
         }
 
-        const response = await fetch(url, {
-            method: "POST",
-            headers: { RequestVerificationToken: this._getVerificationToken() },
-            body: formData
-        });
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    RequestVerificationToken: this._getVerificationToken(),
+                    "X-Requested-With": "XMLHttpRequest" // indicates AJAX request
+                },
+                body: formData
+            });
 
-        return response.ok
-            ? Dto.success(await response.text())
-            : Dto.fail(await response.text() || response.statusText);
+            const text = await response.text();
+            return response.ok
+                ? Dto.success(text)
+                : Dto.fail(text || this._phrases.loadDataError);
+        } catch (ex) {
+            return Dto.fail(ex.message);
+        }
     }
 
     _newItem() {

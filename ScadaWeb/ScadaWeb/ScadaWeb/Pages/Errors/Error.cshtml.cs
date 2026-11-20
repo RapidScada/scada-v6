@@ -4,16 +4,17 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Lang;
 using Scada.Log;
 
-/// <summary>
-/// Represents a page containing an error message.
-/// <para>Представляет страницу, которая содержит сообщение об ошибке.</para>
-/// </summary>
 namespace Scada.Web.Pages.Errors
 {
+    /// <summary>
+    /// Represents a page containing an error message.
+    /// <para>Представляет страницу, которая содержит сообщение об ошибке.</para>
+    /// </summary>
     [AllowAnonymous]
     [IgnoreAntiforgeryToken]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -21,24 +22,47 @@ namespace Scada.Web.Pages.Errors
         ILogger<ErrorModel> logger,
         ILog log) : PageModel
     {
+        public dynamic Dict { get; } = Locale.GetDictionary("Scada.Web.Pages.Errors.Error");
+
         public string ErrorMessage { get; private set; }
 
-        private bool GetLastError(out Exception ex)
-        {
-            var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
-            ex = exceptionHandlerPathFeature?.Error;
-            return ex != null;
-        }
 
-        public void WriteError()
+        private void WriteError()
         {
-            if (GetLastError(out Exception ex))
+            Exception ex = HttpContext.Features.Get<IExceptionHandlerPathFeature>()?.Error;
+
+            if (ex != null)
             {
                 logger.LogError(ex, CommonPhrases.UnhandledException);
                 log.WriteError(ex, CommonPhrases.UnhandledException);
             }
 
-            ErrorMessage = ex is ScadaException scadaEx && scadaEx.MessageIsPublic ? ex.Message : null;
+            ErrorMessage = (ex is ScadaException { MessageIsPublic: true } scadaEx ? scadaEx.Message : null)
+                ?? (string)Dict.ErrorMessage;
+        }
+
+        private IActionResult HandleRequest()
+        {
+            WriteError();
+
+            // AJAX request called by partial
+            if (Request.Headers.XRequestedWith == "XMLHttpRequest")
+            {
+                return new ContentResult
+                {
+                    StatusCode = Response.StatusCode,
+                    ContentType = "text/plain; charset=utf-8",
+                    Content = ErrorMessage
+                };
+            }
+
+            return Page();
+        }
+
+        public override void OnPageHandlerExecuting(PageHandlerExecutingContext context)
+        {
+            // replaces any handler (OnGet, OnPost, OnPostXxx, ...)
+            context.Result = HandleRequest();
         }
     }
 }
