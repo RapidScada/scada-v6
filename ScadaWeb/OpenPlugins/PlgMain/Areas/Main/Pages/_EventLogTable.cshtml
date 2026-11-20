@@ -1,6 +1,6 @@
 ﻿@model PaginatedList<EventFormatted>
 @{
-    dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventLog.EventLogTable");
+    dynamic dict = Locale.GetDictionary(typeof(EventLogModel).FullName + ".EventLogTable");
 }
 
 @if (Model.Count > 0)

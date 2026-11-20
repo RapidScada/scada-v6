@@ -33,7 +33,7 @@
     <Phrase key="AckTip">Нажмите кнопку OK, чтобы квитировать событие.</Phrase>
     <Phrase key="lblAckNote">Комментарий</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventLog">
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventLogModel">
     <Phrase key="PageTitle">Журнал событий</Phrase>
     <Phrase key="optAllObjects">-- Все объекты --</Phrase>
     <Phrase key="optAnySeverity">Серьёзность любая</Phrase>
@@ -43,8 +43,10 @@
     <Phrase key="btnAckSelected">Квитировать</Phrase>
     <Phrase key="btnRefreshEvents">Обновить</Phrase>
     <Phrase key="btnExportEvents">Экспорт</Phrase>
+    <Phrase key="InvalidPeriod">Дата начала должна быть меньше или равна дате окончания.</Phrase>
+    <Phrase key="PeriodTooLong">Максимальная продолжительность периода {0} дн.</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventLog.EventLogTable">
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventLogModel.EventLogTable">
     <Phrase key="TimeCol">Дата и время</Phrase>
     <Phrase key="ObjCol">Объект</Phrase>
     <Phrase key="DevCol">Устройство</Phrase>
@@ -128,7 +130,7 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report.Js">
     <Phrase key="InvalidPeriod">Дата начала должна быть меньше или равна дате окончания.</Phrase>
-    <Phrase key="PeriodTooLong">Максимальная длина периода {0} дн.</Phrase>
+    <Phrase key="PeriodTooLong">Максимальная продолжительность периода {0} дн.</Phrase>
     <Phrase key="InvalidChannels">Некорректные номера каналов.</Phrase>
     <Phrase key="NoSeverity">Серьёзность не выбрана.</Phrase>
   </Dictionary>

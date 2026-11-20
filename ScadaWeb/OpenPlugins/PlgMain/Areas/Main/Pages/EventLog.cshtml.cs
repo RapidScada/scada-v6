@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Caching.Memory;
 using Scada.Data.Models;
 using Scada.Data.Tables;
+using Scada.Lang;
 using Scada.Web.Components;
 using Scada.Web.Plugins.PlgMain.Code;
 using Scada.Web.Services;
@@ -26,6 +27,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
     {
         private static readonly TimeSpan EventLogCacheExpiration = TimeSpan.FromSeconds(60);
 
+        public dynamic Dict { get; } = Locale.GetDictionary(typeof(EventLogModel).FullName);
         public PaginatedList<EventFormatted> EventList { get; } = [];
 
         [BindProperty]
@@ -116,6 +118,39 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 : [0, 0];
         }
 
+        private bool ValidateTimeRange(out string errMsg)
+        {
+            if (StartTime > EndTime)
+            {
+                errMsg = Dict.InvalidPeriod;
+                return false;
+            }
+
+            int maxReportPeriod = pluginContext.Options.MaxReportPeriod;
+
+            if (maxReportPeriod > 0 && (EndTime - StartTime).TotalDays > maxReportPeriod)
+            {
+                errMsg = string.Format(Dict.PeriodTooLong, maxReportPeriod);
+                return false;
+            }
+
+            errMsg = "";
+            return true;
+        }
+
+        private IActionResult CreateEventLogTable(bool clearCache)
+        {
+            if (ValidateTimeRange(out string errMsg))
+            {
+                FillEventList(clearCache);
+                return Partial("_EventLogTable", EventList);
+            }
+            else
+            {
+                return BadRequest(errMsg);
+            }
+        }
+
 
         public IEnumerable<SelectListItem> GetObjectItems()
         {
@@ -145,14 +180,12 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         public IActionResult OnPost()
         {
-            FillEventList(false);
-            return Partial("_EventLogTable", EventList);
+            return CreateEventLogTable(false);
         }
 
         public IActionResult OnPostRefresh()
         {
-            FillEventList(true);
-            return Partial("_EventLogTable", EventList);
+            return CreateEventLogTable(true);
         }
     }
 }

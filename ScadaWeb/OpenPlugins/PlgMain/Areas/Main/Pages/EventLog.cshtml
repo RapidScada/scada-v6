@@ -3,7 +3,7 @@
 @inject PluginContext pluginContext
 @{
     Layout = "_MainLayout";
-    dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventLog");
+    dynamic dict = Model.Dict;
     ViewBag.Title = dict.PageTitle;
 }
 

@@ -33,7 +33,7 @@
     <Phrase key="AckTip">Click the OK button to acknowledge the event.</Phrase>
     <Phrase key="lblAckNote">Note</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventLog">
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventLogModel">
     <Phrase key="PageTitle">Event Log</Phrase>
     <Phrase key="optAllObjects">-- All objects --</Phrase>
     <Phrase key="optAnySeverity">Any severity</Phrase>
@@ -43,8 +43,10 @@
     <Phrase key="btnAckSelected">Acknowledge</Phrase>
     <Phrase key="btnRefreshEvents">Refresh</Phrase>
     <Phrase key="btnExportEvents">Export</Phrase>
+    <Phrase key="InvalidPeriod">The start date must be less than or equal to the end date.</Phrase>
+    <Phrase key="PeriodTooLong">The maximum period duration is {0} days.</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventLog.EventLogTable">
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventLogModel.EventLogTable">
     <Phrase key="TimeCol">Date and Time</Phrase>
     <Phrase key="ObjCol">Object</Phrase>
     <Phrase key="DevCol">Device</Phrase>
@@ -127,8 +129,8 @@
     <Phrase key="ArcCaption">Archive:</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report.Js">
-    <Phrase key="InvalidPeriod">Start date must be less or equal than end date.</Phrase>
-    <Phrase key="PeriodTooLong">The maximum period length is {0} days.</Phrase>
+    <Phrase key="InvalidPeriod">The start date must be less than or equal to the end date.</Phrase>
+    <Phrase key="PeriodTooLong">The maximum period duration is {0} days.</Phrase>
     <Phrase key="InvalidChannels">Invalid channel numbers.</Phrase>
     <Phrase key="NoSeverity">No severity selected.</Phrase>
   </Dictionary>
