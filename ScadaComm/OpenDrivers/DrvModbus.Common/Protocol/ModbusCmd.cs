@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+using System.Buffers.Binary;
 
 namespace Scada.Comm.Drivers.DrvModbus.Protocol
 {
@@ -205,42 +206,45 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// </summary>
         public void SetCmdData(double cmdVal)
         {
-            bool reverse = true;
-
+            // write numeric values in big-endian order directly, without reversing the array
             switch (ElemType)
             {
                 case ElemType.UShort:
-                    Data = BitConverter.GetBytes((ushort)cmdVal);
+                    Data = new byte[2];
+                    BinaryPrimitives.WriteUInt16BigEndian(Data, (ushort)cmdVal);
                     break;
                 case ElemType.Short:
-                    Data = BitConverter.GetBytes((short)cmdVal);
+                    Data = new byte[2];
+                    BinaryPrimitives.WriteInt16BigEndian(Data, (short)cmdVal);
                     break;
                 case ElemType.UInt:
-                    Data = BitConverter.GetBytes((uint)cmdVal);
+                    Data = new byte[4];
+                    BinaryPrimitives.WriteUInt32BigEndian(Data, (uint)cmdVal);
                     break;
                 case ElemType.Int:
-                    Data = BitConverter.GetBytes((int)cmdVal);
+                    Data = new byte[4];
+                    BinaryPrimitives.WriteInt32BigEndian(Data, (int)cmdVal);
                     break;
                 case ElemType.ULong:
-                    Data = BitConverter.GetBytes((ulong)cmdVal);
+                    Data = new byte[8];
+                    BinaryPrimitives.WriteUInt64BigEndian(Data, (ulong)cmdVal);
                     break;
                 case ElemType.Long:
-                    Data = BitConverter.GetBytes((long)cmdVal);
+                    Data = new byte[8];
+                    BinaryPrimitives.WriteInt64BigEndian(Data, (long)cmdVal);
                     break;
                 case ElemType.Float:
-                    Data = BitConverter.GetBytes((float)cmdVal);
+                    Data = new byte[4];
+                    BinaryPrimitives.WriteSingleBigEndian(Data, (float)cmdVal);
                     break;
                 case ElemType.Double:
-                    Data = BitConverter.GetBytes(cmdVal);
+                    Data = new byte[8];
+                    BinaryPrimitives.WriteDoubleBigEndian(Data, cmdVal);
                     break;
                 default:
                     Data = BitConverter.GetBytes(cmdVal);
-                    reverse = false;
                     break;
             }
-
-            if (reverse)
-                Array.Reverse(Data);
         }
     }
 }

@@ -141,14 +141,9 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                     Buffer.BlockCopy(ReqPDU, 0, aduBuf, 1, ReqPDU.Length);
                     aduBuf[pduLen + 1] = ModbusUtils.LRC(aduBuf, 0, pduLen + 1);
 
-                    StringBuilder sbADU = new StringBuilder();
-                    foreach (byte b in aduBuf)
-                    {
-                        sbADU.Append(b.ToString("X2"));
-                    }
-
-                    ReqADU = Encoding.ASCII.GetBytes(sbADU.ToString());
-                    ReqStr = ModbusUtils.Colon + sbADU;
+                    string hexADU = Convert.ToHexString(aduBuf);
+                    ReqADU = Encoding.ASCII.GetBytes(hexADU);
+                    ReqStr = ModbusUtils.Colon + hexADU;
                     RespAduLen = RespPduLen + 2;
                     break;
 
