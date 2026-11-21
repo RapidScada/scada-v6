@@ -6,10 +6,6 @@ class EventLogTableForm extends TableFormAsync {
     _bindEvents() {
         super._bindEvents();
 
-        $("#txtStartTime, #txtEndTime").on("change", async () => {
-            await this._loadData();
-        });
-
         $("#btnAckSelected").on("click", () => {
 
         });
