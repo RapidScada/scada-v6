@@ -1,5 +1,5 @@
 ﻿// Contains classes: TableFormBase, TableFormAsync, TableFormSync
-// Depends on modal.js, razor-pager.js
+// Depends on scada-common.js, modal.js, razor-pager.js
 
 /** @deprecated */
 var tableFormPhrases = null;
@@ -105,6 +105,9 @@ class TableFormBase {
  * - shows modals for creating and editing records. 
  */
 class TableFormAsync extends TableFormBase {
+    static DEBOUNCE_MS = 1000; // wait for input when editing date and time
+    debounceTimeoutId = 0;
+
     _bindEventsById() {
         const tableToolbarElem = $(this._controlId.tableToolbar);
         const tableWrapperElem = $(this._controlId.tableWrapper);
@@ -141,20 +144,25 @@ class TableFormAsync extends TableFormBase {
                 await this._loadData();
             })
             .on("keydown", "input", async (event) => {
-                if (event.code === "Enter" || event.code === "NumpadEnter") {
+                if (event.key === "Enter") {
                     event.preventDefault(); // before await
                     await this._loadData();
                 }
             })
-            .on("input", "input[type=datetime-local]", async (event) => {
-                const elem = $(event.currentTarget);
-                elem.data("changed", true);
+            .on("input", "input[type=datetime-local]", (event) => {
+                clearTimeout(this.debounceTimeoutId);
             })
-            .on("blur", "input[type=datetime-local]", async (event) => {
-                const elem = $(event.currentTarget);
+            .on("change", "input[type=datetime-local]", async (event) => {
+                const input = event.currentTarget;
 
-                if (elem.data("changed")) {
+                if (!input.value || !input.validity.valid) {
+                    return; // input incomplete
+                }
+
+                if (ScadaUtils.getPlatform().isMobile) {
                     await this._loadData();
+                } else {
+                    this.debounceTimeoutId = setTimeout(() => this._loadData(), TableFormAsync.DEBOUNCE_MS);
                 }
             });
     }
@@ -187,7 +195,7 @@ class TableFormAsync extends TableFormBase {
     }
 
     async _loadData(opt_handler, opt_params) {
-        this._clearChangedAttrs();
+        clearTimeout(this.debounceTimeoutId);
         const url = this._getDataUrl(opt_handler);
 
         if (url) {
@@ -231,10 +239,6 @@ class TableFormAsync extends TableFormBase {
         } catch (ex) {
             return Dto.fail(ex.message);
         }
-    }
-
-    _clearChangedAttrs() {
-        this._getTableToolbar().find("input[type=datetime-local]").data("changed", false);
     }
 
     _newItem() {

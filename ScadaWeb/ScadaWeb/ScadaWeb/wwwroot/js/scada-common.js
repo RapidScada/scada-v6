@@ -39,7 +39,34 @@ class ScadaUtils {
 
     // Detects if iOS is used.
     static get iOS() {
-        return /iPad|iPhone|iPod/.test(navigator.platform);
+        const ua = navigator.userAgent || "";
+        const platform = navigator.platform || "";
+        return /iPhone|iPad|iPod/.test(platform) ||
+            /iPhone|iPad|iPod/.test(ua) ||
+            platform === 'MacIntel' && navigator.maxTouchPoints > 1; // iPadOS 13+
+    }
+
+    // Gets a summary about the mobile platform being used.
+    static getPlatform() {
+        const ua = navigator.userAgent || "";
+        const uaData = navigator.userAgentData;
+        const platform = navigator.platform || "";
+
+        const isIOS =
+            /iPhone|iPad|iPod/.test(platform) ||
+            /iPhone|iPad|iPod/.test(ua) ||
+            (platform === "MacIntel" && navigator.maxTouchPoints > 1); // iPadOS 13+
+
+        const isAndroid =
+            uaData?.platform === "Android" || /Android/.test(ua);
+
+        const isMobile =
+            isIOS ||
+            isAndroid ||
+            Boolean(uaData?.mobile) ||
+            /Mobile|Opera Mini|IEMobile/.test(ua);
+
+        return { isIOS, isAndroid, isMobile };
     }
 
     // Gets the current time string for logging.
