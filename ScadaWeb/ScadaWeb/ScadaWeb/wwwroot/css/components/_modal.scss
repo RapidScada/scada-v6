@@ -17,6 +17,11 @@
 }
 
 .modal-footer {
+    // a modal opened without buttons has no footer
+    &:empty {
+        display: none;
+    }
+
     .btn {
         min-width: 75px;
     }
