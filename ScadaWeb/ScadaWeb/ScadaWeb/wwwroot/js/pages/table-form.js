@@ -196,6 +196,7 @@ class TableFormAsync extends TableFormBase {
 
     async _loadData(opt_handler, opt_params) {
         clearTimeout(this.debounceTimeoutId);
+        this._hideError();
         const url = this._getDataUrl(opt_handler);
 
         if (url) {
@@ -206,7 +207,8 @@ class TableFormAsync extends TableFormBase {
                 this._getTableWrapper().html(result.data);
                 this._pager?.bindEvents();
             } else {
-                ModalBox.showMessage(result.msg, { alert: ModalBoxAlerts.DANGER });
+                this._getTableWrapper().empty();
+                this._showError(result.msg);
             }
         } else {
             console.warn("Unable to load table data because URL is undefined.")
@@ -238,6 +240,29 @@ class TableFormAsync extends TableFormBase {
                 : Dto.fail(text || this._phrases.loadDataError);
         } catch (ex) {
             return Dto.fail(ex.message);
+        }
+    }
+
+    _showError(message) {
+        let errorElem = $();
+
+        if (this._formElem) {
+            errorElem = this._formElem.find(".rs-table-error:first");
+        }
+
+        if (errorElem.length > 0) {
+            errorElem.text(message).prop("hidden", false);
+        } else if (typeof ModalBox === "function") {
+            ModalBox.showMessage(message, { alert: ModalBoxAlerts.DANGER });
+        } else {
+            alert(message);
+        }
+    }
+
+    _hideError() {
+        if (this._formElem) {
+            const errorElem = this._formElem.find(".rs-table-error:first");
+            errorElem.text("").prop("hidden", true);
         }
     }
 
