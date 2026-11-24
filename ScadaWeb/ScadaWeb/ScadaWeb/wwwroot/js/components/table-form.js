@@ -69,22 +69,12 @@ class TableFormAsync extends TableFormBase {
     _abortController = null;
 
     _bindEvents() {
-        const tableToolbarElem = this._getTableToolbar();
-        const tableWrapperElem = this._getTableWrapper();
-        this._bindToolbarEvents(tableToolbarElem);
-        this._bindTableEvents(tableWrapperElem);
-
-        tableToolbarElem.find(".rs-search-button").on("click", async () => {
-            await this._loadTable({ resetPager: true });
-        });
-
-        tableToolbarElem.find(".rs-new-item-button").on("click", async () => {
-            this._newItem();
-        });
+        this._bindToolbarEvents();
+        this._bindTableEvents();
     }
 
-    _bindToolbarEvents(tableToolbarElem) {
-        tableToolbarElem
+    _bindToolbarEvents() {
+        this._getTableToolbar()
             .on("change", "select", async () => {
                 await this._loadTable({ resetPager: true });
             })
@@ -94,7 +84,7 @@ class TableFormAsync extends TableFormBase {
                     await this._loadTable({ resetPager: true });
                 }
             })
-            .on("input", "input[type=datetime-local]", (event) => {
+            .on("input", "input[type=datetime-local]", () => {
                 clearTimeout(this._debounceTimeoutId);
             })
             .on("change", "input[type=datetime-local]", async (event) => {
@@ -111,11 +101,17 @@ class TableFormAsync extends TableFormBase {
                         () => this._loadTable({ resetPager: true }),
                         TableFormAsync._DEBOUNCE_MS);
                 }
+            })
+            .on("click", ".rs-search-button", async () => {
+                await this._loadTable({ resetPager: true });
+            })
+            .on("click", ".rs-new-item-button", () => {
+                this._newItem();
             });
     }
 
-    _bindTableEvents(tableWrapperElem) {
-        tableWrapperElem
+    _bindTableEvents() {
+        const tableWrapperElem = this._getTableWrapper()
             .on("click", ".rs-view-item", (event) => {
                 this._viewItem(this._getItemId(event.target));
             })
