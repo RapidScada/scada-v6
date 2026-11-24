@@ -9,7 +9,7 @@
 
 @section Scripts {
     <script src="~/js/components/razor-pager.js" asp-append-version="true"></script>
-    <script src="~/js/pages/table-form.js" asp-append-version="true"></script>
+    <script src="~/js/components/table-form.js" asp-append-version="true"></script>
     <script src="~/plugins/Main/js/event-log.js" asp-append-version="true"></script>
     <script>
         tableFormPhrases = @WebUtils.DictionaryToJs(WebDictKey.TableFormsJs);
@@ -18,7 +18,7 @@
 
 <h1>@ViewBag.Title</h1>
 
-<form id="frmEventLog" method="post">
+<form id="frmEventLog" method="post" class="rs-table-form">
     <div class="btn-toolbar mb-3 gap-2 rs-table-toolbar">
         <button type="submit" onclick="return false" hidden>Submit</button>
         <input type="datetime-local" id="txtStartTime" class="form-control w-auto" required asp-for="StartTime" asp-format="{0:yyyy-MM-ddTHH:mm}" />

@@ -1,9 +1,6 @@
 ﻿// Contains classes: TableFormBase, TableFormAsync, TableFormSync
 // Depends on scada-common.js, modal.js, razor-pager.js
 
-/** @deprecated */
-var tableFormPhrases = null;
-
 /** Contains phrases used by table forms. */
 class TableFormPhrases {
     loadDataError;
@@ -22,75 +19,35 @@ class TableFormPhrases {
 /** A base class that implements the behavior of a table form. */
 class TableFormBase {
     _formElem;
-    _controlId;
     _pager;
     _phrases;
 
-    constructor(opt_formId, opt_phrases) {
-        if (opt_formId) {
-            // access controls by class names inside the parent form
-            this._formElem = $("#" + opt_formId);
-            this._controlId = {};
-        } else {
-            // access controls directly by IDs
-            this._formElem = null;
-            this._controlId = this._getDefaultControlIds();
-        }
-
+    constructor(formId, opt_phrases) {
+        this._formElem = $("#" + formId);
         this._pager = null;
-        this._phrases = opt_phrases ?? tableFormPhrases ?? new TableFormPhrases();
-    }
-
-    _getDefaultControlIds() {
-        return {
-            tableToolbar: "#divTableToolbar",
-            searchButton: "#btnSearch",
-            newItemButton: "#btnNewItem",
-            tableWrapper: "#divTableWrapper",
-            pager: "pgrMain" // without #
-        };
+        this._phrases = opt_phrases ?? new TableFormPhrases();
     }
 
     _initPager() {
         if (typeof RazorPager === "function") {
-            if (this._formElem) {
-                const pagerElem = this._formElem.find(RazorPager.PAGER_CLASS);
+            const pagerElem = this._formElem.find(RazorPager.PAGER_CLASS);
 
-                if (pagerElem.length > 0) {
-                    this._pager = new RazorPager(pagerElem.prop("id"));
-                }
-            } else {
-                this._pager = new RazorPager(this._controlId.pager);
+            if (pagerElem.length > 0) {
+                this._pager = new RazorPager(pagerElem.prop("id"));
             }
         }
     }
 
     _bindEvents() {
-        if (this._formElem) {
-            this._bindEventsByClass();
-        } else {
-            this._bindEventsById();
-        }
-    }
-
-    _bindEventsById() {
-        // override in derived class
-    }
-
-    _bindEventsByClass() {
         // override in derived class
     }
 
     _getTableToolbar() {
-        return this._formElem
-            ? this._formElem.find(".rs-table-toolbar:first")
-            : $(this._controlId.tableToolbar);
+        return this._formElem.find(".rs-table-toolbar:first");
     }
 
     _getTableWrapper() {
-        return this._formElem
-            ? this._formElem.find(".rs-table-wrapper:first")
-            : $(this._controlId.tableWrapper);
+        return this._formElem.find(".rs-table-wrapper:first");
     }
 
     init() {
@@ -105,27 +62,15 @@ class TableFormBase {
  * - shows modals for creating and editing records. 
  */
 class TableFormAsync extends TableFormBase {
-    static DEBOUNCE_MS = 1000; // wait for input when editing date and time
-    debounceTimeoutId = 0;
+    static _DEBOUNCE_MS = 1000; // wait for input when editing date and time
+    static _LOADING_MS = 500; // delay before displaying the loading state
+    _debounceTimeoutId = null;
+    _loadingTimeoutId = null;
+    _abortController = null;
 
-    _bindEventsById() {
-        const tableToolbarElem = $(this._controlId.tableToolbar);
-        const tableWrapperElem = $(this._controlId.tableWrapper);
-        this._bindToolbarEvents(tableToolbarElem);
-        this._bindTableEvents(tableWrapperElem);
-
-        $(this._controlId.searchButton).on("click", async () => {
-            await this._loadTable({ resetPager: true });
-        });
-
-        $(this._controlId.newItemButton).on("click", async () => {
-            this._newItem();
-        });
-    }
-
-    _bindEventsByClass() {
-        const tableToolbarElem = this._formElem.find(".rs-table-toolbar:first");
-        const tableWrapperElem = this._formElem.find(".rs-table-wrapper:first");
+    _bindEvents() {
+        const tableToolbarElem = this._getTableToolbar();
+        const tableWrapperElem = this._getTableWrapper();
         this._bindToolbarEvents(tableToolbarElem);
         this._bindTableEvents(tableWrapperElem);
 
@@ -150,7 +95,7 @@ class TableFormAsync extends TableFormBase {
                 }
             })
             .on("input", "input[type=datetime-local]", (event) => {
-                clearTimeout(this.debounceTimeoutId);
+                clearTimeout(this._debounceTimeoutId);
             })
             .on("change", "input[type=datetime-local]", async (event) => {
                 const input = event.currentTarget;
@@ -162,9 +107,9 @@ class TableFormAsync extends TableFormBase {
                 if (ScadaUtils.getPlatform().isMobile) {
                     await this._loadTable({ resetPager: true });
                 } else {
-                    this.debounceTimeoutId = setTimeout(
+                    this._debounceTimeoutId = setTimeout(
                         () => this._loadTable({ resetPager: true }),
-                        TableFormAsync.DEBOUNCE_MS);
+                        TableFormAsync._DEBOUNCE_MS);
                 }
             });
     }
@@ -181,12 +126,6 @@ class TableFormAsync extends TableFormBase {
                 if (confirm(this._phrases.deleteItemConfirm)) {
                     await this._deleteItem(this._getItemId(event.target));
                 }
-            })
-            .on("click", ".rs-approve-item", async (event) => {
-                await this._approveItem(this._getItemId(event.target));
-            })
-            .on("click", ".rs-unapprove-item", async (event) => {
-                await this._unapproveItem(this._getItemId(event.target));
             });
 
         if (this._pager) {
@@ -197,27 +136,25 @@ class TableFormAsync extends TableFormBase {
     }
 
     async _loadTable({ handler, fields, resetPager = false } = {}) {
+        clearTimeout(this._debounceTimeoutId);
+        const url = this._getDataUrl(handler);
+
+        if (!url) {
+            console.warn("Unable to load table because URL is undefined.")
+            return;
+        }
+
         if (resetPager) {
             this._pager?.reset();
         }
 
-        await this._loadData(handler, fields);
-    }
-
-    async _loadData(opt_handler, opt_fields) {
-        clearTimeout(this.debounceTimeoutId);
-        const url = this._getDataUrl(opt_handler);
-
-        if (!url) {
-            console.warn("Unable to load table data because URL is undefined.")
-            return;
-        }
-
         this._hideError();
-        const result = await this._fetchData(url, opt_fields);
+        const result = await this._fetchData(url, fields);
 
-        if (result.ok) {
-            console.log("Table data loaded successfully.");
+        if (result === null) {
+            console.log("Table loading was aborted.");
+        } else if (result.ok) {
+            console.log("Table loaded successfully.");
             this._getTableWrapper().html(result.data);
             this._pager?.bindEvents();
         } else {
@@ -235,6 +172,13 @@ class TableFormAsync extends TableFormBase {
             }
         }
 
+        // abort previous request, latest wins
+        this._abortController?.abort();
+        const controller = new AbortController();
+        this._abortController = controller;
+
+        this._showLoading();
+
         try {
             const response = await fetch(url, {
                 method: "POST",
@@ -242,7 +186,8 @@ class TableFormAsync extends TableFormBase {
                     RequestVerificationToken: this._getVerificationToken(),
                     "X-Requested-With": "XMLHttpRequest" // indicates AJAX request
                 },
-                body: formData
+                body: formData,
+                signal: controller.signal
             });
 
             const text = await response.text();
@@ -250,7 +195,16 @@ class TableFormAsync extends TableFormBase {
                 ? Dto.success(text)
                 : Dto.fail(text || this._phrases.loadDataError);
         } catch (ex) {
+            if (ex.name === "AbortError") {
+                return null; // request aborted
+            }
+
             return Dto.fail(ex.message);
+        } finally {
+            if (this._abortController === controller) {
+                this._abortController = null;
+                this._hideLoading();
+            }
         }
     }
 
@@ -275,6 +229,24 @@ class TableFormAsync extends TableFormBase {
             const errorElem = this._formElem.find(".rs-table-error:first");
             errorElem.text("").prop("hidden", true);
         }
+    }
+
+    _showLoading() {
+        clearTimeout(this._loadingTimeoutId);
+        this._loadingTimeoutId = setTimeout(
+            () => {
+                this._getTableWrapper()
+                    .addClass("rs-table-loading")
+                    .append("<div class='rs-table-spinner box-center fs-2 text-secondary'>" +
+                        "<i class='fa-solid fa-spinner fa-spin-pulse fa-3x'></i></div>");
+            },
+            TableFormAsync._LOADING_MS
+        );
+    }
+
+    _hideLoading() {
+        clearTimeout(this._loadingTimeoutId);
+        this._getTableWrapper().removeClass("rs-table-loading");
     }
 
     _newItem() {
@@ -313,20 +285,6 @@ class TableFormAsync extends TableFormBase {
     async _deleteItem(itemId) {
         await this._loadTable({
             handler: "Delete",
-            fields: { itemId: itemId }
-        });
-    }
-
-    async _approveItem(itemId) {
-        await this._loadTable({
-            handler: "Approve",
-            fields: { itemId: itemId }
-        });
-    }
-
-    async _unapproveItem(itemId) {
-        await this._loadTable({
-            handler: "Unapprove",
             fields: { itemId: itemId }
         });
     }

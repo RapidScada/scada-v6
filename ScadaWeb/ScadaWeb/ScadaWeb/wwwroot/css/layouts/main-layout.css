@@ -145,6 +145,18 @@ body:not(.header-visible) .notif-panel .notif-toolbar {
   color: #ced4da;
 }
 
+.rs-table-form .rs-table-wrapper {
+  position: relative;
+}
+.rs-table-form .rs-table-loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.rs-table-form .rs-table-spinner {
+  position: absolute;
+  inset: 0;
+}
+
 .tree-view .node {
   cursor: pointer;
   display: table;

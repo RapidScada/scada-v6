@@ -1,0 +1,15 @@
+﻿.rs-table-form {
+    .rs-table-wrapper {
+        position: relative; // for spinner positioning
+    }
+
+    .rs-table-loading {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .rs-table-spinner {
+        position: absolute;
+        inset: 0;
+    }
+}

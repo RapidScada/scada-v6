@@ -91,9 +91,7 @@ namespace Scada.Web.TagHelpers
                 pageIndex = intVal;
             }
 
-            return PageCount > 1
-                ? Math.Clamp(pageIndex, 0, PageCount - 1)
-                : 0;
+            return PageCount > 0 ? Math.Clamp(pageIndex, 0, PageCount - 1) : 0;
         }
 
         /// <summary>
