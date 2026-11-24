@@ -115,7 +115,7 @@ class TableFormAsync extends TableFormBase {
         this._bindTableEvents(tableWrapperElem);
 
         $(this._controlId.searchButton).on("click", async () => {
-            await this._loadData();
+            await this._loadTable({ resetPager: true });
         });
 
         $(this._controlId.newItemButton).on("click", async () => {
@@ -130,7 +130,7 @@ class TableFormAsync extends TableFormBase {
         this._bindTableEvents(tableWrapperElem);
 
         tableToolbarElem.find(".rs-search-button").on("click", async () => {
-            await this._loadData();
+            await this._loadTable({ resetPager: true });
         });
 
         tableToolbarElem.find(".rs-new-item-button").on("click", async () => {
@@ -141,12 +141,12 @@ class TableFormAsync extends TableFormBase {
     _bindToolbarEvents(tableToolbarElem) {
         tableToolbarElem
             .on("change", "select", async () => {
-                await this._loadData();
+                await this._loadTable({ resetPager: true });
             })
             .on("keydown", "input", async (event) => {
                 if (event.key === "Enter") {
                     event.preventDefault(); // before await
-                    await this._loadData();
+                    await this._loadTable({ resetPager: true });
                 }
             })
             .on("input", "input[type=datetime-local]", (event) => {
@@ -160,9 +160,11 @@ class TableFormAsync extends TableFormBase {
                 }
 
                 if (ScadaUtils.getPlatform().isMobile) {
-                    await this._loadData();
+                    await this._loadTable({ resetPager: true });
                 } else {
-                    this.debounceTimeoutId = setTimeout(() => this._loadData(), TableFormAsync.DEBOUNCE_MS);
+                    this.debounceTimeoutId = setTimeout(
+                        () => this._loadTable({ resetPager: true }),
+                        TableFormAsync.DEBOUNCE_MS);
                 }
             });
     }
@@ -189,37 +191,46 @@ class TableFormAsync extends TableFormBase {
 
         if (this._pager) {
             tableWrapperElem.on(RazorPager.PAGE_CLICK_EVENT, RazorPager.PAGER_CLASS, async () => {
-                await this._loadData();
+                await this._loadTable();
             });
         }
     }
 
-    async _loadData(opt_handler, opt_params) {
+    async _loadTable({ handler, fields, resetPager = false } = {}) {
+        if (resetPager) {
+            this._pager?.reset();
+        }
+
+        await this._loadData(handler, fields);
+    }
+
+    async _loadData(opt_handler, opt_fields) {
         clearTimeout(this.debounceTimeoutId);
-        this._hideError();
         const url = this._getDataUrl(opt_handler);
 
-        if (url) {
-            const result = await this._fetchData(url, opt_params);
-
-            if (result.ok) {
-                console.log("Table data loaded successfully.");
-                this._getTableWrapper().html(result.data);
-                this._pager?.bindEvents();
-            } else {
-                this._getTableWrapper().empty();
-                this._showError(result.msg);
-            }
-        } else {
+        if (!url) {
             console.warn("Unable to load table data because URL is undefined.")
+            return;
+        }
+
+        this._hideError();
+        const result = await this._fetchData(url, opt_fields);
+
+        if (result.ok) {
+            console.log("Table data loaded successfully.");
+            this._getTableWrapper().html(result.data);
+            this._pager?.bindEvents();
+        } else {
+            this._getTableWrapper().empty();
+            this._showError(result.msg);
         }
     }
 
-    async _fetchData(url, opt_params) {
+    async _fetchData(url, opt_fields) {
         const formData = new FormData($("form:first")[0]);
 
-        if (opt_params) {
-            for (const [key, value] of Object.entries(opt_params)) {
+        if (opt_fields) {
+            for (const [key, value] of Object.entries(opt_fields)) {
                 formData.set(key, value);
             }
         }
@@ -272,7 +283,7 @@ class TableFormAsync extends TableFormBase {
             this._getNewOptions(),
             async result => {
                 if (result) {
-                    await this._loadData();
+                    await this._loadTable();
                 }
             });
     }
@@ -283,7 +294,7 @@ class TableFormAsync extends TableFormBase {
             this._getViewOptions(),
             async result => {
                 if (result) {
-                    await this._loadData();
+                    await this._loadTable();
                 }
             });
     }
@@ -294,21 +305,30 @@ class TableFormAsync extends TableFormBase {
             this._getEditOptions(),
             async result => {
                 if (result) {
-                    await this._loadData();
+                    await this._loadTable();
                 }
             });
     }
 
     async _deleteItem(itemId) {
-        await this._loadData("Delete", { itemId: itemId });
+        await this._loadTable({
+            handler: "Delete",
+            fields: { itemId: itemId }
+        });
     }
 
     async _approveItem(itemId) {
-        await this._loadData("Approve", { itemId: itemId });
+        await this._loadTable({
+            handler: "Approve",
+            fields: { itemId: itemId }
+        });
     }
 
     async _unapproveItem(itemId) {
-        await this._loadData("Unapprove", { itemId: itemId });
+        await this._loadTable({
+            handler: "Unapprove",
+            fields: { itemId: itemId }
+        });
     }
 
     _getDataUrl(opt_handler) {
@@ -351,7 +371,7 @@ class TableFormAsync extends TableFormBase {
     _showModal(url, opt_options, opt_callback) {
         if (!url) {
             console.warn("Modal URL is not specified.")
-        } else if (!mainObj) {
+        } else if (typeof mainObj === "undefined") {
             console.warn("Unable to show modal because mainObj is undefined.")
         } else {
             mainObj.modalManager.showModal(url, opt_options, opt_callback);

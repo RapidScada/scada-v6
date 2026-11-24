@@ -11,7 +11,10 @@ class EventLogTableForm extends TableFormAsync {
         });
 
         $("#btnRefreshEvents").on("click", async () => {
-            await this._loadData("Refresh");
+            await this._loadTable({
+                handler: "Refresh",
+                resetPager: true
+            });
         });
 
         $("#btnExportEvents").on("click", () => {
