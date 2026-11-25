@@ -35,7 +35,10 @@
         </tbody>
     </table>
 
-    <pager id="pgrMain" asp-for="PageIndex" page-count="Model.PageCount"></pager>
+    <div class="d-flex justify-content-between">
+        <pager id="pgrMain" asp-for="PageIndex" page-count="Model.PageCount" />
+        <page-size asp-for="PageSize" />
+    </div>
 }
 else
 {

@@ -42,6 +42,8 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         public int AckItemIndex { get; set; } = 0;
         [BindProperty]
         public int PageIndex { get; set; } = 0;
+        [BindProperty]
+        public int PageSize { get; set; } = PaginatedList<EventFormatted>.DefaultPageSize;
 
 
         private void FillEventList(bool clearCache)
