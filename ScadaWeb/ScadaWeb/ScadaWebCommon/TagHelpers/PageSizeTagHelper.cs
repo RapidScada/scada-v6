@@ -58,7 +58,7 @@ namespace Scada.Web.TagHelpers
         /// <summary>
         /// The CSS classes of the toggle button.
         /// </summary>
-        private const string ButtonClass = "btn btn-outline-secondary dropdown-toggle";
+        private const string ButtonClass = "btn bg-body text-body border dropdown-toggle";
 
 
         /// <summary>
