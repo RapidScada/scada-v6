@@ -75,6 +75,9 @@ namespace Scada.Web.Lang
         public static string ActionNotAllowed { get; private set; }
         public static string ViewTitle { get; private set; }
 
+        // Scada.Web.TagHelpers.PageSizeTagHelper
+        public static string ItemsPerPage { get; private set; }
+
         // Scada.Web.TreeView.MenuItem
         public static string ReportsMenuItem { get; private set; }
         public static string AdministrationMenuItem { get; private set; }
@@ -134,6 +137,9 @@ namespace Scada.Web.Lang
             SendCommand = dict[nameof(SendCommand)];
             ActionNotAllowed = dict[nameof(ActionNotAllowed)];
             ViewTitle = dict[nameof(ViewTitle)];
+
+            dict = Locale.GetDictionary("Scada.Web.TagHelpers.PageSizeTagHelper");
+            ItemsPerPage = dict[nameof(ItemsPerPage)];
 
             dict = Locale.GetDictionary("Scada.Web.TreeView.MenuItem");
             ReportsMenuItem = dict[nameof(ReportsMenuItem)];

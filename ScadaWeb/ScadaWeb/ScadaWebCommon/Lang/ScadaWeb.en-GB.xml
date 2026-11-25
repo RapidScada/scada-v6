@@ -129,6 +129,9 @@
     <Phrase key="ActionNotAllowed">Action not allowed.</Phrase>
     <Phrase key="ViewTitle">View {0}</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.TagHelpers.PageSizeTagHelper">
+    <Phrase key="ItemsPerPage">{0} per page</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">
     <Phrase key="ReportsMenuItem">Reports</Phrase>
     <Phrase key="AdministrationMenuItem">Administration</Phrase>
