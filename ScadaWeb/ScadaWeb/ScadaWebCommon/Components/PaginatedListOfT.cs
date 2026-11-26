@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2025
+ * Modified : 2026
  */
 
 namespace Scada.Web.Components
@@ -34,7 +34,7 @@ namespace Scada.Web.Components
         /// <summary>
         /// The default page size.
         /// </summary>
-        public const int DefaultPageSize = 10;
+        public const int DefaultPageSize = PaginatedList.DefaultPageSize;
 
 
         /// <summary>
@@ -49,11 +49,8 @@ namespace Scada.Web.Components
         /// Initializes a new instance of the class.
         /// </summary>
         public PaginatedList(int pageSize)
-            : base(pageSize)
+            : base(ValidatePageSize(pageSize))
         {
-            if (pageSize <= 0)
-                throw new ArgumentException("Page size must be positive.", nameof(pageSize));
-
             PageSize = pageSize;
             PageIndex = 0;
             PageCount = 0;
@@ -83,19 +80,12 @@ namespace Scada.Web.Components
 
 
         /// <summary>
-        /// Calculates the page count.
+        /// Checks that the page size is positive and returns it.
         /// </summary>
-        private int CalculatePageCount(int itemCount)
+        private static int ValidatePageSize(int pageSize)
         {
-            return (int)Math.Ceiling(itemCount / (double)PageSize);
-        }
-
-        /// <summary>
-        /// Keeps the index unchanged or adjusts it according to the number of pages.
-        /// </summary>
-        private static int FixPageIndex(int pageIndex, int pageCount)
-        {
-            return pageCount > 0 ? Math.Clamp(pageIndex, 0, pageCount - 1) : 0;
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(pageSize);
+            return pageSize;
         }
 
         /// <summary>
@@ -103,10 +93,10 @@ namespace Scada.Web.Components
         /// </summary>
         public void Fill(List<T> source, int pageIndex)
         {
-            ArgumentNullException.ThrowIfNull(source, nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
             TotalItems = source.Count;
-            PageCount = CalculatePageCount(TotalItems);
-            PageIndex = FixPageIndex(pageIndex, PageCount);
+            PageCount = PaginatedList.GetPageCount(TotalItems, PageSize);
+            PageIndex = PaginatedList.FixPageIndex(pageIndex, PageCount);
 
             int startIndex = PageIndex * PageSize;
             int endIndex = Math.Min(startIndex + PageSize, TotalItems);
@@ -120,12 +110,15 @@ namespace Scada.Web.Components
         /// <summary>
         /// Populates the list with the items of the specified page.
         /// </summary>
+        /// <remarks>
+        /// The query is executed twice: to count the total number of items and to fetch the page.
+        /// </remarks>
         public void Fill(IQueryable<T> source, int pageIndex)
         {
-            ArgumentNullException.ThrowIfNull(source, nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
             TotalItems = source.Count();
-            PageCount = CalculatePageCount(TotalItems);
-            PageIndex = FixPageIndex(pageIndex, PageCount);
+            PageCount = PaginatedList.GetPageCount(TotalItems, PageSize);
+            PageIndex = PaginatedList.FixPageIndex(pageIndex, PageCount);
             AddRange(source
                 .Skip(PageIndex * PageSize)
                 .Take(PageSize));
