@@ -142,6 +142,12 @@ class TableFormAsync extends TableFormBase {
                 await this._loadTable();
             });
         }
+
+        if (this._pageSize) {
+            tableWrapperElem.on(RazorPageSize.ITEM_CLICK_EVENT, RazorPageSize.COMPONENT_SELECTOR, async () => {
+                await this._loadTable({ resetPager: true });
+            });
+        }
     }
 
     async _loadTable({ handler, fields, resetPager = false } = {}) {
@@ -166,6 +172,7 @@ class TableFormAsync extends TableFormBase {
             console.log("Table loaded successfully.");
             this._getTableWrapper().html(result.data);
             this._pager?.bindEvents();
+            this._pageSize?.bindEvents();
         } else {
             this._getTableWrapper().empty();
             this._showError(result.msg);
