@@ -28,7 +28,6 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         private static readonly TimeSpan EventLogCacheExpiration = TimeSpan.FromSeconds(60);
 
         public dynamic Dict { get; } = Locale.GetDictionary(typeof(EventLogModel).FullName);
-        public PaginatedList<EventFormatted> EventList { get; } = [];
 
         [BindProperty]
         public DateTime StartTime { get; set; }
@@ -43,10 +42,10 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         [BindProperty]
         public int PageIndex { get; set; } = 0;
         [BindProperty]
-        public int PageSize { get; set; } = PaginatedList<EventFormatted>.DefaultPageSize;
+        public int PageSize { get; set; } = PaginatedList.DefaultPageSize;
 
 
-        private void FillEventList(bool clearCache)
+        private List<EventFormatted> GetFormattedEvents(bool clearCache)
         {
             int archiveBit = GetArchiveBit();
             TimeRange timeRange = GetTimeRange();
@@ -58,7 +57,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 memoryCache.Remove(cacheKey);
             }
 
-            List<EventFormatted> formattedEvents = memoryCache.GetOrCreate(
+            return memoryCache.GetOrCreate(
                 cacheKey,
                 entry =>
                 {
@@ -68,8 +67,6 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                         .GetEvents(archiveBit, timeRange, eventFilter, false, out _)
                         .Select(formatter.FormatEvent).ToList();
                 });
-
-            EventList.Fill(formattedEvents, PageIndex);
         }
 
         private int GetArchiveBit()
@@ -144,8 +141,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         {
             if (ValidateTimeRange(out string errMsg))
             {
-                FillEventList(clearCache);
-                return Partial("_EventLogTable", EventList);
+                return Partial("_EventLogTable", GetPaginatedEvents(clearCache));
             }
             else
             {
@@ -173,11 +169,15 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             });
         }
 
+        public PaginatedList<EventFormatted> GetPaginatedEvents(bool clearCache)
+        {
+            return PaginatedList.Create(GetFormattedEvents(clearCache), PageIndex, PageSize);
+        }
+
         public void OnGet()
         {
             StartTime = userContext.ConvertTimeFromUtc(DateTime.UtcNow).Date;
             EndTime = StartTime.AddDays(1.0);
-            FillEventList(true);
         }
 
         public IActionResult OnPost()

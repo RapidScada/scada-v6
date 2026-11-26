@@ -9,6 +9,7 @@
 
 @section Scripts {
     <script src="~/js/components/razor-pager.js" asp-append-version="true"></script>
+    <script src="~/js/components/razor-page-size.js" asp-append-version="true"></script>
     <script src="~/js/components/table-form.js" asp-append-version="true"></script>
     <script src="~/plugins/Main/js/event-log.js" asp-append-version="true"></script>
     <script>
@@ -41,7 +42,7 @@
     </div>
 
     <div class="rs-table-wrapper">
-        <partial name="_EventLogTable" model="Model.EventList" />
+        <partial name="_EventLogTable" model="Model.GetPaginatedEvents(true)" />
     </div>
 
     <div class="alert alert-danger rs-table-error" hidden></div>
