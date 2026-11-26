@@ -3,7 +3,7 @@
 
 /** Represents page size selector options. */
 class RazorPageSizeOptions {
-    /** Submits the form on item click. Otherwise triggers RazorPageSize.ITEM_CLICK_EVENT. */
+    /** Submits the form on item click. */
     submitOnClick = false;
 }
 
@@ -12,7 +12,7 @@ class RazorPageSizeOptions {
  * The markup is updated by server code only.
  */
 class RazorPageSize {
-    /** Triggered on item click when submitOnClick is false. Handler: (event, pageSize). */
+    /** Triggered on item click. Handler: (event, pageSize). */
     static ITEM_CLICK_EVENT = "itemclick.rs.page-size";
     /** The CSS selector of the component. */
     static COMPONENT_SELECTOR = ".rs-page-size";
@@ -33,11 +33,10 @@ class RazorPageSize {
         const pageSize = linkElem.data("page-size");
         const componentElem = linkElem.closest(".rs-page-size");
         componentElem.find("input[type=hidden]").val(pageSize);
+        componentElem.trigger(RazorPageSize.ITEM_CLICK_EVENT, pageSize);
 
         if (this.options.submitOnClick) {
             componentElem.closest("form").trigger("submit");
-        } else {
-            componentElem.trigger(RazorPageSize.ITEM_CLICK_EVENT, pageSize);
         }
     }
 
