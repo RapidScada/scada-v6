@@ -1,30 +1,38 @@
-﻿// Represents a component for managing pagination, working in conjunction with PagerTagHelper.
+﻿// Contains classes: RazorPagerOptions, RazorPager
 // Depends on jquery
+
+/** Represents page size selector options. */
+class RazorPagerOptions {
+    /** Submits the form on item click. Otherwise triggers RazorPager.PAGE_CLICK_EVENT. */
+    submitOnClick = false;
+}
+
+/**
+ * Represents a component for managing pagination, working in conjunction with PagerTagHelper.
+ * The markup is updated by server code only.
+ */
 class RazorPager {
-    // Notifies that a page item has been clicked.
+    /** Triggered on page item click when submitOnClick is false. Handler: (event, pageIndex). */
     static PAGE_CLICK_EVENT = "pageclick.rs.pager";
-    // The CSS class of the pager.
-    static PAGER_CLASS = ".rs-pager";
+    /** The CSS selector of the component. */
+    static COMPONENT_SELECTOR = ".rs-pager";
 
-    // The default pager options.
-    static defaultOptions = {
-        submitOnClick: false // submits the form when a page is clicked
-    };
+    /** The ID of the HTML element representing the component. */
+    componentElemId;
+    /** The component options. */
+    options;
 
-    pagerElemID; // ID of the HTML element representing the pager
-    options;     // pager options
-
-    constructor(pagerElemID, opt_options) {
-        this.pagerElemID = pagerElemID;
-        this.options = Object.assign({}, RazorPager.defaultOptions, opt_options);
+    constructor(componentElemId, opt_options) {
+        this.componentElemId = componentElemId;
+        this.options = Object.assign(new RazorPagerOptions(), opt_options);
         this.bindEvents();
     }
 
-    // Handles a user click on a page item.
+    /** Handles a user click on a page item. */
     _handlePageClick(linkElem) {
         let pageIndex = linkElem.data("page");
         let pagerElem = linkElem.closest(".rs-pager");
-        pagerElem.find("input:hidden:first").val(pageIndex);
+        pagerElem.find("input[type=hidden]").val(pageIndex);
 
         if (this.options.submitOnClick) {
             pagerElem.closest("form").trigger("submit");
@@ -33,26 +41,26 @@ class RazorPager {
         }
     }
 
-    // Returns a jQuery object representing the pager.
-    _getPagerElem() {
-        return $("#" + this.pagerElemID);
+    /** Returns a jQuery object representing the component. */
+    _getComponentElem() {
+        return $("#" + this.componentElemId);
     }
 
-    // Binds events to the DOM elements.
+    /** Binds events to the DOM elements of the component. */
     bindEvents() {
-        this._getPagerElem().on("click", "a.page-link", (event) => {
+        this._getComponentElem().on("click", "a.page-link", (event) => {
             this._handlePageClick($(event.target));
             event.preventDefault();
         });
     }
 
-    // Sets the current page index to zero.
+    /** Sets the current page index to zero. */
     reset(opt_submit) {
-        let pagerElem = this._getPagerElem();
-        pagerElem.find("input:hidden:first").val(0);
+        const componentElem = this._getComponentElem();
+        componentElem.find("input[type=hidden]").val(0);
 
         if (opt_submit) {
-            pagerElem.closest("form").trigger("submit");
+            componentElem.closest("form").trigger("submit");
         }
     }
 }

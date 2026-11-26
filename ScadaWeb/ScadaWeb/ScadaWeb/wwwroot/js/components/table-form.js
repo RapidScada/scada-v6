@@ -20,20 +20,32 @@ class TableFormPhrases {
 class TableFormBase {
     _formElem;
     _pager;
+    _pageSize;
     _phrases;
 
     constructor(formId, opt_phrases) {
         this._formElem = $("#" + formId);
         this._pager = null;
+        this._pageSize = null;
         this._phrases = opt_phrases ?? new TableFormPhrases();
     }
 
     _initPager() {
         if (typeof RazorPager === "function") {
-            const pagerElem = this._formElem.find(RazorPager.PAGER_CLASS);
+            const pagerElemId = this._formElem.find(RazorPager.COMPONENT_SELECTOR).prop("id");
 
-            if (pagerElem.length > 0) {
-                this._pager = new RazorPager(pagerElem.prop("id"));
+            if (pagerElemId) {
+                this._pager = new RazorPager(pagerElemId);
+            }
+        }
+    }
+
+    _initPageSize() {
+        if (typeof RazorPageSize === "function") {
+            const pageSizeElemId = this._formElem.find(RazorPageSize.COMPONENT_SELECTOR).prop("id");
+
+            if (pageSizeElemId) {
+                this._pageSize = new RazorPageSize(pageSizeElemId);
             }
         }
     }
@@ -43,15 +55,16 @@ class TableFormBase {
     }
 
     _getTableToolbar() {
-        return this._formElem.find(".rs-table-toolbar:first");
+        return this._formElem.find(".rs-table-toolbar").first();
     }
 
     _getTableWrapper() {
-        return this._formElem.find(".rs-table-wrapper:first");
+        return this._formElem.find(".rs-table-wrapper").first();
     }
 
     init() {
         this._initPager();
+        this._initPageSize();
         this._bindEvents();
     }
 }
@@ -125,7 +138,7 @@ class TableFormAsync extends TableFormBase {
             });
 
         if (this._pager) {
-            tableWrapperElem.on(RazorPager.PAGE_CLICK_EVENT, RazorPager.PAGER_CLASS, async () => {
+            tableWrapperElem.on(RazorPager.PAGE_CLICK_EVENT, RazorPager.COMPONENT_SELECTOR, async () => {
                 await this._loadTable();
             });
         }
@@ -160,7 +173,7 @@ class TableFormAsync extends TableFormBase {
     }
 
     async _fetchData(url, opt_fields) {
-        const formData = new FormData($("form:first")[0]);
+        const formData = new FormData($("form")[0]);
 
         if (opt_fields) {
             for (const [key, value] of Object.entries(opt_fields)) {
@@ -208,7 +221,7 @@ class TableFormAsync extends TableFormBase {
         let errorElem = $();
 
         if (this._formElem) {
-            errorElem = this._formElem.find(".rs-table-error:first");
+            errorElem = this._formElem.find(".rs-table-error");
         }
 
         if (errorElem.length > 0) {
@@ -222,7 +235,7 @@ class TableFormAsync extends TableFormBase {
 
     _hideError() {
         if (this._formElem) {
-            const errorElem = this._formElem.find(".rs-table-error:first");
+            const errorElem = this._formElem.find(".rs-table-error");
             errorElem.text("").prop("hidden", true);
         }
     }
@@ -315,7 +328,7 @@ class TableFormAsync extends TableFormBase {
     }
 
     _getVerificationToken() {
-        return $("input[name='__RequestVerificationToken']:first").val();
+        return $("input[name='__RequestVerificationToken']").val();
     }
 
     _getItemId(rowElem) {
