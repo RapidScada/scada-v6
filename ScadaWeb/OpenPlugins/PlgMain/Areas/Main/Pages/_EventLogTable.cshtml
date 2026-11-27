@@ -21,7 +21,10 @@
         <tbody>
             @foreach (var ef in Model)
             {
-                <tr event-id="0">
+                var rowStyle = ef.GetMainColor(out var c) 
+                    ? $"--bs-table-color: {c}; --bs-table-striped-color: {c}; --bs-table-hover-color: {c};"
+                    : null;
+                <tr event-id="0" style="@rowStyle">
                     <td><input class="form-check-input" type="checkbox" value=""></td>
                     <td>@ef.Time</td>
                     <td>@ef.Obj</td>
