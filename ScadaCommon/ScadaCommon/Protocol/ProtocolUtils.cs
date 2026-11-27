@@ -51,6 +51,10 @@ namespace Scada.Protocol
         /// The index of the function arguments in the data packet.
         /// </summary>
         public const int ArgumentIndex = 16;
+        /// <summary>
+        /// The maximum number of reads performed when clearing a network stream.
+        /// </summary>
+        public const int MaxClearReads = 16;
 
 
         /// <summary>
@@ -129,8 +133,13 @@ namespace Scada.Protocol
         /// </summary>
         public static void ClearNetStream(NetworkStream netStream, byte[] buffer)
         {
-            if (netStream.DataAvailable)
-                netStream.Read(buffer, 0, buffer.Length);
+            // Read may return fewer bytes than are pending, so repeat while data remains,
+            // bounded in case the remote side keeps sending
+            for (int i = 0; i < MaxClearReads && netStream.DataAvailable; i++)
+            {
+                if (netStream.Read(buffer, 0, buffer.Length) <= 0)
+                    break;
+            }
         }
 
         /// <summary>
