@@ -104,9 +104,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             for (int i = 0; i < elemCnt; i++)
             {
                 Elem elem = Elems[i];
-                byte[] elemVal = new byte[elem.DataLength];
-                Array.Clear(elemVal, 0, elemVal.Length);
-                ElemData[i] = elemVal;
+                ElemData[i] = new byte[elem.DataLength]; // a new array is already zeroed
             }
         }
 
@@ -182,38 +180,43 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         {
             Elem elem = Elems[elemIdx];
             byte[] elemData = ElemData[elemIdx];
-            byte[] buf;
 
-            // order bytes if needed
+            // order bytes if needed, without allocating a buffer
             if (elem.ByteOrder == null)
             {
-                buf = elemData;
+                return ConvertToValue(elemData, elem.ElemType);
             }
             else
             {
-                buf = new byte[elemData.Length];
+                Span<byte> buf = stackalloc byte[elemData.Length];
                 ModbusUtils.ApplyByteOrder(elemData, buf, elem.ByteOrder);
+                return ConvertToValue(buf, elem.ElemType);
             }
+        }
 
-            // calculate value
-            switch (elem.ElemType)
+        /// <summary>
+        /// Converts the element data to a value according to the element type.
+        /// </summary>
+        private static double ConvertToValue(ReadOnlySpan<byte> buf, ElemType elemType)
+        {
+            switch (elemType)
             {
                 case ElemType.UShort:
-                    return BitConverter.ToUInt16(buf, 0);
+                    return BitConverter.ToUInt16(buf);
                 case ElemType.Short:
-                    return BitConverter.ToInt16(buf, 0);
+                    return BitConverter.ToInt16(buf);
                 case ElemType.UInt:
-                    return BitConverter.ToUInt32(buf, 0);
+                    return BitConverter.ToUInt32(buf);
                 case ElemType.Int:
-                    return BitConverter.ToInt32(buf, 0);
+                    return BitConverter.ToInt32(buf);
                 case ElemType.ULong: // possible data loss
-                    return BitConverter.ToUInt64(buf, 0);
+                    return BitConverter.ToUInt64(buf);
                 case ElemType.Long:  // possible data loss
-                    return BitConverter.ToInt64(buf, 0);
+                    return BitConverter.ToInt64(buf);
                 case ElemType.Float:
-                    return BitConverter.ToSingle(buf, 0);
+                    return BitConverter.ToSingle(buf);
                 case ElemType.Double:
-                    return BitConverter.ToDouble(buf, 0);
+                    return BitConverter.ToDouble(buf);
                 case ElemType.Bool:
                     return buf[0] > 0 ? 1.0 : 0.0;
                 default:
