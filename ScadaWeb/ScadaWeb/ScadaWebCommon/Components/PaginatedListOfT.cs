@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaWebCommon
- * Summary  : Represents a one page of the list
+ * Summary  : Represents one page of the list
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
@@ -26,7 +26,7 @@
 namespace Scada.Web.Components
 {
     /// <summary>
-    /// Represents a one page of a list.
+    /// Represents one page of a list.
     /// <para>Представляет одну страницу списка.</para>
     /// </summary>
     public class PaginatedList<T> : List<T>
@@ -80,11 +80,15 @@ namespace Scada.Web.Components
 
 
         /// <summary>
-        /// Checks that the page size is positive and returns it.
+        /// Checks that the page size is valid and returns it.
         /// </summary>
         private static int ValidatePageSize(int pageSize)
         {
-            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(pageSize);
+            if (!PaginatedList.IsValidPageSize(pageSize))
+            {
+                throw new ArgumentException("Invalid page size.", nameof(pageSize));
+            }
+
             return pageSize;
         }
 
@@ -94,6 +98,8 @@ namespace Scada.Web.Components
         public void Fill(List<T> source, int pageIndex)
         {
             ArgumentNullException.ThrowIfNull(source);
+
+            Clear();
             TotalItems = source.Count;
             PageCount = PaginatedList.GetPageCount(TotalItems, PageSize);
             PageIndex = PaginatedList.FixPageIndex(pageIndex, PageCount);
@@ -116,12 +122,18 @@ namespace Scada.Web.Components
         public void Fill(IQueryable<T> source, int pageIndex)
         {
             ArgumentNullException.ThrowIfNull(source);
+
+            Clear();
             TotalItems = source.Count();
             PageCount = PaginatedList.GetPageCount(TotalItems, PageSize);
             PageIndex = PaginatedList.FixPageIndex(pageIndex, PageCount);
-            AddRange(source
-                .Skip(PageIndex * PageSize)
-                .Take(PageSize));
+
+            if (TotalItems > 0)
+            {
+                AddRange(source
+                    .Skip(PageIndex * PageSize)
+                    .Take(PageSize));
+            }
         }
     }
 }

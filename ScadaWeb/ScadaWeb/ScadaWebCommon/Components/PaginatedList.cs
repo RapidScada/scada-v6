@@ -35,7 +35,27 @@ namespace Scada.Web.Components
         /// The default page size.
         /// </summary>
         public const int DefaultPageSize = 10;
+        /// <summary>
+        /// The maximum allowed number of items per page.
+        /// </summary>
+        public const int MaxPageSize = 1000;
 
+
+        /// <summary>
+        /// Checks that the page size is within the allowed range.
+        /// </summary>
+        public static bool IsValidPageSize(int pageSize)
+        {
+            return 0 < pageSize && pageSize <= MaxPageSize;
+        }
+
+        /// <summary>
+        /// Returns the page size clamped to the allowed range.
+        /// </summary>
+        public static int NormalizePageSize(int pageSize)
+        {
+            return pageSize <= 0 ? DefaultPageSize : Math.Min(pageSize, MaxPageSize);
+        }
 
         /// <summary>
         /// Calculates the number of pages required to display the specified number of items.
@@ -61,9 +81,9 @@ namespace Scada.Web.Components
         /// </summary>
         public static PaginatedList<T> Create<T>(List<T> source, int pageIndex, int pageSize = DefaultPageSize)
         {
-            ArgumentNullException.ThrowIfNull(source, nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
-            PaginatedList<T> list = new(pageSize);
+            PaginatedList<T> list = new(NormalizePageSize(pageSize));
             list.Fill(source, pageIndex);
             return list;
         }
@@ -73,9 +93,9 @@ namespace Scada.Web.Components
         /// </summary>
         public static PaginatedList<T> Create<T>(IQueryable<T> source, int pageIndex, int pageSize = DefaultPageSize)
         {
-            ArgumentNullException.ThrowIfNull(source, nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
-            PaginatedList<T> list = new(pageSize);
+            PaginatedList<T> list = new(NormalizePageSize(pageSize));
             list.Fill(source, pageIndex);
             return list;
         }
