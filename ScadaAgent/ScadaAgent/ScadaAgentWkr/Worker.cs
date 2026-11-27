@@ -38,6 +38,7 @@ namespace Scada.Agent.Wkr
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             Manager manager = new();
+            bool isServiceStarted = false;
 
             stoppingToken.Register(() =>
             {
@@ -45,14 +46,26 @@ namespace Scada.Agent.Wkr
                 logger.LogInformation("Agent is stopped");
             });
 
-            if (manager.StartService())
-                logger.LogInformation("Agent is started successfully");
-            else
-                logger.LogError("Agent is started with errors");
-
             while (!stoppingToken.IsCancellationRequested)
             {
-                await Task.Delay(TaskDelay, stoppingToken);
+                if (isServiceStarted)
+                {
+                    await Task.Delay(TaskDelay, stoppingToken);
+                    continue;
+                }
+
+                if (manager.StartService())
+                {
+                    isServiceStarted = true;
+                    logger.LogInformation("Agent is started successfully");
+                }
+                else
+                {
+                    logger.LogError("Agent is started with errors. Retry after 3s...");
+                    manager.StopService();
+
+                    await Task.Delay(3 * TaskDelay, stoppingToken);
+                }
             }
         }
     }
