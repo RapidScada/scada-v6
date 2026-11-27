@@ -25,6 +25,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         PluginContext pluginContext,
         IMemoryCache memoryCache) : PageModel
     {
+        private const string PageSizeCookieName = "EventLog.PageSize";
         private static readonly TimeSpan EventLogCacheExpiration = TimeSpan.FromSeconds(60);
 
         public dynamic Dict { get; } = Locale.GetDictionary(typeof(EventLogModel).FullName);
@@ -34,16 +35,27 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         [BindProperty]
         public DateTime EndTime { get; set; }
         [BindProperty]
-        public int ObjNum { get; set; } = 0;
+        public int ObjNum { get; set; }
         [BindProperty]
-        public string Severity { get; set; } = "";
+        public string Severity { get; set; }
         [BindProperty]
-        public int AckItemIndex { get; set; } = 0;
+        public int AckItemIndex { get; set; }
         [BindProperty]
-        public int PageIndex { get; set; } = 0;
+        public int PageIndex { get; set; }
         [BindProperty]
-        public int PageSize { get; set; } = PaginatedList.DefaultPageSize;
+        public int PageSize { get; set; }
 
+
+        private void InitFilters()
+        {
+            StartTime = userContext.ConvertTimeFromUtc(DateTime.UtcNow).Date;
+            EndTime = StartTime.AddDays(1.0);
+            ObjNum = 0;
+            Severity = "";
+            AckItemIndex = 0;
+            PageIndex = 0;
+            PageSize = this.GetPageCookie(PageSizeCookieName, PaginatedList.DefaultPageSize);
+        }
 
         private List<EventFormatted> GetFormattedEvents(bool clearCache)
         {
@@ -141,6 +153,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         {
             if (ValidateTimeRange(out string errMsg))
             {
+                this.SetPageCookieIfChanged(PageSizeCookieName, PageSize);
                 return Partial("_EventLogTable", GetPaginatedEvents(clearCache));
             }
             else
@@ -176,8 +189,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         public void OnGet()
         {
-            StartTime = userContext.ConvertTimeFromUtc(DateTime.UtcNow).Date;
-            EndTime = StartTime.AddDays(1.0);
+            InitFilters();
         }
 
         public IActionResult OnPost()

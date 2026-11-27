@@ -77,7 +77,7 @@ namespace Scada.Web.Components
         }
 
         /// <summary>
-        /// Creates and populates a paginated list from the list.
+        /// Creates and populates a paginated list from the list, normalizing the page size.
         /// </summary>
         public static PaginatedList<T> Create<T>(List<T> source, int pageIndex, int pageSize = DefaultPageSize)
         {
@@ -89,7 +89,7 @@ namespace Scada.Web.Components
         }
 
         /// <summary>
-        /// Creates and populates a paginated list from the query.
+        /// Creates and populates a paginated list from the query, normalizing the page size.
         /// </summary>
         public static PaginatedList<T> Create<T>(IQueryable<T> source, int pageIndex, int pageSize = DefaultPageSize)
         {
