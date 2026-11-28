@@ -1,0 +1,4 @@
+﻿#tblEventLog td:first-child {
+  border-left-width: 0.25rem;
+  border-left-style: solid;
+}

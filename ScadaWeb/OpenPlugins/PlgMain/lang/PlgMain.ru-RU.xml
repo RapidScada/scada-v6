@@ -52,6 +52,7 @@
     <Phrase key="DevCol">Устройство</Phrase>
     <Phrase key="CnlCol">Канал</Phrase>
     <Phrase key="DescrCol">Описание</Phrase>
+    <Phrase key="StatCol">Статус</Phrase>
     <Phrase key="SevCol">Серьёзность</Phrase>
     <Phrase key="AckCol">Квитирование</Phrase>
   </Dictionary>
