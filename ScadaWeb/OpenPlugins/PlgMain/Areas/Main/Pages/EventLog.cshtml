@@ -32,6 +32,9 @@
         <select id="selObj" class="form-select w-auto" required asp-for="ObjNum" asp-items="Model.GetObjectItems()">
             <option value="0">@dict.optAllObjects</option>
         </select>
+        <select id="selStatus" class="form-select w-auto" required asp-for="Status" asp-items="Model.GetStatusItems()">
+            <option value="-1">@dict.optAnyStatus</option>
+        </select>
         <select id="selSeverity" class="form-select w-auto" required asp-for="Severity" asp-items="EventLogModel.GetSeverityItems()">
             <option value="">@dict.optAnySeverity</option>
         </select>

@@ -37,6 +37,8 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         [BindProperty]
         public int ObjNum { get; set; }
         [BindProperty]
+        public int Status { get; set; }
+        [BindProperty]
         public string Severity { get; set; }
         [BindProperty]
         public int AckItemIndex { get; set; }
@@ -51,6 +53,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             StartTime = userContext.ConvertTimeFromUtc(DateTime.UtcNow).Date;
             EndTime = StartTime.AddDays(1.0);
             ObjNum = 0;
+            Status = -1;
             Severity = "";
             AckItemIndex = 0;
             PageIndex = 0;
@@ -104,6 +107,11 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             {
                 dataFilter.AddCondition("ObjNum", FilterOperator.In, 
                     webContext.ConfigDatabase.GetObjNumHierarchy(ObjNum, userContext.Rights));
+            }
+
+            if (Status >= 0)
+            {
+                dataFilter.AddCondition("CnlStat", FilterOperator.Equals, Status);
             }
 
             if (!string.IsNullOrEmpty(Severity))
@@ -170,6 +178,15 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 Text = o.Text,
                 Value = o.ObjNum.ToString(),
                 Disabled = !o.Right.View
+            });
+        }
+
+        public IEnumerable<SelectListItem> GetStatusItems()
+        {
+            return webContext.ConfigDatabase.CnlStatusTable.Enumerate().Select(cs => new SelectListItem
+            {
+                Text = cs.Name,
+                Value = cs.CnlStatusID.ToString()
             });
         }
 

@@ -36,6 +36,7 @@
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventLogModel">
     <Phrase key="PageTitle">Event Log</Phrase>
     <Phrase key="optAllObjects">-- All objects --</Phrase>
+    <Phrase key="optAnyStatus">Any status</Phrase>
     <Phrase key="optAnySeverity">Any severity</Phrase>
     <Phrase key="optAnyAck">Any ack status</Phrase>
     <Phrase key="optUnack">Unacknowledged</Phrase>
@@ -55,6 +56,7 @@
     <Phrase key="StatCol">Status</Phrase>
     <Phrase key="SevCol">Severity</Phrase>
     <Phrase key="AckCol">Ack</Phrase>
+    <Phrase key="ActCol">Action</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport">
     <Phrase key="PageTitle">Event Report</Phrase>
