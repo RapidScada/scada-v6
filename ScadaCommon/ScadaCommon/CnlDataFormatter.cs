@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2024
+ * Modified : 2026
  */
 
 using Scada.Data.Const;
@@ -364,6 +364,7 @@ namespace Scada
 
             EventFormatted eventFormatted = new EventFormatted
             {
+                Id = ev.EventID.ToString(CultureInfo.InvariantCulture),
                 Time = TimeZoneInfo.ConvertTimeFromUtc(ev.Timestamp, timeZone).ToLocalizedString(culture)
             };
 
@@ -383,6 +384,10 @@ namespace Scada
                 cnl = configDataset.CnlTable.GetItem(ev.CnlNum);
                 eventFormatted.Cnl = cnl?.Name ?? "";
             }
+
+            // status
+            eventFormatted.Stat = configDataset.CnlStatusTable.GetItem(ev.CnlStat)?.Name ??
+                string.Format(CommonPhrases.StatusFormat, ev.CnlStat);
 
             // description
             StringBuilder sbDescr = new StringBuilder();
@@ -414,11 +419,7 @@ namespace Scada
                 dataFormatted = FormatCnlData(new CnlData(ev.CnlVal, ev.CnlStat), cnl, true);
 
                 if (ev.TextFormat == EventTextFormat.Full || ev.TextFormat == EventTextFormat.AutoText)
-                {
-                    string statusName = configDataset.CnlStatusTable.GetItem(ev.CnlStat)?.Name ??
-                        string.Format(CommonPhrases.StatusFormat, ev.CnlStat);
-                    sbDescr.Append(statusName).Append(", ").Append(dataFormatted.DispVal);
-                }
+                    sbDescr.Append(eventFormatted.Stat).Append(", ").Append(dataFormatted.DispVal);
             }
 
             if (!string.IsNullOrEmpty(ev.Text) && ev.TextFormat != EventTextFormat.AutoText)
@@ -456,11 +457,10 @@ namespace Scada
             }
 
             // acknowledgement
-            if (ev.Ack)
-            {
-                eventFormatted.Ack = GetUserDisplayName(ev.AckUserID) + ", " +
-                    TimeZoneInfo.ConvertTimeFromUtc(ev.AckTimestamp, timeZone).ToLocalizedString();
-            }
+            eventFormatted.Ack = ev.Ack
+                ? GetUserDisplayName(ev.AckUserID) + ", " + 
+                    TimeZoneInfo.ConvertTimeFromUtc(ev.AckTimestamp, timeZone).ToLocalizedString()
+                : ev.AckRequired ? CommonPhrases.Unacknowledged : CommonPhrases.AckNotRequired;
 
             // colors
             eventFormatted.Colors = dataFormatted.Colors;

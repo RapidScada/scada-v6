@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2024
+ * Modified : 2026
  */
 
 using System;
@@ -38,17 +38,24 @@ namespace Scada.Data.Models
         /// </summary>
         public EventFormatted()
         {
+            Id = "0";
             Time = "";
             Obj = "";
             Dev = "";
             Cnl = "";
             Descr = "";
+            Stat = "";
             Sev = "";
             Ack = "";
             Colors = null;
             Beep = false;
         }
 
+
+        /// <summary>
+        /// Gets or sets the event ID as a string.
+        /// </summary>
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the time in the user's time zone.
@@ -76,7 +83,12 @@ namespace Scada.Data.Models
         public string Descr { get; set; }
 
         /// <summary>
-        /// Gets or sets the severity.
+        /// Gets or sets the channel status name.
+        /// </summary>
+        public string Stat { get; set; }
+
+        /// <summary>
+        /// Gets or sets the severity information.
         /// </summary>
         public string Sev { get; set; }
 
@@ -84,12 +96,6 @@ namespace Scada.Data.Models
         /// Gets or sets the acknowledgement information.
         /// </summary>
         public string Ack { get; set; }
-
-        /// <summary>
-        /// Gets or sets the display color.
-        /// </summary>
-        [Obsolete("Use the Colors property.")]
-        public string Color => GetMainColor();
 
         /// <summary>
         /// Gets or sets the main, second and background colors.

@@ -103,6 +103,8 @@
     <Phrase key="MajorSeverity">Значительная</Phrase>
     <Phrase key="MinorSeverity">Незначительная</Phrase>
     <Phrase key="InfoSeverity">Информационная</Phrase>
+    <Phrase key="Unacknowledged">Не квитировано</Phrase>
+    <Phrase key="AckNotRequired">Не требуется</Phrase>
     <Phrase key="UnknownUser">Пользователь {0}</Phrase>
   </Dictionary>
   <!-- ScadaCommon.Forms.dll -->

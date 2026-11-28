@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2022
+ * Modified : 2026
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -135,6 +135,8 @@ namespace Scada.Lang
         public static string MajorSeverity { get; private set; }
         public static string MinorSeverity { get; private set; }
         public static string InfoSeverity { get; private set; }
+        public static string Unacknowledged { get; private set; }
+        public static string AckNotRequired { get; private set; }
         public static string UnknownUser { get; private set; }
 
         // Scada.Forms.BitItemCollection
@@ -269,6 +271,8 @@ namespace Scada.Lang
             MajorSeverity = dict[nameof(MajorSeverity)];
             MinorSeverity = dict[nameof(MinorSeverity)];
             InfoSeverity = dict[nameof(InfoSeverity)];
+            Unacknowledged = dict[nameof(Unacknowledged)];
+            AckNotRequired = dict[nameof(AckNotRequired)];
             UnknownUser = dict[nameof(UnknownUser)];
 
             dict = Locale.GetDictionary("Scada.Forms.BitItemCollection");

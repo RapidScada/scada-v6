@@ -103,6 +103,8 @@
     <Phrase key="MajorSeverity">Major</Phrase>
     <Phrase key="MinorSeverity">Minor</Phrase>
     <Phrase key="InfoSeverity">Info</Phrase>
+    <Phrase key="Unacknowledged">Unacknowledged</Phrase>
+    <Phrase key="AckNotRequired">Not required</Phrase>
     <Phrase key="UnknownUser">User {0}</Phrase>
   </Dictionary>
   <!-- ScadaCommon.Forms.dll -->
